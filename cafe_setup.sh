@@ -12,7 +12,7 @@ do
 	echo "\n=> symbolic link to $i exists and is valid: "
 	readlink $i
     else
-	echo "\n=> symbolic link to $i does NOT exist or is broken"    
+	echo "\n=> symbolic link to $i does NOT exist or is broken. \n Please create a directory or symlink to: $i"    
     fi
 done
 
