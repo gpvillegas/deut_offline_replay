@@ -16,8 +16,8 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >ssh -Y ifarm <br>
 >source /site/12gev_phys/softenv.csh 2.5 # setup necessary environment variables
 
-`step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository.
->  # Change directories. For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe\_Disk\_Space](https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space) <br>
+`step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository. 
+>  ; Change directories. For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe\_Disk\_Space](https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space) <br>
 >cd /w/hallc-scshelf2102/c-cafe-2022 <br>
 >
 >  # If you don't have a directory, make one and change to it !<br>
