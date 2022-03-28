@@ -6,7 +6,8 @@ Please refer to the following useful link:
 
 where you can find helpful information related to the experiment. 
 # How-To Guide for Starters
-This guide is intended for *novice level* on hall c analysis, using the CaFe experiment as an example.
+This guide is intended for *novice level* on hall c analysis, using the CaFe experiment as an example. NOTE: The semi-colons ';'
+denote a comment, and the '>>' denote user input into the command-line terminal.
 
 ### Exercise #1:
 Set up and get familiar with the general hall c analysis replay structure on ifarm. <br>
@@ -14,7 +15,8 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 `step 1:` Assuming you have a Jefferson Lab account, log-in to ifarm: 
 >ssh -Y *user*@login.jlab.org <br>
 >ssh -Y ifarm <br>
->source /site/12gev_phys/softenv.csh 2.5 # setup necessary environment variables
+>; setup necessary environment variables
+>source /site/12gev_phys/softenv.csh 2.5 
 
 `step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository. 
 >  ; Change directories. For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe\_Disk\_Space](https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space) <br>
@@ -26,9 +28,10 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >  ; Clone and properly setup the Hall C analyzer source code <br>
 >     >> git clone https://github.com/JeffersonLab/hcana <br>
 >     >> cd hcana <br> 
->    ; 3 separate commands (usually only required 1st time afte cloning hcana, but if there are updates to podd, then it need to be done.) <br>
+>    ; below are 3 separate commands separated by a ; (usually only required 1st time afte cloning hcana, but if there are updates to podd, then it need to be done.) <br>
 >     >> git submodule init; git submodule  sync; git submodule update <br>
->     >> source setup.csh  # setup hcana environment variables <br> 
+>  ; setup hcana environment variables <br>
+>     >> source setup.csh   <br> 
 >   ; the command below will compile the analyzer and generate an executable, *hcana*<br>
 >     >> scons -jN # scons is a compiler and -j specifies the number N of machine (try -j4) cores so it compiles faster
 
