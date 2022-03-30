@@ -12,14 +12,27 @@ Help()
     echo "Syntax: ./cafe_setup.sh [-h|f]"
     echo ""
     echo "options:"
-    echo "h     Print this help display"
-    echo "f     Select filesystem in in which to read/write data " 
-    echo "      from the CaFe experiment. This option ONLY applies "
-    echo "      if you are running this shell script on ifarm. "
-    echo "      The options are: test, volatile, work, group"
-    echo "      See https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space "
-    echo "      for detailed information on each of these filesystems."
+    echo "help  Print this help display"
     echo ""
+    echo "f     *ONLY* use this option if you are running this shell script on ifarm. "
+    echo "      This option selects filesystem in in which to read/write data " 
+    echo "      from the CaFe experiment. "
+    echo ""
+    echo "      The arguments are: test, volatile, work, group"
+    echo "      --> test: this option (default if no argument is provided) will set" 
+    echo "      up pre-determined raw/ ROOTfiles/ and REPORT_OUTPUT/ symbolic links "
+    echo "      for testing the CaFe replay and analysis scripts using existing data."
+    echo "      --> volatile, work, group: these options will set symbolic links to the corresponding filesystem. "
+    echo "      You would want to set these options depending on which stage of the analysis you are in "
+    echo "      for example, select volatile if you are in the beginning stages of off-line analysis."
+    echo ""
+    echo "      See https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space " 
+    echo "      for detailed information on each of these filesystems."  
+    echo ""
+    echo "c     *ONLY* use this option if the user is working locally (e.g personal machine) "
+    echo "      If so, then the following directories will be created: raw/, ROOTfiles/, REPORT_OUTPUT/ "
+    echo "      There is only one option: local --> ( e.g: ./cafe_setup.sh -c local )" 
+    echo "        "
     echo "example: ./cafe_setup.sh -f volatile"
     echo "-------------------------------------------------------"    
 }
@@ -32,32 +45,17 @@ cdaq_flg=0
 local_flg=0
 
 
-# 'deut' is only specific for my lcoal machine (C. Yero)
-# change this to match yout local machine host name
-if echo $HOSTNAME | grep -q "deut"; then
-    local_flg=1
-elif echo $HOSTNAME | grep -q "ifarm"; then
-    ifarm_flg=1
-elif echo $HOSTNAME | grep -q "cdaq"; then
-    cdaq_flg=1
-else
-    echo "Did not find machine HOSTNAME. Open and modify this script to add your machine HOSTNAME"
-fi
-
-# print to confirm proper machine HOSTNAME was read
-echo 'ifarm_flg='$ifarm_flg
-echo 'cdaq_flg='$cdaq_flg
-echo 'local_flg='$local_flg
-
 
 # define the optional arguments
-while getopts ":hf:" option; do
+while getopts ":h:f:c:" option; do
     case $option in
 	h) # display Help
             Help	    
 	    exit;;       	
 	f) # Enter a filesystem name (only appplies for ifarm)
-            fsys=$OPTARG;;	      
+            fsys=$OPTARG;;
+	c) # enter host name
+	    fhost=$OPTARG;;
 	\?) # Invalid option
             echo "Error: Invalid option"
 	    Help
@@ -65,6 +63,25 @@ while getopts ":hf:" option; do
     esac
 done
 
+
+# check if user specified the host option
+if [[ $fhost == "local" ]]; then
+    echo "the use has identified as a local host !" 
+    local_flg=1
+fi
+
+
+if echo $HOSTNAME | grep -q "ifarm"; then
+    ifarm_flg=1
+elif echo $HOSTNAME | grep -q "cdaq"; then
+    cdaq_flg=1
+else
+    echo "***************************************"
+    echo " Did not recognize local/remote machine. "
+    echo " Please run: ./cafe_setup.sh -help "
+    echo " for help in running this script."
+    echo "***************************************"
+fi
 
 #--- define tape allocations ---
 
@@ -83,8 +100,8 @@ tape_analysis_out="/mss/hallc/c-cafe-2022/analysis"
 # =================================
 if [[ ifarm_flg -eq 1 ]]; then
 
-    echo "Setting up CaFe experiment symlinks on ifarm for user: "$USER
-    
+    echo "Checking if necessary directories or symlinks exist in remote machine: " ${USER}"@"${HOSTNAME}". . ."
+
     if [[ $fsys == "volatile" ]]; then	     
 	echo 'Setting up symbolic links to volatile filesystem on ifarm . . .'
 	base_dir_voli="/volatile/hallc/c-cafe-2022/"	
@@ -142,19 +159,18 @@ if [[ ifarm_flg -eq 1 ]]; then
 	ln -sf $base_dir_group$USER"/ROOTfiles"
 	
     elif [[ $fsys == "test" || $fsys == "" ]]; then
-	echo 'Setting up test symlinks on ifarm . . .'
+	echo 'Setting up test symlinks on ifarm for testing cafe replay scripts . . .'
 	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
 	raw_dir=$base_dir'/raw'
 	ROOTfiles_dir=$base_dir'/ROOTfiles'
 	REPORT_OUTPUT_dir=$base_dir'/REPORT_OUTPUT'
+	unlink raw
 	ln -sf $raw_dir raw
 	#ls -l raw
 	ln -sf $ROOTfiles_dir
 	#ls -l ROOTfiles
 	ln -sf $REPORT_OUTPUT_dir
-	#ls -l REPORT_OUTPUT
-	
-	
+	#ls -l REPORT_OUTPUT       	
     fi
 fi
 
@@ -166,7 +182,7 @@ fi
 
 if [[ cdaq_flg -eq 1 ]]; then
 
-    echo "Setting up CaFe experiment symlinks for online-analysis on Hall C cdaq machine"
+    echo "Checking if necessary directories or symlinks exist in remote machine: " ${USER}"@"${HOSTNAME}". . ."
 
     base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022/"
 
@@ -198,7 +214,7 @@ if [[ local_flg -eq 1 ]]; then
     # This function checks if necessary dir. exists, else it creates them 
     dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT")
     	
-    echo 'Checking if necessary directories or symlinks exist in local machine (${USER} ${HOSTNAME} ) . . .'
+    echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
     
     for i in "${dir_arr[@]}"	     
     do     
@@ -218,4 +234,3 @@ if [[ local_flg -eq 1 ]]; then
 	fi    
     done
 fi
-
