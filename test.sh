@@ -49,3 +49,12 @@ done
 
 
 echo "Setting up $fsys filesystem directory on $HOSTNAME host"
+
+
+dir="/Users/"$USER"/new_dir"
+echo $dir
+
+if [ ! -d $dir ]; then
+    echo "dir. $dir does not exists. Creating one "
+    mkdir $dir
+fi
