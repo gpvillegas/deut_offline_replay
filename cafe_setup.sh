@@ -54,7 +54,7 @@ set_hcana_link()
 
 #set cafe_replay.C symlink to facilitate data replays
 # C.Y. Later I will link the replay_cafe.C to shell scripts, for different studies.
-ln -s SCRIPTS/COIN/PRODUCTION/replay_cafe.C
+ln -sf SCRIPTS/COIN/PRODUCTION/replay_cafe.C
 
 # initialize machine flags to 0
 # (depending on where this script gets called, it will turn ON one of these)
@@ -86,13 +86,13 @@ elif echo $HOSTNAME | grep -q "cdaq"; then
 fi
 
 
-if [[ ifarm_flg==0 &&  cdaq_flg==0 && ! -z $SSH_CLIENT ]]; then
-    echo "***************************************"
-    echo " Did not recognize remote machine. "
-    echo " Please run: ./cafe_setup.sh -help "
-    echo " for help in running this script."
-    echo "***************************************"
-fi
+#if [[ ifarm_flg==0 &&  cdaq_flg==0 ]]; then
+#    echo "***************************************"
+#    echo " Did not recognize remote machine. "
+#    echo " Please run: ./cafe_setup.sh -help "
+#    echo " for help in running this script."
+#    echo "***************************************"
+#fi
 
 #--- define tape allocations ---
 
