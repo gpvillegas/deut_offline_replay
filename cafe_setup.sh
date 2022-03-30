@@ -4,23 +4,24 @@
 Help()
 {
     # Display Help
-    echo "-----------------------------------------------"
-    echo "This shell script sets up the necessary" 
-    echo "symbolic links for the CaFe experiment."
+    echo "-------------------------------------------------------"
+    echo "This shell script sets up the necessary symbolic" 
+    echo "links (or dir.) for the CaFe experiment based on which "
+    echo "machine (ifarm, cdaq, local) the user is at."
     echo ""
     echo "Syntax: ./cafe_setup.sh [-h|f]"
     echo ""
     echo "options:"
     echo "h     Print this help display"
     echo "f     Select filesystem in in which to read/write data " 
-    echo "      from the CaFe experiment. This option only applies "
-    echo "	if you are running this shell script on ifarm. "
+    echo "      from the CaFe experiment. This option ONLY applies "
+    echo "      if you are running this shell script on ifarm. "
     echo "      The options are: test, volatile, work, group"
     echo "      See https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space "
     echo "      for detailed information on each of these filesystems."
     echo ""
     echo "example: ./cafe_setup.sh -f volatile"
-    echo "-----------------------------------------------"    
+    echo "-------------------------------------------------------"    
 }
 
 
@@ -65,60 +66,140 @@ while getopts ":hf:" option; do
 done
 
 
+#--- define tape allocations ---
 
+# where CaFe raw data output to be replayed will be stored (.dat files)
+tape_raw_dir="/mss/hallc/c-cafe-2022/raw"
+
+# tape volume for analysis output (simulation or replay output you want to keep long-term)
+tape_analysis_out="/mss/hallc/c-cafe-2022/analysis" 
+
+
+#=================================
 # ifarm
+# (off-line experiment analysis
+# or testing the replay scripts)
+#
+# =================================
 if [[ ifarm_flg -eq 1 ]]; then
-   
-    if [[ $fsys == "test" ]]; then
+
+    echo "Setting up CaFe experiment symlinks on ifarm for user: "$USER
+    
+    if [[ $fsys == "volatile" ]]; then	     
+	echo 'Setting up symbolic links to volatile filesystem on ifarm . . .'
+	base_dir_voli="/volatile/hallc/c-cafe-2022/"	
+
+	echo "Creating dir $base_dir_voli$USER . . ."
+	mkdir $base_dir_voli$USER
+
+	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
+	ln -sf $tape_raw_dir
+	
+	echo "Creating dir and symlink to $base_dir_voli$USER/REPORT_OUTPUT . . ."
+	mkdir $base_dir_voli$USER"/REPORT_OUTPUT"
+	ln -sf $base_dir_voli$USER"/REPORT_OUTPUT"
+	
+	echo "Creating dir and symlink to $base_dir_voli$USER/ROOTfiles . . ."
+	mkdir $base_dir_voli$USER"/ROOTfiles"
+	ln -sf $base_dir_voli$USER"/ROOTfiles"
+	
+	
+    elif [[ $fsys == "work" ]]; then	     
+	echo 'Setting up symbolic links to work filesystem on ifarm . . .'
+	base_dir_work="/work/hallc/c-cafe-2022/"
+
+	echo "Creating dir $base_dir_work$USER . . ."
+	mkdir $base_dir_work$USER
+
+	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
+	ln -sf $tape_raw_dir
+	
+	echo "Creating dir and symlink to $base_dir_work$USER/REPORT_OUTPUT . . ."
+	mkdir $base_dir_work$USER"/REPORT_OUTPUT"
+	ln -sf $base_dir_work$USER"/REPORT_OUTPUT"
+	
+	echo "Creating dir and symlink to $base_dir_work$USER/ROOTfiles . . ."
+	mkdir $base_dir_work$USER"/ROOTfiles"
+	ln -sf $base_dir_work$USER"/ROOTfiles"
+	
+	
+    elif [[ $fsys == "group" ]]; then	     
+	echo 'Setting up symbolic links to group filesystem on ifarm . . .'
+	base_dir_group="/group/c-cafe-2022/"
+
+	echo "Creating dir $base_dir_group$USER . . ."
+	mkdir $base_dir_group$USER
+
+	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
+	ln -sf $tape_raw_dir
+	
+	echo "Creating dir and symlink to $base_dir_group$USER/REPORT_OUTPUT . . ."
+	mkdir $base_dir_group$USER"/REPORT_OUTPUT"
+	ln -sf $base_dir_group$USER"/REPORT_OUTPUT"
+	
+	echo "Creating dir and symlink to $base_dir_group$USER/ROOTfiles . . ."
+	mkdir $base_dir_group$USER"/ROOTfiles"
+	ln -sf $base_dir_group$USER"/ROOTfiles"
+	
+    elif [[ $fsys == "test" || $fsys == "" ]]; then
 	echo 'Setting up test symlinks on ifarm . . .'
 	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
 	raw_dir=$base_dir'/raw'
 	ROOTfiles_dir=$base_dir'/ROOTfiles'
-	REPORT_OUTPUT_dir=$base_dir'REPORT_OUTPUT'
+	REPORT_OUTPUT_dir=$base_dir'/REPORT_OUTPUT'
 	ln -sf $raw_dir raw
 	#ls -l raw
-	ln -sf $ROOTfiles_dir ROOTfiles
+	ln -sf $ROOTfiles_dir
 	#ls -l ROOTfiles
-	ln -sf $REPORT_OUTPUT_dir REPORT_OUTPUT
-	#ls -l REPORT_OUTPUT    
+	ln -sf $REPORT_OUTPUT_dir
+	#ls -l REPORT_OUTPUT
 	
-    elif [[ $fsys == "volatile" ]]; then	     
-	echo 'Setting up symbolic links to $fsys filesystem on ifarm . . .'
-	base_dir_voli="/volatile/hallc/c-cafe-2022/"
-	#check if user dir. exists, else create it
-	if [ ! -d $base_dir_voli$USER ]; then
-	    echo "Creating dir $base_dir_voli$USER . . ."
-	    mkdir $base_dir_voli$USER
-	    echo "Creating dir $base_dir_voli$USER/REPORT_OUTPUT . . ."
-	    mkdir $base_dir_voli$USER"/REPORT_OUTPUT"
-	    echo "Creating dir $base_dir_voli$USER/ROOTfiles . . ."
-	    mkdir $base_dir_voli$USER"/ROOTfiles"
-	fi
-	
-	
-    elif  [[ $fs == "work" ]]; then	     
-	echo 'Setting up symbolic links to $fsys filesystem on ifarm . . .'
-	base_dir_work="/work/hallc/c-cafe-2022/"
-    elif[[ $fs == "group" ]]; then	     
-	echo 'Setting up symbolic links to $fsys filesystem on ifarm . . .'
-	base_dir_group="/group/c-cafe-2022/"
-	
-	
-	#raw_dir="/mss/hallc/c-cafe-2022/raw"
-	#ROOTfiles_dir=""
 	
     fi
 fi
 
 
-dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT")
+#===============================
+# cdaq cluster
+# (online experiment analysis)
+#===============================
+
+if [[ cdaq_flg -eq 1 ]]; then
+
+    echo "Setting up CaFe experiment symlinks for online-analysis on Hall C cdaq machine"
+
+    base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022/"
+
+    echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
+    ln -sf $tape_raw_dir
+
+    echo "Creating dir and symlink to $base_dir_cdaq/REPORT_OUTPUT . . ."
+    mkdir $base_dir_cdaq"/REPORT_OUTPUT"
+    ln -sf $base_dir_cdaq"/REPORT_OUTPUT"
+    
+    echo "Creating dir and symlink to $base_dir_cdaq/ROOTfiles . . ."
+    mkdir $base_dir_cdaq"/ROOTfiles"
+    ln -sf $base_dir_cdaq"/ROOTfiles"
+
+    echo "Creating dir and symlink to $base_dir_cdaq/PDFs . . ."
+    mkdir $base_dir_cdaq"/PDFs"
+    ln -sf $base_dir_cdaq"/PDFs"
+    
+fi
 
 
+#=============================
 # local
+# (the user local computer)
+#=============================
+
 if [[ local_flg -eq 1 ]]; then
     
-    echo 'Checking if necessary directories or symlinks exist in my local machine . . .'
-
+    # This function checks if necessary dir. exists, else it creates them 
+    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT")
+    	
+    echo 'Checking if necessary directories or symlinks exist in local machine (${USER} ${HOSTNAME} ) . . .'
+    
     for i in "${dir_arr[@]}"	     
     do     
 	if [[ -L "$i" && -d "$i" ]]; then
@@ -137,3 +218,4 @@ if [[ local_flg -eq 1 ]]; then
 	fi    
     done
 fi
+
