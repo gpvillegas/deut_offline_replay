@@ -16,7 +16,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
   
   if(ftype==""){
-    cout  << "\nEnter file type to use (e.g., shms_50k, hms_50k, prod, lumi, heep, tgt_boil): \n " << endl;
+    cout  << "\nEnter file type to use (e.g., shms_50k, hms_50k, prod, lumi, heep, tgt_boil, bcm): \n " << endl;
     cin >> ftype;
     if(ftype==""){
       cerr << "...Invalid file type\n";
@@ -35,7 +35,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   pathList.push_back("./cache");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
-  const char* ROOTFileNamePattern = "ROOTfiles/coin_replay_production_%d_%d.root";
+  TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  const char* ROOTFileNamePattern = "ROOTfiles/%s/cafe_replay_%s_%d_%d.root";
   
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -269,28 +271,43 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   run->Print();
 
   // Define the analysis parameters
-  TString ROOTFileName = Form(ROOTFileNamePattern, RunNumber, MaxEvent);
+  TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number
 
   analyzer->SetEvent(event);
+
   // Set EPICS event type
   analyzer->SetEpicsEvtType(180);
+
   // Define crate map
   analyzer->SetCrateMapFileName("MAPS/db_cratemap.dat");
+
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
+
   // Define DEF-file+
-  analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_pElec_hProt.def");
+  TString DefTreeFile=Form("DEF-files/cafe_%s.def",ftype.Data());
+  analyzer->SetOdefFile(DefTreeFile);
+
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_cuts.def");  // optional
+  // C.Y. (for now we just have 1 DEF CUTS file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
+  // for placing different cuts, depending on the study done.
+  TString DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
+  analyzer->SetCutFile(DefCutTreeFile);  // optional
+
   // File to record accounting information for cuts
-  analyzer->SetSummaryFile(Form("REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  cmd = Form("mkdir -p REPORT_OUTPUT/%s", ftype.Data());  
+  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  analyzer->SetSummaryFile(Form("REPORT_OUTPUT/%s/summary_cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent));  // optional
+
   // Start the actual analysis.
   analyzer->Process(run);
+
   // Create report file from template
-  analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_production.template",
-  			Form("REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  // C.Y. (for now we just have 1 template file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
+  analyzer->PrintReport("TEMPLATES/cafe_prod.template",
+  			Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent));  // optional
 
 }

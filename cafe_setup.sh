@@ -52,6 +52,10 @@ set_hcana_link()
     fi    
 }
 
+#set cafe_replay.C symlink to facilitate data replays
+# C.Y. Later I will link the replay_cafe.C to shell scripts, for different studies.
+ln -s SCRIPTS/COIN/PRODUCTION/replay_cafe.C
+
 # initialize machine flags to 0
 # (depending on where this script gets called, it will turn ON one of these)
 ifarm_flg=0
