@@ -6,32 +6,38 @@ Please refer to the following useful link:
 
 where you can find helpful information related to the experiment. 
 # How-To Guide for Starters
-This guide is intended for *novice level* on hall c analysis, using the CaFe experiment as an example. NOTE: The semi-colons ';'
-denote a comment, and the '>>' denote user input into the command-line terminal.
+This guide is intended for *novice level* on hall c analysis, using the CaFe experiment as an example. NOTE: In the exercises below, the semi-colons ';' denote a comment, and the '>>' denotes the command the user MUST input into the command-line terminal.
 
 ### Exercise #1:
 Set up and get familiar with the general hall c analysis replay structure on ifarm. <br>
 
 `step 1:` Assuming you have a Jefferson Lab account, log-in to ifarm: 
->ssh -Y *user*@login.jlab.org <br>
->ssh -Y ifarm <br>
->; setup necessary environment variables
->source /site/12gev_phys/softenv.csh 2.5 
+> ; login to ifarm<br>
+>     >> ssh -Y *user*@login.jlab.org <br>
+>     >> ssh -Y ifarm <br>
+>; setup necessary environment variables <br>
+>     >> source /site/12gev_phys/softenv.csh 2.5 
 
 `step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository. 
->  ; Change directories. For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe\_Disk\_Space](https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space) <br>
->     >> cd /w/hallc-scshelf2102/c-cafe-2022 <br>
+>  ; Create symbolic link to the CaFe work directory. For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe\_Disk\_Space](https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space) <br>
+>     >> ln -s /w/hallc-scshelf2102/c-cafe-2022 cafe\_work <br>
+>     >> cd cafe\_work <br>
 >
->  ; If you don't have a directory, make one and change to it !<br>
->     >> mkdir *user* ; cd *user*<br>
+>  ; If you don't have a user directory, make one and *cd* to it !<br>
+>     >> mkdir *user* <br> 
+>     >> cd *user*<br>
 > 
 >  ; Clone and properly setup the Hall C analyzer source code <br>
 >     >> git clone https://github.com/JeffersonLab/hcana <br>
 >     >> cd hcana <br> 
->    ; below are 3 separate commands separated by a ; (usually only required 1st time afte cloning hcana, but if there are updates to podd, then it need to be done.) <br>
+> 
+>    ; execute the three commands below separately <br>
+>    ; (usually only required after cloning hcana, but if there are updates to Hall A analyzer (podd), then it will need to be updated.) <br>
 >     >> git submodule init; git submodule  sync; git submodule update <br>
+> 
 >  ; setup hcana environment variables <br>
 >     >> source setup.csh   <br> 
+> 
 >   ; the command below will compile the analyzer and generate an executable, *hcana*<br>
 >     >> scons -jN # scons is a compiler and -j specifies the number N of machine (try -j4) cores so it compiles faster
 
@@ -39,8 +45,8 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >  ; Clone and properly setup the Hall C data analysis replay <br>
 >     >> git clone [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/cafe_online_replay) <br>
 >     >> cd cafe\_online\_replay <br>
->     >> source setup.csh <br>
->     >> ln -s ../hcana/hcana #creates a symbolic link to the hcana executable (convenient for replaying data from current directory)
+>  ; execute this script to create the necessary sybmolic links required by the replay script <br>
+>     >> ./cafe\_setup.sh 
 
 `step 4:` Try to run your first replay on a sample data file (you will get errors, guaranteed! This is a learning process with a majority of the time spent on de-bugging code. Don't feel bad about it.)
 >  ; Execute a replay script (reads a raw data file and generates an output ROOTfile and REPORT\_FILE) <br>

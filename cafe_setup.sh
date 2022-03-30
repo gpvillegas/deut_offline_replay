@@ -28,34 +28,45 @@ Help()
     echo ""
     echo "      See https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space " 
     echo "      for detailed information on each of these filesystems."  
-    echo ""
-    echo "c     *ONLY* use this option if the user is working locally (e.g personal machine) "
-    echo "      If so, then the following directories will be created: raw/, ROOTfiles/, REPORT_OUTPUT/ "
-    echo "      There is only one option: local --> ( e.g: ./cafe_setup.sh -c local )" 
     echo "        "
     echo "example: ./cafe_setup.sh -f volatile"
     echo "-------------------------------------------------------"    
 }
 
+set_hcana_link()
+{
+    # setup the symbolic links to hcana
+    if [[ -L "hcana" && -e "hcana" ]]; then
+	echo "hcana symbolic link exists and is valid !"
+    else
+	echo "hcana symbolic link is broken or does not exist."
+	
+	if [[ -z $HCANALYZER ]]; then	
+	    echo "Environment variable: $HCANALYZER does NOT exist. "
+	    echo "Please make sure to do: source setup.sh(csh) in hcana first. " 
+	else
+	    echo "Creating hcana symbolic link now  . . ."
+	    ln -sf $HCANALYZER"/hcana"
+	    ln -sf $HCANALYZER"/libHallC.so.0.90.0"     
+	fi
+    fi    
+}
 
 # initialize machine flags to 0
 # (depending on where this script gets called, it will turn ON one of these)
 ifarm_flg=0
 cdaq_flg=0
-local_flg=0
 
 
 
 # define the optional arguments
-while getopts ":h:f:c:" option; do
+while getopts ":h:f:" option; do
     case $option in
 	h) # display Help
             Help	    
 	    exit;;       	
 	f) # Enter a filesystem name (only appplies for ifarm)
             fsys=$OPTARG;;
-	c) # enter host name
-	    fhost=$OPTARG;;
 	\?) # Invalid option
             echo "Error: Invalid option"
 	    Help
@@ -64,20 +75,16 @@ while getopts ":h:f:c:" option; do
 done
 
 
-# check if user specified the host option
-if [[ $fhost == "local" ]]; then
-    echo "the use has identified as a local host !" 
-    local_flg=1
-fi
-
-
 if echo $HOSTNAME | grep -q "ifarm"; then
     ifarm_flg=1
 elif echo $HOSTNAME | grep -q "cdaq"; then
     cdaq_flg=1
-else
+fi
+
+
+if [[ ifarm_flg==0 &&  cdaq_flg==0 && ! -z $SSH_CLIENT ]]; then
     echo "***************************************"
-    echo " Did not recognize local/remote machine. "
+    echo " Did not recognize remote machine. "
     echo " Please run: ./cafe_setup.sh -help "
     echo " for help in running this script."
     echo "***************************************"
@@ -102,6 +109,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 
     echo "Checking if necessary directories or symlinks exist in remote machine: " ${USER}"@"${HOSTNAME}". . ."
 
+    # setup the symbolic links to hcana
+    set_hcana_link      
+   
+    
     if [[ $fsys == "volatile" ]]; then	     
 	echo 'Setting up symbolic links to volatile filesystem on ifarm . . .'
 	base_dir_voli="/volatile/hallc/c-cafe-2022/"	
@@ -158,19 +169,38 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_group$USER"/ROOTfiles"
 	ln -sf $base_dir_group$USER"/ROOTfiles"
 	
-    elif [[ $fsys == "test" || $fsys == "" ]]; then
+    elif [[ $fsys == "test" ]]; then
 	echo 'Setting up test symlinks on ifarm for testing cafe replay scripts . . .'
 	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
 	raw_dir=$base_dir'/raw'
 	ROOTfiles_dir=$base_dir'/ROOTfiles'
 	REPORT_OUTPUT_dir=$base_dir'/REPORT_OUTPUT'
 	unlink raw
-	ln -sf $raw_dir raw
+	ln -sf $raw_dir raw	
+	ln -sf $ROOTfiles_dir
+	ln -sf $REPORT_OUTPUT_dir
+
+    elif [[ -z $fsys ]]; then
+	echo "No optional argumnet provided. Will default to setting up the symbolic links "
+	echo "	to the existing text_files/ directory for testing cafe replay scripts . . ."
+	echo ""
+	echo "----------------------------------------------------------------------"
+	echo " For help using additional options, please run: ./cafe_setup.sh -help "
+	echo "----------------------------------------------------------------------"
+
+	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
+	raw_dir=$base_dir"/raw"
+	ROOTfiles_dir=$base_dir"/ROOTfiles"
+	REPORT_OUTPUT_dir=$base_dir"/REPORT_OUTPUT"
+	unlink raw
+	ln -sf $raw_dir
 	#ls -l raw
 	ln -sf $ROOTfiles_dir
 	#ls -l ROOTfiles
 	ln -sf $REPORT_OUTPUT_dir
-	#ls -l REPORT_OUTPUT       	
+	#ls -l REPORT_OUTPUT
+
+	
     fi
 fi
 
@@ -184,6 +214,9 @@ if [[ cdaq_flg -eq 1 ]]; then
 
     echo "Checking if necessary directories or symlinks exist in remote machine: " ${USER}"@"${HOSTNAME}". . ."
 
+    # setup the symbolic links to hcana
+    set_hcana_link
+    
     base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022/"
 
     echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
@@ -209,12 +242,18 @@ fi
 # (the user local computer)
 #=============================
 
-if [[ local_flg -eq 1 ]]; then
+# assume user is local if NOT on cdaq or ifarm
+if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
+
     
     # This function checks if necessary dir. exists, else it creates them 
     dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT")
     	
     echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
+
+    # setup the symbolic links to hcana
+    set_hcana_link
+
     
     for i in "${dir_arr[@]}"	     
     do     
