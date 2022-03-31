@@ -1,0 +1,5 @@
+phgcer_debug_adc = 0
+pngcer_debug_adc = 0
+paero_debug_adc = 0
+pcal_debug_adc = 0
+phodo_debug_adc = 1

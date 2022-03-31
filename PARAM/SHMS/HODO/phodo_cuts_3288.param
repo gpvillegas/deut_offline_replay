@@ -1,0 +1,140 @@
+; Cosmic flag for beta calculation
+
+pcosmicflag=0
+
+; for now manually set hte FADC mode
+;  1 == Use the pulse int - pulse ped
+;  2 == Use the sample integral - known ped
+;  3 == Use the sample integral - sample ped
+; if not set then defaults to use the raw pulse integral
+phodo_adc_mode=1
+
+; phodo_tdc_offset is array of time offsets for all paddles in a plane
+;   to move the tdc to between 0 and 4000 channels.
+phodo_tdc_offset = 1860, 2000, 2060, 2000
+; phodo_adc_tdc_offset is array of time offsets for all paddles in a plane
+;   to move the ADC pulse time after reference time subtraction to a reasonable time (ns).
+phodo_adc_tdc_offset = 200., 200., 200., 200.
+
+;PASS 1 AT DATA WITH TIMEWINDOWS CUTS, RUN3377
+;Time Windows set based on run 3377
+;                              1x                 1y              2x              2y 
+phodo_PosAdcTimeWindowMin = -57,             -35,             -29,             -79
+                          -54.26,          -37.68,          -27.42,          -79.25
+                          -52.41,          -31.94,          -25.25,          -22.69
+                          -53.67,          -29.91,          -22.76,          -22.41
+                          -51.35,          -30.42,          -24.16,          -20.55
+                          -47.85,          -30.59,          -26.15,          -19.89
+                          -50.31,          -24.32,          -24.51,          -19.82
+                          -44.26,          -28.68,          -20.78,          -19.99
+                          -46.82,          -34.16,          -19.46,          -16.35
+                          -49.01,          -35.63,          -19.61,          -16.45
+                          -50.54,          -35.66,          -22.70,          -10.08
+                          -56.09,          -36.07,          -24.70,           -8.95
+                          -52.88,          -35.52,          -28.08,          -13.17
+                            0.00,            0.00,          -23.59,          -15.85
+                            0.00,            0.00,            0.00,          -14.77
+                            0.00,            0.00,            0.00,          -18.56
+                            0.00,            0.00,            0.00,          -20.40
+                            0.00,            0.00,            0.00,          -17.73
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+
+;                              1x                 1y              2x              2y 
+phodo_PosAdcTimeWindowMax = 25.17,           30.96,           36.43,          -79.25
+                           24.51,           34.16,           34.84,          -79.25
+                           22.20,           37.11,           32.13,           59.31
+                           23.78,           34.57,           29.01,           55.57
+                           20.87,           31.84,           30.76,           53.24
+                           19.88,           32.05,           33.25,           49.05
+                           19.57,           27.59,           31.20,           62.46
+                           15.39,           22.91,           33.29,           59.30
+                           15.21,           26.39,           31.63,           44.62
+                           17.95,           31.59,           25.07,           44.75
+                           23.24,           31.64,           28.94,           36.79
+                           26.81,           32.16,           31.44,           38.74
+                           22.78,           31.46,           35.66,           40.65
+                            0.00,            0.00,           30.05,           47.38
+                            0.00,            0.00,            0.00,           46.02
+                            0.00,            0.00,            0.00,           50.76
+                            0.00,            0.00,            0.00,           53.06
+                            0.00,            0.00,            0.00,           49.73
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+
+;                              1x                 1y              2x              2y 
+phodo_NegAdcTimeWindowMin = -66.65,          -34.60,          -34.10,          -79.25
+                          -62.17,          -32.33,          -35.44,          -79.25
+                          -62.40,          -31.43,          -38.55,          -21.03
+                          -60.49,          -33.91,          -32.07,          -21.64
+                          -58.79,          -34.44,          -33.86,          -20.71
+                          -57.12,          -36.30,          -32.79,          -22.98
+                          -58.63,          -25.87,          -30.53,          -21.81
+                          -56.37,          -26.16,          -31.85,          -20.93
+                          -54.19,          -32.62,          -28.53,          -21.87
+                          -55.84,          -38.17,          -22.55,          -21.56
+                          -62.83,          -40.04,          -30.58,          -12.63
+                          -63.34,          -37.39,          -31.04,          -12.94
+                          -58.59,          -34.65,          -33.04,          -15.33
+                            0.00,            0.00,          -29.22,          -17.98
+                            0.00,            0.00,            0.00,          -19.52
+                            0.00,            0.00,            0.00,          -19.76
+                            0.00,            0.00,            0.00,          -18.51
+                            0.00,            0.00,            0.00,          -19.38
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+
+;                              1x                 1y              2x              2y 
+phodo_NegAdcTimeWindowMax = 19.75,           33.69,           26.32,          -79.25
+                           17.53,           37.59,           27.99,          -79.25
+                           21.19,           39.85,           31.87,           40.35
+                           18.80,           32.83,           23.78,           37.74
+                           16.68,           30.12,           26.02,           36.57
+                           14.59,           32.43,           28.05,           39.41
+                           16.47,           22.77,           25.22,           37.96
+                           13.65,           23.14,           23.50,           36.85
+                           10.92,           31.22,           19.35,           34.64
+                           12.99,           34.78,           22.00,           34.26
+                           21.73,           37.12,           25.28,           29.86
+                           22.36,           33.80,           25.86,           30.23
+                           16.42,           30.38,           24.99,           36.59
+                            0.00,            0.00,           23.58,           39.91
+                            0.00,            0.00,            0.00,           35.08
+                            0.00,            0.00,            0.00,           35.38
+                            0.00,            0.00,            0.00,           33.82
+                            0.00,            0.00,            0.00,           31.54
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+                            0.00,            0.00,            0.00,          -79.25
+
+
+
+
+; pstart_time_center  center of allowed time window                             
+pstart_time_center = 32.                                                     
+
+; pstart_time_slop    1/2 width of time window                                  
+pstart_time_slop = 100.                                                       
+
+; pscin_tdc_min       minimum tdc value in hms scin                             
+pscin_tdc_min = -300
+
+; pscin_tdc_max       maximum allowed tdc value                                 
+pscin_tdc_max = 1300                                                        
+
+; pscin_tdc_to_time   scin tdc time per channel                                 
+pscin_tdc_to_time = 0.09766                                                   
+
+; tof and you figured out good values
+ptof_tolerance = 10.
+                                                                               
+; shms_tof_params                                                              
+; pnum_scin_counters, phodo_zpos, phodo_center_coord, phodo_width               
+; are all calculated within p_init_scin                                         
+;    phodo_pos_coord and phodo_neg_coord are not yet used                                                                                                    
+phodo_slop = 2.,  2.,  4.,  4.    
+
+ptofusinginvadc=0

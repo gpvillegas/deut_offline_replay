@@ -44,6 +44,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
+  gHcParms->Load(gHcParms->GetString("g_ctp_calib_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
 
 
@@ -52,7 +53,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   //testing
   if(RunNumber==3288){
-    gHcParms->Load("PARAM/TRIG/tcoin_spring18.param");
+    gHcParms->Load("PARAM/TRIG/tcoin_3288.param");
   }
 
   // Load fadc debug parameters

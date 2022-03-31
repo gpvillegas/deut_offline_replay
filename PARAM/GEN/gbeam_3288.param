@@ -1,0 +1,51 @@
+;                    BPM calibration constants
+;                    =========================
+
+; Add new variables for Hall C BPM A, B, and C, based on HARP calibration
+; For Fall 2017-Spring 2018
+;
+
+  gbpmxa_slope = -1.00111
+  gbpmxa_off   = -0.12309
+  gbpmxb_slope = -1.24023
+  gbpmxb_off   = -0.061674
+  gbpmxc_slope = -0.940987
+  gbpmxc_off   = -1.00727
+  gbpmya_slope = 0.957734
+  gbpmya_off   = -0.441772
+  gbpmyb_slope = 1.19394
+  gbpmyb_off   = 0.190904
+  gbpmyc_slope = 0.842774
+  gbpmyc_off   = 0.549787
+
+;positions of BPMs relative to target (from Fall 2017 survey)
+gbpma_zpos = 320.42 ; cm
+gbpmb_zpos = 224.86 ; cm
+gbpmc_zpos = 129.44 ; cm
+
+;             Fast Raster calibration constants
+;             =================================
+  gusefr               = 1  
+; flag if 1 fast raster data used with average beam pos and angles in calculating beam position
+; if 0 then only use average beam pos and angles in calculating beam position
+; Various fast raster quantities: gUse* are flags
+
+
+  gfr_cal_mom  = 2.221  ; = beam momemtum during calibration with 0.3x0.3cm raster
+                      ; the factor of 1.3 is a slight fine tuning of size
+  gfrya_adcpercm = (73189.-62699.)/.3/1.3;
+  gfryb_adcpercm = (69782.-59522.)/.3/1.3;
+  gfrxa_adcpercm = (72013.-59725.)/.3/1.3;
+  gfrxb_adcpercm = (74077.-62258.)/.3/1.3;
+
+  gfrya_adc_zero_offset =  (73189.+62699.)/2;
+  gfryb_adc_zero_offset =  (69782.+59522.)/2;
+  gfrxa_adc_zero_offset =  (72013.+59725.)/2;
+  gfrxb_adc_zero_offset =  (74077.+62258.)/2;
+
+ 
+; positions of FR magnets relative to target
+  gfrx_dist  = 1375   ; cm
+  gfry_dist  = 1337   ; cm
+
+

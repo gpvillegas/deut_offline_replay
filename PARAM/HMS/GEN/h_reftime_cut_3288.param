@@ -1,0 +1,31 @@
+; Cut to select the Reference time when multiple hits in reference time 
+; The units in channels for the module (CAEN tdc or FADC)
+; negative value refcut means that the first reference time greater than the abs(refcut)
+;     is used as reftime. If no ref time is found  greater than the abs(refcut) then first
+;     reference time is used.
+; positive value refcut means that the the first reference time greater than the abs(refcut)
+;     is used as reftime. If no ref time is found  greater than the abs(refcut) then no
+;     reference time is used and warning message is produced.
+
+; Cut is on reference time per detector.
+
+;Determiend from D2 Heep Coin Run 3377 (and 3288, 3371, 3374)
+hdc_tdcrefcut=-15075.
+hhodo_tdcrefcut=-1600.
+hhodo_adcrefcut=-2300.
+hcer_adcrefcut=-2300.
+hcal_adcrefcut=-2300.
+
+;HMS e- Heep Singles 6621-7970 (Fall 2018 - Spring 2019) --for Heep Minimization
+;hdc_tdcrefcut=-15800.
+;hhodo_tdcrefcut=-3000.
+;hhodo_adcrefcut=-4500.
+;hcer_adcrefcut=-4500.
+;hcal_adcrefcut=-4500.
+
+;Default
+;hdc_tdcrefcut=-10000.
+;hhodo_tdcrefcut=-1000.
+;hhodo_adcrefcut=-1000.
+;hcer_adcrefcut=-1000.
+;hcal_adcrefcut=-1000.
