@@ -43,12 +43,13 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 
 `step 3:` Go up one directory (cd .. ),  and clone and setup the Hall C replay repository <br>
 >  ; Clone and properly setup the Hall C data analysis replay <br>
+>  ; Alternatively, you can fork a copy of the repository remotely and the clone it directly from your github account. <br>
 >     >> git clone [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/cafe_online_replay) <br>
 >     >> cd cafe\_online\_replay <br>
 >  ; execute this script to create the necessary sybmolic links required by the replay script <br>
 >     >> ./cafe\_setup.sh 
 
-`step 4:` Try to run your first replay on a sample data file (you will get errors, guaranteed! This is a learning process with a majority of the time spent on de-bugging code. Don't feel bad about it.)
+`step 4:` Try to run your first replay on a sample data file (you might get errors. This is a learning process with a majority of the time spent on de-bugging code. Don't feel bad about it.)
 >  ; Execute a replay script (reads a raw data file and generates an output ROOTfile and REPORT\_FILE) <br>
 >  ; Follow the command-line requests to enter run number, number of events as well as <br>
 >  ; an additional option, depending on the analysis you want to carry out. The last option, <br>
