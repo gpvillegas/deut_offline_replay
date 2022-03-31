@@ -91,11 +91,11 @@ See [https://docs.github.com/en/get-started/quickstart/github-flow](https://docs
 
 >  a) Go to:  https://github.com/your\_github\_username/cafe\_online\_replay and select the work\_branch (top left) <br>
 
->  b) Click on 'Contribute' and select 'Open pull request' <br>
+>  b) Click on 'Contribute' and select 'Open pull request' (Alternativelt, click on 'Compare \& pull request')<br>
 
 >  c) Add a brief description of your work on the commnet box and click 'Create pull request' <br>
 
->  d) The person with admin priviliges will receive a notification and will check the work, and if there is no conflict with other files, then the 'Pull request' will be accepted and merged onto the official branch <br>
+>  d) The person with admin priviliges will receive a notification and will check the work, and if there is no conflict with other files, then the 'Pull request' will be accepted and merged onto the official branch (at this point you will be given the option to delete the branch remotely) <br>
 
 >  e) To update the changes locally,  and remotely do the following: <br>
 >      >> git checkout master ; change back to the 'master' branch <br> 
@@ -106,4 +106,7 @@ AND THE CYCLE COMPLETES ! ! ! <br>
 
 `step 4:` Now you can safely remove the work branch locally and remotely and repeat the cycle in step 3. <br>
 >   ; remove local copy of branch (optional) <br>
->     >> git branch -d work\_branch
+>     >> git branch -d work\_branch <br>
+
+>   ; remove the remote copy of the branch (optional, if you haven't done so) <br>
+>     >> git push origin --delete work\_branch <br>
