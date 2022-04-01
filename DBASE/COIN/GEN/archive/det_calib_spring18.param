@@ -1,0 +1,27 @@
+; Default Detector Calibration Parameter Files
+
+; HMS default calibration parameter files
+#include "PARAM/HMS/HODO/hhodo_calib.param"
+#include "PARAM/HMS/HODO/archive/spring18/hhodo_TWcalib_spring18.param"
+#include "PARAM/HMS/HODO/archive/spring18/hhodo_Vpcalib_spring18.param"
+
+#include "PARAM/HMS/DC/archive/spring18/hdc_calib_spring18.param"
+#include "PARAM/HMS/DC/archive/spring18/hdc_tzero_per_wire_spring18.param"
+
+#include "PARAM/HMS/CAL/archive/spring18/hcal_calib_spring18.param"
+#include "PARAM/HMS/CER/archive/spring18/hcer_calib_spring18.param"
+#include "PARAM/HMS/AERO/haero_calib.param"
+
+; SHMS default calibration parameter files
+
+#include "PARAM/SHMS/HODO/phodo_calib.param"
+#include "PARAM/SHMS/HODO/archive/spring18/phodo_TWcalib_spring18.param"
+#include "PARAM/SHMS/HODO/archive/spring18/phodo_Vpcalib_spring18.param"
+
+#include "PARAM/SHMS/DC/archive/spring18/pdc_calib_spring18.param"
+#include "PARAM/SHMS/DC/archive/spring18/pdc_tzero_per_wire_spring18.param"
+
+#include "PARAM/SHMS/CAL/archive/spring18/pcal_calib_spring18.param"
+#include "PARAM/SHMS/NGCER/archive/spring18/pngcer_calib_spring18.param"
+#include "PARAM/SHMS/HGCER/archive/spring18/phgcer_calib_spring18.param"
+#include "PARAM/SHMS/AERO/paero_calib.param"

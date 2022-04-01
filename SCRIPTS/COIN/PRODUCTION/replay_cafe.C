@@ -42,30 +42,19 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
   gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard.database");
-  gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
-  gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
-  gHcParms->Load(gHcParms->GetString("g_ctp_calib_filename"));
-  gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
+  gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);  // load the standard.database
+  gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));                 // load the general param
+  gHcParms->Load(gHcParms->GetString("g_ctp_calib_filename"));                // load the detector calib param
+  gHcParms->Load(gHcParms->GetString("g_ctp_cuts_filename"));                 // load the detector cuts param 
+  gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber); // load the standard.kinematics file
 
-
-  // Load params for COIN trigger configuration
-  gHcParms->Load("PARAM/TRIG/tcoin.param");
-
-  //testing
-  if(RunNumber==3288){
-    gHcParms->Load("PARAM/TRIG/tcoin_3288.param");
-  }
-
-  // Load fadc debug parameters
-  gHcParms->Load("PARAM/HMS/GEN/h_fadc_debug.param");
-  gHcParms->Load("PARAM/SHMS/GEN/p_fadc_debug.param");
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
 
   //testing
-  if(RunNumber==3288){
+  if(RunNumber<=3400){
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_comm18.map");
   }
   

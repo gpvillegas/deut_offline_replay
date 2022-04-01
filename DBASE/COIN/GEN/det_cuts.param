@@ -1,0 +1,19 @@
+; Default Detector Cuts Parameter Files
+
+; HMS default cut parameter files
+#include "PARAM/HMS/HODO/hhodo_cuts.param"
+#include "PARAM/HMS/DC/hdc_cuts.param"
+#include "PARAM/HMS/CAL/hcal_cuts.param"
+#include "PARAM/HMS/CER/hcer_cuts.param"
+#include "PARAM/HMS/AERO/haero_cuts.param"
+
+; SHMS default cut parameter files
+#include "PARAM/SHMS/HODO/phodo_cuts.param"
+#include "PARAM/SHMS/DC/pdc_cuts.param"
+#include "PARAM/SHMS/CAL/pcal_cuts.param"
+#include "PARAM/SHMS/NGCER/pngcer_cuts.param"
+#include "PARAM/SHMS/HGCER/phgcer_cuts.param"
+#include "PARAM/SHMS/AERO/paero_cuts.param"
+
+; TRIG default param
+#include "PARAM/TRIG/tcoin.param"

@@ -1,0 +1,19 @@
+; Default Detector Cuts Parameter Files
+
+; HMS default cut parameter files
+#include "PARAM/HMS/HODO/archive/spring18/hhodo_cuts_spring18.param"
+#include "PARAM/HMS/DC/archive/spring18/hdc_cuts_spring18.param"
+#include "PARAM/HMS/CAL/archive/spring18/hcal_cuts_spring18.param"
+#include "PARAM/HMS/CER/archive/spring18/hcer_cuts_spring18.param"
+#include "PARAM/HMS/AERO/haero_cuts.param"
+
+; SHMS default cut parameter files
+#include "PARAM/SHMS/HODO/archive/spring18/phodo_cuts_spring18.param"
+#include "PARAM/SHMS/DC/archive/spring18/pdc_cuts_spring18.param"
+#include "PARAM/SHMS/CAL/archive/spring18/pcal_cuts_spring18.param"
+#include "PARAM/SHMS/NGCER/archive/spring18/pngcer_cuts_spring18.param"
+#include "PARAM/SHMS/HGCER/archive/spring18/phgcer_cuts_spring18.param"
+#include "PARAM/SHMS/AERO/paero_cuts.param"
+
+; TRIG default param
+#include "PARAM/TRIG/archive/spring18/tcoin_spring18.param"

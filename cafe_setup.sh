@@ -96,12 +96,16 @@ fi
 
 #--- define tape allocations ---
 
-# where CaFe raw data output to be replayed will be stored (.dat files)
+# where CaFe raw data output to be replayed will be stored (.dat files(
+# but these are NOT directly accessible, one would have to look for them in cache.
 tape_raw_dir="/mss/hallc/c-cafe-2022/raw"
 
 # tape volume for analysis output (simulation or replay output you want to keep long-term)
 tape_analysis_out="/mss/hallc/c-cafe-2022/analysis" 
 
+#--- define cache allocations ---
+cache_raw_dir="/cache/hallc/c-cafe-2022/raw/"
+cache_analysis_out="/cache/hallc/c-cafe-2022/analysis/"
 
 #=================================
 # ifarm
@@ -125,8 +129,11 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_voli$USER
 
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-	ln -sf $tape_raw_dir
-	
+	ln -sf $tape_raw_dir tape
+
+	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
+	ln -sf $cache_raw_dir cache
+		
 	echo "Creating dir and symlink to $base_dir_voli$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_voli$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_voli$USER"/REPORT_OUTPUT"
@@ -145,7 +152,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
 	ln -sf $tape_raw_dir
-	
+
+	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
+	ln -sf $cache_raw_dir cache
+		
 	echo "Creating dir and symlink to $base_dir_work$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_work$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_work$USER"/REPORT_OUTPUT"
@@ -164,7 +174,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
 	ln -sf $tape_raw_dir
-	
+
+	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
+	ln -sf $cache_raw_dir cache
+		
 	echo "Creating dir and symlink to $base_dir_group$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_group$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_group$USER"/REPORT_OUTPUT"
@@ -226,6 +239,9 @@ if [[ cdaq_flg -eq 1 ]]; then
     echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
     ln -sf $tape_raw_dir
 
+    echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
+    ln -sf $cache_raw_dir cache
+	
     echo "Creating dir and symlink to $base_dir_cdaq/REPORT_OUTPUT . . ."
     mkdir $base_dir_cdaq"/REPORT_OUTPUT"
     ln -sf $base_dir_cdaq"/REPORT_OUTPUT"

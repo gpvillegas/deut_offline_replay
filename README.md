@@ -54,8 +54,9 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >  ; Execute a replay script (reads a raw data file and generates an output ROOTfile and REPORT\_FILE) <br>
 >  ; Follow the command-line requests to enter run number, number of events as well as <br>
 >  ; an additional option, depending on the analysis you want to carry out. The last option, <br>
->  ; I added specially for CaFe, to faciliate our analysis (on a normal hallc_replay data analysis, <br> 
->  ; you will typically only be asked for a run and event number) <br>
+>  ; I added specially for CaFe, to faciliate our analysis. To test it, put the following info when <br>
+>  ; asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: prod,  and this will use the specific parameters
+>  ; at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/prod directory.
 >     >> ./hcana replay\_cafe.C <br>
  
 # How-To Guide for Active Contributors
@@ -68,45 +69,45 @@ See [https://docs.github.com/en/get-started/quickstart/github-flow](https://docs
 > ; clone the repository either locally or remotely (wherever you plan to work)<br>
 >     >> git clone https://github.com/your\_github\_username/cafe\_online\_replay <br>
 >     >> cd cafe\_online\_replay <br>
-
+>
 > ; track the upstram branch is needed to keep your forked copy and local machine copy up-to-date <br>
 >     >> git remote add --track master upstream https://github.com/Yero1990/cafe\_online\_replay <br>
->     HINT: if you do: git remote -v,  it will specify the track to the remote branches origin and upstream<br>
+>     >> git remote -v   ; check that the track to the remote branches origin and upstream are specified<br>
 
 `step 3:` To make any contributions locally and save it to the official [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/cafe_online_replay) repository:
 > ; change to a new working branch on your local copy of the repo, for example: <br>
 >     >> git checkout -b work\_branch <br>
-
+>
 > ; make changes/contributions while on the work\_branch and then add the changes to a staging area <br>
 > ; (i.e., putting all your changes into a common area, for saving later) <br>
 >     >> git add file1.ext file2.ext . . .  ; where fileN.ext represnets the files added or modified <br>
-
+>
 > ; save (i.e. commit) the changes locally on your work\_branch, the -m flag it for adding a commit message (obligatory) <br>
 >     >> git commit -m "message stating a summary of your commits. " <br>
-
+>
 > ; save the changes to your remote forked copy of the cafe\_online\_replay repo <br>
 >     >> git push origin work\_branch
-
+>
 > ; make a pull request to incorporate the changes into the official cafe\_online\_replay <br>
-
+>
 >  a) Go to:  https://github.com/your\_github\_username/cafe\_online\_replay and select the work\_branch (top left) <br>
-
+>
 >  b) Click on 'Contribute' and select 'Open pull request' (Alternativelt, click on 'Compare \& pull request')<br>
-
+>
 >  c) Add a brief description of your work on the commnet box and click 'Create pull request' <br>
-
+>
 >  d) The person with admin priviliges will receive a notification and will check the work, and if there is no conflict with other files, then the 'Pull request' will be accepted and merged onto the official branch (at this point you will be given the option to delete the branch remotely) <br>
-
+>
 >  e) To update the changes locally,  and remotely do the following: <br>
 >      >> git checkout master ; change back to the 'master' branch <br> 
 >      >> git pull upstream master ; to pull the changes just merged to upstream down to your master branch <br>
 >      >> git push origin master ; to push the changes from your local 'master' branch up to your remote origin 'master' branch <br>
-> 
-AND THE CYCLE COMPLETES ! ! ! <br>
+>  
+> AND THE CYCLE COMPLETES ! ! ! <br>
 
 `step 4:` Now you can safely remove the work branch locally and remotely and repeat the cycle in step 3. <br>
 >   ; remove local copy of branch (optional) <br>
 >     >> git branch -d work\_branch <br>
-
+>
 >   ; remove the remote copy of the branch (optional, if you haven't done so) <br>
 >     >> git push origin --delete work\_branch <br>

@@ -1,0 +1,48 @@
+#real raddeg
+raddeg=3.14159265/180
+#real cminch
+cminch=2.54
+
+; General Hall-C parameter files
+#include "PARAM/GEN/archive/spring18/genflags_spring18.param"
+#include "PARAM/GEN/archive/spring18/gdebug_spring18.param"
+#include "PARAM/GEN/archive/spring18/gtarget_spring18.param"
+#include "PARAM/GEN/archive/spring18/gbeam_spring18.param"
+#include "PARAM/GEN/archive/spring18/gscalers_spring18.param"
+
+; General HMS parameter files
+; Note: hmsflags.param includes spectrometer offsets and options.
+; Note: hcana includes the spectrometer recon. optics file being used
+#include "PARAM/HMS/GEN/archive/spring18/hcana_spring18.param"
+#include "PARAM/HMS/GEN/archive/spring18/hdebug_spring18.param"
+#include "PARAM/HMS/GEN/archive/spring18/h_fadc_debug_spring18.param"
+#include "PARAM/HMS/GEN/archive/spring18/hmsflags_spring18.param"
+#include "PARAM/HMS/GEN/archive/spring18/htracking_spring18.param"
+#include "PARAM/HMS/GEN/archive/spring18/h_reftime_cut_spring18.param"
+
+; HMS default geometry parameter files 
+#include "PARAM/HMS/CER/hcer_geom.param"
+#include "PARAM/HMS/DC/hdc_geom.param"
+#include "PARAM/HMS/HODO/hhodo_geom.param"
+#include "PARAM/HMS/AERO/haero_geom.param"
+#include "PARAM/HMS/CAL/hcal_geom.param"
+
+
+; General SHMS parameter files
+; Note: shmsflags.param includes spectrometer offsets and options.
+; Note: pcana includes the spectrometer recon. optics file being used
+#include "PARAM/SHMS/GEN/archive/spring18/pcana_spring18.param"
+#include "PARAM/SHMS/GEN/archive/spring18/pdebug_spring18.param"
+#include "PARAM/SHMS/GEN/archive/spring18/p_fadc_debug_spring18.param"
+#include "PARAM/SHMS/GEN/archive/spring18/shmsflags_spring18.param"
+#include "PARAM/SHMS/GEN/archive/spring18/ptracking_spring18.param"
+#include "PARAM/SHMS/GEN/archive/spring18/p_reftime_cut_spring18.param"
+
+; SHMS default geometry parameter files
+#include "PARAM/SHMS/NGCER/pngcer_geom.param"
+#include "PARAM/SHMS/DC/pdc_geom.param"
+#include "PARAM/SHMS/HODO/phodo_geom.param"
+#include "PARAM/SHMS/HGCER/phgcer_geom.param"
+#include "PARAM/SHMS/AERO/paero_geom.param"
+#include "PARAM/SHMS/CAL/pcal_geom.param"
+
