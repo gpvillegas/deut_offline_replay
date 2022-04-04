@@ -1,6 +1,6 @@
 block T.coin.*
 block CTime*
-
+block RFTime.* 
 block H.cer.*
 block H.dc.*
 block H.tr.*
@@ -51,7 +51,3 @@ IPM3H07B.YSOF
 IPM3H07C.XSOF
 IPM3H07C.YSOF
 end epics
-
-#include "DEF-files/COIN/PRODUCTION/GTR/coin_gtr_histos.def"
-#include "DEF-files/COIN/PRODUCTION/KIN/coin_pElec_hProt_kin_histos.def"
-#include "DEF-files/COIN/PRODUCTION/TRIG/coin_trig_histos.def"

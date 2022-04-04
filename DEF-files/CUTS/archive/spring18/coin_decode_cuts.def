@@ -1,0 +1,16 @@
+Block: Decode
+
+shms_trigs             SHMS_event
+hms_trigs              HMS_event
+
+goodctime         ALL_events        #LOOSE CUT AROUND COINTIME PEAK (3 beam buckets)
+tightctime        ALL_events        #TIGHT CUT AROUND COINTIME PEAK (1 beam buckets)
+ranctime          ALL_events        #CUT AWAY FROM COINTIME PEAK (4 beam buckets)
+
+pcut_good_S1_time         T.coin.p1T_tdcTime > 241 && T.coin.p1T_tdcTime < 243
+pcut_good_S2X_time        T.coin.p2X_tdcTime > 180 && T.coin.p2X_tdcTime < 220
+pcut_good_S1_S2X_time     pcut_good_S1_time && pcut_good_S2X_time
+
+no_edtm                   T.coin.pEDTM_tdcTimeRaw==0.0
+
+ALL_COIN_NO_EDTM  T.coin.hEDTM_tdcTimeRaw==0.0&&T.coin.pEDTM_tdcTimeRaw==0.0&&ALL_events

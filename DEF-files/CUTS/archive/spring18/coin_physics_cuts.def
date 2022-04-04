@@ -1,0 +1,35 @@
+Block: Physics
+
+SHMS_edtm_accepted     T.coin.pEDTM_tdcTimeRaw >  0.0 && P.bcm.CurrentFlag == 1     
+SHMS_physics_accepted  T.coin.pEDTM_tdcTimeRaw == 0.0 && P.bcm.CurrentFlag == 1    
+HMS_edtm_accepted      T.coin.hEDTM_tdcTimeRaw >  0.0 && H.bcm.CurrentFlag == 1                          
+HMS_physics_accepted   T.coin.hEDTM_tdcTimeRaw == 0.0 && H.bcm.CurrentFlag == 1  
+
+
+pTRIG1_ROC2         T.coin.pTRIG1_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG2_ROC2         T.coin.pTRIG2_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG3_ROC2         T.coin.pTRIG3_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG4_ROC2         T.coin.pTRIG4_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1	
+pTRIG5_ROC2         T.coin.pTRIG5_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG6_ROC2         T.coin.pTRIG6_ROC2_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+
+pTRIG1_ROC1         T.coin.pTRIG1_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG2_ROC1         T.coin.pTRIG2_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG3_ROC1         T.coin.pTRIG3_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG4_ROC1         T.coin.pTRIG4_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG5_ROC1         T.coin.pTRIG5_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+pTRIG6_ROC1         T.coin.pTRIG6_ROC1_tdcTimeRaw > 0  && P.bcm.CurrentFlag == 1
+
+hTRIG1_ROC2         T.coin.hTRIG1_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG2_ROC2         T.coin.hTRIG2_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG3_ROC2         T.coin.hTRIG3_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG4_ROC2         T.coin.hTRIG4_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG5_ROC2         T.coin.hTRIG5_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG6_ROC2         T.coin.hTRIG6_ROC2_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+
+hTRIG1_ROC1         T.coin.hTRIG1_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG2_ROC1         T.coin.hTRIG2_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG3_ROC1         T.coin.hTRIG3_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG4_ROC1         T.coin.hTRIG4_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG5_ROC1         T.coin.hTRIG5_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1
+hTRIG6_ROC1         T.coin.hTRIG6_ROC1_tdcTimeRaw > 0  && H.bcm.CurrentFlag == 1

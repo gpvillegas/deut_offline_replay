@@ -223,11 +223,17 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   THcCoinTime* coinTime = new THcCoinTime("CTime", "Coincidende Time Determination", "H", "P", "T.coin");
   gHaPhysics->Add(coinTime);
 
-
   // Suppress missing reference time warnings for these event types
   coin->SetEvtType(1);
   coin->AddEvtType(2);
   TRG->AddDetector(coin); 
+
+  //Add RF physics module THcRFTime::THcRFTime (const char *name, const char* description, const char* hadArmName, 
+  // const char* elecArmName, const char* RFname) :
+  THcRFTime* RFTime = new THcRFTime("RFTime", "RF Time Determination", "P", "H", "T.coin");
+  gHaPhysics->Add(RFTime);
+
+  
   // Add event handler for prestart event 125.
   THcConfigEvtHandler* ev125 = new THcConfigEvtHandler("HC", "Config Event type 125");
   gHaEvtHandlers->Add(ev125);
@@ -285,8 +291,14 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // C.Y. (for now we just have 1 DEF CUTS file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
   // for placing different cuts, depending on the study done.
   TString DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
+  //testing
+  //if(RunNumber<=3400){
+  //  DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
+  // }
+  
   analyzer->SetCutFile(DefCutTreeFile);  // optional
 
+  
   // File to record accounting information for cuts
   cmd = Form("mkdir -p REPORT_OUTPUT/%s", ftype.Data());  
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
@@ -297,7 +309,14 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   // Create report file from template
   // C.Y. (for now we just have 1 template file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
-  analyzer->PrintReport("TEMPLATES/cafe_prod.template",
-  			Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent));  // optional
+  TString REPORT_FileName=Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
+  TString TEMPLATE_FileName="TEMPLATES/cafe_prod.template";
+  //testing
+  //if(RunNumber<=3400){
+    //REPORT_FileName="REPORT_OUTPUT/deut_spring18.report";
+    //TEMPLATE_FileName="TEMPLATES/deut_spring18.template";
+  //}
+  
+  analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 
 }
