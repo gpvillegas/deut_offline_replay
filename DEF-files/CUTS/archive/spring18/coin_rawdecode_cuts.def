@@ -9,7 +9,8 @@ SHMS_COIN_event      g.evtyp == 5
 HMS_COIN_event       g.evtyp == 6 
 COIN_ALL_event       g.evtyp == 7
 
-COIN_event           g.evtyp>=4&&g.evtyp<=7
-ALL_HMS_events       g.evtyp==2 || g.evtyp == 3 || COIN_event
-ALL_SHMS_events      g.evtyp==1 || g.evtyp == 3 || COIN_event
-ALL_events           g.evtyp>=1&&g.evtyp<=7
+ALL_COIN_events      g.evtyp >=4 && g.evtyp <=7
+ALL_events           g.evtyp >=1 && g.evtyp <=7
+
+ALL_HMS_events       HMS_event  || COIN_ONLY_event || HMS_COIN_event  || COIN_ALL_event
+ALL_SHMS_events      SHMS_event || COIN_ONLY_event || SHMS_COIN_event || COIN_ALL_event

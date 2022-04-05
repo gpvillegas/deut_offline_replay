@@ -8,20 +8,10 @@
 *.ps
 *.eps
 *.pdf
-.nfs*
+*.nfs
 *.root
+*.report
 
-# Directories
-RAID
-REPORT_OUTPUT
-HISTOGRAMS
-MON_OUTPUT
-ROOTfiles
-.root_history
-raw
-raw.copiedtotape
-cache
-scratch
+# directories
+raw/
 
-# Symbolic links
-hcana

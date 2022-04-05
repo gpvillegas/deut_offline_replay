@@ -16,7 +16,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
   
   if(ftype==""){
-    cout  << "\nEnter file type to use (e.g., shms_50k, hms_50k, prod, lumi, heep, tgt_boil, bcm): \n " << endl;
+    cout  << "\nEnter file type to use (e.g., test, shms_50k, hms_50k, prod, heep, tgt_boil, bcm): \n " << endl;
     cin >> ftype;
     if(ftype==""){
       cerr << "...Invalid file type\n";
@@ -37,7 +37,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
   TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  
   const char* ROOTFileNamePattern = "ROOTfiles/%s/cafe_replay_%s_%d_%d.root";
+
   
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -53,7 +55,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
 
-  //testing
+  //use spring18 config det. map 
   if(RunNumber<=3400){
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_comm18.map");
   }
@@ -288,13 +290,12 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   analyzer->SetOdefFile(DefTreeFile);
 
   // Define cuts file
-  // C.Y. (for now we just have 1 DEF CUTS file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
-  // for placing different cuts, depending on the study done.
   TString DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
-  //testing
-  if(RunNumber<=3400){
-    DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
-  }
+
+  //test using existing data from spring18 (comment lines below to use cafe cuts file instead)
+  //if(RunNumber<=3400){
+  //  DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
+  // }
   
   analyzer->SetCutFile(DefCutTreeFile);  // optional
 
@@ -311,11 +312,12 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // C.Y. (for now we just have 1 template file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
   TString REPORT_FileName=Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
   TString TEMPLATE_FileName="TEMPLATES/cafe_prod.template";
-  //testing
-  if(RunNumber<=3400){
-    REPORT_FileName="REPORT_OUTPUT/deut_spring18.report";
-    TEMPLATE_FileName="TEMPLATES/deut_spring18.template";
-  }
+
+  //testing (to use cafe template file to mimic what the shift crew would see during CaFe data-taking, commnent the 'RunNumber<3400' below)
+  //if(RunNumber<=3400){
+  //  REPORT_FileName=Form("REPORT_OUTPUT/%s/deut_%s_spring18.report", ftype.Data(), ftype.Data() );
+  //  TEMPLATE_FileName="TEMPLATES/deut_spring18.template";
+  //}
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 
