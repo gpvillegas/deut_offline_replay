@@ -129,6 +129,7 @@ SHMS Unser Beam Cut Charge : {P.Unser.scalerChargeCut/1000.:%.3f} mC
 **************
 
 NOTE: All Scaler Info has a Beam Current Cut.
+Unless explicitly stated otherwise in its name.
 
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:
 Scaler Triggers
@@ -138,41 +139,43 @@ Scaler Triggers
 ------------------
 Pre-Scale Factors
 ------------------
-Ps1_factor	 	 	    	   :		  {gHC_ti_ps_factors[0]}
-Ps2_factor				   :		  {gHC_ti_ps_factors[1]}
-Ps3_factor				   :		  {gHC_ti_ps_factors[2]}
-Ps4_factor				   :		  {gHC_ti_ps_factors[3]}
-Ps5_factor				   :		  {gHC_ti_ps_factors[4]}
-Ps6_factor				   :		  {gHC_ti_ps_factors[5]}
+Ps1_factor	 :		  {gHC_ti_ps_factors[0]}
+Ps2_factor	 :		  {gHC_ti_ps_factors[1]}
+Ps3_factor	 :		  {gHC_ti_ps_factors[2]}
+Ps4_factor	 :		  {gHC_ti_ps_factors[3]}
+Ps5_factor	 :		  {gHC_ti_ps_factors[4]}
+Ps6_factor	 :		  {gHC_ti_ps_factors[5]}
 
 ----------------------
 EDTM Scaler Triggers
 ----------------------
-shms_EDTM_scaler              :      { P.EDTM.scalerCut }
-hms_EDTM_scaler               :      { H.EDTM.scalerCut }
+shms_EDTM_scaler    :      { P.EDTM.scalerCut }
+hms_EDTM_scaler     :      { H.EDTM.scalerCut }
 
+shms_EDTM_scaler_noBCM_Cut     :      { P.EDTM.scaler }
+hms_EDTM_scaler_noBCM_Cut      :      { H.EDTM.scaler }
 
 -----------------------
 Total Scaler Triggers
 Total: Physics + EDTM
 -----------------------
-T1_scaler                                :	{P.pTRIG1.scalerCut} [ {P.pTRIG1.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T2_scaler                                :	{P.pTRIG2.scalerCut} [ {P.pTRIG2.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T3_scaler                                :	{P.pTRIG3.scalerCut} [ {P.pTRIG3.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T4_scaler                                :	{P.pTRIG4.scalerCut} [ {P.pTRIG4.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T5_scaler                                :	{P.pTRIG5.scalerCut} [ {P.pTRIG5.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T6_scaler                                :	{P.pTRIG6.scalerCut} [ {P.pTRIG6.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T1_scaler     :	{P.pTRIG1.scalerCut} [ {P.pTRIG1.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T2_scaler     :	{P.pTRIG2.scalerCut} [ {P.pTRIG2.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T3_scaler     :	{P.pTRIG3.scalerCut} [ {P.pTRIG3.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T4_scaler     :	{P.pTRIG4.scalerCut} [ {P.pTRIG4.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T5_scaler     :	{P.pTRIG5.scalerCut} [ {P.pTRIG5.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T6_scaler     :	{P.pTRIG6.scalerCut} [ {P.pTRIG6.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
 
 -----------------------------------
 Total Pre-Scaled Scaler Triggers
 Total: Physics + EDTM
 -----------------------------------
-T1_scaler_ps                                    : {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0]):%.0f} [ {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T2_scaler_ps                                    : {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1]):%.0f} [ {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T3_scaler_ps                                    : {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2]):%.0f} [ {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T4_scaler_ps                                    : {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3]):%.0f} [ {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
-T5_scaler_ps                                    : {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4]):%.0f} [ {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ] 
-T6_scaler_ps                                    : {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5]):%.0f} [ {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T1_scaler_ps      : {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0]):%.0f} [ {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T2_scaler_ps      : {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1]):%.0f} [ {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T3_scaler_ps      : {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2]):%.0f} [ {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T4_scaler_ps      : {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3]):%.0f} [ {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T5_scaler_ps      : {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4]):%.0f} [ {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ] 
+T6_scaler_ps      : {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5]):%.0f} [ {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
 
 -------------------------
 Physics Scaler Triggers
@@ -239,9 +242,24 @@ Coincidence_Triggers	             :		{ALL_COIN_events.npassed}
 All_Triggers			     :		{ALL_events.npassed}
 
 
+
+**************************
+* Live Time Calculations
+**************************
+The accepted TDC counts don't have a beam current cut whereas the scaler counts do. This is a problem, therefore don't take the live
+time too seriously is it is above 100 %.  A beam current cut in BOTH the numerator and denominator is made in a separate script.
+For comparison, the live time calculations without a BCM cut is made. The minor problem with no bcm cuts, is that
+during beam-off, EDTM is still counted, creating a bias in the calculation. The numerator and denominator should be treated under the exact
+same conditions -> same BCM cut
+
+
+
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 = Pre-Scaled Computer Live Time Calculations
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+NOTE: cputLT = T_accp * ps / T_scaler_corr,  T_accp= accepted TDC > 0 && EDTM_TDC==0,  T_scaler_corr = T_scaler - EDTM_scaler, ps: pre-scale factor
+
 
 T1_cpuLT : { (pTRIG1_ROC2_noEDTM.npassed * gHC_ti_ps_factors[0] / (P.pTRIG1.scalerCut -  P.EDTM.scalerCut) )  *100.0:%3.4f} %
 T2_cpuLT : { (pTRIG2_ROC2_noEDTM.npassed * gHC_ti_ps_factors[1] / (P.pTRIG2.scalerCut -  P.EDTM.scalerCut) )  *100.0:%3.4f} %
@@ -250,9 +268,21 @@ T4_cpuLT : { (pTRIG4_ROC2_noEDTM.npassed * gHC_ti_ps_factors[3] / (P.pTRIG4.scal
 T5_cpuLT : { (pTRIG5_ROC2_noEDTM.npassed * gHC_ti_ps_factors[4] / (P.pTRIG5.scalerCut -  P.EDTM.scalerCut) )  *100.0:%3.4f} %
 T6_cpuLT : { (pTRIG6_ROC2_noEDTM.npassed * gHC_ti_ps_factors[5] / (P.pTRIG6.scalerCut -  P.EDTM.scalerCut) )  *100.0:%3.4f} %
 
+T1_cpuLT_noBCM : { (pTRIG1_ROC2_noEDTM.npassed * gHC_ti_ps_factors[0] / (P.pTRIG1.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+T2_cpuLT_noBCM : { (pTRIG2_ROC2_noEDTM.npassed * gHC_ti_ps_factors[1] / (P.pTRIG2.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+T3_cpuLT_noBCM : { (pTRIG3_ROC2_noEDTM.npassed * gHC_ti_ps_factors[2] / (P.pTRIG3.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+T4_cpuLT_noBCM : { (pTRIG4_ROC2_noEDTM.npassed * gHC_ti_ps_factors[3] / (P.pTRIG4.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+T5_cpuLT_noBCM : { (pTRIG5_ROC2_noEDTM.npassed * gHC_ti_ps_factors[4] / (P.pTRIG5.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+T6_cpuLT_noBCM : { (pTRIG6_ROC2_noEDTM.npassed * gHC_ti_ps_factors[5] / (P.pTRIG6.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+
+
+
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 = Pre-Scaled Total (EDTM) Live Time Calculations
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+NOTE: totLT = EDTM_accp * ps / EDTM_scaler,  EDTM_accp= accepted EDTM TDC > 0,  EDTM_scaler = EDTM scaler counts, ps: pre-scale factor
+
 
 T1_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[0] / P.EDTM.scalerCut) *100.0:%3.4f} %
 T2_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[1] / P.EDTM.scalerCut) *100.0:%3.4f} %
@@ -261,6 +291,12 @@ T4_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[3] / P.EDTM.scalerC
 T5_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[4] / P.EDTM.scalerCut) *100.0:%3.4f} %
 T6_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[5] / P.EDTM.scalerCut) *100.0:%3.4f} %
 
+T1_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[0] / P.EDTM.scaler) *100.0:%3.4f} %
+T2_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[1] / P.EDTM.scaler) *100.0:%3.4f} %
+T3_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[2] / P.EDTM.scaler) *100.0:%3.4f} %
+T4_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[3] / P.EDTM.scaler) *100.0:%3.4f} %
+T5_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[4] / P.EDTM.scaler) *100.0:%3.4f} %
+T6_totLT_noBCM : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[5] / P.EDTM.scaler) *100.0:%3.4f} %
 
 *************************
 * TRACKING EFFICIENCIES *
