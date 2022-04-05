@@ -292,9 +292,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // for placing different cuts, depending on the study done.
   TString DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
   //testing
-  //if(RunNumber<=3400){
-  //  DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
-  // }
+  if(RunNumber<=3400){
+    DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
+  }
   
   analyzer->SetCutFile(DefCutTreeFile);  // optional
 
@@ -312,10 +312,10 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   TString REPORT_FileName=Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
   TString TEMPLATE_FileName="TEMPLATES/cafe_prod.template";
   //testing
-  //if(RunNumber<=3400){
-    //REPORT_FileName="REPORT_OUTPUT/deut_spring18.report";
-    //TEMPLATE_FileName="TEMPLATES/deut_spring18.template";
-  //}
+  if(RunNumber<=3400){
+    REPORT_FileName="REPORT_OUTPUT/deut_spring18.report";
+    TEMPLATE_FileName="TEMPLATES/deut_spring18.template";
+  }
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 

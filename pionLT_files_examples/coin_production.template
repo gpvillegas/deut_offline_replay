@@ -17,12 +17,6 @@ SHMS Angle : {ptheta_lab}
 SHMS Run Length   : {P.1MHz.scalerTime:%.3f} sec
 HMS  Run Length   : {H.1MHz.scalerTime:%.3f} sec
 
-C.Y. TESTS
-SHMS_edtm_accepted
-pEDTM_accp      : {SHMS_edtm_accepted.npassed}
-pEDTM_scaler    : {P.EDTM.scaler}
-pEDTM_scalerCUT : {P.EDTM.scalerCut}
-
 ***********
 * Beamline
 ***********
