@@ -36,6 +36,7 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >     >> git submodule init; git submodule  sync; git submodule update <br>
 > 
 >  ; setup hcana environment variables <br>
+>  ; **tip:** add this command to your (.bashrc, .cshrc, etc.) so its done automatically at the start of each terminal session  <br>
 >     >> source setup.csh   <br> 
 > 
 >   ; the command below will compile the analyzer and generate an executable, *hcana*<br>
@@ -55,8 +56,8 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 >  ; Follow the command-line requests to enter run number, number of events as well as <br>
 >  ; an additional option, depending on the analysis you want to carry out. The last option, <br>
 >  ; I added specially for CaFe, to faciliate our analysis. To test it, put the following info when <br>
->  ; asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: prod,  and this will use the specific parameters
->  ; at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/prod directory.
+>  ; asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: test,  and this will use the specific parameters <br>
+>  ; at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/test directory. <br>
 >     >> ./hcana replay\_cafe.C <br>
  
 # How-To Guide for Active Contributors
