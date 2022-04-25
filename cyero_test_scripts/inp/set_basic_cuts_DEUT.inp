@@ -1,0 +1,155 @@
+#--------------------------------------------
+#------Basic Input Cuts Parameter File-------
+#--------------------------------------------
+
+#------TURN BASIC CUTS FLAG ON/OFF------
+# TRUE (ON) = 1, FALSE (OFF) = 0
+
+
+#-------TRACKING EFFICIENCY CUTS (MAY BE STRICTER THAN DATA-ANALYSIS CUTS)-----
+
+# HMS tracking efficiency cuts (modify cuts depending on whether e- or hadron is detected)
+
+# DO NOT TOUCH ! ! !  ::  did = should && require at least (min. number of tracks --> c_hdc_ntrk_min) tracks
+hdc_ntrk_cut_flag = 1
+c_hdc_ntrk_min = 1
+
+# should (cuts MUST NOT be track-biased)
+hScinGood_cut_flag = 1
+
+hcer_cut_flag = 1
+c_hnpeSum_min = 0.5
+c_hnpeSum_max = 90.
+
+hetotnorm_cut_flag = 1
+c_hetotnorm_min = 0.7
+c_hetotnorm_max = 1.6
+
+hBeta_notrk_cut_flag = 1
+c_hBetaNtrk_min = 0.5
+c_hBetaNtrk_max = 1.5
+
+
+# SHMS tracking efficiency cuts (modify cuts depending on whether e- or hadron is detected)
+
+# DO NOT TOUCH ! ! !  ::  did = should && require at least (min. number of tracks --> c_pdc_ntrk_min) tracks
+pdc_ntrk_cut_flag = 1
+c_pdc_ntrk_min = 1
+
+# should (cuts MUST NOT be track-biased)
+pScinGood_cut_flag = 1
+
+pngcer_cut_flag = 0
+c_pngcer_npeSum_min = 0.5
+c_pngcer_npeSum_max = 100.
+
+phgcer_cut_flag = 1
+c_phgcer_npeSum_min = 0.
+c_phgcer_npeSum_max = 1.5
+
+petotnorm_cut_flag = 1
+c_petotnorm_min = 0.
+c_petotnorm_max = 0.6
+
+pBeta_notrk_cut_flag = 1
+c_pBetaNtrk_min = 0.5
+c_pBetaNtrk_max = 1.5
+
+
+#---------DATA/SIMC ANALYSIS CUTS----------
+
+#------PID Cuts------
+#electron-Kaon coincidence time cut
+eKctime_pidCut_flag = 0
+cpid_eKctime_min = 10.5
+cpid_eKctime_max = 14.5
+
+#electron-Pion coincidence time cut
+ePictime_pidCut_flag = 0
+cpid_ePictime_min = 10.5
+cpid_ePictime_max = 14.5
+
+#electron-Proton coincidence time cut
+ePctime_pidCut_flag = 0
+cpid_ePctime_min = 10.5
+cpid_ePctime_max = 14.5
+
+# (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
+petot_trkNorm_pidCut_flag = 0
+cpid_petot_trkNorm_min = 0.7
+cpid_petot_trkNorm_max = 5.
+
+# (SHMS PID) Noble Gas Cherenkov
+pngcer_pidCut_flag = 0
+cpid_pngcer_npeSum_min = 1.5
+cpid_pngcer_npeSum_max = 100.
+
+# (SHMS PID) Heavy Gas Cherenkov (Pi / K Separation)
+phgcer_pidCut_flag = 0
+cpid_phgcer_npeSum_min = 0.0
+cpid_phgcer_npeSum_max = 1.5
+
+# (SHMS PID) Aerogel Cherenkov (P / K Separation)
+paero_pidCut_flag = 0
+cpid_paero_npeSum_min = 1.5
+cpid_paero_npeSum_max = 100
+
+# (HMS PID) Calorimeter Total Energy Normalized By Track Momentum
+hetot_trkNorm_pidCut_flag = 0
+cpid_hetot_trkNorm_min = 0.7
+cpid_hetot_trkNorm_max = 2.0
+
+# (HMS PID) Gas Cherenkov
+hcer_pidCut_flag = 0
+cpid_hcer_npeSum_min = 0.5
+cpid_hcer_npeSum_max = 70.
+
+#-----Kinematics Cuts-----
+# 4-Momentum Transfers [GeV^2]
+Q2_cut_flag = 0
+c_Q2_min = 4
+c_Q2_max = 5
+
+# Missing Energy [GeV]
+Em_cut_flag = 0
+c_Em_min = -0.02;
+c_Em_max = 0.04;
+
+# Invariant Mass, W [GeV]
+W_cut_flag = 0
+c_W_min = 0.8
+c_W_max = 1.2
+
+# Missing Mass, MM [GeV]
+
+# -Kaons-
+MM_K_cut_flag = 0
+c_MM_K_min = 1.08
+c_MM_K_max = 1.15
+
+# -Pions-
+MM_Pi_cut_flag = 0
+c_MM_Pi_min = 0.9
+c_MM_Pi_max = 1.05
+
+# -Protons-
+MM_P_cut_flag = 0
+c_MM_P_min = -0.1
+c_MM_P_max = 0.1
+
+#------Acceptance Cuts------
+# Hadron Arm Momentum Acceptance, Delta [%] 
+hdelta_cut_flag = 0
+c_hdelta_min = -8.
+c_hdelta_max = 8.
+
+# Electron Arm Momentum Acceptance, Delta [%] 
+edelta_cut_flag = 0
+c_edelta_min = -10.
+c_edelta_max = 22.
+
+# Z-Reaction Vertex Difference, [cm]
+ztarDiff_cut_flag = 0
+c_ztarDiff_min = -2.
+c_ztarDiff_max = 2.
+
