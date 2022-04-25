@@ -29,7 +29,7 @@ $ source /site/12gev_phys/softenv.csh 2.5
 ```sh
 # Create symbolic link to the CaFe work directory. 
 # For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space]
-$ ln -s /w/hallc-scshelf2102/c-cafe-2022/cafe_work 
+$ ln -s /work/hallc/c-cafe-2022/ cafe_work 
 $ cd cafe_work 
 
 # If you don't have a user directory, make one and cd to it !
