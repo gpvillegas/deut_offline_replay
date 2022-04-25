@@ -40,11 +40,10 @@ $ cd <user>
 $ git clone https://github.com/JeffersonLab/hcana
 $ cd hcana 
  
-# execute the three commands below separately (usually only required after cloning hcana, 
-# but if there are updates to Hall A analyzer (podd), then it will need to be updated)
-$ git submodule init
-$ git submodule sync
-$ git submodule update  
+# initialize and update the Hall A Analyzer (podd), which is itself a submodule of hcana
+# usually only requires ONCE, but if podd is updated, then submodule will need to be 
+# updated as well (extremely rare)
+$ git submodule update --init --recursive  
 
 # setup hcana environment variables 
 # tip: add this command to your (.bashrc, .cshrc, etc.) so its done automatically at the 
@@ -78,7 +77,7 @@ $ ./cafe_setup.sh
 # I added specially for CaFe, to faciliate our analysis. To test it, put the following info when 
 # asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: test,  and this will use the specific parameters 
 # at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/test directory.
-$ ./hcana replay\_cafe.C 
+$ ./hcana replay_cafe.C 
 ```
  
 # How-To Guide for Active Contributors
