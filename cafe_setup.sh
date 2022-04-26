@@ -228,7 +228,7 @@ if [[ cdaq_flg -eq 1 ]]; then
     # setup the symbolic links to hcana
     set_hcana_link
     
-    base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022/"
+    base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022"
 
     echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
     ln -sf $tape_raw_dir
