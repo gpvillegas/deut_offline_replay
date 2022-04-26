@@ -35,20 +35,14 @@ Help()
 
 set_hcana_link()
 {
-    # setup the symbolic links to hcana
-    if [[ -L "hcana" && -e "hcana" ]]; then
-	echo "hcana symbolic link exists and is valid !"
+    if [[ -z $HCANALYZER ]]; then	
+	echo "Environment variable: $HCANALYZER does NOT exist. "
+	echo "Please make sure to do: source setup.sh(csh) in hcana first. " 
     else
-	echo "hcana symbolic link is broken or does not exist."
-	
-	if [[ -z $HCANALYZER ]]; then	
-	    echo "Environment variable: $HCANALYZER does NOT exist. "
-	    echo "Please make sure to do: source setup.sh(csh) in hcana first. " 
-	else
-	    echo "Creating hcana symbolic link now  . . ."
-	    ln -sf $HCANALYZER"/hcana"
-	    ln -sf $HCANALYZER"/libHallC.so"     
-	fi
+	echo "Creating hcana symbolic link now  . . ."
+	ln -sf $HCANALYZER"/hcana"
+	ln -sf $HCANALYZER"/libHallC.so"
+	ln -sf $HCANALYZER"/libHallC.so.0.90.0"
     fi    
 }
 
@@ -250,9 +244,9 @@ if [[ cdaq_flg -eq 1 ]]; then
     mkdir $base_dir_cdaq"/ROOTfiles"
     ln -sf $base_dir_cdaq"/ROOTfiles"
 
-    echo "Creating dir and symlink to $base_dir_cdaq/PDFs . . ."
-    mkdir $base_dir_cdaq"/PDFs"
-    ln -sf $base_dir_cdaq"/PDFs"
+    echo "Creating dir and symlink to $base_dir_cdaq/HISTOGRAMS . . ."
+    mkdir $base_dir_cdaq"/HISTOGRAMS"
+    ln -sf $base_dir_cdaq"/HISTOGRAMS"
     
 fi
 
@@ -267,7 +261,7 @@ if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
 
     
     # This function checks if necessary dir. exists, else it creates them 
-    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT")
+    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS")
     	
     echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
 

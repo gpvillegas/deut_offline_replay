@@ -25,4 +25,4 @@ scratch
 
 # Symbolic links
 hcana
-libHallC.so
+libHallC.so*

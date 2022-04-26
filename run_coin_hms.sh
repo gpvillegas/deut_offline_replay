@@ -2,9 +2,9 @@
 
 
 # Which spectrometer are we analyzing.
-#spec=${0##*_}
-#spec=${spec%%.sh}
-#SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
+spec=${0##*_}
+spec=${spec%%.sh}
+SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
 
 # What is the last run number for the spectrometer.
 # The pre-fix zero must be stripped because ROOT is ... well ROOT
@@ -36,15 +36,15 @@ if [ -z "$numEvents" ]; then
 fi
 
 # Which scripts to run.
-script="SCRIPTS/${SPEC}/PRODUCTION/replay_production_${spec}_coin.C"
+script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C"
 config="CONFIG/${SPEC}/PRODUCTION/${spec}_coin_production.cfg"
 expertConfig="CONFIG/${SPEC}/PRODUCTION/${spec}_coin_production_expert.cfg"
 
 #Define some useful directories
 rootFileDir="./ROOTfiles"
-monRootDir="./HISTOGRAMS/Analysis/50k/ROOT/"
-monPdfDir="./HISTOGRAMS/Analysis/50k/PDF/"
-reportFileDir="./REPORT_OUTPUT/Analysis/50k/"
+monRootDir="./HISTOGRAMS/${spec}50k/ROOT/"
+monPdfDir="./HISTOGRAMS/${spec}50k/PDF/"
+reportFileDir="./REPORT_OUTPUT/${spec}50k/"
 reportMonDir="./UTIL_OL/REP_MON" 
 reportMonOutDir="./MON_OUTPUT/" 
 
@@ -52,7 +52,7 @@ reportMonOutDir="./MON_OUTPUT/"
 reportMonFile="reportMonitor_${spec}_${runNum}_${numEvents}.txt" 
 
 # Which commands to run.
-runHcana="./hcana -q \"${script}(${runNum}, ${numEvents})\""
+runHcana="./hcana -q \"${script}(${runNum}, ${numEvents}, \\\"${spec}50k\\\")\""
 runOnlineGUI="./online -f ${config} -r ${runNum}"
 saveOnlineGUI="./online -f ${config} -r ${runNum} -P"
 saveExpertOnlineGUI="./online -f ${expertConfig} -r ${runNum} -P"
@@ -60,9 +60,9 @@ runReportMon="./${reportMonDir}/reportSummary.py ${runNum} ${numEvents} ${spec} 
 openReportMon="emacs ${reportMonOutDir}/${reportMonFile}"  
 
 # Name of the replay ROOT file
-replayFile="${spec}_coin_replay_production_${runNum}"
+replayFile="cafe_replay_${spec}50k_${runNum}"
 rootFile="${replayFile}_${numEvents}.root"
-latestRootFile="${rootFileDir}/Analysis/50k/${replayFile}_latest.root"
+latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
 
 # Names of the monitoring file
 monRootFile="${spec}_coin_production_${runNum}.root"
@@ -119,9 +119,10 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
 
   sleep 2
   cd onlineGUI
-  eval ${runOnlineGUI}
+  eval ${runOnlineGUI} 
+  eval ${saveOnlineGUI}
   eval ${saveExpertOnlineGUI}
-  mv "${outExpertFile}.pdf" "../HISTOGRAMS/Analysis/50k/${outExpertFile}.pdf"
+  mv "${outExpertFile}.pdf" "../HISTOGRAMS/${spec}50k/${outExpertFile}.pdf"
   cd ..
   ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
 
