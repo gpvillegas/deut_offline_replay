@@ -65,11 +65,11 @@ rootFile="${replayFile}_${numEvents}.root"
 latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
 
 # Names of the monitoring file
-monRootFile="${spec}_coin_production_${runNum}.root"
-monPdfFile="${spec}_coin_production_${runNum}.pdf"
-monExpertPdfFile="${spec}_coin_production_expert_${runNum}.pdf"
-latestMonRootFile="${monRootDir}/${spec}_coin_production_latest.root"
-latestMonPdfFile="${monPdfDir}/${spec}_coin_production_latest.pdf"
+monRootFile="cafe_replay_${spec}50k_monitoring_${runNum}.root"
+monPdfFile="cafe_replay_${spec}50k_monitoring_${runNum}.pdf"
+monExpertPdfFile="cafe_replay_${spec}50k_monitoring_expert_${runNum}.pdf"
+latestMonRootFile="${monRootDir}/cafe_replay_${spec}50k_monitoring_latest.root"
+latestMonPdfFile="${monPdfDir}/cafe_replay_${spec}50k_monitoring_latest.pdf"
 
 # Where to put log.
 reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
