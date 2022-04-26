@@ -18,9 +18,6 @@ Set up and get familiar with the general hall c analysis replay structure on ifa
 # login to ifarm
 $ ssh -Y user@login.jlab.org 
 $ ssh -Y ifarm 
-
-# setup necessary environment variables 
-$ source /site/12gev_phys/softenv.csh 2.5 
 ```
 
 `step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository. 
