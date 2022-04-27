@@ -3,15 +3,111 @@
 ======= Shift Worker Section ========
 =====================================
 
+NOTE: The 'SW_' prefix stands for 'Shift Worker'
 
-Still need to put *ONLY* the relevant information the shift worker will need here.
+-----------------
+General Run Info
+-----------------
 
-See "Expert Section" below, to determine which variables should be copied over to the
-"Shift Worker Section".  It is better to be as brief as possible and only provide the
-shift workers with the necessary per-run information to be logged in the run sheets
-(a separate script will be provided to get the actual number of A(e,e'p) coincidences and keep
-count of the number of events )   Please attach an "SW_" to the beginning of each variable we
-put here, to denote it is a "ShiftWorker (SW_)" variable
+SW_Run_Number		:		{gen_run_number}
+SW_Beam_Energy		:		{gpbeam} 
+SW_Target_Mass_(amu)	:		{gtargmass_amu}  
+
+SW_HMS_Particle_Mass	:		{hpartmass}  
+SW_HMS_P_Central        :	        {hpcentral}  
+SW_HMS_Angle		:		{htheta_lab} 
+
+SW_SHMS_Particle_Mass	:		{ppartmass}
+SW_SHMS_P_Central	: 	        {ppcentral}
+SW_SHMS_Angle		:		{ptheta_lab}
+
+SW_SHMS_Run_Length	:		{P.1MHz.scalerTime:%.3f} sec
+SW_HMS_Run_Length	:	        {H.1MHz.scalerTime:%.3f} sec
+
+---------------------------
+Beam Current Monitors (BCM)
+---------------------------
+
+BCM{gBCM_Current_threshold_index+1} >{gBCM_Current_threshold} uA 
+Beam over threshold for {P.1MHz.scalerTimeCut:%.3f}s,
+or {((P.1MHz.scalerTimeCut/P.1MHz.scalerTime)*100.):%.3f}% of total run time.
+
+SW_BCM4A_Current : {P.BCM4A.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA
+SW_BCM4A_Charge  : {P.BCM4A.scalerChargeCut/1000.:%.3f} mC
+
+
+NOTE: Will need to narrow down to specific triggers we will use, once
+we know which ones correspond to: SHMS EL-REAL, HMS 3/4,  and SHMS EL-REAL x HMS 3/4 coincidence
+
+------------------
+Pre-Scale Factors
+------------------
+
+SW_Ps1_factor	 :		  {gHC_ti_ps_factors[0]}
+SW_Ps2_factor	 :		  {gHC_ti_ps_factors[1]}
+SW_Ps3_factor	 :		  {gHC_ti_ps_factors[2]}
+SW_Ps4_factor	 :		  {gHC_ti_ps_factors[3]}
+SW_Ps5_factor	 :		  {gHC_ti_ps_factors[4]}
+SW_Ps6_factor	 :		  {gHC_ti_ps_factors[5]}
+
+----------------
+Physics Scalers
+----------------
+
+SW_T1_phy_scaler :   { P.pTRIG1.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG1.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T2_phy_scaler :   { P.pTRIG2.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG2.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T3_phy_scaler :   { P.pTRIG3.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG3.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T4_phy_scaler :   { P.pTRIG4.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG4.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T5_phy_scaler :   { P.pTRIG5.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG5.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T6_phy_scaler :   { P.pTRIG6.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG6.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+----------------
+Physics Scalers
+(pre-scaled)
+----------------
+SW_T1_phy_scaler_ps :   { (P.pTRIG1.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[0]:%.0f }   [ {( ( (P.pTRIG1.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[0] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T2_phy_scaler_ps :   { (P.pTRIG2.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[1]:%.0f }   [ {( ( (P.pTRIG2.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[1] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T3_phy_scaler_ps :   { (P.pTRIG3.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[2]:%.0f }   [ {( ( (P.pTRIG3.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[2] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T4_phy_scaler_ps :   { (P.pTRIG4.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[3]:%.0f }   [ {( ( (P.pTRIG4.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[3] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T5_phy_scaler_ps :   { (P.pTRIG5.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[4]:%.0f }   [ {( ( (P.pTRIG5.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[4] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T6_phy_scaler_ps :   { (P.pTRIG6.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[5]:%.0f }   [ {( ( (P.pTRIG6.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[5] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+-------------------
+Accepted Triggers
+-------------------
+SW_T1_phy_accp : { pTRIG1_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T2_phy_accp : { pTRIG2_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T3_phy_accp : { pTRIG3_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T4_phy_accp : { pTRIG4_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T5_phy_accp : { pTRIG5_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T6_phy_accp : { pTRIG6_ROC2.npassed - shms_edtm_accepted.npassed }
+
+-----
+EDTM
+-----
+SW_EDMT_scaler :  { P.EDTM.scalerCut }
+SW_EDTM_accp   :  { shms_edtm_accepted.npassed }
+
+-------------------
+Computer Live Time
+(take with a grain of salt :) )
+-------------------
+SW_T5_cpuLT : { (pTRIG5_ROC2_noEDTM.npassed * gHC_ti_ps_factors[4] / (P.pTRIG5.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+SW_T6_cpuLT : { (pTRIG6_ROC2_noEDTM.npassed * gHC_ti_ps_factors[5] / (P.pTRIG6.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+
+----------------
+Total Live Time
+(take with a grain of salt :) )
+----------------
+SW_T5_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[4] / P.EDTM.scaler) *100.0:%3.4f} %
+SW_T6_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[5] / P.EDTM.scaler) *100.0:%3.4f} %
+
+
+----------------------
+Tracking Efficiencies
+----------------------
+SW_shms_elec_trk_eff          :   {shmsScinDide.npassed / (shmsScinShoulde.npassed+0.0001):%8.4f}  +- {(sqrt(shmsScinShoulde.npassed-shmsScinDide.npassed) / (shmsScinShoulde.npassed+.0001)):%8.4f}
+SW_hms_hadron_trk_eff         :   {hmsScinDidh.npassed / (hmsScinShouldh.npassed+0.0001):%8.4f} +- {(sqrt(hmsScinShouldh.npassed-hmsScinDidh.npassed)/(hmsScinShouldh.npassed+.0001)):%8.4f}
 
 
 
@@ -24,11 +120,11 @@ General Run Information
 ************************
 
 Run_Number		:		{gen_run_number}
-Beam_Energy		:		{gpbeam}
-Target_Mass_(amu)	:		{gtargmass_amu}
+Beam_Energy		:		{gpbeam} 
+Target_Mass_(amu)	:		{gtargmass_amu}  
 
-HMS_Particle_Mass	:		{hpartmass}
-HMS_P_Central	        :	        {hpcentral}
+HMS_Particle_Mass	:		{hpartmass}  
+HMS_P_Central	        :	        {hpcentral}  
 HMS_Angle		:		{htheta_lab} 
 
 SHMS_Particle_Mass	:		{ppartmass}
@@ -149,11 +245,11 @@ Ps6_factor	 :		  {gHC_ti_ps_factors[5]}
 ----------------------
 EDTM Scaler Triggers
 ----------------------
-shms_EDTM_scaler    :      { P.EDTM.scalerCut }
-hms_EDTM_scaler     :      { H.EDTM.scalerCut }
-
 shms_EDTM_scaler_noBCM_Cut     :      { P.EDTM.scaler }
 hms_EDTM_scaler_noBCM_Cut      :      { H.EDTM.scaler }
+
+shms_EDTM_scaler    :      { P.EDTM.scalerCut }
+hms_EDTM_scaler     :      { H.EDTM.scalerCut }
 
 -----------------------
 Total Scaler Triggers
@@ -246,11 +342,11 @@ All_Triggers			     :		{ALL_events.npassed}
 **************************
 * Live Time Calculations
 **************************
-The accepted TDC counts don't have a beam current cut whereas the scaler counts do. This is a problem, therefore don't take the live
-time too seriously is it is above 100 %.  A beam current cut in BOTH the numerator and denominator is made in a separate script.
-For comparison, the live time calculations without a BCM cut is made. The minor problem with no bcm cuts, is that
-during beam-off, EDTM is still counted, creating a bias in the calculation. The numerator and denominator should be treated under the exact
-same conditions -> same BCM cut
+In the live time calculations, where the TDC is numerator and scaler is denominator, the accepted TDC counts don't have a beam current cut whereas
+the scaler counts do. This is a problem, therefore don't take the live time too seriously is it is above 100 %.  A beam current cut in BOTH the
+numerator and denominator WILL be made in the analysis script. Below, for comparisons, the live time calculations with/without a BCM cut is made. The minor
+problem with no bcm cuts, is that during beam-off, EDTM is still counted, creating a bias in the calculation. The numerator and denominator should be
+treated under the exact same conditions (i.e., same BCM cut)
 
 
 
