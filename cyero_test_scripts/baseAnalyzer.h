@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0 ); //initialize member variables
+  baseAnalyzer( int irun=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string tgt_name="", string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -24,9 +24,7 @@ public:
   //void run_simc_analysis();
   
   //Function prototypes
-  void SetFileNames();
-  void SetCuts();
-  void ReadInputFile(string ftype="");
+  void ReadInputFile();
   void ReadReport();
   void SetHistBins();
   void CreateHist();
@@ -62,14 +60,20 @@ protected:
   const Double_t MSig = 1.192642; //Neutral Sigma (uds) Mass
   
   
-  //Initialization parameters
+  //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;
   TString daq_mode;   //"coin" or "singles"
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
   TString analysis;    // analyze data or simulation? : "data" or "simc"
   Bool_t helicity_flag;     //helicity flag
+  TString tgt_type;        // target type: "LH2", "LD2", . . .
+  TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
+  Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
+  TString trig_type;      // trigger type to actually use when calculating live tim
+  Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
 
+  
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
   TString hArm;
@@ -82,16 +86,6 @@ protected:
   //Option to combine multiple runs
   Bool_t combine_histos;
   
-  //BCM type and threshold
-  TString bcm_type;
-  Double_t current_thrs_bcm;
-
-  //Trigger type
-  TString trig_type;
-
-  //Target type
-  TString tgt_type;    // target type : "C12", "LH2", "LD2" 
-
   //Declare TFile Pointers (reading/writing ROOTfiles)
   TFile *inROOT;
   TFile *outROOT;
@@ -112,7 +106,7 @@ protected:
   TString main_controls_fname;
   TString input_CutFileName;
   TString input_HBinFileName;
-  TString input_SetFileName;
+  TString input_FileNamePattern;
 
   ///Output .txt filenames
   TString report_OutputFileName;
