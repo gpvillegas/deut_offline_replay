@@ -184,11 +184,11 @@ TH2F pextcor_xysieve 'SHMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 
 
 #C.Y. Added for SHMS Hodo Monitoring April 29, 2022
 #-----------------------------------------------
-TH1F pgtr_delta 'SHMS Momentum Acceptance, #delta_{SHMS}; #delta_{SHMS} [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
-TH2F xtrack_vs_ytrack_S1X 'SHMS X-Track vs. Y-Track (proj. @ S1X); Y-Track [cm]; X-Track [cm]' P.hod.1x.TrackYPos P.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F xtrack_vs_ytrack_S2X 'SHMS X-Track vs. Y-Track (proj. @ S2X); Y-Track [cm]; X-Track [cm]' P.hod.2x.TrackYPos P.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F xtrack_vs_delta_S1X 'SHMS X-Track vs. #delta_{SHMS} (proj. @ S1X); #delta_{SHMS} [%]; X-Track [cm]' P.gtr.dp P.hod.1x.TrackXPos 100, -15, 25, 100, -50, 50 
-TH2F xtrack_vs_delta_S2X 'SHMS X-Track vs. #delta_{SHMS} (proj. @ S2X); #delta_{SHMS} [%]; X-Track [cm]' P.gtr.dp P.hod.2x.TrackXPos 100, -15, 25, 100, -50, 50
+TH1F pgtr_delta 'SHMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
+TH2F pgtr_xtrack_vs_ytrack_S1X 'SHMS X-Track vs. Y-Track (projected @ S1X); Y-Track [cm]; X-Track [cm]' P.hod.1x.TrackYPos P.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F pgtr_xtrack_vs_ytrack_S2X 'SHMS X-Track vs. Y-Track (projected @ S2X); Y-Track [cm]; X-Track [cm]' P.hod.2x.TrackYPos P.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F pgtr_xtrack_vs_delta_S1X  'SHMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track [cm]' P.gtr.dp P.hod.1x.TrackXPos 100, -15, 25, 100, -50, 50 
+TH2F pgtr_xtrack_vs_delta_S2X  'SHMS X-Track vs. Delta (projected @ S2X); Delta [%]; X-Track [cm]' P.gtr.dp P.hod.2x.TrackXPos 100, -15, 25, 100, -50, 50
 
 #--------------------------------
 # SHMS Cherenkovs GOOD OCC/MULT
@@ -405,10 +405,12 @@ TH1F pdc2u1_wirenum_should 'SHMS DC 2U1 Wiremap; Wire Number; Number of Entries'
 # SHMS KINEMATICS
 #-----------------
 TH1F pdc_trk_mom      'SHMS DC Track Momentum; P (GeV); Number of Entires / 50 MeV' P.tr.p 240 0 12
-TH1F pkin_theta 'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg); Number of Entries / 0.06 deg' P.kin.scat_ang_deg 350 5 40 pcut_CleanTrack
-TH1F pkin_q2 'SHMS 4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' P.kin.Q2 400 0 20 pcut_CleanTrack
-TH1F pkin_w  'SHMS Invariant Mass W; W  (GeV); Number of Entries / 0.050 GeV' P.kin.W 200 0 10 pcut_CleanTrack
-#TH1F pkin_omega 'SHMS Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' P.kin.omega 200 0 10 pcut_CleanTrack
-#TH1F pkin_w2 'SHMS Invariant Mass W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.100 GeV^{2}' P.kin.W2 100 0 10 pcut_CleanTrack
+TH1F pkin_theta       'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg); Number of Entries / 0.06 deg' P.kin.primary.scat_ang_deg 350 5 40 pcut_CleanTrack
+TH1F pkin_q2          'SHMS 4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' P.kin.primary.Q2 400 0 20 pcut_CleanTrack
+TH1F pkin_q           'SHMS 3-Momentum Transfer, |q|; |q| (GeV); Number of Entries / 0.050 GeV' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
+TH1F pkin_thq         'SHMS 3-Momentum Transfer Angle w.r.to +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries / 0.5 deg' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
+TH1F pkin_w           'SHMS Invariant Mass W; W  (GeV); Number of Entries / 0.050 GeV' P.kin.primary.W 200 0 10 pcut_CleanTrack
+TH1F pkin_omega       'SHMS Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' P.kin.primary.omega 200 0 10 pcut_CleanTrack
+TH1F pkin_w2          'SHMS Invariant Mass W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.100 GeV^{2}' P.kin.primary.W2 100 0 10 pcut_CleanTrack
 
 

@@ -11,6 +11,7 @@ block H.gtr.*
 block H.kin.*
 block H.rb.*
 block H.react.*
+block P.kin.primary.scat_ang_deg
 
 begin epics
 IBC3H00CRCUR4
@@ -358,14 +359,18 @@ TH1F hdc2u2_wirenum_did 'HMS DC 2U2 Wiremap; Wire Number; Number of Entries' H.d
 TH1F hdc2u1_wirenum_did 'HMS DC 2U1 Wiremap; Wire Number; Number of Entries' H.dc.wireHitDid[11] 96 0.5 96.5 
 
 #*****************************************
-# HMS Single Arm Primary (Scattered Beam)
+# HMS Secondary Kinematics
 # Kinematic Quantities
 #*****************************************
 
-TH1F hkin_q2 'HMS Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' H.kin.Q2 400 0 20 hcut_CleanTrack
-TH1F hkin_omega 'HMS Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' H.kin.omega 200 0 10 hcut_CleanTrack
-TH1F hkin_theta 'HMS Scattering Angle Theta; HMS Scattering Angle (deg); Number of Entries / 0.25 deg' H.kin.scat_ang_deg 260 0 65 hcut_CleanTrack
-TH1F hdc_trk_mom 'HMS DC Track Momentum; P (GeV); Number of Entires / 50 MeV' H.tr.p 160 0 8
+TH1F hdc_trk_mom  'HMS DC Track Momentum; P (GeV); Number of Entries / 35 MeV' H.tr.p 200 0.5 7.5 hcut_CleanTrack
+TH1F hkin_theta 'HMS Scattering Angle Theta; HMS Scattering Angle (deg); Number of Entries / 0.15 deg' (H.kin.secondary.xangle*(180/3.14)-P.kin.primary.scat_ang_deg) 400 10 70 hcut_CleanTrack
+TH1F hkin_MM 'Missing Mass; Missing Mass (GeV); Number of Entries' H.kin.secondary.Mrecoil 100 -1 3 hcut_CleanTrack
+TH1F hkin_Em 'Missing Energy; Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss 100 -1 3 hcut_CleanTrack
+TH1F hkin_Em_nuc 'Nuclear Missing Energy (omega-T_{det}-T_{rec}); Nuclear Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss_nuc 100 -1 3 hcut_CleanTrack
+TH1F hkin_Pm 'Missing Momentum; Missing Momentum (GeV); Number of Entries' H.kin.secondary.pmiss 100 -0.5 1 hcut_CleanTrack
+TH1F hkin_thpq 'Proton Angle w.r.to q, Theta_{pq}; Theta_{pq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_xq*(180/3.14) 362 -1 180 hcut_CleanTrack
+TH1F hkin_thrq 'Recoil Angle w.r.to q, Theta_{rq}; Theta_{rq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_bq*(180/3.14) 362 -1 180 hcut_CleanTrack
 
 #--------------------------------------
 # HMS DC Ref time vs Hodo Ref time
