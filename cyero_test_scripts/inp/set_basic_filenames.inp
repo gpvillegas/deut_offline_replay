@@ -1,0 +1,8 @@
+# Set Input File Name Pattern from replayed data
+input_ROOTfilePattern        = ROOTfiles/coin_replay_deep_check_%d_-1.root
+input_REPORTPattern          = REPORT_OUTPUT/replay_coin_deep_check_%d_-1.report
+
+#Set User Analyzed Output File Name Pattern
+output_ROOTfilePattern       = OUTPUT/basic_histos_%d.root
+output_ROOTfilePattern_final = OUTPUT/basic_histos_final.root
+output_REPORTPattern         = OUTPUT/basic_report.txt
