@@ -182,6 +182,13 @@ TH1F pgtr_xtar 'SHMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.0
 TH1F pgtr_ytar 'SHMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' P.gtr.y 60 -7.5 7.5 pcut_CleanTrack
 TH2F pextcor_xysieve 'SHMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 cm; X_{sieve} / 0.1 cm' P.extcor.ysieve P.extcor.xsieve 200 -10 10 300 -15 15 pcut_CleanTrack
 
+#C.Y. Added for SHMS Hodo Monitoring April 29, 2022
+#-----------------------------------------------
+TH1F pgtr_delta 'SHMS Momentum Acceptance, #delta_{SHMS}; #delta_{SHMS} [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
+TH2F xtrack_vs_ytrack_S1X 'SHMS X-Track vs. Y-Track (proj. @ S1X); Y-Track [cm]; X-Track [cm]' P.hod.1x.TrackYPos P.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F xtrack_vs_ytrack_S2X 'SHMS X-Track vs. Y-Track (proj. @ S2X); Y-Track [cm]; X-Track [cm]' P.hod.2x.TrackYPos P.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F xtrack_vs_delta_S1X 'SHMS X-Track vs. #delta_{SHMS} (proj. @ S1X); #delta_{SHMS} [%]; X-Track [cm]' P.gtr.dp P.hod.1x.TrackXPos 100, -15, 25, 100, -50, 50 
+TH2F xtrack_vs_delta_S2X 'SHMS X-Track vs. #delta_{SHMS} (proj. @ S2X); #delta_{SHMS} [%]; X-Track [cm]' P.gtr.dp P.hod.2x.TrackXPos 100, -15, 25, 100, -50, 50
 
 #--------------------------------
 # SHMS Cherenkovs GOOD OCC/MULT

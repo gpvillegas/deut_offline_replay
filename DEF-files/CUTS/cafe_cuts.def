@@ -164,7 +164,11 @@ hmsHGC_should_h         	    hmsGen && hmsCal_h
 hmsHGC_did_h			    hmsHGC_should_h && H.cer.npeSum < 1.
 
 
+#====================
+# Cut for 50k replay
+#====================
 
-
+hcut_CleanTrack            H.gtr.index > -1 && H.gtr.dp > -10.0 && H.gtr.dp < 10.0
+pcut_CleanTrack            P.gtr.index > -1 && P.gtr.dp > -10.0 && P.gtr.dp < 22.0
 
 Physics_master ALL_events
