@@ -171,12 +171,15 @@ TH1F hdc2u1_drifttime 'HMS DC 2U1 Drift Time; Drift Time (ns); Number of Entries
 #-------------------------------------------
 # HMS DC TRACKING VARIABLES AT FOCAL PLANE
 #-------------------------------------------
-TH2F hdc_xfp_vs_yfp 'HMS DC X_{fp} vs Y_{fp}; Y_{fp} (cm) / 1 cm; X_{fp} (cm) / 1 cm' H.dc.y_fp H.dc.x_fp 50 -25 25 100 -50 50
+TH2F hdc_xfp_vs_yfp  'HMS DC X_{fp} vs Y_{fp}; Y_{fp} (cm) / 1 cm; X_{fp} (cm) / 1 cm' H.dc.y_fp H.dc.x_fp 50 -25 25 100 -50 50
 TH2F hdc_xpfp_vs_ypfp 'HMS DC X'_{fp} vs Y'_{fp}; Y'_{fp} / 0.002 rad; X'_{fp} / 0.002 rad' H.dc.yp_fp H.dc.xp_fp 100 -.1 .1 100 -.1 .1
 TH2F hdc_xfp_vs_xpfp 'HMS DC X_{fp} vs X'_{fp}; X'_{fp} / 0.002 rad; X_{fp} / 1 cm' H.dc.xp_fp H.dc.x_fp 100 -.1 .1 100 -50 50
+TH2F hdc_xfp_vs_beta 'HMS DC X_{fp} vs Beta; Beta; X_{fp} / 1 cm' H.tr.beta H.dc.x_fp 100 -0.5 1.5 100 -50 50
 TH2F hdc_xfp_vs_ypfp 'HMS DC X_{fp} vs Y'_{fp}; Y'_{fp} / 0.002 rad; X_{fp} / 1 cm'  H.dc.yp_fp H.dc.x_fp 100 -.1 .1 100 -50 50 
 TH2F hdc_yfp_vs_xpfp 'HMS DC Y_{fp} vs X'_{fp}; X'_{fp} / 0.002 rad; Y_{fp} / 1 cm' H.dc.xp_fp H.dc.y_fp 100 -.1 .1 50 -25 25
 TH2F hdc_yfp_vs_ypfp 'HMS DC Y_{fp} vs Y'_{fp}; Y'_{fp} / 0.002 rad; Y_{fp} / 1 cm' H.dc.yp_fp H.dc.y_fp 100 -.1 .1 50 -25 25
+TH2F hdc_yfp_vs_beta 'HMS DC Y_{fp} vs Beta; Beta; Y_{fp} / 1 cm' H.tr.beta H.dc.y_fp 100 -0.5 1.5 50 -25 25
+
 
 #------------------------
 # HMS Target Quantities
@@ -202,6 +205,11 @@ TH2F hcer_npe 'HMS Cherenkov Number of Photoelectrons vs. PMT Number; PMT Number
 TH2F hcer_xytrack 'HMS Cherenkov Tracking Y vs X; Y (cm) / 1 cm; X (cm) / 1 cm' H.cer.yAtCer H.cer.xAtCer 120 -60 60 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
 TH2F hcer_x_vs_npe 'HMS Cherenkov X vs NPE; NPE / 0.5 PE ; X (cm) / 1 cm' H.cer.npeSum H.cer.xAtCer 100 0 50 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
 TH2F hcer_y_vs_npe 'HMS Cherenkov Y vs NPE; NPE / 0.5 PE ; Y (cm) / 1 cm' H.cer.npeSum H.cer.yAtCer 100 0 50 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
+
+#----------------------------
+# HMS Gas Cherenkov NPE Sum
+#----------------------------
+TH1F hcer_npeSum 'HMS Cherenkov Number of Photoelectrons Sum; NPE Sum; Number of Entries' H.cer.npeSum 100, 0., 50.
 
 #----------------------------
 # HMS Calorimeter Occ / Mult
@@ -276,12 +284,12 @@ TH1F hBPMT_Y 'Beam BPMT_Y ; BPM_Y projected to target  (CM); Counts' H.rb.raster
 #----------
 # HMS PID
 #----------
-TH2F hcer_vs_hpreShwr      'HMS Cer NPE Sum vs. PreSh Energy; Total PreSh Energy Deposition / 0.01 GeV; Cer NPE Sum / 0.5' H.cal.1pr.eplane H.cer.npeSum 400 0 4 80 0 40 H.cal.1pr.eplane>0.0&&H.cer.npeSum>0.0 
+TH2F hcer_vs_hpreShwr            'HMS Cer NPE Sum vs. PreSh Energy; Total PreSh Energy Deposition / 0.01 GeV; Cer NPE Sum / 0.5' H.cal.1pr.eplane H.cer.npeSum 400 0 4. 80 0. 40. H.cal.1pr.eplane>0.0&&H.cer.npeSum>0.0 
 TH2F hcal_hshwr_vs_hpreShwr      'HMS Shower vs. PreShower Energy Deposition; PreShower Energy / 0.01 GeV; Shower Energy / 0.01 GeV' H.cal.1pr.eplane (H.cal.2ta.eplane+H.cal.3ta.eplane+H.cal.4ta.eplane) 400 0 4 800 0 8 H.cal.1pr.eplane>0.0&&(H.cal.2ta.eplane+H.cal.3ta.eplane+H.cal.4ta.eplane)>0.0 
-TH1F hdc_trk_beta  'HMS DC ElectronTrack Beta; Beta; Number of Entires'  H.tr.beta 300 -1.5 1.5 
-TH2F hcal_xtrack_vs_etracknorm 'HMS Calorimeter xtrack vs Normalized Track Energy; Track Energy Deposition (Gev) / 0.01 GeV; X Track (cm) / 1 cm' H.cal.etracknorm H.cal.xtrack 150 0 1.5 130 -65 65 hcut_CleanTrack
-TH2F hcal_ytrack_vs_etracknorm 'HMS Calorimeter ytrack vs Normalized Track Energy; Track Energy Deposition (Gev) / 0.01 GeV; Y Track (cm) / 1 cm' H.cal.etracknorm H.cal.ytrack 150 0 1.5 70 -35 35 hcut_CleanTrack
-TH2F hcal_delta_etracknorm      'HMS Delta vs. Cal E/p; Normalized Track Energy Deposition / 0.025; Delta / 0.25' H.cal.etracknorm H.gtr.dp 60 0. 1.5 96 -12. 12. hcut_CleanTrack
+TH1F hdc_trk_beta                'HMS DC ElectronTrack Beta; Beta; Number of Entires'  H.tr.beta 300 -1.5 1.5 
+TH2F hcal_xtrack_vs_etracknorm   'HMS Calorimeter xtrack vs Normalized Track Energy; Track Energy Deposition (Gev) / 0.01 GeV; X Track (cm) / 1 cm' H.cal.etracknorm H.cal.xtrack 150 0 1.5 130 -65 65 hcut_CleanTrack
+TH2F hcal_ytrack_vs_etracknorm   'HMS Calorimeter ytrack vs Normalized Track Energy; Track Energy Deposition (Gev) / 0.01 GeV; Y Track (cm) / 1 cm' H.cal.etracknorm H.cal.ytrack 150 0 1.5 70 -35 35 hcut_CleanTrack
+TH2F hcal_delta_etracknorm       'HMS Delta vs. Cal E/p; Normalized Track Energy Deposition / 0.025; Delta / 0.25' H.cal.etracknorm H.gtr.dp 60 0. 1.5 96 -12. 12. hcut_CleanTrack
 
 #--------------------------------
 # HMS Trigger ADC Pulse pedestals
