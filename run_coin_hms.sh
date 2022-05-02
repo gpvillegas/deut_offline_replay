@@ -59,26 +59,34 @@ saveExpertOnlineGUI="./online -f ${expertConfig} -r ${runNum} -P"
 runReportMon="./${reportMonDir}/reportSummary.py ${runNum} ${numEvents} ${spec} coin"
 openReportMon="emacs ${reportMonOutDir}/${reportMonFile}"  
 
+
+# What is base name of onlineGUI monitoring output.                                                                                                                                        
+outGUI="${spec}_coin_production_${runNum}"
+outGUIexpert="${spec}_coin_production_expert_${runNum}" 
+
+outFileBase="cafe_replay_${spec}50k_monitoring_${runNum}"
+outExpertFileBase="cafe_replay_${spec}50k_monitoring_expert_${runNum}"
+outFileMonitor="output.txt" 
+
 # Name of the replay ROOT file
 replayFile="cafe_replay_${spec}50k_${runNum}"
 rootFile="${replayFile}_${numEvents}.root"
 latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
 
-# Names of the monitoring file
-monRootFile="cafe_replay_${spec}50k_monitoring_${runNum}.root"
-monPdfFile="cafe_replay_${spec}50k_monitoring_${runNum}.pdf"
-monExpertPdfFile="cafe_replay_${spec}50k_monitoring_expert_${runNum}.pdf"
+# Names of the monitoring ROOTfile
+monRootFile=${outFileBase}".root"
+monExpertRootFile=${outExpertFileBase}".root" 
+
+# Names of the monitoring PDF 
+monPdfFile=${outFileBase}".pdf"
+monExpertPdfFile=${outExpertFileBase}".pdf"
+
 latestMonRootFile="${monRootDir}/cafe_replay_${spec}50k_monitoring_latest.root"
 latestMonPdfFile="${monPdfDir}/cafe_replay_${spec}50k_monitoring_latest.pdf"
 
 # Where to put log.
 reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
 summaryFile="${reportFileDir}/summary_production_${runNum}_${numEvents}.txt"
-
-# What is base name of onlineGUI output.
-outFile="${spec}_coin_production_${runNum}"
-outExpertFile="${spec}_coin_production_expert_${runNum}"
-outFileMonitor="output.txt"
 
 # Replay out files
 replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEvents}.txt"
@@ -104,6 +112,7 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   
   # Link the ROOT file to latest for online monitoring
   ln -sf ${rootFile} ${latestRootFile}
+
   
   echo "" 
   echo ""
@@ -121,10 +130,11 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   cd onlineGUI
   eval ${runOnlineGUI} 
   eval ${saveOnlineGUI}
+  mv "${outGUI}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monPdfFile}"
   eval ${saveExpertOnlineGUI}
-  mv "${outExpertFile}.pdf" "../HISTOGRAMS/${spec}50k/${outExpertFile}.pdf"
+  mv "${outGUIexpert}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monExpertPdfFile}"
   cd ..
-  ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
+  #ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
 
   echo "" 
   echo ""
