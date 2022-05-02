@@ -81,8 +81,8 @@ monExpertRootFile=${outExpertFileBase}".root"
 monPdfFile=${outFileBase}".pdf"
 monExpertPdfFile=${outExpertFileBase}".pdf"
 
-latestMonRootFile="${monRootDir}/cafe_replay_${spec}50k_monitoring_latest.root"
-latestMonPdfFile="${monPdfDir}/cafe_replay_${spec}50k_monitoring_latest.pdf"
+latestMonRootFile="cafe_replay_${spec}50k_monitoring_latest.root"
+latestMonPdfFile="cafe_replay_${spec}50k_monitoring_latest.pdf" 
 
 # Where to put log.
 reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
@@ -129,13 +129,15 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   sleep 2
   cd onlineGUI
   eval ${runOnlineGUI} 
-  eval ${saveOnlineGUI}
-  mv "${outGUI}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monPdfFile}"
-  eval ${saveExpertOnlineGUI}
-  mv "${outGUIexpert}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monExpertPdfFile}"
-  cd ..
-  #ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
-
+  #eval ${saveOnlineGUI}
+  #mv "${outGUI}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monPdfFile}"
+  eval ${saveExpertOnlineGUI}   # the expert onlineGUI pdf histograms will have expert-level plots + onlineGUI plots
+  mv "${outGUIexpert}.pdf" "../${monPdfDir}${monExpertPdfFile}"
+  cd ../${monPdfDir}
+  
+  # Link onlineGUI moniroting plots to latest monitoring
+  ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
+  
   echo "" 
   echo ""
   echo ""
