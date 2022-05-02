@@ -129,14 +129,16 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   sleep 2
   cd onlineGUI
   eval ${runOnlineGUI} 
-  #eval ${saveOnlineGUI}
-  #mv "${outGUI}.pdf" "../HISTOGRAMS/${spec}50k/PDF/${monPdfFile}"
-  eval ${saveExpertOnlineGUI}   # the expert onlineGUI pdf histograms will have expert-level plots + onlineGUI plots
-  mv "${outGUIexpert}.pdf" "../${monPdfDir}${monExpertPdfFile}"
+  eval ${saveOnlineGUI}
+  mv "${outGUI}.pdf" "../${monPdfDir}${monPdfFile}"
+
+  #eval ${saveExpertOnlineGUI}   # the expert onlineGUI pdf histograms will have expert-level plots + onlineGUI plots
+  #mv "${outGUIexpert}.pdf" "../${monPdfDir}${monExpertPdfFile}"
+
   cd ../${monPdfDir}
   
   # Link onlineGUI moniroting plots to latest monitoring
-  ln -sf ${monExpertPdfFile} ${latestMonPdfFile}
+  ln -sf ${monPdfFile} ${latestMonPdfFile}
   
   echo "" 
   echo ""

@@ -107,6 +107,14 @@ TH2F phodo_1y_good_pped_vs_pmt_neg 'SHMS 1Y- Good Pulse Pedestal vs. PMT Number;
 TH2F phodo_2x_good_pped_vs_pmt_neg 'SHMS 2X- Good Pulse Pedestal vs. PMT Number; PMT Number; Good Pulse Pedestal / 0.25 mV' [I+1]  P.hod.2x.GoodNegAdcPed 14 0.5 14.5 200 100 150 P.hod.2x.GoodNegAdcPed>0.0
 TH2F phodo_2y_good_pped_vs_pmt_neg 'SHMS 2Y- Good Pulse Pedestal vs. PMT Number; PMT Number; Good Pulse Pedestal / 0.25 mV' [I+1]  P.hod.2y.GoodNegAdcPed 21 0.5 21.5 200 100 150 P.hod.2y.GoodNegAdcPed>0.0
 
+#-----------------------------------------------
+#C.Y. Added for SHMS Hodo Monitoring April 29, 2022
+#-----------------------------------------------
+TH2F pgtr_xtrack_vs_ytrack_S1X 'SHMS X-Track vs. Y-Track (projected @ S1X); Y-Track (cm); X-Track (cm)' P.hod.1x.TrackYPos P.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F pgtr_xtrack_vs_ytrack_S2X 'SHMS X-Track vs. Y-Track (projected @ S2X); Y-Track (cm); X-Track (cm)' P.hod.2x.TrackYPos P.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F pgtr_xtrack_vs_delta_S1X  'SHMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track (cm)' P.gtr.dp P.hod.1x.TrackXPos 100, -15, 25, 100, -50, 50 
+TH2F pgtr_xtrack_vs_delta_S2X  'SHMS X-Track vs. Delta (projected @ S2X); Delta [%]; X-Track (cm)' P.gtr.dp P.hod.2x.TrackXPos 100, -15, 25, 100, -50, 50
+
 #-----------------------
 # SHMS DC RAW WIRE MAP
 #-----------------------
@@ -177,20 +185,14 @@ TH2F pdc_yfp_vs_beta  'SHMS DC Y_{fp} vs Beta; Beta; Y_{fp} / 1 cm' P.tr.beta P.
 #-------------------
 # TARGET VARIABLES
 #-------------------
+TH1F pgtr_delta 'SHMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
+TH1F pgtr_xtar 'SHMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05 cm' P.gtr.x 80 -2 2 pcut_CleanTrack
+TH1F pgtr_ytar 'SHMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' P.gtr.y 60 -7.5 7.5 pcut_CleanTrack
 TH2F pgtr_ytar_vs_yptar  'SHMS Golden Track Y_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; Y_{tar} / 0.25 cm'  P.gtr.ph P.gtr.y 100 -.1 .1 60 -7.5 7.5 pcut_CleanTrack
 TH2F pgtr_xptar_vs_yptar 'SHMS Golden Track X'_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; X'_{tar} / 0.002 rad' P.gtr.ph P.gtr.th 100 -.1 .1 100 -.1 .1 pcut_CleanTrack
 TH2F pgtr_xtar_vs_reactz 'SHMS Golden Track X_{tar}; Z_{react} / 0.1 cm; X_{tar} / 0.05 cm' P.react.z P.gtr.x 200 -10 10 80 -2 2 pcut_CleanTrack
-TH1F pgtr_xtar 'SHMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05 cm' P.gtr.x 80 -2 2 pcut_CleanTrack
-TH1F pgtr_ytar 'SHMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' P.gtr.y 60 -7.5 7.5 pcut_CleanTrack
 TH2F pextcor_xysieve 'SHMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 cm; X_{sieve} / 0.1 cm' P.extcor.ysieve P.extcor.xsieve 200 -10 10 300 -15 15 pcut_CleanTrack
 
-#C.Y. Added for SHMS Hodo Monitoring April 29, 2022
-#-----------------------------------------------
-TH1F pgtr_delta 'SHMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
-TH2F pgtr_xtrack_vs_ytrack_S1X 'SHMS X-Track vs. Y-Track (projected @ S1X); Y-Track (cm); X-Track (cm)' P.hod.1x.TrackYPos P.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F pgtr_xtrack_vs_ytrack_S2X 'SHMS X-Track vs. Y-Track (projected @ S2X); Y-Track (cm); X-Track (cm)' P.hod.2x.TrackYPos P.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F pgtr_xtrack_vs_delta_S1X  'SHMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track (cm)' P.gtr.dp P.hod.1x.TrackXPos 100, -15, 25, 100, -50, 50 
-TH2F pgtr_xtrack_vs_delta_S2X  'SHMS X-Track vs. Delta (projected @ S2X); Delta [%]; X-Track (cm)' P.gtr.dp P.hod.2x.TrackXPos 100, -15, 25, 100, -50, 50
 
 #--------------------------------
 # SHMS Cherenkovs GOOD OCC/MULT
@@ -276,16 +278,31 @@ TH2F pcal_shwr_good_pped_vs_pmt 'SHMS Shower Good Pulse Pedestal vs. PMT Number;
 # SHMS DC REFERENCE TIMES
 #--------------------------
 
-TH1F ptrig_pdc_ref1  'SHMS PDC Reference Time 1; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF1_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref2  'SHMS PDC Reference Time 2; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF2_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref3  'SHMS PDC Reference Time 3; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF3_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref4  'SHMS PDC Reference Time 4; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF4_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref5  'SHMS PDC Reference Time 5; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF5_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref6  'SHMS PDC Reference Time 6; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF6_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref7  'SHMS PDC Reference Time 7; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF7_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref8  'SHMS PDC Reference Time 8; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF8_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref9  'SHMS PDC Reference Time 9; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF9_tdcTime  4000 0 4000
-TH1F ptrig_pdc_ref10 'SHMS PDC Reference Time 10; TDC Time (ns); Counts / 1 ns;' T.coin.pDCREF10_tdcTime 4000 0 4000
+TH1F ptrig_pdc_ref1  'SHMS DC Reference Time 1; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF1_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref2  'SHMS DC Reference Time 2; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF2_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref3  'SHMS DC Reference Time 3; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF3_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref4  'SHMS DC Reference Time 4; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF4_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref5  'SHMS DC Reference Time 5; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF5_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref6  'SHMS DC Reference Time 6; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF6_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref7  'SHMS DC Reference Time 7; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF7_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref8  'SHMS DC Reference Time 8; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF8_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref9  'SHMS DC Reference Time 9; TDC Time (ns); Counts / 1 ns;'  T.coin.pDCREF9_tdcTime  4000 0 4000
+TH1F ptrig_pdc_ref10 'SHMS DC Reference Time 10; TDC Time (ns); Counts / 1 ns;' T.coin.pDCREF10_tdcTime 4000 0 4000
+
+#-----------------------------
+# SHMS DC REFERENCE RAW TIMES
+#-----------------------------
+
+TH1F ptrig_pdc_ref1_raw  'SHMS DC Raw Reference Time 1; TDC Raw Time (Channels); Counts '  T.coin.pDCREF1_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref2_raw  'SHMS DC Raw Reference Time 2; TDC Raw Time (Channels); Counts '  T.coin.pDCREF2_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref3_raw  'SHMS DC Raw Reference Time 3; TDC Raw Time (Channels); Counts '  T.coin.pDCREF3_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref4_raw  'SHMS DC Raw Reference Time 4; TDC Raw Time (Channels); Counts '  T.coin.pDCREF4_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref5_raw  'SHMS DC Raw Reference Time 5; TDC Raw Time (Channels); Counts '  T.coin.pDCREF5_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref6_raw  'SHMS DC Raw Reference Time 6; TDC Raw Time (Channels); Counts '  T.coin.pDCREF6_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref7_raw  'SHMS DC Raw Reference Time 7; TDC Raw Time (Channels); Counts '  T.coin.pDCREF7_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref8_raw  'SHMS DC Raw Reference Time 8; TDC Raw Time (Channels); Counts '  T.coin.pDCREF8_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref9_raw  'SHMS DC Raw Reference Time 9; TDC Raw Time (Channels); Counts '  T.coin.pDCREF9_tdcTimeRaw  1000 5000 25000
+TH1F ptrig_pdc_ref10_raw 'SHMS DC Raw Reference Time 10; TDC RawTime (Channels); Counts ' T.coin.pDCREF10_tdcTimeRaw  1000 5000 25000
 
 #------------------------
 # TRIGGER REFERENCE TIMES
@@ -299,6 +316,20 @@ TH1F ptrig_pT1_good_tdc 'SHMS pT1 Good TDC Time (Slot 20, Channel 15); Good TDC 
 TH1F ptrig_pT2_good_tdc 'SHMS pT2 Good TDC Time (Slot 19, Channel 31); Good TDC Time (ns); Counts / 1 ns' T.coin.pT2_tdcTime 800 0 800 
 TH1F ptrig_pT3_good_tdc 'SHMS pT3 Good TDC Time (Slot 19, Channel 38); Good TDC Time (ns); Counts / 1 ns' T.coin.pT3_tdcTime 800 0 800 
 TH1F ptrig_pFADC_TREF_ROC2_good_tdc 'SHMS pFADC_TREF_ROC2 Good Pulse Time; Good Pulse Time (ns); Counts / 1 ns' T.coin.pFADC_TREF_ROC2_adcPulseTime 800 0 800 
+
+#-----------------------------
+# TRIGGER RAW REFERENCE TIMES
+#-----------------------------
+
+TH1F ptrig_p1x_raw_tdc 'SHMS p1x Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.p1X_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_p1y_raw_tdc 'SHMS p1y Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.p1Y_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_p2x_raw_tdc 'SHMS p2x Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.p2X_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_p2y_raw_tdc 'SHMS p2y Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.p2Y_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_pT1_raw_tdc 'SHMS pT1 Raw TDC Time (Slot 20, Channel 15); Raw TDC Time (Channels); Counts ' T.coin.pT1_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_pT2_raw_tdc 'SHMS pT2 Raw TDC Time (Slot 19, Channel 31); Raw TDC Time (Channels); Counts ' T.coin.pT2_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_pT3_raw_tdc 'SHMS pT3 Raw TDC Time (Slot 19, Channel 38); Raw TDC Time (Channels); Counts ' T.coin.pT3_tdcTimeRaw 1000 0 15000 
+TH1F ptrig_pFADC_TREF_ROC2_raw_tdc 'SHMS pFADC_TREF_ROC2 Raw Pulse Time; Raw Pulse Time (Channels); Counts ' T.coin.pFADC_TREF_ROC2_adcPulseTimeRaw 1000 0 15000 
+
 
 #-------------------
 # SHMS FAST RASTER

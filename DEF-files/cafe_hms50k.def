@@ -113,6 +113,14 @@ TH2F hhodo_1y_good_pped_vs_pmt_neg 'HMS 1Y- Good Pulse Pedestal vs. PMT Number; 
 TH2F hhodo_2x_good_pped_vs_pmt_neg 'HMS 2X- Good Pulse Pedestal vs. PMT Number; PMT Number; Good Pulse Pedestal 0.25 mV' [I+1] H.hod.2x.GoodNegAdcPed 16 0.5 16.5 200 100 150 H.hod.2x.GoodNegAdcPed>0.0
 TH2F hhodo_2y_good_pped_vs_pmt_neg 'HMS 2Y- Good Pulse Pedestal vs. PMT Number; PMT Number; Good Pulse Pedestal 0.25 mV' [I+1] H.hod.2y.GoodNegAdcPed 10 0.5 10.5 200 100 150 H.hod.2y.GoodNegAdcPed>0.0
 
+#-----------------------------------------------
+#C.Y. Added for HMS Hodo Monitoring May 01, 2022
+#-----------------------------------------------
+TH2F hgtr_xtrack_vs_ytrack_S1X 'HMS X-Track vs. Y-Track (projected @ S1X); Y-Track (cm); X-Track (cm)' H.hod.1x.TrackYPos H.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F hgtr_xtrack_vs_ytrack_S2X 'HMS X-Track vs. Y-Track (projected @ S2X); Y-Track (cm); X-Track (cm)' H.hod.2x.TrackYPos H.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F hgtr_xtrack_vs_delta_S1X  'HMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track (cm)' H.gtr.dp H.hod.1x.TrackXPos 100, -15, 15, 100, -50, 50 
+TH2F hgtr_xtrack_vs_delta_S2X  'HMS X-Track vs. Delta (projected @ S2X);   Delta [%]; X-Track (cm)' H.gtr.dp H.hod.2x.TrackXPos 100, -15, 15, 100, -50, 50
+
 #----------------------
 # HMS DC Raw WIRE MAP
 #----------------------
@@ -184,20 +192,13 @@ TH2F hdc_yfp_vs_beta 'HMS DC Y_{fp} vs Beta; Beta; Y_{fp} / 1 cm' H.tr.beta H.dc
 #------------------------
 # HMS Target Quantities
 #------------------------
+TH1F hgtr_xtar 'HMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05 cm' H.gtr.x 80 -2 2
+TH1F hgtr_ytar 'HMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' H.gtr.y 60 -7.5 7.5 
+TH1F hgtr_delta 'HMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' H.gtr.dp 100 -15. 15. 
 TH2F hgtr_ytar_vs_yptar  'HMS Golden Track Y_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; Y_{tar} / 0.25 cm'  H.gtr.ph H.gtr.y 100 -.1 .1 60 -7.5 7.5 
 TH2F hgtr_xptar_vs_yptar 'HMS Golden Track X'_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; X'_{tar} / 0.002 rad' H.gtr.ph H.gtr.th 100 -.1 .1 100 -.1 .1 
 TH2F hgtr_xtar_vs_reactz 'HMS Golden Track X_{tar}; Z_{react} / 0.1 cm; X_{tar} / 0.05 cm' H.react.z H.gtr.x 200 -10 10 80 -2 2 
-TH1F hgtr_xtar 'HMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05 cm' H.gtr.x 80 -2 2
-TH1F hgtr_ytar 'HMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' H.gtr.y 60 -7.5 7.5 
 TH2F hextcor_xysieve 'HMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 cm; X_{sieve} / 0.1 cm' H.extcor.ysieve H.extcor.xsieve 200 -10 10 300 -15 15 
-
-#C.Y. Added for HMS Hodo Monitoring May 01, 2022
-#-----------------------------------------------
-TH1F hgtr_delta 'HMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' H.gtr.dp 100 -15. 15. 
-TH2F hgtr_xtrack_vs_ytrack_S1X 'HMS X-Track vs. Y-Track (projected @ S1X); Y-Track (cm); X-Track (cm)' H.hod.1x.TrackYPos H.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F hgtr_xtrack_vs_ytrack_S2X 'HMS X-Track vs. Y-Track (projected @ S2X); Y-Track (cm); X-Track (cm)' H.hod.2x.TrackYPos H.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
-TH2F hgtr_xtrack_vs_delta_S1X  'HMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track (cm)' H.gtr.dp H.hod.1x.TrackXPos 100, -15, 15, 100, -50, 50 
-TH2F hgtr_xtrack_vs_delta_S2X  'HMS X-Track vs. Delta (projected @ S2X);   Delta [%]; X-Track (cm)' H.gtr.dp H.hod.2x.TrackXPos 100, -15, 15, 100, -50, 50
 
 
 #----------------------------
@@ -214,10 +215,6 @@ TH2F hcer_npe 'HMS Cherenkov Number of Photoelectrons vs. PMT Number; PMT Number
 TH2F hcer_xytrack 'HMS Cherenkov Tracking Y vs X; Y (cm) / 1 cm; X (cm) / 1 cm' H.cer.yAtCer H.cer.xAtCer 120 -60 60 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
 TH2F hcer_x_vs_npe 'HMS Cherenkov X vs NPE; NPE / 0.5 PE ; X (cm) / 1 cm' H.cer.npeSum H.cer.xAtCer 100 0 50 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
 TH2F hcer_y_vs_npe 'HMS Cherenkov Y vs NPE; NPE / 0.5 PE ; Y (cm) / 1 cm' H.cer.npeSum H.cer.yAtCer 100 0 50 120 -60 60 H.cer.xAtCer!=0.0&&H.cer.yAtCer!=0
-
-#----------------------------
-# HMS Gas Cherenkov NPE Sum
-#----------------------------
 TH1F hcer_npeSum 'HMS Cherenkov Number of Photoelectrons Sum; NPE Sum; Number of Entries' H.cer.npeSum 100, 0., 50.
 
 #----------------------------
@@ -256,8 +253,19 @@ TH1F htrig_hdc_ref2 'HMS DC Reference Time 2; TDC Time (ns); Counts / 1 ns;' T.c
 TH1F htrig_hdc_ref3 'HMS DC Reference Time 3; TDC Time (ns); Counts / 1 ns;' T.coin.hDCREF3_tdcTime 2500 0 2500
 TH1F htrig_hdc_ref4 'HMS DC Reference Time 4; TDC Time (ns); Counts / 1 ns;' T.coin.hDCREF4_tdcTime 2500 0 2500
 
+#-----------------------------------------
+# HMS DC TRIG Raw Reference Time
+# (for setting ref. time cuts right away)
+#----------------------------------------
+
+TH1F htrig_hdc_ref1_raw 'HMS DC Raw Reference Time 1; Raw TDC Time (Channels); Counts ;' T.coin.hDCREF1_tdcTimeRaw 2500 5000 25000
+TH1F htrig_hdc_ref2_raw 'HMS DC Raw Reference Time 2; Raw TDC Time (Channels); Counts ;' T.coin.hDCREF2_tdcTimeRaw 2500 5000 25000
+TH1F htrig_hdc_ref3_raw 'HMS DC Raw Reference Time 3; Raw TDC Time (Channels); Counts ;' T.coin.hDCREF3_tdcTimeRaw 2500 5000 25000
+TH1F htrig_hdc_ref4_raw 'HMS DC Raw Reference Time 4; Raw TDC Time (Channels); Counts ;' T.coin.hDCREF4_tdcTimeRaw 2500 5000 25000
+
+
 #----------------------------
-# HMS TRIG Reference Times
+# HMS TRIG Good Reference Times
 #----------------------------
 TH1F htrig_h1x_good_tdc 'HMS h1x Good TDC Time; Good TDC Time (ns); Counts / 1 ns' T.coin.h1X_tdcTime 800 0 800 
 TH1F htrig_h1y_good_tdc 'HMS h1y Good TDC Time; Good TDC Time (ns); Counts / 1 ns' T.coin.h1Y_tdcTime 800 0 800 
@@ -269,6 +277,21 @@ TH1F htrig_hT2_good_tdc 'HMS hT2 Good TDC Time (Slot 20, Channel 127); Good Time
 TH1F htrig_hT3_good_tdc 'HMS hT3 Good TDC Time (Slot 2, Channel 63); Good Time (ns); Counts / 1 ns' T.coin.hT3_tdcTime 350 0 3500
 
 TH1F htrig_hFADC_TREF_ROC1_good_tdc 'HMS hFADC_TREF_ROC1 Good Pulse Time; Good Pulse Time (ns); Counts / 1 ns' T.coin.hFADC_TREF_ROC1_adcPulseTime 800 0 800
+
+#----------------------------
+# HMS TRIG Raw Reference Times
+# (for setting ref. time cuts right away)
+#----------------------------
+TH1F htrig_h1x_raw_tdc 'HMS h1x Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.h1X_tdcTimeRaw 1000 0 10000 
+TH1F htrig_h1y_raw_tdc 'HMS h1y Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.h1Y_tdcTimeRaw 1000 0 10000 
+TH1F htrig_h2x_raw_tdc 'HMS h2x Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.h2X_tdcTimeRaw 1000 0 10000 
+TH1F htrig_h2y_raw_tdc 'HMS h2y Raw TDC Time; Raw TDC Time (Channels); Counts ' T.coin.h2Y_tdcTimeRaw 1000 0 10000 
+
+TH1F htrig_hT1_raw_tdc 'HMS hT1 Raw TDC Time (Slot 2,  Channel 6);   Raw Time (Channels); Counts ' T.coin.hT1_tdcTimeRaw 1000 0 10000 
+TH1F htrig_hT2_raw_tdc 'HMS hT2 Raw TDC Time (Slot 20, Channel 127); Raw Time (Channels); Counts ' T.coin.hT2_tdcTimeRaw 1000 0 10000
+TH1F htrig_hT3_raw_tdc 'HMS hT3 Raw TDC Time (Slot 2,  Channel 63);  Raw Time (Channels); Counts ' T.coin.hT3_tdcTimeRaw 1000 0 10000
+
+TH1F htrig_hFADC_TREF_ROC1_raw_tdc 'HMS hFADC_TREF_ROC1 Raw Pulse Time; Raw Pulse Time (Channels); Counts ' T.coin.hFADC_TREF_ROC1_adcPulseTimeRaw 1000 0 10000
 
 
 #--------------------
