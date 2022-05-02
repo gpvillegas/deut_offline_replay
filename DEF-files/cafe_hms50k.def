@@ -403,14 +403,14 @@ TH1F hdc2u1_wirenum_did 'HMS DC 2U1 Wiremap; Wire Number; Number of Entries' H.d
 # Kinematic Quantities
 #*****************************************
 
-TH1F hdc_trk_mom  'HMS DC Track Momentum; P (GeV); Number of Entries / 35 MeV' H.tr.p 200 0.5 7.5 hcut_CleanTrack
-TH1F hkin_theta 'HMS Scattering Angle Theta; HMS Scattering Angle (deg); Number of Entries / 0.15 deg' (H.kin.secondary.xangle*(180/3.14)-P.kin.primary.scat_ang_deg) 400 10 70 hcut_CleanTrack
-TH1F hkin_MM 'Missing Mass; Missing Mass (GeV); Number of Entries' H.kin.secondary.Mrecoil 100 -1 3 hcut_CleanTrack
-TH1F hkin_Em 'Missing Energy; Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss 100 -1 3 hcut_CleanTrack
-TH1F hkin_Em_nuc 'Nuclear Missing Energy (omega-T_{det}-T_{rec}); Nuclear Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss_nuc 100 -1 3 hcut_CleanTrack
-TH1F hkin_Pm 'Missing Momentum; Missing Momentum (GeV); Number of Entries' H.kin.secondary.pmiss 100 -0.5 1 hcut_CleanTrack
-TH1F hkin_thpq 'Proton Angle w.r.to q, Theta_{pq}; Theta_{pq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_xq*(180/3.14) 362 -1 180 hcut_CleanTrack
-TH1F hkin_thrq 'Recoil Angle w.r.to q, Theta_{rq}; Theta_{rq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_bq*(180/3.14) 362 -1 180 hcut_CleanTrack
+TH1F hdc_trk_mom 'HMS DC Track Momentum; P (GeV); Number of Entries / 35 MeV' H.tr.p 200 0.5 7.5 hcut_CleanTrack
+TH1F hkin_theta  'HMS Scattering Angle Theta; HMS Scattering Angle (deg); Number of Entries / 0.15 deg' (H.kin.secondary.xangle*(180/3.14)-P.kin.primary.scat_ang_deg) 400 10 70 hcut_CleanTrack
+TH1F hkin_MM     'Missing Mass; Missing Mass (GeV); Number of Entries' H.kin.secondary.Mrecoil 100 -1 3 hcut_CleanTrack
+TH1F hkin_em     'Missing Energy; Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss 100 -1 3 hcut_CleanTrack
+TH1F hkin_em_nuc 'Nuclear Missing Energy (omega-T_{det}-T_{rec}); Nuclear Missing Energy (GeV); Number of Entries' H.kin.secondary.emiss_nuc 100 -1. 3 hcut_CleanTrack
+TH1F hkin_pm     'Missing Momentum; Missing Momentum (GeV); Number of Entries' H.kin.secondary.pmiss 100 -0.1 1. hcut_CleanTrack
+TH1F hkin_thpq   'Proton Angle w.r.to q, Theta_{pq}; Theta_{pq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_xq*(180/3.14) 362 -1 180 hcut_CleanTrack
+TH1F hkin_thrq   'Recoil Angle w.r.to q, Theta_{rq}; Theta_{rq} (deg); Number of Entries / 0.5 deg' H.kin.secondary.th_bq*(180/3.14) 362 -1 180 hcut_CleanTrack
 
 #--------------------------------------
 # HMS DC Ref time vs Hodo Ref time
