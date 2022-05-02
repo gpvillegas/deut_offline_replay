@@ -191,6 +191,15 @@ TH1F hgtr_xtar 'HMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05
 TH1F hgtr_ytar 'HMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' H.gtr.y 60 -7.5 7.5 
 TH2F hextcor_xysieve 'HMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 cm; X_{sieve} / 0.1 cm' H.extcor.ysieve H.extcor.xsieve 200 -10 10 300 -15 15 
 
+#C.Y. Added for HMS Hodo Monitoring May 01, 2022
+#-----------------------------------------------
+TH1F hgtr_delta 'HMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' H.gtr.dp 100 -15. 15. 
+TH2F hgtr_xtrack_vs_ytrack_S1X 'HMS X-Track vs. Y-Track (projected @ S1X); Y-Track (cm); X-Track (cm)' H.hod.1x.TrackYPos H.hod.1x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F hgtr_xtrack_vs_ytrack_S2X 'HMS X-Track vs. Y-Track (projected @ S2X); Y-Track (cm); X-Track (cm)' H.hod.2x.TrackYPos H.hod.2x.TrackXPos 100, -70, 70, 100, -75, 75 
+TH2F hgtr_xtrack_vs_delta_S1X  'HMS X-Track vs. Delta  (projected @ S1X);  Delta [%]; X-Track (cm)' H.gtr.dp H.hod.1x.TrackXPos 100, -15, 15, 100, -50, 50 
+TH2F hgtr_xtrack_vs_delta_S2X  'HMS X-Track vs. Delta (projected @ S2X);   Delta [%]; X-Track (cm)' H.gtr.dp H.hod.2x.TrackXPos 100, -15, 15, 100, -50, 50
+
+
 #----------------------------
 # HMS Gas Cherenkov Occ/Mult
 #----------------------------
