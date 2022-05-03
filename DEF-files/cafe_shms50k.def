@@ -438,11 +438,11 @@ TH1F pdc2u1_wirenum_should 'SHMS DC 2U1 Wiremap; Wire Number; Number of Entries'
 #-----------------
 TH1F pdc_trk_mom      'SHMS DC Track Momentum; P (GeV); Number of Entires / 50 MeV' P.tr.p 240 0 12
 TH1F pkin_theta       'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg); Number of Entries / 0.06 deg' P.kin.primary.scat_ang_deg 350 5 40 pcut_CleanTrack
-TH1F pkin_q2          'SHMS 4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' P.kin.primary.Q2 400 0 20 pcut_CleanTrack
-TH1F pkin_q           'SHMS 3-Momentum Transfer, |q|; |q| (GeV); Number of Entries / 0.050 GeV' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
-TH1F pkin_thq         'SHMS 3-Momentum Transfer Angle w.r.to +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries / 0.5 deg' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
-TH1F pkin_w           'SHMS Invariant Mass W; W  (GeV); Number of Entries / 0.050 GeV' P.kin.primary.W 200 0 10 pcut_CleanTrack
-TH1F pkin_omega       'SHMS Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' P.kin.primary.omega 200 0 10 pcut_CleanTrack
-TH1F pkin_w2          'SHMS Invariant Mass W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.100 GeV^{2}' P.kin.primary.W2 100 0 10 pcut_CleanTrack
+TH1F pkin_q2          '4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' P.kin.primary.Q2 400 0 20 pcut_CleanTrack
+TH1F pkin_q           '3-Momentum Transfer, |q|; |q| (GeV); Number of Entries / 0.050 GeV' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
+TH1F pkin_thq         '3-Momentum Transfer Angle w/ +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries / 0.5 deg' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
+TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries / 0.050 GeV' P.kin.primary.W 200 0 10 pcut_CleanTrack
+TH1F pkin_omega       'Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' P.kin.primary.omega 200 0 10 pcut_CleanTrack
+TH1F pkin_w2          'Invariant Mass W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.100 GeV^{2}' P.kin.primary.W2 100 0 10 pcut_CleanTrack
 
 
