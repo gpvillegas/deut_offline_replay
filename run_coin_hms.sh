@@ -60,7 +60,7 @@ runReportMon="./${reportMonDir}/reportSummary.py ${runNum} ${numEvents} ${spec} 
 openReportMon="emacs ${reportMonOutDir}/${reportMonFile}"  
 
 
-# What is base name of onlineGUI monitoring output.                                                                                                                                        
+# What is base name of onlineGUI monitoring output.                                                             
 outGUI="${spec}_coin_production_${runNum}"
 outGUIexpert="${spec}_coin_production_expert_${runNum}" 
 
@@ -85,8 +85,9 @@ latestMonRootFile="cafe_replay_${spec}50k_monitoring_latest.root"
 latestMonPdfFile="cafe_replay_${spec}50k_monitoring_latest.pdf" 
 
 # Where to put log.
-reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
-summaryFile="${reportFileDir}/summary_production_${runNum}_${numEvents}.txt"
+#reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
+reportFile="${reportFileDir}cafe_${spec}50k_${runNum}_${numEvents}.report"
+#summaryFile="${reportFileDir}/summary_production_${runNum}_${numEvents}.txt"
 
 # Replay out files
 replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEvents}.txt"
@@ -164,7 +165,7 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   #eval ${runReportMon}  
   #mv "${outFileMonitor}" "${reportMonOutDir}/${reportMonFile}" 
   #eval ${openReportMon}   
-
+  #eval "emacs ${reportFile}"
   sleep 2
                                                                                         
   echo ""                                                                                                                                                                           
