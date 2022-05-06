@@ -1,28 +1,33 @@
 #!/bin/bash
 
 
+echo"================================================="
+echo "For help on usage, type: ./cafe_setup.sh -help"
+echo"================================================="
 Help()
 {
     # Display Help
     echo "-------------------------------------------------------"
-    echo "This shell script sets up the necessary symbolic" 
+    echo "This shell script automatically sets up the necessary symbolic" 
     echo "links (or dir.) for the CaFe experiment based on which "
     echo "machine (ifarm, cdaq, local) the user is at."
     echo ""
-    echo "Syntax: ./cafe_setup.sh [-h|f]"
+    echo "Syntax: ./cafe_setup.sh [ -h | -f ]"
     echo ""
     echo "options:"
-    echo "help  Print this help display"
+    echo "-help    Print this help display"
     echo ""
-    echo "f     *ONLY* use this option if you are running this shell script on ifarm. "
+    echo "For users on IFARM: "
+    echo "-f    ONLY use this option if you are running this shell script on ifarm. "
     echo "      This option selects filesystem in in which to read/write data " 
     echo "      from the CaFe experiment. "
     echo ""
     echo "      The arguments are: test, volatile, work, group"
-    echo "      --> test: this option (default if no argument is provided) will set" 
+    echo "      test: this option (default if no argument is provided) will set" 
     echo "      up pre-determined raw/ ROOTfiles/ and REPORT_OUTPUT/ symbolic links "
     echo "      for testing the CaFe replay and analysis scripts using existing data."
-    echo "      --> volatile, work, group: these options will set symbolic links to the corresponding filesystem. "
+    echo ""
+    echo "      volatile, work, group: these options will set symbolic links to the corresponding filesystem. "
     echo "      You would want to set these options depending on which stage of the analysis you are in "
     echo "      for example, select volatile if you are in the beginning stages of off-line analysis."
     echo ""
@@ -46,9 +51,6 @@ set_hcana_link()
     fi    
 }
 
-#set cafe_replay.C symlink to facilitate data replays
-# C.Y. Later I will link the replay_cafe.C to shell scripts, for different studies.
-ln -sf SCRIPTS/COIN/PRODUCTION/replay_cafe.C
 
 # initialize machine flags to 0
 # (depending on where this script gets called, it will turn ON one of these)
@@ -182,10 +184,17 @@ if [[ ifarm_flg -eq 1 ]]; then
 	
     elif [[ $fsys == "test" ]]; then
 	echo 'Setting up test symlinks on ifarm for testing cafe replay scripts . . .'
-	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
-	raw_dir=$base_dir'/raw'
-	ROOTfiles_dir=$base_dir'/ROOTfiles'
-	REPORT_OUTPUT_dir=$base_dir'/REPORT_OUTPUT'
+	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/"
+	raw_dir=$base_dir'test_raw'  # this is read-only for users (since dir/ was created by cyero to put raw test files)
+
+	base_dir_user="${base_dir}test_output_${USER}/"
+	ROOTfiles_dir=${base_dir_user}"ROOTfiles"
+	REPORT_OUTPUT_dir=$base_dir_user"REPORT_OUTPUT"
+
+	mkdir $base_dir_user
+	mkdir $ROOTfiles_dir
+	mkdir $REPORT_OUTPUT_dir
+
 	unlink raw
 	ln -sf $raw_dir raw	
 	ln -sf $ROOTfiles_dir
@@ -193,23 +202,27 @@ if [[ ifarm_flg -eq 1 ]]; then
 
     elif [[ -z $fsys ]]; then
 	echo "No optional argumnet provided. Will default to setting up the symbolic links "
-	echo "	to the existing text_files/ directory for testing cafe replay scripts . . ."
+	echo "  to the user directory in volatile for testing cafe replay scripts . . ."
 	echo ""
 	echo "----------------------------------------------------------------------"
 	echo " For help using additional options, please run: ./cafe_setup.sh -help "
 	echo "----------------------------------------------------------------------"
 
-	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/test_files"
-	raw_dir=$base_dir"/raw"
-	ROOTfiles_dir=$base_dir"/ROOTfiles"
-	REPORT_OUTPUT_dir=$base_dir"/REPORT_OUTPUT"
+	base_dir="/lustre19/expphy/volatile/hallc/c-cafe-2022/"
+	raw_dir=$base_dir'test_raw'  # this is read-only for users (since dir/ was created by cyero to put raw test files)
+
+	base_dir_user="${base_dir}test_output_${USER}/"
+	ROOTfiles_dir=${base_dir_user}"ROOTfiles"
+	REPORT_OUTPUT_dir=$base_dir_user"REPORT_OUTPUT"
+
+	mkdir $base_dir_user
+	mkdir $ROOTfiles_dir
+	mkdir $REPORT_OUTPUT_dir
+
 	unlink raw
-	ln -sf $raw_dir
-	#ls -l raw
+	ln -sf $raw_dir raw	
 	ln -sf $ROOTfiles_dir
-	#ls -l ROOTfiles
 	ln -sf $REPORT_OUTPUT_dir
-	#ls -l REPORT_OUTPUT
 
 	
     fi
