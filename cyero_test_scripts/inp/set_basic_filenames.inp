@@ -1,8 +1,8 @@
-# Set Input File Name Pattern from replayed data
-input_ROOTfilePattern        = ROOTfiles/coin_replay_deep_check_%d_-1.root
-input_REPORTPattern          = REPORT_OUTPUT/replay_coin_deep_check_%d_-1.report
+# Set Input File Name Pattern from replayed data (same file pattern as set in replay_cafe.C script)
+input_ROOTfilePattern        = ROOTfiles/prod/cafe_replay_prod_%d_%d.root
+input_REPORTPattern          = REPORT_OUTPUT/prod/cafe_prod_%d_%d.report
 
 #Set User Analyzed Output File Name Pattern
-output_ROOTfilePattern       = OUTPUT/basic_histos_%d.root
-output_ROOTfilePattern_final = OUTPUT/basic_histos_final.root
-output_REPORTPattern         = OUTPUT/basic_report.txt
+output_ROOTfilePattern       = OUTPUT/cafe_prod_histos_%d_%d.root
+output_ROOTfilePattern_final = OUTPUT/cafe_prod_histos_final.root
+output_REPORTPattern         = OUTPUT/cafe_prod_report_%d_%d.txt

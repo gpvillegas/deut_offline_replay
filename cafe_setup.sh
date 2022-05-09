@@ -119,6 +119,9 @@ cache_analysis_out="/cache/hallc/c-cafe-2022/analysis/"
 #
 # =================================
 if [[ ifarm_flg -eq 1 ]]; then
+
+    # source cafe_online_replay
+    source setup.csh
     
     if [[ -z $fsys ]]; then
 	echo ""
@@ -239,6 +242,9 @@ if [[ cdaq_flg -eq 1 ]]; then
 
     echo "Checking if necessary directories or symlinks exist in remote machine: " ${USER}"@"${HOSTNAME}". . ."
 
+    # source cafe_online_replay
+    source setup.csh
+    
     # setup the symbolic links to hcana
     set_hcana_link
     
@@ -273,6 +279,8 @@ fi
 # assume user is local if NOT on cdaq or ifarm
 if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
 
+    # source cafe_online_replay (usually shell script on local machine)
+    source setup.sh
     
     # This function checks if necessary dir. exists, else it creates them 
     dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS")

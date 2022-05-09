@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string tgt_name="", string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
-  : run(irun), daq_mode(mode), e_arm_name(earm), analysis(ana_type), helicity_flag(hel_flag), tgt_type(tgt_name), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string tgt_name="", string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
 {
 
   cout << "Calling BaseConstructor " << endl;
@@ -468,12 +468,12 @@ void baseAnalyzer::ReadInputFile()
   
   //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
   temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputFileName = Form(temp.Data(),  run);
+  data_InputFileName = Form(temp.Data(),  run, evtNum);
 
 
   //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
   temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputReport = Form(temp.Data(), run);
+  data_InputReport = Form(temp.Data(), run, evtNum);
 
 
   //----------------------------------
@@ -658,7 +658,45 @@ void baseAnalyzer::ReadReport()
   cout << "Calling Base ReadReport() " << endl;
   
   string temp;
+  double temp_var;
 
+  // Read Target Mass
+  temp = FindString("Target_Mass_(amu)",  data_InputReport)[0];
+  temp_var = stod(split(temp, ':')[1]);
+
+  if(abs(temp_var-MH_amu)<=1e-6){
+    tgt_type = "LH2";
+  }
+  else if(abs(temp_var-MD_amu)<=1e-6){
+    tgt_type = "LD2";
+  }
+  else if(abs(temp_var-MBe9_amu)<=1e-6){
+    tgt_type = "Be9";
+  }
+  else if(abs(temp_var-MB10_amu)<=1e-6){
+    tgt_type = "B10";
+  }
+  else if(abs(temp_var-MB11_amu)<=1e-6){
+    tgt_type = "B11";
+  }
+  else if(abs(temp_var-MC12_amu)<=1e-6){
+    tgt_type = "C12";
+  }
+  else if(abs(temp_var-MCa40_amu)<=1e-6){
+    tgt_type = "Ca40";
+  }
+  else if(abs(temp_var-MCa48_amu)<=1e-6){
+    tgt_type = "Ca48";
+  }
+  else if(abs(temp_var-MFe54_amu)<=1e-6){
+    tgt_type = "Fe54";
+  }
+  else{
+    cout << "Mis-match (>1e-6 difference) . . . Check target mass is set correctly in standard.kinematics file !" << endl;
+    gSystem->Exit(0)
+      
+  }
+  
   //Read Pre-Scale Factors
   temp =  FindString("Ps1_factor", data_InputReport)[0]; 
   Ps1_factor = stod(split(temp, '=')[1]);
@@ -679,6 +717,7 @@ void baseAnalyzer::ReadReport()
   Ps6_factor = stod(split(temp, '=')[1]);
   
 
+  //Read Target Type
   
 }
 
@@ -2359,7 +2398,8 @@ void baseAnalyzer::ApplyWeight()
     tgtBoil_corr_err = sqrt( pow(avg_current_bcm_cut*LH2_slope_err ,2) + pow(LH2_slope*avg_current_bcm_cut_err ,2) )
     
   */
-  
+
+  /*
   //For now, assume that the BCM relative error is 2% (0.02)
   dIb_Ib = 0.02;  
 
@@ -2380,6 +2420,7 @@ void baseAnalyzer::ApplyWeight()
   //For now, assume no target boiling
   tgtBoil_corr = 1.;
   tgtBoil_corr_err = -1.0;
+  */
   
   /*
     Proton, Pion or Kaon absorption correction:
@@ -2414,8 +2455,9 @@ void baseAnalyzer::ApplyWeight()
   //Full Weight
   //FullWeight = 1. / (total_charge_bcm_cut * hTrkEff * pTrkEff * tLT_trig * tgtBoil_corr * hadAbs_corr);
 
-  //For testing purposes, only normalize by total charge
+  //For testing purposes and online experiment production (do not scale by charge on det. inefficieny)
   FullWeight = 1.; // / total_charge_bcm_cut;
+
   
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
 
@@ -2881,9 +2923,7 @@ void baseAnalyzer::run_data_analysis()
 {
   /*
     Brief:  This method call all the necessary methods to carry out the 
-    full data analysis. The main controls input parameters and cuts 
-    are located in: set_basic_cuts.inp. The file to set the histogram
-    bining is: set_basic_histos.inp. 
+    full data analysis. 
 
     This is supposed to be a generic baseAnalyzer class which analyzes data in
     a generic way. The analyzer assumes that all the calibrations from the data
@@ -2891,7 +2931,7 @@ void baseAnalyzer::run_data_analysis()
 
     Additional methods may be added in accordance with the necessity of the experiment.
     For example, methods to apply radiative corrections and get cross section still need 
-    to be added, as well as a methods to determine the helicity data for beam asymmetry analysis. 
+    to be added.
 
   */
 

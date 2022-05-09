@@ -2,12 +2,11 @@
 #include "baseAnalyzer.cpp"
 #include <iostream>
 
-void main_analysis(int     run       = 3289,       TString daq_mode      = "coin",
-		   TString e_arm     = "SHMS",   TString analysis_type = "data",
-		   Bool_t  hel_flag  = 0,        TString target        = "LD2",
-		   TString bcm_type  = "BCM4A",  double bcm_thrs       = 5,
-		   TString trig_type = "trig6",  Bool_t combine_runs   = 0
-		   
+void main_analysis(int     run           = 3289,   int evtNum           = 1000,
+		   TString daq_mode      = "coin", TString e_arm        = "SHMS",
+		   TString analysis_type = "data", Bool_t  hel_flag     = 0,
+		   TString bcm_type  = "BCM4A",  double bcm_thrs        = 5,
+		   TString trig_type = "trig6",  Bool_t combine_runs    = 0		   
 		   )
 { // argumnets to add: target, bcm_type, bcm_thrs, trig_type
 
@@ -26,27 +25,14 @@ void main_analysis(int     run       = 3289,       TString daq_mode      = "coin
 
     hel_flag: helicity flag (0 : FALSE,  1: TRUE) to either disable or enable helicity variables readout/analysis (defaults to 0)
     
-    target: liquid or solid targets: "C12" "LH2" or "LD2"  (can add more in accordance with experiment)
 	  
   */
 
   //----initialize baseAnalyzer (base class)----
-  baseAnalyzer ba(run, daq_mode.Data(), e_arm.Data(), analysis_type.Data(), hel_flag, target.Data(), bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
+  baseAnalyzer ba(run, evtNum, daq_mode.Data(), e_arm.Data(), analysis_type.Data(), hel_flag, bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
   ba.run_data_analysis();
 
-  /*
-  //-----------------------------------------
-  //Read MAIN CONTROLS parameter input file to get initialization parameters
-  //-----------------------------------------
-  TString run_list, analysis_type, electron_arm,  daq_mode;
-  Bool_t helicity_flag;
-  
-  run_list       = trim(split(FindString("run_list", "main_controls.inp")[0], '=')[1]);
-  analysis_type  = trim(split(FindString("analysis_type", "main_controls.inp")[0], '=')[1]);
-  electron_arm   = trim(split(FindString("electron_arm", "main_controls.inp")[0], '=')[1]);
-  daq_mode       = trim(split(FindString("daq_mode", "main_controls.inp")[0], '=')[1]);
-  helicity_flag  = stoi(split(FindString("helicity", "main_controls.inp")[0], '=')[1]);
-  */
+
 
 
   /*

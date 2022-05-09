@@ -1,8 +1,19 @@
 # COIN
 # Need to set htheta_lab to a NEGATIVE value
 # Need to set ptheta_lab to a POSITIVE value
+
+# CaFe TARGET MASS (amu) 
 # 1H   gtargmass_amu = 1.00794
+# 2H   gtargmass_amu = 2.014101
+# Be9  gtargmass_amu = 9.012182 
+# B10  gtargmass_amu = 10.0129370
+# B11  gtargmass_amu = 11.009306
 # 12C  gtargmass_amu = 12.0107
+# Ca40 gtargmass_amu = 39.962590863
+# Ca48 gtargmass_amu = 47.95252276
+# Fe54 gtargmass_amu = 53.9396147
+
+# do not use 27Al as target mass for dummy runs, we want to analyze as if it were LH2 or LD2
 # 27Al gtargmass_amu = 26.98  (Dummy target should be analyzed as 1H, since it is the background underneath)
 # ppartmass = 0.493677 for K+ physics production runs
 

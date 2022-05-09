@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string tgt_name="", string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -50,7 +50,30 @@ protected:
   //Set Constants
   const Double_t pi = TMath::Pi(); 
   const Double_t dtr = pi / 180.;
-  //Particle Masses (GeV/c^2)
+  const Double_t amu2GeV = 0.93149432;
+
+  // target mass (amu)
+  Double_t MH_amu     = 1.00794       ;
+  Double_t MD_amu     = 2.01410177812 ;
+  Double_t MBe9_amu   = 9.012182      ;
+  Double_t MB10_amu   = 10.0129370    ;
+  Double_t MB11_amu   = 11.009306     ;
+  Double_t MC12_amu   = 12.0107       ;
+  Double_t MCa40_amu  = 39.962590863  ;
+  Double_t MCa48_amu  = 47.95252276   ;
+  Double_t MFe54_amu  = 53.9396147    ;
+  // target mass (GeV)
+  Double_t MH     = MH_amu    * amu2GeV;
+  Double_t MD     = MD_amu    * amu2GeV;
+  Double_t MBe9   = MBe9_amu  * amu2GeV;
+  Double_t MB10   = MB10_amu  * amu2GeV;
+  Double_t MB11   = MB11_amu  * amu2GeV;
+  Double_t MC12   = MC12_amu  * amu2GeV;
+  Double_t MCa40  = MCa40_amu * amu2GeV;
+  Double_t MCa48  = MCa48_amu * amu2GeV;
+  Double_t MFe54  = MFe54_amu * amu2GeV;
+  
+  //detected particle masses (GeV/c^2)
   const Double_t me = 0.000510998950;  //electron Mass
   const Double_t MP = 0.938272;  //Proton Mass
   const Double_t MN = 0.939565;  //Neutron Mass
@@ -61,18 +84,24 @@ protected:
   
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
-  int run;
+  int run;          // run number
+  int evtNum;       // number of events replayed (by the input ROOTfile)
   TString daq_mode;   //"coin" or "singles"
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
   TString analysis;    // analyze data or simulation? : "data" or "simc"
   Bool_t helicity_flag;     //helicity flag
-  TString tgt_type;        // target type: "LH2", "LD2", . . .
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
   TString trig_type;      // trigger type to actually use when calculating live tim
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
 
+
+  // Read in general info from REPORT file 
+
+  // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )
+  TString tgt_type;
+  
   
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;

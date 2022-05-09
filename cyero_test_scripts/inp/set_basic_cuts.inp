@@ -39,11 +39,11 @@ c_pdc_ntrk_min = 1
 # should (cuts MUST NOT be track-biased)
 pScinGood_cut_flag = 1
 
-pngcer_cut_flag = 0
+pngcer_cut_flag = 1
 c_pngcer_npeSum_min = 0.5
 c_pngcer_npeSum_max = 100.
 
-phgcer_cut_flag = 1
+phgcer_cut_flag = 0
 c_phgcer_npeSum_min = 0.
 c_phgcer_npeSum_max = 1.5
 
