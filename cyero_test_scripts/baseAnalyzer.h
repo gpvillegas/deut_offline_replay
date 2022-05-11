@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -36,6 +36,7 @@ public:
   void ApplyWeight();
   void WriteHist();
   void WriteReport();
+  void WriteReportSummary();
   void CombineHistos();
   
   //void CalcRadCorr(); 
@@ -121,7 +122,7 @@ protected:
 
   //Input ROOTfile Name (to be read)
   TString data_InputFileName;
-  string data_InputReport;
+  TString data_InputReport;
 
   
   //Output ROOTfile Name
@@ -139,6 +140,7 @@ protected:
 
   ///Output .txt filenames
   TString report_OutputFileName;
+  TString report_CaFeOutputFileName;
 
   //FileStreams objects to READ/WRITE to a .txt file
   ofstream out_file;

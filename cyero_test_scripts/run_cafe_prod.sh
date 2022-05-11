@@ -11,6 +11,11 @@
 runNum=$1         # run number of the input file being read in
 evtNum=$2         # evt number of the input file being read in
 
+if [ -z "$2" ]; then
+   echo "No event number was specified. Defaulting to replaying all events."
+   evtNum=-1
+fi
+   
 daq_mode="coin"
 e_arm="SHMS"
 analysis_type="data"

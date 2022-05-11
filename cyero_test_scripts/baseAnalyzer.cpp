@@ -10,10 +10,10 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string tgt_name="", string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
   : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
 {
-
+  
   cout << "Calling BaseConstructor " << endl;
   
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)
@@ -470,28 +470,49 @@ void baseAnalyzer::ReadInputFile()
   temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
   data_InputFileName = Form(temp.Data(),  run, evtNum);
 
-
+  //Check if ROOTfile exists
+  in_file.open(data_InputFileName.Data());
+  cout << "in_file.fail() --> " << in_file.fail() << endl;
+  if(in_file.fail()){
+    cout << Form("ROOTFile: %s does NOT exist ! ! !", data_InputFileName.Data()) << endl;
+    cout << "Exiting NOW !" << endl;
+    gSystem->Exit(0);
+  }  
+  in_file.close();
+  
   //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
   temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
   data_InputReport = Form(temp.Data(), run, evtNum);
 
-
+  //Check if REPORTFile exists
+  in_file.open(data_InputReport.Data());
+  cout << "in_file.fail() --> " << in_file.fail() << endl;
+  if(in_file.fail()){
+    cout << Form("REPORTFile: %s does NOT exist ! ! !", data_InputReport.Data()) << endl;
+    cout << "Exiting NOW !" << endl;
+    gSystem->Exit(0);
+  }
+  in_file.close();
+  
   //----------------------------------
   //----OUTPUTS (USER WRITES OUT)-----
   //----------------------------------
 
   //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName = Form(temp.Data(), run);
+  data_OutputFileName = Form(temp.Data(), run, evtNum);
 
   //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
   data_OutputFileName_combined = temp.Data();
 
-  //Define Output (.txt) File Name Pattern (analysis report is written to this file)
+  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
   temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
   report_OutputFileName = temp.Data();
 
+  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
+  temp = trim(split(FindString("output_CaFe_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+  report_CaFeOutputFileName = Form(temp.Data(), run, evtNum);
 
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
@@ -661,60 +682,70 @@ void baseAnalyzer::ReadReport()
   double temp_var;
 
   // Read Target Mass
-  temp = FindString("Target_Mass_(amu)",  data_InputReport)[0];
+  temp = FindString("Target_Mass_amu",  data_InputReport.Data())[0];
   temp_var = stod(split(temp, ':')[1]);
 
+  
   if(abs(temp_var-MH_amu)<=1e-6){
     tgt_type = "LH2";
   }
+  
   else if(abs(temp_var-MD_amu)<=1e-6){
     tgt_type = "LD2";
   }
+  
   else if(abs(temp_var-MBe9_amu)<=1e-6){
     tgt_type = "Be9";
   }
+  
   else if(abs(temp_var-MB10_amu)<=1e-6){
     tgt_type = "B10";
   }
+  
   else if(abs(temp_var-MB11_amu)<=1e-6){
     tgt_type = "B11";
   }
+ 
   else if(abs(temp_var-MC12_amu)<=1e-6){
     tgt_type = "C12";
   }
+
   else if(abs(temp_var-MCa40_amu)<=1e-6){
     tgt_type = "Ca40";
   }
+
   else if(abs(temp_var-MCa48_amu)<=1e-6){
     tgt_type = "Ca48";
   }
+
   else if(abs(temp_var-MFe54_amu)<=1e-6){
     tgt_type = "Fe54";
   }
+  
   else{
-    cout << "Mis-match (>1e-6 difference) . . . Check target mass is set correctly in standard.kinematics file !" << endl;
-    gSystem->Exit(0)
-      
+    cout << "Target mass (amu) mis-match of >1e-6 between this script and standard.kinematics . . . Check target mass is set correctly in standard.kinematics file !" << endl;
+    gSystem->Exit(0);
+    
   }
   
   //Read Pre-Scale Factors
-  temp =  FindString("Ps1_factor", data_InputReport)[0]; 
-  Ps1_factor = stod(split(temp, '=')[1]);
+  temp =  FindString("Ps1_factor", data_InputReport.Data())[0]; 
+  Ps1_factor = stod(split(temp, ':')[1]);
 
-  temp =  FindString("Ps2_factor", data_InputReport)[0]; 
-  Ps2_factor = stod(split(temp, '=')[1]);
+  temp =  FindString("Ps2_factor", data_InputReport.Data())[0]; 
+  Ps2_factor = stod(split(temp, ':')[1]);
+
+  temp =  FindString("Ps3_factor", data_InputReport.Data())[0]; 
+  Ps3_factor = stod(split(temp, ':')[1]);
   
-  temp =  FindString("Ps3_factor", data_InputReport)[0]; 
-  Ps3_factor = stod(split(temp, '=')[1]);
+  temp =  FindString("Ps4_factor", data_InputReport.Data())[0]; 
+  Ps4_factor = stod(split(temp, ':')[1]);
+ 
+  temp =  FindString("Ps5_factor", data_InputReport.Data())[0]; 
+  Ps5_factor = stod(split(temp, ':')[1]);
   
-  temp =  FindString("Ps4_factor", data_InputReport)[0]; 
-  Ps4_factor = stod(split(temp, '=')[1]);
-  
-  temp =  FindString("Ps5_factor", data_InputReport)[0]; 
-  Ps5_factor = stod(split(temp, '=')[1]);
-  
-  temp =  FindString("Ps6_factor", data_InputReport)[0]; 
-  Ps6_factor = stod(split(temp, '=')[1]);
+  temp =  FindString("Ps6_factor", data_InputReport.Data())[0]; 
+  Ps6_factor = stod(split(temp, ':')[1]);
   
 
   //Read Target Type
@@ -731,7 +762,7 @@ void baseAnalyzer::SetHistBins()
   //=======================================
   //     DETECTOR HISTOGRAMS BINNING
   //=======================================
-  
+
   //-------Coincidence-------
   coin_nbins = stod(split(FindString("coin_nbins",    input_HBinFileName.Data())[0], '=')[1]);
   coin_xmin = stod(split(FindString("coin_xmin",      input_HBinFileName.Data())[0], '=')[1]);
@@ -932,6 +963,7 @@ void baseAnalyzer::SetHistBins()
   MandelU_xmax 	 = stod(split(FindString("MandelU_xmax",  	input_HBinFileName.Data())[0], '=')[1]);
 
 
+
     
   //Kinematics Defined in HCANA (which are not in primary/secondary modules)
   kf_nbins	= stod(split(FindString("kf_nbins",  	input_HBinFileName.Data())[0], '=')[1]);   //final electron momentum
@@ -1027,10 +1059,11 @@ void baseAnalyzer::SetHistBins()
 
   //----Target Quantities----
   //(Use same binning for hadron/electron reconstructed at target)
+  
   tarx_nbins	= stod(split(FindString("tarx_nbins",  input_HBinFileName.Data())[0], '=')[1]);
   tarx_xmin 	= stod(split(FindString("tarx_xmin",  input_HBinFileName.Data())[0], '=')[1]);
   tarx_xmax 	= stod(split(FindString("tarx_xmax",  input_HBinFileName.Data())[0], '=')[1]);
-            				           
+  
   tary_nbins	= stod(split(FindString("tary_nbins",  input_HBinFileName.Data())[0], '=')[1]);
   tary_xmin 	= stod(split(FindString("tary_xmin",  input_HBinFileName.Data())[0], '=')[1]);
   tary_xmax 	= stod(split(FindString("tary_xmax",  input_HBinFileName.Data())[0], '=')[1]);
@@ -1043,7 +1076,7 @@ void baseAnalyzer::SetHistBins()
   ztar_diff_xmin 	= stod(split(FindString("ztar_diff_xmin",  input_HBinFileName.Data())[0], '=')[1]);
   ztar_diff_xmax 	= stod(split(FindString("ztar_diff_xmax",  input_HBinFileName.Data())[0], '=')[1]);
 
-  
+
   //----Collimator Quantities----
   hXColl_nbins	= stod(split(FindString("hXColl_nbins",  input_HBinFileName.Data())[0], '=')[1]);
   hXColl_xmin 	= stod(split(FindString("hXColl_xmin",  input_HBinFileName.Data())[0], '=')[1]);  
@@ -1092,28 +1125,28 @@ void baseAnalyzer::CreateHist()
   //--------------------------------------------------------------------
   
   //Coincidence HISTOS
-  H_ep_ctime   = new TH1F("H_ep_ctime", "ep Coincidence Time; ep Coincidence Time [ns]; Counts / mC", coin_nbins, coin_xmin, coin_xmax);
+  H_ep_ctime   = new TH1F("H_ep_ctime", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
   
-  H_eK_ctime   = new TH1F("H_eK_ctime", "eK Coincidence Time; eK Coincidence Time [ns]; Counts / mC", coin_nbins, coin_xmin, coin_xmax);
-  H_ePi_ctime  = new TH1F("H_ePi_ctime", "e#pi Coincidence Time; e#pi Coincidence Time [ns]; Counts / mC", coin_nbins, coin_xmin, coin_xmax);
+  H_eK_ctime   = new TH1F("H_eK_ctime", "eK Coincidence Time; eK Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_ePi_ctime  = new TH1F("H_ePi_ctime", "e#pi Coincidence Time; e#pi Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
     
   //HMS DETECTORS HISTOS
-  H_hCerNpeSum      = new TH1F("H_hCerNpeSum", "HMS Cherenkov NPE Sum; Cherenkov NPE Sum; Counts / mC", hcer_nbins, hcer_xmin, hcer_xmax);
-  H_hCalEtotNorm    = new TH1F("H_hCalEtotNorm", "HMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts / mC", hcal_nbins, hcal_xmin, hcal_xmax);
-  H_hCalEtotTrkNorm = new TH1F("H_hCalEtotTrkNorm", "HMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts / mC", hcal_nbins, hcal_xmin, hcal_xmax);
-  H_hHodBetaNtrk    = new TH1F("H_hHodBetaNtrk", "HMS Hodo #beta (no track); #beta (no track); Counts / mC", hbeta_nbins, hbeta_xmin, hbeta_xmax);
-  H_hHodBetaTrk     = new TH1F("H_hHodBetaTrk", "HMS Hodo #beta (golden track); #beta (golden track); Counts / mC", hbeta_nbins, hbeta_xmin, hbeta_xmax);
+  H_hCerNpeSum      = new TH1F("H_hCerNpeSum", "HMS Cherenkov NPE Sum; Cherenkov NPE Sum; Counts ", hcer_nbins, hcer_xmin, hcer_xmax);
+  H_hCalEtotNorm    = new TH1F("H_hCalEtotNorm", "HMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts ", hcal_nbins, hcal_xmin, hcal_xmax);
+  H_hCalEtotTrkNorm = new TH1F("H_hCalEtotTrkNorm", "HMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts ", hcal_nbins, hcal_xmin, hcal_xmax);
+  H_hHodBetaNtrk    = new TH1F("H_hHodBetaNtrk", "HMS Hodo #beta (no track); #beta (no track); Counts ", hbeta_nbins, hbeta_xmin, hbeta_xmax);
+  H_hHodBetaTrk     = new TH1F("H_hHodBetaTrk", "HMS Hodo #beta (golden track); #beta (golden track); Counts ", hbeta_nbins, hbeta_xmin, hbeta_xmax);
   
   //SHMS DETECTORS HISTOS
-  H_pNGCerNpeSum    = new TH1F("H_pNGCerNpeSum", "SHMS Noble Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts / mC ", pngcer_nbins, pngcer_xmin, pngcer_xmax);
-  H_pHGCerNpeSum    = new TH1F("H_pHGCerNpeSum", "SHMS Heavy Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts / mC ", phgcer_nbins, phgcer_xmin, phgcer_xmax);
-  H_pAeroNpeSum     = new TH1F("H_pAeroNpeSum", "SHMS Aerogel NPE Sum; Aerogel NPE Sum; Counts / mC ", paero_nbins, paero_xmin, paero_xmax);
-  H_pCalEtotNorm    = new TH1F("H_pCalEtotNorm", "SHMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts / mC", pcal_nbins, pcal_xmin, pcal_xmax);
-  H_pCalEtotTrkNorm = new TH1F("H_pCalEtotTrkNorm", "SHMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts / mC", pcal_nbins, pcal_xmin, pcal_xmax);
-  H_pHodBetaNtrk    = new TH1F("H_pBetaNtrk", "SHMS Hodo #beta (no track); #beta (no track); Counts / mC", pbeta_nbins, pbeta_xmin, pbeta_xmax);
-  H_pHodBetaTrk     = new TH1F("H_pBetaTrk", "SHMS Hodo #beta (golden track); #beta (golden track); Counts / mC", pbeta_nbins, pbeta_xmin, pbeta_xmax);
+  H_pNGCerNpeSum    = new TH1F("H_pNGCerNpeSum", "SHMS Noble Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts  ", pngcer_nbins, pngcer_xmin, pngcer_xmax);
+  H_pHGCerNpeSum    = new TH1F("H_pHGCerNpeSum", "SHMS Heavy Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts  ", phgcer_nbins, phgcer_xmin, phgcer_xmax);
+  H_pAeroNpeSum     = new TH1F("H_pAeroNpeSum", "SHMS Aerogel NPE Sum; Aerogel NPE Sum; Counts  ", paero_nbins, paero_xmin, paero_xmax);
+  H_pCalEtotNorm    = new TH1F("H_pCalEtotNorm", "SHMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts ", pcal_nbins, pcal_xmin, pcal_xmax);
+  H_pCalEtotTrkNorm = new TH1F("H_pCalEtotTrkNorm", "SHMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts ", pcal_nbins, pcal_xmin, pcal_xmax);
+  H_pHodBetaNtrk    = new TH1F("H_pBetaNtrk", "SHMS Hodo #beta (no track); #beta (no track); Counts ", pbeta_nbins, pbeta_xmin, pbeta_xmax);
+  H_pHodBetaTrk     = new TH1F("H_pBetaTrk", "SHMS Hodo #beta (golden track); #beta (golden track); Counts ", pbeta_nbins, pbeta_xmin, pbeta_xmax);
 
   //HMS 2D PID               
   H_hcal_vs_hcer     = new TH2F("H_hcal_vs_hcer", "HMS: Calorimeter vs. Cherenkov; Calorimeter E_{tot}/P_{trk}; Cherenkov NPE Sum", hcal_nbins, hcal_xmin, hcal_xmax, hcer_nbins, hcer_xmin, hcer_xmax);     
@@ -1301,46 +1334,46 @@ void baseAnalyzer::CreateHist()
 
 
   //Electron Arm Focal Plane Quantities
-  H_exfp = new TH1F("H_exfp", Form("%s X_{fp}; X_{fp} [cm]; Counts / mC", e_arm_name.Data()), exfp_nbins, exfp_xmin, exfp_xmax);
-  H_eyfp = new TH1F("H_eyfp", Form("%s Y_{fp}; Y_{fp} [cm]; Counts / mC", e_arm_name.Data()), eyfp_nbins, eyfp_xmin, eyfp_xmax);
-  H_expfp = new TH1F("H_expfp", Form("%s X'_{fp}; X'_{fp} [rad]; Counts / mC", e_arm_name.Data()), expfp_nbins, expfp_xmin, expfp_xmax);
-  H_eypfp = new TH1F("H_eypfp", Form("%s Y'_{fp}; Y'_{fp} [rad]; Counts / mC", e_arm_name.Data()), eypfp_nbins, eypfp_xmin, eypfp_xmax);
+  H_exfp = new TH1F("H_exfp", Form("%s X_{fp}; X_{fp} [cm]; Counts ", e_arm_name.Data()), exfp_nbins, exfp_xmin, exfp_xmax);
+  H_eyfp = new TH1F("H_eyfp", Form("%s Y_{fp}; Y_{fp} [cm]; Counts ", e_arm_name.Data()), eyfp_nbins, eyfp_xmin, eyfp_xmax);
+  H_expfp = new TH1F("H_expfp", Form("%s X'_{fp}; X'_{fp} [rad]; Counts ", e_arm_name.Data()), expfp_nbins, expfp_xmin, expfp_xmax);
+  H_eypfp = new TH1F("H_eypfp", Form("%s Y'_{fp}; Y'_{fp} [rad]; Counts ", e_arm_name.Data()), eypfp_nbins, eypfp_xmin, eypfp_xmax);
   
   //Electron Arm Reconstructed Quantities 
-  H_eytar = new TH1F("H_eytar", Form("%s Y_{tar}; Y_{tar} [cm]; Counts / mC", e_arm_name.Data()), eytar_nbins, eytar_xmin, eytar_xmax);
-  H_exptar = new TH1F("H_exptar", Form("%s X'_{tar}; X'_{tar} [rad]; Counts / mC", e_arm_name.Data()), exptar_nbins, exptar_xmin, exptar_xmax);
-  H_eyptar = new TH1F("H_eyptar", Form("%s Y'_{tar}; Y'_{tar} [rad]; Counts / mC", e_arm_name.Data()), eyptar_nbins, eyptar_xmin, eyptar_xmax);
-  H_edelta = new TH1F("H_edelta", Form("%s Momentum Acceptance, #delta; #delta [%%]; Counts / mC", e_arm_name.Data()), edelta_nbins, edelta_xmin, edelta_xmax);
+  H_eytar = new TH1F("H_eytar", Form("%s Y_{tar}; Y_{tar} [cm]; Counts ", e_arm_name.Data()), eytar_nbins, eytar_xmin, eytar_xmax);
+  H_exptar = new TH1F("H_exptar", Form("%s X'_{tar}; X'_{tar} [rad]; Counts ", e_arm_name.Data()), exptar_nbins, exptar_xmin, exptar_xmax);
+  H_eyptar = new TH1F("H_eyptar", Form("%s Y'_{tar}; Y'_{tar} [rad]; Counts ", e_arm_name.Data()), eyptar_nbins, eyptar_xmin, eyptar_xmax);
+  H_edelta = new TH1F("H_edelta", Form("%s Momentum Acceptance, #delta; #delta [%%]; Counts ", e_arm_name.Data()), edelta_nbins, edelta_xmin, edelta_xmax);
   
   //Hadron arm Focal Plane Quantities
-  H_hxfp = new TH1F("H_hxfp", Form("%s  X_{fp}; X_{fp} [cm]; Counts / mC", h_arm_name.Data()), hxfp_nbins, hxfp_xmin, hxfp_xmax);
-  H_hyfp = new TH1F("H_hyfp", Form("%s  Y_{fp}; Y_{fp} [cm]; Counts / mC", h_arm_name.Data()), hyfp_nbins, hyfp_xmin, hyfp_xmax);
-  H_hxpfp = new TH1F("H_hxpfp", Form("%s  X'_{fp}; X'_{fp} [rad]; Counts / mC", h_arm_name.Data()), hxpfp_nbins, hxpfp_xmin, hxpfp_xmax );
-  H_hypfp = new TH1F("H_hypfp", Form("%s  Y'_{fp}; Y'_{fp} [rad]; Counts / mC", h_arm_name.Data()), hypfp_nbins, hypfp_xmin, hypfp_xmax);
+  H_hxfp = new TH1F("H_hxfp", Form("%s  X_{fp}; X_{fp} [cm]; Counts ", h_arm_name.Data()), hxfp_nbins, hxfp_xmin, hxfp_xmax);
+  H_hyfp = new TH1F("H_hyfp", Form("%s  Y_{fp}; Y_{fp} [cm]; Counts ", h_arm_name.Data()), hyfp_nbins, hyfp_xmin, hyfp_xmax);
+  H_hxpfp = new TH1F("H_hxpfp", Form("%s  X'_{fp}; X'_{fp} [rad]; Counts ", h_arm_name.Data()), hxpfp_nbins, hxpfp_xmin, hxpfp_xmax );
+  H_hypfp = new TH1F("H_hypfp", Form("%s  Y'_{fp}; Y'_{fp} [rad]; Counts ", h_arm_name.Data()), hypfp_nbins, hypfp_xmin, hypfp_xmax);
 
   //Hadron arm Reconstructed Quantities 
-  H_hytar = new TH1F("H_hytar", Form("%s  Y_{tar}; Y_{tar} [cm]; Counts / mC", h_arm_name.Data()), hytar_nbins, hytar_xmin, hytar_xmax);
-  H_hxptar = new TH1F("H_hxptar", Form("%s  X'_{tar}; X'_{tar} [rad]; Counts / mC", h_arm_name.Data()), hxptar_nbins, hxptar_xmin, hxptar_xmax);
-  H_hyptar = new TH1F("H_hyptar", Form("%s  Y'_{tar}; Y'_{tar} [rad]; Counts / mC", h_arm_name.Data()), hyptar_nbins, hyptar_xmin, hyptar_xmax );
-  H_hdelta = new TH1F("H_hdelta", Form("%s  Momentum Acceptance, #delta; #delta [%%]; Counts / mC", h_arm_name.Data()), hdelta_nbins, hdelta_xmin, hdelta_xmax);
+  H_hytar = new TH1F("H_hytar", Form("%s  Y_{tar}; Y_{tar} [cm]; Counts ", h_arm_name.Data()), hytar_nbins, hytar_xmin, hytar_xmax);
+  H_hxptar = new TH1F("H_hxptar", Form("%s  X'_{tar}; X'_{tar} [rad]; Counts ", h_arm_name.Data()), hxptar_nbins, hxptar_xmin, hxptar_xmax);
+  H_hyptar = new TH1F("H_hyptar", Form("%s  Y'_{tar}; Y'_{tar} [rad]; Counts ", h_arm_name.Data()), hyptar_nbins, hyptar_xmin, hyptar_xmax );
+  H_hdelta = new TH1F("H_hdelta", Form("%s  Momentum Acceptance, #delta; #delta [%%]; Counts ", h_arm_name.Data()), hdelta_nbins, hdelta_xmin, hdelta_xmax);
   
 
   //Target Reconstruction (Hall Coord. System) 
-  H_htar_x = new TH1F("H_htar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts / mC", h_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
-  H_htar_y = new TH1F("H_htar_y", Form("%s y_Target (Lab); y-Target [cm]; Counts / mC", h_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
-  H_htar_z = new TH1F("H_htar_z", Form("%s z_Target (Lab); z-Target [cm]; Counts / mC", h_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
-  H_etar_x = new TH1F("H_etar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts / mC", e_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
-  H_etar_y = new TH1F("H_etar_y", Form("%s y-Target (Lab); y-Target [cm]; Counts / mC", e_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
-  H_etar_z = new TH1F("H_etar_z", Form("%s z-Target (Lab); z-Target [cm]; Counts / mC", e_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
+  H_htar_x = new TH1F("H_htar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts ", h_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_htar_y = new TH1F("H_htar_y", Form("%s y_Target (Lab); y-Target [cm]; Counts ", h_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_htar_z = new TH1F("H_htar_z", Form("%s z_Target (Lab); z-Target [cm]; Counts ", h_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
+  H_etar_x = new TH1F("H_etar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts ", e_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_etar_y = new TH1F("H_etar_y", Form("%s y-Target (Lab); y-Target [cm]; Counts ", e_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_etar_z = new TH1F("H_etar_z", Form("%s z-Target (Lab); z-Target [cm]; Counts ", e_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
 
   //difference in reaction vertex z (user-defined)
-  H_ztar_diff = new TH1F("H_ztar_diff", "Ztar Difference; z-Target Difference [cm]; Counts / mC", ztar_diff_nbins, ztar_diff_xmin, ztar_diff_xmax);
+  H_ztar_diff = new TH1F("H_ztar_diff", "Ztar Difference; z-Target Difference [cm]; Counts ", ztar_diff_nbins, ztar_diff_xmin, ztar_diff_xmax);
 
   //HMS / SHMS Collimator
-  H_hXColl = new TH1F("H_hXColl", Form("%s X Collimator; X-Collimator [cm]; Counts / mC", h_arm_name.Data()), hXColl_nbins, hXColl_xmin, hXColl_xmax);
-  H_hYColl = new TH1F("H_hYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts / mC", h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax); 
-  H_eXColl = new TH1F("H_eXColl", Form("%s X Collimator; X-Collimator [cm]; Counts / mC", e_arm_name.Data()), eXColl_nbins, eXColl_xmin, eXColl_xmax);                                                                             
-  H_eYColl = new TH1F("H_eYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts / mC", e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax);        
+  H_hXColl = new TH1F("H_hXColl", Form("%s X Collimator; X-Collimator [cm]; Counts ", h_arm_name.Data()), hXColl_nbins, hXColl_xmin, hXColl_xmax);
+  H_hYColl = new TH1F("H_hYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts ", h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax); 
+  H_eXColl = new TH1F("H_eXColl", Form("%s X Collimator; X-Collimator [cm]; Counts ", e_arm_name.Data()), eXColl_nbins, eXColl_xmin, eXColl_xmax);                                                                             
+  H_eYColl = new TH1F("H_eYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts ", e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax);        
 
   //2D Collimator Histos
   H_hXColl_vs_hYColl = new TH2F("H_hXColl_vs_hYColl", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
@@ -2652,21 +2685,83 @@ void baseAnalyzer::WriteHist()
 
   
 }
-
 //_______________________________________________________________________________
 void baseAnalyzer::WriteReport()
 {
   
-  /*Method to write charge, efficiencies, live time and other relevant quantities to a data file*/
+  /*  Method to write charge, efficiencies, live time and other relevant quantities to a data file
+      on a run-by-run basis, meaning, each run that a report is written separately for each run.
+   */
   
   cout << "Calling WriteReport() . . ." << endl;
+  if(analysis=="data"){
+
+    //Check if file already exists
+    in_file.open(report_CaFeOutputFileName.Data());
+
+    if(!in_file.fail()){
+
+      cout << "Report File for run %d exists, will overwrite it . . . " << endl;
+
+    }
+    
+    else if(in_file.fail()){
+      
+      cout << "Report File does NOT exist, will create one . . . " << endl;
+      
+      out_file.open(report_CaFeOutputFileName);
+      out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
+      out_file << "#                                     " << endl;
+      out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
+      out_file << Form("DAQ_Run_Length: %.3f [sec]         ",  total_time_bcm_cut) << endl;
+      out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
+      out_file << "" << endl;
+      out_file << "# Pre-Scale Factors " << endl;
+      out_file << "Ps1_factor = " << Ps1_factor << endl;
+      out_file << "Ps2_factor = " << Ps2_factor << endl;
+      out_file << "Ps3_factor = " << Ps3_factor << endl;
+      out_file << "Ps4_factor = " << Ps4_factor << endl;
+      out_file << "Ps5_factor = " << Ps5_factor << endl;
+      out_file << "Ps6_factor = " << Ps6_factor << endl;	    
+      out_file << "" << endl;
+      out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
+      out_file << Form("%s_Average_Current: %.3f [uA] ", avg_current_bcm_cut ) << endl;
+      out_file << Form("%s_Charge: %.3f [MC] ", total_charge_bcm_cut ) << endl;
+      out_file << "" << endl;
+      out_file << "# CaFe Kinematics Optimized for Mean-Field (MF) " << endl;  // or SRC, depends on user input
+      out_file << "Events_Replayed: " << endl;
+      out_file << "MF_Events_Passed:" << endl;
+      out_file << "SRC_Events_Passed:" << endl;
+      out_file << "" << endl;
+      out_file << "" << endl;
+      out_file << "" << endl;
+
+      
+    }
+
+    // CLOSE files
+    out_file.close();
+    in_file.close();
+      
+  }
+  
+}
+
+//_______________________________________________________________________________
+void baseAnalyzer::WriteReportSummary()
+{
+  
+  /*Method to write charge, efficiencies, live time and other relevant quantities to a data file
+    on a run-by-run basis, and self-updating file, meaning, each run that is replayed will be appended into the file.    
+   */
+  
+  cout << "Calling WriteReportSummary() . . ." << endl;
 
   
   if(analysis=="data"){
 
     //---------------------------------------------------------
 
-    //Choose which trigger is relevatn
     
     //Check if file already exists
     in_file.open(report_OutputFileName.Data());
@@ -2724,7 +2819,7 @@ void baseAnalyzer::WriteReport()
     out_file.close();
   }
   
-  cout << "Ending WriteReport() . . ." << endl;
+  cout << "Ending WriteReportSummary() . . ." << endl;
   
 } //End WriteReport()
 
@@ -2935,6 +3030,7 @@ void baseAnalyzer::run_data_analysis()
 
   */
 
+ 
   //------------------
   ReadInputFile();
   ReadReport();
@@ -2952,8 +3048,9 @@ void baseAnalyzer::run_data_analysis()
 
   WriteHist();
   WriteReport();
+  //WriteReportSummary();
   CombineHistos();
-
+  
   //------------------
   
 }

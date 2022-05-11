@@ -1,0 +1,19 @@
+#-------------------------------------
+#        Data Analysis Summary        
+#-------------------------------------
+#                                     
+# BCM4A  | Beam Current Threshold: > 5.00 uA 
+#                                     
+# DAQ Mode: coin | Trigger: trig6              
+# electron arm: SHMS                        
+#                                              
+#---PID Cuts--- 
+#                                     
+#---Kinematics Cuts--- 
+#                                     
+#---Acceptance Cuts--- 
+#                       
+# Units: charge [mC] | currnet [uA] | rates [kHz] |  efficiencies [fractional form]                       
+#                       
+#! Run[i,0]/             charge[f,1]/        avg_current[f,2]/            hTrkEff[f,3]/        hTrkEff_err[f,4]/            pTrkEff[f,5]/        pTrkEff_err[f,6]/    tgt_boil_factor[f,7]/      tgt_boil_factor_err[f,8]      hadAbs_factor[f,9]/      hadAbs_factor_err[f,10]/             cpuLT[f,11]/      cpuLT_err_Bi[f,12]/     cpuLT_err_Bay[f,13]/               tLT[f,14]/        tLT_err_Bi[f,15]/       tLT_err_Bay[f,16]/          S1X_rate[f,17]/         trig_rate[f,18]/         edtm_rate[f,19]/         Pre_Scale[f,20]/         edtm_accp[f,21]/       edtm_scaler[f,22]/         trig_accp[f,23]/       trig_scaler[f,24]/
+   3288                  25.1037                  51.9044                      nan                      nan                 0.816931                0.0139185             6.94846e-310              6.9516e-310                        1                        1                 0.983554              0.000573428              0.000573747                 0.929014               0.00674159               0.00676044                  785.578                  0.10171               0.00300009                        1                     1348                     1451                    48383                    49192

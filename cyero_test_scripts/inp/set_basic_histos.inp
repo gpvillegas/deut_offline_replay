@@ -367,18 +367,21 @@ hdelta_xmax =  30.
 #----Target Quantities----
 #-------------------------
 #(Use same binning for hadron/electron reconstructed at target)
-xtar_nbins = 100
-xtar_xmin = -1.
-xtar_xmax = 1.
+tarx_nbins = 100
+tarx_xmin = -1.
+tarx_xmax = 1.
 
-ytar_nbins = 100
-ytar_xmin = -1.
-ytar_xmax = 1.
+tary_nbins = 100
+tary_xmin = -1.
+tary_xmax = 1.
 
-# Binning also used for 'H_ztar_diff' hist
-ztar_nbins = 100
-ztar_xmin = -10.
-ztar_xmax = 10.
+tarz_nbins = 100
+tarz_xmin = -10.
+tarz_xmax = 10.
+
+ztar_diff_nbins = 100
+ztar_diff_xmin = -10.
+ztar_diff_xmax = 10.
 
 #-----------------------------
 #----Collimator Quantities----
