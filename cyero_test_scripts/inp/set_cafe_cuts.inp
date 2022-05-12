@@ -79,6 +79,16 @@ c_pBetaNtrk_max = 1.5
 #---------DATA/SIMC ANALYSIS CUTS----------
 
 #------PID Cuts------
+#electron-Kaon coincidence time cut
+eKctime_pidCut_flag = 0
+cpid_eKctime_min = 10.5
+cpid_eKctime_max = 14.5
+
+#electron-Pion coincidence time cut
+ePictime_pidCut_flag = 0
+cpid_ePictime_min = 10.5
+cpid_ePictime_max = 14.5
+
 #electron-Proton coincidence time cut [ns]
 ePctime_pidCut_flag = 0
 cpid_ePctime_min = 10.5
@@ -116,50 +126,22 @@ cpid_hcer_npeSum_max = 70.
 
 
 #------Acceptance Cuts------
+# Hadron Arm Momentum Acceptance, Delta [%] 
+hdelta_cut_flag = 0
+c_hdelta_min = -8.
+c_hdelta_max = 8.
 
-# hadron arm momentum acceptance, Delta [%] 
-hdelta_cut_flag = 1
-c_hdelta_min = -10.
-c_hdelta_max = 10.
-
-# hadron out-of-plane angular range, xptar [rad]
-hxptar_cut_flag = 1
-c_hxptar_min = -0.06
-c_hxptar_max = 0.06
-
-# hadron in-plane angular range, yptar [rad]
-hyptar_cut_flag = 1
-c_hyptar_min = -0.035
-c_hyptar_max = 0.035
-
-# electron arm momentum acceptance, Delta [%] 
-edelta_cut_flag = 1
+# Electron Arm Momentum Acceptance, Delta [%] 
+edelta_cut_flag = 0
 c_edelta_min = -10.
 c_edelta_max = 22.
-
-# electron out-of-plane angular range, xptar [rad]
-exptar_cut_flag = 1
-c_exptar_min = -0.04
-c_exptar_max = 0.04
-
-# electron in-plane angular range, yptar [rad]
-eyptar_cut_flag = 1
-c_eyptar_min = -0.024
-c_eyptar_max = 0.024
 
 # Z-Reaction Vertex Difference, [cm]
 ztarDiff_cut_flag = 0
 c_ztarDiff_min = -2.
 c_ztarDiff_max = 2.
 
-
 #-----Kinematics Cuts-----
-
-# H(e,e'p) Kinematics Cuts
-
-# NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
-
 # 4-Momentum Transfers [GeV^2]
 Q2_cut_flag = 0
 c_Q2_min = 4
@@ -167,8 +149,8 @@ c_Q2_max = 5
 
 # Missing Energy [GeV]
 Em_cut_flag = 0
-c_Em_min = -0.02
-c_Em_max = 0.04
+c_Em_min = -0.02;
+c_Em_max = 0.04;
 
 # Invariant Mass, W [GeV]
 W_cut_flag = 0
@@ -176,53 +158,24 @@ c_W_min = 0.8
 c_W_max = 1.2
 
 # Missing Mass, MM [GeV]
+# -Kaons-
+MM_K_cut_flag = 0
+c_MM_K_min = 1.08
+c_MM_K_max = 1.15
+
+# -Pions-
+MM_Pi_cut_flag = 0
+c_MM_Pi_min = 0.9
+c_MM_Pi_max = 1.05
+
 # -Protons-
-MM_cut_flag = 0
-c_MM_min = -0.1
-c_MM_max = 0.1
+MM_P_cut_flag = 0
+c_MM_P_min = -0.1
+c_MM_P_max = 0.1
+
+#----CaFe Specific Mean-Field Cuts-----
 
 
-#---- CaFe-Specific A(e,e'p) Mean-Field (MF) Kinematic Cuts -----
+#----CaFe Specific SRC Cuts-----
 
-# NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="MF" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
 
-# 4-Momentum Transfers [GeV^2]
-Q2_MF_cut_flag = 1
-c_MF_Q2_min = 1.8
-c_MF_Q2_max = 10.
-
-# Missing Momentum [GeV]
-Pm_MF_cut_flag = 1
-c_MF_Pm_min = 0.
-c_MF_Pm_max = 0.250
-
-#---- CaFe-Specific A(e,e'p) SRC Kinematics Cuts -----
-
-# NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="SRC" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
-
-# 4-Momentum Transfers [GeV^2]
-Q2_SRC_cut_flag = 1
-c_SRC_Q2_min = 1.8
-c_SRC_Q2_max = 10.
-
-# Missing Momentum [GeV]
-Pm_SRC_cut_flag = 1
-c_SRC_Pm_min = 0.350
-c_SRC_Pm_max = 2.0
-
-# x-Bjorken
-Xbj_SRC_cut_flag = 1
-c_SRC_Xbj_min = 1.2
-c_SRC_Xbj_max = 10.
-
-# in-plane recoil (undetected) angle, theta_rq [deg]
-thrq_SRC_cut_flag = 1
-c_SRC_thrq_min = 0.
-c_SRC_thrq_max = 40.
-
-# Missing Energy [GeV] (for deuteron only, so will have to specify this cut be applied only if target is d2)
-Em_SRC_cut_flag = 1
-c_SRC_Em_min = -0.02
-c_SRC_Em_max = 0.05

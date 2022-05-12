@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -53,7 +53,7 @@ protected:
   const Double_t dtr = pi / 180.;
   const Double_t amu2GeV = 0.93149432;
 
-  // target mass (amu)
+  // target mass (amu) 
   Double_t MH_amu     = 1.00794       ;
   Double_t MD_amu     = 2.01410177812 ;
   Double_t MBe9_amu   = 9.012182      ;
@@ -63,6 +63,7 @@ protected:
   Double_t MCa40_amu  = 39.962590863  ;
   Double_t MCa48_amu  = 47.95252276   ;
   Double_t MFe54_amu  = 53.9396147    ;
+  
   // target mass (GeV)
   Double_t MH     = MH_amu    * amu2GeV;
   Double_t MD     = MD_amu    * amu2GeV;
@@ -91,6 +92,7 @@ protected:
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
   TString analysis;    // analyze data or simulation? : "data" or "simc"
+  TString analysis_cut;    // analysis cuts: either "heep", "MF" or "SRC" 
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
@@ -848,16 +850,21 @@ protected:
   Double_t cpid_hcer_npeSum_max;    
   
   //---------Kinematics Cuts----------
+
+  // H(e,e'p) Kinematic Cuts
+  
   //4-Momentum Transfers
   Bool_t Q2_cut_flag;
   Bool_t c_Q2;
   Double_t c_Q2_min;
   Double_t c_Q2_max;
+
   //Missing Energy
   Bool_t Em_cut_flag;
   Bool_t c_Em;
   Double_t c_Em_min;
   Double_t c_Em_max;
+
   //Invariant Mass, W
   Bool_t W_cut_flag;
   Bool_t c_W;
@@ -865,37 +872,89 @@ protected:
   Double_t c_W_max;
 
   //Missing Mass, MM
-
-  //Kaons
-  Bool_t MM_K_cut_flag;
-  Bool_t c_MM_K;
-  Double_t c_MM_K_min;
-  Double_t c_MM_K_max;
-  //Pions
-  Bool_t MM_Pi_cut_flag;
-  Bool_t c_MM_Pi;
-  Double_t c_MM_Pi_min;
-  Double_t c_MM_Pi_max;
   //Protons
-  Bool_t MM_P_cut_flag;
-  Bool_t c_MM_P;
-  Double_t c_MM_P_min;
-  Double_t c_MM_P_max;
+  Bool_t MM_cut_flag;
+  Bool_t c_MM;
+  Double_t c_MM_min;
+  Double_t c_MM_max;
 
+  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts -----
+  Bool_t   Q2_MF_cut_flag;
+  Bool_t   c_MF_Q2;
+  Double_t c_MF_Q2_min;
+  Double_t c_MF_Q2_max;
+
+  Bool_t   Pm_MF_cut_flag;
+  Bool_t   c_MF_Pm;
+  Double_t c_MF_Pm_min;
+  Double_t c_MF_Pm_max;
+  
+  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts -----
+  Bool_t   Q2_SRC_cut_flag;
+  Bool_t   c_SRC_Q2;
+  Double_t c_SRC_Q2_min;
+  Double_t c_SRC_Q2_max;
+
+  Bool_t   Pm_SRC_cut_flag;
+  Bool_t   c_SRC_Pm;
+  Double_t c_SRC_Pm_min;
+  Double_t c_SRC_Pm_max;
+
+  Bool_t   Xbj_SRC_cut_flag;
+  Bool_t   c_SRC_Xbj;
+  Double_t c_SRC_Xbj_min;
+  Double_t c_SRC_Xbj_max;
+  
+  Bool_t   thrq_SRC_cut_flag;
+  Bool_t   c_SRC_thrq;
+  Double_t c_SRC_thrq_min;
+  Double_t c_SRC_thrq_max;
+
+  Bool_t   Em_SRC_cut_flag;
+  Bool_t   c_SRC_Em;
+  Double_t c_SRC_Em_min;
+  Double_t c_SRC_Em_max;
   
   //----------Acceptance Cuts------------  
-  // Hadron Arm Momentum Acceptance, Delta [%] |
+
+  //-Hadron Arm-
+
+  // Momentum Acceptance, Delta [%] |
   Bool_t hdelta_cut_flag;
   Bool_t c_hdelta;
   Double_t c_hdelta_min;
   Double_t c_hdelta_max;
+
+  // Angular Acceptance
+  Bool_t hxptar_cut_flag;
+  Bool_t c_hxptar;
+  Double_t c_hxptar_min;
+  Double_t c_hxptar_max;
+
+  Bool_t hyptar_cut_flag;
+  Bool_t c_hyptar;
+  Double_t c_hyptar_min;
+  Double_t c_hyptar_max;
   
-  // Electron Arm Momentum Acceptance, Delta [%] 
+  //-Electron Arm-
+
+  // Momentum Acceptance, Delta [%] 
   Bool_t edelta_cut_flag;
   Bool_t c_edelta;
   Double_t c_edelta_min;
   Double_t c_edelta_max;
 
+  // Angular Acceptance
+  Bool_t exptar_cut_flag;
+  Bool_t c_exptar;
+  Double_t c_exptar_min;
+  Double_t c_exptar_max;
+
+  Bool_t eyptar_cut_flag;
+  Bool_t c_eyptar;
+  Double_t c_eyptar_min;
+  Double_t c_eyptar_max;
+  
   // Z-Reaction Vertex Difference Cut
   Bool_t ztarDiff_cut_flag;
   Bool_t c_ztarDiff;
@@ -906,7 +965,9 @@ protected:
   Bool_t c_baseCuts;  //base cuts
   Bool_t c_accpCuts;  //acceptance cuts
   Bool_t c_pidCuts;   //particle id cuts
-  Bool_t c_kinCuts;   //kinematics cuts
+  Bool_t c_kinHeep_Cuts;     //kinematics cuts (Heep Cuts)
+  Bool_t c_kinMF_Cuts;  //kinematics cuts (CaFe MF Cuts)
+  Bool_t c_kinSRC_Cuts; //kinematics cuts (CaFe SRC Cuts)
   
   //------------------END DATA-RELATED VARIABLES DEFINED CUTS-------------------
   

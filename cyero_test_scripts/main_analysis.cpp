@@ -4,7 +4,7 @@
 
 void main_analysis(int     run           = 3289,   int evtNum           = 1000,
 		   TString daq_mode      = "coin", TString e_arm        = "SHMS",
-		   TString analysis_type = "data", Bool_t  hel_flag     = 0,
+		   TString analysis_type = "data", TString analysis_cut = "heep", Bool_t  hel_flag     = 0,
 		   TString bcm_type  = "BCM4A",  double bcm_thrs        = 5,
 		   TString trig_type = "trig6",  Bool_t combine_runs    = 0		   
 		   )
@@ -29,7 +29,7 @@ void main_analysis(int     run           = 3289,   int evtNum           = 1000,
   */
 
   //----initialize baseAnalyzer (base class)----
-  baseAnalyzer ba(run, evtNum, daq_mode.Data(), e_arm.Data(), analysis_type.Data(), hel_flag, bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
+  baseAnalyzer ba(run, evtNum, daq_mode.Data(), e_arm.Data(), analysis_type.Data(), analysis_cut.Data(), hel_flag, bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
   ba.run_data_analysis();
 
 

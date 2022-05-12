@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
-  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis(ana_type), analysis_cut(ana_cuts), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
 {
   
   cout << "Calling BaseConstructor " << endl;
@@ -615,6 +615,8 @@ void baseAnalyzer::ReadInputFile()
   cpid_hcer_npeSum_max = stod(split(FindString("cpid_hcer_npeSum_max", input_CutFileName.Data())[0], '=')[1]);
   
   //-----Kinematics Cuts------
+
+  // H(e,e'p)
   
   //4-Momentum Transfers [GeV^2]
   Q2_cut_flag = stoi(split(FindString("Q2_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -631,22 +633,50 @@ void baseAnalyzer::ReadInputFile()
   c_W_min = stod(split(FindString("c_W_min", input_CutFileName.Data())[0], '=')[1]);
   c_W_max = stod(split(FindString("c_W_max", input_CutFileName.Data())[0], '=')[1]);
   
-  //Missing Mass Cut (Check which MM Cut is actually being applied: By default, it should be proton MM)
-  
-  //Kaons
-  MM_K_cut_flag = stoi(split(FindString("MM_K_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_K_min = stod(split(FindString("c_MM_K_min", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_K_max = stod(split(FindString("c_MM_K_max", input_CutFileName.Data())[0], '=')[1]);
-  
-  //Pions
-  MM_Pi_cut_flag = stoi(split(FindString("MM_Pi_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_Pi_min = stod(split(FindString("c_MM_Pi_min", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_Pi_max = stod(split(FindString("c_MM_Pi_max", input_CutFileName.Data())[0], '=')[1]);
-  
+  //Missing Mass Cut (Check which MM Cut is actually being applied: By default, it should be proton MM) 
   //Protons
-  MM_P_cut_flag = stoi(split(FindString("MM_P_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_P_min = stod(split(FindString("c_MM_P_min", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_P_max = stod(split(FindString("c_MM_P_max", input_CutFileName.Data())[0], '=')[1]);
+  MM_cut_flag = stoi(split(FindString("MM_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_MM_min = stod(split(FindString("c_MM_min", input_CutFileName.Data())[0], '=')[1]);
+  c_MM_max = stod(split(FindString("c_MM_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
+
+  // 4-Momentum Transfers [GeV^2]
+  Q2_MF_cut_flag = stoi(split(FindString("Q2_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Q2_min = stod(split(FindString("c_MF_Q2_min", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Q2_max = stod(split(FindString("c_MF_Q2_max", input_CutFileName.Data())[0], '=')[1]);
+  
+  // Missing Momentum [GeV]
+  Pm_MF_cut_flag = stoi(split(FindString("Pm_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Pm_min = stod(split(FindString("c_MF_Pm_min", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Pm_max = stod(split(FindString("c_MF_Pm_max", input_CutFileName.Data())[0], '=')[1]);
+  
+  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts 
+
+  // 4-Momentum Transfers [GeV^2]
+  Q2_SRC_cut_flag = stoi(split(FindString("Q2_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Q2_min = stod(split(FindString("c_SRC_Q2_min", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Q2_max = stod(split(FindString("c_SRC_Q2_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // Missing Momentum [GeV]
+  Pm_SRC_cut_flag = stoi(split(FindString("Pm_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Pm_min = stod(split(FindString("c_SRC_Pm_min", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Pm_max = stod(split(FindString("c_SRC_Pm_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // x-Bjorken
+  Xbj_SRC_cut_flag = stoi(split(FindString("Xbj_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Xbj_min = stod(split(FindString("c_SRC_Xbj_min", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Xbj_max = stod(split(FindString("c_SRC_Xbj_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // in-plane recoil (undetected) angle, theta_rq [deg]
+  thrq_SRC_cut_flag = stoi(split(FindString("thrq_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_thrq_min = stod(split(FindString("c_SRC_thrq_min", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_thrq_max = stod(split(FindString("c_SRC_thrq_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // Missing Energy [GeV]
+  Em_SRC_cut_flag = stoi(split(FindString("Em_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Em_min = stod(split(FindString("c_SRC_Em_min", input_CutFileName.Data())[0], '=')[1]);
+  c_SRC_Em_max = stod(split(FindString("c_SRC_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   //------Acceptance Cuts-------
   
@@ -654,11 +684,28 @@ void baseAnalyzer::ReadInputFile()
   hdelta_cut_flag = stoi(split(FindString("hdelta_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_hdelta_min = stod(split(FindString("c_hdelta_min", input_CutFileName.Data())[0], '=')[1]);
   c_hdelta_max = stod(split(FindString("c_hdelta_max", input_CutFileName.Data())[0], '=')[1]);
+
+  hxptar_cut_flag = stoi(split(FindString("hxptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_hxptar_min = stod(split(FindString("c_hxptar_min", input_CutFileName.Data())[0], '=')[1]);
+  c_hxptar_max = stod(split(FindString("c_hxptar_max", input_CutFileName.Data())[0], '=')[1]);
+
+  hyptar_cut_flag = stoi(split(FindString("hyptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_hyptar_min = stod(split(FindString("c_hyptar_min", input_CutFileName.Data())[0], '=')[1]);
+  c_hyptar_max = stod(split(FindString("c_hyptar_max", input_CutFileName.Data())[0], '=')[1]);
+  
   
   //Electron Arm
   edelta_cut_flag = stoi(split(FindString("edelta_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_edelta_min = stod(split(FindString("c_edelta_min", input_CutFileName.Data())[0], '=')[1]);
   c_edelta_max = stod(split(FindString("c_edelta_max", input_CutFileName.Data())[0], '=')[1]);
+
+  exptar_cut_flag = stoi(split(FindString("exptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_exptar_min = stod(split(FindString("c_exptar_min", input_CutFileName.Data())[0], '=')[1]);
+  c_exptar_max = stod(split(FindString("c_exptar_max", input_CutFileName.Data())[0], '=')[1]);
+
+  eyptar_cut_flag = stoi(split(FindString("eyptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_eyptar_min = stod(split(FindString("c_eyptar_min", input_CutFileName.Data())[0], '=')[1]);
+  c_eyptar_max = stod(split(FindString("c_eyptar_max", input_CutFileName.Data())[0], '=')[1]);
   
   // Z-Reaction Vertex Difference Cut
   ztarDiff_cut_flag = stoi(split(FindString("ztarDiff_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -2009,46 +2056,111 @@ void baseAnalyzer::EventLoop()
 	  //HMS Gas Cherenkov
 	  if(hcer_pidCut_flag) {cpid_hcer_NPE_Sum = hcer_npesum>=cpid_hcer_npeSum_min && hcer_npesum<=cpid_hcer_npeSum_max;}
 	  else{cpid_hcer_NPE_Sum=1;}
-	  
+
+	  c_pidCuts = cpid_eP_ctime && cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_paero_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
+
+		  
 	  //----Kinematics Cuts----
+
+	  // H(e,e'p) Kinematics
+	  
 	  //Q2
 	  if(Q2_cut_flag){c_Q2 = Q2>=c_Q2_min && Q2<=c_Q2_max;}
 	  else{c_Q2=1;}
 
 	  //Missing Energy, Em
-	  if(Em_cut_flag){c_Em = Em_nuc>=c_Em_min && Em_nuc<=c_Em_max;}
+	  if(Em_cut_flag){c_Em = Em>=c_Em_min && Em<=c_Em_max;}
 	  else{c_Em=1;}
 
 	  //Invariant Mass, W
 	  if(W_cut_flag){c_W = W>=c_W_min && W<=c_W_max;}
 	  else{c_W=1;}
 
-	  //Missing Mass, MM
-	  //Kaons
-	  if(MM_K_cut_flag){c_MM_K = MM>=c_MM_K_min && MM<=c_MM_K_max;}
-	  else{c_MM_K=1;}
-	  //Pions
-	  if(MM_Pi_cut_flag){c_MM_Pi = MM>=c_MM_Pi_min && MM<=c_MM_Pi_max;}
-	  else{c_MM_Pi=1;}
-	  //Protons
-	  if(MM_P_cut_flag){c_MM_P = MM>=c_MM_P_min && MM<=c_MM_P_max;}
-	  else{c_MM_P=1;}
+	  //Missing Mass, MM = sqrt( E_recoil^2 - P_miss ^2 )
+	  if(MM_cut_flag){c_MM = MM>=c_MM_min && MM<=c_MM_max;}
+	  else{c_MM=1;}
+
+	  c_kinHeep_Cuts = c_Q2 && c_Em && c_W && c_MM;
 	  
+	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_MF_cut_flag){c_MF_Q2 = Q2>=c_MF_Q2_min && Q2<=c_MF_Q2_max;}
+	  else{c_MF_Q2=1;}
+
+	  // Pm
+	  if(Pm_MF_cut_flag){c_MF_Pm = Pm>=c_MF_Pm_min && Pm<=c_MF_Pm_max;}
+	  else{c_MF_Pm=1;}
+
+	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm;
+	    
+	  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_SRC_cut_flag){c_SRC_Q2 = Q2>=c_SRC_Q2_min && Q2<=c_SRC_Q2_max;}
+	  else{c_SRC_Q2=1;}
+
+	  // Pm
+	  if(Pm_SRC_cut_flag){c_SRC_Pm = Pm>=c_SRC_Pm_min && Pm<=c_SRC_Pm_max;}
+	  else{c_SRC_Pm=1;}
+
+	  // Xbj
+	  if(Xbj_SRC_cut_flag){c_SRC_Xbj = X >= c_SRC_Xbj_min && X <= c_SRC_Xbj_max;}
+	  else{c_SRC_Xbj=1;}
+	  
+	  // theta_rq
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
+	  else{c_SRC_thrq=1;}
+	  
+	  // Em (C.Y., we will need to require this cut ONLY for deuteron)
+	  if(Em_SRC_cut_flag){c_SRC_Em = Em_nuc>=c_SRC_Em_min && Em_nuc <= c_SRC_Em_max;}
+	  else{c_SRC_Em=1;}
+
+	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_SRC_Em;
+
+
 	  //----Acceptance Cuts----
+
+	  // hadron arm
 	  if(hdelta_cut_flag){c_hdelta = h_delta>=c_hdelta_min && h_delta<=c_hdelta_max;} 
 	  else{c_hdelta=1;}
-		  
+
+	  if(hxptar_cut_flag){c_hxptar = h_xptar>=c_hxptar_min && h_xptar<=c_hxptar_max;} 
+	  else{c_hxptar=1;}
+
+	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
+	  else{c_hyptar=1;}
+
+	  // electron arm
 	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
 	  else{c_edelta=1;} 
 
+	  if(exptar_cut_flag){c_exptar = e_xptar>=c_exptar_min && e_xptar<=c_exptar_max;} 
+	  else{c_exptar=1;}
+
+	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
+	  else{c_eyptar=1;}
+
+	  // z-reaction vertex difference
 	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
 	  else{c_ztarDiff=1;}
+
+	  c_accpCuts = (c_hdelta && c_hxptar && c_hyptar) && (c_edelta && c_exptar && c_eyptar) && c_ztarDiff;
+			  	 
+	  // ----- Combine All CUTS -----
+
+	  // user pre-determined analysis kinematics cuts
+	  if(analysis_cut=="heep"){
+	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeep_Cuts;
+	  }	 
+	  else if(analysis_cut=="MF"){
+	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinMF_Cuts;
+	  }
+	  else if(analysis_cut=="SRC"){
+	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinSRC_Cuts;
+	  }
 	  
-	  //Combine All CUTS
-	  c_accpCuts = c_hdelta && c_edelta && c_ztarDiff;
-	  c_pidCuts = cpid_eP_ctime && cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_paero_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
-	  c_kinCuts = c_Q2 && c_Em && c_W && c_MM_P;
-	  c_baseCuts =  c_accpCuts && c_pidCuts && c_kinCuts;
+	  
 	  
 	  //====END: DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC)===
 
@@ -2725,8 +2837,8 @@ void baseAnalyzer::WriteReport()
       out_file << "Ps6_factor = " << Ps6_factor << endl;	    
       out_file << "" << endl;
       out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
-      out_file << Form("%s_Average_Current: %.3f [uA] ", avg_current_bcm_cut ) << endl;
-      out_file << Form("%s_Charge: %.3f [MC] ", total_charge_bcm_cut ) << endl;
+      out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
+      out_file << Form("%s_Charge: %.3f [MC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
       out_file << "" << endl;
       out_file << "# CaFe Kinematics Optimized for Mean-Field (MF) " << endl;  // or SRC, depends on user input
       out_file << "Events_Replayed: " << endl;
@@ -2781,8 +2893,6 @@ void baseAnalyzer::WriteReportSummary()
       out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
       out_file << "#                                              " << endl;
       out_file << "#---PID Cuts--- " << endl;
-      if(eKctime_pidCut_flag)         {out_file << Form("# Kaon Coincidence Time Cut: (%.3f,%.3f) ns", cpid_eKctime_min, cpid_eKctime_max) << endl;}
-      if(ePictime_pidCut_flag)        {out_file << Form("# Pion Coincidence Time Cut: (%.3f,%.3f) ns", cpid_ePictime_min, cpid_ePictime_max) << endl;}
       if(ePctime_pidCut_flag)         {out_file << Form("# Proton Coincidence Time Cut: (%.3f,%.3f) ns", cpid_ePctime_min, cpid_ePctime_max) << endl;}
       if(petot_trkNorm_pidCut_flag)   {out_file << Form("# SHMS Calorimeter EtotTrackNorm Cut: (%.3f, %.3f)", cpid_petot_trkNorm_min,  cpid_petot_trkNorm_max) << endl;}
       if(pngcer_pidCut_flag) {out_file << Form("# SHMS Noble Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_pngcer_npeSum_min,  cpid_pngcer_npeSum_max) << endl;}
@@ -2795,9 +2905,7 @@ void baseAnalyzer::WriteReportSummary()
       if(Q2_cut_flag)            {out_file << Form("# 4-Momentum Transfer (Q^2): (%.3f, %.3f) GeV^2", c_Q2_min, c_Q2_max ) << endl;}
       if(Em_cut_flag)            {out_file << Form("# Missing Energy, Em: (%.3f, %.3f) GeV",   c_Em_min, c_Em_max ) << endl;}
       if(W_cut_flag)             {out_file << Form("# Invariant Mass, W: (%.3f, %.3f) GeV",   c_W_min,  c_W_max  ) << endl;}
-      if(MM_K_cut_flag)          {out_file << Form("# Kaon Missing Mass, MM_K: (%.3f, %.3f) GeV",   c_MM_K_min,  c_MM_K_max  ) << endl;}
-      if(MM_Pi_cut_flag)         {out_file << Form("# Pion Missing Mass, MM_Pi: (%.3f, %.3f) GeV",   c_MM_Pi_min,  c_MM_Pi_max  ) << endl;}
-      if(MM_P_cut_flag)          {out_file << Form("# Proton Missing Mass, MM_P: (%.3f, %.3f) GeV",   c_MM_P_min,  c_MM_P_max  ) << endl;}
+      if(MM_cut_flag)          {out_file << Form("# Missing Mass, MM: (%.3f, %.3f) GeV",   c_MM_min,  c_MM_max  ) << endl;}
       out_file << "#                                     " << endl;
       out_file << "#---Acceptance Cuts--- " << endl;
       if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance: (%.3f, %.3f) %%",  c_hdelta_min, c_hdelta_max ) << endl;}
