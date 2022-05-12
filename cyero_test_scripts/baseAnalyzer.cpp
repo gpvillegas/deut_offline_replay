@@ -514,6 +514,7 @@ void baseAnalyzer::ReadInputFile()
   temp = trim(split(FindString("output_CaFe_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
   report_CaFeOutputFileName = Form(temp.Data(), run, evtNum);
 
+
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
   //==========================================
@@ -562,7 +563,7 @@ void baseAnalyzer::ReadInputFile()
   //==========================================
   
   
-  
+
   
   //==========================================
   //     READ Data/SIMC ANALYSIS CUTS
@@ -571,14 +572,6 @@ void baseAnalyzer::ReadInputFile()
   //------PID Cuts-----
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
-  
-  eKctime_pidCut_flag = stoi(split(FindString("eKctime_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);  
-  cpid_eKctime_min = stod(split(FindString("cpid_eKctime_min", input_CutFileName.Data())[0], '=')[1]);
-  cpid_eKctime_max = stod(split(FindString("cpid_eKctime_max", input_CutFileName.Data())[0], '=')[1]);
-  
-  ePictime_pidCut_flag = stoi(split(FindString("ePictime_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
-  cpid_ePictime_min = stod(split(FindString("cpid_ePictime_min", input_CutFileName.Data())[0], '=')[1]);
-  cpid_ePictime_max = stod(split(FindString("cpid_ePictime_max", input_CutFileName.Data())[0], '=')[1]);
   
   ePctime_pidCut_flag = stoi(split(FindString("ePctime_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
   cpid_ePctime_min = stod(split(FindString("cpid_ePctime_min", input_CutFileName.Data())[0], '=')[1]);
@@ -613,7 +606,8 @@ void baseAnalyzer::ReadInputFile()
   hcer_pidCut_flag = stoi(split(FindString("hcer_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
   cpid_hcer_npeSum_min = stod(split(FindString("cpid_hcer_npeSum_min", input_CutFileName.Data())[0], '=')[1]);
   cpid_hcer_npeSum_max = stod(split(FindString("cpid_hcer_npeSum_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
+
   //-----Kinematics Cuts------
 
   // H(e,e'p)
