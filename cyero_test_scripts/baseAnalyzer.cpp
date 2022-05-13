@@ -62,6 +62,8 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   pid_HList = NULL;
   kin_HList = NULL;
   accp_HList = NULL;
+  rand_HList = NULL;
+  randSub_HList = NULL;
   
   //-----Initialize Histogram Pointers-----
 
@@ -80,8 +82,6 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   
   //Coincidence Time
   H_ep_ctime  = NULL;
-  H_eK_ctime  = NULL;
-  H_ePi_ctime = NULL;
   
   //-HMS-
   H_hCerNpeSum      = NULL;  
@@ -241,6 +241,48 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //Hour-Glass Shape
   H_hxfp_vs_hyfp    = NULL;
   H_exfp_vs_eyfp    = NULL;
+
+
+  //----------------------------------
+  // Selected Histograms for Random
+  // Coincidence Background Subtraction
+  //----------------------------------
+
+  H_ep_ctime_rand      =  NULL; 
+  H_ep_ctime_rand_sub  =  NULL;     
+                       		
+  H_W_rand  =  NULL;	       	
+  H_W_rand_sub  =  NULL;	
+                       		       
+  H_Q2_rand  =  NULL;	       	
+  H_Q2_rand_sub  =  NULL;       
+                       		
+  H_xbj_rand  =  NULL;	       	
+  H_xbj_rand_sub  =  NULL;      
+                       		
+  H_nu_rand  =  NULL;	       	
+  H_nu_rand_sub  =  NULL;       
+                       		
+  H_q_rand  =  NULL;	       	
+  H_q_rand_sub  =  NULL;	
+                       		       
+  H_Em_rand  =  NULL;	       	
+  H_Em_rand_sub  =  NULL;       
+                       		
+  H_Em_nuc_rand  =  NULL;       
+  H_Em_nuc_rand_sub  =  NULL;   
+                       		
+  H_Pm_rand  =  NULL;	       	
+  H_Pm_rand_sub  =  NULL;       
+                       		
+  H_MM_rand  =  NULL;	       	
+  H_MM_rand_sub  =  NULL;       
+                       		
+  H_thxq_rand  =  NULL;	       	
+  H_thxq_rand_sub  =  NULL;     
+                       		
+  H_thrq_rand  =  NULL;	       	
+  H_thrq_rand_sub = NULL;     	
   
 }
 
@@ -258,10 +300,11 @@ baseAnalyzer::~baseAnalyzer()
   delete [] scal_evt_num; scal_evt_num = NULL;
 
   //Delete TList Pointers
-  delete pid_HList; pid_HList = NULL;
-  delete kin_HList; kin_HList = NULL;
-  delete accp_HList; accp_HList = NULL;
-
+  delete pid_HList;     pid_HList = NULL;
+  delete kin_HList;     kin_HList = NULL;
+  delete accp_HList;    accp_HList = NULL;
+  delete rand_HList;    rand_HList = NULL;
+  delete randSub_HList; randSub_HList = NULL;
   
   //-----------------------------
   // Detector Histogram Pointers
@@ -269,9 +312,7 @@ baseAnalyzer::~baseAnalyzer()
 
   //-Coin. Time-
   delete H_ep_ctime; H_ep_ctime   = NULL;
-  delete H_eK_ctime; H_eK_ctime   = NULL;
-  delete H_ePi_ctime; H_ePi_ctime = NULL;
-  
+
   //-HMS-
   delete H_hCerNpeSum;      H_hCerNpeSum      = NULL;  
   delete H_hCalEtotNorm;    H_hCalEtotNorm    = NULL;
@@ -433,6 +474,49 @@ baseAnalyzer::~baseAnalyzer()
   delete H_hxfp_vs_hyfp;        H_hxfp_vs_hyfp    = NULL;
   delete H_exfp_vs_eyfp;        H_exfp_vs_eyfp    = NULL;
 
+  //----------------------------------
+  // Selected Histograms for Random
+  // Coincidence Background Subtraction
+  //----------------------------------
+  
+  delete H_ep_ctime_rand;         H_ep_ctime_rand      =  NULL; 
+  delete H_ep_ctime_rand_sub; 	  H_ep_ctime_rand_sub  =  NULL; 
+                       		                       		
+  delete H_W_rand;	       	  H_W_rand  =  NULL;	       	
+  delete H_W_rand_sub;	       	  H_W_rand_sub  =  NULL;	
+                       		                       		
+  delete H_Q2_rand;	       	  H_Q2_rand  =  NULL;	       	
+  delete H_Q2_rand_sub;       	  H_Q2_rand_sub  =  NULL;       
+                       		                       		
+  delete H_xbj_rand;	       	  H_xbj_rand  =  NULL;	       	
+  delete H_xbj_rand_sub;      	  H_xbj_rand_sub  =  NULL;      
+                       		                       		
+  delete H_nu_rand;	       	  H_nu_rand  =  NULL;	       	
+  delete H_nu_rand_sub;       	  H_nu_rand_sub  =  NULL;       
+                       		                       		
+  delete H_q_rand;	       	  H_q_rand  =  NULL;	       	
+  delete H_q_rand_sub;	       	  H_q_rand_sub  =  NULL;	
+                       		                       		
+  delete H_Em_rand;	       	  H_Em_rand  =  NULL;	       	
+  delete H_Em_rand_sub;       	  H_Em_rand_sub  =  NULL;       
+                       		                       		
+  delete H_Em_nuc_rand;       	  H_Em_nuc_rand  =  NULL;       
+  delete H_Em_nuc_rand_sub;   	  H_Em_nuc_rand_sub  =  NULL;   
+                       		                       		
+  delete H_Pm_rand;	       	  H_Pm_rand  =  NULL;	       	
+  delete H_Pm_rand_sub;       	  H_Pm_rand_sub  =  NULL;       
+                       		                       		
+  delete H_MM_rand;	       	  H_MM_rand  =  NULL;	       	
+  delete H_MM_rand_sub;       	  H_MM_rand_sub  =  NULL;       
+                       		                       		
+  delete H_thxq_rand;	       	  H_thxq_rand  =  NULL;	       	
+  delete H_thxq_rand_sub;     	  H_thxq_rand_sub  =  NULL;     
+                       		                       		
+  delete H_thrq_rand;	       	  H_thrq_rand  =  NULL;	       	
+  delete H_thrq_rand_sub;     	  H_thrq_rand_sub = NULL;     	
+
+
+  
   
 }
 
@@ -573,10 +657,12 @@ void baseAnalyzer::ReadInputFile()
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
   
-  ePctime_pidCut_flag = stoi(split(FindString("ePctime_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
-  cpid_ePctime_min = stod(split(FindString("cpid_ePctime_min", input_CutFileName.Data())[0], '=')[1]);
-  cpid_ePctime_max = stod(split(FindString("cpid_ePctime_max", input_CutFileName.Data())[0], '=')[1]);
-  
+  ePctime_cut_flag = stoi(split(FindString("ePctime_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  ePctime_cut_thrs = stod(split(FindString("ePctime_cut_thrs", input_CutFileName.Data())[0], '=')[1]);
+
+  // set the upper limit of coin. time to be a multiple of coin time  cut (for background coin. selection) 
+  eP_mult = stod(split(FindString("eP_mult", input_CutFileName.Data())[0], '=')[1]);
+      
   //(SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
   petot_trkNorm_pidCut_flag = stoi(split(FindString("petot_trkNorm_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
   cpid_petot_trkNorm_min = stod(split(FindString("cpid_petot_trkNorm_min", input_CutFileName.Data())[0], '=')[1]);
@@ -726,45 +812,46 @@ void baseAnalyzer::ReadReport()
   temp = FindString("Target_Mass_amu",  data_InputReport.Data())[0];
   temp_var = stod(split(temp, ':')[1]);
 
+  double max_diff = 1e-6;
   
-  if(abs(temp_var-MH_amu)<=1e-6){
+  if(abs(temp_var-MH_amu)<=max_diff){
     tgt_type = "LH2";
   }
   
-  else if(abs(temp_var-MD_amu)<=1e-6){
+  else if(abs(temp_var-MD_amu)<=max_diff){
     tgt_type = "LD2";
   }
   
-  else if(abs(temp_var-MBe9_amu)<=1e-6){
+  else if(abs(temp_var-MBe9_amu)<=max_diff){
     tgt_type = "Be9";
   }
   
-  else if(abs(temp_var-MB10_amu)<=1e-6){
+  else if(abs(temp_var-MB10_amu)<=max_diff){
     tgt_type = "B10";
   }
   
-  else if(abs(temp_var-MB11_amu)<=1e-6){
+  else if(abs(temp_var-MB11_amu)<=max_diff){
     tgt_type = "B11";
   }
  
-  else if(abs(temp_var-MC12_amu)<=1e-6){
+  else if(abs(temp_var-MC12_amu)<=max_diff){
     tgt_type = "C12";
   }
 
-  else if(abs(temp_var-MCa40_amu)<=1e-6){
+  else if(abs(temp_var-MCa40_amu)<=max_diff){
     tgt_type = "Ca40";
   }
 
-  else if(abs(temp_var-MCa48_amu)<=1e-6){
+  else if(abs(temp_var-MCa48_amu)<=max_diff){
     tgt_type = "Ca48";
   }
 
-  else if(abs(temp_var-MFe54_amu)<=1e-6){
+  else if(abs(temp_var-MFe54_amu)<=max_diff){
     tgt_type = "Fe54";
   }
   
   else{
-    cout << "Target mass (amu) mis-match of >1e-6 between this script and standard.kinematics . . . Check target mass is set correctly in standard.kinematics file !" << endl;
+    cout << "Target mass (amu) mis-match of >1E-6 between this script and standard.kinematics . . . Check target mass is set correctly in standard.kinematics file !" << endl;
     gSystem->Exit(0);
     
   }
@@ -1151,6 +1238,8 @@ void baseAnalyzer::CreateHist()
   kin_HList  = new TList();
   accp_HList = new TList();
 
+  rand_HList = new TList();
+  randSub_HList = new TList();
   
   // Dummy histograms to store the ith and cumulative histograms (See CombineHistos() Method)
   //1D
@@ -1169,10 +1258,7 @@ void baseAnalyzer::CreateHist()
   H_ep_ctime   = new TH1F("H_ep_ctime", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
-  
-  H_eK_ctime   = new TH1F("H_eK_ctime", "eK Coincidence Time; eK Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
-  H_ePi_ctime  = new TH1F("H_ePi_ctime", "e#pi Coincidence Time; e#pi Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
-    
+
   //HMS DETECTORS HISTOS
   H_hCerNpeSum      = new TH1F("H_hCerNpeSum", "HMS Cherenkov NPE Sum; Cherenkov NPE Sum; Counts ", hcer_nbins, hcer_xmin, hcer_xmax);
   H_hCalEtotNorm    = new TH1F("H_hCalEtotNorm", "HMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts ", hcal_nbins, hcal_xmin, hcal_xmax);
@@ -1203,8 +1289,6 @@ void baseAnalyzer::CreateHist()
   
   //Add PID Histos to TList
   pid_HList->Add(H_ep_ctime);
-  pid_HList->Add(H_eK_ctime);
-  pid_HList->Add(H_ePi_ctime);
   pid_HList->Add(H_hCerNpeSum);
   pid_HList->Add(H_hCalEtotNorm);
   pid_HList->Add(H_hCalEtotTrkNorm);
@@ -1249,7 +1333,7 @@ void baseAnalyzer::CreateHist()
   H_epsilon = new TH1F("H_epsilon", "Virtual Photon (#gamma) Polarization Factor" , epsilon_nbins, epsilon_xmin, epsilon_xmax); 
 
   //Secondary (Hadron) Kinematics (recoil and missing are used interchageably) ()
-  H_Em      = new TH1F("H_Emiss","Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
+  H_Em      = new TH1F("H_Em","Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
   H_Em_nuc  = new TH1F("H_Em_nuc","Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
   H_Pm      = new TH1F("H_Pm","Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax); 
   H_Pmx_lab = new TH1F("H_Pmx_Lab","P_{miss, x} (Lab)", Pmx_lab_nbins, Pmx_lab_xmin, Pmx_lab_xmax);         
@@ -1465,6 +1549,68 @@ void baseAnalyzer::CreateHist()
   accp_HList->Add( H_hxfp_vs_hyfp  );
   accp_HList->Add( H_exfp_vs_eyfp  );
 
+
+  
+  //---------------------------------------------------------------------
+  //---------HISTOGRAM CATEGORY: RANDOM COIN. BACKGROUND-----------------
+  //---------------------------------------------------------------------
+
+  H_ep_ctime_rand   = new TH1F("H_ep_ctime_rand", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_W_rand          = new TH1F("H_W_rand",        "Invariant Mass, W", W_nbins, W_xmin, W_xmax); 
+  H_Q2_rand         = new TH1F("H_Q2_rand",       "4-Momentum Transfer, Q^{2}", Q2_nbins, Q2_xmin, Q2_xmax); 
+  H_xbj_rand        = new TH1F("H_xbj_rand",      "x-Bjorken", X_nbins, X_xmin, X_xmax);  
+  H_nu_rand         = new TH1F("H_nu_rand",       "Energy Transfer, #nu", nu_nbins, nu_xmin, nu_xmax); 
+  H_q_rand          = new TH1F("H_q_rand",        "3-Momentum Transfer, |#vec{q}|", q_nbins, q_xmin, q_xmax);
+  H_Em_rand         = new TH1F("H_Em_rand",     "Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
+  H_Em_nuc_rand     = new TH1F("H_Em_nuc_rand", "Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
+  H_Pm_rand         = new TH1F("H_Pm_rand",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
+  H_MM_rand         = new TH1F("H_MM_rand",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
+  H_thxq_rand       = new TH1F("H_thxq_rand",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
+  H_thrq_rand       = new TH1F("H_thrq_rand",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
+  
+  rand_HList->Add( H_ep_ctime_rand );
+  rand_HList->Add( H_W_rand        );
+  rand_HList->Add( H_Q2_rand       );
+  rand_HList->Add( H_xbj_rand      );
+  rand_HList->Add( H_nu_rand       );
+  rand_HList->Add( H_q_rand        );
+  rand_HList->Add( H_Em_rand       );
+  rand_HList->Add( H_Em_nuc_rand   );
+  rand_HList->Add( H_Pm_rand       );
+  rand_HList->Add( H_MM_rand       );
+  rand_HList->Add( H_thxq_rand     );
+  rand_HList->Add( H_thrq_rand     );
+
+  //--------------------------------------------------------------------------------
+  //---------HISTOGRAM CATEGORY: RANDOM-SUBTRACTED COIN. BACKGROUND-----------------
+  //--------------------------------------------------------------------------------
+
+  H_ep_ctime_rand_sub   = new TH1F("H_ep_ctime_rand_sub", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_W_rand_sub          = new TH1F("H_W_rand_sub",        "Invariant Mass, W", W_nbins, W_xmin, W_xmax); 
+  H_Q2_rand_sub         = new TH1F("H_Q2_rand_sub",       "4-Momentum Transfer, Q^{2}", Q2_nbins, Q2_xmin, Q2_xmax); 
+  H_xbj_rand_sub        = new TH1F("H_xbj_rand_sub",      "x-Bjorken", X_nbins, X_xmin, X_xmax);  
+  H_nu_rand_sub         = new TH1F("H_nu_rand_sub",       "Energy Transfer, #nu", nu_nbins, nu_xmin, nu_xmax); 
+  H_q_rand_sub          = new TH1F("H_q_rand_sub",        "3-Momentum Transfer, |#vec{q}|", q_nbins, q_xmin, q_xmax);
+  H_Em_rand_sub         = new TH1F("H_Em_rand_sub",     "Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
+  H_Em_nuc_rand_sub     = new TH1F("H_Em_nuc_rand_sub", "Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
+  H_Pm_rand_sub         = new TH1F("H_Pm_rand_sub",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
+  H_MM_rand_sub         = new TH1F("H_MM_rand_sub",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
+  H_thxq_rand_sub       = new TH1F("H_thxq_rand_sub",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
+  H_thrq_rand_sub       = new TH1F("H_thrq_rand_sub",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
+  
+  randSub_HList->Add( H_ep_ctime_rand_sub );
+  randSub_HList->Add( H_W_rand_sub        );
+  randSub_HList->Add( H_Q2_rand_sub       );
+  randSub_HList->Add( H_xbj_rand_sub      );
+  randSub_HList->Add( H_nu_rand_sub       );
+  randSub_HList->Add( H_q_rand_sub        );
+  randSub_HList->Add( H_Em_rand_sub       );
+  randSub_HList->Add( H_Em_nuc_rand_sub   );
+  randSub_HList->Add( H_Pm_rand_sub       );
+  randSub_HList->Add( H_MM_rand_sub       );
+  randSub_HList->Add( H_thxq_rand_sub     );
+  randSub_HList->Add( H_thrq_rand_sub     );
+
   
 }
 //_______________________________________________________________________________
@@ -1663,9 +1809,7 @@ void baseAnalyzer::ReadTree()
 
 	//Coincidence Time
 	tree->SetBranchAddress("CTime.epCoinTime_ROC2",  &epCoinTime);
-	tree->SetBranchAddress("CTime.eKCoinTime_ROC2",  &eKCoinTime);
-	tree->SetBranchAddress("CTime.ePiCoinTime_ROC2", &ePiCoinTime);
-	
+
 	// Trigger Detector 
 	tree->SetBranchAddress("T.coin.pTRIG1_ROC2_tdcTimeRaw",&TRIG1_tdcTimeRaw);
 	tree->SetBranchAddress("T.coin.pTRIG2_ROC2_tdcTimeRaw",&TRIG2_tdcTimeRaw);
@@ -1888,15 +2032,51 @@ void baseAnalyzer::ReadTree()
 }
 
 //_______________________________________________________________________________
+Double_t baseAnalyzer::GetCoinTimePeak()
+{
+ 
+  cout << "Loop over Data Sample Size 50k" <<  endl;
+  
+  // coin. time offset param (i.e., coin time peak value)
+  Double_t ctime_offset = 0.0;
+  
+  // declare histogram to fill sample coin. time 
+  TH1F *ctime_peak = new TH1F("ctime_peak", "Coin. Time Peak ", 200,-100,100);
+  
+  for(int ientry=0; ientry<50000; ientry++)
+    {	  
+      tree->GetEntry(ientry);
+      // Fill sample histo to find peak
+      ctime_peak->Fill(epCoinTime);	  	  
+    }
+  
+  
+  // bin number corresponding to maximum bin content
+  int binmax = ctime_peak->GetMaximumBin();
+  
+  // x-value corresponding to bin number with max content (i.e., peak)
+  double xmax = ctime_peak->GetXaxis()->GetBinCenter(binmax);
+  ctime_offset =  xmax;      
+  
+  return ctime_offset; // in ns
+  
+   
+}
+
+//_______________________________________________________________________________
 void baseAnalyzer::EventLoop()
 {
-
+  gROOT->SetBatch(1);
   cout << "Calling Base EventLoop() . . . " << endl;
   
   //Loop over Events
   
   if(analysis=="data")
     {
+
+      // Get Coin. Time peak to apply as an offset to center the coin. time peak at 0 ns    
+      Double_t ctime_offset = GetCoinTimePeak();
+	
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
       for(int ientry=0; ientry<nentries; ientry++)
@@ -2013,20 +2193,19 @@ void baseAnalyzer::EventLoop()
 	  
 	  //====DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC, except PID CUTS on detectors)====
 
-	  //----PID Cuts---- (SPECIFIC TO DATA)
-
-	  // kaon coincidence time cut
-	  if(eKctime_pidCut_flag) {cpid_eK_ctime = eKCoinTime>=cpid_eKctime_min && eKCoinTime<=cpid_eKctime_max;}
-	  else{cpid_eK_ctime=1;}
-
-	  // pion coincidence time cut
-	  if(ePictime_pidCut_flag) {cpid_ePi_ctime = ePiCoinTime>=cpid_ePictime_min && ePiCoinTime<=cpid_ePictime_max;}
-	  else{cpid_ePi_ctime=1;}
-
-	  // proton coincidence time cut
-	  if(ePctime_pidCut_flag) {cpid_eP_ctime = epCoinTime>=cpid_ePctime_min && epCoinTime<=cpid_ePctime_max;}
-	  else{cpid_eP_ctime=1;}
-
+	  // CUTS (SPECIFIC TO DATA)
+	 
+	  // -- proton coincidence time cut ----
+	  if(ePctime_cut_flag) {
+	    eP_ctime_cut = abs(epCoinTime-ctime_offset) <= ePctime_cut_thrs;
+	    eP_ctime_cut_rand = abs(epCoinTime-ctime_offset) > ePctime_cut_thrs && abs(epCoinTime-ctime_offset) <= (eP_mult*ePctime_cut_thrs);	    
+	  }
+	  else{
+	    eP_ctime_cut=1;
+	    eP_ctime_cut_rand =1;
+	  }
+	  
+	  //----PID Cuts---- 
 	  //SHMS calorimeter total normalized track energy
 	  if(petot_trkNorm_pidCut_flag) {cpid_petot_trkNorm = pcal_etottracknorm>=cpid_petot_trkNorm_min && pcal_etottracknorm<=cpid_petot_trkNorm_max;}
 	  else{cpid_petot_trkNorm=1;}
@@ -2051,7 +2230,7 @@ void baseAnalyzer::EventLoop()
 	  if(hcer_pidCut_flag) {cpid_hcer_NPE_Sum = hcer_npesum>=cpid_hcer_npeSum_min && hcer_npesum<=cpid_hcer_npeSum_max;}
 	  else{cpid_hcer_NPE_Sum=1;}
 
-	  c_pidCuts = cpid_eP_ctime && cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_paero_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
+	  c_pidCuts = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_paero_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
 
 		  
 	  //----Kinematics Cuts----
@@ -2203,7 +2382,8 @@ void baseAnalyzer::EventLoop()
 		  
 		  //----------------------Fill DATA Histograms-----------------------
 
-		  if(c_baseCuts)
+		  // select "TRUE COINCIDENCE " (electron-proton from same "beam bunch" form a coincidence)
+		  if(c_baseCuts && eP_ctime_cut)
 		    {
 
 		      //--------------------------------------------------------------------
@@ -2211,9 +2391,7 @@ void baseAnalyzer::EventLoop()
 		      //--------------------------------------------------------------------
 		      
 		      //Coincidence Time		      
-		      H_ep_ctime->Fill(epCoinTime);
-		      H_eK_ctime->Fill(eKCoinTime);
-		      H_ePi_ctime->Fill(ePiCoinTime);
+		      H_ep_ctime->Fill(epCoinTime-ctime_offset); // fill coin. time and apply the offset
 
 		      //Fill HMS Detectors
 		      H_hCerNpeSum->Fill(hcer_npesum);
@@ -2359,6 +2537,31 @@ void baseAnalyzer::EventLoop()
 		      
 		      
 		    }
+
+		  
+		  // select "TRUE COINCIDENCE BACKGROUND" (electron-proton from same "beam bunch" form a random ("un-correlated") coincidence )
+		  
+		  if(c_baseCuts && eP_ctime_cut_rand)
+		    {
+		      // Only histograms of selected variables of interest will be filled with background
+
+		      H_ep_ctime_rand->  Fill ( epCoinTime-ctime_offset );
+		      H_W_rand       ->  Fill (W);       
+		      H_Q2_rand      ->  Fill (Q2);      
+		      H_xbj_rand     ->  Fill (X);     
+		      H_nu_rand      ->  Fill (nu);      
+		      H_q_rand       ->  Fill (q);       
+		      H_Em_rand      ->  Fill (Em);      
+		      H_Em_nuc_rand  ->  Fill (Em_nuc);  
+		      H_Pm_rand      ->  Fill (Pm);      
+		      H_MM_rand      ->  Fill (MM);      
+		      H_thxq_rand    ->  Fill (th_xq/dtr);    
+		      H_thrq_rand    ->  Fill (ph_xq/dtr);    
+
+
+		    }
+		  
+		  
 		  //----------------------END: Fill DATA Histograms-----------------------
 		  
 		  
@@ -2397,6 +2600,58 @@ void baseAnalyzer::EventLoop()
     }
   
 }
+
+//_______________________________________________________________________________
+void baseAnalyzer::RandSub()
+{
+  cout << "Calling RandSub() " << endl;
+
+  /*
+    Brief: This methods carries out the subtraction of random coincidences (outside coin peak selection) 
+    from real coincidences (within coin peak selected) for various histograms 
+  */
+
+  // Scale Down (If necessary) the randoms before subtracting it from the reals
+  // NOTE: eP_mult is a integral multiple (i.e., 2, 3, 4,  . . . )
+  // At least a multiple of 2 is required, otherwise, if multiple =1, min/max cuts are the same which gives 0 scale factor --> infinity 
+  // the random coincidences can be scaled down by the following factor:
+  
+  // The scale factor is: (span of background sample outside coin. peak in x-axis [ns]) / (span of main coin. peak in x-axis[ns])
+  P_scale_factor =  ( (eP_mult*ePctime_cut_thrs) - ePctime_cut_thrs )  / ePctime_cut_thrs; 
+  cout << "P_scale_factor = "         << P_scale_factor << endl;
+
+
+  //----Scale Down the random coincidences histograms-----
+  // ----(other than the coin. histograms themselves)----
+
+  H_W_rand       ->  Scale( 1. / P_scale_factor );;
+  H_Q2_rand      ->  Scale( 1. / P_scale_factor );;
+  H_xbj_rand     ->  Scale( 1. / P_scale_factor );;
+  H_nu_rand      ->  Scale( 1. / P_scale_factor );;
+  H_q_rand       ->  Scale( 1. / P_scale_factor );;
+  H_Em_rand      ->  Scale( 1. / P_scale_factor );;
+  H_Em_nuc_rand  ->  Scale( 1. / P_scale_factor );;
+  H_Pm_rand      ->  Scale( 1. / P_scale_factor );;
+  H_MM_rand      ->  Scale( 1. / P_scale_factor );;
+  H_thxq_rand    ->  Scale( 1. / P_scale_factor );;
+  H_thrq_rand    ->  Scale( 1. / P_scale_factor );;
+
+  
+  // -----Carry out the randoms subtraction------
+
+  H_W_rand_sub       -> Add(H_W      ,H_W_rand      , 1, -1);
+  H_Q2_rand_sub      -> Add(H_Q2     ,H_Q2_rand     , 1, -1);
+  H_xbj_rand_sub     -> Add(H_xbj    ,H_xbj_rand    , 1, -1);
+  H_nu_rand_sub      -> Add(H_nu     ,H_nu_rand     , 1, -1);
+  H_q_rand_sub       -> Add(H_q      ,H_q_rand      , 1, -1);
+  H_Em_rand_sub      -> Add(H_Em     ,H_Em_rand     , 1, -1);
+  H_Em_nuc_rand_sub  -> Add(H_Em_nuc ,H_Em_nuc_rand , 1, -1);
+  H_Pm_rand_sub      -> Add(H_Pm     ,H_Pm_rand     , 1, -1);
+  H_MM_rand_sub      -> Add(H_MM     ,H_MM_rand     , 1, -1);
+  H_thxq_rand_sub    -> Add(H_thxq   ,H_thxq_rand   , 1, -1);
+  H_thrq_rand_sub    -> Add(H_thrq   ,H_thrq_rand   , 1, -1);  
+}
+
 
 //_______________________________________________________________________________
 void baseAnalyzer::CalcEff()
@@ -2594,7 +2849,7 @@ void baseAnalyzer::ApplyWeight()
   //Full Weight
   //FullWeight = 1. / (total_charge_bcm_cut * hTrkEff * pTrkEff * tLT_trig * tgtBoil_corr * hadAbs_corr);
 
-  //For testing purposes and online experiment production (do not scale by charge on det. inefficieny)
+  //For testing purposes and online experiment production (do not scale by charge or det. inefficieny)
   FullWeight = 1.; // / total_charge_bcm_cut;
 
   
@@ -2606,9 +2861,7 @@ void baseAnalyzer::ApplyWeight()
 
   //Scale Coincidence Time		      
   H_ep_ctime->Scale(FullWeight);
-  H_eK_ctime->Scale(FullWeight);
-  H_ePi_ctime->Scale(FullWeight);
-  
+
   //Scale HMS Detectors
   H_hCerNpeSum->Scale(FullWeight);
   H_hCalEtotNorm->Scale(FullWeight);
@@ -2750,6 +3003,10 @@ void baseAnalyzer::ApplyWeight()
   H_hxfp_vs_hyfp  ->Scale(FullWeight);
   H_exfp_vs_eyfp  ->Scale(FullWeight);
   
+  if(ePctime_cut_flag){
+    //Call the randoms subtraction methods (after scaling all histograms above)
+    RandSub();
+  }
 }
 
 //_______________________________________________________________________________
@@ -2773,6 +3030,9 @@ void baseAnalyzer::WriteHist()
       outROOT->mkdir("kin_plots");
       outROOT->mkdir("accp_plots");
 
+      outROOT->mkdir("rand_plots");
+      outROOT->mkdir("randSub_plots");
+
       //Write PID histos to pid_plots directory
       outROOT->cd("pid_plots");
       pid_HList->Write();
@@ -2784,7 +3044,15 @@ void baseAnalyzer::WriteHist()
       //Write Acceptance histos to accp_plots directory
       outROOT->cd("accp_plots");
       accp_HList->Write();
-
+      
+      //Write selected Random histos to rand_plots directory
+      outROOT->cd("rand_plots");
+      rand_HList->Write();
+      
+      //Write selected Random-Subtracted histos to randSub_plots directory
+      outROOT->cd("randSub_plots");
+      randSub_HList->Write();
+	    
       //Close File
       outROOT->Close();
     }
@@ -2887,7 +3155,7 @@ void baseAnalyzer::WriteReportSummary()
       out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
       out_file << "#                                              " << endl;
       out_file << "#---PID Cuts--- " << endl;
-      if(ePctime_pidCut_flag)         {out_file << Form("# Proton Coincidence Time Cut: (%.3f,%.3f) ns", cpid_ePctime_min, cpid_ePctime_max) << endl;}
+      if(ePctime_cut_flag)         {out_file << Form("# Proton Coincidence Time Cut: +/- %.3f ns", ePctime_cut_thrs) << endl;}
       if(petot_trkNorm_pidCut_flag)   {out_file << Form("# SHMS Calorimeter EtotTrackNorm Cut: (%.3f, %.3f)", cpid_petot_trkNorm_min,  cpid_petot_trkNorm_max) << endl;}
       if(pngcer_pidCut_flag) {out_file << Form("# SHMS Noble Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_pngcer_npeSum_min,  cpid_pngcer_npeSum_max) << endl;}
       if(phgcer_pidCut_flag) {out_file << Form("# SHMS Heavy Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_phgcer_npeSum_min,  cpid_phgcer_npeSum_max) << endl;}

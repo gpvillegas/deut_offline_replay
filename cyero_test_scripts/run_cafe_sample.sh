@@ -12,16 +12,18 @@ runNum=$1         # run number of the input file being read in
 analysis_cut=$2   # analysis cuts, set by user:  "heep",  "MF",  or "SRC", depending on the production run type
 
 if [ -z "$1" ]; then
-   echo "No run number was specified"
+    echo "No run number was specified. "
+    echo "e.g., ./run_cafe_sample.sh 3288 "
    exit 0
 fi
 
 if [ -z "$2" ]; then
-   echo "Specify CaFe Production Run Type: \"heep\", \"MF\" or \"SRC\"  "
-   exit 0
+    echo "Specify CaFe Production Run Type: \"heep\", \"MF\" or \"SRC\"  "
+    echo "e.g., ./run_cafe_sample.sh 3288 heep "
+    exit 0
 fi
 
-evtNum=-1         # full replay (-1)
+evtNum=50000         # evt number for cafe sample 
 daq_mode="coin"
 e_arm="SHMS"
 analysis_type="data"

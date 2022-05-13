@@ -7,8 +7,8 @@
 #========================
 #---coincidence time [ns]---
 coin_nbins = 100
-coin_xmin = 0.
-coin_xmax = 30.
+coin_xmin = -15.
+coin_xmax = 15.
 
 #----HMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 

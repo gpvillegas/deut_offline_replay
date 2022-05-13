@@ -42,10 +42,12 @@ public:
   //void CalcRadCorr(); 
   //void ApplyRadCorr();
   //void ChargeNorm(); 
-  //void RandomSub(); //Apply subtraction of random coincidence background
+  void RandSub(); //Apply subtraction of random coincidence background
   //void GetAsymmetry();
   
-  
+  // Helper Functions
+  Double_t GetCoinTimePeak();
+
 protected:
 
   //Set Constants
@@ -502,8 +504,6 @@ protected:
   
   //Coin. Time
   TH1F *H_ep_ctime;
-  TH1F *H_eK_ctime;
-  TH1F *H_ePi_ctime;
 
   //HMS
   TH1F *H_hCerNpeSum;  
@@ -671,6 +671,62 @@ protected:
   TH2F *H_exfp_vs_eyfp;
   
 
+  // ------- Selected Histograms for Random Coincidence Background Subtraction --------
+
+  // NOTE: Nomenclature clarification 
+  // *_rand -> random coincidence selection (sample selected outside the main coin. peak taken
+  // to be representative of randoms underneath main coin. peak)  
+  // *_rand_sub -> "true" coincidences after having subtracted the estimated randoms beneath the main peak
+
+  //Coin. Time
+  TH1F *H_ep_ctime_rand;
+  TH1F *H_ep_ctime_rand_sub;
+
+  // invariant mass
+  TH1F *H_W_rand;
+  TH1F *H_W_rand_sub;
+
+  // 4-momentum transfer
+  TH1F *H_Q2_rand;
+  TH1F *H_Q2_rand_sub;
+
+  // x-Bjorken
+  TH1F *H_xbj_rand;
+  TH1F *H_xbj_rand_sub;
+
+  // energy transfer
+  TH1F *H_nu_rand;
+  TH1F *H_nu_rand_sub;
+
+  // 3-momentum |q|
+  TH1F *H_q_rand;
+  TH1F *H_q_rand_sub;
+
+  // missing energy 
+  TH1F *H_Em_rand;
+  TH1F *H_Em_rand_sub;
+
+  // nuclear missing energy
+  TH1F *H_Em_nuc_rand;
+  TH1F *H_Em_nuc_rand_sub;
+
+  // missing momentum
+  TH1F *H_Pm_rand;
+  TH1F *H_Pm_rand_sub;
+
+  // missing mass
+  TH1F *H_MM_rand;
+  TH1F *H_MM_rand_sub;
+
+  // in-plane angle between detected hadron and |q|
+  TH1F *H_thxq_rand;
+  TH1F *H_thxq_rand_sub;
+
+  // in-plane angle between residual nucleus and |q|
+  TH1F *H_thrq_rand;
+  TH1F *H_thrq_rand_sub;
+
+  
   //-----------END CREATE HISTOGRAMS-----------
 
 
@@ -795,23 +851,18 @@ protected:
   //(See set_basic_cuts.inp file to modify the cuts),  the 'c_' denotes it is a cut
 
   //------STANDARD PID Cuts ON DATA (THESE ARE SLIGHTLY DIFFERENT THAN IN TRK EFF. DEFINITION -- SHOULD THEY BE THE SAME??)
+
   //Coincidence time cut 
-  Bool_t eKctime_pidCut_flag;
-  Bool_t ePictime_pidCut_flag;
-  Bool_t ePctime_pidCut_flag;
-
-  Bool_t cpid_eK_ctime;
-  Bool_t cpid_ePi_ctime;
-  Bool_t cpid_eP_ctime;
-
-  Double_t cpid_eKctime_min;
-  Double_t cpid_eKctime_max;
-  Double_t cpid_ePictime_min;
-  Double_t cpid_ePictime_max;
-  Double_t cpid_ePctime_min;
-  Double_t cpid_ePctime_max;
+  Bool_t ePctime_cut_flag;
+  Bool_t eP_ctime_cut;
+  Bool_t eP_ctime_cut_rand;  // boolean for selecting random coincidences (outside main coin. peak)
+  Double_t ePctime_cut_thrs; // coin time threshold cut: coin_time_peak +/- cpid_ePctime_thrs
   
-  TString ctime_cut_particle;
+  //coin time integer multiple of eP_ctime_thrs cut used to select randoms (must be: >=2: i,e, 2, 3, 4, . . .) 
+  Float_t eP_mult;           
+
+  //Scale factor variables (for random coincidence scaling / subtraction)
+  Float_t P_scale_factor;
 
   //SHMS Calorimeter EtotTrackNorm (e- selection)
   Bool_t petot_trkNorm_pidCut_flag;
@@ -1230,6 +1281,9 @@ protected:
   TList *pid_HList;    //store detector histograms (i.e., coin_time, H_hcerNpeSum, H_eCalEtotNorm, . . .)
   TList *kin_HList;    //store kinematical histograms (i.e., Q2, W, th_e, . . .)
   TList *accp_HList;   //store spectrometer accpetance histograms (focal plane, reconstructed, ztar_diff)
+
+  TList * rand_HList;  // store random coin. background of selected histograms
+  TList * randSub_HList;  // store random-subtracted variables of selected histograms
   
   //---------------------------------------------
 
