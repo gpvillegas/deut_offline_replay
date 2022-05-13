@@ -2852,159 +2852,105 @@ void baseAnalyzer::ApplyWeight()
   //For testing purposes and online experiment production (do not scale by charge or det. inefficieny)
   FullWeight = 1.; // / total_charge_bcm_cut;
 
-  
+
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
-
-  //--------------------------------------------------------------------
-  //---------HISTOGRAM CATEGORY: Particle Identification (PID)----------
-  //--------------------------------------------------------------------
-
-  //Scale Coincidence Time		      
-  H_ep_ctime->Scale(FullWeight);
-
-  //Scale HMS Detectors
-  H_hCerNpeSum->Scale(FullWeight);
-  H_hCalEtotNorm->Scale(FullWeight);
-  H_hCalEtotTrkNorm->Scale(FullWeight);
-  H_hHodBetaNtrk->Scale(FullWeight);
-  H_hHodBetaTrk->Scale(FullWeight);
   
-  //Scale SHMS Detectors
-  H_pNGCerNpeSum->Scale(FullWeight);
-  H_pHGCerNpeSum->Scale(FullWeight);
-  H_pAeroNpeSum->Scale(FullWeight);
-  H_pCalEtotNorm->Scale(FullWeight);
-  H_pCalEtotTrkNorm->Scale(FullWeight);
-  H_pHodBetaNtrk->Scale(FullWeight);
-  H_pHodBetaTrk->Scale(FullWeight);
-
-  //Scale 2D  PID Correlations
-  H_hcal_vs_hcer->Scale(FullWeight);
-  H_pcal_vs_phgcer->Scale(FullWeight);  
-  H_pcal_vs_pngcer->Scale(FullWeight);  
-  H_pcal_vs_paero->Scale(FullWeight);   
-  H_paero_vs_phgcer->Scale(FullWeight); 
-  H_paero_vs_pngcer->Scale(FullWeight); 
-  H_pngcer_vs_phgcer->Scale(FullWeight);
+  //----SCALE HISTOGRAMS BY LOOPING OVER LISTS----
   
-  //--------------------------------------------------------
-  //---------HISTOGRAM CATEGORY: Kinematics  (KIN)----------
-  //--------------------------------------------------------
+  //determine what class types are in the list
+  TString class_name;
   
-  //Fill Primary Kin Histos
-  H_the    ->Scale(FullWeight);
-  H_kf     ->Scale(FullWeight);
-  H_W      ->Scale(FullWeight);
-  H_W2     ->Scale(FullWeight);
-  H_Q2     ->Scale(FullWeight);
-  H_xbj    ->Scale(FullWeight);
-  H_nu     ->Scale(FullWeight);
-  H_q      ->Scale(FullWeight);
-  H_qx     ->Scale(FullWeight);
-  H_qy     ->Scale(FullWeight);
-  H_qz     ->Scale(FullWeight);
-  H_thq    ->Scale(FullWeight);
-  H_phq    ->Scale(FullWeight);
-  H_epsilon->Scale(FullWeight);
   
-  //Fill Secondary Kin Histos
-  H_Em       ->Scale(FullWeight);
-  H_Em_nuc   ->Scale(FullWeight);
-  H_Pm       ->Scale(FullWeight);
-  H_Pmx_lab  ->Scale(FullWeight);
-  H_Pmy_lab  ->Scale(FullWeight);
-  H_Pmz_lab  ->Scale(FullWeight);
-  H_Pmx_q    ->Scale(FullWeight);
-  H_Pmy_q    ->Scale(FullWeight);
-  H_Pmz_q    ->Scale(FullWeight);
-  H_Tx       ->Scale(FullWeight);
-  H_Tr       ->Scale(FullWeight);
-  H_MM       ->Scale(FullWeight);
-  H_MM2      ->Scale(FullWeight);
-  H_thx      ->Scale(FullWeight);
-  H_Pf       ->Scale(FullWeight);
-  H_thxq     ->Scale(FullWeight);
-  H_thrq     ->Scale(FullWeight);
-  H_phxq     ->Scale(FullWeight);
-  H_phrq     ->Scale(FullWeight);
-  H_Tx_cm    ->Scale(FullWeight);
-  H_Tr_cm    ->Scale(FullWeight);
-  H_thxq_cm  ->Scale(FullWeight);
-  H_thrq_cm  ->Scale(FullWeight);
-  H_phxq_cm  ->Scale(FullWeight);
-  H_phrq_cm  ->Scale(FullWeight);
-  H_Ttot_cm  ->Scale(FullWeight);
-  H_MandelS  ->Scale(FullWeight);
-  H_MandelT  ->Scale(FullWeight);
-  H_MandelU  ->Scale(FullWeight);
+  //-----------------------------------------------------
+  //Lopp over pid_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<pid_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = pid_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)pid_HList->At(i); h_i->Scale(FullWeight); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)pid_HList->At(i); h2_i->Scale(FullWeight);
+    }   
+  }//end loop over pid_HList
+  
+  //-----------------------------------------------------
+  //Lopp over kin_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<kin_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = kin_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)kin_HList->At(i); h_i->Scale(FullWeight); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)kin_HList->At(i); h2_i->Scale(FullWeight);
+    }   
+  }//end loop over kin_HList	
+  
+  //-----------------------------------------------------
+  //Lopp over accp_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<accp_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = accp_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)accp_HList->At(i); h_i->Scale(FullWeight); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)accp_HList->At(i); h2_i->Scale(FullWeight);
+    }   
+  }//end loop over accp_HList
 
-  //Fill (cosine, sine) of angles relative to q		      
-  H_cth_xq  ->Scale(FullWeight);
-  H_cth_rq  ->Scale(FullWeight);
-  H_sth_xq  ->Scale(FullWeight);
-  H_sth_rq  ->Scale(FullWeight);
-  H_cphi_xq ->Scale(FullWeight);
-  H_cphi_rq ->Scale(FullWeight);
-  H_sphi_xq ->Scale(FullWeight);
-  H_sphi_rq ->Scale(FullWeight);
-  //CM Frame
-  H_cth_xq_cm  ->Scale(FullWeight);
-  H_cth_rq_cm  ->Scale(FullWeight);
-  H_sth_xq_cm  ->Scale(FullWeight);
-  H_sth_rq_cm  ->Scale(FullWeight);
-  H_cphi_xq_cm ->Scale(FullWeight);
-  H_cphi_rq_cm ->Scale(FullWeight);
-  H_sphi_xq_cm ->Scale(FullWeight);
-  H_sphi_rq_cm ->Scale(FullWeight);
 
+  //-----------------------------------------------------
+  //Lopp over rand_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<rand_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = rand_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)rand_HList->At(i); h_i->Scale(FullWeight); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)rand_HList->At(i); h2_i->Scale(FullWeight);
+    }   
+  }//end loop over accp_HList
   
 
-  //----------------------------------------------------------------------
-  //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
-  //----------------------------------------------------------------------
+  //-----------------------------------------------------
+  //Lopp over randSub_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<randSub_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = randSub_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)randSub_HList->At(i); h_i->Scale(FullWeight); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)randSub_HList->At(i); h2_i->Scale(FullWeight);
+    }   
+  }//end loop over accp_HList
   
-  //Add ACCP Histos to TList
-  H_exfp       ->Scale(FullWeight);
-  H_eyfp       ->Scale(FullWeight);
-  H_expfp      ->Scale(FullWeight);
-  H_eypfp      ->Scale(FullWeight);
-  
-  H_eytar      ->Scale(FullWeight);
-  H_exptar     ->Scale(FullWeight);
-  H_eyptar     ->Scale(FullWeight);
-  H_edelta     ->Scale(FullWeight);
-  
-  H_hxfp       ->Scale(FullWeight);
-  H_hyfp       ->Scale(FullWeight);
-  H_hxpfp      ->Scale(FullWeight);
-  H_hypfp      ->Scale(FullWeight);
-  
-  H_hytar       ->Scale(FullWeight);
-  H_hxptar      ->Scale(FullWeight);
-  H_hyptar      ->Scale(FullWeight);
-  H_hdelta      ->Scale(FullWeight);
-  
-  H_htar_x       ->Scale(FullWeight);
-  H_htar_y       ->Scale(FullWeight);
-  H_htar_z       ->Scale(FullWeight);
-  H_etar_x       ->Scale(FullWeight);
-  H_etar_y       ->Scale(FullWeight);
-  H_etar_z       ->Scale(FullWeight);
-  H_ztar_diff    ->Scale(FullWeight);
-  
-  H_hXColl      ->Scale(FullWeight);
-  H_hYColl      ->Scale(FullWeight);
-  H_eXColl      ->Scale(FullWeight);
-  H_eYColl      ->Scale(FullWeight);
-  
-  H_hXColl_vs_hYColl  ->Scale(FullWeight);
-  H_eXColl_vs_eYColl  ->Scale(FullWeight);
-  
-  H_hxfp_vs_hyfp  ->Scale(FullWeight);
-  H_exfp_vs_eyfp  ->Scale(FullWeight);
-  
+
+  //Call the randoms subtraction methods, provided there was a coin. time cut flag  (after scaling all histograms above)
   if(ePctime_cut_flag){
-    //Call the randoms subtraction methods (after scaling all histograms above)
     RandSub();
   }
 }
