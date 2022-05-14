@@ -503,6 +503,7 @@ protected:
   //----------------------------------------------------------------
   
   //Coin. Time
+  TH1F *H_ep_ctime_noCut;
   TH1F *H_ep_ctime;
 
   //HMS
@@ -855,8 +856,25 @@ protected:
   //Coincidence time cut 
   Bool_t ePctime_cut_flag;
   Bool_t eP_ctime_cut;
-  Bool_t eP_ctime_cut_rand;  // boolean for selecting random coincidences (outside main coin. peak)
-  Double_t ePctime_cut_thrs; // coin time threshold cut: coin_time_peak +/- cpid_ePctime_thrs
+  Bool_t eP_ctime_cut_rand; 
+  Bool_t eP_ctime_cut_rand_L;  // boolean for selecting random coincidences left (outside main coin. peak)
+  Bool_t eP_ctime_cut_rand_R;  // boolean for selecting random coincidences right (outside main coin. peak)
+  //Double_t ePctime_cut_thrs; // coin time threshold cut: coin_time_peak +/- cpid_ePctime_thrs
+
+  // main coincidence time peak min/max window cut
+  Double_t ePctime_cut_min;
+  Double_t ePctime_cut_max;
+  Double_t dt_coin_peak;  // main coin. time window width
+  
+  // accidentals to the right of main coin. peak
+  Double_t ePctime_cut_min_R;
+  Double_t ePctime_cut_max_R;
+  Double_t dt_acc_R;   // window width of accidentals (right of main coin. peak)
+  
+  // accidentals to the left of main coin. peak
+  Double_t ePctime_cut_min_L;
+  Double_t ePctime_cut_max_L;
+  Double_t dt_acc_L;   // window width of accidentals (left of main coin. peak)
   
   //coin time integer multiple of eP_ctime_thrs cut used to select randoms (must be: >=2: i,e, 2, 3, 4, . . .) 
   Float_t eP_mult;           

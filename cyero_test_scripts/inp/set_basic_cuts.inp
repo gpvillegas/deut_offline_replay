@@ -80,26 +80,31 @@ c_pBetaNtrk_max = 1.5
 
 #---- Coincidence Time Cut -----
 
-# electron-Proton coincidence time cut [ns] ( e.g., coin_time_peak +/- cpid_ePctime_thrs )
-ePctime_cut_flag = 0
-ePctime_cut_thrs = 3.5
+# electron-Proton main coincidence time cut [ns] 
+ePctime_cut_flag = 1
+ePctime_cut_min = -3.0
+ePctime_cut_max = 5.0
 
-# multiple of coincidence time for randoms selection (must be >=2)
-# radnoms selection = min_coin_time: +/- ePctime_cut_thrs, max_coin_time: +/- eP_mult * ePctime_cut_thrs
-# make sure the eP_mult actually selects a region where there is background, otherwise, the
-# scale factor to subtract background will be biased 
-eP_mult = 3.
+# accidental window selection (right of main coin. peak)
+ePctime_cut_min_R = 5.01
+ePctime_cut_max_R = 17.0
+
+# accidental window selection (left of main coin. peak)
+ePctime_cut_min_L = -3.01
+ePctime_cut_max_L = -15.
 
 
 #------PID Cuts------
 
 # (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
 petot_trkNorm_pidCut_flag = 1
-cpid_petot_trkNorm_min = 0.7
-cpid_petot_trkNorm_max = 5.
+# cpid_petot_trkNorm_min = 0.7
+# cpid_petot_trkNorm_max = 5.
+cpid_petot_trkNorm_min = 0.
+cpid_petot_trkNorm_max = 0.7
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
-pngcer_pidCut_flag = 1
+pngcer_pidCut_flag = 0
 cpid_pngcer_npeSum_min = 1.5
 cpid_pngcer_npeSum_max = 100.
 
@@ -115,8 +120,10 @@ cpid_paero_npeSum_max = 100
 
 # (HMS PID) Calorimeter Total Energy Normalized By Track Momentum
 hetot_trkNorm_pidCut_flag = 1
-cpid_hetot_trkNorm_min = 0.
-cpid_hetot_trkNorm_max = 0.6
+#cpid_hetot_trkNorm_min = 0.
+#cpid_hetot_trkNorm_max = 0.6
+cpid_hetot_trkNorm_min = 0.7
+cpid_hetot_trkNorm_max = 2.5
 
 # (HMS PID) Gas Cherenkov
 hcer_pidCut_flag = 0
@@ -129,7 +136,7 @@ cpid_hcer_npeSum_max = 70.
 # hadron arm momentum acceptance, Delta [%] 
 hdelta_cut_flag = 1
 c_hdelta_min = -10.
-c_hdelta_max = 10.
+c_hdelta_max = 22.
 
 # hadron out-of-plane angular range, xptar [rad]
 hxptar_cut_flag = 1
@@ -144,7 +151,7 @@ c_hyptar_max = 0.035
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
 c_edelta_min = -10.
-c_edelta_max = 22.
+c_edelta_max = 10.
 
 # electron out-of-plane angular range, xptar [rad]
 exptar_cut_flag = 1
@@ -197,12 +204,12 @@ c_MM_max = 0.1
 # not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_MF_cut_flag = 1
+Q2_MF_cut_flag = 0
 c_MF_Q2_min = 1.8
 c_MF_Q2_max = 10.
 
 # Missing Momentum [GeV]
-Pm_MF_cut_flag = 1
+Pm_MF_cut_flag = 0
 c_MF_Pm_min = 0.
 c_MF_Pm_max = 0.250
 
@@ -212,26 +219,26 @@ c_MF_Pm_max = 0.250
 # not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_SRC_cut_flag = 1
+Q2_SRC_cut_flag = 0
 c_SRC_Q2_min = 1.8
 c_SRC_Q2_max = 10.
 
 # Missing Momentum [GeV]
-Pm_SRC_cut_flag = 1
+Pm_SRC_cut_flag = 0
 c_SRC_Pm_min = 0.350
 c_SRC_Pm_max = 2.0
 
 # x-Bjorken
-Xbj_SRC_cut_flag = 1
+Xbj_SRC_cut_flag = 0
 c_SRC_Xbj_min = 1.2
 c_SRC_Xbj_max = 10.
 
 # in-plane recoil (undetected) angle, theta_rq [deg]
-thrq_SRC_cut_flag = 1
+thrq_SRC_cut_flag = 0
 c_SRC_thrq_min = 0.
 c_SRC_thrq_max = 40.
 
 # Missing Energy [GeV] (for deuteron only, so will have to specify this cut be applied only if target is d2)
-Em_SRC_cut_flag = 1
+Em_SRC_cut_flag = 0
 c_SRC_Em_min = -0.02
 c_SRC_Em_max = 0.05

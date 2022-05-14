@@ -81,6 +81,7 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //---------------------------------------------------------------
   
   //Coincidence Time
+  H_ep_ctime_noCut  = NULL;
   H_ep_ctime  = NULL;
   
   //-HMS-
@@ -311,6 +312,7 @@ baseAnalyzer::~baseAnalyzer()
   //-----------------------------
 
   //-Coin. Time-
+  delete H_ep_ctime_noCut; H_ep_ctime_noCut   = NULL;
   delete H_ep_ctime; H_ep_ctime   = NULL;
 
   //-HMS-
@@ -658,11 +660,19 @@ void baseAnalyzer::ReadInputFile()
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
   
   ePctime_cut_flag = stoi(split(FindString("ePctime_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  ePctime_cut_thrs = stod(split(FindString("ePctime_cut_thrs", input_CutFileName.Data())[0], '=')[1]);
 
-  // set the upper limit of coin. time to be a multiple of coin time  cut (for background coin. selection) 
-  eP_mult = stod(split(FindString("eP_mult", input_CutFileName.Data())[0], '=')[1]);
-      
+  // main coincidence time peak min/max window cut
+  ePctime_cut_min = stod(split(FindString("ePctime_cut_min", input_CutFileName.Data())[0], '=')[1]);
+  ePctime_cut_max = stod(split(FindString("ePctime_cut_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // accidentals to the right of main coin. peak
+  ePctime_cut_min_R = stod(split(FindString("ePctime_cut_min_R", input_CutFileName.Data())[0], '=')[1]);
+  ePctime_cut_max_R = stod(split(FindString("ePctime_cut_max_R", input_CutFileName.Data())[0], '=')[1]);
+
+  // accidentals to the left of main coin. peak
+  ePctime_cut_min_L = stod(split(FindString("ePctime_cut_min_L", input_CutFileName.Data())[0], '=')[1]);
+  ePctime_cut_max_L = stod(split(FindString("ePctime_cut_max_L", input_CutFileName.Data())[0], '=')[1]);
+
   //(SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
   petot_trkNorm_pidCut_flag = stoi(split(FindString("petot_trkNorm_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
   cpid_petot_trkNorm_min = stod(split(FindString("cpid_petot_trkNorm_min", input_CutFileName.Data())[0], '=')[1]);
@@ -1258,6 +1268,8 @@ void baseAnalyzer::CreateHist()
   H_ep_ctime   = new TH1F("H_ep_ctime", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
+  H_ep_ctime_noCut   = new TH1F("H_ep_ctime_noCut", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+
 
   //HMS DETECTORS HISTOS
   H_hCerNpeSum      = new TH1F("H_hCerNpeSum", "HMS Cherenkov NPE Sum; Cherenkov NPE Sum; Counts ", hcer_nbins, hcer_xmin, hcer_xmax);
@@ -1288,6 +1300,7 @@ void baseAnalyzer::CreateHist()
   
   
   //Add PID Histos to TList
+  pid_HList->Add(H_ep_ctime_noCut);
   pid_HList->Add(H_ep_ctime);
   pid_HList->Add(H_hCerNpeSum);
   pid_HList->Add(H_hCalEtotNorm);
@@ -2043,11 +2056,14 @@ Double_t baseAnalyzer::GetCoinTimePeak()
   // declare histogram to fill sample coin. time 
   TH1F *ctime_peak = new TH1F("ctime_peak", "Coin. Time Peak ", 200,-100,100);
   
-  for(int ientry=0; ientry<50000; ientry++)
+  for(int ientry=0; ientry<10000; ientry++)
     {	  
       tree->GetEntry(ientry);
       // Fill sample histo to find peak
       ctime_peak->Fill(epCoinTime);	  	  
+
+      cout << "SampleEventLoop: " << std::setprecision(2) << double(ientry) / 10000. * 100. << "  % " << std::flush << "\r";
+
     }
   
   
@@ -2057,7 +2073,8 @@ Double_t baseAnalyzer::GetCoinTimePeak()
   // x-value corresponding to bin number with max content (i.e., peak)
   double xmax = ctime_peak->GetXaxis()->GetBinCenter(binmax);
   ctime_offset =  xmax;      
-  
+
+  cout << "coin time offset [ns] = " << ctime_offset << endl;  
   return ctime_offset; // in ns
   
    
@@ -2197,8 +2214,17 @@ void baseAnalyzer::EventLoop()
 	 
 	  // -- proton coincidence time cut ----
 	  if(ePctime_cut_flag) {
-	    eP_ctime_cut = abs(epCoinTime-ctime_offset) <= ePctime_cut_thrs;
-	    eP_ctime_cut_rand = abs(epCoinTime-ctime_offset) > ePctime_cut_thrs && abs(epCoinTime-ctime_offset) <= (eP_mult*ePctime_cut_thrs);	    
+
+	    // main coincidence time window cut
+	    eP_ctime_cut = (epCoinTime-ctime_offset) >= ePctime_cut_min && (epCoinTime-ctime_offset) <= ePctime_cut_max;
+
+	    // accidental coincidence (left/right of main coin. peak selected) as samples
+	    eP_ctime_cut_rand_L = (epCoinTime-ctime_offset) >= ePctime_cut_max_L && (epCoinTime-ctime_offset) <= ePctime_cut_min_L ;
+	    eP_ctime_cut_rand_R = (epCoinTime-ctime_offset) >= ePctime_cut_min_R && (epCoinTime-ctime_offset) <= ePctime_cut_max_R ;	    
+	    
+	    eP_ctime_cut_rand =  eP_ctime_cut_rand_L || eP_ctime_cut_rand_R;
+
+
 	  }
 	  else{
 	    eP_ctime_cut=1;
@@ -2382,197 +2408,201 @@ void baseAnalyzer::EventLoop()
 		  
 		  //----------------------Fill DATA Histograms-----------------------
 
-		  // select "TRUE COINCIDENCE " (electron-proton from same "beam bunch" form a coincidence)
-		  if(c_baseCuts && eP_ctime_cut)
-		    {
+		  // full coin. time spectrum with all other cuts
+		  if(c_baseCuts}{
 
-		      //--------------------------------------------------------------------
-		      //---------HISTOGRAM CATEGORY: Particle Identification (PID)----------
-		      //--------------------------------------------------------------------
-		      
-		      //Coincidence Time		      
-		      H_ep_ctime->Fill(epCoinTime-ctime_offset); // fill coin. time and apply the offset
-
-		      //Fill HMS Detectors
-		      H_hCerNpeSum->Fill(hcer_npesum);
-		      H_hCalEtotNorm->Fill(hcal_etotnorm);
-		      H_hCalEtotTrkNorm->Fill(hcal_etottracknorm);
-		      H_hHodBetaNtrk->Fill(hhod_beta_ntrk);
-		      H_hHodBetaTrk->Fill(hhod_gtr_beta);
-
-		      //Fill SHMS Detectors
-		      H_pNGCerNpeSum->Fill(pngcer_npesum);
-		      H_pHGCerNpeSum->Fill(phgcer_npesum);
-		      H_pAeroNpeSum->Fill(paero_npesum);
-		      H_pCalEtotNorm->Fill(pcal_etotnorm);
-		      H_pCalEtotTrkNorm->Fill(pcal_etottracknorm);
-		      H_pHodBetaNtrk->Fill(phod_beta_ntrk);
-		      H_pHodBetaTrk->Fill(phod_gtr_beta);
-
-		      //Fill 2D PID Correlations
-		      H_hcal_vs_hcer->Fill(hcal_etottracknorm, hcer_npesum);
-		      H_pcal_vs_phgcer->Fill(pcal_etottracknorm, phgcer_npesum);  
-		      H_pcal_vs_pngcer->Fill(pcal_etottracknorm, pngcer_npesum);  
-		      H_pcal_vs_paero->Fill(pcal_etottracknorm, paero_npesum);   
-		      H_paero_vs_phgcer->Fill(paero_npesum, phgcer_npesum); 
-		      H_paero_vs_pngcer->Fill(paero_npesum, pngcer_npesum); 
-		      H_pngcer_vs_phgcer->Fill(pngcer_npesum, phgcer_npesum);
-
-		      
-
-		      //--------------------------------------------------------
-		      //---------HISTOGRAM CATEGORY: Kinematics  (KIN)----------
-		      //--------------------------------------------------------
-
-		      //Fill Primary Kin Histos
-		      H_the    ->Fill(th_e/dtr);
-		      H_kf     ->Fill(kf);
-	              H_W      ->Fill(W);
-		      H_W2     ->Fill(W2);
-		      H_Q2     ->Fill(Q2);
-		      H_xbj    ->Fill(X);
-		      H_nu     ->Fill(nu);
-		      H_q      ->Fill(q);
-		      H_qx     ->Fill(qx);
-		      H_qy     ->Fill(qy);
-		      H_qz     ->Fill(qz);
-		      H_thq    ->Fill(th_q/dtr);
-		      H_phq    ->Fill(ph_q/dtr);
-		      H_epsilon->Fill(epsilon); 
-		      
-		      //Fill Secondary Kin Histos
-		      H_Em       ->Fill(Em);
-		      H_Em_nuc   ->Fill(Em_nuc);
-		      H_Pm       ->Fill(Pm);
-		      H_Pmx_lab  ->Fill(Pmx_lab);
-		      H_Pmy_lab  ->Fill(Pmy_lab);
-		      H_Pmz_lab  ->Fill(Pmz_lab);
-		      H_Pmx_q    ->Fill(Pmx_q);
-		      H_Pmy_q    ->Fill(Pmy_q);
-		      H_Pmz_q    ->Fill(Pmz_q);
-		      H_Tx       ->Fill(Tx);
-		      H_Tr       ->Fill(Tr);
-		      H_MM       ->Fill(MM);
-		      H_MM2      ->Fill(MM2);
-		      H_thx      ->Fill(th_x/dtr);
-		      H_Pf       ->Fill(Pf);
-		      H_thxq     ->Fill(th_xq/dtr);
-		      H_thrq     ->Fill(th_rq/dtr);
-		      H_phxq     ->Fill(ph_xq/dtr);
-		      H_phrq     ->Fill(ph_rq/dtr);
-		      H_Tx_cm    ->Fill(Tx_cm);
-		      H_Tr_cm    ->Fill(Tr_cm);
-		      H_thxq_cm  ->Fill(th_xq_cm/dtr);
-		      H_thrq_cm  ->Fill(th_rq_cm/dtr);
-		      H_phxq_cm  ->Fill(ph_xq_cm/dtr);
-		      H_phrq_cm  ->Fill(ph_rq_cm/dtr);
-		      H_Ttot_cm  ->Fill(Ttot_cm);
-		      H_MandelS  ->Fill(MandelS);
-		      H_MandelT  ->Fill(MandelT);
-		      H_MandelU  ->Fill(MandelU);
-
-		      //Fill (cosine, sine) of angles relative to q		      
-		      H_cth_xq  ->Fill(cos(th_xq));
-		      H_cth_rq  ->Fill(cos(th_rq));
-		      H_sth_xq  ->Fill(sin(th_xq));
-		      H_sth_rq  ->Fill(sin(th_rq));
-		      H_cphi_xq ->Fill(cos(ph_xq));
-		      H_cphi_rq ->Fill(cos(ph_rq));
-		      H_sphi_xq ->Fill(sin(ph_xq));
-		      H_sphi_rq ->Fill(sin(ph_rq));
-		      //CM Frame
-		      H_cth_xq_cm  ->Fill(cos(th_xq_cm));
-		      H_cth_rq_cm  ->Fill(cos(th_rq_cm));
-		      H_sth_xq_cm  ->Fill(sin(th_xq_cm));
-		      H_sth_rq_cm  ->Fill(sin(th_rq_cm));
-		      H_cphi_xq_cm ->Fill(cos(ph_xq_cm));
-		      H_cphi_rq_cm ->Fill(cos(ph_rq_cm));
-		      H_sphi_xq_cm ->Fill(sin(ph_xq_cm));
-		      H_sphi_rq_cm ->Fill(sin(ph_rq_cm));
-
+		    H_ep_ctime_noCut->Fill(epCoinTime-ctime_offset); 
+		    
+		    
+		    // select "TRUE COINCIDENCE " (electron-proton from same "beam bunch" form a coincidence)
+		    if(eP_ctime_cut)
+		      {
+			
+			//--------------------------------------------------------------------
+			//---------HISTOGRAM CATEGORY: Particle Identification (PID)----------
+			//--------------------------------------------------------------------
+			
+			//Coincidence Time		      
+			H_ep_ctime->Fill(epCoinTime-ctime_offset); // fill coin. time and apply the offset
+			
+			//Fill HMS Detectors
+			H_hCerNpeSum->Fill(hcer_npesum);
+			H_hCalEtotNorm->Fill(hcal_etotnorm);
+			H_hCalEtotTrkNorm->Fill(hcal_etottracknorm);
+			H_hHodBetaNtrk->Fill(hhod_beta_ntrk);
+			H_hHodBetaTrk->Fill(hhod_gtr_beta);
+			
+			//Fill SHMS Detectors
+			H_pNGCerNpeSum->Fill(pngcer_npesum);
+			H_pHGCerNpeSum->Fill(phgcer_npesum);
+			H_pAeroNpeSum->Fill(paero_npesum);
+			H_pCalEtotNorm->Fill(pcal_etotnorm);
+			H_pCalEtotTrkNorm->Fill(pcal_etottracknorm);
+			H_pHodBetaNtrk->Fill(phod_beta_ntrk);
+			H_pHodBetaTrk->Fill(phod_gtr_beta);
+			
+			//Fill 2D PID Correlations
+			H_hcal_vs_hcer->Fill(hcal_etottracknorm, hcer_npesum);
+			H_pcal_vs_phgcer->Fill(pcal_etottracknorm, phgcer_npesum);  
+			H_pcal_vs_pngcer->Fill(pcal_etottracknorm, pngcer_npesum);  
+			H_pcal_vs_paero->Fill(pcal_etottracknorm, paero_npesum);   
+			H_paero_vs_phgcer->Fill(paero_npesum, phgcer_npesum); 
+			H_paero_vs_pngcer->Fill(paero_npesum, pngcer_npesum); 
+			H_pngcer_vs_phgcer->Fill(pngcer_npesum, phgcer_npesum);
+			
+			
+			
+			//--------------------------------------------------------
+			//---------HISTOGRAM CATEGORY: Kinematics  (KIN)----------
+			//--------------------------------------------------------
+			
+			//Fill Primary Kin Histos
+			H_the    ->Fill(th_e/dtr);
+			H_kf     ->Fill(kf);
+			H_W      ->Fill(W);
+			H_W2     ->Fill(W2);
+			H_Q2     ->Fill(Q2);
+			H_xbj    ->Fill(X);
+			H_nu     ->Fill(nu);
+			H_q      ->Fill(q);
+			H_qx     ->Fill(qx);
+			H_qy     ->Fill(qy);
+			H_qz     ->Fill(qz);
+			H_thq    ->Fill(th_q/dtr);
+			H_phq    ->Fill(ph_q/dtr);
+			H_epsilon->Fill(epsilon); 
+			
+			//Fill Secondary Kin Histos
+			H_Em       ->Fill(Em);
+			H_Em_nuc   ->Fill(Em_nuc);
+			H_Pm       ->Fill(Pm);
+			H_Pmx_lab  ->Fill(Pmx_lab);
+			H_Pmy_lab  ->Fill(Pmy_lab);
+			H_Pmz_lab  ->Fill(Pmz_lab);
+			H_Pmx_q    ->Fill(Pmx_q);
+			H_Pmy_q    ->Fill(Pmy_q);
+			H_Pmz_q    ->Fill(Pmz_q);
+			H_Tx       ->Fill(Tx);
+			H_Tr       ->Fill(Tr);
+			H_MM       ->Fill(MM);
+			H_MM2      ->Fill(MM2);
+			H_thx      ->Fill(th_x/dtr);
+			H_Pf       ->Fill(Pf);
+			H_thxq     ->Fill(th_xq/dtr);
+			H_thrq     ->Fill(th_rq/dtr);
+			H_phxq     ->Fill(ph_xq/dtr);
+			H_phrq     ->Fill(ph_rq/dtr);
+			H_Tx_cm    ->Fill(Tx_cm);
+			H_Tr_cm    ->Fill(Tr_cm);
+			H_thxq_cm  ->Fill(th_xq_cm/dtr);
+			H_thrq_cm  ->Fill(th_rq_cm/dtr);
+			H_phxq_cm  ->Fill(ph_xq_cm/dtr);
+			H_phrq_cm  ->Fill(ph_rq_cm/dtr);
+			H_Ttot_cm  ->Fill(Ttot_cm);
+			H_MandelS  ->Fill(MandelS);
+			H_MandelT  ->Fill(MandelT);
+			H_MandelU  ->Fill(MandelU);
+			
+			//Fill (cosine, sine) of angles relative to q		      
+			H_cth_xq  ->Fill(cos(th_xq));
+			H_cth_rq  ->Fill(cos(th_rq));
+			H_sth_xq  ->Fill(sin(th_xq));
+			H_sth_rq  ->Fill(sin(th_rq));
+			H_cphi_xq ->Fill(cos(ph_xq));
+			H_cphi_rq ->Fill(cos(ph_rq));
+			H_sphi_xq ->Fill(sin(ph_xq));
+			H_sphi_rq ->Fill(sin(ph_rq));
+			//CM Frame
+			H_cth_xq_cm  ->Fill(cos(th_xq_cm));
+			H_cth_rq_cm  ->Fill(cos(th_rq_cm));
+			H_sth_xq_cm  ->Fill(sin(th_xq_cm));
+			H_sth_rq_cm  ->Fill(sin(th_rq_cm));
+			H_cphi_xq_cm ->Fill(cos(ph_xq_cm));
+			H_cphi_rq_cm ->Fill(cos(ph_rq_cm));
+			H_sphi_xq_cm ->Fill(sin(ph_xq_cm));
+			H_sphi_rq_cm ->Fill(sin(ph_rq_cm));
+			
+			
+			
+			//----------------------------------------------------------------------
+			//---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
+			//----------------------------------------------------------------------
+			//Fill SPECTROMETER  ACCEPTANCE
+			H_exfp       ->Fill(e_xfp);
+			H_eyfp       ->Fill(e_yfp);
+			H_expfp      ->Fill(e_xpfp);
+			H_eypfp      ->Fill(e_ypfp);
+			
+			H_eytar      ->Fill(e_ytar);
+			H_exptar     ->Fill(e_xptar);
+			H_eyptar     ->Fill(e_yptar);
+			H_edelta     ->Fill(e_delta);
+			
+			H_hxfp       ->Fill(h_xfp);
+			H_hyfp       ->Fill(h_yfp);
+			H_hxpfp      ->Fill(h_xpfp);
+			H_hypfp      ->Fill(h_ypfp);
+			
+			H_hytar       ->Fill(h_ytar);
+			H_hxptar      ->Fill(h_xptar);
+			H_hyptar      ->Fill(h_yptar);
+			H_hdelta      ->Fill(h_delta);
+			
+			H_htar_x       ->Fill(htar_x);
+			H_htar_y       ->Fill(htar_y);
+			H_htar_z       ->Fill(htar_z);
+			H_etar_x       ->Fill(etar_x);
+			H_etar_y       ->Fill(etar_y);
+			H_etar_z       ->Fill(etar_z);
+			H_ztar_diff    ->Fill(ztar_diff);
+			
+			H_hXColl      ->Fill(hXColl);
+			H_hYColl      ->Fill(hYColl);
+			H_eXColl      ->Fill(eXColl);
+			H_eYColl      ->Fill(eYColl);
+			
+			H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl);
+			H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl);
+			
+			H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp);
+			H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp);
+			
+			
+		      }
+		    
+		    
+		    // select "ACCIDENTAL COINCIDENCE BACKGROUND" left/right of main coin. peak as a sample to estimate background underneath main coin. peak
+		    // background underneath main peak: electron-proton from same "beam bunch" form a random ("un-correlated") coincidence
+		    
+		    if(eP_ctime_cut_rand)
+		      {
+			// Only histograms of selected variables of interest will be filled with background
+			
+			H_ep_ctime_rand->  Fill ( epCoinTime-ctime_offset );
+			H_W_rand       ->  Fill (W);       
+			H_Q2_rand      ->  Fill (Q2);      
+			H_xbj_rand     ->  Fill (X);     
+			H_nu_rand      ->  Fill (nu);      
+			H_q_rand       ->  Fill (q);       
+			H_Em_rand      ->  Fill (Em);      
+			H_Em_nuc_rand  ->  Fill (Em_nuc);  
+			H_Pm_rand      ->  Fill (Pm);      
+			H_MM_rand      ->  Fill (MM);      
+			H_thxq_rand    ->  Fill (th_xq/dtr);    
+			H_thrq_rand    ->  Fill (ph_xq/dtr);    
+				       	
+		      }		  		    		   
+		    
+		   
+		    
+		  }  //----------------------END: Fill DATA Histograms-----------------------		  		 		  
 		  
-
-		      //----------------------------------------------------------------------
-		      //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
-		      //----------------------------------------------------------------------
-		      //Fill SPECTROMETER  ACCEPTANCE
-		      H_exfp       ->Fill(e_xfp);
-		      H_eyfp       ->Fill(e_yfp);
-		      H_expfp      ->Fill(e_xpfp);
-		      H_eypfp      ->Fill(e_ypfp);
-		      
-		      H_eytar      ->Fill(e_ytar);
-		      H_exptar     ->Fill(e_xptar);
-		      H_eyptar     ->Fill(e_yptar);
-		      H_edelta     ->Fill(e_delta);
-		      
-		      H_hxfp       ->Fill(h_xfp);
-		      H_hyfp       ->Fill(h_yfp);
-		      H_hxpfp      ->Fill(h_xpfp);
-		      H_hypfp      ->Fill(h_ypfp);
-		      
-		      H_hytar       ->Fill(h_ytar);
-		      H_hxptar      ->Fill(h_xptar);
-		      H_hyptar      ->Fill(h_yptar);
-		      H_hdelta      ->Fill(h_delta);
-		      
-		      H_htar_x       ->Fill(htar_x);
-		      H_htar_y       ->Fill(htar_y);
-		      H_htar_z       ->Fill(htar_z);
-		      H_etar_x       ->Fill(etar_x);
-		      H_etar_y       ->Fill(etar_y);
-		      H_etar_z       ->Fill(etar_z);
-		      H_ztar_diff    ->Fill(ztar_diff);
-		      
-		      H_hXColl      ->Fill(hXColl);
-		      H_hYColl      ->Fill(hYColl);
-		      H_eXColl      ->Fill(eXColl);
-		      H_eYColl      ->Fill(eYColl);
-		      
-		      H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl);
-		      H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl);
-		      
-		      H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp);
-		      H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp);
-		      
-		      
-		    }
-
 		  
-		  // select "TRUE COINCIDENCE BACKGROUND" (electron-proton from same "beam bunch" form a random ("un-correlated") coincidence )
-		  
-		  if(c_baseCuts && eP_ctime_cut_rand)
-		    {
-		      // Only histograms of selected variables of interest will be filled with background
-
-		      H_ep_ctime_rand->  Fill ( epCoinTime-ctime_offset );
-		      H_W_rand       ->  Fill (W);       
-		      H_Q2_rand      ->  Fill (Q2);      
-		      H_xbj_rand     ->  Fill (X);     
-		      H_nu_rand      ->  Fill (nu);      
-		      H_q_rand       ->  Fill (q);       
-		      H_Em_rand      ->  Fill (Em);      
-		      H_Em_nuc_rand  ->  Fill (Em_nuc);  
-		      H_Pm_rand      ->  Fill (Pm);      
-		      H_MM_rand      ->  Fill (MM);      
-		      H_thxq_rand    ->  Fill (th_xq/dtr);    
-		      H_thrq_rand    ->  Fill (ph_xq/dtr);    
-
-
-		    }
-		  
-		  
-		  //----------------------END: Fill DATA Histograms-----------------------
-		  
-		  
-		}
-
-	      //------END: REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS-----
+		} //------END: REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS-----
 	      
-	    }
-
-	  //-----END: BCM Current Cut------
-
+	    }  //-----END: BCM Current Cut------
+	  
+	  
 	  
 	  //Increment Scaler Read if event == scaler_evt_perlimit for that scaler read
 	  //Explanation: each scaler read value has an associated upper limit in the event number
@@ -2612,33 +2642,41 @@ void baseAnalyzer::RandSub()
   */
 
   // Scale Down (If necessary) the randoms before subtracting it from the reals
-  // NOTE: eP_mult is a integral multiple (i.e., 2, 3, 4,  . . . )
-  // At least a multiple of 2 is required, otherwise, if multiple =1, min/max cuts are the same which gives 0 scale factor --> infinity 
+  // NOTE: the accidentals selected to the left/right of main coin. peak have a window width of dt_acc_L and dt_acc_R
+  // and therefore the relvevant histograms with accidentals selection  must be properly scaled down to the main coin. peak window
+  // as follows:  scale_factor = dt_coin_peak / ( dt_acc_L + dt_acc_R ) --> ratio of main coin. time window width to (sum of accidental window width left/right of main peak)
   // the random coincidences can be scaled down by the following factor:
+
+  // main. coin. peak is assumed to have been centered at zero
+  dt_coin_peak =  ePctime_cut_max - ePctime_cut_min;
+  dt_acc_R = abs(ePctime_cut_max_R - ePctime_cut_min_R);
+  dt_acc_L = abs(ePctime_cut_max_L - ePctime_cut_min_L);
   
-  // The scale factor is: (span of background sample outside coin. peak in x-axis [ns]) / (span of main coin. peak in x-axis[ns])
-  P_scale_factor =  ( (eP_mult*ePctime_cut_thrs) - ePctime_cut_thrs )  / ePctime_cut_thrs; 
+  P_scale_factor = dt_coin_peak /  (dt_acc_L + dt_acc_R);
+
+  cout << "coin_peak_window_width [ns] = "         << dt_coin_peak << endl;
+  cout << "accidental_width_LEFT [ns] = " << dt_acc_L << endl;
+  cout << "accidental_width_RIGHT [ns] = " << dt_acc_R << endl;  
   cout << "P_scale_factor = "         << P_scale_factor << endl;
 
 
   //----Scale Down the random coincidences histograms-----
   // ----(other than the coin. histograms themselves)----
 
-  H_W_rand       ->  Scale( 1. / P_scale_factor );;
-  H_Q2_rand      ->  Scale( 1. / P_scale_factor );;
-  H_xbj_rand     ->  Scale( 1. / P_scale_factor );;
-  H_nu_rand      ->  Scale( 1. / P_scale_factor );;
-  H_q_rand       ->  Scale( 1. / P_scale_factor );;
-  H_Em_rand      ->  Scale( 1. / P_scale_factor );;
-  H_Em_nuc_rand  ->  Scale( 1. / P_scale_factor );;
-  H_Pm_rand      ->  Scale( 1. / P_scale_factor );;
-  H_MM_rand      ->  Scale( 1. / P_scale_factor );;
-  H_thxq_rand    ->  Scale( 1. / P_scale_factor );;
-  H_thrq_rand    ->  Scale( 1. / P_scale_factor );;
+  H_W_rand       ->  Scale( P_scale_factor );
+  H_Q2_rand      ->  Scale( P_scale_factor );
+  H_xbj_rand     ->  Scale( P_scale_factor );
+  H_nu_rand      ->  Scale( P_scale_factor );
+  H_q_rand       ->  Scale( P_scale_factor );
+  H_Em_rand      ->  Scale( P_scale_factor );
+  H_Em_nuc_rand  ->  Scale( P_scale_factor );
+  H_Pm_rand      ->  Scale( P_scale_factor );
+  H_MM_rand      ->  Scale( P_scale_factor );
+  H_thxq_rand    ->  Scale( P_scale_factor );
+  H_thrq_rand    ->  Scale( P_scale_factor );
 
   
   // -----Carry out the randoms subtraction------
-
   H_W_rand_sub       -> Add(H_W      ,H_W_rand      , 1, -1);
   H_Q2_rand_sub      -> Add(H_Q2     ,H_Q2_rand     , 1, -1);
   H_xbj_rand_sub     -> Add(H_xbj    ,H_xbj_rand    , 1, -1);
@@ -3101,7 +3139,7 @@ void baseAnalyzer::WriteReportSummary()
       out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
       out_file << "#                                              " << endl;
       out_file << "#---PID Cuts--- " << endl;
-      if(ePctime_cut_flag)         {out_file << Form("# Proton Coincidence Time Cut: +/- %.3f ns", ePctime_cut_thrs) << endl;}
+      if(ePctime_cut_flag)         {out_file << Form("# Proton Coincidence Time Cut: (%.3f, %.3f )ns", ePctime_cut_min, ePctime_cut_max) << endl;}
       if(petot_trkNorm_pidCut_flag)   {out_file << Form("# SHMS Calorimeter EtotTrackNorm Cut: (%.3f, %.3f)", cpid_petot_trkNorm_min,  cpid_petot_trkNorm_max) << endl;}
       if(pngcer_pidCut_flag) {out_file << Form("# SHMS Noble Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_pngcer_npeSum_min,  cpid_pngcer_npeSum_max) << endl;}
       if(phgcer_pidCut_flag) {out_file << Form("# SHMS Heavy Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_phgcer_npeSum_min,  cpid_phgcer_npeSum_max) << endl;}
