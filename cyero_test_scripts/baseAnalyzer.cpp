@@ -2048,7 +2048,7 @@ void baseAnalyzer::ReadTree()
 Double_t baseAnalyzer::GetCoinTimePeak()
 {
  
-  cout << "Loop over Data Sample Size 50k" <<  endl;
+  cout << "Loop over Data Sample Size 10k" <<  endl;
   
   // coin. time offset param (i.e., coin time peak value)
   Double_t ctime_offset = 0.0;
@@ -2096,7 +2096,8 @@ void baseAnalyzer::EventLoop()
 	
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
-      for(int ientry=0; ientry<nentries; ientry++)
+      //for(int ientry=0; ientry<nentries; ientry++)
+      for(int ientry=0; ientry<50000; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
@@ -2987,7 +2988,7 @@ void baseAnalyzer::ApplyWeight()
   }//end loop over accp_HList
   
 
-  //Call the randoms subtraction methods, provided there was a coin. time cut flag  (after scaling all histograms above)
+  //Call the randoms subtraction method, provided there was a coin. time cut flag  (after scaling all histograms above)
   if(ePctime_cut_flag){
     RandSub();
   }
@@ -3074,24 +3075,31 @@ void baseAnalyzer::WriteReport()
       out_file << Form("DAQ_Run_Length: %.3f [sec]         ",  total_time_bcm_cut) << endl;
       out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
       out_file << "" << endl;
-      out_file << "# Pre-Scale Factors " << endl;
-      out_file << "Ps1_factor = " << Ps1_factor << endl;
-      out_file << "Ps2_factor = " << Ps2_factor << endl;
-      out_file << "Ps3_factor = " << Ps3_factor << endl;
-      out_file << "Ps4_factor = " << Ps4_factor << endl;
-      out_file << "Ps5_factor = " << Ps5_factor << endl;
-      out_file << "Ps6_factor = " << Ps6_factor << endl;	    
-      out_file << "" << endl;
       out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
       out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
-      out_file << Form("%s_Charge: %.3f [MC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
+      out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
       out_file << "" << endl;
-      out_file << "# CaFe Kinematics Optimized for Mean-Field (MF) " << endl;  // or SRC, depends on user input
-      out_file << "Events_Replayed: " << endl;
-      out_file << "MF_Events_Passed:" << endl;
-      out_file << "SRC_Events_Passed:" << endl;
-      out_file << "" << endl;
-      out_file << "" << endl;
+      if(analysis_cut=="heep")
+	{
+	  out_file << "Events_Replayed: " << endl;
+	  out_file << "heep_total:" << endl;
+	  out_file << "heep_signal:" << endl;
+	  out_file << "heep_bkg:" << endl;
+	}
+      if(analysis_cut=="MF")
+	{
+	  out_file << "Events_Replayed: " << endl;
+	  out_file << "MF_total:" << endl;
+	  out_file << "MF_signal:" << endl;
+	  out_file << "MF_bkg:" << endl;
+	}
+      if(analysis_cut=="SRC")
+	{
+	  out_file << "Events_Replayed: " << endl;
+	  out_file << "SRC_total:" << endl;
+	  out_file << "SRC_signal:" << endl;
+	  out_file << "SRC_bkg:" << endl;
+	}
       out_file << "" << endl;
 
       

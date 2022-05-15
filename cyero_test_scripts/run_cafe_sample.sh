@@ -23,7 +23,7 @@ if [ -z "$2" ]; then
     exit 0
 fi
 
-evtNum=50000         # evt number for cafe sample 
+evtNum=500000         # this is part of the input filename, 
 daq_mode="coin"
 e_arm="SHMS"
 analysis_type="data"

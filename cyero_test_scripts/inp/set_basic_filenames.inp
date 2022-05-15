@@ -1,11 +1,16 @@
 # Set Input File Name Pattern from replayed data (same file pattern as set in replay_cafe.C script)
+
+# deuteron exp. 2018
+input_ROOTfilePattern = ROOTfiles/prod/coin_replay_heep_check_%d_%d.root  
+input_REPORTPattern   = REPORT_OUTPUT/prod/replay_coin_heep_check_%d_%d.report
+
 # cafe
 #input_ROOTfilePattern        = ROOTfiles/prod/cafe_replay_prod_%d_%d.root
 #input_REPORTPattern          = REPORT_OUTPUT/prod/cafe_prod_%d_%d.report
 
 # kaon-lt
-input_ROOTfilePattern        = ROOTfiles/test/coin_replay_Full_%d_%d.root
-input_REPORTPattern          = REPORT_OUTPUT/test/replay_coin_production_%d_%d.report
+#input_ROOTfilePattern        = ROOTfiles/test/coin_replay_Full_%d_%d.root
+#input_REPORTPattern          = REPORT_OUTPUT/test/replay_coin_production_%d_%d.report
 
 #Set User Analyzed Output File Name Pattern
 output_ROOTfilePattern       = OUTPUT/ROOTfiles/cafe_prod_histos_%d_%d.root

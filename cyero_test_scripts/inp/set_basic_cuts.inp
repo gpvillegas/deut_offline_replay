@@ -26,17 +26,13 @@ hScinGood_cut_flag = 1
 
 # HMS Cherenkov Total Number of Photo-Electrons (search "npeSum" in /hcana/src/THcCherenkov.cxx)
 hcer_cut_flag = 1
-#c_hnpeSum_min = 0.
-#c_hnpeSum_max = 0.5
-c_hnpeSum_min = 1.
-c_hnpeSum_max = 100.
+c_hnpeSum_min = 0.
+c_hnpeSum_max = 0.5
 
 # HMS Calorimeter Total Energy / Spec. Central Momentum (search "etotnorm" in /hcana/src/THcShower.cxx)
 hetotnorm_cut_flag = 1
-#c_hetotnorm_min = 0.
-#c_hetotnorm_max = 0.7
-c_hetotnorm_min = 0.7
-c_hetotnorm_max = 5.
+c_hetotnorm_min = 0.
+c_hetotnorm_max = 0.7
 
 # HMS Beta (p/E) Calculated from Scintillator Hits (without using Tracking Info) (search "betanotrack" in /hcana/src/THcHodoscope.cxx)
 hBeta_notrk_cut_flag = 1
@@ -60,23 +56,19 @@ c_pdc_ntrk_min = 1
 pScinGood_cut_flag = 1
 
 # SHMS Noble Gas Cherenkov Total Number of Photo-Electrons (search "npeSum" in /hcana/src/THcCherenkov.cxx)
-pngcer_cut_flag = 0
-#c_pngcer_npeSum_min = 0.5
-#c_pngcer_npeSum_max = 100.
-c_pngcer_npeSum_min = 0.
-c_pngcer_npeSum_max = 0.5.
+pngcer_cut_flag = 1
+c_pngcer_npeSum_min = 0.5
+c_pngcer_npeSum_max = 100.
 
 # SHMS Heavy Gas Cherenkov (will NOT be used by CaFe experiment)
-phgcer_cut_flag = 1
+phgcer_cut_flag = 0
 c_phgcer_npeSum_min = 0.
 c_phgcer_npeSum_max = 1.5
 
 # SHMS Calorimeter Total Energy / Spec. Central Momentum (search "etotnorm" in /hcana/src/THcShower.cxx)
 petotnorm_cut_flag = 1
-#c_petotnorm_min = 0.6
-#c_petotnorm_max = 5
-c_petotnorm_min = 0.
-c_petotnorm_max = 0.6
+c_petotnorm_min = 0.7
+c_petotnorm_max = 1.3
 
 # SHMS Beta (p/E) Calculated from Scintillator Hits (without using Tracking Info) (search "betanotrack" in /hcana/src/THcHodoscope.cxx)
 pBeta_notrk_cut_flag = 1
@@ -89,7 +81,7 @@ c_pBetaNtrk_max = 1.5
 #---- Coincidence Time Cut -----
 
 # electron-Proton main coincidence time cut [ns] 
-ePctime_cut_flag = 1
+ePctime_cut_flag = 0
 ePctime_cut_min = -3.0
 ePctime_cut_max = 5.0
 
@@ -106,13 +98,11 @@ ePctime_cut_max_L = -15.
 
 # (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
 petot_trkNorm_pidCut_flag = 1
-# cpid_petot_trkNorm_min = 0.7
-# cpid_petot_trkNorm_max = 5.
-cpid_petot_trkNorm_min = 0.
-cpid_petot_trkNorm_max = 0.7
+cpid_petot_trkNorm_min = 0.7
+cpid_petot_trkNorm_max = 5.
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
-pngcer_pidCut_flag = 0
+pngcer_pidCut_flag = 1
 cpid_pngcer_npeSum_min = 1.5
 cpid_pngcer_npeSum_max = 100.
 
@@ -128,15 +118,13 @@ cpid_paero_npeSum_max = 100
 
 # (HMS PID) Calorimeter Total Energy Normalized By Track Momentum
 hetot_trkNorm_pidCut_flag = 1
-#cpid_hetot_trkNorm_min = 0.
-#cpid_hetot_trkNorm_max = 0.6
-cpid_hetot_trkNorm_min = 0.7
-cpid_hetot_trkNorm_max = 2.5
+cpid_hetot_trkNorm_min = 0.
+cpid_hetot_trkNorm_max = 0.6
 
 # (HMS PID) Gas Cherenkov
-hcer_pidCut_flag = 0
-cpid_hcer_npeSum_min = 0.5
-cpid_hcer_npeSum_max = 70.
+hcer_pidCut_flag = 1
+cpid_hcer_npeSum_min = 0.
+cpid_hcer_npeSum_max = 0.5
 
 
 #------Acceptance Cuts------
@@ -144,7 +132,7 @@ cpid_hcer_npeSum_max = 70.
 # hadron arm momentum acceptance, Delta [%] 
 hdelta_cut_flag = 1
 c_hdelta_min = -10.
-c_hdelta_max = 22.
+c_hdelta_max = 10.
 
 # hadron out-of-plane angular range, xptar [rad]
 hxptar_cut_flag = 1
@@ -159,7 +147,7 @@ c_hyptar_max = 0.035
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
 c_edelta_min = -10.
-c_edelta_max = 10.
+c_edelta_max = 22.
 
 # electron out-of-plane angular range, xptar [rad]
 exptar_cut_flag = 1
@@ -181,7 +169,7 @@ c_ztarDiff_max = 2.
 
 # H(e,e'p) Kinematics Cuts
 
-# NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep" (see run_cafe_prod.sh)
+# NOTE: Provided the '*_flag = 1', the cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep" (see run_cafe_prod.sh)
 # not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
