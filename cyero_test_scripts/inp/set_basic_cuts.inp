@@ -26,13 +26,17 @@ hScinGood_cut_flag = 1
 
 # HMS Cherenkov Total Number of Photo-Electrons (search "npeSum" in /hcana/src/THcCherenkov.cxx)
 hcer_cut_flag = 1
-c_hnpeSum_min = 0.
-c_hnpeSum_max = 0.5
+#c_hnpeSum_min = 0.
+#c_hnpeSum_max = 0.5
+c_hnpeSum_min = 1.
+c_hnpeSum_max = 100.
 
 # HMS Calorimeter Total Energy / Spec. Central Momentum (search "etotnorm" in /hcana/src/THcShower.cxx)
 hetotnorm_cut_flag = 1
-c_hetotnorm_min = 0.
-c_hetotnorm_max = 0.7
+#c_hetotnorm_min = 0.
+#c_hetotnorm_max = 0.7
+c_hetotnorm_min = 0.7
+c_hetotnorm_max = 5.
 
 # HMS Beta (p/E) Calculated from Scintillator Hits (without using Tracking Info) (search "betanotrack" in /hcana/src/THcHodoscope.cxx)
 hBeta_notrk_cut_flag = 1
@@ -56,19 +60,23 @@ c_pdc_ntrk_min = 1
 pScinGood_cut_flag = 1
 
 # SHMS Noble Gas Cherenkov Total Number of Photo-Electrons (search "npeSum" in /hcana/src/THcCherenkov.cxx)
-pngcer_cut_flag = 1
-c_pngcer_npeSum_min = 0.5
-c_pngcer_npeSum_max = 100.
+pngcer_cut_flag = 0
+#c_pngcer_npeSum_min = 0.5
+#c_pngcer_npeSum_max = 100.
+c_pngcer_npeSum_min = 0.
+c_pngcer_npeSum_max = 0.5.
 
 # SHMS Heavy Gas Cherenkov (will NOT be used by CaFe experiment)
-phgcer_cut_flag = 0
+phgcer_cut_flag = 1
 c_phgcer_npeSum_min = 0.
 c_phgcer_npeSum_max = 1.5
 
 # SHMS Calorimeter Total Energy / Spec. Central Momentum (search "etotnorm" in /hcana/src/THcShower.cxx)
 petotnorm_cut_flag = 1
-c_petotnorm_min = 0.6
-c_petotnorm_max = 5
+#c_petotnorm_min = 0.6
+#c_petotnorm_max = 5
+c_petotnorm_min = 0.
+c_petotnorm_max = 0.6
 
 # SHMS Beta (p/E) Calculated from Scintillator Hits (without using Tracking Info) (search "betanotrack" in /hcana/src/THcHodoscope.cxx)
 pBeta_notrk_cut_flag = 1

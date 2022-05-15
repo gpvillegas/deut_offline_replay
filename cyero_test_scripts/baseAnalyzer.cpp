@@ -2409,10 +2409,10 @@ void baseAnalyzer::EventLoop()
 		  //----------------------Fill DATA Histograms-----------------------
 
 		  // full coin. time spectrum with all other cuts
-		  if(c_baseCuts}{
+		  if(c_baseCuts){
 
 		    H_ep_ctime_noCut->Fill(epCoinTime-ctime_offset); 
-		    
+		  
 		    
 		    // select "TRUE COINCIDENCE " (electron-proton from same "beam bunch" form a coincidence)
 		    if(eP_ctime_cut)
@@ -2568,7 +2568,7 @@ void baseAnalyzer::EventLoop()
 			H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp);
 			
 			
-		      }
+		      } // end TRUE COINCIDENCE time cut
 		    
 		    
 		    // select "ACCIDENTAL COINCIDENCE BACKGROUND" left/right of main coin. peak as a sample to estimate background underneath main coin. peak
@@ -2591,7 +2591,7 @@ void baseAnalyzer::EventLoop()
 			H_thxq_rand    ->  Fill (th_xq/dtr);    
 			H_thrq_rand    ->  Fill (ph_xq/dtr);    
 				       	
-		      }		  		    		   
+		      }  		    		   
 		    
 		   
 		    
