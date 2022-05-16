@@ -551,12 +551,52 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
   data_file->GetObject("randSub_plots/H_Pm_rand_sub", data_Pm_real);
   data_file->GetObject("rand_plots/H_Pm_rand", data_Pm_rand);
 
+  //Set data Histo Aesthetics
+
+  // coincidence time
+  data_ep_ctime_total->SetFillColorAlpha(kBlue, 0.35);
+  data_ep_ctime_total->SetFillStyle(3004);
+  data_ep_ctime_total->SetLineColor(kBlue);
+
+  data_ep_ctime_rand->SetFillColorAlpha(kGreen, 0.35);
+  data_ep_ctime_rand->SetFillStyle(3005);
+  data_ep_ctime_rand->SetLineColor(kGreen);
+  
+  data_ep_ctime_real->SetFillColorAlpha(kMagenta, 0.35);
+  data_ep_ctime_real->SetFillStyle(3006);
+  data_ep_ctime_real->SetLineColor(kMagenta);
+
+  // invariant mass
+  data_W_total->SetFillColorAlpha(kBlue, 0.35);
+  data_W_total->SetFillStyle(3004);
+  data_W_total->SetLineColor(kBlue);
+
+  data_W_rand->SetFillColorAlpha(kGreen, 0.35);
+  data_W_rand->SetFillStyle(3005);
+  data_W_rand->SetLineColor(kGreen);
+  
+  data_W_real->SetFillColorAlpha(kMagenta, 0.35);
+  data_W_real->SetFillStyle(3006);
+  data_W_real->SetLineColor(kMagenta);
+  
+  // missing momentum
+  data_Pm_total->SetFillColorAlpha(kBlue, 0.35);
+  data_Pm_total->SetFillStyle(3004);
+  data_Pm_total->SetLineColor(kBlue);
+
+  data_Pm_rand->SetFillColorAlpha(kGreen, 0.35);
+  data_Pm_rand->SetFillStyle(3005);
+  data_Pm_rand->SetLineColor(kGreen);
+  
+  data_Pm_real->SetFillColorAlpha(kMagenta, 0.35);
+  data_Pm_real->SetFillStyle(3006);
+  data_Pm_real->SetLineColor(kMagenta);
   
   //----------------------------------------------------------------------------------------
 
   
   
-  //Overlay SIMC/data plots (*** VERY IMPORTANT ***: Range and #bins must be same)
+  // Overlay SIMC/data plots (*** VERY IMPORTANT ***: Range and #bins must be same)
 
 
    //Set Legend
@@ -565,19 +605,13 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg7 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg8 = new TLegend(0.1,0.8,0.28,0.9);
 
-  
-   //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
-
-   //Create A Canvas to store Target Recon. variable comparisons in HADRON ARM
-   
-   //TCanvas *c1 = new TCanvas("c1", "Electron Arm: Target Reconstruction", 2000, 1000);
-   
-   
+   // Create canvas to store multi-page .pdf plots
    TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
    c1->Print("cafe_output.pdf[");
    c1->Clear();
    
-   
+   //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
+
    c1->Divide(2,2);
 
    c1->cd(1);
@@ -610,10 +644,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    
    c1->Print("cafe_output.pdf");
    c1->Clear();
-  
 
-   //plots_path = plots_dir + Form("eArm_TargRecon_%d.pdf", run);
-   //c1->SaveAs(plots_path.c_str());
 
    //------------------------------------------------------------------------------
    
@@ -631,8 +662,6 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg14 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg15 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg16 = new TLegend(0.1,0.8,0.28,0.9);
-
-   //TCanvas *c2 = new TCanvas("c2", "Electron Arm: Focal Plane", 2000, 1000);
    
    c1->Divide(2,2);
    
@@ -666,18 +695,14 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    c1->Print("cafe_output.pdf");
    c1->Clear();
-
-   c1->Print("cafe_output.pdf]"); 
-
-   //plots_path = plots_dir + Form("eArm_FocalPlane_%d.pdf", run);
-   //c2->SaveAs(plots_path.c_str());                                                                                   
+                                                                             
 
    //----------------------------------------------------------- 
  
-   /*
+   
    //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
-//Set Legend
+   //Set Legend
    auto leg_Q2 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_nu = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_W = new TLegend(0.1,0.8,0.28,0.9);
@@ -686,12 +711,12 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg_the = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_kf = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_Em = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg_Mm = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg_MM = new TLegend(0.1,0.8,0.28,0.9);
 
-   TCanvas *c3 = new TCanvas("c3", "Kinematics", 2000, 1000);
-   c3->Divide(4,2);
+
+   c1->Divide(4,2);
    
-   c3->cd(1);
+   c1->cd(1);
    data_Q2->GetXaxis()->SetTitle("Q^{2} [GeV^{2}]");
    data_Q2->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Q2->Draw();
@@ -700,7 +725,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Q2->AddEntry(simc_Q2,"SIMC");
    leg_Q2->Draw();
      
-   c3->cd(2);
+   c1->cd(2);
    data_nu->GetXaxis()->SetTitle("Energy Transfer, #nu [GeV]");
    data_nu->GetXaxis()->CenterTitle();  
    if(simc_exist) simc_nu->Draw();
@@ -709,7 +734,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_nu->AddEntry(simc_nu,"SIMC");
    leg_nu->Draw();
 
-   c3->cd(3);
+   c1->cd(3);
    data_W->GetXaxis()->SetTitle("Invariant Mass, W [GeV]");
    data_W->GetXaxis()->CenterTitle();
    if(simc_exist) simc_W->Draw();
@@ -718,7 +743,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_W->AddEntry(simc_W,"SIMC");
    leg_W->Draw();
 
-   c3->cd(4);
+   c1->cd(4);
    data_thq->GetXaxis()->SetTitle("q-vector Angle, #theta_{q} [deg]");
    data_thq->GetXaxis()->CenterTitle();
    if(simc_exist) simc_thq->Draw();
@@ -727,14 +752,14 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_thq->AddEntry(simc_thq,"SIMC");
    leg_thq->Draw();
 
-   c3->cd(5);
+   c1->cd(5);
    if(simc_exist) simc_xbj->Draw();
    data_xbj->Draw("sameshistE0");
    leg_xbj->AddEntry(data_xbj,"Data","f");
    if(simc_exist) leg_xbj->AddEntry(simc_xbj,"SIMC");
    leg_xbj->Draw();
 
-   c3->cd(6);
+   c1->cd(6);
    data_the->GetXaxis()->SetTitle("Electron Scatt. Angle, #theta_{e} [deg]");
    data_the->GetXaxis()->CenterTitle();
    if(simc_exist) simc_the->Draw();
@@ -743,7 +768,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_the->AddEntry(simc_the,"SIMC");
    leg_the->Draw();
 
-   c3->cd(7);
+   c1->cd(7);
    data_kf->GetXaxis()->SetTitle("Electron Final Momentum, k_{f} [GeV/c] ");
    data_kf->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_kf->Draw();
@@ -752,7 +777,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_kf->AddEntry(simc_kf,"SIMC");
    leg_kf->Draw();
 
-   c3->cd(8);
+   c1->cd(8);
    data_Em->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
    data_Em->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_Em->Draw("hist");
@@ -761,7 +786,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
    leg_Em->Draw();
 
-   c3->cd(9);
+   c1->cd(9);
    data_MM->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
    data_MM->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_MM->Draw("hist");
@@ -769,11 +794,12 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_MM->AddEntry(data_MM,"Data","f");
    if(simc_exist) leg_MM->AddEntry(simc_MM,"SIMC");
    leg_MM->Draw();
-   
-   plots_path = plots_dir + Form("Kinematics1_%d.pdf", run);
-   c3->SaveAs(plots_path.c_str());                                                                   
 
-   //Plot Additional Kinematics
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();                                                              
+
+   //---------- PLOT ADDITIONAL KINEMATICS----------
    
    auto leg_Pm = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_Pf = new TLegend(0.1,0.8,0.28,0.9);
@@ -785,12 +811,8 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg_Pmy = new TLegend(0.1,0.8,0.28,0.9);
    auto leg_Pmz = new TLegend(0.1,0.8,0.28,0.9);
 
-
-   //Create A Canvas to store kinematic variable comparisons
-   TCanvas *ck2 = new TCanvas("ck2", "Kinematics-2", 2000, 1000);
-   
-   ck2->Divide(3,3);
-   ck2->cd(1);
+   c1->Divide(3,3);
+   c1->cd(1);
    data_Pm->GetXaxis()->SetTitle("Missing Momentum, P_{miss} [GeV]");
    data_Pm->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pm->Draw();
@@ -799,7 +821,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Pm->AddEntry(simc_Pm,"SIMC");
    leg_Pm->Draw();
 
-   ck2->cd(2);
+   c1->cd(2);
    data_Pf->GetXaxis()->SetTitle("Proton Momentum, P_{p} [GeV]");
    data_Pf->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pf->Draw();
@@ -808,7 +830,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Pf->AddEntry(simc_Pf,"SIMC");
    leg_Pf->Draw();
 
-   ck2->cd(3);
+   c1->cd(3);
    data_thx->GetXaxis()->SetTitle("Proton Scatt. Angle, #theta_{p} [deg]");
    data_thx->GetXaxis()->CenterTitle();
    if(simc_exist) simc_thx->Draw();
@@ -817,7 +839,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_thp->AddEntry(simc_thx,"SIMC");
    leg_thp->Draw();
 
-   ck2->cd(4);
+   c1->cd(4);
    data_q->GetXaxis()->SetTitle("q-Vector Magnitude, |q| [GeV]");
    data_q->GetXaxis()->CenterTitle();
    if(simc_exist) simc_q->Draw();
@@ -827,7 +849,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_q->Draw();
 
 
-   ck2->cd(5);
+   c1->cd(5);
    data_thxq->GetXaxis()->SetTitle("Proton-qVec. Angle, #theta_{pq} [deg]");
    data_thxq->GetXaxis()->CenterTitle();
    if(simc_exist) simc_thxq->Draw();
@@ -836,7 +858,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_thxq->AddEntry(simc_thxq,"SIMC");
    leg_thxq->Draw();
 
-   ck2->cd(6);
+   c1->cd(6);
    data_thrq->GetXaxis()->SetTitle("Recoil-qVec. Angle, #theta_{rq} [deg]");
    data_thrq->GetXaxis()->CenterTitle();
    if(simc_exist) simc_thrq->Draw();
@@ -846,7 +868,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_thrq->Draw();
    
    
-   ck2->cd(7);
+   c1->cd(7);
    data_Pmx->GetXaxis()->SetTitle("Missing Momentum X-comp., Pm_{x} [GeV]");
    data_Pmx->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pmx->Draw();
@@ -855,7 +877,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Pmx->AddEntry(simc_Pmx,"SIMC");
    leg_Pmx->Draw();
 
-   ck2->cd(8);
+   c1->cd(8);
    data_Pmy->GetXaxis()->SetTitle("Missing Momentum Y-comp., Pm_{y} [GeV]");
    data_Pmy->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pmy->Draw();
@@ -864,7 +886,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg_Pmy->AddEntry(simc_Pmy,"SIMC");
    leg_Pmy->Draw();
 
-   ck2->cd(9);
+   c1->cd(9);
    data_Pmz->GetXaxis()->SetTitle("Missing Momentum Z-comp., Pm_{z} [GeV]");
    data_Pmz->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pmz->Draw();
@@ -872,10 +894,11 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_Pmz->AddEntry(data_Pmz,"Data", "f");
    if(simc_exist) leg_Pmz->AddEntry(simc_Pmz,"SIMC");
    leg_Pmz->Draw();
-   
-   plots_path = plots_dir + Form("Kinematics2_%d.pdf", run);
-   ck2->SaveAs(plots_path.c_str());                                                                   
+                                                                    
 
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+   
 
  //-----------------PLOT TARGET  Variables SIMC/Data comparison-----------------------
 
@@ -888,65 +911,52 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto legpyt = new TLegend(0.1,0.8,0.28,0.9);                                                                       
    auto legpzt = new TLegend(0.1,0.8,0.28,0.9);   
 
-TCanvas *c4a = new TCanvas("c4a", "HMS Target Variables", 2000, 1000);
-   c4a->Divide(3,1);
-
-   c4a->cd(1);
+   c1->Divide(3,2);
+   
+   c1->cd(1);
    if(simc_exist) simc_xtar->Draw("hist");
    data_xtarH->Draw("sameshistE0");
    leghxt->AddEntry(data_xtarH,"Data","f");
    if(simc_exist) leghxt->AddEntry(simc_xtar,"SIMC");
    leghxt->Draw();
   
-   c4a->cd(2);
+   c1->cd(2);
    if(simc_exist) simc_ytarH->Draw("hist");
    data_ytarH->Draw("sameshistE0");
    leghyt->AddEntry(data_ytarH,"Data","f");
    if(simc_exist) leghyt->AddEntry(simc_ytarH,"SIMC");
    leghyt->Draw();
 
-   c4a->cd(3);
+   c1->cd(3);
    if(simc_exist) simc_ztarH->Draw("hist");
    data_ztarH->Draw("sameshistE0");
    leghzt->AddEntry(data_ztarH,"Data","f");
    if(simc_exist) leghzt->AddEntry(simc_ztarH,"SIMC");
-   leghzt->Draw();
-   
-   plots_path = plots_dir + Form("hArm_TargVar_%d.pdf", run);
-   c4a->SaveAs(plots_path.c_str());                                                                                              
+   leghzt->Draw();   
 
-   TCanvas *c4b = new TCanvas("c4b", "SHMS Target Variables", 2000, 1000);
-   c4b->Divide(3,1);
-
-   c4b->cd(1);
+   c1->cd(4);
    if(simc_exist) simc_xtar->Draw("hist");
    data_xtarP->Draw("sameshistE0");
    legpxt->AddEntry(data_xtarP,"Data","f");
    if(simc_exist) legpxt->AddEntry(simc_xtar,"SIMC");
    legpxt->Draw();
   
-   c4b->cd(2);
+   c1->cd(5);
    if(simc_exist) simc_ytarP->Draw("hist");
    data_ytarP->Draw("sameshistE0");
    legpyt->AddEntry(data_ytarP,"Data","f");
    if(simc_exist) legpyt->AddEntry(simc_ytarP,"SIMC");
    legpyt->Draw();
 
-   c4b->cd(3);
+   c1->cd(6);
    if(simc_exist) simc_ztarP->Draw("hist");
    data_ztarP->Draw("sameshistE0");
    legpzt->AddEntry(data_ztarP,"Data","f");
    if(simc_exist) legpzt->AddEntry(simc_ztarP,"SIMC");
    legpzt->Draw();
-   
-   plots_path = plots_dir + Form("pArm_TargVar_%d.pdf", run);
-   c4b->SaveAs(plots_path.c_str());      
-   //--------PLOT HADRON ARM QUANTITIES--------
 
-
-
-   //--------PLOT HADRON ARM QUANTITIES--------
-
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
 
    
    //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
@@ -956,42 +966,40 @@ TCanvas *c4a = new TCanvas("c4a", "HMS Target Variables", 2000, 1000);
    auto htr_l2 = new TLegend(0.1,0.8,0.28,0.9);
    auto htr_l3 = new TLegend(0.1,0.8,0.28,0.9);
    auto htr_l4 = new TLegend(0.1,0.8,0.28,0.9);
-   
-   //Create A Canvas to store Target Recon. variable comparisons in HADRON ARM
-   
-   TCanvas *htr = new TCanvas("htr", "Hadron Arm: Target Reconstruction", 2000, 1000);
-   htr->Divide(2,2);
 
-   htr->cd(1);
+   c1->Divide(2,2);
+
+   c1->cd(1);
    if(simc_exist) simc_hytar->Draw();
    data_hytar->Draw("sameshistE0");
    htr_l1->AddEntry(data_hytar,"Data","f");
    if(simc_exist) htr_l1->AddEntry(simc_hytar,"SIMC");
    htr_l1->Draw();
 
-   htr->cd(2);
+   c1->cd(2);
    if(simc_exist) simc_hxptar->Draw();
    data_hxptar->Draw("sameshistE0");
    htr_l2->AddEntry(data_hxptar,"Data", "f");
    if(simc_exist) htr_l2->AddEntry(simc_hxptar,"SIMC");
    htr_l2->Draw();
 
-   htr->cd(3);
+   c1->cd(3);
    if(simc_exist) simc_hyptar->Draw();
    data_hyptar->Draw("sameshistE0");
    htr_l3->AddEntry(data_hyptar,"Data", "f");
    if(simc_exist) htr_l3->AddEntry(simc_hyptar,"SIMC");
    htr_l3->Draw();
      
-   htr->cd(4);
+   c1->cd(4);
    if(simc_exist) simc_hdelta->Draw();
    data_hdelta->Draw("sameshistE0");
    htr_l4->AddEntry(data_hdelta,"Data", "f");
    if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
    htr_l4->Draw();
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
    
-   plots_path = plots_dir + Form("hArm_TargRecon_%d.pdf", run);
-   htr->SaveAs(plots_path.c_str());
 
    //------------------------------------------------------------------------------
 
@@ -1004,48 +1012,124 @@ TCanvas *c4a = new TCanvas("c4a", "HMS Target Variables", 2000, 1000);
    auto hfp_l3 = new TLegend(0.1,0.8,0.28,0.9);
    auto hfp_l4 = new TLegend(0.1,0.8,0.28,0.9);
 
-   TCanvas *hfp = new TCanvas("hfp", "Hadron Arm: Focal Plane", 2000, 1000);
-   hfp->Divide(2,2);
+   c1->Divide(2,2);
 
-   hfp->cd(1);
+   c1->cd(1);
    if(simc_exist) simc_hxfp->Draw();
    data_hxfp->Draw("sameshistE0");
    hfp_l1->AddEntry(data_hxfp,"Data","f");
    if(simc_exist) hfp_l1->AddEntry(simc_hxfp,"SIMC");
    hfp_l1->Draw();
    
-   hfp->cd(2);
+   c1->cd(2);
    if(simc_exist) simc_hyfp->Draw();
    data_hyfp->Draw("sameshistE0");
    hfp_l2->AddEntry(data_hyfp,"Data", "f");
    if(simc_exist) hfp_l2->AddEntry(simc_hyfp,"SIMC");
    hfp_l2->Draw();
 
-   hfp->cd(3);
+   c1->cd(3);
    if(simc_exist) simc_hxpfp->Draw();
    data_hxpfp->Draw("sameshistE0");
    hfp_l3->AddEntry(data_hxpfp,"Data", "f");
    if(simc_exist) hfp_l3->AddEntry(simc_hxpfp,"SIMC");
    hfp_l3->Draw();
      
-   hfp->cd(4);
+   c1->cd(4);
    if(simc_exist) simc_hypfp->Draw();
    data_hypfp->Draw("sameshistE0");
    hfp_l4->AddEntry(data_hypfp,"Data", "f");
    if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
    hfp_l4->Draw();
-   
-   plots_path = plots_dir + Form("hArm_FocalPlane_%d.pdf", run);
-   hfp->SaveAs(plots_path.c_str());                                                                                   
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+                                                                                  
 
    //----------------------------------------------------------- 
    
-   */
+   
 
    //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
+   double total, total_err;
+   double reals, reals_err;
+   double rands, rands_err;
+
    
+   double nbins;
    
+   auto hctime_leg = new TLegend(0.1,0.8,0.28,0.9);
+   auto hW_leg = new TLegend(0.1,0.8,0.28,0.9);
+   auto hPm_leg = new TLegend(0.1,0.8,0.28,0.9);
+
+
+   // ------- COINCIDENCE TIME -----
+   c1->cd();
+   nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+
+   data_ep_ctime_total->Draw("histE0");   
+   data_ep_ctime_real->Draw("sameshistE0");   
+   data_ep_ctime_rand->Draw("sameshistE0");   
+
+   total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
+   reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
+   rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
    
+   hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   | Integral: %.3f", total),"f");
+   hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   | Integral: %.3f", reals),"f");
+   hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms | Integral: %.3f", rands),"f");
+
+   hctime_leg->Draw();
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+
+   // ------ INVARIANT MASS ------
+   c1->cd();
+   nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+
+   data_W_total->Draw("histE0");   
+   data_W_real->Draw("sameshistE0");   
+   data_W_rand->Draw("sameshistE0");   
+
+   total = data_W_total->IntegralAndError(1, nbins, total_err);
+   reals = data_W_real->IntegralAndError(1, nbins, reals_err);
+   rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
+   
+   hW_leg->AddEntry(data_W_total, Form("Total   | Integral: %.3f", total),"f");
+   hW_leg->AddEntry(data_W_real,  Form("Reals   | Integral: %.3f", reals),"f");
+   hW_leg->AddEntry(data_W_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+
+   hW_leg->Draw();
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+
+   // ------ MISSING MOMENTUM ------
+   c1->cd();
+   nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+
+   data_Pm_total->Draw("histE0");   
+   data_Pm_real->Draw("sameshistE0");   
+   data_Pm_rand->Draw("sameshistE0");   
+
+   total = data_Pm_total->IntegralAndError(1, nbins, total_err);
+   reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
+   rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
+   
+   hPm_leg->AddEntry(data_Pm_total, Form("Total   | Integral: %.3f", total),"f");
+   hPm_leg->AddEntry(data_Pm_real,  Form("Reals   | Integral: %.3f", reals),"f");
+   hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+
+   hPm_leg->Draw();
+
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+ 
    //-----------------------------------------------------------------------------------
+
+   // Complete writing out multi-page .pdf
+   c1->Print("cafe_output.pdf]");
+   
    
 }
