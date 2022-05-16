@@ -7,6 +7,7 @@ Date Created: August 22, 2020
 #include "baseAnalyzer.h"
 #include <iostream>
 #include <stdio.h>
+#include "UTILS/make_plots.cpp"
 using namespace std;
 
 //_______________________________________________________________________________
@@ -2096,8 +2097,8 @@ void baseAnalyzer::EventLoop()
 	
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
-      for(int ientry=0; ientry<nentries; ientry++)
-      //for(int ientry=0; ientry<10000; ientry++)
+      //for(int ientry=0; ientry<nentries; ientry++)
+      for(int ientry=0; ientry<10000; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
@@ -3384,19 +3385,12 @@ void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
   
-  gROOT->SetBatch(kTRUE);  
-  gStyle->SetOptStat(1001111);
-  TFile *data_file = new TFile(data_OutputFileName.Data());
-  data_file->cd();
+  string cmd=Form("root -l -q -b \"UTILS/make_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
+  cout << cmd.c_str() << endl;
   
-  cout << "Opening File: " << data_OutputFileName.Data() << " for plotting . . ." << endl;
-  //Get data histogram objects
-  TH1F *data_Pm = (TH1F*)data_file->Get("kin_plots/H_Pm");
+  gSystem->Exec(cmd.c_str());
   
-  TCanvas *c1 = new TCanvas("c1", "", 1000,1000);
-  c1->cd();
-  data_Pm->Draw();
-  c1->SaveAs("test_plot.pdf");
+  
 }
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------

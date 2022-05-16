@@ -34,6 +34,10 @@ bcm_thrs=5
 trig_type="trig6"
 combine_runs=0
 
+# filename base
+ROOTfilePattern="OUTPUT/ROOTfiles/cafe_prod_histos_${runNum}_${evtNum}.root"
+
+# main cafe production analysis command
 CMD="root -l -q -b \"main_analysis.cpp( ${runNum},    ${evtNum}, 
 	     	   		    \\\"${daq_mode}\\\",  \\\"${e_arm}\\\", 
 				   \\\"${analysis_type}\\\", \\\"${analysis_cut}\\\",
@@ -42,9 +46,21 @@ CMD="root -l -q -b \"main_analysis.cpp( ${runNum},    ${evtNum},
                                    \\\"${trig_type}\\\", ${combine_runs}
                      )\""
 
-echo "Runnin CaFe prodcution script:" $CMD
+
+# histogram object file name
+#data_ROOTfilePattern="OUTPUT/ROOTfiles/cafe_prod_histos_${runNum}_${evtNum}.root"                                                                                                                    # output_plot_fname="cafe_output_${runNum}.pdf"      
+
+# command to make plots
+#make_plots_cmd="root -l -q -b \"UTILS/make_plots.cpp(${runNum}, \\\"${data_ROOTfilePattern}\\\")\" "
+
+
+
+echo "Running CaFe prodcution script:" $CMD
 eval $CMD
 
-echo "Opening CaFe Monitoring Plots . . ."
-openPDF=""
-eval $openPDF
+#echo "Making CaFe Monitoring Plots . . ."  
+#eval ${make_plots_cmd}
+
+#echo "Opening CaFe Monitoring Plots . . ."
+#openPDF="evince ${output_plot_fname}"
+#eval $openPDF

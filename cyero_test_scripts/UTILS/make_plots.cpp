@@ -607,7 +607,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    // Create canvas to store multi-page .pdf plots
    TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
-   c1->Print("cafe_output.pdf[");
+   c1->Print(Form("cafe_output_%d.pdf[", run));
    c1->Clear();
    
    //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
@@ -642,7 +642,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
    leg8->Draw();
    
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
 
 
@@ -693,7 +693,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
    leg16->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
                                                                              
 
@@ -714,7 +714,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg_MM = new TLegend(0.1,0.8,0.28,0.9);
 
 
-   c1->Divide(4,2);
+   c1->Divide(3,3);
    
    c1->cd(1);
    data_Q2->GetXaxis()->SetTitle("Q^{2} [GeV^{2}]");
@@ -787,7 +787,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_Em->Draw();
 
    c1->cd(9);
-   data_MM->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
+   data_MM->GetXaxis()->SetTitle("Missing Mass, MM [GeV] ");
    data_MM->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_MM->Draw("hist");
    data_MM->Draw("sameshistE0");
@@ -796,7 +796,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_MM->Draw();
 
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();                                                              
 
    //---------- PLOT ADDITIONAL KINEMATICS----------
@@ -896,7 +896,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg_Pmz->Draw();
                                                                     
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
    
 
@@ -955,7 +955,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) legpzt->AddEntry(simc_ztarP,"SIMC");
    legpzt->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
 
    
@@ -997,7 +997,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
    htr_l4->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
    
 
@@ -1042,7 +1042,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
    hfp_l4->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
                                                                                   
 
@@ -1081,7 +1081,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    hctime_leg->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
 
    // ------ INVARIANT MASS ------
@@ -1102,7 +1102,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    hW_leg->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
 
    // ------ MISSING MOMENTUM ------
@@ -1123,13 +1123,13 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    hPm_leg->Draw();
 
-   c1->Print("cafe_output.pdf");
+   c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
  
    //-----------------------------------------------------------------------------------
 
    // Complete writing out multi-page .pdf
-   c1->Print("cafe_output.pdf]");
+   c1->Print(Form("cafe_output_%d.pdf]", run));
    
-   
+   gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
 }
