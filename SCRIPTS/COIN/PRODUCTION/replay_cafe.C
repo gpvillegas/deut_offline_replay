@@ -61,13 +61,20 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   gHcParms->Load(gHcParms->GetString("g_ctp_cuts_filename"));                 // load the detector cuts param 
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber); // load the standard.kinematics file
 
+  //Load params for coin. trigger configuration (up-to-date)
+  gHcParms->Load("PARAM/TRIG/tcoin.param"); 
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
 
-  //use spring18 config det. map 
+  //use spring18 config det. map  / params
   if(RunNumber<=3400){
+    
+    //Load params for coin. trigger configuration (spring 2018, for testing using 2018 data) 
+    //gHcParms->Load("PARAM/TRIG/archive/spring18/tcoin_spring18.param");
+    
+    // Load 2018 map
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_comm18.map");
   }
   
@@ -75,7 +82,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // SHMS 
   //=:=:=:=
      // Dec data
-   gHaApps->Add(new Podd::DecData("D","Decoder raw data"));
+  gHaApps->Add(new Podd::DecData("D","Decoder raw data"));
  
   // Set up the equipment to be analyzed.
   THcHallCSpectrometer* SHMS = new THcHallCSpectrometer("P", "SHMS");

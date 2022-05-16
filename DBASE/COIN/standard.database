@@ -8,7 +8,7 @@ g_ctp_cuts_filename       = "DBASE/COIN/GEN/det_cuts.param"
 # initial testing of cafe_online_replay repo using H(e,e'p) run 3288
 # from Commissioning Exp. on April 2018
 
-3288
+3242-3400
 g_ctp_parm_filename       = "DBASE/COIN/GEN/archive/general_spring18.param"
 g_ctp_calib_filename      = "DBASE/COIN/GEN/archive/det_calib_spring18.param"
 g_ctp_cuts_filename       = "DBASE/COIN/GEN/archive/det_cuts_spring18.param"

@@ -6,21 +6,21 @@
 # PID Histograms Bins
 #========================
 #---coincidence time [ns]---
-coin_nbins = 100
-coin_xmin = -30.
-coin_xmax = 30.
+coin_nbins = 200
+coin_xmin = -25.
+coin_xmax = 25.
 
 #----HMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 
 #cherenkov NPE sum
 hcer_nbins = 100	  
 hcer_xmin = 0.001	  
-hcer_xmax = 20.	  
+hcer_xmax = 15.	  
 
 #calorimeter etotnorm / etottracknorm
 hcal_nbins = 100	  
 hcal_xmin = 0.001	  
-hcal_xmax = 20.	  
+hcal_xmax = 1.5
 
 #calculated beta
 hbeta_nbins = 100	  
@@ -31,12 +31,12 @@ hbeta_xmax = 1.5
 #noble gas cherenkov npe sum
 pngcer_nbins = 100  
 pngcer_xmin = 0.001	  
-pngcer_xmax = 50.
+pngcer_xmax = 25.
 
 #heavy gas cherenkov npe sum
 phgcer_nbins = 100  
 phgcer_xmin = 0.001 
-phgcer_xmax = 50.	  
+phgcer_xmax = 25.	  
 
 #calorimeter etotnorm / etottracknorm
 pcal_nbins = 100	  

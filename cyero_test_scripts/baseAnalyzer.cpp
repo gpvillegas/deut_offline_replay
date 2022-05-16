@@ -2096,13 +2096,14 @@ void baseAnalyzer::EventLoop()
 	
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
-      //for(int ientry=0; ientry<nentries; ientry++)
-      for(int ientry=0; ientry<10000; ientry++)
+      for(int ientry=0; ientry<nentries; ientry++)
+      //for(int ientry=0; ientry<10000; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
 
-     
+	  //cout << "ientry = " << ientry << endl;
+
 	  //--------------CALCULATED KINEMATICS VARIABLES (IF THEY ARE NOT ALREADY DONE IN HCANA)-----------
 
 	  th_x = xangle - th_e;  //hadron arm central angle for each particle
@@ -2382,7 +2383,9 @@ void baseAnalyzer::EventLoop()
 
 	  if(evt_flag_bcm[scal_read]==1)
 	    {
-
+	      
+	      //cout << "passed BCM Cut !" << endl;
+	      
 	      //Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
 	      if(c_edtm){ total_edtm_accp_bcm_cut++;}
 	      
@@ -2397,7 +2400,7 @@ void baseAnalyzer::EventLoop()
 	      //REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS
 	      if(c_noedtm)
 		{
-
+		  //cout << "passed NO EDTM Cut !" << endl;   
 		  //Calculate HMS Tracking Efficiency Components
 		  if(good_hms_did){ h_did++;}
 		  if(good_hms_should){ h_should++; }
@@ -2411,7 +2414,9 @@ void baseAnalyzer::EventLoop()
 
 		  // full coin. time spectrum with all other cuts
 		  if(c_baseCuts){
-
+		    
+		    
+		   
 		    H_ep_ctime_total->Fill(epCoinTime-ctime_offset); 
 		  
 		    
@@ -3379,7 +3384,7 @@ void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
   
-  gROOT->SetBatch(kFALSE);  
+  gROOT->SetBatch(kTRUE);  
   gStyle->SetOptStat(1001111);
   TFile *data_file = new TFile(data_OutputFileName.Data());
   data_file->cd();
@@ -3387,8 +3392,6 @@ void baseAnalyzer::MakePlots()
   cout << "Opening File: " << data_OutputFileName.Data() << " for plotting . . ." << endl;
   //Get data histogram objects
   TH1F *data_Pm = (TH1F*)data_file->Get("kin_plots/H_Pm");
-
-
   
   TCanvas *c1 = new TCanvas("c1", "", 1000,1000);
   c1->cd();

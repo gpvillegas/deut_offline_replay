@@ -11,7 +11,7 @@ General Run Info
 
 SW_Run_Number		:		{gen_run_number}
 SW_Beam_Energy		:		{gpbeam} 
-SW_Target_Mass_(amu)	:		{gtargmass_amu}  
+SW_Target_Mass_amu	:		{gtargmass_amu}  
 
 SW_HMS_Particle_Mass	:		{hpartmass}  
 SW_HMS_P_Central        :	        {hpcentral}  

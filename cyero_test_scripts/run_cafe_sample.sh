@@ -13,17 +13,17 @@ analysis_cut=$2   # analysis cuts, set by user:  "heep",  "MF",  or "SRC", depen
 
 if [ -z "$1" ]; then
     echo "No run number was specified. "
-    echo "e.g., ./run_cafe_sample.sh 3288 "
+    echo "e.g., ./run_cafe_sample.sh <run_number> "
    exit 0
 fi
 
 if [ -z "$2" ]; then
     echo "Specify CaFe Production Run Type: \"heep\", \"MF\" or \"SRC\"  "
-    echo "e.g., ./run_cafe_sample.sh 3288 heep "
+    echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> "
     exit 0
 fi
 
-evtNum=500000         # this is part of the input filename, 
+evtNum=100000         # this is part of the input filename, 
 daq_mode="coin"
 e_arm="SHMS"
 analysis_type="data"
@@ -46,5 +46,5 @@ echo "Runnin CaFe prodcution script:" $CMD
 eval $CMD
 
 echo "Opening CaFe Monitoring Plots . . ."
-openPDF="open test_plot.pdf"
+openPDF=""
 eval $openPDF

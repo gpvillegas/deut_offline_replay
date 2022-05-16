@@ -570,7 +570,14 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    //Create A Canvas to store Target Recon. variable comparisons in HADRON ARM
    
-   TCanvas *c1 = new TCanvas("c1", "Electron Arm: Target Reconstruction", 2000, 1000);
+   //TCanvas *c1 = new TCanvas("c1", "Electron Arm: Target Reconstruction", 2000, 1000);
+   
+   
+   TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
+   c1->Print("cafe_output.pdf[");
+   c1->Clear();
+   
+   
    c1->Divide(2,2);
 
    c1->cd(1);
@@ -600,12 +607,16 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    leg8->AddEntry(data_edelta,"Data", "f");
    if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
    leg8->Draw();
+   
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+  
 
-   plots_path = plots_dir + Form("eArm_TargRecon_%d.pdf", run);
-   c1->SaveAs(plots_path.c_str());
+   //plots_path = plots_dir + Form("eArm_TargRecon_%d.pdf", run);
+   //c1->SaveAs(plots_path.c_str());
 
    //------------------------------------------------------------------------------
-
+   
    
    //-----------------PLOT FOCAL PLANE  Variables SIMC/Data comparison-----------------------
 
@@ -621,43 +632,49 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg15 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg16 = new TLegend(0.1,0.8,0.28,0.9);
 
-   TCanvas *c2 = new TCanvas("c2", "Electron Arm: Focal Plane", 2000, 1000);
-   c2->Divide(2,2);
-
-   c2->cd(1);
+   //TCanvas *c2 = new TCanvas("c2", "Electron Arm: Focal Plane", 2000, 1000);
+   
+   c1->Divide(2,2);
+   
+   c1->cd(1);
    if(simc_exist) simc_exfp->Draw();
    data_exfp->Draw("sameshistE0");
    leg13->AddEntry(data_exfp,"Data","f");
    if(simc_exist) leg13->AddEntry(simc_exfp,"SIMC");
    leg13->Draw();
    
-   c2->cd(2);
+   c1->cd(2);
    if(simc_exist) simc_eyfp->Draw();
    data_eyfp->Draw("sameshistE0");
    leg14->AddEntry(data_eyfp,"Data", "f");
    if(simc_exist) leg14->AddEntry(simc_eyfp,"SIMC");
    leg14->Draw();
 
-   c2->cd(3);
+   c1->cd(3);
    if(simc_exist) simc_expfp->Draw();
    data_expfp->Draw("sameshistE0");
    leg15->AddEntry(data_expfp,"Data", "f");
    if(simc_exist) leg15->AddEntry(simc_expfp,"SIMC");
    leg15->Draw();
      
-   c2->cd(4);
+   c1->cd(4);
    if(simc_exist) simc_eypfp->Draw();
    data_eypfp->Draw("sameshistE0");
    leg16->AddEntry(data_eypfp,"Data", "f");
    if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
    leg16->Draw();
 
-   plots_path = plots_dir + Form("eArm_FocalPlane_%d.pdf", run);
-   c2->SaveAs(plots_path.c_str());                                                                                   
+   c1->Print("cafe_output.pdf");
+   c1->Clear();
+
+   c1->Print("cafe_output.pdf]"); 
+
+   //plots_path = plots_dir + Form("eArm_FocalPlane_%d.pdf", run);
+   //c2->SaveAs(plots_path.c_str());                                                                                   
 
    //----------------------------------------------------------- 
  
-   
+   /*
    //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
 //Set Legend
@@ -1022,9 +1039,12 @@ TCanvas *c4a = new TCanvas("c4a", "HMS Target Variables", 2000, 1000);
    hfp->SaveAs(plots_path.c_str());                                                                                   
 
    //----------------------------------------------------------- 
-
+   
+   */
 
    //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
+   
+   
    
    //-----------------------------------------------------------------------------------
    
