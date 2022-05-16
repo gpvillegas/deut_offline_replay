@@ -2097,7 +2097,7 @@ void baseAnalyzer::EventLoop()
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
       //for(int ientry=0; ientry<nentries; ientry++)
-      for(int ientry=0; ientry<50000; ientry++)
+      for(int ientry=0; ientry<10000; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
@@ -3060,7 +3060,7 @@ void baseAnalyzer::WriteReport()
 
     if(!in_file.fail()){
 
-      cout << "Report File for run %d exists, will overwrite it . . . " << endl;
+      cout << Form("Report File for run %d exists, will overwrite it . . . ", run) << endl;
 
     }
     
@@ -3374,6 +3374,27 @@ void baseAnalyzer::CombineHistos()
   
 }
 
+//______________________________________________________________________________
+void baseAnalyzer::MakePlots()
+{
+  cout << "Calling MakePlots() . . . " << endl;
+  
+  gROOT->SetBatch(kFALSE);  
+  gStyle->SetOptStat(1001111);
+  TFile *data_file = new TFile(data_OutputFileName.Data());
+  data_file->cd();
+  
+  cout << "Opening File: " << data_OutputFileName.Data() << " for plotting . . ." << endl;
+  //Get data histogram objects
+  TH1F *data_Pm = (TH1F*)data_file->Get("kin_plots/H_Pm");
+
+
+  
+  TCanvas *c1 = new TCanvas("c1", "", 1000,1000);
+  c1->cd();
+  data_Pm->Draw();
+  c1->SaveAs("test_plot.pdf");
+}
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
 void baseAnalyzer::run_data_analysis()
@@ -3412,6 +3433,7 @@ void baseAnalyzer::run_data_analysis()
   WriteReport();
   //WriteReportSummary();
   CombineHistos();
+  MakePlots();
   
   //------------------
   

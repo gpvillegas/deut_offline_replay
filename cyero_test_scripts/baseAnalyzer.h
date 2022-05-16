@@ -47,7 +47,8 @@ public:
   
   // Helper Functions
   Double_t GetCoinTimePeak();
-
+  void MakePlots();
+  
 protected:
 
   //Set Constants

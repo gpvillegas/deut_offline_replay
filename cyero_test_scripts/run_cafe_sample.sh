@@ -42,5 +42,9 @@ CMD="root -l -q -b \"main_analysis.cpp( ${runNum},    ${evtNum},
                                    \\\"${trig_type}\\\", ${combine_runs}
                      )\""
 
-echo $CMD
+echo "Runnin CaFe prodcution script:" $CMD
 eval $CMD
+
+echo "Opening CaFe Monitoring Plots . . ."
+openPDF="open test_plot.pdf"
+eval $openPDF
