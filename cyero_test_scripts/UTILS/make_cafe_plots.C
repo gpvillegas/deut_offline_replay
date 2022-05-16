@@ -1,24 +1,43 @@
-//Script to make comparison between SIMC and Commissioning Data from HallC Spring 2018
-//Compare Target Reconstruction/FOCAL PLANE/ Kinematics Variables
+// Script to either plot ONLY DATA or make comparison between DATA and SIMC 
+// Histogram objects are retrieved from pre-existing ROOTfiles with pre-determined
+// histogram names
 
-void compare_heep(int run)
+/* histogram categories:
+1) HMS/SHMS focal plane,
+2) HMS/SHMS Reconstructed,
+3) Kinematics-1,2  
+4) Target Vertex
+*/
+
+void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  
   gStyle->SetOptStat(1001111);
-  //TString simc_filename =  "weighted_ep_coin_simc_1854.root"; //"ep_coin_simc_1929.root";
   
   //Pre-defined SIMC/data root file names containing histogram object to comapare
-  TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
-  TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
+  //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
+  //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
+
+
+  
+  Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
+  if(!data_exist){
+    cout << Form("data file: %s does NOT exist. Exit. ", data_file_path.Data() ) << endl;
+    gSystem->Exit(0);
+  }
+
+  Bool_t simc_exist = !gSystem->AccessPathName( simc_file_path.Data() );
+
+  
   //Where to store plots
   string plots_dir = "./";
   string plots_path;
   
   //Open SIMC/data ROOT files;
-  TFile *simc_file = new TFile(simc_filename);
-  TFile *data_file = new TFile(data_filename);
+  TFile *simc_file = new TFile(simc_file_path.Data());
+  TFile *data_file = new TFile(data_file_path.Data());
 
   //---------------Target ----------------
   //Define SIMC histos ('h'-->hadron arm,  'e'-->electron arm)

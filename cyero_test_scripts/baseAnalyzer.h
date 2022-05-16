@@ -504,7 +504,7 @@ protected:
   //----------------------------------------------------------------
   
   //Coin. Time
-  TH1F *H_ep_ctime_noCut;
+  TH1F *H_ep_ctime_total;
   TH1F *H_ep_ctime;
 
   //HMS

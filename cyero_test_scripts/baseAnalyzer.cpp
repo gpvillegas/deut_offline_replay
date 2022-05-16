@@ -81,7 +81,7 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //---------------------------------------------------------------
   
   //Coincidence Time
-  H_ep_ctime_noCut  = NULL;
+  H_ep_ctime_total  = NULL;
   H_ep_ctime  = NULL;
   
   //-HMS-
@@ -312,7 +312,7 @@ baseAnalyzer::~baseAnalyzer()
   //-----------------------------
 
   //-Coin. Time-
-  delete H_ep_ctime_noCut; H_ep_ctime_noCut   = NULL;
+  delete H_ep_ctime_total; H_ep_ctime_total   = NULL;
   delete H_ep_ctime; H_ep_ctime   = NULL;
 
   //-HMS-
@@ -1268,7 +1268,7 @@ void baseAnalyzer::CreateHist()
   H_ep_ctime   = new TH1F("H_ep_ctime", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
-  H_ep_ctime_noCut   = new TH1F("H_ep_ctime_noCut", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_ep_ctime_total   = new TH1F("H_ep_ctime_total", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
 
 
   //HMS DETECTORS HISTOS
@@ -1300,7 +1300,7 @@ void baseAnalyzer::CreateHist()
   
   
   //Add PID Histos to TList
-  pid_HList->Add(H_ep_ctime_noCut);
+  pid_HList->Add(H_ep_ctime_total);
   pid_HList->Add(H_ep_ctime);
   pid_HList->Add(H_hCerNpeSum);
   pid_HList->Add(H_hCalEtotNorm);
@@ -2412,7 +2412,7 @@ void baseAnalyzer::EventLoop()
 		  // full coin. time spectrum with all other cuts
 		  if(c_baseCuts){
 
-		    H_ep_ctime_noCut->Fill(epCoinTime-ctime_offset); 
+		    H_ep_ctime_total->Fill(epCoinTime-ctime_offset); 
 		  
 		    
 		    // select "TRUE COINCIDENCE " (electron-proton from same "beam bunch" form a coincidence)
