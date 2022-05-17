@@ -69,7 +69,8 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
 
   //use spring18 config det. map  / params
-  if(RunNumber<=3400){
+  //All runs before coin 4361 did NOT have hDCREF_5 added in ROC3
+  if(RunNumber<=4361){
     
     //Load params for coin. trigger configuration (spring 2018, for testing using 2018 data) 
     //gHcParms->Load("PARAM/TRIG/archive/spring18/tcoin_spring18.param");
