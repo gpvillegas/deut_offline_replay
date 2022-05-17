@@ -2412,11 +2412,11 @@ void baseAnalyzer::EventLoop()
 		  
 		  //----------------------Fill DATA Histograms-----------------------
 
-		  // full coin. time spectrum with all other cuts
+		 
 		  if(c_baseCuts){
 		    
 		    
-		   
+		    // full coin. time spectrum with all other cuts  
 		    H_ep_ctime_total->Fill(epCoinTime-ctime_offset); 
 		  
 		    
