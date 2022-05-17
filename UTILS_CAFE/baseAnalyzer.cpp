@@ -536,9 +536,9 @@ void baseAnalyzer::ReadInputFile()
     in accordance with the analysis requirements.
    */
 
-  input_FileNamePattern = "inp/set_basic_filenames.inp";
-  input_CutFileName     = "inp/set_basic_cuts.inp";
-  input_HBinFileName    = "inp/set_basic_histos.inp";
+  input_FileNamePattern = "UTILS_CAFE/inp/set_basic_filenames.inp";
+  input_CutFileName     = "UTILS_CAFE/inp/set_basic_cuts.inp";
+  input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos.inp";
 
   //==========================================
   //     READ FILE NAME PATTERN
@@ -3384,7 +3384,7 @@ void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
   
-  string cmd=Form("root -l -q -b \"UTILS/make_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/UTILS/make_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
   
   gSystem->Exec(cmd.c_str());

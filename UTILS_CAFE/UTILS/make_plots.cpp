@@ -20,7 +20,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-
+  TString outPDF="CAFE_REPORT/PDF/cafe_output_%d.pdf";
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){

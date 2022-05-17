@@ -12,12 +12,20 @@ runNum=$1     # run number
 kin_type=$2   # CaFe kinematics type, set by user:  "heep",  "MF",  or "SRC", depending on the production type
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
-if [ [ -z "$1" || -z "$2$" ] ]; then
+if [ -z "$1" ]; then
     echo "No run number and/or run type was specified. "
     echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> "
     echo "If you don't know which <run_type> to choose, please ask the run coordinator ! ! ! "
     echo "<run_type> = \"heep\", \"MF\" or \"SRC\" "
     exit 0
+fi
+
+if [ -z "$2" ]; then  
+    echo "No run number and/or run type was specified. "
+    echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> " 
+    echo "If you don't know which <run_type> to choose, please ask the run coordinator ! ! ! " 
+    echo "<run_type> = \"heep\", \"MF\" or \"SRC\" " 
+    exit 0  
 fi
 
 if [ -z "$3" ]; then

@@ -161,6 +161,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_voli$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_voli$USER"/REPORT_OUTPUT"
 	
+	echo "Creating dir and symlink to $base_dir_voli$USER/CAFE_OUTPUT . . ."
+	mkdir $base_dir_voli$USER"/CAFE_OUTPUT"
+	ln -sf $base_dir_voli$USER"/CAFE_OUTPUT" 
+
 	echo "Creating dir and symlink to $base_dir_voli$USER/ROOTfiles . . ."
 	mkdir $base_dir_voli$USER"/ROOTfiles"
 	ln -sf $base_dir_voli$USER"/ROOTfiles"
@@ -183,7 +187,11 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir and symlink to $base_dir_work$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_work$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_work$USER"/REPORT_OUTPUT"
-	
+
+	echo "Creating dir and symlink to $base_dir_work$USER/CAFE_OUTPUT . . ."	
+	mkdir $base_dir_work$USER"/CAFE_OUTPUT" 
+	ln -sf $base_dir_work$USER"/CAFE_OUTPUT"
+
 	echo "Creating dir and symlink to $base_dir_work$USER/ROOTfiles . . ."
 	mkdir $base_dir_work$USER"/ROOTfiles"
 	ln -sf $base_dir_work$USER"/ROOTfiles"
@@ -206,9 +214,15 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_group$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_group$USER"/REPORT_OUTPUT"
 	
+	echo "Creating dir and symlink to $base_dir_group$USER/CAFE_OUTPUT . . ."
+	mkdir $base_dir_group$USER"/CAFE_OUTPUT"
+	ln -sf $base_dir_group$USER"/CAFE_OUTPUT"
+
 	echo "Creating dir and symlink to $base_dir_group$USER/ROOTfiles . . ."
 	mkdir $base_dir_group$USER"/ROOTfiles"
 	ln -sf $base_dir_group$USER"/ROOTfiles"
+
+
 	echo ""
     elif [[ $fsys == "test" ]]; then
 	echo ""
@@ -219,15 +233,21 @@ if [[ ifarm_flg -eq 1 ]]; then
 	base_dir_user="${base_dir}test_output_${USER}/"
 	ROOTfiles_dir=${base_dir_user}"ROOTfiles"
 	REPORT_OUTPUT_dir=$base_dir_user"REPORT_OUTPUT"
+	CAFE_OUTPUT_dir=$base_dir_user"CAFE_OUTPUT"
 
 	mkdir $base_dir_user
 	mkdir $ROOTfiles_dir
 	mkdir $REPORT_OUTPUT_dir
+	mkdir $CAFE_OUTPUT_dir
+	mkdir -p $CAFE_OUTPUT_dir"/ROOT"
+	mkdir -p $CAFE_OUTPUT_dir"/REPORT"
+	mkdir -p $CAFE_OUTPUT_dir"/PDF" 
 
 	unlink raw
 	ln -sf $raw_dir raw	
 	ln -sf $ROOTfiles_dir
 	ln -sf $REPORT_OUTPUT_dir
+	ln -sf $CAFE_OUTPUT_dir  
 	echo ""
     fi
 fi
@@ -267,7 +287,11 @@ if [[ cdaq_flg -eq 1 ]]; then
     echo "Creating dir and symlink to $base_dir_cdaq/HISTOGRAMS . . ."
     mkdir $base_dir_cdaq"/HISTOGRAMS"
     ln -sf $base_dir_cdaq"/HISTOGRAMS"
-    
+
+    echo "Creating dir and symlink to $base_dir_cdaq/CAFE_OUTPUT . . ."    
+    mkdir $base_dir_cdaq"/CAFE_OUTPUT"
+    ln -sf $base_dir_cdaq"/CAFE_OUTPUT"
+
 fi
 
 
@@ -283,7 +307,7 @@ if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
     source setup.sh
     
     # This function checks if necessary dir. exists, else it creates them 
-    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "CAFE_OUTPUT")
+    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS" "CAFE_OUTPUT")
     	
     echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
 

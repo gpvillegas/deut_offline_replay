@@ -36,7 +36,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
-  // Create dir. to store monitoring hisyod
+  // Create dir. to store monitoring histos
   TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
 
