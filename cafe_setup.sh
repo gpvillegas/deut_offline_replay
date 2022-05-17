@@ -283,7 +283,7 @@ if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
     source setup.sh
     
     # This function checks if necessary dir. exists, else it creates them 
-    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS")
+    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "CAFE_OUTPUT")
     	
     echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
 

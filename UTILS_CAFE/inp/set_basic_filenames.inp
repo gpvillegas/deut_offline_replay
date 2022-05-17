@@ -9,7 +9,7 @@ input_REPORTPattern          = REPORT_OUTPUT/prod/cafe_prod_%d_%d.report
 #input_REPORTPattern          = REPORT_OUTPUT/test/replay_coin_production_%d_%d.report
 
 #Set User Analyzed Output File Name Pattern
-output_ROOTfilePattern       = OUTPUT/ROOTfiles/cafe_prod_histos_%d_%d.root
-output_ROOTfilePattern_final = OUTPUT/ROOTfiles/cafe_prod_histos_final.root
-output_REPORTPattern         = OUTPUT/REPORT/cafe_prod_report_summary.txt
-output_CaFe_REPORTPattern    = OUTPUT/REPORT/cafe_prod_report_%d_%d.txt
+output_ROOTfilePattern       = CAFE_OUTPUT/ROOTfiles/cafe_prod_histos_%d_%d.root
+output_ROOTfilePattern_final = CAFE_OUTPUT/ROOTfiles/cafe_prod_histos_final.root
+output_REPORTPattern         = CAFE_OUTPUT/REPORT/cafe_prod_report_summary.txt
+output_CaFe_REPORTPattern    = CAFE_OUTPUT/REPORT/cafe_prod_report_%d_%d.txt

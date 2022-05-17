@@ -7,7 +7,6 @@ Date Created: August 22, 2020
 #include "baseAnalyzer.h"
 #include <iostream>
 #include <stdio.h>
-#include "UTILS/make_plots.cpp"
 using namespace std;
 
 //_______________________________________________________________________________

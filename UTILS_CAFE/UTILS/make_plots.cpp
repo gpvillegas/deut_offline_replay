@@ -591,10 +591,95 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
   data_Pm_real->SetFillColorAlpha(kMagenta, 0.35);
   data_Pm_real->SetFillStyle(3006);
   data_Pm_real->SetLineColor(kMagenta);
+
+  //-----------------------------------------------------------------------------------
+  
+  // Create canvas to store multi-page .pdf plots
+  TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
+  c1->Print(Form("cafe_output_%d.pdf[", run));
+  c1->Clear();
+  
+  //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
+  double total, total_err;
+  double reals, reals_err;
+  double rands, rands_err;
+  
+  
+  double nbins;
+  
+  auto hctime_leg = new TLegend(0.1,0.8,0.28,0.9);
+  auto hW_leg = new TLegend(0.1,0.8,0.28,0.9);
+  auto hPm_leg = new TLegend(0.1,0.8,0.28,0.9);
+  
+  
+  // ------- COINCIDENCE TIME -----
+  c1->cd();
+  c1->SetLogy();
+  nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+  
+  data_ep_ctime_total->Draw("histE0");   
+  data_ep_ctime_real->Draw("sameshistE0");   
+  data_ep_ctime_rand->Draw("sameshistE0");   
+  
+  total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
+  reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
+  rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
+  
+  hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   | Integral: %.3f", total),"f");
+  hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   | Integral: %.3f", reals),"f");
+  hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms | Integral: %.3f", rands),"f");
+  
+  hctime_leg->Draw();
+  
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
+  
+  // ------ INVARIANT MASS ------
+  c1->cd();
+  nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+  
+  data_W_total->Draw("histE0");   
+  data_W_real->Draw("sameshistE0");   
+  data_W_rand->Draw("sameshistE0");   
+  
+  total = data_W_total->IntegralAndError(1, nbins, total_err);
+  reals = data_W_real->IntegralAndError(1, nbins, reals_err);
+  rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
+  
+  hW_leg->AddEntry(data_W_total, Form("Total   | Integral: %.3f", total),"f");
+  hW_leg->AddEntry(data_W_real,  Form("Reals   | Integral: %.3f", reals),"f");
+  hW_leg->AddEntry(data_W_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  
+  hW_leg->Draw();
+  
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
+  
+  // ------ MISSING MOMENTUM ------
+  c1->cd();
+  nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+  
+  data_Pm_total->Draw("histE0");   
+  data_Pm_real->Draw("sameshistE0");   
+  data_Pm_rand->Draw("sameshistE0");   
+  
+  total = data_Pm_total->IntegralAndError(1, nbins, total_err);
+  reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
+  rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
+  
+  hPm_leg->AddEntry(data_Pm_total, Form("Total   | Integral: %.3f", total),"f");
+  hPm_leg->AddEntry(data_Pm_real,  Form("Reals   | Integral: %.3f", reals),"f");
+  hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  
+  hPm_leg->Draw();
+  
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
+  
+  //-----------------------------------------------------------------------------------
+  
   
   //----------------------------------------------------------------------------------------
-
-  
   
   // Overlay SIMC/data plots (*** VERY IMPORTANT ***: Range and #bins must be same)
 
@@ -605,10 +690,6 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
    auto leg7 = new TLegend(0.1,0.8,0.28,0.9);
    auto leg8 = new TLegend(0.1,0.8,0.28,0.9);
 
-   // Create canvas to store multi-page .pdf plots
-   TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
-   c1->Print(Form("cafe_output_%d.pdf[", run));
-   c1->Clear();
    
    //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
 
@@ -1048,85 +1129,7 @@ void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 
    //----------------------------------------------------------- 
    
-   
-
-   //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
-   double total, total_err;
-   double reals, reals_err;
-   double rands, rands_err;
-
-   
-   double nbins;
-   
-   auto hctime_leg = new TLegend(0.1,0.8,0.28,0.9);
-   auto hW_leg = new TLegend(0.1,0.8,0.28,0.9);
-   auto hPm_leg = new TLegend(0.1,0.8,0.28,0.9);
-
-
-   // ------- COINCIDENCE TIME -----
-   c1->cd();
-   nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-   data_ep_ctime_total->Draw("histE0");   
-   data_ep_ctime_real->Draw("sameshistE0");   
-   data_ep_ctime_rand->Draw("sameshistE0");   
-
-   total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
-   reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
-   rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
-   
-   hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   | Integral: %.3f", total),"f");
-   hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   | Integral: %.3f", reals),"f");
-   hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms | Integral: %.3f", rands),"f");
-
-   hctime_leg->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-
-   // ------ INVARIANT MASS ------
-   c1->cd();
-   nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-   data_W_total->Draw("histE0");   
-   data_W_real->Draw("sameshistE0");   
-   data_W_rand->Draw("sameshistE0");   
-
-   total = data_W_total->IntegralAndError(1, nbins, total_err);
-   reals = data_W_real->IntegralAndError(1, nbins, reals_err);
-   rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
-   
-   hW_leg->AddEntry(data_W_total, Form("Total   | Integral: %.3f", total),"f");
-   hW_leg->AddEntry(data_W_real,  Form("Reals   | Integral: %.3f", reals),"f");
-   hW_leg->AddEntry(data_W_rand,  Form("Randoms | Integral: %.3f", rands),"f");
-
-   hW_leg->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-
-   // ------ MISSING MOMENTUM ------
-   c1->cd();
-   nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-   data_Pm_total->Draw("histE0");   
-   data_Pm_real->Draw("sameshistE0");   
-   data_Pm_rand->Draw("sameshistE0");   
-
-   total = data_Pm_total->IntegralAndError(1, nbins, total_err);
-   reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
-   rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
-   
-   hPm_leg->AddEntry(data_Pm_total, Form("Total   | Integral: %.3f", total),"f");
-   hPm_leg->AddEntry(data_Pm_real,  Form("Reals   | Integral: %.3f", reals),"f");
-   hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms | Integral: %.3f", rands),"f");
-
-   hPm_leg->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
- 
-   //-----------------------------------------------------------------------------------
+  
 
    // Complete writing out multi-page .pdf
    c1->Print(Form("cafe_output_%d.pdf]", run));
