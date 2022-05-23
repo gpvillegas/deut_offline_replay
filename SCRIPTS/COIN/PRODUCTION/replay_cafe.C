@@ -24,7 +24,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
   
   if(ftype==""){
-    cout  << "\nEnter file type to use (e.g., test, shms_50k, hms_50k, prod): \n " << endl;
+    cout  << "\nEnter file type to use (e.g., shms_50k, hms_50k, sample, prod): \n " << endl;
     cin >> ftype;
     if(ftype==""){
       cerr << "...Invalid file type\n";

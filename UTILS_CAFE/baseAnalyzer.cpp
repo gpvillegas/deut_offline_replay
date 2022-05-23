@@ -94,7 +94,6 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //-SHMS-
   H_pNGCerNpeSum    = NULL;
   H_pHGCerNpeSum    = NULL;
-  H_pAeroNpeSum     = NULL;
   H_pCalEtotNorm    = NULL;
   H_pCalEtotTrkNorm = NULL;
   H_pHodBetaNtrk    = NULL;   
@@ -106,9 +105,6 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //sHMS 2D PID
   H_pcal_vs_phgcer   = NULL;  
   H_pcal_vs_pngcer   = NULL;  
-  H_pcal_vs_paero    = NULL;   
-  H_paero_vs_phgcer  = NULL; 
-  H_paero_vs_pngcer  = NULL; 
   H_pngcer_vs_phgcer = NULL;
 
   //DATA/SIMC Histograms (MUST BE THE EXACT SAME HSITOGRAM BINNING)
@@ -325,7 +321,6 @@ baseAnalyzer::~baseAnalyzer()
   //-SHMS-
   delete H_pNGCerNpeSum;    H_pNGCerNpeSum    = NULL;
   delete H_pHGCerNpeSum;    H_pHGCerNpeSum    = NULL;
-  delete H_pAeroNpeSum;     H_pAeroNpeSum     = NULL; 
   delete H_pCalEtotNorm;    H_pCalEtotNorm    = NULL;
   delete H_pCalEtotTrkNorm; H_pCalEtotTrkNorm = NULL;
   delete H_pHodBetaNtrk;    H_pHodBetaNtrk    = NULL;   
@@ -337,9 +332,6 @@ baseAnalyzer::~baseAnalyzer()
   //sHMS 2D PID	     	     		    
   delete H_pcal_vs_phgcer;   	 H_pcal_vs_phgcer   = NULL;
   delete H_pcal_vs_pngcer;   	 H_pcal_vs_pngcer   = NULL;
-  delete H_pcal_vs_paero;    	 H_pcal_vs_paero    = NULL;
-  delete H_paero_vs_phgcer;  	 H_paero_vs_phgcer  = NULL;
-  delete H_paero_vs_pngcer;  	 H_paero_vs_pngcer  = NULL;
   delete H_pngcer_vs_phgcer; 	 H_pngcer_vs_phgcer = NULL;
   
   //Delete DATA/SIMC Histogram Pointers 
@@ -688,11 +680,7 @@ void baseAnalyzer::ReadInputFile()
   cpid_phgcer_npeSum_min = stod(split(FindString("cpid_phgcer_npeSum_min", input_CutFileName.Data())[0], '=')[1]);
   cpid_phgcer_npeSum_max = stod(split(FindString("cpid_phgcer_npeSum_max", input_CutFileName.Data())[0], '=')[1]);
   
-  //(SHMS PID) Aerogel Cherenkov
-  paero_pidCut_flag = stoi(split(FindString("paero_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
-  cpid_paero_npeSum_min = stod(split(FindString("cpid_paero_npeSum_min", input_CutFileName.Data())[0], '=')[1]);
-  cpid_paero_npeSum_max = stod(split(FindString("cpid_paero_npeSum_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
   //(HMS PID) Calorimeter Total Energy Normalized By Track Momentum
   hetot_trkNorm_pidCut_flag = stoi(split(FindString("hetot_trkNorm_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
   cpid_hetot_trkNorm_min = stod(split(FindString("cpid_hetot_trkNorm_min", input_CutFileName.Data())[0], '=')[1]);
@@ -936,11 +924,6 @@ void baseAnalyzer::SetHistBins()
   pbeta_nbins  = stod(split(FindString("pbeta_nbins", input_HBinFileName.Data())[0], '=')[1]);
   pbeta_xmin   = stod(split(FindString("pbeta_xmin",  input_HBinFileName.Data())[0], '=')[1]);
   pbeta_xmax   = stod(split(FindString("pbeta_xmax",  input_HBinFileName.Data())[0], '=')[1]);
-
-  paero_nbins  = stod(split(FindString("paero_nbins", input_HBinFileName.Data())[0], '=')[1]);
-  paero_xmin   = stod(split(FindString("paero_xmin",  input_HBinFileName.Data())[0], '=')[1]);
-  paero_xmax   = stod(split(FindString("paero_xmax",  input_HBinFileName.Data())[0], '=')[1]);
-
 
   //---------------------------------
   // Kinematics Histograms Binning
@@ -1281,7 +1264,6 @@ void baseAnalyzer::CreateHist()
   //SHMS DETECTORS HISTOS
   H_pNGCerNpeSum    = new TH1F("H_pNGCerNpeSum", "SHMS Noble Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts  ", pngcer_nbins, pngcer_xmin, pngcer_xmax);
   H_pHGCerNpeSum    = new TH1F("H_pHGCerNpeSum", "SHMS Heavy Gas Cherenkov NPE Sum; Cherenkov NPE Sum; Counts  ", phgcer_nbins, phgcer_xmin, phgcer_xmax);
-  H_pAeroNpeSum     = new TH1F("H_pAeroNpeSum", "SHMS Aerogel NPE Sum; Aerogel NPE Sum; Counts  ", paero_nbins, paero_xmin, paero_xmax);
   H_pCalEtotNorm    = new TH1F("H_pCalEtotNorm", "SHMS Calorimeter Normalized Total Energy; E_{tot} / P_{cent}; Counts ", pcal_nbins, pcal_xmin, pcal_xmax);
   H_pCalEtotTrkNorm = new TH1F("H_pCalEtotTrkNorm", "SHMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts ", pcal_nbins, pcal_xmin, pcal_xmax);
   H_pHodBetaNtrk    = new TH1F("H_pBetaNtrk", "SHMS Hodo #beta (no track); #beta (no track); Counts ", pbeta_nbins, pbeta_xmin, pbeta_xmax);
@@ -1293,9 +1275,6 @@ void baseAnalyzer::CreateHist()
   //SHMS 2D PID	     	     
   H_pcal_vs_phgcer    = new TH2F("H_pcal_vs_phgcer", "SHMS: Heavy Gas Cherenkov (HGC) vs. Calorimeter; Calorimeter E_{tot}/P_{trk}; HGC NPE Sum", pcal_nbins, pcal_xmin, pcal_xmax, phgcer_nbins, phgcer_xmin, phgcer_xmax);        
   H_pcal_vs_pngcer    = new TH2F("H_pcal_vs_pngcer", "SHMS: Noble Gas Cherenkov (NGC) vs. Calorimeter; Calorimeter E_{tot}/P_{trk}; NGC NPE Sum", pcal_nbins, pcal_xmin, pcal_xmax, pngcer_nbins, pngcer_xmin, pngcer_xmax);   
-  H_pcal_vs_paero     = new TH2F("H_pcal_vs_paero",  "SHMS: Aerogel Cherenkov (AER) vs. Calorimeter;   Calorimeter E_{tot}/P_{trk}; AER NPE Sum", pcal_nbins, pcal_xmin, pcal_xmax, paero_nbins,  paero_xmin,  paero_xmax);    
-  H_paero_vs_phgcer   = new TH2F("H_paero_vs_phgcer","SHMS: Heavy Gas Cherenkov (HGC) vs. Aerogel (AER); AER NPE Sum; HGC NPE Sum", paero_nbins,  paero_xmin,  paero_xmax, phgcer_nbins, phgcer_xmin, phgcer_xmax);      
-  H_paero_vs_pngcer   = new TH2F("H_paero_vs_pngcer","SHMS: Noble Gas Cherenkov (NGC) vs. Aerogel (AER); AER NPE Sum; NGC NPE Sum", paero_nbins,  paero_xmin,  paero_xmax, pngcer_nbins, pngcer_xmin, pngcer_xmax);   
   H_pngcer_vs_phgcer  = new TH2F("H_pngcer_vs_phgcer","SHMS: Heavy Gas Cherenkov (HGC) vs. Noble Gas Cherenkov (NGC); NGC NPE Sum; HGC NPE Sum", pngcer_nbins, pngcer_xmin, pngcer_xmax, phgcer_nbins, phgcer_xmin, phgcer_xmax); 
   
   
@@ -1309,7 +1288,6 @@ void baseAnalyzer::CreateHist()
   pid_HList->Add(H_hHodBetaTrk);
   pid_HList->Add(H_pNGCerNpeSum);
   pid_HList->Add(H_pHGCerNpeSum);
-  pid_HList->Add(H_pAeroNpeSum);
   pid_HList->Add(H_pCalEtotNorm);
   pid_HList->Add(H_pCalEtotTrkNorm);
   pid_HList->Add(H_pHodBetaNtrk);
@@ -1318,9 +1296,6 @@ void baseAnalyzer::CreateHist()
   pid_HList->Add(H_hcal_vs_hcer);  
   pid_HList->Add(H_pcal_vs_phgcer);
   pid_HList->Add(H_pcal_vs_pngcer);
-  pid_HList->Add(H_pcal_vs_paero);
-  pid_HList->Add(H_paero_vs_phgcer);
-  pid_HList->Add(H_paero_vs_pngcer);
   pid_HList->Add(H_pngcer_vs_phgcer);
 
   
@@ -1993,7 +1968,6 @@ void baseAnalyzer::ReadTree()
 	  //SHMS DETECTORS
 	  tree->SetBranchAddress("P.ngcer.npeSum",       &pngcer_npesum);
 	  tree->SetBranchAddress("P.hgcer.npeSum",       &phgcer_npesum);
-	  tree->SetBranchAddress("P.aero.npeSum",        &paero_npesum);
 	  tree->SetBranchAddress("P.cal.etotnorm",       &pcal_etotnorm);
 	  tree->SetBranchAddress("P.cal.etottracknorm",  &pcal_etottracknorm);
 	  tree->SetBranchAddress("P.hod.betanotrack",    &phod_beta_ntrk);
@@ -2190,8 +2164,6 @@ void baseAnalyzer::EventLoop()
 	  //Require SHMS Heavy Gas Cherenkov Cut (for electron or hadron selection)
 	  if(phgcer_cut_flag){c_phgcer_NPE_Sum = phgcer_npesum >= c_phgcer_npeSum_min &&  phgcer_npesum <= c_phgcer_npeSum_max;}
 	  else{c_phgcer_NPE_Sum=1;}
-
-	  //WHAT ABOUT AN AEROGEL CUT IN THE TRACKING EFFICIENCY?
 	  
 	  //Require SHMS Calorimeter Cut (for additional electron or hadron selection)
 	  if(petotnorm_cut_flag){c_petotnorm = pcal_etotnorm >= c_petotnorm_min && pcal_etotnorm <= c_petotnorm_max;}
@@ -2246,10 +2218,6 @@ void baseAnalyzer::EventLoop()
 	  if(phgcer_pidCut_flag) {cpid_phgcer_NPE_Sum = phgcer_npesum>=cpid_phgcer_npeSum_min && phgcer_npesum<=cpid_phgcer_npeSum_max;}
 	  else{cpid_phgcer_NPE_Sum=1;}
 
-	  //SHMS Aerogel Cherenkov
-	  if(paero_pidCut_flag) {cpid_paero_NPE_Sum = paero_npesum>=cpid_paero_npeSum_min && paero_npesum<=cpid_paero_npeSum_max;}
-	  else{cpid_paero_NPE_Sum=1;}
-
 	  //HMS calorimeter total normalized track energy
 	  if(hetot_trkNorm_pidCut_flag) {cpid_hetot_trkNorm = hcal_etottracknorm>=cpid_hetot_trkNorm_min && hcal_etottracknorm<=cpid_hetot_trkNorm_max;}
 	  else{cpid_hetot_trkNorm=1;}
@@ -2258,7 +2226,7 @@ void baseAnalyzer::EventLoop()
 	  if(hcer_pidCut_flag) {cpid_hcer_NPE_Sum = hcer_npesum>=cpid_hcer_npeSum_min && hcer_npesum<=cpid_hcer_npeSum_max;}
 	  else{cpid_hcer_NPE_Sum=1;}
 
-	  c_pidCuts = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_paero_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
+	  c_pidCuts = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
 
 		  
 	  //----Kinematics Cuts----
@@ -2441,7 +2409,6 @@ void baseAnalyzer::EventLoop()
 			//Fill SHMS Detectors
 			H_pNGCerNpeSum->Fill(pngcer_npesum);
 			H_pHGCerNpeSum->Fill(phgcer_npesum);
-			H_pAeroNpeSum->Fill(paero_npesum);
 			H_pCalEtotNorm->Fill(pcal_etotnorm);
 			H_pCalEtotTrkNorm->Fill(pcal_etottracknorm);
 			H_pHodBetaNtrk->Fill(phod_beta_ntrk);
@@ -2450,10 +2417,7 @@ void baseAnalyzer::EventLoop()
 			//Fill 2D PID Correlations
 			H_hcal_vs_hcer->Fill(hcal_etottracknorm, hcer_npesum);
 			H_pcal_vs_phgcer->Fill(pcal_etottracknorm, phgcer_npesum);  
-			H_pcal_vs_pngcer->Fill(pcal_etottracknorm, pngcer_npesum);  
-			H_pcal_vs_paero->Fill(pcal_etottracknorm, paero_npesum);   
-			H_paero_vs_phgcer->Fill(paero_npesum, phgcer_npesum); 
-			H_paero_vs_pngcer->Fill(paero_npesum, pngcer_npesum); 
+			H_pcal_vs_pngcer->Fill(pcal_etottracknorm, pngcer_npesum);   
 			H_pngcer_vs_phgcer->Fill(pngcer_npesum, phgcer_npesum);
 			
 			
@@ -3156,7 +3120,6 @@ void baseAnalyzer::WriteReportSummary()
       if(petot_trkNorm_pidCut_flag)   {out_file << Form("# SHMS Calorimeter EtotTrackNorm Cut: (%.3f, %.3f)", cpid_petot_trkNorm_min,  cpid_petot_trkNorm_max) << endl;}
       if(pngcer_pidCut_flag) {out_file << Form("# SHMS Noble Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_pngcer_npeSum_min,  cpid_pngcer_npeSum_max) << endl;}
       if(phgcer_pidCut_flag) {out_file << Form("# SHMS Heavy Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_phgcer_npeSum_min,  cpid_phgcer_npeSum_max) << endl;}
-      if(paero_pidCut_flag) {out_file << Form("# SHMS Aerogel Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_paero_npeSum_min,  cpid_paero_npeSum_max) << endl;}
       if(hetot_trkNorm_pidCut_flag) {out_file << Form("# HMS Calorimeter EtotTrackNorm Cut: (%.3f, %.3f)", cpid_hetot_trkNorm_min,  cpid_hetot_trkNorm_max) << endl;}
       if(hcer_pidCut_flag) {out_file << Form("# HMS Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_hcer_npeSum_min,  cpid_hcer_npeSum_max) << endl;}      
       out_file << "#                                     " << endl;
@@ -3384,7 +3347,7 @@ void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/UTILS/make_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
   
   gSystem->Exec(cmd.c_str());

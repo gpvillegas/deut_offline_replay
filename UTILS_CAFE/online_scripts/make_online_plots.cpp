@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_plots(int run=0, TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  

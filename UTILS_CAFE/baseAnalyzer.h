@@ -193,10 +193,7 @@ protected:
   Double_t pbeta_nbins;	  
   Double_t pbeta_xmin;	  
   Double_t pbeta_xmax;	  
-	                  
-  Double_t paero_nbins;	  
-  Double_t paero_xmin;	  
-  Double_t paero_xmax;       
+	                      
 
   //-----------------------------
   //Kinematics Histograms Bins
@@ -517,7 +514,6 @@ protected:
   //SHMS	       
   TH1F *H_pNGCerNpeSum;
   TH1F *H_pHGCerNpeSum;
-  TH1F *H_pAeroNpeSum; //(Aerogel used for K+ PID in SHMS, not used in tracking eff.)
   TH1F *H_pCalEtotNorm;
   TH1F *H_pCalEtotTrkNorm;
   TH1F *H_pHodBetaNtrk;   
@@ -532,9 +528,6 @@ protected:
   //sHMS 2D PID
   TH2F *H_pcal_vs_phgcer;   //calorimeter vs. heavy gas cherenkov
   TH2F *H_pcal_vs_pngcer;   //calorimeter vs. noble gas cherenkov
-  TH2F *H_pcal_vs_paero;   //calorimeter vs. aerogel cherenkov
-  TH2F *H_paero_vs_phgcer;   //aerogel vs. heavy gas cherenkovs
-  TH2F *H_paero_vs_pngcer;   //aerogel vs. noble gas cherenkovs
   TH2F *H_pngcer_vs_phgcer;   //noble gas vs. heavy gas cherenkovs
   
   //DATA/SIMC Histograms (MUST BE THE EXACT SAME HSITOGRAM BINNING)
@@ -901,12 +894,6 @@ protected:
   Double_t cpid_phgcer_npeSum_min;
   Double_t cpid_phgcer_npeSum_max;
 
-  //SHMS Aerogel Cherenkov (P / K separation)
-  Bool_t paero_pidCut_flag;
-  Bool_t cpid_paero_NPE_Sum;
-  Double_t cpid_paero_npeSum_min;
-  Double_t cpid_paero_npeSum_max;
-
   //HMS Calorimeter EtotTrackNorm (e- selection)
   Bool_t hetot_trkNorm_pidCut_flag;
   Bool_t cpid_hetot_trkNorm;
@@ -1075,7 +1062,6 @@ protected:
   //SHMS DETECTORS
   Double_t phgcer_npesum;
   Double_t pngcer_npesum;
-  Double_t paero_npesum;
   Double_t pcal_etotnorm;
   Double_t pcal_etottracknorm;
   Double_t phod_beta_ntrk;

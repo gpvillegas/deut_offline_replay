@@ -47,11 +47,7 @@ pcal_xmax = 1.5
 pbeta_nbins = 100	  
 pbeta_xmin = 0.5	  
 pbeta_xmax = 1.5	  
-
-#aerogel npe sum
-paero_nbins = 100	  
-paero_xmin = 0.	  
-paero_xmax = 100.      
+   
 
 #=============================
 # Kinematics Histograms Bins

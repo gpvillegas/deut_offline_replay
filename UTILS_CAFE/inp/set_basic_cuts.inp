@@ -111,11 +111,6 @@ phgcer_pidCut_flag = 0
 cpid_phgcer_npeSum_min = 0.0
 cpid_phgcer_npeSum_max = 1.5
 
-# (SHMS PID) Aerogel Cherenkov (P / K Separation) -- not needed for CaFe
-paero_pidCut_flag = 0
-cpid_paero_npeSum_min = 1.5
-cpid_paero_npeSum_max = 100
-
 # (HMS PID) Calorimeter Total Energy Normalized By Track Momentum
 hetot_trkNorm_pidCut_flag = 1
 cpid_hetot_trkNorm_min = 0.

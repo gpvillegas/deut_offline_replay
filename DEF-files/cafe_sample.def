@@ -1,0 +1,71 @@
+block g.*
+block CTime.epCoinTime_ROC*
+block T.coin.pTRIG*
+block T.coin.pEDTM*
+block RFTime.* 
+
+block H.kin.*
+block H.dc.*_fp*
+block H.dc.ntrack
+block H.gtr.beta
+block H.gtr.p
+block H.gtr.y
+block H.gtr.ph
+block H.gtr.th
+block H.gtr.dp
+block H.react.*
+block H.extcor.*sieve*
+block H.cer.npeSum
+block H.cal.etot*norm*
+block H.hod.beta
+block H.hod.betanotrack
+block H.hod.goodscinhit
+
+block P.kin.*
+block P.dc.*_fp*
+block P.dc.ntrack
+block P.gtr.beta
+block P.gtr.p
+block P.gtr.y
+block P.gtr.ph
+block P.gtr.th
+block P.gtr.dp
+block P.react.*
+block P.extcor.*sieve*
+block P.hgcer.npeSum
+block P.ngcer.npeSum
+block P.cal.etot*norm*
+block P.hod.beta
+block P.hod.betanotrack
+block P.hod.goodscinhit
+
+
+
+
+begin epics
+IBC3H00CRCUR4
+hac_bcm_average
+ibcm1
+ibcm2
+iunser
+itov3out
+itov4out
+IPM3H07A.XPOS
+IPM3H07A.YPOS
+IPM3H07B.XPOS
+IPM3H07B.YPOS
+IPM3H07C.XPOS
+IPM3H07C.YPOS
+IPM3H07A.XRAW
+IPM3H07A.YRAW
+IPM3H07B.XRAW
+IPM3H07B.YRAW
+IPM3H07C.XRAW
+IPM3H07C.YRAW
+IPM3H07A.XSOF
+IPM3H07A.YSOF
+IPM3H07B.XSOF
+IPM3H07B.YSOF
+IPM3H07C.XSOF
+IPM3H07C.YSOF
+end epics

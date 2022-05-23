@@ -26,16 +26,17 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 0
 fi
 
-if [ -z "$3" ] && [ ${ana_type}=="sample"  ]; then
+if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <run_type> <run_number>"
     evtNum=100000
-fi
-
-if [ -z "$3" ] && [ ${ana_type}=="prod"  ]; then
+    echo "evtNum=$evtNum"
+    
+elif [ "${ana_type}" = "prod" ]; then
     echo "No number of events was specified. Defaulting to full event replay (-1)."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <run_type> <run_number>"
     evtNum=-1
+    echo "evtNum=$evtNum"   
 fi
 
 
