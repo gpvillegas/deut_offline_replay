@@ -24,7 +24,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
   
   if(ftype==""){
-    cout  << "\nEnter file type to use (e.g., test, shms_50k, hms_50k, prod, heep, tgt_boil, bcm): \n " << endl;
+    cout  << "\nEnter file type to use (e.g., test, shms_50k, hms_50k, prod): \n " << endl;
     cin >> ftype;
     if(ftype==""){
       cerr << "...Invalid file type\n";
@@ -320,12 +320,17 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   analyzer->SetOdefFile(DefTreeFile);
 
   // Define cuts file
-  TString DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
+  TString DefCutTreeFile;
 
-  //test using existing data from spring18 (comment lines below to use cafe cuts file instead)
-  //if(RunNumber<=3400){
-  //  DefCutTreeFile="DEF-files/CUTS/archive/spring18/coin_production_cuts.def";
-  // }
+  if(ftype.Data()=="shms_50k"){
+    DefCutTreeFile="DEF-files/CUTS/cafe_cuts_shms.def";
+  }
+  else if(ftype.Data()=="hms_50k"){
+    DefCutTreeFile="DEF-files/CUTS/cafe_cuts_hms.def";
+  }
+  else{
+    DefCutTreeFile="DEF-files/CUTS/cafe_cuts.def";
+  }
   
   analyzer->SetCutFile(DefCutTreeFile);  // optional
 

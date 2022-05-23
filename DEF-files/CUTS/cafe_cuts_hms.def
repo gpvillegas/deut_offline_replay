@@ -171,4 +171,6 @@ hmsHGC_did_h			    hmsHGC_should_h && H.cer.npeSum < 1.
 hcut_CleanTrack            H.gtr.index > -1 && H.gtr.dp > -10.0 && H.gtr.dp < 10.0
 pcut_CleanTrack            P.gtr.index > -1 && P.gtr.dp > -10.0 && P.gtr.dp < 22.0
 
-Physics_master ALL_events
+
+# only for HMS 50k replay, to accepts all hms (singles or coin)  events 
+Physics_master ALL_HMS_events

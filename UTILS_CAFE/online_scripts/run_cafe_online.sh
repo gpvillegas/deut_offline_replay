@@ -7,32 +7,37 @@
 # been collected already by the DAQ. For example, the user might look at 100k event replay
 # in order to make count estimates, and projections on how long the run will take.
 
+
+# Which analysis file type are we doing? "prod" or "sample"
+ana_type=${0##*_}
+ana_type=${ana_type%%.sh}
+
+
 #user input
 runNum=$1     # run number
 kin_type=$2   # CaFe kinematics type, set by user:  "heep",  "MF",  or "SRC", depending on the production type
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
-if [ -z "$1" ]; then
-    echo "No run number and/or run type was specified. "
-    echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> "
-    echo "If you don't know which <run_type> to choose, please ask the run coordinator ! ! ! "
-    echo "<run_type> = \"heep\", \"MF\" or \"SRC\" "
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "No <run_number> and/or <kin_type> was specified. "
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
+    echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "
+    echo "<kin_type> = \"heep\", \"MF\" or \"SRC\" "
     exit 0
 fi
 
-if [ -z "$2" ]; then  
-    echo "No run number and/or run type was specified. "
-    echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> " 
-    echo "If you don't know which <run_type> to choose, please ask the run coordinator ! ! ! " 
-    echo "<run_type> = \"heep\", \"MF\" or \"SRC\" " 
-    exit 0  
+if [ -z "$3" ] && [ ${ana_type}=="sample"  ]; then
+    echo "No number of events was specified. Defaulting to 100k event sample"
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <run_type> <run_number>"
+    evtNum=100000
 fi
 
-if [ -z "$3" ]; then
-    echo "No number of events was specified. Defaulting to all events (-1)"
-    echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> <run_number>"
+if [ -z "$3" ] && [ ${ana_type}=="prod"  ]; then
+    echo "No number of events was specified. Defaulting to full event replay (-1)."
+    echo "e.g., ./run_cafe_${a}.sh <run_number> <run_type> <run_number>"
     evtNum=-1
 fi
+
 
 daq_mode="coin"
 e_arm="SHMS"
@@ -50,7 +55,7 @@ prod_script="UTILS_CAFE/main_analysis.cpp"
 
 
 # command to run scripts
-runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"prod\\\")\""
+runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
 
 runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum}, 
 	     	   		    \\\"${daq_mode}\\\",  \\\"${e_arm}\\\", 
