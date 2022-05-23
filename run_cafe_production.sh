@@ -29,7 +29,7 @@ if [ -z "$2" ]; then
 fi
 
 if [ -z "$3" ]; then
-    echo "No nummber of events was specified. Defaulting to all events (-1)"
+    echo "No number of events was specified. Defaulting to all events (-1)"
     echo "e.g., ./run_cafe_sample.sh <run_number> <run_type> <run_number>"
     evtNum=-1
 fi
