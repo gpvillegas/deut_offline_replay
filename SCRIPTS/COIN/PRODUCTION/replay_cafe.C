@@ -1,4 +1,12 @@
+#include <chrono>
+#include <iostream>
+
+using namespace std;
+using namespace std::chrono;
+
+
 void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
+
   
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
@@ -23,7 +31,10 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
       exit;
     }
   }
-  
+
+  // Get starting timepoint
+  auto start = high_resolution_clock::now();
+    
   // Create file name patterns.
   //const char* RunFileNamePattern = "coin_all_%05d.dat";
   const char* RunFileNamePattern = "shms_all_%05d.dat";
@@ -340,4 +351,15 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 
+  // Get ending timepoint
+  auto stop = high_resolution_clock::now();
+  
+  // Get duration. Substart timepoints to
+  // get duration. To cast it to proper unit
+  // use duration cast method
+  auto duration = duration_cast<seconds>(stop - start);
+  
+  cout << "Time taken by replay_cafe: "
+       << duration.count() << " sec." << endl;
+  
 }
