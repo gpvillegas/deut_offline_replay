@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -94,14 +94,14 @@ protected:
   TString daq_mode;   //"coin" or "singles"
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
-  TString analysis;    // analyze data or simulation? : "data" or "simc"
+  Bool_t analyze_data;    // analyze data ? if true (analyze data), if false, (analyze_simc)
   TString analysis_cut;    // analysis cuts: either "heep", "MF" or "SRC" 
+  TString analysis_type;   // online analysis prefix: either "prod" (for production) or "sample" for sample replay of 100k events (or any other sample evts)
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
   TString trig_type;      // trigger type to actually use when calculating live tim
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
-
 
   // Read in general info from REPORT file 
 
@@ -144,8 +144,8 @@ protected:
   TString input_FileNamePattern;
 
   ///Output .txt filenames
-  TString report_OutputFileName;
-  TString report_CaFeOutputFileName;
+  TString report_SummaryFileName;
+  TString report_ReportFileName;
 
   //FileStreams objects to READ/WRITE to a .txt file
   ofstream out_file;

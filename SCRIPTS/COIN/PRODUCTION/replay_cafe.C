@@ -24,7 +24,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
   
   if(ftype==""){
-    cout  << "\nEnter file type to use (e.g., shms_50k, hms_50k, sample, prod): \n " << endl;
+    cout  << "\nEnter file type to use (e.g., shms50k, hms50k, sample, prod): \n " << endl;
     cin >> ftype;
     if(ftype==""){
       cerr << "...Invalid file type\n";
@@ -322,10 +322,10 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Define cuts file
   TString DefCutTreeFile;
 
-  if(ftype.Data()=="shms_50k"){
+  if(ftype.Data()=="shms50k"){
     DefCutTreeFile="DEF-files/CUTS/cafe_cuts_shms.def";
   }
-  else if(ftype.Data()=="hms_50k"){
+  else if(ftype.Data()=="hms50k"){
     DefCutTreeFile="DEF-files/CUTS/cafe_cuts_hms.def";
   }
   else{

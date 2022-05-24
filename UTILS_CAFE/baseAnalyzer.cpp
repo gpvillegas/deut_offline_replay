@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
-  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis(ana_type), analysis_cut(ana_cuts), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
 {
   
   cout << "Calling BaseConstructor " << endl;
@@ -546,7 +546,7 @@ void baseAnalyzer::ReadInputFile()
   
   //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
   temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputFileName = Form(temp.Data(),  run, evtNum);
+  data_InputFileName = Form(temp.Data(),  analysis_type.Data(), analysis_type.Data(), run, evtNum);
 
   //Check if ROOTfile exists
   in_file.open(data_InputFileName.Data());
@@ -560,7 +560,7 @@ void baseAnalyzer::ReadInputFile()
   
   //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
   temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputReport = Form(temp.Data(), run, evtNum);
+  data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
 
   //Check if REPORTFile exists
   in_file.open(data_InputReport.Data());
@@ -578,19 +578,19 @@ void baseAnalyzer::ReadInputFile()
 
   //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName = Form(temp.Data(), run, evtNum);
+  data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
 
   //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName_combined = temp.Data();
+  data_OutputFileName_combined = Form(temp.Data(), analysis_type.Data());
 
   //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
-  temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  report_OutputFileName = temp.Data();
+  temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
+  report_SummaryFileName = Form(temp.Data(), analysis_type());
 
   //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
-  temp = trim(split(FindString("output_CaFe_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  report_CaFeOutputFileName = Form(temp.Data(), run, evtNum);
+  temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+  report_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
 
 
   //==========================================
@@ -1761,7 +1761,7 @@ void baseAnalyzer::ReadTree()
   cout << "Calling Base ReadTree()  " << endl;
 
   
-  if(analysis=="data")
+  if(analyze_data==true)
     {
       
       cout << "Analyzing DATA . . . " << endl;
@@ -2010,7 +2010,7 @@ void baseAnalyzer::ReadTree()
 
     } //END DATA SET BRANCH ADDRESS
 
-  else if(analysis=="simc")
+  else if(analyze_data==false)
     {
       cout << "SIMC ANALYSIS C++ CODE HAS NOT BEEN DONE YET ! ! !" << endl;
     } //END SIMC SET BRANCH ADDRESS
@@ -2062,7 +2062,7 @@ void baseAnalyzer::EventLoop()
   
   //Loop over Events
   
-  if(analysis=="data")
+  if(analyze_data==true)
     {
 
       // Get Coin. Time peak to apply as an offset to center the coin. time peak at 0 ns    
@@ -2594,7 +2594,7 @@ void baseAnalyzer::EventLoop()
 
     }//END DATA ANALYSIS
 
-  if(analysis=="simc")
+  if(analyze_data==false)
     {
       cout << "SIMC ANALYSIS needs to be done . . . " << endl;
     }
@@ -2974,7 +2974,7 @@ void baseAnalyzer::WriteHist()
 
   
   //Write Data Histograms
-  if(analysis=="data")
+  if(analyze_data==true)
     {
       //Create Output ROOTfile
       outROOT = new TFile(data_OutputFileName, "RECREATE");
@@ -3022,10 +3022,10 @@ void baseAnalyzer::WriteReport()
    */
   
   cout << "Calling WriteReport() . . ." << endl;
-  if(analysis=="data"){
+  if(analyze_data==true){
 
     //Check if file already exists
-    in_file.open(report_CaFeOutputFileName.Data());
+    in_file.open(report_ReportFileName.Data());
 
     if(!in_file.fail()){
 
@@ -3037,7 +3037,7 @@ void baseAnalyzer::WriteReport()
       
       cout << "Report File does NOT exist, will create one . . . " << endl;
       
-      out_file.open(report_CaFeOutputFileName);
+      out_file.open(report_ReportFileName);
       out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
       out_file << "#                                     " << endl;
       out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
@@ -3093,19 +3093,19 @@ void baseAnalyzer::WriteReportSummary()
   cout << "Calling WriteReportSummary() . . ." << endl;
 
   
-  if(analysis=="data"){
+  if(analyze_data==true){
 
     //---------------------------------------------------------
 
     
     //Check if file already exists
-    in_file.open(report_OutputFileName.Data());
+    in_file.open(report_SummaryFileName.Data());
     
     if(in_file.fail()){
       
       cout << "Report File does NOT exist, will create one . . . " << endl;
       
-      out_file.open(report_OutputFileName);
+      out_file.open(report_SummaryFileName);
       out_file << "#-------------------------------------" << endl;
       out_file << "#        Data Analysis Summary        " << endl;
       out_file << "#-------------------------------------" << endl;
@@ -3144,7 +3144,7 @@ void baseAnalyzer::WriteReportSummary()
     }
 
     //Open Report FIle in append mode
-    out_file.open(report_OutputFileName, ios::out | ios::app);
+    out_file.open(report_SummaryFileName, ios::out | ios::app);
     out_file << std::setw(7) << run  << std::setw(25) << total_charge_bcm_cut << std::setw(25) << avg_current_bcm_cut << std::setw(25) << hTrkEff << std::setw(25) << hTrkEff_err << std::setw(25) << pTrkEff << std::setw(25) << pTrkEff_err << std::setw(25) << tgtBoil_corr << std::setw(25) << tgtBoil_corr_err << std::setw(25) << hadAbs_corr << std::setw(25) << hadAbs_corr_err << std::setw(25) << cpuLT_trig << std::setw(25) << cpuLT_trig_err_Bi << std::setw(25) << cpuLT_trig_err_Bay << std::setw(25) << tLT_trig << std::setw(25) << tLT_trig_err_Bi << std::setw(25) << tLT_trig_err_Bay << std::setw(25) << S1XscalerRate_bcm_cut << std::setw(25) << trig_rate << std::setw(25) << EDTMscalerRate_bcm_cut << std::setw(25) << Ps_factor << std::setw(25) << total_edtm_accp_bcm_cut << std::setw(25) << (total_edtm_scaler_bcm_cut / Ps_factor) << std::setw(25) << total_trig_accp_bcm_cut << std::setw(25) << (total_trig_scaler_bcm_cut / Ps_factor) << endl;
     out_file.close();
   }
