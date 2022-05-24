@@ -1136,5 +1136,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
    // Complete writing out multi-page .pdf
    c1->Print(Form("cafe_output_%d.pdf]", run));
    
-   gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
+   //gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
+   gSystem->Exec(Form("open cafe_output_%d.pdf", run));
+      
 }

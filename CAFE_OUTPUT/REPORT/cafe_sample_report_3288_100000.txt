@@ -1,0 +1,16 @@
+# Run 3288 Data Analysis Summary
+#                                     
+DAQ_Mode: coin                     
+DAQ_Run_Length: 959.163 [sec]       
+Events_Replayed: 100000              
+
+Target: LH2                       
+
+BCM4A_Current_Threshold: > 5.00 [uA] 
+BCM4A_Average_Current: 52.439 [uA] 
+BCM4A_Charge: 50.298 [mC] 
+
+heep_total:41142
+heep_signal:41009.4
+heep_bkg:132.6
+# ------------------------------------------------------------ 

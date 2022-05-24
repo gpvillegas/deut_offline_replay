@@ -1741,7 +1741,7 @@ void baseAnalyzer::ScalerEventLoop()
   total_trig5_scaler_bcm_cut = total_trig5_scaler_bcm_cut - total_edtm_scaler_bcm_cut;
   total_trig6_scaler_bcm_cut = total_trig6_scaler_bcm_cut - total_edtm_scaler_bcm_cut;
 
-  //Calculate Trigger Rates (EDTM subtracted already)
+  //Calculate Scaler Trigger Rates (EDTM subtracted already)
   S1XscalerRate_bcm_cut = total_s1x_scaler_bcm_cut / total_time_bcm_cut;
   TRIG1scalerRate_bcm_cut = total_trig1_scaler_bcm_cut / total_time_bcm_cut;
   TRIG2scalerRate_bcm_cut = total_trig2_scaler_bcm_cut / total_time_bcm_cut;
@@ -2659,14 +2659,17 @@ void baseAnalyzer::RandSub()
   H_thxq_rand_sub    -> Add(H_thxq   ,H_thxq_rand   , 1, -1);
   H_thrq_rand_sub    -> Add(H_thrq   ,H_thrq_rand   , 1, -1);  
 
+      
   // Get Counts of "good events for saving to CaFe Report File"
-  //total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)
-  //W_total = H_W          ->IntegralAndError(1, total_bins, W_total_err);
-  //W_real  = H_W_rand_sub ->IntegralAndError(1, total_bins, W_real_err);
-  //W_rand  = H_W_rand     ->IntegralAndError(1, total_bins, W_rand_err);
-  //cout << "total_bins = " << total_bins << endl;
-  //cout << Form("W_total = %.5f", W_total) << endl;
-  //cout << Form("W_total_err  = %.5f", W_total_err) << endl;
+  total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)
+  
+  W_total = H_W          ->IntegralAndError(1, total_bins, W_total_err);
+  W_real  = H_W_rand_sub ->IntegralAndError(1, total_bins, W_real_err);
+  W_rand  = H_W_rand     ->IntegralAndError(1, total_bins, W_rand_err);
+  cout << Form("W_total = %.3f", W_total) << endl;
+  cout << Form("W_real = %.3f", W_real) << endl;
+  cout << Form("W_rand = %.3f", W_rand) << endl;
+  
   total_bins = H_Pm->GetNbinsX(); 
   Pm_total = H_Pm          ->IntegralAndError(1, total_bins, Pm_total_err);
   Pm_real  = H_Pm_rand_sub ->IntegralAndError(1, total_bins, Pm_real_err);
@@ -2676,16 +2679,17 @@ void baseAnalyzer::RandSub()
   Em_total = H_Em          ->IntegralAndError(1, total_bins, Em_total_err);
   Em_real  = H_Em_rand_sub ->IntegralAndError(1, total_bins, Em_real_err);
   Em_rand  = H_Em_rand     ->IntegralAndError(1, total_bins, Em_rand_err);
-
+  
   total_bins = H_Em_nuc->GetNbinsX(); 
   Em_nuc_total = H_Em_nuc          ->IntegralAndError(1, total_bins, Em_nuc_total_err);
   Em_nuc_real  = H_Em_nuc_rand_sub ->IntegralAndError(1, total_bins, Em_nuc_real_err);
   Em_nuc_rand  = H_Em_nuc_rand     ->IntegralAndError(1, total_bins, Em_nuc_rand_err);
-
+  
   total_bins = H_MM->GetNbinsX(); 
   MM_total = H_MM          ->IntegralAndError(1, total_bins, MM_total_err);
   MM_real  = H_MM_rand_sub ->IntegralAndError(1, total_bins, MM_real_err);
   MM_rand  = H_MM_rand     ->IntegralAndError(1, total_bins, MM_rand_err);
+  
   
   
 }
@@ -2704,7 +2708,7 @@ void baseAnalyzer::CalcEff()
   //Convert charge from uC to mC                                   
   total_charge_bcm_cut = total_charge_bcm_cut / 1000.; 
 
-  //Convert Trigger/EDTM Rates from Hz to kHz 
+  //Convert Scaler Trigger/EDTM Rates from Hz to kHz 
   S1XscalerRate_bcm_cut   = S1XscalerRate_bcm_cut   / 1000.;
   TRIG1scalerRate_bcm_cut = TRIG1scalerRate_bcm_cut / 1000.;
   TRIG2scalerRate_bcm_cut = TRIG2scalerRate_bcm_cut / 1000.;
@@ -2714,6 +2718,15 @@ void baseAnalyzer::CalcEff()
   TRIG6scalerRate_bcm_cut = TRIG6scalerRate_bcm_cut / 1000.;
   EDTMscalerRate_bcm_cut  = EDTMscalerRate_bcm_cut  / 1000.;
 
+  //Calculate Accepted Trigger/EDTM Rates in kHz
+  TRIG1accpRate_bcm_cut = (total_trig1_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  TRIG2accpRate_bcm_cut = (total_trig2_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  TRIG3accpRate_bcm_cut = (total_trig3_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  TRIG4accpRate_bcm_cut = (total_trig4_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  TRIG5accpRate_bcm_cut = (total_trig5_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  TRIG6accpRate_bcm_cut = (total_trig6_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
+  EDTMaccpRate_bcm_cut  = (total_edtm_accp_bcm_cut  / total_time_bcm_cut ) / 1000.;
+  
   //Calculate Pure Computer Live Time (numerator->accepted tdc trig requires NO EDTM :: denominator -> EDTM has already been subtracted from scaler counts)
   //Pre-Scale factor has been accounted 
   cpuLT_trig1 = total_trig1_accp_bcm_cut / (total_trig1_scaler_bcm_cut / Ps1_factor);
@@ -3037,7 +3050,7 @@ void baseAnalyzer::WriteHist()
       outROOT->cd("randSub_plots");
       randSub_HList->Write();
 
-      
+
       
       //Close File
       outROOT->Close();
@@ -3054,58 +3067,110 @@ void baseAnalyzer::WriteReport()
    */
   
   cout << "Calling WriteReport() . . ." << endl;
+
+  
   if(analyze_data==true){
 
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
 
     if(!in_file.fail()){
-
       cout << Form("Report File for run %d exists, will overwrite it . . . ", run) << endl;
-
+    }    
+    else if(in_file.fail()){
+      cout << "Report File does NOT exist, will create one . . . " << endl;
     }
     
-    else if(in_file.fail()){
-      
-      cout << "Report File does NOT exist, will create one . . . " << endl;
-      
-      out_file.open(output_ReportFileName);
-      out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
-      out_file << "#                                     " << endl;
-      out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
-      out_file << Form("DAQ_Run_Length: %.3f [sec]       ", total_time_bcm_cut) << endl;
-      out_file << Form("Events_Replayed: %lld              ", nentries ) << endl;
-      out_file << "" << endl;
-      out_file << Form("Target: %s                       ", tgt_type.Data() ) << endl;      
-      out_file << "" << endl;      
-      out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
-      out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
-      out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
-      out_file << "" << endl;
-      
-      if(analysis_cut=="heep")
-	{
-	  out_file << "heep_total:"  << W_total << endl;
-	  out_file << "heep_signal:" << W_real  << endl;
-	  out_file << "heep_bkg:"    << W_rand  << endl;
-	}
-      if(analysis_cut=="MF")
-	{
-	  out_file << "MF_total:"  << Pm_total << endl;
-	  out_file << "MF_signal:" << Pm_real  << endl;
-	  out_file << "MF_bkg:"    << Pm_rand  << endl;
-	}
-      if(analysis_cut=="SRC")
-	{
-	  out_file << "SRC_total:"  << Pm_total << endl;
-	  out_file << "SRC_signal:" << Pm_real  << endl;
-	  out_file << "SRC_bkg:"    << Pm_rand  << endl;
-	}
-      out_file << "# ------------------------------------------------------------ "  << endl;
-      
-      
-      
+    out_file.open(output_ReportFileName);
+    out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
+    out_file << "                                     " << endl;
+    out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
+    out_file << Form("DAQ_Run_Length: %.3f [sec]       ", total_time_bcm_cut) << endl;
+    out_file << Form("Events_Replayed: %lld              ", nentries ) << endl;
+    out_file << "" << endl;
+    out_file << Form("Target: %s                       ", tgt_type.Data() ) << endl;      
+    out_file << "" << endl;      
+    out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
+    out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
+    out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
+    out_file << "" << endl;
+    
+    if(analysis_cut=="heep")
+      {
+	out_file << "heep_total:"  << W_total << endl;
+	out_file << "heep_signal:" << W_real  << endl;
+	out_file << "heep_bkg:"    << W_rand  << endl;
+      }
+    if(analysis_cut=="MF")
+      {
+	out_file << "MF_total:"  << Pm_total << endl;
+	out_file << "MF_signal:" << Pm_real  << endl;
+	out_file << "MF_bkg:"    << Pm_rand  << endl;
+      }
+    if(analysis_cut=="SRC")
+      {
+	out_file << "SRC_total:"  << Pm_total << endl;
+	out_file << "SRC_signal:" << Pm_real  << endl;
+	out_file << "SRC_bkg:"    << Pm_rand  << endl;
+      }
+
+    out_file << "                                     " << endl;
+    out_file << "# ------------------------------------------------------------ "  << endl;
+    out_file << "                                     " << endl;
+    out_file << "# drift chambers tracking efficiency  " << endl;    
+    out_file << Form("hms_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
+    out_file << Form("shms_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
+    out_file << "                                     " << endl;
+    out_file << "# trigger pre-scales, counts, rates & daq live times                                     " << endl;
+    
+    out_file << Form("Ps1_factor: ", Ps1_factor) << endl;
+    out_file << Form("T1_scalers:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut);
+    out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut);
+    if(Ps1_factor > -1) {
+      out_file << Form("T1_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig1,                 cpuLT_trig1_err_Bi);
+      out_file << Form("T1_tLT:      %.3f +- %.3f [ % ]",  tLT_trig1,                   tLT_trig1_err_Bi);	
     }
+    out_file << "                                     " << endl;
+    out_file << Form("Ps2_factor: ", Ps2_factor) << endl;
+    out_file << Form("T2_scalers:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut);
+    out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut);
+    if(Ps2_factor > -1) {
+      out_file << Form("T2_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig2,                 cpuLT_trig2_err_Bi);
+      out_file << Form("T2_tLT:      %.3f +- %.3f [ % ]",  tLT_trig2,                   tLT_trig2_err_Bi);	
+    }
+    out_file << "                                     " << endl;
+    out_file << Form("Ps3_factor: ", Ps3_factor) << endl;
+    out_file << Form("T3_scalers:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut);
+    out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut);
+    if(Ps3_factor > -1) {
+      out_file << Form("T3_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig3,                 cpuLT_trig3_err_Bi);
+      out_file << Form("T3_tLT:      %.3f +- %.3f [ % ]",  tLT_trig3,                   tLT_trig3_err_Bi);	
+    }
+    out_file << "                                     " << endl;
+    out_file << Form("Ps4_factor: ", Ps4_factor) << endl;
+    out_file << Form("T4_scalers:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut);
+    out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut);
+    if(Ps4_factor > -1) {
+      out_file << Form("T4_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig4,                 cpuLT_trig4_err_Bi);
+      out_file << Form("T4_tLT:      %.3f +- %.3f [ % ]",  tLT_trig4,                   tLT_trig4_err_Bi);	
+    }
+    out_file << "                                     " << endl;
+    out_file << Form("Ps5_factor: ", Ps5_factor) << endl;
+    out_file << Form("T5_scalers:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut);
+    out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut);
+    if(Ps5_factor > -1) {
+      out_file << Form("T5_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig5,                 cpuLT_trig5_err_Bi);
+      out_file << Form("T5_tLT:      %.3f +- %.3f [ % ]",  tLT_trig5,                   tLT_trig5_err_Bi);	
+    }
+    out_file << "                                     " << endl;
+    out_file << Form("Ps6_factor: ", Ps6_factor) << endl;
+    out_file << Form("T6_scalers:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut);
+    out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut);
+    if(Ps6_factor > -1) {
+      out_file << Form("T6_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig6,                 cpuLT_trig6_err_Bi);
+      out_file << Form("T6_tLT:      %.3f +- %.3f [ % ]",  tLT_trig6,                   tLT_trig6_err_Bi);	
+    }
+    
     
     // CLOSE files
     out_file.close();

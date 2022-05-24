@@ -1249,6 +1249,15 @@ protected:
   Double_t TRIG6scalerRate_bcm_cut;
   Double_t EDTMscalerRate_bcm_cut;
 
+  //Store Accepted Rates if current cut passed
+  Double_t TRIG1accpRate_bcm_cut;
+  Double_t TRIG2accpRate_bcm_cut;
+  Double_t TRIG3accpRate_bcm_cut;
+  Double_t TRIG4accpRate_bcm_cut;
+  Double_t TRIG5accpRate_bcm_cut;
+  Double_t TRIG6accpRate_bcm_cut;
+  Double_t EDTMaccpRate_bcm_cut;
+  
   Double_t trig_rate; //generic trigger rate
   
   //Store Average BCM Current
