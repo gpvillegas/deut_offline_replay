@@ -3122,53 +3122,52 @@ void baseAnalyzer::WriteReport()
     out_file << Form("shms_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
     out_file << "                                     " << endl;
     out_file << "# trigger pre-scales, counts, rates & daq live times                                     " << endl;
-    
-    out_file << Form("Ps1_factor: ", Ps1_factor) << endl;
-    out_file << Form("T1_scalers:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut);
-    out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut);
+    out_file << Form("Ps1_factor: %.1f", Ps1_factor) << endl;
+    out_file << Form("T1_scalers:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
+    out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
     if(Ps1_factor > -1) {
-      out_file << Form("T1_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig1,                 cpuLT_trig1_err_Bi);
-      out_file << Form("T1_tLT:      %.3f +- %.3f [ % ]",  tLT_trig1,                   tLT_trig1_err_Bi);	
+      out_file << Form("T1_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
+      out_file << Form("T1_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig1,                   tLT_trig1_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps2_factor: ", Ps2_factor) << endl;
-    out_file << Form("T2_scalers:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut);
-    out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut);
+    out_file << Form("Ps2_factor: %.1f", Ps2_factor) << endl;
+    out_file << Form("T2_scalers:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
+    out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
     if(Ps2_factor > -1) {
-      out_file << Form("T2_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig2,                 cpuLT_trig2_err_Bi);
-      out_file << Form("T2_tLT:      %.3f +- %.3f [ % ]",  tLT_trig2,                   tLT_trig2_err_Bi);	
+      out_file << Form("T2_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
+      out_file << Form("T2_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig2,                   tLT_trig2_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps3_factor: ", Ps3_factor) << endl;
-    out_file << Form("T3_scalers:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut);
-    out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut);
+    out_file << Form("Ps3_factor: %.1f", Ps3_factor) << endl;
+    out_file << Form("T3_scalers:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
+    out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;
     if(Ps3_factor > -1) {
-      out_file << Form("T3_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig3,                 cpuLT_trig3_err_Bi);
-      out_file << Form("T3_tLT:      %.3f +- %.3f [ % ]",  tLT_trig3,                   tLT_trig3_err_Bi);	
+      out_file << Form("T3_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
+      out_file << Form("T3_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig3,                   tLT_trig3_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps4_factor: ", Ps4_factor) << endl;
-    out_file << Form("T4_scalers:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut);
-    out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut);
+    out_file << Form("Ps4_factor: %.1f", Ps4_factor) << endl;
+    out_file << Form("T4_scalers:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
+    out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut) << endl;
     if(Ps4_factor > -1) {
-      out_file << Form("T4_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig4,                 cpuLT_trig4_err_Bi);
-      out_file << Form("T4_tLT:      %.3f +- %.3f [ % ]",  tLT_trig4,                   tLT_trig4_err_Bi);	
+      out_file << Form("T4_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
+      out_file << Form("T4_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig4,                   tLT_trig4_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps5_factor: ", Ps5_factor) << endl;
-    out_file << Form("T5_scalers:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut);
-    out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut);
+    out_file << Form("Ps5_factor: %.1f", Ps5_factor) << endl;
+    out_file << Form("T5_scalers:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
+    out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut) << endl;
     if(Ps5_factor > -1) {
-      out_file << Form("T5_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig5,                 cpuLT_trig5_err_Bi);
-      out_file << Form("T5_tLT:      %.3f +- %.3f [ % ]",  tLT_trig5,                   tLT_trig5_err_Bi);	
+      out_file << Form("T5_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
+      out_file << Form("T5_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig5,                   tLT_trig5_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps6_factor: ", Ps6_factor) << endl;
-    out_file << Form("T6_scalers:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut);
-    out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut);
+    out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
+    out_file << Form("T6_scalers:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
+    out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut) << endl;
     if(Ps6_factor > -1) {
-      out_file << Form("T6_cpuLT:    %.3f +- %.3f [ % ]",  cpuLT_trig6,                 cpuLT_trig6_err_Bi);
-      out_file << Form("T6_tLT:      %.3f +- %.3f [ % ]",  tLT_trig6,                   tLT_trig6_err_Bi);	
+      out_file << Form("T6_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
+      out_file << Form("T6_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
     }
     
     
@@ -3444,10 +3443,14 @@ void baseAnalyzer::CombineHistos()
 void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
+
+  string cmd0 = Form("emacs -d DISPLAY %s", output_ReportFileName.Data());
+  cout << cmd0.c_str() << endl;
+  gSystem->Exec(cmd0.c_str());
   
   string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
-  
+
   gSystem->Exec(cmd.c_str());
   
   

@@ -60,8 +60,8 @@ runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\
 
 runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum}, 
 	     	   		    \\\"${daq_mode}\\\",  \\\"${e_arm}\\\", 
-				   ${analyze_data}, \\\"${kin_type}\\\", \\\"${ana_type}\\\"
-          			      ${hel_flag},
+				   ${analyze_data}, \\\"${kin_type}\\\", \\\"${ana_type}\\\",
+          			    ${hel_flag},
                                    \\\"${bcm_type}\\\", ${bcm_thrs},
                                    \\\"${trig_type}\\\", ${combine_runs}
                      )\""
