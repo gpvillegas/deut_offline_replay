@@ -2070,8 +2070,7 @@ void baseAnalyzer::EventLoop()
 	
       cout << "Loop over Data Events | nentries -->  " << nentries << endl;
 
-      //for(int ientry=0; ientry<nentries; ientry++)
-      for(int ientry=0; ientry<10000; ientry++)
+      for(int ientry=0; ientry<nentries; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
@@ -3074,15 +3073,15 @@ void baseAnalyzer::WriteReport()
       out_file << "#                                     " << endl;
       out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
       out_file << Form("DAQ_Run_Length: %.3f [sec]       ", total_time_bcm_cut) << endl;
-      out_fule << Form("Events_Replayed: %d              ", nentries ) << endl;
+      out_file << Form("Events_Replayed: %lld              ", nentries ) << endl;
       out_file << "" << endl;
-      out_file << Form("Target: %s                       ", tgt_type.Data() << endl;      
+      out_file << Form("Target: %s                       ", tgt_type.Data() ) << endl;      
       out_file << "" << endl;      
       out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
       out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
       out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
       out_file << "" << endl;
-
+      
       if(analysis_cut=="heep")
 	{
 	  out_file << "heep_total:"  << W_total << endl;
@@ -3102,15 +3101,15 @@ void baseAnalyzer::WriteReport()
 	  out_file << "SRC_bkg:"    << Pm_rand  << endl;
 	}
       out_file << "# ------------------------------------------------------------ "  << endl;
-
+      
       
       
     }
-
+    
     // CLOSE files
     out_file.close();
     in_file.close();
-      
+    
   }
   
 }
