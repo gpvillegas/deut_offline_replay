@@ -2591,8 +2591,7 @@ void baseAnalyzer::EventLoop()
 
 	}//END DATA EVENT LOOP
 
-           
-      
+          
     }//END DATA ANALYSIS
 
   if(analyze_data==false)
@@ -2661,11 +2660,13 @@ void baseAnalyzer::RandSub()
   H_thrq_rand_sub    -> Add(H_thrq   ,H_thrq_rand   , 1, -1);  
 
   // Get Counts of "good events for saving to CaFe Report File"
-  total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)
-  W_total = H_W          ->IntegralAndError(1, total_bins, W_total_err);
-  W_real  = H_W_rand_sub ->IntegralAndError(1, total_bins, W_real_err);
-  W_rand  = H_W_rand     ->IntegralAndError(1, total_bins, W_rand_err);
-
+  //total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)
+  //W_total = H_W          ->IntegralAndError(1, total_bins, W_total_err);
+  //W_real  = H_W_rand_sub ->IntegralAndError(1, total_bins, W_real_err);
+  //W_rand  = H_W_rand     ->IntegralAndError(1, total_bins, W_rand_err);
+  //cout << "total_bins = " << total_bins << endl;
+  //cout << Form("W_total = %.5f", W_total) << endl;
+  //cout << Form("W_total_err  = %.5f", W_total_err) << endl;
   total_bins = H_Pm->GetNbinsX(); 
   Pm_total = H_Pm          ->IntegralAndError(1, total_bins, Pm_total_err);
   Pm_real  = H_Pm_rand_sub ->IntegralAndError(1, total_bins, Pm_real_err);
