@@ -107,7 +107,7 @@ protected:
 
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )
   TString tgt_type;
-  
+
   
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
@@ -144,12 +144,30 @@ protected:
   TString input_FileNamePattern;
 
   ///Output .txt filenames
-  TString report_SummaryFileName;
-  TString report_ReportFileName;
+  TString output_SummaryFileName;
+  TString output_ReportFileName;
 
   //FileStreams objects to READ/WRITE to a .txt file
   ofstream out_file;
   ifstream in_file;
+
+  // Get Counts of "total", "reals" and "random" events for saving to CaFe Report File"
+  Double_t total_bins;
+
+  Double_t W_total, W_rand, W_real;
+  Double_t W_total_err, W_rand_err, W_real_err;
+  
+  Double_t Pm_total, Pm_rand, Pm_real;
+  Double_t Pm_total_err, Pm_rand_err, Pm_real_err;
+
+  Double_t Em_total, Em_rand, Em_real;
+  Double_t Em_total_err, Em_rand_err, Em_real_err;
+
+  Double_t Em_nuc_total, Em_nuc_rand, Em_nuc_real;
+  Double_t Em_nuc_total_err, Em_nuc_rand_err, Em_nuc_real_err;
+
+  Double_t MM_total, MM_rand, MM_real;
+  Double_t MM_total_err, MM_rand_err, MM_real_err;
   
   
   //------------DECLARE HISTOGRAM BINNING VARIABLES-------------

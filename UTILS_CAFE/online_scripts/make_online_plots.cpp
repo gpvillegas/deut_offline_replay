@@ -566,7 +566,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   data_ep_ctime_real->SetFillStyle(3006);
   data_ep_ctime_real->SetLineColor(kMagenta);
 
-  // invariant mass
+  // invariant mass, W
   data_W_total->SetFillColorAlpha(kBlue, 0.35);
   data_W_total->SetFillStyle(3004);
   data_W_total->SetLineColor(kBlue);
@@ -591,6 +591,8 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   data_Pm_real->SetFillColorAlpha(kMagenta, 0.35);
   data_Pm_real->SetFillStyle(3006);
   data_Pm_real->SetLineColor(kMagenta);
+
+  // add missing mass and missing energy
 
   //-----------------------------------------------------------------------------------
   

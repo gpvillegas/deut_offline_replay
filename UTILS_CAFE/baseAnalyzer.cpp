@@ -586,11 +586,11 @@ void baseAnalyzer::ReadInputFile()
 
   //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
   temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  report_SummaryFileName = Form(temp.Data(), analysis_type());
+  output_SummaryFileName = Form(temp.Data(), analysis_type.Data());
 
   //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
   temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  report_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
+  output_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
 
 
   //==========================================
@@ -2592,6 +2592,8 @@ void baseAnalyzer::EventLoop()
 
 	}//END DATA EVENT LOOP
 
+           
+      
     }//END DATA ANALYSIS
 
   if(analyze_data==false)
@@ -2613,7 +2615,7 @@ void baseAnalyzer::RandSub()
 
   // Scale Down (If necessary) the randoms before subtracting it from the reals
   // NOTE: the accidentals selected to the left/right of main coin. peak have a window width of dt_acc_L and dt_acc_R
-  // and therefore the relvevant histograms with accidentals selection  must be properly scaled down to the main coin. peak window
+  // and therefore the relevant histograms with accidentals selection  must be properly scaled down to the main coin. peak window
   // as follows:  scale_factor = dt_coin_peak / ( dt_acc_L + dt_acc_R ) --> ratio of main coin. time window width to (sum of accidental window width left/right of main peak)
   // the random coincidences can be scaled down by the following factor:
 
@@ -2658,6 +2660,34 @@ void baseAnalyzer::RandSub()
   H_MM_rand_sub      -> Add(H_MM     ,H_MM_rand     , 1, -1);
   H_thxq_rand_sub    -> Add(H_thxq   ,H_thxq_rand   , 1, -1);
   H_thrq_rand_sub    -> Add(H_thrq   ,H_thrq_rand   , 1, -1);  
+
+  // Get Counts of "good events for saving to CaFe Report File"
+  total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)
+  W_total = H_W          ->IntegralAndError(1, total_bins, W_total_err);
+  W_real  = H_W_rand_sub ->IntegralAndError(1, total_bins, W_real_err);
+  W_rand  = H_W_rand     ->IntegralAndError(1, total_bins, W_rand_err);
+
+  total_bins = H_Pm->GetNbinsX(); 
+  Pm_total = H_Pm          ->IntegralAndError(1, total_bins, Pm_total_err);
+  Pm_real  = H_Pm_rand_sub ->IntegralAndError(1, total_bins, Pm_real_err);
+  Pm_rand  = H_Pm_rand     ->IntegralAndError(1, total_bins, Pm_rand_err);
+  
+  total_bins = H_Em->GetNbinsX(); 
+  Em_total = H_Em          ->IntegralAndError(1, total_bins, Em_total_err);
+  Em_real  = H_Em_rand_sub ->IntegralAndError(1, total_bins, Em_real_err);
+  Em_rand  = H_Em_rand     ->IntegralAndError(1, total_bins, Em_rand_err);
+
+  total_bins = H_Em_nuc->GetNbinsX(); 
+  Em_nuc_total = H_Em_nuc          ->IntegralAndError(1, total_bins, Em_nuc_total_err);
+  Em_nuc_real  = H_Em_nuc_rand_sub ->IntegralAndError(1, total_bins, Em_nuc_real_err);
+  Em_nuc_rand  = H_Em_nuc_rand     ->IntegralAndError(1, total_bins, Em_nuc_rand_err);
+
+  total_bins = H_MM->GetNbinsX(); 
+  MM_total = H_MM          ->IntegralAndError(1, total_bins, MM_total_err);
+  MM_real  = H_MM_rand_sub ->IntegralAndError(1, total_bins, MM_real_err);
+  MM_rand  = H_MM_rand     ->IntegralAndError(1, total_bins, MM_rand_err);
+  
+  
 }
 
 
@@ -3006,7 +3036,9 @@ void baseAnalyzer::WriteHist()
       //Write selected Random-Subtracted histos to randSub_plots directory
       outROOT->cd("randSub_plots");
       randSub_HList->Write();
-	    
+
+      
+      
       //Close File
       outROOT->Close();
     }
@@ -3025,7 +3057,7 @@ void baseAnalyzer::WriteReport()
   if(analyze_data==true){
 
     //Check if file already exists
-    in_file.open(report_ReportFileName.Data());
+    in_file.open(output_ReportFileName.Data());
 
     if(!in_file.fail()){
 
@@ -3037,40 +3069,41 @@ void baseAnalyzer::WriteReport()
       
       cout << "Report File does NOT exist, will create one . . . " << endl;
       
-      out_file.open(report_ReportFileName);
+      out_file.open(output_ReportFileName);
       out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
       out_file << "#                                     " << endl;
       out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
-      out_file << Form("DAQ_Run_Length: %.3f [sec]         ",  total_time_bcm_cut) << endl;
-      out_file << Form("# electron arm: %s                        ", e_arm_name.Data() ) << endl;
+      out_file << Form("DAQ_Run_Length: %.3f [sec]       ", total_time_bcm_cut) << endl;
+      out_fule << Form("Events_Replayed: %d              ", nentries ) << endl;
       out_file << "" << endl;
+      out_file << Form("Target: %s                       ", tgt_type.Data() << endl;      
+      out_file << "" << endl;      
       out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
       out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
       out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
       out_file << "" << endl;
+
       if(analysis_cut=="heep")
 	{
-	  out_file << "Events_Replayed: " << endl;
-	  out_file << "heep_total:" << endl;
-	  out_file << "heep_signal:" << endl;
-	  out_file << "heep_bkg:" << endl;
+	  out_file << "heep_total:"  << W_total << endl;
+	  out_file << "heep_signal:" << W_real  << endl;
+	  out_file << "heep_bkg:"    << W_rand  << endl;
 	}
       if(analysis_cut=="MF")
 	{
-	  out_file << "Events_Replayed: " << endl;
-	  out_file << "MF_total:" << endl;
-	  out_file << "MF_signal:" << endl;
-	  out_file << "MF_bkg:" << endl;
+	  out_file << "MF_total:"  << Pm_total << endl;
+	  out_file << "MF_signal:" << Pm_real  << endl;
+	  out_file << "MF_bkg:"    << Pm_rand  << endl;
 	}
       if(analysis_cut=="SRC")
 	{
-	  out_file << "Events_Replayed: " << endl;
-	  out_file << "SRC_total:" << endl;
-	  out_file << "SRC_signal:" << endl;
-	  out_file << "SRC_bkg:" << endl;
+	  out_file << "SRC_total:"  << Pm_total << endl;
+	  out_file << "SRC_signal:" << Pm_real  << endl;
+	  out_file << "SRC_bkg:"    << Pm_rand  << endl;
 	}
-      out_file << "" << endl;
+      out_file << "# ------------------------------------------------------------ "  << endl;
 
+      
       
     }
 
@@ -3099,13 +3132,13 @@ void baseAnalyzer::WriteReportSummary()
 
     
     //Check if file already exists
-    in_file.open(report_SummaryFileName.Data());
+    in_file.open(output_SummaryFileName.Data());
     
     if(in_file.fail()){
       
       cout << "Report File does NOT exist, will create one . . . " << endl;
       
-      out_file.open(report_SummaryFileName);
+      out_file.open(output_SummaryFileName);
       out_file << "#-------------------------------------" << endl;
       out_file << "#        Data Analysis Summary        " << endl;
       out_file << "#-------------------------------------" << endl;
@@ -3144,7 +3177,7 @@ void baseAnalyzer::WriteReportSummary()
     }
 
     //Open Report FIle in append mode
-    out_file.open(report_SummaryFileName, ios::out | ios::app);
+    out_file.open(output_SummaryFileName, ios::out | ios::app);
     out_file << std::setw(7) << run  << std::setw(25) << total_charge_bcm_cut << std::setw(25) << avg_current_bcm_cut << std::setw(25) << hTrkEff << std::setw(25) << hTrkEff_err << std::setw(25) << pTrkEff << std::setw(25) << pTrkEff_err << std::setw(25) << tgtBoil_corr << std::setw(25) << tgtBoil_corr_err << std::setw(25) << hadAbs_corr << std::setw(25) << hadAbs_corr_err << std::setw(25) << cpuLT_trig << std::setw(25) << cpuLT_trig_err_Bi << std::setw(25) << cpuLT_trig_err_Bay << std::setw(25) << tLT_trig << std::setw(25) << tLT_trig_err_Bi << std::setw(25) << tLT_trig_err_Bay << std::setw(25) << S1XscalerRate_bcm_cut << std::setw(25) << trig_rate << std::setw(25) << EDTMscalerRate_bcm_cut << std::setw(25) << Ps_factor << std::setw(25) << total_edtm_accp_bcm_cut << std::setw(25) << (total_edtm_scaler_bcm_cut / Ps_factor) << std::setw(25) << total_trig_accp_bcm_cut << std::setw(25) << (total_trig_scaler_bcm_cut / Ps_factor) << endl;
     out_file.close();
   }
