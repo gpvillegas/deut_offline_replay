@@ -164,7 +164,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir and symlink to $base_dir_voli$USER/CAFE_OUTPUT . . ."
 	mkdir $base_dir_voli$USER"/CAFE_OUTPUT"
 	ln -sf $base_dir_voli$USER"/CAFE_OUTPUT" 
-
+	mkdir -p "CAFE_OUTPUT/ROOT"
+	mkdir -p "CAFE_OUTPUT/REPORT"
+	mkdir -p "CAFE_OUTPUT/PDF" 
+	
 	echo "Creating dir and symlink to $base_dir_voli$USER/ROOTfiles . . ."
 	mkdir $base_dir_voli$USER"/ROOTfiles"
 	ln -sf $base_dir_voli$USER"/ROOTfiles"
@@ -191,7 +194,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir and symlink to $base_dir_work$USER/CAFE_OUTPUT . . ."	
 	mkdir $base_dir_work$USER"/CAFE_OUTPUT" 
 	ln -sf $base_dir_work$USER"/CAFE_OUTPUT"
-
+	mkdir -p "CAFE_OUTPUT/ROOT"
+	mkdir -p "CAFE_OUTPUT/REPORT"
+	mkdir -p "CAFE_OUTPUT/PDF" 
+	
 	echo "Creating dir and symlink to $base_dir_work$USER/ROOTfiles . . ."
 	mkdir $base_dir_work$USER"/ROOTfiles"
 	ln -sf $base_dir_work$USER"/ROOTfiles"
@@ -217,7 +223,10 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir and symlink to $base_dir_group$USER/CAFE_OUTPUT . . ."
 	mkdir $base_dir_group$USER"/CAFE_OUTPUT"
 	ln -sf $base_dir_group$USER"/CAFE_OUTPUT"
-
+	mkdir -p "CAFE_OUTPUT/ROOT"
+	mkdir -p "CAFE_OUTPUT/REPORT"
+	mkdir -p "CAFE_OUTPUT/PDF" 
+	
 	echo "Creating dir and symlink to $base_dir_group$USER/ROOTfiles . . ."
 	mkdir $base_dir_group$USER"/ROOTfiles"
 	ln -sf $base_dir_group$USER"/ROOTfiles"
@@ -291,7 +300,10 @@ if [[ cdaq_flg -eq 1 ]]; then
     echo "Creating dir and symlink to $base_dir_cdaq/CAFE_OUTPUT . . ."    
     mkdir $base_dir_cdaq"/CAFE_OUTPUT"
     ln -sf $base_dir_cdaq"/CAFE_OUTPUT"
-
+    mkdir -p "CAFE_OUTPUT/ROOT"
+    mkdir -p "CAFE_OUTPUT/REPORT"
+    mkdir -p "CAFE_OUTPUT/PDF"
+	
 fi
 
 
