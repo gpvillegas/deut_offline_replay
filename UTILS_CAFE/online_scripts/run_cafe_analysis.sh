@@ -42,7 +42,7 @@ fi
 
 daq_mode="coin"
 e_arm="SHMS"
-analysis_type="data"
+analyze_data=1   # 1: true (analyze data), 0: false (analyze simc)
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5
@@ -60,7 +60,7 @@ runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\
 
 runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum}, 
 	     	   		    \\\"${daq_mode}\\\",  \\\"${e_arm}\\\", 
-				   \\\"${analysis_type}\\\", \\\"${kin_type}\\\",
+				   ${analyze_data}, \\\"${kin_type}\\\", \\\"${ana_type}\\\"
           			      ${hel_flag},
                                    \\\"${bcm_type}\\\", ${bcm_thrs},
                                    \\\"${trig_type}\\\", ${combine_runs}
