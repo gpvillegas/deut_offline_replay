@@ -185,8 +185,8 @@ c_W_max = 1.05
 # Missing Mass, MM [GeV]
 # -Protons-
 MM_cut_flag = 0
-c_MM_min = -0.1
-c_MM_max = 0.1
+c_MM_min = -0.15
+c_MM_max = 0.15
 
 
 #---- CaFe-Specific A(e,e'p) Mean-Field (MF) Kinematic Cuts -----

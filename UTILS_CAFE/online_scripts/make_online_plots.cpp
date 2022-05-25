@@ -573,7 +573,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   // coincidence time
   data_ep_ctime_total->SetFillColorAlpha(kBlue, 0.35);
   data_ep_ctime_total->SetFillStyle(3004);
-  data_ep_ctime_total->SetLineColor(kBlue);
+  data_ep_ctime_total->SetLineColor(kBlue+2);
 
   data_ep_ctime_rand->SetFillColorAlpha(kGreen, 0.35);
   data_ep_ctime_rand->SetFillStyle(3005);
@@ -586,7 +586,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   // invariant mass, W
   data_W_total->SetFillColorAlpha(kBlue, 0.35);
   data_W_total->SetFillStyle(3004);
-  data_W_total->SetLineColor(kBlue);
+  data_W_total->SetLineColor(kBlue+2);
 
   data_W_rand->SetFillColorAlpha(kGreen, 0.35);
   data_W_rand->SetFillStyle(3005);
@@ -599,7 +599,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   // missing mass, MM
   data_MM_total->SetFillColorAlpha(kBlue, 0.35);
   data_MM_total->SetFillStyle(3004);
-  data_MM_total->SetLineColor(kBlue);
+  data_MM_total->SetLineColor(kBlue+2);
 
   data_MM_rand->SetFillColorAlpha(kGreen, 0.35);
   data_MM_rand->SetFillStyle(3005);
@@ -612,7 +612,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   // missing momentum
   data_Pm_total->SetFillColorAlpha(kBlue, 0.35);
   data_Pm_total->SetFillStyle(3004);
-  data_Pm_total->SetLineColor(kBlue);
+  data_Pm_total->SetLineColor(kBlue+2);
 
   data_Pm_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Pm_rand->SetFillStyle(3005);
@@ -625,7 +625,7 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   // missing energy
   data_Em_total->SetFillColorAlpha(kBlue, 0.35);
   data_Em_total->SetFillStyle(3004);
-  data_Em_total->SetLineColor(kBlue);
+  data_Em_total->SetLineColor(kBlue+2);
 
   data_Em_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Em_rand->SetFillStyle(3005);
@@ -653,10 +653,10 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   double nbins;
   
   auto hctime_leg = new TLegend(0.15,0.6,0.33,0.8);
-  auto hW_leg = new TLegend(0.15,0.7,0.33,0.8);
-  auto hMM_leg = new TLegend(0.15,0.7,0.33,0.8);
-  auto hPm_leg = new TLegend(0.75,0.7,0.93,0.8);
-  auto hEm_leg = new TLegend(0.75,0.7,0.93,0.8);
+  auto hW_leg     = new TLegend(0.15,0.6,0.33,0.8);
+  auto hMM_leg    = new TLegend(0.15,0.6,0.33,0.8);
+  auto hPm_leg    = new TLegend(0.63,0.6,0.8,0.8);
+  auto hEm_leg    = new TLegend(0.63,0.6,0.8,0.8);
   
   
   // ------- COINCIDENCE TIME -----
@@ -673,9 +673,9 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
   rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
   
-  hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   | Integral: %.3f", total),"f");
-  hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   | Integral: %.3f", reals),"f");
-  hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms | Integral: %.3f", rands),"f");
+  hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   : %.3f", total),"f");
+  hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   : %.3f", reals),"f");
+  hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms : %.3f", rands),"f");
 
   hctime_leg->SetBorderSize(0);
   hctime_leg->SetTextSize(0.05);
@@ -684,13 +684,10 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   c1->Print(Form("cafe_output_%d.pdf", run));
   c1->Clear();
 
-
-  // Divide Canvas in 4 pads (invariant mass, missing mass, missing momentum, missing energy)
-  c1->cd();
-  c1->Divide(2,2);
-
+  
   // ------ INVARIANT MASS ------
-  c1->cd(1);
+
+  c1->cd();
   gPad->SetLogy();
   nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
@@ -703,15 +700,20 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   reals = data_W_real->IntegralAndError(1, nbins, reals_err);
   rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
   
-  hW_leg->AddEntry(data_W_total, Form("Total   | Integral: %.3f", total),"f");
-  hW_leg->AddEntry(data_W_real,  Form("Reals   | Integral: %.3f", reals),"f");
-  hW_leg->AddEntry(data_W_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  hW_leg->AddEntry(data_W_total, Form("Total   : %.3f", total),"f");
+  hW_leg->AddEntry(data_W_real,  Form("Reals   : %.3f", reals),"f");
+  hW_leg->AddEntry(data_W_rand,  Form("Randoms : %.3f", rands),"f");
 
   hW_leg->SetBorderSize(0);
+  hW_leg->SetTextSize(0.05);
   hW_leg->Draw();
 
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
+  
   // ------ MISSING MASS ------
-  c1->cd(2);
+
+  c1->cd();
   gPad->SetLogy();
   nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
@@ -724,16 +726,19 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   reals = data_MM_real->IntegralAndError(1, nbins, reals_err);
   rands = data_MM_rand->IntegralAndError(1, nbins, rands_err);
   
-  hMM_leg->AddEntry(data_MM_total, Form("Total   | Integral: %.3f", total),"f");
-  hMM_leg->AddEntry(data_MM_real,  Form("Reals   | Integral: %.3f", reals),"f");
-  hMM_leg->AddEntry(data_MM_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  hMM_leg->AddEntry(data_MM_total, Form("Total   : %.3f", total),"f");
+  hMM_leg->AddEntry(data_MM_real,  Form("Reals   : %.3f", reals),"f");
+  hMM_leg->AddEntry(data_MM_rand,  Form("Randoms : %.3f", rands),"f");
 
   hMM_leg->SetBorderSize(0);
+  hMM_leg->SetTextSize(0.05);
   hMM_leg->Draw();
       
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
   
   // ------ MISSING MOMENTUM ------
-  c1->cd(3);
+  c1->cd();
   gPad->SetLogy();
   nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
@@ -746,16 +751,19 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
   rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
   
-  hPm_leg->AddEntry(data_Pm_total, Form("Total   | Integral: %.3f", total),"f");
-  hPm_leg->AddEntry(data_Pm_real,  Form("Reals   | Integral: %.3f", reals),"f");
-  hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  hPm_leg->AddEntry(data_Pm_total, Form("Total   : %.3f", total),"f");
+  hPm_leg->AddEntry(data_Pm_real,  Form("Reals   : %.3f", reals),"f");
+  hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms : %.3f", rands),"f");
 
   hPm_leg->SetBorderSize(0);  
+  hPm_leg->SetTextSize(0.05);
   hPm_leg->Draw();
 
-
-    // ------ MISSING ENERGY ------
-  c1->cd(4);
+  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Clear();
+  
+  // ------ MISSING ENERGY ------
+  c1->cd();
   gPad->SetLogy();
   nbins = data_Em_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
@@ -768,11 +776,12 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   reals = data_Em_real->IntegralAndError(1, nbins, reals_err);
   rands = data_Em_rand->IntegralAndError(1, nbins, rands_err);
   
-  hEm_leg->AddEntry(data_Em_total, Form("Total   | Integral: %.3f", total),"f");
-  hEm_leg->AddEntry(data_Em_real,  Form("Reals   | Integral: %.3f", reals),"f");
-  hEm_leg->AddEntry(data_Em_rand,  Form("Randoms | Integral: %.3f", rands),"f");
+  hEm_leg->AddEntry(data_Em_total, Form("Total   : %.3f", total),"f");
+  hEm_leg->AddEntry(data_Em_real,  Form("Reals   : %.3f", reals),"f");
+  hEm_leg->AddEntry(data_Em_rand,  Form("Randoms : %.3f", rands),"f");
 
-  hEm_leg->SetBorderSize(0);  
+  hEm_leg->SetBorderSize(0);
+  hEm_leg->SetTextSize(0.05);
   hEm_leg->Draw();
   
   c1->Print(Form("cafe_output_%d.pdf", run));
