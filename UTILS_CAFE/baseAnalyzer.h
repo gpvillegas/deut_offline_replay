@@ -276,6 +276,11 @@ protected:
   Double_t Em_xmin;
   Double_t Em_xmax;
 
+  // only applies for deuteron (Mp + Mn - Md = nu - Tp - Tn ~ 2.22 MeV)
+  Double_t Em_nuc_nbins;
+  Double_t Em_nuc_xmin;
+  Double_t Em_nuc_xmax;
+  
   Double_t Pm_nbins;
   Double_t Pm_xmin;
   Double_t Pm_xmax;
@@ -572,6 +577,7 @@ protected:
   //Secondary (Hadron) Kinematics
   TH1F *H_Em;
   TH1F *H_Em_nuc;
+  TH1F *H_Em_src;
   TH1F *H_Pm;
   TH1F *H_Pmx_lab;
   TH1F *H_Pmy_lab;
@@ -625,6 +631,9 @@ protected:
   TH1F *H_cphi_rq_cm;
   TH1F *H_sphi_xq_cm;
   TH1F *H_sphi_rq_cm;
+
+  // 2D Kinematics Histos
+  TH2F *H_Em_nuc_vs_Pm;
   
   //------------------------------------------------
   
@@ -929,29 +938,29 @@ protected:
   // H(e,e'p) Kinematic Cuts
   
   //4-Momentum Transfers
-  Bool_t Q2_cut_flag;
-  Bool_t c_Q2;
-  Double_t c_Q2_min;
-  Double_t c_Q2_max;
+  Bool_t Q2_heep_cut_flag;
+  Bool_t c_heep_Q2;
+  Double_t c_heep_Q2_min;
+  Double_t c_heep_Q2_max;
 
   //Missing Energy
-  Bool_t Em_cut_flag;
-  Bool_t c_Em;
-  Double_t c_Em_min;
-  Double_t c_Em_max;
+  Bool_t Em_heep_cut_flag;
+  Bool_t c_heep_Em;
+  Double_t c_heep_Em_min;
+  Double_t c_heep_Em_max;
 
   //Invariant Mass, W
-  Bool_t W_cut_flag;
-  Bool_t c_W;
-  Double_t c_W_min;
-  Double_t c_W_max;
+  Bool_t W_heep_cut_flag;
+  Bool_t c_heep_W;
+  Double_t c_heep_W_min;
+  Double_t c_heep_W_max;
 
   //Missing Mass, MM
   //Protons
-  Bool_t MM_cut_flag;
-  Bool_t c_MM;
-  Double_t c_MM_min;
-  Double_t c_MM_max;
+  Bool_t MM_heep_cut_flag;
+  Bool_t c_heep_MM;
+  Double_t c_heep_MM_min;
+  Double_t c_heep_MM_max;
 
   // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts -----
   Bool_t   Q2_MF_cut_flag;
@@ -1110,7 +1119,11 @@ protected:
   //(missing and recoil are used inter-changeably)
   Double_t Em;                    //Standard Missing Energy for H(e,e'p) [GeV]
   Double_t Em_nuc;                //Nuclear definition of Missing Energy (Used for D(e,e'p): B.E. of deuteron) [GeV]
-  Double_t Pm;                    //Missing Momentum (should be zero for H(e,e'p) [GeV/c]
+
+  Double_t Em_src;                // Em_src = nu - Tp - T_"n", where T_"n" = E_nucleon - M_nucleon = sqrt(M_nucleon^2 + Pm^2) - M_nucleon,
+                                  // T_"n" is assumed to be kin. energy of second SRC nucleon. So basically, missing energy of recoil nucleon in SRC pair
+
+  Double_t Pm;                    // Missing Momentum (should be zero for H(e,e'p) [GeV/c]
   Double_t Pmx_lab;               //X-Component of Missing Momentum (in Lab(or Hall) frame. +X: beam left, +Y: up, +Z: downstream beam) 
   Double_t Pmy_lab;
   Double_t Pmz_lab;

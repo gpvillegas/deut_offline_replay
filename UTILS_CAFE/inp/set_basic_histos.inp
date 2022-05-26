@@ -138,8 +138,13 @@ epsilon_xmax = 100.
 
 # Missing Energy
 Em_nbins = 100
-Em_xmin = -0.2
-Em_xmax = 0.6
+Em_xmin = -0.05
+Em_xmax = 1.0
+
+# Nuclear Missing Energy
+Em_nuc_nbins = 100
+Em_nuc_xmin = -0.05
+Em_nuc_xmax = 0.2
 
 # Missing (Recoil) Momentum
 Pm_nbins = 100

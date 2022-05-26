@@ -76,12 +76,19 @@ c_pBetaNtrk_min = 0.5
 c_pBetaNtrk_max = 1.5
 
 
+
 #---------DATA/SIMC ANALYSIS CUTS----------
+
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+#
+#  STANDARD GENERIC CUTS for A(e,e'p) e: SHMS, p: HMS
+#
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 
 #---- Coincidence Time Cut -----
 
 # electron-Proton main coincidence time cut [ns] 
-ePctime_cut_flag = 1
+ePctime_cut_flag = 0
 ePctime_cut_min = -3.0
 ePctime_cut_max = 3.0
 
@@ -160,39 +167,45 @@ c_ztarDiff_min = -2.
 c_ztarDiff_max = 2.
 
 
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+#
+#  CaFe-SPECIFIC KINEMATIC CUTS for A(e,e'p) e: SHMS, p: HMS
+#
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
 #-----Kinematics Cuts-----
 
-# H(e,e'p) Kinematics Cuts
+# CaFe H(e,e'p) Elastics Kinematics Cuts
 
 # NOTE: Provided the '*_flag = 1', the cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
+# not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_cut_flag = 0
-c_Q2_min = 4
-c_Q2_max = 5
+Q2_heep_cut_flag = 0
+c_heep_Q2_min = 4
+c_heep_Q2_max = 5
 
 # Missing Energy [GeV]
-Em_cut_flag = 0
-c_Em_min = -0.05
-c_Em_max = 0.05
+Em_heep_cut_flag = 0
+c_heep_Em_min = -0.05
+c_heep_Em_max = 0.05
 
 # Invariant Mass, W [GeV]
-W_cut_flag = 1
-c_W_min = 0.85
-c_W_max = 1.05
+W_heep_cut_flag = 1
+c_heep_W_min = 0.85
+c_heep_W_max = 1.05
 
 # Missing Mass, MM [GeV]
 # -Protons-
-MM_cut_flag = 0
-c_MM_min = -0.15
-c_MM_max = 0.15
+MM_heep_cut_flag = 0
+c_heep_MM_min = -0.15
+c_heep_MM_max = 0.15
 
 
 #---- CaFe-Specific A(e,e'p) Mean-Field (MF) Kinematic Cuts -----
 
 # NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="MF" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
+# not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
 Q2_MF_cut_flag = 1
@@ -229,7 +242,7 @@ thrq_SRC_cut_flag = 1
 c_SRC_thrq_min = 0.
 c_SRC_thrq_max = 40.
 
-# Missing Energy [GeV] (for deuteron only, so will have to specify this cut be applied only if target is d2)
+# Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
 Em_SRC_cut_flag = 1
 c_SRC_Em_min = -0.02
 c_SRC_Em_max = 0.05

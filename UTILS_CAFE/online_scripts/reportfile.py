@@ -4,6 +4,9 @@
 # Script to grab info from a report file, for use in the run list shell script
 # This script scans every line of the report file to find the correct info
 
+# C. Yero - May 26, 2022
+# Modified to meet the needs of CaFe 2022 Experiment
+
 # Import relevant packages
 import sys, math, os, subprocess
 

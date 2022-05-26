@@ -130,7 +130,8 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   
   //Secondary (Hadron) Kinematics
   H_Em         = NULL;	
-  H_Em_nuc     = NULL;	
+  H_Em_nuc     = NULL;
+  H_Em_src     = NULL;	
   H_Pm         = NULL;	
   H_Pmx_lab    = NULL;	
   H_Pmy_lab    = NULL;	
@@ -184,6 +185,9 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   H_cphi_rq_cm  = NULL;	 
   H_sphi_xq_cm  = NULL;	 
   H_sphi_rq_cm  = NULL;  
+
+  // 2D Kinematics Histos
+  H_Em_nuc_vs_Pm = NULL;
   
   //-------------------------
   //  Acceptance Histograms
@@ -357,7 +361,8 @@ baseAnalyzer::~baseAnalyzer()
   
   //Secondary (Hadron) Kinematics
   delete H_Em;             H_Em         = NULL;	
-  delete H_Em_nuc;	   H_Em_nuc     = NULL;	
+  delete H_Em_nuc;	   H_Em_nuc     = NULL;
+  delete H_Em_src;	   H_Em_src     = NULL;	
   delete H_Pm;		   H_Pm         = NULL;	
   delete H_Pmx_lab;	   H_Pmx_lab    = NULL;	
   delete H_Pmy_lab;	   H_Pmy_lab    = NULL;	
@@ -411,6 +416,9 @@ baseAnalyzer::~baseAnalyzer()
   delete H_cphi_rq_cm;	    H_cphi_rq_cm  = NULL;	 
   delete H_sphi_xq_cm;	    H_sphi_xq_cm  = NULL;	 
   delete H_sphi_rq_cm;	    H_sphi_rq_cm  = NULL;  
+
+  // 2D Kinematics Histos
+  delete H_Em_nuc_vs_Pm;    H_Em_nuc_vs_Pm = NULL;
   
   //------------------------------------------------
   
@@ -697,25 +705,25 @@ void baseAnalyzer::ReadInputFile()
   // H(e,e'p)
   
   //4-Momentum Transfers [GeV^2]
-  Q2_cut_flag = stoi(split(FindString("Q2_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_Q2_min = stod(split(FindString("c_Q2_min", input_CutFileName.Data())[0], '=')[1]);
-  c_Q2_max = stod(split(FindString("c_Q2_max", input_CutFileName.Data())[0], '=')[1]);
+  Q2_heep_cut_flag = stoi(split(FindString("Q2_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_Q2_min = stod(split(FindString("c_heep_Q2_min", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_Q2_max = stod(split(FindString("c_heep_Q2_max", input_CutFileName.Data())[0], '=')[1]);
   
   //Missing Energy [GeV]
-  Em_cut_flag = stoi(split(FindString("Em_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_Em_min = stod(split(FindString("c_Em_min", input_CutFileName.Data())[0], '=')[1]);
-  c_Em_max = stod(split(FindString("c_Em_max", input_CutFileName.Data())[0], '=')[1]);
+  Em_heep_cut_flag = stoi(split(FindString("Em_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_Em_min = stod(split(FindString("c_heep_Em_min", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_Em_max = stod(split(FindString("c_heep_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   //Invariant Mass, W [GeV]
-  W_cut_flag = stoi(split(FindString("W_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_W_min = stod(split(FindString("c_W_min", input_CutFileName.Data())[0], '=')[1]);
-  c_W_max = stod(split(FindString("c_W_max", input_CutFileName.Data())[0], '=')[1]);
+  W_heep_cut_flag = stoi(split(FindString("W_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_W_min = stod(split(FindString("c_heep_W_min", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_W_max = stod(split(FindString("c_heep_W_max", input_CutFileName.Data())[0], '=')[1]);
   
   //Missing Mass Cut (Check which MM Cut is actually being applied: By default, it should be proton MM) 
   //Protons
-  MM_cut_flag = stoi(split(FindString("MM_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_min = stod(split(FindString("c_MM_min", input_CutFileName.Data())[0], '=')[1]);
-  c_MM_max = stod(split(FindString("c_MM_max", input_CutFileName.Data())[0], '=')[1]);
+  MM_heep_cut_flag = stoi(split(FindString("MM_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_MM_min = stod(split(FindString("c_heep_MM_min", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_MM_max = stod(split(FindString("c_heep_MM_max", input_CutFileName.Data())[0], '=')[1]);
 
   // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
 
@@ -986,7 +994,11 @@ void baseAnalyzer::SetHistBins()
   Em_nbins     	 = stod(split(FindString("Em_nbins",  	input_HBinFileName.Data())[0], '=')[1]);
   Em_xmin      	 = stod(split(FindString("Em_xmin",  	input_HBinFileName.Data())[0], '=')[1]);
   Em_xmax      	 = stod(split(FindString("Em_xmax",  	input_HBinFileName.Data())[0], '=')[1]);
-  	       				  	       
+
+  Em_nuc_nbins     	 = stod(split(FindString("Em_nuc_nbins",  	input_HBinFileName.Data())[0], '=')[1]);
+  Em_nuc_xmin      	 = stod(split(FindString("Em_nuc_xmin",  	input_HBinFileName.Data())[0], '=')[1]);
+  Em_nuc_xmax      	 = stod(split(FindString("Em_nuc_xmax",  	input_HBinFileName.Data())[0], '=')[1]);
+  
   Pm_nbins     	 = stod(split(FindString("Pm_nbins",  	input_HBinFileName.Data())[0], '=')[1]);
   Pm_xmin      	 = stod(split(FindString("Pm_xmin",  	input_HBinFileName.Data())[0], '=')[1]);
   Pm_xmax      	 = stod(split(FindString("Pm_xmax",  	input_HBinFileName.Data())[0], '=')[1]);
@@ -1322,7 +1334,8 @@ void baseAnalyzer::CreateHist()
 
   //Secondary (Hadron) Kinematics (recoil and missing are used interchageably) ()
   H_Em      = new TH1F("H_Em","Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
-  H_Em_nuc  = new TH1F("H_Em_nuc","Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
+  H_Em_nuc  = new TH1F("H_Em_nuc","Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
+  H_Em_src  = new TH1F("H_Em_src","SRC Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_Pm      = new TH1F("H_Pm","Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax); 
   H_Pmx_lab = new TH1F("H_Pmx_Lab","P_{miss, x} (Lab)", Pmx_lab_nbins, Pmx_lab_xmin, Pmx_lab_xmax);         
   H_Pmy_lab = new TH1F("H_Pmy_Lab","P_{miss, y} (Lab)", Pmy_lab_nbins, Pmy_lab_xmin, Pmy_lab_xmax);    
@@ -1370,6 +1383,8 @@ void baseAnalyzer::CreateHist()
   H_cphi_rq_cm = new TH1F("H_cphi_rq_cm", "cos(#phi_{rq,cm})", phrq_cm_nbins, -1, 1);
   H_sphi_xq_cm = new TH1F("H_sphi_xq_cm", "sin(#phi_{xq,cm})", phxq_cm_nbins, -1, 1);
   H_sphi_rq_cm = new TH1F("H_sphi_rq_cm", "sin(#phi_{rq,cm})", phrq_cm_nbins, -1, 1);
+
+  H_Em_nuc_vs_Pm = new TH2F("H_Em_nuc_vs_Pm", "Em_nuc vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   
   //Add Kin Histos to TList
 
@@ -1392,6 +1407,7 @@ void baseAnalyzer::CreateHist()
   //Add Secondary Kin Histos
   kin_HList->Add( H_Em       );
   kin_HList->Add( H_Em_nuc   );
+  kin_HList->Add( H_Em_src   );
   kin_HList->Add( H_Pm       );
   kin_HList->Add( H_Pmx_lab  );
   kin_HList->Add( H_Pmy_lab  );
@@ -1440,7 +1456,9 @@ void baseAnalyzer::CreateHist()
   kin_HList->Add( H_sphi_xq_cm );
   kin_HList->Add( H_sphi_rq_cm );
 
-
+  // 2d kin histos
+  kin_HList->Add( H_Em_nuc_vs_Pm );
+  
   //----------------------------------------------------------------------
   //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
   //----------------------------------------------------------------------
@@ -1550,7 +1568,7 @@ void baseAnalyzer::CreateHist()
   H_nu_rand         = new TH1F("H_nu_rand",       "Energy Transfer, #nu", nu_nbins, nu_xmin, nu_xmax); 
   H_q_rand          = new TH1F("H_q_rand",        "3-Momentum Transfer, |#vec{q}|", q_nbins, q_xmin, q_xmax);
   H_Em_rand         = new TH1F("H_Em_rand",     "Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
-  H_Em_nuc_rand     = new TH1F("H_Em_nuc_rand", "Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
+  H_Em_nuc_rand     = new TH1F("H_Em_nuc_rand", "Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_Pm_rand         = new TH1F("H_Pm_rand",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
   H_MM_rand         = new TH1F("H_MM_rand",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_thxq_rand       = new TH1F("H_thxq_rand",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
@@ -1580,7 +1598,7 @@ void baseAnalyzer::CreateHist()
   H_nu_rand_sub         = new TH1F("H_nu_rand_sub",       "Energy Transfer, #nu", nu_nbins, nu_xmin, nu_xmax); 
   H_q_rand_sub          = new TH1F("H_q_rand_sub",        "3-Momentum Transfer, |#vec{q}|", q_nbins, q_xmin, q_xmax);
   H_Em_rand_sub         = new TH1F("H_Em_rand_sub",     "Missing Energy", Em_nbins, Em_xmin, Em_xmax);   
-  H_Em_nuc_rand_sub     = new TH1F("H_Em_nuc_rand_sub", "Nuclear Missing Energy", Em_nbins, Em_xmin, Em_xmax); 
+  H_Em_nuc_rand_sub     = new TH1F("H_Em_nuc_rand_sub", "Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_Pm_rand_sub         = new TH1F("H_Pm_rand_sub",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
   H_MM_rand_sub         = new TH1F("H_MM_rand_sub",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_thxq_rand_sub       = new TH1F("H_thxq_rand_sub",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
@@ -2022,7 +2040,7 @@ void baseAnalyzer::ReadTree()
 Double_t baseAnalyzer::GetCoinTimePeak()
 {
  
-  cout << "Loop over Data Sample Size 10k" <<  endl;
+  cout << "Calling GetCoinTimePeak() . . . " <<  endl;
   
   // coin. time offset param (i.e., coin time peak value)
   Double_t ctime_offset = 0.0;
@@ -2083,6 +2101,12 @@ void baseAnalyzer::EventLoop()
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
+	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis)
+	  Em_src = nu - Tx - sqrt(MP*MP + Pm*Pm) - MP;
+	  //cout << "Em_src = " << Em_src << endl;
+	  //cout << "nu = " << nu << endl;
+	  //cout << "Tx = " << Tx << endl;
+	  //cout << "Pm = " << Pm << endl;
 	  
 	  
 	  //--------------DEFINE CUTS--------------------
@@ -2227,28 +2251,56 @@ void baseAnalyzer::EventLoop()
 
 	  c_pidCuts = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
 
-		  
-	  //----Kinematics Cuts----
+
+	   //----Acceptance Cuts----
+
+	  // hadron arm
+	  if(hdelta_cut_flag){c_hdelta = h_delta>=c_hdelta_min && h_delta<=c_hdelta_max;} 
+	  else{c_hdelta=1;}
+
+	  if(hxptar_cut_flag){c_hxptar = h_xptar>=c_hxptar_min && h_xptar<=c_hxptar_max;} 
+	  else{c_hxptar=1;}
+
+	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
+	  else{c_hyptar=1;}
+
+	  // electron arm
+	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
+	  else{c_edelta=1;} 
+
+	  if(exptar_cut_flag){c_exptar = e_xptar>=c_exptar_min && e_xptar<=c_exptar_max;} 
+	  else{c_exptar=1;}
+
+	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
+	  else{c_eyptar=1;}
+
+	  // z-reaction vertex difference
+	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
+	  else{c_ztarDiff=1;}
+
+	  c_accpCuts = (c_hdelta && c_hxptar && c_hyptar) && (c_edelta && c_exptar && c_eyptar) && c_ztarDiff;
+	  
+	  //----Specialized Kinematics Cuts----
 
 	  // H(e,e'p) Kinematics
 	  
 	  //Q2
-	  if(Q2_cut_flag){c_Q2 = Q2>=c_Q2_min && Q2<=c_Q2_max;}
-	  else{c_Q2=1;}
+	  if(Q2_heep_cut_flag){c_heep_Q2 = Q2>=c_heep_Q2_min && Q2<=c_heep_Q2_max;}
+	  else{c_heep_Q2=1;}
 
 	  //Missing Energy, Em
-	  if(Em_cut_flag){c_Em = Em>=c_Em_min && Em<=c_Em_max;}
-	  else{c_Em=1;}
+	  if(Em_heep_cut_flag){c_heep_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;}
+	  else{c_heep_Em=1;}
 
 	  //Invariant Mass, W
-	  if(W_cut_flag){c_W = W>=c_W_min && W<=c_W_max;}
-	  else{c_W=1;}
+	  if(W_heep_cut_flag){c_heep_W = W>=c_heep_W_min && W<=c_heep_W_max;}
+	  else{c_heep_W=1;}
 
 	  //Missing Mass, MM = sqrt( E_recoil^2 - P_miss ^2 )
-	  if(MM_cut_flag){c_MM = MM>=c_MM_min && MM<=c_MM_max;}
-	  else{c_MM=1;}
+	  if(MM_heep_cut_flag){c_heep_MM = MM>=c_heep_MM_min && MM<=c_heep_MM_max;}
+	  else{c_heep_MM=1;}
 
-	  c_kinHeep_Cuts = c_Q2 && c_Em && c_W && c_MM;
+	  c_kinHeep_Cuts = c_heep_Q2 && c_heep_Em && c_heep_W && c_heep_MM;
 	  
 	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
 
@@ -2281,39 +2333,13 @@ void baseAnalyzer::EventLoop()
 	  else{c_SRC_thrq=1;}
 	  
 	  // Em (C.Y., we will need to require this cut ONLY for deuteron)
-	  if(Em_SRC_cut_flag){c_SRC_Em = Em_nuc>=c_SRC_Em_min && Em_nuc <= c_SRC_Em_max;}
+	  if(Em_SRC_cut_flag && tgt_type=="LD2"){c_SRC_Em = Em_nuc>=c_SRC_Em_min && Em_nuc <= c_SRC_Em_max;}
 	  else{c_SRC_Em=1;}
 
 	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_SRC_Em;
 
 
-	  //----Acceptance Cuts----
-
-	  // hadron arm
-	  if(hdelta_cut_flag){c_hdelta = h_delta>=c_hdelta_min && h_delta<=c_hdelta_max;} 
-	  else{c_hdelta=1;}
-
-	  if(hxptar_cut_flag){c_hxptar = h_xptar>=c_hxptar_min && h_xptar<=c_hxptar_max;} 
-	  else{c_hxptar=1;}
-
-	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
-	  else{c_hyptar=1;}
-
-	  // electron arm
-	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
-	  else{c_edelta=1;} 
-
-	  if(exptar_cut_flag){c_exptar = e_xptar>=c_exptar_min && e_xptar<=c_exptar_max;} 
-	  else{c_exptar=1;}
-
-	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
-	  else{c_eyptar=1;}
-
-	  // z-reaction vertex difference
-	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
-	  else{c_ztarDiff=1;}
-
-	  c_accpCuts = (c_hdelta && c_hxptar && c_hyptar) && (c_edelta && c_exptar && c_eyptar) && c_ztarDiff;
+	 
 			  	 
 	  // ----- Combine All CUTS -----
 
@@ -2444,6 +2470,7 @@ void baseAnalyzer::EventLoop()
 			//Fill Secondary Kin Histos
 			H_Em       ->Fill(Em);
 			H_Em_nuc   ->Fill(Em_nuc);
+			H_Em_src   ->Fill(Em_src);
 			H_Pm       ->Fill(Pm);
 			H_Pmx_lab  ->Fill(Pmx_lab);
 			H_Pmy_lab  ->Fill(Pmy_lab);
@@ -2491,7 +2518,8 @@ void baseAnalyzer::EventLoop()
 			H_sphi_xq_cm ->Fill(sin(ph_xq_cm));
 			H_sphi_rq_cm ->Fill(sin(ph_rq_cm));
 			
-			
+			//2D Kin
+			H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
 			
 			//----------------------------------------------------------------------
 			//---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -2542,8 +2570,9 @@ void baseAnalyzer::EventLoop()
 		    
 		    // select "ACCIDENTAL COINCIDENCE BACKGROUND" left/right of main coin. peak as a sample to estimate background underneath main coin. peak
 		    // background underneath main peak: electron-proton from same "beam bunch" form a random ("un-correlated") coincidence
-		    
-		    if(eP_ctime_cut_rand)
+
+		    if(ePctime_cut_flag)
+		      //if(eP_ctime_cut_rand)
 		      {
 			// Only histograms of selected variables of interest will be filled with background
 			
@@ -3001,9 +3030,8 @@ void baseAnalyzer::ApplyWeight()
   
 
   //Call the randoms subtraction method, provided there was a coin. time cut flag  (after scaling all histograms above)
-  if(ePctime_cut_flag){
-    RandSub();
-  }
+  RandSub();
+ 
 }
 
 //_______________________________________________________________________________
@@ -3085,33 +3113,33 @@ void baseAnalyzer::WriteReport()
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
     out_file << "                                     " << endl;
     out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
-    out_file << Form("DAQ_Run_Length: %.3f [sec]       ", total_time_bcm_cut) << endl;
+    out_file << Form("DAQ_Run_Length [sec]: %.3f       ", total_time_bcm_cut) << endl;
     out_file << Form("Events_Replayed: %lld              ", nentries ) << endl;
     out_file << "" << endl;
     out_file << Form("Target: %s                       ", tgt_type.Data() ) << endl;      
     out_file << "" << endl;      
-    out_file << Form("%s_Current_Threshold: > %.2f [uA] ", bcm_type.Data(), bcm_thrs) << endl;
-    out_file << Form("%s_Average_Current: %.3f [uA] ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
-    out_file << Form("%s_Charge: %.3f [mC] ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
+    out_file << Form("%s_Current_Threshold [uA]: > %.2f ", bcm_type.Data(), bcm_thrs) << endl;
+    out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
+    out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
     
     if(analysis_cut=="heep")
       {
-	out_file << "heep_total:"  << W_total << endl;
-	out_file << "heep_signal:" << W_real  << endl;
-	out_file << "heep_bkg:"    << W_rand  << endl;
+	out_file << "heep_total  :"  << W_total << endl;
+	out_file << "heep_signal :"  << W_real  << endl;
+	out_file << "heep_bkg    :"  << W_rand  << endl;
       }
     if(analysis_cut=="MF")
       {
-	out_file << "MF_total:"  << Pm_total << endl;
-	out_file << "MF_signal:" << Pm_real  << endl;
-	out_file << "MF_bkg:"    << Pm_rand  << endl;
+	out_file << "MF_total    :"  << Pm_total << endl;
+	out_file << "MF_signal   :"  << Pm_real  << endl;
+	out_file << "MF_bkg      :"  << Pm_rand  << endl;
       }
     if(analysis_cut=="SRC")
       {
-	out_file << "SRC_total:"  << Pm_total << endl;
-	out_file << "SRC_signal:" << Pm_real  << endl;
-	out_file << "SRC_bkg:"    << Pm_rand  << endl;
+	out_file << "SRC_total   :"  << Pm_total << endl;
+	out_file << "SRC_signal  :"  << Pm_real  << endl;
+	out_file << "SRC_bkg     :"  << Pm_rand  << endl;
       }
 
     out_file << "                                     " << endl;
@@ -3221,10 +3249,10 @@ void baseAnalyzer::WriteReportSummary()
       if(hcer_pidCut_flag) {out_file << Form("# HMS Gas Cherenkov NPE Sum Cut: (%.3f, %.3f)", cpid_hcer_npeSum_min,  cpid_hcer_npeSum_max) << endl;}      
       out_file << "#                                     " << endl;
       out_file << "#---Kinematics Cuts--- " << endl;
-      if(Q2_cut_flag)            {out_file << Form("# 4-Momentum Transfer (Q^2): (%.3f, %.3f) GeV^2", c_Q2_min, c_Q2_max ) << endl;}
-      if(Em_cut_flag)            {out_file << Form("# Missing Energy, Em: (%.3f, %.3f) GeV",   c_Em_min, c_Em_max ) << endl;}
-      if(W_cut_flag)             {out_file << Form("# Invariant Mass, W: (%.3f, %.3f) GeV",   c_W_min,  c_W_max  ) << endl;}
-      if(MM_cut_flag)          {out_file << Form("# Missing Mass, MM: (%.3f, %.3f) GeV",   c_MM_min,  c_MM_max  ) << endl;}
+      if(Q2_heep_cut_flag)            {out_file << Form("# 4-Momentum Transfer (Q^2): (%.3f, %.3f) GeV^2", c_heep_Q2_min, c_heep_Q2_max ) << endl;}
+      if(Em_heep_cut_flag)            {out_file << Form("# Missing Energy, Em: (%.3f, %.3f) GeV",   c_heep_Em_min, c_heep_Em_max ) << endl;}
+      if(W_heep_cut_flag)             {out_file << Form("# Invariant Mass, W: (%.3f, %.3f) GeV",   c_heep_W_min,  c_heep_W_max  ) << endl;}
+      if(MM_heep_cut_flag)          {out_file << Form("# Missing Mass, MM: (%.3f, %.3f) GeV",   c_heep_MM_min,  c_heep_MM_max  ) << endl;}
       out_file << "#                                     " << endl;
       out_file << "#---Acceptance Cuts--- " << endl;
       if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance: (%.3f, %.3f) %%",  c_hdelta_min, c_hdelta_max ) << endl;}

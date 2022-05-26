@@ -1,0 +1,48 @@
+# Run 3289 Data Analysis Summary
+                                     
+DAQ_Mode: coin                     
+DAQ_Run_Length [sec]: 900.914       
+Events_Replayed: 100000              
+
+Target: LD2                       
+
+BCM4A_Current_Threshold [uA]: > 5.00 
+BCM4A_Average_Current [uA]: 50.710 
+BCM4A_Charge [mC]: 45.685 
+
+MF_total    :40861
+MF_signal   :40861
+MF_bkg      :0
+                                     
+# ------------------------------------------------------------ 
+                                     
+# drift chambers tracking efficiency  
+hms_track_eff:  0.977 +- 0.001
+shms_track_eff: 0.967 +- 0.001
+                                     
+# trigger pre-scales, counts, rates & daq live times                                     
+Ps1_factor: -1.0
+T1_scalers:  126853174.000 [ 140.805 kHz ] 
+T1_accepted: 95024.000 [ 0.105 kHz ]  
+                                     
+Ps2_factor: -1.0
+T2_scalers:  46600088.000 [ 51.725 kHz ] 
+T2_accepted: 90244.000 [ 0.100 kHz ]  
+                                     
+Ps3_factor: -1.0
+T3_scalers:  30451171.000 [ 33.800 kHz ] 
+T3_accepted: 86551.000 [ 0.096 kHz ]  
+                                     
+Ps4_factor: -1.0
+T4_scalers:  559107.000 [ 0.621 kHz ] 
+T4_accepted: 95024.000 [ 0.105 kHz ]  
+                                     
+Ps5_factor: -1.0
+T5_scalers:  -2704.000 [ -0.003 kHz ] 
+T5_accepted: 0.000 [ 0.000 kHz ]  
+                                     
+Ps6_factor: 1.0
+T6_scalers:  96876.000 [ 0.108 kHz ] 
+T6_accepted: 95024.000 [ 0.105 kHz ]  
+T6_cpuLT:    0.981 +- 0.000 [ % ]
+T6_tLT:      0.911 +- 0.005 [ % ]
