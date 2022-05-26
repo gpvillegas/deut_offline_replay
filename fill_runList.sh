@@ -40,35 +40,29 @@ fi
 
 # Run number and run type should be read in by the "master" script, automating the target would be more difficult, master script prompts for this
 RUNNUMBER=$1
-RUNTYPE=$2
-TARGET=$3
+RUNTYPE=$2  #"sample", "prod", "lumi", "tgt_boil", "p_abs"
+#KINTYPE=$3  $ "heep", "MF", "SRC"  (these are for specific cuts to be applied)
+#TARGET=$3
 RUNLIST="${REPLAYPATH}/UTILS_CAFE/runlist_cafe_2022.csv"
 
-# Need to fix paths rather than give relative paths, also need to check information is still in these files and that it can grab it correctly
+# cafe standard kinematics file (to get beam, momenta, target info)
 KINFILE="${REPLAYPATH}/DBASE/COIN/standard.kinematics"
-# Get report file based upon run type
-if [[ ${RUNTYPE} = *"Prod"* ]]; then
-    REPORTFILE="${REPLAYPATH}/REPORT_OUTPUT/Analysis/PionLT/Pion_replay_coin_production_${RUNNUMBER}_-1.report" # Finalised
-elif [[ ${RUNTYPE} = *"Lumi"* ]]; then
-    REPORTFILE="${REPLAYPATH}/REPORT_OUTPUT/Analysis/Lumi/Pion_replay_luminosity_${RUNNUMBER}_-1.report" 
-elif [[ ${RUNTYPE} = *"HeePSing"* ]]; then
-    REPORTFILE="${REPLAYPATH}/REPORT_OUTPUT/Analysis/HeeP/Pion_replay_shms_production_${RUNNUMBER}_-1.report" # Finalised, all of the available info SHOULD be in the SHMS report file, don't need to look at both
-elif [[ ${RUNTYPE} = *"HeePCoin"* ]]; then
-    REPORTFILE="${REPLAYPATH}/REPORT_OUTPUT/Analysis/HeeP/Pion_replay_coin_production_${RUNNUMBER}_-1.report" # Finalised
-else
-    REPORTFILE="${REPLAYPATH}/REPORT_OUTPUT/Analysis/General/Pion_replay_coin_production_${RUNNUMBER}_-1.report" # CHANGE WHEN FINALISED
-fi
+
+# Get cafe report file based upon run type
+REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUNNUMBER}_-1.txt" 
 
 # Get information available in standard.kinematics, execute a python script to do this for us
-KINFILE_INFO=`python3 $REPLAYPATH/UTIL_PION/scripts/runlist/kinfile.py ${KINFILE} ${RUNNUMBER}` # The output of this python script is just a comma separated string
+KINFILE_INFO=`python3 $REPLAYPATH/UTILS_CAFE/online_scripts/kinfile.py ${KINFILE} ${RUNNUMBER}` # The output of this python script is just a comma separated string
+
 # Split the string we get to individual variables, easier for printing and use later
-SHMS_Angle=`echo ${KINFILE_INFO} | cut -d ','  -f1` # Cut the string on , delimitter, select field (f) 1, set variable to output of command
-SHMS_P=`echo ${KINFILE_INFO} | cut -d ','  -f2`
-SHMS_mass=`echo ${KINFILE_INFO} | cut -d ','  -f3`
-HMS_Angle=`echo ${KINFILE_INFO} | cut -d ','  -f4`
-HMS_P=`echo ${KINFILE_INFO} | cut -d ','  -f5`
-HMS_mass=`echo ${KINFILE_INFO} | cut -d ','  -f6`
-EBeam=`echo ${KINFILE_INFO} | cut -d ','  -f7`
+EBeam=`echo ${KINFILE_INFO}     | cut -d ','  -f1`
+tgt_mass=`echo ${KINFILE_INFO}  | cut -d ','  -f2`
+SHMS_Angle=`echo ${KINFILE_INFO}| cut -d ','  -f3` # Cut the string on , delimitter, select field (f) 1, set variable to output of command
+SHMS_P=`echo ${KINFILE_INFO}    | cut -d ','  -f4`
+SHMS_mass=`echo ${KINFILE_INFO} | cut -d ','  -f5`
+HMS_Angle=`echo ${KINFILE_INFO} | cut -d ','  -f6`
+HMS_P=`echo ${KINFILE_INFO}     | cut -d ','  -f7`
+HMS_mass=`echo ${KINFILE_INFO}  | cut -d ','  -f8`
 
 # Get information available in the report file
 if [[ -f ${REPORTFILE} ]]; then
