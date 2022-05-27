@@ -248,9 +248,9 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $ROOTfiles_dir
 	mkdir $REPORT_OUTPUT_dir
 	mkdir $CAFE_OUTPUT_dir
-	mkdir -p $CAFE_OUTPUT_dir"/ROOT"
-	mkdir -p $CAFE_OUTPUT_dir"/REPORT"
-	mkdir -p $CAFE_OUTPUT_dir"/PDF" 
+	mkdir -p "CAFE_OUTPUT/ROOT"
+	mkdir -p "CAFE_OUTPUT/REPORT"
+	mkdir -p "CAFE_OUTPUT/PDF" 
 
 	unlink raw
 	ln -sf $raw_dir raw	

@@ -15,7 +15,7 @@
 # Fe54 gtargmass_amu = 53.9396147
 #
 # do not use 27Al as target mass for dummy runs, we want to analyze as if it were LH2 or LD2
-# 27Al gtargmass_amu = 26.98  (Dummy target should be analyzed as 1H, since it is the background underneath)
+# 27Al gtargmass_amu = 26.98153  (Dummy target should be analyzed as 1H, since it is the background underneath)
 
 # Carbon Hole Run
 3242
@@ -24,7 +24,7 @@ gtargmass_amu = 12.0107
 htheta_lab = -37.2900
 ptheta_lab = 12.200
 hpcentral = 2.93814
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -35,7 +35,7 @@ gtargmass_amu = 1.00794
 htheta_lab = -37.2900
 ptheta_lab = 12.200
 hpcentral = 2.93814
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -46,9 +46,21 @@ gtargmass_amu = 1.00794
 htheta_lab = -37.2900
 ptheta_lab = 12.200
 hpcentral = 2.93814
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
+
+#D2 Electro-Disintegration (E12-10-003) - April 4, 2018                                                       
+#Al Dummy Run (for H(e,e'p))                 
+3252-3258                                                                                        
+gpbeam = 10.600                                                                         
+gtargmass_amu = 26.98153
+htheta_lab = -37.2900           
+ptheta_lab = 12.200                                                                                    
+hpcentral = 2.93814                                                                                                    
+ppcentral = 8.5342488                                                                                                        
+ppartmass = 0.0005109                                                                                      
+hpartmass = 0.93827231 
 
 # Hydrogen Elastic Data After SHMS Q1/Q3 Corr.
 3288
@@ -65,10 +77,10 @@ ppcentral = 8.5342488
 3289
 gpbeam = 10.600
 gtargmass_amu=2.014101
-htheta_lab = -38.89
-ptheta_lab = 12.19
+htheta_lab = -38.896
+ptheta_lab = 12.194
 hpcentral = 2.844
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -77,9 +89,9 @@ hpartmass = 0.93827231
 gpbeam = 10.600
 gtargmass_amu=2.014101
 htheta_lab = -54.99
-ptheta_lab = 12.19
+ptheta_lab = 12.194
 hpcentral = 2.194
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -90,7 +102,7 @@ gtargmass_amu=1.00794
 htheta_lab = -33.545
 ptheta_lab = 13.935
 hpcentral = 3.48
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -100,7 +112,7 @@ gtargmass_amu=1.00794
 htheta_lab = -33.545
 ptheta_lab = 9.93
 hpcentral = 3.48
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -110,7 +122,7 @@ gtargmass_amu=1.00794
 htheta_lab = -42.9
 ptheta_lab = 9.93
 hpcentral = 2.31
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
@@ -121,6 +133,6 @@ gtargmass_amu=1.00794
 htheta_lab = -47.6
 ptheta_lab = 8.5
 hpcentral = 1.89
-ppcentral = 8.5695
+ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231

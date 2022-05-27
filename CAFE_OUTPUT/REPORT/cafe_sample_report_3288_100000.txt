@@ -10,9 +10,9 @@ BCM4A_Current_Threshold [uA]: > 5.00
 BCM4A_Average_Current [uA]: 52.439 
 BCM4A_Charge [mC]: 50.298 
 
-heep_total  :41142
-heep_signal :41009.4
-heep_bkg    :132.6
+heep_total  :44832
+heep_signal :44832
+heep_bkg    :0
                                      
 # ------------------------------------------------------------ 
                                      

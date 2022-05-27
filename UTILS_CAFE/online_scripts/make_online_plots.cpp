@@ -1259,7 +1259,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
    // Complete writing out multi-page .pdf
    c1->Print(Form("cafe_output_%d.pdf]", run));
    
-   //gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
-   gSystem->Exec(Form("open cafe_output_%d.pdf", run));
+   gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
+   //gSystem->Exec(Form("open cafe_output_%d.pdf", run));
       
 }

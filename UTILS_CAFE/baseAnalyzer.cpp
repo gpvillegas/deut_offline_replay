@@ -850,6 +850,10 @@ void baseAnalyzer::ReadReport()
   else if(abs(temp_var-MC12_amu)<=max_diff){
     tgt_type = "C12";
   }
+  
+  else if(abs(temp_var-MAl27_amu)<=max_diff){ 
+    tgt_type = "Al27";
+  }
 
   else if(abs(temp_var-MCa40_amu)<=max_diff){
     tgt_type = "Ca40";

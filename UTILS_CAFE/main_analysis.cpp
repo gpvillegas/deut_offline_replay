@@ -2,7 +2,7 @@
 #include "baseAnalyzer.cpp"
 #include <iostream>
 
-void main_analysis(int     run           = 3289,   int evtNum           = 100000,
+void main_analysis(int     run           = 3288,   int evtNum           = 100000,
 		   TString daq_mode      = "coin", TString e_arm        = "SHMS",
 		   Bool_t analyze_data = 1, TString analysis_cut = "MF", TString analysis_type= "sample",
 		   Bool_t  hel_flag     = 0, TString bcm_type  = "BCM4A",  double bcm_thrs        = 5,

@@ -63,6 +63,7 @@ protected:
   Double_t MB10_amu   = 10.0129370    ;
   Double_t MB11_amu   = 11.009306     ;
   Double_t MC12_amu   = 12.0107       ;
+  Double_t MAl27_amu  = 26.98153      ;
   Double_t MCa40_amu  = 39.962590863  ;
   Double_t MCa48_amu  = 47.95252276   ;
   Double_t MFe54_amu  = 53.9396147    ;
@@ -74,6 +75,7 @@ protected:
   Double_t MB10   = MB10_amu  * amu2GeV;
   Double_t MB11   = MB11_amu  * amu2GeV;
   Double_t MC12   = MC12_amu  * amu2GeV;
+  Double_t MAl27  = MAl27_amu * amu2GeV;
   Double_t MCa40  = MCa40_amu * amu2GeV;
   Double_t MCa48  = MCa48_amu * amu2GeV;
   Double_t MFe54  = MFe54_amu * amu2GeV;
