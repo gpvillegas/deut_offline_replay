@@ -144,11 +144,11 @@ Em_xmax = 1.0
 # Nuclear Missing Energy
 Em_nuc_nbins = 100
 Em_nuc_xmin = -0.05
-Em_nuc_xmax = 0.2
+Em_nuc_xmax = 0.35
 
 # Missing (Recoil) Momentum
 Pm_nbins = 100
-Pm_xmin = -0.2
+Pm_xmin = -0.1
 Pm_xmax = 1.
 
 # Missing Momentum (X-component, lab)

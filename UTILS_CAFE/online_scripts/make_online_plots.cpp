@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, TString tgt_type="", TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -486,9 +486,15 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   data_file->GetObject("kin_plots/H_xbj", data_xbj);
   data_file->GetObject("kin_plots/H_the", data_the);
   data_file->GetObject("kin_plots/H_kf", data_kf);
-  data_file->GetObject("kin_plots/H_Em", data_Em);
-  data_file->GetObject("kin_plots/H_MM", data_MM);
 
+  if(tgt_type=="LH2"){
+    data_file->GetObject("kin_plots/H_Em", data_Em);
+  }
+  else{
+    data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
+  }
+  
+  data_file->GetObject("kin_plots/H_MM", data_MM);
   data_file->GetObject("kin_plots/H_Pm", data_Pm);
   data_file->GetObject("kin_plots/H_Pf", data_Pf);
   data_file->GetObject("kin_plots/H_thx", data_thx);
@@ -564,10 +570,17 @@ void make_online_plots(int run=0, TString data_file_path="", TString simc_file_p
   data_file->GetObject("randSub_plots/H_Pm_rand_sub", data_Pm_real);
   data_file->GetObject("rand_plots/H_Pm_rand", data_Pm_rand);
 
-  data_file->GetObject("kin_plots/H_Em", data_Em_total);
-  data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
-  data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
-  
+  if(tgt_type=="LH2"){
+    data_file->GetObject("kin_plots/H_Em", data_Em_total);
+    data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
+    data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
+  }
+  else{
+    data_file->GetObject("kin_plots/H_Em_nuc", data_Em_total);
+    data_file->GetObject("randSub_plots/H_Em_nuc_rand_sub", data_Em_real);
+    data_file->GetObject("rand_plots/H_Em_nuc_rand", data_Em_rand);
+  }
+    
   //Set data Histo Aesthetics
 
   // coincidence time

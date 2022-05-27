@@ -188,6 +188,7 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
 
   // 2D Kinematics Histos
   H_Em_nuc_vs_Pm = NULL;
+  H_Em_src_vs_Pm = NULL;
   
   //-------------------------
   //  Acceptance Histograms
@@ -419,6 +420,7 @@ baseAnalyzer::~baseAnalyzer()
 
   // 2D Kinematics Histos
   delete H_Em_nuc_vs_Pm;    H_Em_nuc_vs_Pm = NULL;
+  delete H_Em_src_vs_Pm;    H_Em_src_vs_Pm = NULL;
   
   //------------------------------------------------
   
@@ -736,6 +738,11 @@ void baseAnalyzer::ReadInputFile()
   Pm_MF_cut_flag = stoi(split(FindString("Pm_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_MF_Pm_min = stod(split(FindString("c_MF_Pm_min", input_CutFileName.Data())[0], '=')[1]);
   c_MF_Pm_max = stod(split(FindString("c_MF_Pm_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // Missing Energy [GeV] --- ONLY for deuteron target
+  Em_d2MF_cut_flag = stoi(split(FindString("Em_d2MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_d2MF_Em_min = stod(split(FindString("c_d2MF_Em_min", input_CutFileName.Data())[0], '=')[1]);
+  c_d2MF_Em_max = stod(split(FindString("c_d2MF_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts 
 
@@ -759,10 +766,10 @@ void baseAnalyzer::ReadInputFile()
   c_SRC_thrq_min = stod(split(FindString("c_SRC_thrq_min", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_thrq_max = stod(split(FindString("c_SRC_thrq_max", input_CutFileName.Data())[0], '=')[1]);
 
-  // Missing Energy [GeV]
-  Em_SRC_cut_flag = stoi(split(FindString("Em_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-  c_SRC_Em_min = stod(split(FindString("c_SRC_Em_min", input_CutFileName.Data())[0], '=')[1]);
-  c_SRC_Em_max = stod(split(FindString("c_SRC_Em_max", input_CutFileName.Data())[0], '=')[1]);
+  // Missing Energy [GeV] --- ONLY for deuteron target
+  Em_d2SRC_cut_flag = stoi(split(FindString("Em_d2SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_d2SRC_Em_min = stod(split(FindString("c_d2SRC_Em_min", input_CutFileName.Data())[0], '=')[1]);
+  c_d2SRC_Em_max = stod(split(FindString("c_d2SRC_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   //------Acceptance Cuts-------
   
@@ -1384,7 +1391,9 @@ void baseAnalyzer::CreateHist()
   H_sphi_xq_cm = new TH1F("H_sphi_xq_cm", "sin(#phi_{xq,cm})", phxq_cm_nbins, -1, 1);
   H_sphi_rq_cm = new TH1F("H_sphi_rq_cm", "sin(#phi_{rq,cm})", phrq_cm_nbins, -1, 1);
 
+  // 2d kin histos
   H_Em_nuc_vs_Pm = new TH2F("H_Em_nuc_vs_Pm", "Em_nuc vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
+  H_Em_src_vs_Pm = new TH2F("H_Em_src_vs_Pm", "Em_src vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   
   //Add Kin Histos to TList
 
@@ -1458,6 +1467,7 @@ void baseAnalyzer::CreateHist()
 
   // 2d kin histos
   kin_HList->Add( H_Em_nuc_vs_Pm );
+  kin_HList->Add( H_Em_src_vs_Pm );
   
   //----------------------------------------------------------------------
   //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -2101,8 +2111,8 @@ void baseAnalyzer::EventLoop()
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
-	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis)
-	  Em_src = nu - Tx - sqrt(MP*MP + Pm*Pm) - MP;
+	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis) Em = nu - Tp - T_n (for A>2 nuclei)	 
+	  Em_src = nu - Tx - (sqrt(MP*MP + Pm*Pm) - MP);
 	  //cout << "Em_src = " << Em_src << endl;
 	  //cout << "nu = " << nu << endl;
 	  //cout << "Tx = " << Tx << endl;
@@ -2312,7 +2322,11 @@ void baseAnalyzer::EventLoop()
 	  if(Pm_MF_cut_flag){c_MF_Pm = Pm>=c_MF_Pm_min && Pm<=c_MF_Pm_max;}
 	  else{c_MF_Pm=1;}
 
-	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm;
+	  // Em ( require this cut ONLY for deuteron)
+	  if(Em_d2MF_cut_flag && tgt_type=="LD2"){c_d2MF_Em = Em_nuc>=c_d2MF_Em_min && Em_nuc <= c_d2MF_Em_max;}
+	  else{c_d2MF_Em=1;}
+	  
+	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_d2MF_Em;
 	    
 	  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts
 
@@ -2332,11 +2346,11 @@ void baseAnalyzer::EventLoop()
 	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
 	  else{c_SRC_thrq=1;}
 	  
-	  // Em (C.Y., we will need to require this cut ONLY for deuteron)
-	  if(Em_SRC_cut_flag && tgt_type=="LD2"){c_SRC_Em = Em_nuc>=c_SRC_Em_min && Em_nuc <= c_SRC_Em_max;}
-	  else{c_SRC_Em=1;}
+	  // Em ( require this cut ONLY for deuteron)
+	  if(Em_d2SRC_cut_flag && tgt_type=="LD2"){c_d2SRC_Em = Em_nuc>=c_d2SRC_Em_min && Em_nuc <= c_d2SRC_Em_max;}
+	  else{c_d2SRC_Em=1;}
 
-	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_SRC_Em;
+	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em;
 
 
 	 
@@ -2520,6 +2534,7 @@ void baseAnalyzer::EventLoop()
 			
 			//2D Kin
 			H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
+			H_Em_src_vs_Pm ->Fill(Pm, Em_src);
 			
 			//----------------------------------------------------------------------
 			//---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -3476,7 +3491,7 @@ void baseAnalyzer::MakePlots()
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\")\" ", run, data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
 
   gSystem->Exec(cmd.c_str());

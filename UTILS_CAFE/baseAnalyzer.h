@@ -276,7 +276,7 @@ protected:
   Double_t Em_xmin;
   Double_t Em_xmax;
 
-  // only applies for deuteron (Mp + Mn - Md = nu - Tp - Tn ~ 2.22 MeV)
+  //nuclear missing energy (Mp + Mn - MA = nu - Tp - T_A-1 )
   Double_t Em_nuc_nbins;
   Double_t Em_nuc_xmin;
   Double_t Em_nuc_xmax;
@@ -634,6 +634,7 @@ protected:
 
   // 2D Kinematics Histos
   TH2F *H_Em_nuc_vs_Pm;
+  TH2F *H_Em_src_vs_Pm;
   
   //------------------------------------------------
   
@@ -972,6 +973,11 @@ protected:
   Bool_t   c_MF_Pm;
   Double_t c_MF_Pm_min;
   Double_t c_MF_Pm_max;
+
+  Bool_t   Em_d2MF_cut_flag;
+  Bool_t   c_d2MF_Em;
+  Double_t c_d2MF_Em_min;
+  Double_t c_d2MF_Em_max;
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts -----
   Bool_t   Q2_SRC_cut_flag;
@@ -994,10 +1000,10 @@ protected:
   Double_t c_SRC_thrq_min;
   Double_t c_SRC_thrq_max;
 
-  Bool_t   Em_SRC_cut_flag;
-  Bool_t   c_SRC_Em;
-  Double_t c_SRC_Em_min;
-  Double_t c_SRC_Em_max;
+  Bool_t   Em_d2SRC_cut_flag;
+  Bool_t   c_d2SRC_Em;
+  Double_t c_d2SRC_Em_min;
+  Double_t c_d2SRC_Em_max;
   
   //----------Acceptance Cuts------------  
 
