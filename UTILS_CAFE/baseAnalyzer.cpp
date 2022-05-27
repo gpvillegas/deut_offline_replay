@@ -2255,6 +2255,8 @@ void baseAnalyzer::EventLoop()
 	  if(phgcer_pidCut_flag) {cpid_phgcer_NPE_Sum = phgcer_npesum>=cpid_phgcer_npeSum_min && phgcer_npesum<=cpid_phgcer_npeSum_max;}
 	  else{cpid_phgcer_NPE_Sum=1;}
 
+	  c_pidCuts_shms = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum;
+	  
 	  //HMS calorimeter total normalized track energy
 	  if(hetot_trkNorm_pidCut_flag) {cpid_hetot_trkNorm = hcal_etottracknorm>=cpid_hetot_trkNorm_min && hcal_etottracknorm<=cpid_hetot_trkNorm_max;}
 	  else{cpid_hetot_trkNorm=1;}
@@ -2263,7 +2265,10 @@ void baseAnalyzer::EventLoop()
 	  if(hcer_pidCut_flag) {cpid_hcer_NPE_Sum = hcer_npesum>=cpid_hcer_npeSum_min && hcer_npesum<=cpid_hcer_npeSum_max;}
 	  else{cpid_hcer_NPE_Sum=1;}
 
-	  c_pidCuts = cpid_petot_trkNorm && cpid_pngcer_NPE_Sum && cpid_phgcer_NPE_Sum && cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
+	  c_pidCuts_hms = cpid_hetot_trkNorm && cpid_hcer_NPE_Sum;
+
+	  // combined hms/shms pid cuts 
+	  c_pidCuts = c_pidCuts_shms && c_pidCuts_hms;
 
 
 	   //----Acceptance Cuts----
@@ -2278,6 +2283,8 @@ void baseAnalyzer::EventLoop()
 	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
 	  else{c_hyptar=1;}
 
+	  c_accpCuts_hms = c_hdelta && c_hxptar && c_hyptar;
+	  
 	  // electron arm
 	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
 	  else{c_edelta=1;} 
@@ -2288,11 +2295,14 @@ void baseAnalyzer::EventLoop()
 	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
 	  else{c_eyptar=1;}
 
+	  c_accpCuts_shms = c_edelta && c_exptar && c_eyptar;
+  
 	  // z-reaction vertex difference
 	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
 	  else{c_ztarDiff=1;}
 
-	  c_accpCuts = (c_hdelta && c_hxptar && c_hyptar) && (c_edelta && c_exptar && c_eyptar) && c_ztarDiff;
+	  // combined hms/shms acceptance cuts 
+	  c_accpCuts = c_accpCuts_hms && c_accpCuts_shms && c_ztarDiff;
 	  
 	  //----Specialized Kinematics Cuts----
 
@@ -2314,7 +2324,12 @@ void baseAnalyzer::EventLoop()
 	  if(MM_heep_cut_flag){c_heep_MM = MM>=c_heep_MM_min && MM<=c_heep_MM_max;}
 	  else{c_heep_MM=1;}
 
-	  c_kinHeep_Cuts = c_heep_Q2 && c_heep_Em && c_heep_W && c_heep_MM;
+
+	  // H(e,e'p) singles ( e- trigger only)
+	  c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W;
+
+	  // H(e,e'p) coin ( e- + p coin. trigger )
+	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_Em && c_heep_W && c_heep_MM;
 	  
 	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
 
@@ -2362,9 +2377,13 @@ void baseAnalyzer::EventLoop()
 	  // ----- Combine All CUTS -----
 
 	  // user pre-determined analysis kinematics cuts
-	  if(analysis_cut=="heep"){
-	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeep_Cuts;
-	  }	 
+
+	  if(analysis_cut=="heep_sing"){
+	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts;
+	  }
+	  else if(analysis_cut=="heep_coin"){
+	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeepCoin_Cuts;
+	  }
 	  else if(analysis_cut=="MF"){
 	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinMF_Cuts;
 	  }
@@ -2423,7 +2442,13 @@ void baseAnalyzer::EventLoop()
 		  
 		  //----------------------Fill DATA Histograms-----------------------
 
-		 
+
+		  //2D Kin plots to help clean out online data
+		  if(c_accpCuts && c_pidCuts){
+		    H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
+		    H_Em_src_vs_Pm ->Fill(Pm, Em_src);
+		  }
+		  
 		  if(c_baseCuts){
 		    
 		    
@@ -2536,9 +2561,7 @@ void baseAnalyzer::EventLoop()
 			H_sphi_xq_cm ->Fill(sin(ph_xq_cm));
 			H_sphi_rq_cm ->Fill(sin(ph_rq_cm));
 			
-			//2D Kin
-			H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
-			H_Em_src_vs_Pm ->Fill(Pm, Em_src);
+
 			
 			//----------------------------------------------------------------------
 			//---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -2591,7 +2614,7 @@ void baseAnalyzer::EventLoop()
 		    // background underneath main peak: electron-proton from same "beam bunch" form a random ("un-correlated") coincidence
 
 		    if(ePctime_cut_flag)
-		      //if(eP_ctime_cut_rand)
+		      
 		      {
 			// Only histograms of selected variables of interest will be filled with background
 			

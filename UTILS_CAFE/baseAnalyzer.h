@@ -1055,9 +1055,17 @@ protected:
   
   //COMBINE ALL CUTS
   Bool_t c_baseCuts;  //base cuts
+
+  Bool_t c_accpCuts_hms;  //acceptance cuts
+  Bool_t c_accpCuts_shms;  //acceptance cuts
   Bool_t c_accpCuts;  //acceptance cuts
+
+  Bool_t c_pidCuts_hms;   //particle id cuts
+  Bool_t c_pidCuts_shms;   //particle id cuts
   Bool_t c_pidCuts;   //particle id cuts
-  Bool_t c_kinHeep_Cuts;     //kinematics cuts (Heep Cuts)
+  
+  Bool_t c_kinHeepSing_Cuts;     //kinematics cuts (Heep e- Singles Cuts)
+  Bool_t c_kinHeepCoin_Cuts;     //kinematics cuts (Heep Coin Cuts)
   Bool_t c_kinMF_Cuts;  //kinematics cuts (CaFe MF Cuts)
   Bool_t c_kinSRC_Cuts; //kinematics cuts (CaFe SRC Cuts)
   

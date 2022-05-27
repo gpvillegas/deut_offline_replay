@@ -15,14 +15,14 @@ ana_type=${ana_type%%.sh}
 
 #user input
 runNum=$1     # run number
-kin_type=$2   # CaFe kinematics type, set by user:  "heep",  "MF",  or "SRC", depending on the production type
+kin_type=$2   # CaFe kinematics type, set by user:  "heep_sing", "heep_coin",  "MF",  or "SRC", depending on the production type
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
 if [ -z "$1" ] || [ -z "$2" ]; then
     echo "No <run_number> and/or <kin_type> was specified. "
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
     echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "
-    echo "<kin_type> = \"heep\", \"MF\" or \"SRC\" "
+    echo "<kin_type> = \"heep_sing\", \"heep_coin\", \"MF\" or \"SRC\" "
     exit 0
 fi
 
@@ -33,7 +33,7 @@ if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "evtNum=$evtNum"
     
 elif [ "${ana_type}" = "prod" ]; then
-    echo "No number of events was specified. Defaulting to full event replay (-1)."
+    echo "replaying all events."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <run_type> <run_number>"
     evtNum=-1
     echo "evtNum=$evtNum"   
