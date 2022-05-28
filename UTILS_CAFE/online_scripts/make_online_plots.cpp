@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, TString tgt_type="", TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -490,7 +490,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
   if(tgt_type=="LH2"){
     data_file->GetObject("kin_plots/H_Em", data_Em);
   }
-  else{
+  else if (tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
   }
   
@@ -575,7 +575,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
     data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
     data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
   }
-  else{
+  else if(tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em_total);
     data_file->GetObject("randSub_plots/H_Em_nuc_rand_sub", data_Em_real);
     data_file->GetObject("rand_plots/H_Em_nuc_rand", data_Em_rand);
@@ -673,6 +673,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
   
   
   // ------- COINCIDENCE TIME -----
+  if(ana_cut!="heep_sing"){
   c1->cd();
   c1->SetLogy();
   nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
@@ -696,7 +697,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
   
   c1->Print(Form("cafe_output_%d.pdf", run));
   c1->Clear();
-
+  }
   
   // ------ INVARIANT MASS ------
 
@@ -725,7 +726,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
   c1->Clear();
   
   // ------ MISSING MASS ------
-
+  if(ana_cut!="heep_sing") {
   c1->cd();
   gPad->SetLogy();
   nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
@@ -749,7 +750,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
       
   c1->Print(Form("cafe_output_%d.pdf", run));
   c1->Clear();
-  
+    
   // ------ MISSING MOMENTUM ------
   c1->cd();
   gPad->SetLogy();
@@ -799,114 +800,12 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
   
   c1->Print(Form("cafe_output_%d.pdf", run));
   c1->Clear();
-  
+  }
   
   //-----------------------------------------------------------------------------------
-  
-  
-  //----------------------------------------------------------------------------------------
-  
-  // Overlay SIMC/data plots (*** VERY IMPORTANT ***: Range and #bins must be same)
 
 
-   //Set Legend
-   auto leg5 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg6 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg7 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg8 = new TLegend(0.1,0.8,0.28,0.9);
-
-   
-   //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
-
-   c1->Divide(2,2);
-
-   c1->cd(1);
-   if(simc_exist) simc_eytar->Draw();
-   data_eytar->Draw("sameshistE0");
-   leg5->AddEntry(data_eytar,"Data","f");
-   if(simc_exist) leg5->AddEntry(simc_eytar,"SIMC");
-   leg5->Draw();
-
-   c1->cd(2);
-   if(simc_exist) simc_exptar->Draw();
-   data_exptar->Draw("sameshistE0");
-   leg5->AddEntry(data_exptar,"Data", "f");
-   if(simc_exist) leg5->AddEntry(simc_exptar,"SIMC");
-   leg5->Draw();
-
-   c1->cd(3);
-   if(simc_exist) simc_eyptar->Draw();
-   data_eyptar->Draw("sameshistE0");
-   leg7->AddEntry(data_eyptar,"Data", "f");
-   if(simc_exist) leg7->AddEntry(simc_eyptar,"SIMC");
-   leg7->Draw();
-     
-   c1->cd(4);
-   if(simc_exist) simc_edelta->Draw();
-   data_edelta->Draw("sameshistE0");
-   leg8->AddEntry(data_edelta,"Data", "f");
-   if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
-   leg8->Draw();
-   
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-
-
-   //------------------------------------------------------------------------------
-   
-   
-   //-----------------PLOT FOCAL PLANE  Variables SIMC/Data comparison-----------------------
-
-  //Set Legend
-   auto leg9 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg10 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg11 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg12 = new TLegend(0.1,0.8,0.28,0.9);
-
-      //Set Legend
-   auto leg13 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg14 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg15 = new TLegend(0.1,0.8,0.28,0.9);
-   auto leg16 = new TLegend(0.1,0.8,0.28,0.9);
-   
-   c1->Divide(2,2);
-   
-   c1->cd(1);
-   if(simc_exist) simc_exfp->Draw();
-   data_exfp->Draw("sameshistE0");
-   leg13->AddEntry(data_exfp,"Data","f");
-   if(simc_exist) leg13->AddEntry(simc_exfp,"SIMC");
-   leg13->Draw();
-   
-   c1->cd(2);
-   if(simc_exist) simc_eyfp->Draw();
-   data_eyfp->Draw("sameshistE0");
-   leg14->AddEntry(data_eyfp,"Data", "f");
-   if(simc_exist) leg14->AddEntry(simc_eyfp,"SIMC");
-   leg14->Draw();
-
-   c1->cd(3);
-   if(simc_exist) simc_expfp->Draw();
-   data_expfp->Draw("sameshistE0");
-   leg15->AddEntry(data_expfp,"Data", "f");
-   if(simc_exist) leg15->AddEntry(simc_expfp,"SIMC");
-   leg15->Draw();
-     
-   c1->cd(4);
-   if(simc_exist) simc_eypfp->Draw();
-   data_eypfp->Draw("sameshistE0");
-   leg16->AddEntry(data_eypfp,"Data", "f");
-   if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
-   leg16->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-                                                                             
-
-   //----------------------------------------------------------- 
- 
-   
-   //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
+  //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
    //Set Legend
    auto leg_Q2 = new TLegend(0.1,0.8,0.28,0.9);
@@ -1104,9 +1003,192 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
 
    c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
+  
+   
+   //-----------------PLOT ELECTRON ARM FOCAL PLANE  Variables SIMC/Data comparison-----------------------
+
+  //Set Legend
+   auto leg9 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg10 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg11 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg12 = new TLegend(0.1,0.8,0.28,0.9);
+
+      //Set Legend
+   auto leg13 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg14 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg15 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg16 = new TLegend(0.1,0.8,0.28,0.9);
+   
+   c1->Divide(2,2);
+   
+   c1->cd(1);
+   if(simc_exist) simc_exfp->Draw();
+   data_exfp->Draw("sameshistE0");
+   leg13->AddEntry(data_exfp,"Data","f");
+   if(simc_exist) leg13->AddEntry(simc_exfp,"SIMC");
+   leg13->Draw();
+   
+   c1->cd(2);
+   if(simc_exist) simc_eyfp->Draw();
+   data_eyfp->Draw("sameshistE0");
+   leg14->AddEntry(data_eyfp,"Data", "f");
+   if(simc_exist) leg14->AddEntry(simc_eyfp,"SIMC");
+   leg14->Draw();
+
+   c1->cd(3);
+   if(simc_exist) simc_expfp->Draw();
+   data_expfp->Draw("sameshistE0");
+   leg15->AddEntry(data_expfp,"Data", "f");
+   if(simc_exist) leg15->AddEntry(simc_expfp,"SIMC");
+   leg15->Draw();
+     
+   c1->cd(4);
+   if(simc_exist) simc_eypfp->Draw();
+   data_eypfp->Draw("sameshistE0");
+   leg16->AddEntry(data_eypfp,"Data", "f");
+   if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
+   leg16->Draw();
+
+   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Clear();
+                                                                             
+
+   //----------------------------------------------------------- 
+
+   //-----------------PLOT HADRON ARM FOCAL PLANE  Variables SIMC/Data comparison-----------------------
+
+   //Set Legend
+   auto hfp_l1 = new TLegend(0.1,0.8,0.28,0.9);
+   auto hfp_l2 = new TLegend(0.1,0.8,0.28,0.9);
+   auto hfp_l3 = new TLegend(0.1,0.8,0.28,0.9);
+   auto hfp_l4 = new TLegend(0.1,0.8,0.28,0.9);
+
+   c1->Divide(2,2);
+
+   c1->cd(1);
+   if(simc_exist) simc_hxfp->Draw();
+   data_hxfp->Draw("sameshistE0");
+   hfp_l1->AddEntry(data_hxfp,"Data","f");
+   if(simc_exist) hfp_l1->AddEntry(simc_hxfp,"SIMC");
+   hfp_l1->Draw();
+   
+   c1->cd(2);
+   if(simc_exist) simc_hyfp->Draw();
+   data_hyfp->Draw("sameshistE0");
+   hfp_l2->AddEntry(data_hyfp,"Data", "f");
+   if(simc_exist) hfp_l2->AddEntry(simc_hyfp,"SIMC");
+   hfp_l2->Draw();
+
+   c1->cd(3);
+   if(simc_exist) simc_hxpfp->Draw();
+   data_hxpfp->Draw("sameshistE0");
+   hfp_l3->AddEntry(data_hxpfp,"Data", "f");
+   if(simc_exist) hfp_l3->AddEntry(simc_hxpfp,"SIMC");
+   hfp_l3->Draw();
+     
+   c1->cd(4);
+   if(simc_exist) simc_hypfp->Draw();
+   data_hypfp->Draw("sameshistE0");
+   hfp_l4->AddEntry(data_hypfp,"Data", "f");
+   if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
+   hfp_l4->Draw();
+
+   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Clear();
+                                                                                  
+
+   //----------------------------------------------------------- 
+
+   
+   //-----------------PLOT ELECTRON Target Reconstructed Variables SIMC/Data comparison-----------------------
+
+   //Set Legend
+   auto leg5 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg6 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg7 = new TLegend(0.1,0.8,0.28,0.9);
+   auto leg8 = new TLegend(0.1,0.8,0.28,0.9);
+
+   c1->Divide(2,2);
+
+   c1->cd(1);
+   if(simc_exist) simc_eytar->Draw();
+   data_eytar->Draw("sameshistE0");
+   leg5->AddEntry(data_eytar,"Data","f");
+   if(simc_exist) leg5->AddEntry(simc_eytar,"SIMC");
+   leg5->Draw();
+
+   c1->cd(2);
+   if(simc_exist) simc_exptar->Draw();
+   data_exptar->Draw("sameshistE0");
+   leg5->AddEntry(data_exptar,"Data", "f");
+   if(simc_exist) leg5->AddEntry(simc_exptar,"SIMC");
+   leg5->Draw();
+
+   c1->cd(3);
+   if(simc_exist) simc_eyptar->Draw();
+   data_eyptar->Draw("sameshistE0");
+   leg7->AddEntry(data_eyptar,"Data", "f");
+   if(simc_exist) leg7->AddEntry(simc_eyptar,"SIMC");
+   leg7->Draw();
+     
+   c1->cd(4);
+   if(simc_exist) simc_edelta->Draw();
+   data_edelta->Draw("sameshistE0");
+   leg8->AddEntry(data_edelta,"Data", "f");
+   if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
+   leg8->Draw();
+   
+   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Clear();
+
+
+   //------------------------------------------------------------------------------
+
+   //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
+ 
+   //Set Legend
+   auto htr_l1 = new TLegend(0.1,0.8,0.28,0.9);
+   auto htr_l2 = new TLegend(0.1,0.8,0.28,0.9);
+   auto htr_l3 = new TLegend(0.1,0.8,0.28,0.9);
+   auto htr_l4 = new TLegend(0.1,0.8,0.28,0.9);
+
+   c1->Divide(2,2);
+
+   c1->cd(1);
+   if(simc_exist) simc_hytar->Draw();
+   data_hytar->Draw("sameshistE0");
+   htr_l1->AddEntry(data_hytar,"Data","f");
+   if(simc_exist) htr_l1->AddEntry(simc_hytar,"SIMC");
+   htr_l1->Draw();
+
+   c1->cd(2);
+   if(simc_exist) simc_hxptar->Draw();
+   data_hxptar->Draw("sameshistE0");
+   htr_l2->AddEntry(data_hxptar,"Data", "f");
+   if(simc_exist) htr_l2->AddEntry(simc_hxptar,"SIMC");
+   htr_l2->Draw();
+
+   c1->cd(3);
+   if(simc_exist) simc_hyptar->Draw();
+   data_hyptar->Draw("sameshistE0");
+   htr_l3->AddEntry(data_hyptar,"Data", "f");
+   if(simc_exist) htr_l3->AddEntry(simc_hyptar,"SIMC");
+   htr_l3->Draw();
+     
+   c1->cd(4);
+   if(simc_exist) simc_hdelta->Draw();
+   data_hdelta->Draw("sameshistE0");
+   htr_l4->AddEntry(data_hdelta,"Data", "f");
+   if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
+   htr_l4->Draw();
+
+   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Clear();
    
 
- //-----------------PLOT TARGET  Variables SIMC/Data comparison-----------------------
+   //------------------------------------------------------------------------------
+
+ //-----------------PLOT TARGET VERTEX Variables SIMC/Data comparison-----------------------
 
   //Set Legend
    auto leghxt = new TLegend(0.1,0.8,0.28,0.9);                          
@@ -1164,95 +1246,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString data_file_path=""
    c1->Print(Form("cafe_output_%d.pdf", run));
    c1->Clear();
 
-   
-   //-----------------PLOT Target Reconstructed Variables SIMC/Data comparison-----------------------
- 
-   //Set Legend
-   auto htr_l1 = new TLegend(0.1,0.8,0.28,0.9);
-   auto htr_l2 = new TLegend(0.1,0.8,0.28,0.9);
-   auto htr_l3 = new TLegend(0.1,0.8,0.28,0.9);
-   auto htr_l4 = new TLegend(0.1,0.8,0.28,0.9);
-
-   c1->Divide(2,2);
-
-   c1->cd(1);
-   if(simc_exist) simc_hytar->Draw();
-   data_hytar->Draw("sameshistE0");
-   htr_l1->AddEntry(data_hytar,"Data","f");
-   if(simc_exist) htr_l1->AddEntry(simc_hytar,"SIMC");
-   htr_l1->Draw();
-
-   c1->cd(2);
-   if(simc_exist) simc_hxptar->Draw();
-   data_hxptar->Draw("sameshistE0");
-   htr_l2->AddEntry(data_hxptar,"Data", "f");
-   if(simc_exist) htr_l2->AddEntry(simc_hxptar,"SIMC");
-   htr_l2->Draw();
-
-   c1->cd(3);
-   if(simc_exist) simc_hyptar->Draw();
-   data_hyptar->Draw("sameshistE0");
-   htr_l3->AddEntry(data_hyptar,"Data", "f");
-   if(simc_exist) htr_l3->AddEntry(simc_hyptar,"SIMC");
-   htr_l3->Draw();
-     
-   c1->cd(4);
-   if(simc_exist) simc_hdelta->Draw();
-   data_hdelta->Draw("sameshistE0");
-   htr_l4->AddEntry(data_hdelta,"Data", "f");
-   if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
-   htr_l4->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-   
-
-   //------------------------------------------------------------------------------
-
-   
-   //-----------------PLOT FOCAL PLANE  Variables SIMC/Data comparison-----------------------
-
-   //Set Legend
-   auto hfp_l1 = new TLegend(0.1,0.8,0.28,0.9);
-   auto hfp_l2 = new TLegend(0.1,0.8,0.28,0.9);
-   auto hfp_l3 = new TLegend(0.1,0.8,0.28,0.9);
-   auto hfp_l4 = new TLegend(0.1,0.8,0.28,0.9);
-
-   c1->Divide(2,2);
-
-   c1->cd(1);
-   if(simc_exist) simc_hxfp->Draw();
-   data_hxfp->Draw("sameshistE0");
-   hfp_l1->AddEntry(data_hxfp,"Data","f");
-   if(simc_exist) hfp_l1->AddEntry(simc_hxfp,"SIMC");
-   hfp_l1->Draw();
-   
-   c1->cd(2);
-   if(simc_exist) simc_hyfp->Draw();
-   data_hyfp->Draw("sameshistE0");
-   hfp_l2->AddEntry(data_hyfp,"Data", "f");
-   if(simc_exist) hfp_l2->AddEntry(simc_hyfp,"SIMC");
-   hfp_l2->Draw();
-
-   c1->cd(3);
-   if(simc_exist) simc_hxpfp->Draw();
-   data_hxpfp->Draw("sameshistE0");
-   hfp_l3->AddEntry(data_hxpfp,"Data", "f");
-   if(simc_exist) hfp_l3->AddEntry(simc_hxpfp,"SIMC");
-   hfp_l3->Draw();
-     
-   c1->cd(4);
-   if(simc_exist) simc_hypfp->Draw();
-   data_hypfp->Draw("sameshistE0");
-   hfp_l4->AddEntry(data_hypfp,"Data", "f");
-   if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
-   hfp_l4->Draw();
-
-   c1->Print(Form("cafe_output_%d.pdf", run));
-   c1->Clear();
-                                                                                  
-
-   //----------------------------------------------------------- 
+   //--------------------------------------------------------------------
    
   
 

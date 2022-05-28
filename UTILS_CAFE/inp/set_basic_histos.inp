@@ -193,13 +193,13 @@ Tr_xmax = 5.
 
 # Missing Mass (Undetected Recoil System Mass)
 MM_nbins = 100
-MM_xmin = -5.
-MM_xmax = 5.
+MM_xmin = -0.2
+MM_xmax = 1.5
 
 # Missing Mass Squared
 MM2_nbins = 100  
-MM2_xmin = -5.
-MM2_xmax = 5.
+MM2_xmin = -1.5
+MM2_xmax = 1.5
 
 # hadron arm central angle
 thx_nbins = 100  

@@ -874,6 +874,10 @@ void baseAnalyzer::ReadReport()
   else if(abs(temp_var-MFe54_amu)<=max_diff){
     tgt_type = "Fe54";
   }
+
+  else if(abs(temp_var-MTi48_amu)<=max_diff){
+    tgt_type = "Ti48";
+  }
   
   else{
     cout << "Target mass (amu) mis-match of >1E-6 between this script and standard.kinematics . . . Check target mass is set correctly in standard.kinematics file !" << endl;
@@ -901,7 +905,30 @@ void baseAnalyzer::ReadReport()
   Ps6_factor = stod(split(temp, ':')[1]);
   
 
-  //Read Target Type
+  //Read spec. kinematics
+  temp = FindString("Beam_Energy",  data_InputReport.Data())[0];
+  beam_energy = stod(split(temp, ':')[1]);
+
+  //hms spec. kinematics
+  temp = FindString("HMS_Particle_Mass",  data_InputReport.Data())[0];  // GeV
+  hms_part_mass = stod(split(temp, ':')[1]);
+
+  temp = FindString("HMS_P_Central",  data_InputReport.Data())[0]; //GeV/v
+  hms_p = stod(split(temp, ':')[1]);
+  
+  temp = FindString("HMS_Angle",  data_InputReport.Data())[0];  // deg
+  hms_angle = stod(split(temp, ':')[1]);
+
+  // shms spec. kinematics
+  temp = FindString("SHMS_Particle_Mass",  data_InputReport.Data())[0];
+  shms_part_mass = stod(split(temp, ':')[1]);
+
+  temp = FindString("SHMS_P_Central",  data_InputReport.Data())[0];
+  shms_p = stod(split(temp, ':')[1]);
+  
+  temp = FindString("SHMS_Angle",  data_InputReport.Data())[0];
+  shms_angle = stod(split(temp, ':')[1]);
+  
   
 }
 
@@ -2760,11 +2787,17 @@ void baseAnalyzer::RandSub()
   cout << Form("W_total = %.3f", W_total) << endl;
   cout << Form("W_real = %.3f", W_real) << endl;
   cout << Form("W_rand = %.3f", W_rand) << endl;
-  
+
+  W_total_rate = W_total / total_time_bcm_cut;  // # good elastic proton event rate
+  W_real_rate = W_real / total_time_bcm_cut;
+   
   total_bins = H_Pm->GetNbinsX(); 
   Pm_total = H_Pm          ->IntegralAndError(1, total_bins, Pm_total_err);
   Pm_real  = H_Pm_rand_sub ->IntegralAndError(1, total_bins, Pm_real_err);
   Pm_rand  = H_Pm_rand     ->IntegralAndError(1, total_bins, Pm_rand_err);
+
+  Pm_real_rate = Pm_real / total_time_bcm_cut;
+
   
   total_bins = H_Em->GetNbinsX(); 
   Em_total = H_Em          ->IntegralAndError(1, total_bins, Em_total_err);
@@ -3174,46 +3207,103 @@ void baseAnalyzer::WriteReport()
     out_file.open(output_ReportFileName);
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
     out_file << "                                     " << endl;
-    out_file << Form("DAQ_Mode: %s                     ", daq_mode.Data()) << endl;
-    out_file << Form("DAQ_Run_Length [sec]: %.3f       ", total_time_bcm_cut) << endl;
-    out_file << Form("Events_Replayed: %lld              ", nentries ) << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# General Run Configuration                              " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "                                     " << endl;
+    out_file << Form("run_number: %d                     ", run) << endl;  
+    out_file << Form("daq_Mode: %s                     ", daq_mode.Data()) << endl;
+    out_file << Form("daq_run_length [sec]: %.3f       ", total_time_bcm_cut) << endl;
+    out_file << Form("events_replayed: %lld              ", nentries ) << endl;
     out_file << "" << endl;
-    out_file << Form("Target: %s                       ", tgt_type.Data() ) << endl;      
+    out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
+    out_file << Form("target: %s                       ", tgt_type.Data() ) << endl;      
+    out_file << "" << endl;      
+    out_file << Form("hms_particle_mass [GeV]: %.6f          ",  hms_part_mass ) << endl;          
+    out_file << Form("hms_momentum [GeV/c]: %.4f             ",  hms_p ) << endl;
+    out_file << Form("hms_angle [deg]: %.4f                  ",  hms_angle ) << endl;          
+    out_file << "" << endl;      
+    out_file << Form("shms_particle_mass [GeV]: %.6f          ",  shms_part_mass ) << endl;          
+    out_file << Form("shms_momentum [GeV/c]: %.4f             ",  shms_p ) << endl;
+    out_file << Form("shms_angle [deg]: %.4f                  ",  shms_angle ) << endl;  
     out_file << "" << endl;      
     out_file << Form("%s_Current_Threshold [uA]: > %.2f ", bcm_type.Data(), bcm_thrs) << endl;
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
-    
-    if(analysis_cut=="heep")
+
+    if(analysis_cut=="heep_sing")
       {
-	out_file << "heep_total  :"  << W_total << endl;
-	out_file << "heep_signal :"  << W_real  << endl;
-	out_file << "heep_bkg    :"  << W_rand  << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# CaFe H(e,e')p  Singles Counts    " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    
+	out_file << Form("heep_total_singles  : ", W_total) << endl;
+	out_file << Form("heep_total_singles_rate [Hz]  : ", W_total_rate) << endl;
+
       }
+
+    if(analysis_cut=="heep_coin")
+      {
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# CaFe H(e,e')p Coincidence Counts  " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    	out_file << "                                     " << endl;
+	out_file << Form("heep_total    : %.3f", W_total) << endl;
+	out_file << Form("heep_real     : %.3f", W_real)  << endl;
+	out_file << Form("heep_random   : %.3f", W_rand)  << endl;
+	out_file << "                                     " << endl;
+	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
+
+      }
+    
     if(analysis_cut=="MF")
       {
-	out_file << "MF_total    :"  << Pm_total << endl;
-	out_file << "MF_signal   :"  << Pm_real  << endl;
-	out_file << "MF_bkg      :"  << Pm_rand  << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# CaFe A(e,e')p Mean-Field (MF) Counts  " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "                                     " << endl;
+	out_file << Form("MF_total    : %.3f", Pm_total) << endl;
+	out_file << Form("MF_real     : %.3f", Pm_real)  << endl;
+	out_file << Form("MF_random   : %.3f", Pm_rand)  << endl;
+	out_file << "                                     " << endl;
+	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
+	
       }
     if(analysis_cut=="SRC")
       {
-	out_file << "SRC_total   :"  << Pm_total << endl;
-	out_file << "SRC_signal  :"  << Pm_real  << endl;
-	out_file << "SRC_bkg     :"  << Pm_rand  << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# CaFe A(e,e')p Short-Range Correlated (SRC) Counts  " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "                                     " << endl;
+	out_file << Form("SRC_total    : %.3f", Pm_total) << endl;
+	out_file << Form("SRC_real     : %.3f", Pm_real)  << endl;
+	out_file << Form("SRC_random   : %.3f", Pm_rand)  << endl;
+	out_file << "                                     " << endl;
+	out_file << Form("SRC_real_rate [Hz]     : %.3f"  << Pm_real_rate  << endl;
       }
 
     out_file << "                                     " << endl;
-    out_file << "# ------------------------------------------------------------ "  << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# Drift Chambers Tracking Efficiency  " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "                                     " << endl;
-    out_file << "# drift chambers tracking efficiency  " << endl;    
     out_file << Form("hms_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
     out_file << Form("shms_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
     out_file << "                                     " << endl;
-    out_file << "# trigger pre-scales, counts, rates & daq live times                                     " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# DAQ Trigger Information  " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "                                     " << endl;
+    out_file << "# NOTE: scaler triggers are not pre-scaled | accepted triggers are pre-scaled  " << endl;
+    out_file << "#       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       " << endl;
+    out_file << "#       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       " << endl;
+    out_file << "                                     " << endl;
+    out_file << Form("edtm_scaler   :  %.3f  ",         total_edtm_scaler_bcm_cut ) << endl;
+    out_file << Form("edtm_accepted :  %.3f  ",         total_edtm_accp_bcm_cut) << endl;
+    out_file << "                                     " << endl;
     out_file << Form("Ps1_factor: %.1f", Ps1_factor) << endl;
-    out_file << Form("T1_scalers:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
+    out_file << Form("T1_scaler:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
     out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
     if(Ps1_factor > -1) {
       out_file << Form("T1_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
@@ -3221,7 +3311,7 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps2_factor: %.1f", Ps2_factor) << endl;
-    out_file << Form("T2_scalers:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
+    out_file << Form("T2_scaler:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
     out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
     if(Ps2_factor > -1) {
       out_file << Form("T2_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
@@ -3229,7 +3319,7 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps3_factor: %.1f", Ps3_factor) << endl;
-    out_file << Form("T3_scalers:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
+    out_file << Form("T3_scaler:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
     out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;
     if(Ps3_factor > -1) {
       out_file << Form("T3_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
@@ -3237,7 +3327,7 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps4_factor: %.1f", Ps4_factor) << endl;
-    out_file << Form("T4_scalers:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
+    out_file << Form("T4_scaler:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
     out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut) << endl;
     if(Ps4_factor > -1) {
       out_file << Form("T4_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
@@ -3245,7 +3335,7 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps5_factor: %.1f", Ps5_factor) << endl;
-    out_file << Form("T5_scalers:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
+    out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
     out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut) << endl;
     if(Ps5_factor > -1) {
       out_file << Form("T5_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
@@ -3253,12 +3343,14 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
-    out_file << Form("T6_scalers:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
+    out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
     out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut) << endl;
     if(Ps6_factor > -1) {
       out_file << Form("T6_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
       out_file << Form("T6_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
     }
+    out_file << "                                     " << endl;
+
     
     
     // CLOSE files
@@ -3538,7 +3630,7 @@ void baseAnalyzer::MakePlots()
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), ana_cuts.Data(), data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
 
   gSystem->Exec(cmd.c_str());

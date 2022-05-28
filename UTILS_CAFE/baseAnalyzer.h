@@ -67,7 +67,7 @@ protected:
   Double_t MCa40_amu  = 39.962590863  ;
   Double_t MCa48_amu  = 47.95252276   ;
   Double_t MFe54_amu  = 53.9396147    ;
-  
+  Double_t MTi48_amu  = 47.9479463    ;
   // target mass (GeV)
   Double_t MH     = MH_amu    * amu2GeV;
   Double_t MD     = MD_amu    * amu2GeV;
@@ -79,6 +79,7 @@ protected:
   Double_t MCa40  = MCa40_amu * amu2GeV;
   Double_t MCa48  = MCa48_amu * amu2GeV;
   Double_t MFe54  = MFe54_amu * amu2GeV;
+  Double_t MTi48  = MTi48_amu * amu2GeV;
   
   //detected particle masses (GeV/c^2)
   const Double_t me = 0.000510998950;  //electron Mass
@@ -110,6 +111,13 @@ protected:
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )
   TString tgt_type;
 
+  Double_t beam_energy;
+  Double_t hms_part_mass;
+  Double_t hms_p;
+  Double_t hms_angle;
+  Double_t shms_part_mass;
+  Double_t shms_p;
+  Double_t shms_angle;
   
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
@@ -156,10 +164,10 @@ protected:
   // Get Counts of "total", "reals" and "random" events for saving to CaFe Report File"
   Double_t total_bins;
 
-  Double_t W_total, W_rand, W_real;
+  Double_t W_total, W_rand, W_real, W_total_rate, W_real_rate;
   Double_t W_total_err, W_rand_err, W_real_err;
   
-  Double_t Pm_total, Pm_rand, Pm_real;
+  Double_t Pm_total, Pm_rand, Pm_real, Pm_real_rate;
   Double_t Pm_total_err, Pm_rand_err, Pm_real_err;
 
   Double_t Em_total, Em_rand, Em_real;
