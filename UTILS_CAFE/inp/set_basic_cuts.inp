@@ -222,6 +222,11 @@ Em_d2MF_cut_flag = 0
 c_d2MF_Em_min = -0.02
 c_d2MF_Em_max = 0.05
 
+# Missing Energy [GeV] (provided *flag*=1, this cut will be applied ONLY for A>2 nuclei)
+Em_MF_cut_flag = 0
+c_MF_Em_min = -0.02
+c_MF_Em_max = 0.200
+
 #---- CaFe-Specific A(e,e'p) SRC Kinematics Cuts -----
 
 # NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="SRC" (see run_cafe_prod.sh)
@@ -248,6 +253,11 @@ c_SRC_thrq_min = 0.
 c_SRC_thrq_max = 40.
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
-Em_d2SRC_cut_flag = 0
+Em_d2SRC_cut_flag = 1
 c_d2SRC_Em_min = -0.02
 c_d2SRC_Em_max = 0.05
+
+# Missing Energy [GeV] (provided *flag*=1, this cut will be applied for A>2 nuclei)
+# this is a dynamic cut on missing energy:  Em_nuc < Em_src, to reduce background.
+# Look at Em_nuc vs. Pm and Em_src vs. Pm histos as a check  before applying this cut.
+Em_SRC_cut_flag = 0

@@ -743,6 +743,11 @@ void baseAnalyzer::ReadInputFile()
   Em_d2MF_cut_flag = stoi(split(FindString("Em_d2MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_d2MF_Em_min = stod(split(FindString("c_d2MF_Em_min", input_CutFileName.Data())[0], '=')[1]);
   c_d2MF_Em_max = stod(split(FindString("c_d2MF_Em_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // Missing Energy [GeV] --- ONLY for MF A>2 nuclei
+  Em_MF_cut_flag = stoi(split(FindString("Em_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Em_min = stod(split(FindString("c_MF_Em_min", input_CutFileName.Data())[0], '=')[1]);
+  c_MF_Em_max = stod(split(FindString("c_MF_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts 
 
@@ -770,6 +775,9 @@ void baseAnalyzer::ReadInputFile()
   Em_d2SRC_cut_flag = stoi(split(FindString("Em_d2SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_d2SRC_Em_min = stod(split(FindString("c_d2SRC_Em_min", input_CutFileName.Data())[0], '=')[1]);
   c_d2SRC_Em_max = stod(split(FindString("c_d2SRC_Em_max", input_CutFileName.Data())[0], '=')[1]);
+
+  // Missing Energy [GeV] --- ONLY for MF A>2 nuclei
+  Em_SRC_cut_flag = stoi(split(FindString("Em_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   
   //------Acceptance Cuts-------
   
@@ -2116,7 +2124,7 @@ void baseAnalyzer::EventLoop()
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
 	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis) Em = nu - Tp - T_n (for A>2 nuclei)	 
-	  Em_src = nu - Tx - (sqrt(MP*MP + Pm*Pm) - MP);
+	  Em_src = nu - Tx - (sqrt(MN*MN + Pm*Pm) - MN); // assume kinetic energy of recoil system is that of a spectator SRC nucleon 
 	  //cout << "Em_src = " << Em_src << endl;
 	  //cout << "nu = " << nu << endl;
 	  //cout << "Tx = " << Tx << endl;
@@ -2344,8 +2352,12 @@ void baseAnalyzer::EventLoop()
 	  // Em ( require this cut ONLY for deuteron)
 	  if(Em_d2MF_cut_flag && tgt_type=="LD2"){c_d2MF_Em = Em_nuc>=c_d2MF_Em_min && Em_nuc <= c_d2MF_Em_max;}
 	  else{c_d2MF_Em=1;}
+
+	  // Em ( require this cut ONLY for A>2 nuclei)
+	  if(Em_MF_cut_flag && tgt_type!="LD2"){c_MF_Em = Em_nuc >= c_MF_Em_min && Em_nuc <= c_MF_Em_max;}
+	  else{c_MF_Em=1;}
 	  
-	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_d2MF_Em;
+	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_d2MF_Em && c_MF_Em;
 	    
 	  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts
 
@@ -2369,7 +2381,12 @@ void baseAnalyzer::EventLoop()
 	  if(Em_d2SRC_cut_flag && tgt_type=="LD2"){c_d2SRC_Em = Em_nuc>=c_d2SRC_Em_min && Em_nuc <= c_d2SRC_Em_max;}
 	  else{c_d2SRC_Em=1;}
 
-	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em;
+	  // Em ( require this cut ONLY for A>2 nuclei)
+	  if(Em_SRC_cut_flag && tgt_type!="LD2"){c_SRC_Em = Em_nuc <= Em_src;}
+	  else{c_SRC_Em=1;}
+	  
+
+	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em && c_SRC_Em;
 
 
 	 

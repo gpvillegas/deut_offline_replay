@@ -976,10 +976,17 @@ protected:
   Double_t c_MF_Pm_min;
   Double_t c_MF_Pm_max;
 
+  // missing energy cut (only for deuteron, since Em ~ 2.2 MeV for deuteron)
   Bool_t   Em_d2MF_cut_flag;
   Bool_t   c_d2MF_Em;
   Double_t c_d2MF_Em_min;
   Double_t c_d2MF_Em_max;
+  
+  // missing energy cut (only for A>2 nuclei)
+  Bool_t   Em_MF_cut_flag;
+  Bool_t   c_MF_Em;
+  Double_t c_MF_Em_min;
+  Double_t c_MF_Em_max;
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts -----
   Bool_t   Q2_SRC_cut_flag;
@@ -1006,6 +1013,11 @@ protected:
   Bool_t   c_d2SRC_Em;
   Double_t c_d2SRC_Em_min;
   Double_t c_d2SRC_Em_max;
+
+  // Missing energy cut on A>2 nuclei for SRC kinematics (this is a dynamic cut, which varies with Pm)
+  // is itslef a square-root function of Pm, Em_src (Pm) = nu - Tp - (sqrt(Pm*Pm + MN*MN) - MN)
+  Bool_t   Em_SRC_cut_flag;
+  Bool_t   c_SRC_Em;
   
   //----------Acceptance Cuts------------  
 
