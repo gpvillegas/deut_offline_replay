@@ -2123,13 +2123,14 @@ void baseAnalyzer::EventLoop()
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
+	  
 	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis) Em = nu - Tp - T_n (for A>2 nuclei)	 
 	  Em_src = nu - Tx - (sqrt(MN*MN + Pm*Pm) - MN); // assume kinetic energy of recoil system is that of a spectator SRC nucleon 
 	  //cout << "Em_src = " << Em_src << endl;
 	  //cout << "nu = " << nu << endl;
 	  //cout << "Tx = " << Tx << endl;
 	  //cout << "Pm = " << Pm << endl;
-	  
+	  //cout << "MN = " << MN << endl;
 	  
 	  //--------------DEFINE CUTS--------------------
 	  
@@ -2382,7 +2383,9 @@ void baseAnalyzer::EventLoop()
 	  else{c_d2SRC_Em=1;}
 
 	  // Em ( require this cut ONLY for A>2 nuclei)
-	  if(Em_SRC_cut_flag && tgt_type!="LD2"){c_SRC_Em = Em_nuc <= Em_src;}
+	  if(Em_SRC_cut_flag && tgt_type!="LD2"){c_SRC_Em = Em_src>0. && Em_nuc <= Em_src; // put lower bound on Em_src cut
+	    //cout << "c_SRC_Em = " << c_SRC_Em << endl;
+	  }
 	  else{c_SRC_Em=1;}
 	  
 

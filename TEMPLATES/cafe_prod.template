@@ -121,7 +121,7 @@ General Run Information
 
 Run_Number		:		{gen_run_number}
 Beam_Energy		:		{gpbeam} 
-Target_Mass_(amu)	:		{gtargmass_amu}  
+Target_Mass_amu	        :		{gtargmass_amu}  
 
 HMS_Particle_Mass	:		{hpartmass}  
 HMS_P_Central	        :	        {hpcentral}  

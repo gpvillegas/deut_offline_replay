@@ -10,9 +10,9 @@ BCM4A_Current_Threshold [uA]: > 5.00
 BCM4A_Average_Current [uA]: 38.395 
 BCM4A_Charge [mC]: 1.852 
 
-MF_total    :29
-MF_signal   :29
-MF_bkg      :0
+SRC_total   :61
+SRC_signal  :61
+SRC_bkg     :0
                                      
 # ------------------------------------------------------------ 
                                      
