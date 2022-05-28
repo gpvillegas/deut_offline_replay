@@ -193,7 +193,7 @@ Tr_xmax = 5.
 
 # Missing Mass (Undetected Recoil System Mass)
 MM_nbins = 100
-MM_xmin = -0.2
+MM_xmin = -1.0
 MM_xmax = 1.5
 
 # Missing Mass Squared

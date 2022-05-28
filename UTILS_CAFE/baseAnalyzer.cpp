@@ -571,7 +571,7 @@ void baseAnalyzer::ReadInputFile()
   //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
   temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
   data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
-
+  
   //Check if REPORTFile exists
   in_file.open(data_InputReport.Data());
   cout << "in_file.fail() --> " << in_file.fail() << endl;
@@ -585,7 +585,7 @@ void baseAnalyzer::ReadInputFile()
   //----------------------------------
   //----OUTPUTS (USER WRITES OUT)-----
   //----------------------------------
-
+  cout << "L588 OK" << endl;
   //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
   data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
@@ -606,7 +606,7 @@ void baseAnalyzer::ReadInputFile()
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
   //==========================================
-  
+  cout << "L609 OK " << endl;
   //HMS Tracking Efficiency Cut Flags / Limits
   hdc_ntrk_cut_flag = stoi(split(FindString("hdc_ntrk_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_hdc_ntrk_min = stod(split(FindString("c_hdc_ntrk_min", input_CutFileName.Data())[0], '=')[1]);
@@ -656,7 +656,7 @@ void baseAnalyzer::ReadInputFile()
   //==========================================
   //     READ Data/SIMC ANALYSIS CUTS
   //==========================================
-  
+  cout << "Line 659 OK " << endl;
   //------PID Cuts-----
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
@@ -703,7 +703,7 @@ void baseAnalyzer::ReadInputFile()
 
 
   //-----Kinematics Cuts------
-
+  cout << "Line 706 OK " << endl; 
   // H(e,e'p)
   
   //4-Momentum Transfers [GeV^2]
@@ -728,7 +728,7 @@ void baseAnalyzer::ReadInputFile()
   c_heep_MM_max = stod(split(FindString("c_heep_MM_max", input_CutFileName.Data())[0], '=')[1]);
 
   // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
-
+  cout << "Line 731 OK " << endl; 
   // 4-Momentum Transfers [GeV^2]
   Q2_MF_cut_flag = stoi(split(FindString("Q2_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_MF_Q2_min = stod(split(FindString("c_MF_Q2_min", input_CutFileName.Data())[0], '=')[1]);
@@ -750,7 +750,7 @@ void baseAnalyzer::ReadInputFile()
   c_MF_Em_max = stod(split(FindString("c_MF_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts 
-
+  cout << "Line 753 OK " << endl; 
   // 4-Momentum Transfers [GeV^2]
   Q2_SRC_cut_flag = stoi(split(FindString("Q2_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_Q2_min = stod(split(FindString("c_SRC_Q2_min", input_CutFileName.Data())[0], '=')[1]);
@@ -814,7 +814,7 @@ void baseAnalyzer::ReadInputFile()
   c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
   
  
-  
+  cout << "Line 817 OK " << endl; 
 }
   
 
@@ -2660,7 +2660,7 @@ void baseAnalyzer::EventLoop()
 		    // select "ACCIDENTAL COINCIDENCE BACKGROUND" left/right of main coin. peak as a sample to estimate background underneath main coin. peak
 		    // background underneath main peak: electron-proton from same "beam bunch" form a random ("un-correlated") coincidence
 
-		    if(ePctime_cut_flag)
+		    if(ePctime_cut_flag && eP_ctime_cut_rand)
 		      
 		      {
 			// Only histograms of selected variables of interest will be filled with background
@@ -3238,8 +3238,8 @@ void baseAnalyzer::WriteReport()
 	out_file << "# CaFe H(e,e')p  Singles Counts    " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     
-	out_file << Form("heep_total_singles  : ", W_total) << endl;
-	out_file << Form("heep_total_singles_rate [Hz]  : ", W_total_rate) << endl;
+	out_file << Form("heep_total_singles  : %.3f ", W_total) << endl;
+	out_file << Form("heep_total_singles_rate [Hz]  : %.3f ", W_total_rate) << endl;
 
       }
 
@@ -3264,8 +3264,8 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_total    : %.3f", Pm_total) << endl;
-	out_file << Form("MF_real     : %.3f", Pm_real)  << endl;
-	out_file << Form("MF_random   : %.3f", Pm_rand)  << endl;
+	out_file << Form("MF_real     : %.3f", Pm_real )  << endl;
+	out_file << Form("MF_random   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
 	
@@ -3280,7 +3280,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_real     : %.3f", Pm_real)  << endl;
 	out_file << Form("SRC_random   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
-	out_file << Form("SRC_real_rate [Hz]     : %.3f"  << Pm_real_rate  << endl;
+	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
       }
 
     out_file << "                                     " << endl;
@@ -3630,7 +3630,7 @@ void baseAnalyzer::MakePlots()
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), ana_cuts.Data(), data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
 
   gSystem->Exec(cmd.c_str());

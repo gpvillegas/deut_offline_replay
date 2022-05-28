@@ -1,47 +1,78 @@
 # Run 3243 Data Analysis Summary
                                      
-DAQ_Mode: coin                     
-DAQ_Run_Length [sec]: 70.505       
-Events_Replayed: 100000              
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# General Run Configuration                              
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+run_number: 3243                     
+daq_Mode: coin                     
+daq_run_length [sec]: 70.505       
+events_replayed: 100000              
 
-Target: LH2                       
+beam_energy [GeV]: 10.6000          
+target: LH2                       
+
+hms_particle_mass [GeV]: 0.938272          
+hms_momentum [GeV/c]: 2.9381             
+hms_angle [deg]: -37.2900                  
+
+shms_particle_mass [GeV]: 0.000511          
+shms_momentum [GeV/c]: 8.5342             
+shms_angle [deg]: 12.2000                  
 
 BCM4A_Current_Threshold [uA]: > 5.00 
 BCM4A_Average_Current [uA]: 34.640 
 BCM4A_Charge [mC]: 2.442 
 
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# CaFe H(e,e')p  Singles Counts    
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+heep_total_singles  : 2019.000 
+heep_total_singles_rate [Hz]  : 28.636 
                                      
-# ------------------------------------------------------------ 
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# Drift Chambers Tracking Efficiency  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-# drift chambers tracking efficiency  
 hms_track_eff:  0.965 +- 0.003
 shms_track_eff: 0.975 +- 0.002
                                      
-# trigger pre-scales, counts, rates & daq live times                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:
+# DAQ Trigger Information  
+# =:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+# NOTE: scaler triggers are not pre-scaled | accepted triggers are pre-scaled  
+#       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
+#       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
+                                     
+edtm_scaler   :  212.000  
+edtm_accepted :  166.000  
+                                     
 Ps1_factor: 33.0
-T1_scalers:  2984935.000 [ 42.336 kHz ] 
+T1_scaler:  2984935.000 [ 42.336 kHz ] 
 T1_accepted: 90987.000 [ 1.291 kHz ]  
 T1_cpuLT:    1.006 +- 0.003 [ % ]
 T1_tLT:      25.840 +- 0.934 [ % ]
                                      
 Ps2_factor: -1.0
-T2_scalers:  1364800.000 [ 19.357 kHz ] 
+T2_scaler:  1364800.000 [ 19.357 kHz ] 
 T2_accepted: 45619.000 [ 0.647 kHz ]  
                                      
 Ps3_factor: -1.0
-T3_scalers:  942281.000 [ 13.365 kHz ] 
+T3_scaler:  942281.000 [ 13.365 kHz ] 
 T3_accepted: 32899.000 [ 0.467 kHz ]  
                                      
 Ps4_factor: 1.0
-T4_scalers:  17217.000 [ 0.244 kHz ] 
+T4_scaler:  17217.000 [ 0.244 kHz ] 
 T4_accepted: 13090.000 [ 0.186 kHz ]  
 T4_cpuLT:    0.760 +- 0.003 [ % ]
 T4_tLT:      0.783 +- 0.028 [ % ]
                                      
 Ps5_factor: -1.0
-T5_scalers:  -212.000 [ -0.003 kHz ] 
+T5_scaler:  -212.000 [ -0.003 kHz ] 
 T5_accepted: 0.000 [ 0.000 kHz ]  
                                      
 Ps6_factor: -1.0
-T6_scalers:  4890.000 [ 0.069 kHz ] 
+T6_scaler:  4890.000 [ 0.069 kHz ] 
 T6_accepted: 3725.000 [ 0.053 kHz ]  
+                                     

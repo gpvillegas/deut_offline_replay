@@ -88,7 +88,7 @@ c_pBetaNtrk_max = 1.5
 #---- Coincidence Time Cut -----
 
 # electron-Proton main coincidence time cut [ns] 
-ePctime_cut_flag = 0
+ePctime_cut_flag = 1
 ePctime_cut_min = -3.0
 ePctime_cut_max = 3.0
 
@@ -104,12 +104,12 @@ ePctime_cut_max_L = -10.0
 #------PID Cuts------
 
 # (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
-petot_trkNorm_pidCut_flag = 0
+petot_trkNorm_pidCut_flag = 1
 cpid_petot_trkNorm_min = 0.7
 cpid_petot_trkNorm_max = 5.
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
-pngcer_pidCut_flag = 0
+pngcer_pidCut_flag = 1
 cpid_pngcer_npeSum_min = 1.5
 cpid_pngcer_npeSum_max = 100.
 
@@ -119,12 +119,12 @@ cpid_phgcer_npeSum_min = 0.0
 cpid_phgcer_npeSum_max = 1.5
 
 # (HMS PID) Calorimeter Total Energy Normalized By Track Momentum
-hetot_trkNorm_pidCut_flag = 0
+hetot_trkNorm_pidCut_flag = 1
 cpid_hetot_trkNorm_min = 0.
 cpid_hetot_trkNorm_max = 0.6
 
 # (HMS PID) Gas Cherenkov
-hcer_pidCut_flag = 0
+hcer_pidCut_flag = 1
 cpid_hcer_npeSum_min = 0.
 cpid_hcer_npeSum_max = 0.5
 
@@ -177,7 +177,7 @@ c_ztarDiff_max = 2.
 
 # CaFe H(e,e'p) Elastics Kinematics Cuts
 
-# NOTE: Provided the '*_flag = 1', the cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep" (see run_cafe_prod.sh)
+# NOTE: Provided the '*_flag = 1', the cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep_coin" (see run_cafe_prod.sh)
 # not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
@@ -185,7 +185,7 @@ Q2_heep_cut_flag = 0
 c_heep_Q2_min = 4
 c_heep_Q2_max = 5
 
-# Missing Energy [GeV]
+# Missing Energy [GeV] # this cut will NOT be activated with analysis_cut=="heep_sing"
 Em_heep_cut_flag = 0
 c_heep_Em_min = -0.05
 c_heep_Em_max = 0.05
@@ -196,8 +196,8 @@ c_heep_W_min = 0.85
 c_heep_W_max = 1.05
 
 # Missing Mass, MM [GeV]
-# -Protons-
-MM_heep_cut_flag = 0
+# this cut will NOT be activated with analysis_cut=="heep_sing"
+MM_heep_cut_flag = 0  
 c_heep_MM_min = -0.15
 c_heep_MM_max = 0.15
 
@@ -208,7 +208,7 @@ c_heep_MM_max = 0.15
 # not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_MF_cut_flag = 0
+Q2_MF_cut_flag = 1
 c_MF_Q2_min = 1.8
 c_MF_Q2_max = 10.
 
@@ -233,7 +233,7 @@ c_MF_Em_max = 0.180
 # not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_SRC_cut_flag = 0
+Q2_SRC_cut_flag = 1
 c_SRC_Q2_min = 1.8
 c_SRC_Q2_max = 10.
 
@@ -243,12 +243,12 @@ c_SRC_Pm_min = 0.350
 c_SRC_Pm_max = 0.7
 
 # x-Bjorken
-Xbj_SRC_cut_flag = 0
+Xbj_SRC_cut_flag = 1
 c_SRC_Xbj_min = 1.2
 c_SRC_Xbj_max = 10.
 
 # in-plane recoil (undetected) angle, theta_rq [deg]
-thrq_SRC_cut_flag = 0
+thrq_SRC_cut_flag = 1
 c_SRC_thrq_min = 0.
 c_SRC_thrq_max = 40.
 
