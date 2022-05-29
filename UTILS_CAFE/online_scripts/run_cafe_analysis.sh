@@ -22,16 +22,16 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "No <run_number> and/or <kin_type> was specified. "
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
     echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "
-    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
+    echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
     exit 0    
-    # fool-proof, make sure only options: bcm_calib, tgt_boil, optics, heep_singles, heep_coin, MF, SRC         
-elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "tgt_boil" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
+    # fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC         
+elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "lumi" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
     echo ""                                                                                                                                                                                
 else
     echo " Invalid <kin_type> = \"$kin_type\" was specified. "
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
     echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "   
-    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" " 
+    echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" " 
     exit 0
 fi
 
@@ -47,17 +47,17 @@ elif [ "${ana_type}" = "prod" ]; then
     evtNum=-1
 fi
 
-# fool-proof, make sure only options: bcm_calib, tgt_boil, optics, heep_singles, heep_coin, MF, SRC
+# fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC
 #if [ "$kin_type" != "bcm_calib" ]; then 
 #    exit 0
 #fi
 
-#if [ "$2" != "bcm_calib" ] ||  [ "$2" != "tgt_boil" ] || [ "$2" != "optics" ] || \
+#if [ "$2" != "bcm_calib" ] ||  [ "$2" != "lumi" ] || [ "$2" != "optics" ] || \
 #    [ "$2" != "heep_singles" ] ||  [ "$2" != "heep_coin" ] || [ "$2" != "MF" ] || [ "$2" != "SRC" ]; then
-#if [[ -z "$2" || ! "$kin_type" =~ bcm_calib|tgt_boil|optics|heep_singles|heep_coin|MF|SRC ]]; then
+#if [[ -z "$2" || ! "$kin_type" =~ bcm_calib|lumi|optics|heep_singles|heep_coin|MF|SRC ]]; then
 #    echo "invalid <kin_type> = \"$2\"  !"
 #    echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
-#    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_
+#    echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_
 
 daq_mode="coin"
 e_arm="SHMS"

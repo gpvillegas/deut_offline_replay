@@ -41,7 +41,7 @@ for KinFileBlock in KinFileContent.split('\n\n'):
         nLines+=1
         if not KinFileLine.startswith("#"): # If line does NOT start with a #, add it to our array
             Lines.append(KinFileLine)
-    if nLines > 12: # If more than 12 lines, skip to next block    
+    if nLines > 12: # If more than 12 lines, skip to next block   (that means each block of runs can only have up to 12 lines, counting from 0) 
         continue
     # If it's an entry with a -, it's a range of run numbers, set the start and end accordingly
     if "-" in Lines[0]:

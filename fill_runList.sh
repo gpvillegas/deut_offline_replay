@@ -41,8 +41,8 @@ fi
 # Run number and run type should be read in by the "master" script, automating the target would be more difficult, master script prompts for this
 RUN_NUM=$1
 EVT_NUM=$2
-RUNTYPE=$3  # "sample", "prod", "lumi", "tgt_boil", "p_abs"
-KINTYPE=$4  # "heep_sing", "heep_coin", "MF", "SRC"  (these are for specific cuts to be applied)
+RUNTYPE=$3  # "sample", "prod", 
+KINTYPE=$4  # "bcm_calib", "lumi", "optics", "heep_singles", "heep_coin", "MF", "SRC"  (these are for specific cuts to be applied)
 TARGET=$5
 
 # cafe experiment runlist filename
@@ -51,8 +51,8 @@ RUNLIST="${REPLAYPATH}/UTILS_CAFE/runlist_cafe_2022.csv"
 # cafe standard kinematics file (to get beam, momenta, target info)
 KINFILE="${REPLAYPATH}/DBASE/COIN/standard.kinematics"
 
-# Get generic report file 
-REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUN_NUM}_-1.txt" 
+# cafe output
+REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUN_NUM}_${EVT_NUM}.txt" 
 
 # Get information available in standard.kinematics, execute a python script to do this for us
 KINFILE_INFO=`python3 $REPLAYPATH/UTILS_CAFE/online_scripts/kinfile.py ${KINFILE} ${RUN_NUM}` # The output of this python script is just a comma separated string
@@ -70,9 +70,7 @@ HMS_mass=`echo ${KINFILE_INFO}  | cut -d ','  -f8`
 # Get information available in the report file
 if [[ -f ${REPORTFILE} ]]; then
     if [[ ${RUNTYPE} != "HeePSing" ]]; then
-	REPORTFILE_INFO=`python3 $REPLAYPATH/UTIL_PION/scripts/runlist/reportfile.py ${REPORTFILE}`
-    elif [[ ${RUNTYPE} == "HeePSing" ]]; then
-	REPORTFILE_INFO=`python3 $REPLAYPATH/UTIL_PION/scripts/runlist/reportfile_HeePSing.py ${REPORTFILE}`
+	REPORTFILE_INFO=`python3 $REPLAYPATH/UTILS_CAFE/online_scripts/reportfile.py ${REPORTFILE}`
     fi
     Current=`echo ${REPORTFILE_INFO} | cut -d ',' -f1`
     PS1=`echo ${REPORTFILE_INFO} | cut -d ',' -f2`

@@ -5,23 +5,23 @@
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
 run_number: 3291                     
-run_type: SRC                     
+kin_type: SRC                     
 
 daq_mode: coin                     
 daq_run_length [sec]: 2960.677       
 events_replayed: 18022              
 
 beam_energy [GeV]: 10.6000          
-target: LD2                       
+target_name: LD2                       
 target_amu: 2.014102                 
 
-hms_particle_mass [GeV]: 0.938272          
-hms_momentum [GeV/c]: 2.1940             
-hms_angle [deg]: -54.9900                  
+hms_h_particle_mass [GeV]: 0.938272          
+hms_h_momentum [GeV/c]: 2.1940             
+hms_h_angle [deg]: -54.9900                  
 
-shms_particle_mass [GeV]: 0.000511          
-shms_momentum [GeV/c]: 8.5342             
-shms_angle [deg]: 12.1940                  
+shms_e_particle_mass [GeV]: 0.000511          
+shms_e_momentum [GeV/c]: 8.5342             
+shms_e_angle [deg]: 12.1940                  
 
 BCM4A_Current_Threshold [uA]: > 5.00 
 BCM4A_Average_Current [uA]: 49.734 

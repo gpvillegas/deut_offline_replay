@@ -2438,14 +2438,14 @@ void baseAnalyzer::EventLoop()
 
 	  // user pre-determined analysis kinematics cuts
 
-	  if(analysis_cut=="tgt_boil"){ // will need to remember to put specific cuts around current of ~ 10 uA and ~70 uA
+	  if(analysis_cut=="lumi"){ // will need to remember to put specific cuts around current of ~ 10 uA and ~70 uA
 	    c_baseCuts =  e_delta>=-10. && e_delta<=22. && c_pidCuts_shms;
 	  }
 	  else if(analysis_cut=="optics"){  // will need to call Holly's script that generates optics plots (from raw ROOTfile)
 	    c_baseCuts =  c_pidCuts_shms;
 	  }
 	  else if(analysis_cut=="heep_singles"){
-	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts;
+	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts && (eP_ctime_cut=1); //setting eP_ctime=1 guarantees cut will always pass (i.e. turned OFF)
 	  }
 	  else if(analysis_cut=="heep_coin"){
 	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeepCoin_Cuts;
@@ -2510,7 +2510,7 @@ void baseAnalyzer::EventLoop()
 		  //----------------------Fill DATA Histograms-----------------------
 
 		  
-		  //2D Kin plots to help clean out online data
+		  //2D Kin plots to help clean out online Em data
 		  if(c_accpCuts && c_pidCuts){
 		    H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
 		    H_Em_src_vs_Pm ->Fill(Pm, Em_src);
@@ -3232,23 +3232,23 @@ void baseAnalyzer::WriteReport()
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "                                     " << endl;
     out_file << Form("run_number: %d                     ", run) << endl;
-    out_file << Form("run_type: %s                     ", analysis_cut.Data()) << endl;
+    out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
     out_file << "" << endl;
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
     out_file << Form("daq_run_length [sec]: %.3f       ", total_time_bcm_cut) << endl;
     out_file << Form("events_replayed: %lld              ", nentries ) << endl;
     out_file << "" << endl;
     out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
-    out_file << Form("target: %s                       ", tgt_type.Data() ) << endl;
+    out_file << Form("target_name: %s                       ", tgt_type.Data() ) << endl;
     out_file << Form("target_amu: %.6f                 ", tgt_mass        ) << endl;      
     out_file << "" << endl;      
-    out_file << Form("hms_particle_mass [GeV]: %.6f          ",  hms_part_mass ) << endl;          
-    out_file << Form("hms_momentum [GeV/c]: %.4f             ",  hms_p ) << endl;
-    out_file << Form("hms_angle [deg]: %.4f                  ",  hms_angle ) << endl;          
+    out_file << Form("hms_h_particle_mass [GeV]: %.6f          ",  hms_part_mass ) << endl;          
+    out_file << Form("hms_h_momentum [GeV/c]: %.4f             ",  hms_p ) << endl;
+    out_file << Form("hms_h_angle [deg]: %.4f                  ",  hms_angle ) << endl;          
     out_file << "" << endl;      
-    out_file << Form("shms_particle_mass [GeV]: %.6f          ",  shms_part_mass ) << endl;          
-    out_file << Form("shms_momentum [GeV/c]: %.4f             ",  shms_p ) << endl;
-    out_file << Form("shms_angle [deg]: %.4f                  ",  shms_angle ) << endl;  
+    out_file << Form("shms_e_particle_mass [GeV]: %.6f          ",  shms_part_mass ) << endl;          
+    out_file << Form("shms_e_momentum [GeV/c]: %.4f             ",  shms_p ) << endl;
+    out_file << Form("shms_e_angle [deg]: %.4f                  ",  shms_angle ) << endl;  
     out_file << "" << endl;      
     out_file << Form("%s_Current_Threshold [uA]: > %.2f ", bcm_type.Data(), bcm_thrs) << endl;
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
@@ -3261,7 +3261,7 @@ void baseAnalyzer::WriteReport()
 	out_file << "# CaFe H(e,e')p  Singles Counts    " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     
-	out_file << Form("heep_total_singles  : %.3f ", W_total) << endl;
+	out_file << Form("heep_total_singles_counts  : %.3f ", W_total) << endl;
 	out_file << Form("heep_total_singles_rate [Hz]  : %.3f ", W_total_rate) << endl;
 
       }
@@ -3272,9 +3272,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# CaFe H(e,e')p Coincidence Counts  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     	out_file << "                                     " << endl;
-	out_file << Form("heep_total    : %.3f", W_total) << endl;
-	out_file << Form("heep_real     : %.3f", W_real)  << endl;
-	out_file << Form("heep_random   : %.3f", W_rand)  << endl;
+	out_file << Form("heep_total_counts    : %.3f", W_total) << endl;
+	out_file << Form("heep_real_counts     : %.3f", W_real)  << endl;
+	out_file << Form("heep_random_counts   : %.3f", W_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
 
@@ -3286,9 +3286,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# CaFe A(e,e')p Mean-Field (MF) Counts  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "                                     " << endl;
-	out_file << Form("MF_total    : %.3f", Pm_total) << endl;
-	out_file << Form("MF_real     : %.3f", Pm_real )  << endl;
-	out_file << Form("MF_random   : %.3f", Pm_rand )  << endl;
+	out_file << Form("MF_total_counts    : %.3f", Pm_total) << endl;
+	out_file << Form("MF_real_counts     : %.3f", Pm_real )  << endl;
+	out_file << Form("MF_random_counts   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
 	
@@ -3299,9 +3299,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# CaFe A(e,e')p Short-Range Correlated (SRC) Counts  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "                                     " << endl;
-	out_file << Form("SRC_total    : %.3f", Pm_total) << endl;
-	out_file << Form("SRC_real     : %.3f", Pm_real)  << endl;
-	out_file << Form("SRC_random   : %.3f", Pm_rand)  << endl;
+	out_file << Form("SRC_total_counts    : %.3f", Pm_total) << endl;
+	out_file << Form("SRC_real_counts     : %.3f", Pm_real)  << endl;
+	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
       }
@@ -3312,8 +3312,8 @@ void baseAnalyzer::WriteReport()
     out_file << "# Drift Chambers Tracking Efficiency  " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "                                     " << endl;
-    out_file << Form("hms_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
-    out_file << Form("shms_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
+    out_file << Form("hms_had_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
+    out_file << Form("shms_elec_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
     out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# DAQ Trigger Information  " << endl;
@@ -3374,7 +3374,7 @@ void baseAnalyzer::WriteReport()
       out_file << Form("T6_tLT:      %.3f +- %.3f ",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    }
+    } // end !bcm_calib requirement
     
     
     // CLOSE files
