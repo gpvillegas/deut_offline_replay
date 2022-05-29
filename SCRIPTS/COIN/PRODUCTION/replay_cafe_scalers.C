@@ -225,7 +225,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Create report file from template
   // C.Y. (for now we just have 1 template file, but this can be expanded to: cafe_ftype.template (e.g. cafe_heep.template, etc)
   TString REPORT_FileName=Form("REPORT_OUTPUT/%s/cafe_%s_%d_%d.report", ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
-  TString TEMPLATE_FileName="TEMPLATES/cafe_prod.template";
+  TString TEMPLATE_FileName="TEMPLATES/cafe_scalers.template";
 
   //testing (to use cafe template file to mimic what the shift crew would see during CaFe data-taking, commnent the 'RunNumber<3400' below)
   //if(RunNumber<=3400){

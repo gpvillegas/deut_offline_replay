@@ -1,0 +1,536 @@
+
+=====================================
+======= Shift Worker Section ========
+=====================================
+
+NOTE: The 'SW_' prefix stands for 'Shift Worker'
+
+-----------------
+General Run Info
+-----------------
+
+SW_Run_Number		:		{gen_run_number}
+SW_Beam_Energy		:		{gpbeam} 
+SW_Target_Mass_amu	:		{gtargmass_amu}  
+
+SW_HMS_Particle_Mass	:		{hpartmass}  
+SW_HMS_P_Central        :	        {hpcentral}  
+SW_HMS_Angle		:		{htheta_lab} 
+
+SW_SHMS_Particle_Mass	:		{ppartmass}
+SW_SHMS_P_Central	: 	        {ppcentral}
+SW_SHMS_Angle		:		{ptheta_lab}
+
+SW_SHMS_Run_Length	:		{P.1MHz.scalerTime:%.3f} sec
+SW_HMS_Run_Length	:	        {H.1MHz.scalerTime:%.3f} sec
+
+---------------------------
+Beam Current Monitors (BCM)
+---------------------------
+
+BCM{gBCM_Current_threshold_index+1} >{gBCM_Current_threshold} uA 
+Beam over threshold for {P.1MHz.scalerTimeCut:%.3f}s,
+or {((P.1MHz.scalerTimeCut/P.1MHz.scalerTime)*100.):%.3f}% of total run time.
+
+SW_BCM4A_Current : {P.BCM4A.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA
+SW_BCM4A_Charge  : {P.BCM4A.scalerChargeCut/1000.:%.3f} mC
+
+
+NOTE: Will need to narrow down to specific triggers we will use, once
+we know which ones correspond to: SHMS EL-REAL, HMS 3/4,  and SHMS EL-REAL x HMS 3/4 coincidence
+
+------------------
+Pre-Scale Factors
+------------------
+
+SW_Ps1_factor	 :		  {gHC_ti_ps_factors[0]}
+SW_Ps2_factor	 :		  {gHC_ti_ps_factors[1]}
+SW_Ps3_factor	 :		  {gHC_ti_ps_factors[2]}
+SW_Ps4_factor	 :		  {gHC_ti_ps_factors[3]}
+SW_Ps5_factor	 :		  {gHC_ti_ps_factors[4]}
+SW_Ps6_factor	 :		  {gHC_ti_ps_factors[5]}
+
+----------------
+Physics Scalers
+----------------
+
+SW_T1_phy_scaler :   { P.pTRIG1.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG1.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T2_phy_scaler :   { P.pTRIG2.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG2.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T3_phy_scaler :   { P.pTRIG3.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG3.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T4_phy_scaler :   { P.pTRIG4.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG4.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T5_phy_scaler :   { P.pTRIG5.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG5.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T6_phy_scaler :   { P.pTRIG6.scalerCut -  P.EDTM.scalerCut }   [ {( (P.pTRIG6.scalerCut - P.EDTM.scalerCut)/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+----------------
+Physics Scalers
+(pre-scaled)
+----------------
+SW_T1_phy_scaler_ps :   { (P.pTRIG1.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[0]:%.0f }   [ {( ( (P.pTRIG1.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[0] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T2_phy_scaler_ps :   { (P.pTRIG2.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[1]:%.0f }   [ {( ( (P.pTRIG2.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[1] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T3_phy_scaler_ps :   { (P.pTRIG3.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[2]:%.0f }   [ {( ( (P.pTRIG3.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[2] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T4_phy_scaler_ps :   { (P.pTRIG4.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[3]:%.0f }   [ {( ( (P.pTRIG4.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[3] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T5_phy_scaler_ps :   { (P.pTRIG5.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[4]:%.0f }   [ {( ( (P.pTRIG5.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[4] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+SW_T6_phy_scaler_ps :   { (P.pTRIG6.scalerCut -  P.EDTM.scalerCut)/gHC_ti_ps_factors[5]:%.0f }   [ {( ( (P.pTRIG6.scalerCut - P.EDTM.scalerCut) / gHC_ti_ps_factors[5] ) /P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+-------------------
+Accepted Triggers
+-------------------
+SW_T1_phy_accp : { pTRIG1_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T2_phy_accp : { pTRIG2_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T3_phy_accp : { pTRIG3_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T4_phy_accp : { pTRIG4_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T5_phy_accp : { pTRIG5_ROC2.npassed - shms_edtm_accepted.npassed }
+SW_T6_phy_accp : { pTRIG6_ROC2.npassed - shms_edtm_accepted.npassed }
+
+-----
+EDTM
+-----
+SW_EDMT_scaler :  { P.EDTM.scalerCut }
+SW_EDTM_accp   :  { shms_edtm_accepted.npassed }
+
+-------------------
+Computer Live Time
+(take with a grain of salt :) )
+-------------------
+SW_T5_cpuLT : { (pTRIG5_ROC2_noEDTM.npassed * gHC_ti_ps_factors[4] / (P.pTRIG5.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+SW_T6_cpuLT : { (pTRIG6_ROC2_noEDTM.npassed * gHC_ti_ps_factors[5] / (P.pTRIG6.scaler -  P.EDTM.scaler) )  *100.0:%3.4f} %
+
+----------------
+Total Live Time
+(take with a grain of salt :) )
+----------------
+SW_T5_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[4] / P.EDTM.scaler) *100.0:%3.4f} %
+SW_T6_totLT : { (shms_edtm_accepted.npassed * gHC_ti_ps_factors[5] / P.EDTM.scaler) *100.0:%3.4f} %
+
+
+----------------------
+Tracking Efficiencies
+----------------------
+SW_shms_elec_trk_eff          :   {shmsScinDide.npassed / (shmsScinShoulde.npassed+0.0001):%8.4f}  +- {(sqrt(shmsScinShoulde.npassed-shmsScinDide.npassed) / (shmsScinShoulde.npassed+.0001)):%8.4f}
+SW_hms_hadron_trk_eff         :   {hmsScinDidh.npassed / (hmsScinShouldh.npassed+0.0001):%8.4f} +- {(sqrt(hmsScinShouldh.npassed-hmsScinDidh.npassed)/(hmsScinShouldh.npassed+.0001)):%8.4f}
+
+
+
+===============================
+======= Expert Section ========
+===============================
+
+************************
+General Run Information
+************************
+
+Run_Number		:		{gen_run_number}
+Beam_Energy		:		{gpbeam} 
+Target_Mass_amu	        :		{gtargmass_amu}  
+
+HMS_Particle_Mass	:		{hpartmass}  
+HMS_P_Central	        :	        {hpcentral}  
+HMS_Angle		:		{htheta_lab} 
+
+SHMS_Particle_Mass	:		{ppartmass}
+SHMS_P_Central	        : 	        {ppcentral}
+SHMS_Angle		:		{ptheta_lab}
+
+SHMS_Run_Length	        :		{P.1MHz.scalerTime:%.3f} sec
+HMS_Run_Length	        :	        {H.1MHz.scalerTime:%.3f} sec
+
+***********
+* Beamline
+***********
+
+-------------------------------------
+BCM Information ( NO BCM{gBCM_Current_threshold_index+1} CUT )
+-------------------------------------
+
+=:=:=:=:=:
+= HMS
+=:=:=:=:=:
+
+HMS BCM1  Current : {H.BCM1.scalerCharge/H.1MHz.scalerTime:%.3f} uA		  
+HMS BCM2  Current : {H.BCM2.scalerCharge/H.1MHz.scalerTime:%.3f} uA		 
+HMS BCM4A Current : {H.BCM4A.scalerCharge/H.1MHz.scalerTime:%.3f} uA		  
+HMS BCM4B Current : {H.BCM4B.scalerCharge/H.1MHz.scalerTime:%.3f} uA		 
+HMS BCM4C Current : {H.BCM4C.scalerCharge/H.1MHz.scalerTime:%.3f} uA		 
+HMS Unser Current : {H.Unser.scalerCharge/H.1MHz.scalerTime:%.3f} uA		  
+
+HMS BCM1  Charge  : {H.BCM1.scalerCharge/1000.:%.3f} mC
+HMS BCM2  Charge  : {H.BCM2.scalerCharge/1000.:%.3f} mC	
+HMS BCM4A Charge  : {H.BCM4A.scalerCharge/1000.:%.3f} mC		  
+HMS BCM4B Charge  : {H.BCM4B.scalerCharge/1000.:%.3f} mC		 
+HMS BCM4C Charge  : {H.BCM4C.scalerCharge/1000.:%.3f} mC		 
+HMS Unser Charge  : {H.Unser.scalerCharge/1000.:%.3f} mC
+
+=:=:=:=:=:
+= SHMS
+=:=:=:=:=:
+
+SHMS BCM1  Current : {P.BCM1.scalerCharge/P.1MHz.scalerTime:%.3f} uA		  
+SHMS BCM2  Current : {P.BCM2.scalerCharge/P.1MHz.scalerTime:%.3f} uA		 
+SHMS BCM4A Current : {P.BCM4A.scalerCharge/P.1MHz.scalerTime:%.3f} uA		  
+SHMS BCM4B Current : {P.BCM4B.scalerCharge/P.1MHz.scalerTime:%.3f} uA		 
+SHMS BCM4C Current : {P.BCM4C.scalerCharge/P.1MHz.scalerTime:%.3f} uA		 
+SHMS Unser Current : {P.Unser.scalerCharge/P.1MHz.scalerTime:%.3f} uA		  
+
+SHMS BCM1  Charge  : {P.BCM1.scalerCharge/1000.:%.3f} mC
+SHMS BCM2  Charge  : {P.BCM2.scalerCharge/1000.:%.3f} mC	
+SHMS BCM4A Charge  : {P.BCM4A.scalerCharge/1000.:%.3f} mC		  
+SHMS BCM4B Charge  : {P.BCM4B.scalerCharge/1000.:%.3f} mC		 
+SHMS BCM4C Charge  : {P.BCM4C.scalerCharge/1000.:%.3f} mC		 
+SHMS Unser Charge  : {P.Unser.scalerCharge/1000.:%.3f} mC
+
+-------------------------------------
+BCM Information ( BCM{gBCM_Current_threshold_index+1} >{gBCM_Current_threshold} uA )
+Beam over threshold for {P.1MHz.scalerTimeCut:%.3f}s,
+or {((P.1MHz.scalerTimeCut/P.1MHz.scalerTime)*100.):%.3f}% of total run time.
+-------------------------------------
+
+=:=:=:=:=:
+= HMS
+=:=:=:=:=:
+
+HMS BCM1  Beam Cut Current : {H.BCM1.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		  
+HMS BCM2  Beam Cut Current : {H.BCM2.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		 
+HMS BCM4A Beam Cut Current : {H.BCM4A.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		  
+HMS BCM4B Beam Cut Current : {H.BCM4B.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		 
+HMS BCM4C Beam Cut Current : {H.BCM4C.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		 
+HMS Unser Beam Cut Current : {H.Unser.scalerChargeCut/H.1MHz.scalerTimeCut:%.3f} uA		  
+
+HMS BCM1  Beam Cut Charge : {H.BCM1.scalerChargeCut/1000. :%.3f} mC
+HMS BCM2  Beam Cut Charge : {H.BCM2.scalerChargeCut/1000.:%.3f} mC
+HMS BCM4A Beam Cut Charge : {H.BCM4A.scalerChargeCut/1000.:%.3f} mC		  
+HMS BCM4B Beam Cut Charge : {H.BCM4B.scalerChargeCut/1000.:%.3f} mC		 
+HMS BCM4C Beam Cut Charge : {H.BCM4C.scalerChargeCut/1000.:%.3f} mC		 
+HMS Unser Beam Cut Charge : {H.Unser.scalerChargeCut/1000.:%.3f} mC
+
+=:=:=:=:=:
+= SHMS
+=:=:=:=:=:
+
+SHMS BCM1  Beam Cut Current : {P.BCM1.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		  
+SHMS BCM2  Beam Cut Current : {P.BCM2.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		 
+SHMS BCM4A Beam Cut Current : {P.BCM4A.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		  
+SHMS BCM4B Beam Cut Current : {P.BCM4B.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		 
+SHMS BCM4C Beam Cut Current : {P.BCM4C.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		 
+SHMS Unser Beam Cut Current : {P.Unser.scalerChargeCut/P.1MHz.scalerTimeCut:%.3f} uA		  
+
+SHMS BCM1  Beam Cut Charge : {P.BCM1.scalerChargeCut/1000.:%.3f} mC
+SHMS BCM2  Beam Cut Charge : {P.BCM2.scalerChargeCut/1000.:%.3f} mC
+SHMS BCM4A Beam Cut Charge : {P.BCM4A.scalerChargeCut/1000.:%.3f} mC		  
+SHMS BCM4B Beam Cut Charge : {P.BCM4B.scalerChargeCut/1000.:%.3f} mC		 
+SHMS BCM4C Beam Cut Charge : {P.BCM4C.scalerChargeCut/1000.:%.3f} mC		 
+SHMS Unser Beam Cut Charge : {P.Unser.scalerChargeCut/1000.:%.3f} mC
+
+**************
+* DAQ Trigger
+**************
+
+NOTE: All Scaler Info has a Beam Current Cut.
+Unless explicitly stated otherwise in its name.
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+Scaler Triggers
+(technically, pre-triggers)
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+------------------
+Pre-Scale Factors
+------------------
+Ps1_factor	 :		  {gHC_ti_ps_factors[0]}
+Ps2_factor	 :		  {gHC_ti_ps_factors[1]}
+Ps3_factor	 :		  {gHC_ti_ps_factors[2]}
+Ps4_factor	 :		  {gHC_ti_ps_factors[3]}
+Ps5_factor	 :		  {gHC_ti_ps_factors[4]}
+Ps6_factor	 :		  {gHC_ti_ps_factors[5]}
+
+
+-----------------------
+Total Scaler Triggers
+Total: Physics + EDTM
+-----------------------
+T1_scaler     :	{P.pTRIG1.scalerCut} [ {P.pTRIG1.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T2_scaler     :	{P.pTRIG2.scalerCut} [ {P.pTRIG2.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T3_scaler     :	{P.pTRIG3.scalerCut} [ {P.pTRIG3.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T4_scaler     :	{P.pTRIG4.scalerCut} [ {P.pTRIG4.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T5_scaler     :	{P.pTRIG5.scalerCut} [ {P.pTRIG5.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T6_scaler     :	{P.pTRIG6.scalerCut} [ {P.pTRIG6.scalerCut/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+
+-----------------------------------
+Total Pre-Scaled Scaler Triggers
+Total: Physics + EDTM
+-----------------------------------
+T1_scaler_ps      : {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0]):%.0f} [ {(P.pTRIG1.scalerCut/gHC_ti_ps_factors[0])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T2_scaler_ps      : {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1]):%.0f} [ {(P.pTRIG2.scalerCut/gHC_ti_ps_factors[1])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T3_scaler_ps      : {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2]):%.0f} [ {(P.pTRIG3.scalerCut/gHC_ti_ps_factors[2])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T4_scaler_ps      : {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3]):%.0f} [ {(P.pTRIG4.scalerCut/gHC_ti_ps_factors[3])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+T5_scaler_ps      : {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4]):%.0f} [ {(P.pTRIG5.scalerCut/gHC_ti_ps_factors[4])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ] 
+T6_scaler_ps      : {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5]):%.0f} [ {(P.pTRIG6.scalerCut/gHC_ti_ps_factors[5])/P.1MHz.scalerTimeCut/1000.:%.3f} kHz ]
+
+---------------------
+Total Trigger Counts
+---------------------
+HMS_Singles_Triggers	  	     : 		{HMS_event.npassed}
+SHMS_Singles_Triggers		     :		{SHMS_event.npassed}
+Coincidence_Triggers	             :		{ALL_COIN_events.npassed}
+All_Triggers			     :		{ALL_events.npassed}
+
+
+*******************
+* Hardware Scalers
+*******************
+
+NOTE: Beam Current Cut Applied
+
+=:=:=:=:=:=:=:=:=:=
+=    HODOSCOPES   =
+=:=:=:=:=:=:=:=:=:=
+
+=:=:=:=:=
+= SHMS  =
+=:=:=:=:=
+Scint   Counts      Rate
+P1X1+:  {P.hod.1x1.posScalerCut} [ {(P.hod.1x1.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X2+:  {P.hod.1x2.posScalerCut} [ {(P.hod.1x2.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X3+:  {P.hod.1x3.posScalerCut} [ {(P.hod.1x3.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X4+:  {P.hod.1x4.posScalerCut} [ {(P.hod.1x4.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X5+:  {P.hod.1x5.posScalerCut} [ {(P.hod.1x5.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X6+:  {P.hod.1x6.posScalerCut} [ {(P.hod.1x6.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X7+:  {P.hod.1x7.posScalerCut} [ {(P.hod.1x7.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X8+:  {P.hod.1x8.posScalerCut} [ {(P.hod.1x8.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X9+:  {P.hod.1x9.posScalerCut} [ {(P.hod.1x9.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X10+: {P.hod.1x10.posScalerCut} [ {(P.hod.1x10.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X11+: {P.hod.1x11.posScalerCut} [ {(P.hod.1x11.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] 
+P1X12+: {P.hod.1x12.posScalerCut} [ {(P.hod.1x12.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X13+: {P.hod.1x13.posScalerCut} [ {(P.hod.1x13.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P1X1-:  {P.hod.1x1.negScalerCut} [ {(P.hod.1x1.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X2-:  {P.hod.1x2.negScalerCut} [ {(P.hod.1x2.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X3-:  {P.hod.1x3.negScalerCut} [ {(P.hod.1x3.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X4-:  {P.hod.1x4.negScalerCut} [ {(P.hod.1x4.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X5-:  {P.hod.1x5.negScalerCut} [ {(P.hod.1x5.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X6-:  {P.hod.1x6.negScalerCut} [ {(P.hod.1x6.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X7-:  {P.hod.1x7.negScalerCut} [ {(P.hod.1x7.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X8-:  {P.hod.1x8.negScalerCut} [ {(P.hod.1x8.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X9-:  {P.hod.1x9.negScalerCut} [ {(P.hod.1x9.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X10-: {P.hod.1x10.negScalerCut} [ {(P.hod.1x10.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X11-: {P.hod.1x11.negScalerCut} [ {(P.hod.1x11.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X12-: {P.hod.1x12.negScalerCut} [ {(P.hod.1x12.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1X13-: {P.hod.1x13.negScalerCut} [ {(P.hod.1x13.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+ 
+P1Y1+:  {P.hod.1y1.posScalerCut} [ {(P.hod.1y1.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y2+:  {P.hod.1y2.posScalerCut} [ {(P.hod.1y2.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y3+:  {P.hod.1y3.posScalerCut} [ {(P.hod.1y3.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y4+:  {P.hod.1y4.posScalerCut} [ {(P.hod.1y4.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y5+:  {P.hod.1y5.posScalerCut} [ {(P.hod.1y5.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y6+:  {P.hod.1y6.posScalerCut} [ {(P.hod.1y6.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y7+:  {P.hod.1y7.posScalerCut} [ {(P.hod.1y7.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y8+:  {P.hod.1y8.posScalerCut} [ {(P.hod.1y8.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y9+:  {P.hod.1y9.posScalerCut} [ {(P.hod.1y9.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y10+: {P.hod.1y10.posScalerCut} [ {(P.hod.1y10.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y11+: {P.hod.1y11.posScalerCut} [ {(P.hod.1y11.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y12+: {P.hod.1y12.posScalerCut} [ {(P.hod.1y12.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y13+: {P.hod.1y13.posScalerCut} [ {(P.hod.1y13.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P1Y1-:  {P.hod.1y1.negScalerCut} [ {(P.hod.1y1.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y2-:  {P.hod.1y2.negScalerCut} [ {(P.hod.1y2.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y3-:  {P.hod.1y3.negScalerCut} [ {(P.hod.1y3.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y4-:  {P.hod.1y4.negScalerCut} [ {(P.hod.1y4.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y5-:  {P.hod.1y5.negScalerCut} [ {(P.hod.1y5.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y6-:  {P.hod.1y6.negScalerCut} [ {(P.hod.1y6.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y7-:  {P.hod.1y7.negScalerCut} [ {(P.hod.1y7.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y8-:  {P.hod.1y8.negScalerCut} [ {(P.hod.1y8.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y9-:  {P.hod.1y9.negScalerCut} [ {(P.hod.1y9.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y10-: {P.hod.1y10.negScalerCut} [ {(P.hod.1y10.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y11-: {P.hod.1y11.negScalerCut} [ {(P.hod.1y11.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y12-: {P.hod.1y12.negScalerCut} [ {(P.hod.1y12.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P1Y13-: {P.hod.1y13.negScalerCut} [ {(P.hod.1y13.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P2X1+:  {P.hod.2x1.posScalerCut} [ {(P.hod.2x1.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X2+:  {P.hod.2x2.posScalerCut} [ {(P.hod.2x2.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X3+:  {P.hod.2x3.posScalerCut} [ {(P.hod.2x3.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X4+:  {P.hod.2x4.posScalerCut} [ {(P.hod.2x4.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X5+:  {P.hod.2x5.posScalerCut} [ {(P.hod.2x5.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X6+:  {P.hod.2x6.posScalerCut} [ {(P.hod.2x6.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X7+:  {P.hod.2x7.posScalerCut} [ {(P.hod.2x7.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X8+:  {P.hod.2x8.posScalerCut} [ {(P.hod.2x8.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X9+:  {P.hod.2x9.posScalerCut} [ {(P.hod.2x9.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X10+: {P.hod.2x10.posScalerCut} [ {(P.hod.2x10.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X11+: {P.hod.2x11.posScalerCut} [ {(P.hod.2x11.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X12+: {P.hod.2x12.posScalerCut} [ {(P.hod.2x12.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X13+: {P.hod.2x13.posScalerCut} [ {(P.hod.2x13.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X14+: {P.hod.2x14.posScalerCut} [ {(P.hod.2x14.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P2X1-:  {P.hod.2x1.negScalerCut} [ {(P.hod.2x1.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X2-:  {P.hod.2x2.negScalerCut} [ {(P.hod.2x2.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X3-:  {P.hod.2x3.negScalerCut} [ {(P.hod.2x3.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X4-:  {P.hod.2x4.negScalerCut} [ {(P.hod.2x4.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X5-:  {P.hod.2x5.negScalerCut} [ {(P.hod.2x5.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X6-:  {P.hod.2x6.negScalerCut} [ {(P.hod.2x6.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X7-:  {P.hod.2x7.negScalerCut} [ {(P.hod.2x7.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X8-:  {P.hod.2x8.negScalerCut} [ {(P.hod.2x8.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X9-:  {P.hod.2x9.negScalerCut} [ {(P.hod.2x9.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X10-: {P.hod.2x10.negScalerCut} [ {(P.hod.2x10.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X11-: {P.hod.2x11.negScalerCut} [ {(P.hod.2x11.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X12-: {P.hod.2x12.negScalerCut} [ {(P.hod.2x12.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X13-: {P.hod.2x13.negScalerCut} [ {(P.hod.2x13.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2X14-: {P.hod.2x14.negScalerCut} [ {(P.hod.2x14.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P2Y1+:  {P.hod.2y1.posScalerCut} [ {(P.hod.2y1.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y2+:  {P.hod.2y2.posScalerCut} [ {(P.hod.2y2.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y3+:  {P.hod.2y3.posScalerCut} [ {(P.hod.2y3.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] 
+P2Y4+:  {P.hod.2y4.posScalerCut} [ {(P.hod.2y4.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y5+:  {P.hod.2y5.posScalerCut} [ {(P.hod.2y5.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y6+:  {P.hod.2y6.posScalerCut} [ {(P.hod.2y6.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y7+:  {P.hod.2y7.posScalerCut} [ {(P.hod.2y7.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y8+:  {P.hod.2y8.posScalerCut} [ {(P.hod.2y8.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y9+:  {P.hod.2y9.posScalerCut} [ {(P.hod.2y9.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y10+: {P.hod.2y10.posScalerCut} [ {(P.hod.2y10.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y11+: {P.hod.2y11.posScalerCut} [ {(P.hod.2y11.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y12+: {P.hod.2y12.posScalerCut} [ {(P.hod.2y12.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y13+: {P.hod.2y13.posScalerCut} [ {(P.hod.2y13.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y14+: {P.hod.2y14.posScalerCut} [ {(P.hod.2y14.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y15+: {P.hod.2y15.posScalerCut} [ {(P.hod.2y15.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y16+: {P.hod.2y16.posScalerCut} [ {(P.hod.2y16.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y17+: {P.hod.2y17.posScalerCut} [ {(P.hod.2y17.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y18+: {P.hod.2y18.posScalerCut} [ {(P.hod.2y18.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y19+: {P.hod.2y19.posScalerCut} [ {(P.hod.2y19.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y20+: {P.hod.2y20.posScalerCut} [ {(P.hod.2y20.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y21+: {P.hod.2y21.posScalerCut} [ {(P.hod.2y21.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+P2Y1-:  {P.hod.2y1.negScalerCut} [ {(P.hod.2y1.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y2-:  {P.hod.2y2.negScalerCut} [ {(P.hod.2y2.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y3-:  {P.hod.2y3.negScalerCut} [ {(P.hod.2y3.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y4-:  {P.hod.2y4.negScalerCut} [ {(P.hod.2y4.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y5-:  {P.hod.2y5.negScalerCut} [ {(P.hod.2y5.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y6-:  {P.hod.2y6.negScalerCut} [ {(P.hod.2y6.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y7-:  {P.hod.2y7.negScalerCut} [ {(P.hod.2y7.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y8-:  {P.hod.2y8.negScalerCut} [ {(P.hod.2y8.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y9-:  {P.hod.2y9.negScalerCut} [ {(P.hod.2y9.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y10-: {P.hod.2y10.negScalerCut} [ {(P.hod.2y10.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y11-: {P.hod.2y11.negScalerCut} [ {(P.hod.2y11.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y12-: {P.hod.2y12.negScalerCut} [ {(P.hod.2y12.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y13-: {P.hod.2y13.negScalerCut} [ {(P.hod.2y13.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y14-: {P.hod.2y14.negScalerCut} [ {(P.hod.2y14.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y15-: {P.hod.2y15.negScalerCut} [ {(P.hod.2y15.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y16-: {P.hod.2y16.negScalerCut} [ {(P.hod.2y16.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y17-: {P.hod.2y17.negScalerCut} [ {(P.hod.2y17.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y18-: {P.hod.2y18.negScalerCut} [ {(P.hod.2y18.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y19-: {P.hod.2y19.negScalerCut} [ {(P.hod.2y19.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y20-: {P.hod.2y20.negScalerCut} [ {(P.hod.2y20.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+P2Y21-: {P.hod.2y21.negScalerCut} [ {(P.hod.2y21.negScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+
+=:=:=:=:=
+=  HMS  =
+=:=:=:=:=
+Scint   Counts      Rate
+H1X1+:  {H.hod.1x1.posScalerCut} [ {(H.hod.1x1.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X2+:  {H.hod.1x2.posScalerCut} [ {(H.hod.1x2.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X3+:  {H.hod.1x3.posScalerCut} [ {(H.hod.1x3.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X4+:  {H.hod.1x4.posScalerCut} [ {(H.hod.1x4.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X5+:  {H.hod.1x5.posScalerCut} [ {(H.hod.1x5.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X6+:  {H.hod.1x6.posScalerCut} [ {(H.hod.1x6.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X7+:  {H.hod.1x7.posScalerCut} [ {(H.hod.1x7.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X8+:  {H.hod.1x8.posScalerCut} [ {(H.hod.1x8.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X9+:  {H.hod.1x9.posScalerCut} [ {(H.hod.1x9.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X10+: {H.hod.1x10.posScalerCut} [ {(H.hod.1x10.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X11+: {H.hod.1x11.posScalerCut} [ {(H.hod.1x11.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] 
+H1X12+: {H.hod.1x12.posScalerCut} [ {(H.hod.1x12.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X13+: {H.hod.1x13.posScalerCut} [ {(H.hod.1x13.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X14+: {H.hod.1x14.posScalerCut} [ {(H.hod.1x14.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X15+: {H.hod.1x15.posScalerCut} [ {(H.hod.1x15.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X16+: {H.hod.1x16.posScalerCut} [ {(H.hod.1x16.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H1X1-:  {H.hod.1x1.negScalerCut} [ {(H.hod.1x1.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X2-:  {H.hod.1x2.negScalerCut} [ {(H.hod.1x2.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X3-:  {H.hod.1x3.negScalerCut} [ {(H.hod.1x3.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X4-:  {H.hod.1x4.negScalerCut} [ {(H.hod.1x4.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X5-:  {H.hod.1x5.negScalerCut} [ {(H.hod.1x5.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X6-:  {H.hod.1x6.negScalerCut} [ {(H.hod.1x6.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X7-:  {H.hod.1x7.negScalerCut} [ {(H.hod.1x7.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X8-:  {H.hod.1x8.negScalerCut} [ {(H.hod.1x8.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X9-:  {H.hod.1x9.negScalerCut} [ {(H.hod.1x9.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X10-: {H.hod.1x10.negScalerCut} [ {(H.hod.1x10.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X11-: {H.hod.1x11.negScalerCut} [ {(H.hod.1x11.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X12-: {H.hod.1x12.negScalerCut} [ {(H.hod.1x12.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X13-: {H.hod.1x13.negScalerCut} [ {(H.hod.1x13.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X14-: {H.hod.1x14.negScalerCut} [ {(H.hod.1x14.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X15-: {H.hod.1x15.negScalerCut} [ {(H.hod.1x15.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1X16-: {H.hod.1x16.negScalerCut} [ {(H.hod.1x16.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+ 
+H1Y1+:  {H.hod.1y1.posScalerCut} [ {(H.hod.1y1.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y2+:  {H.hod.1y2.posScalerCut} [ {(H.hod.1y2.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y3+:  {H.hod.1y3.posScalerCut} [ {(H.hod.1y3.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y4+:  {H.hod.1y4.posScalerCut} [ {(H.hod.1y4.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y5+:  {H.hod.1y5.posScalerCut} [ {(H.hod.1y5.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y6+:  {H.hod.1y6.posScalerCut} [ {(H.hod.1y6.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y7+:  {H.hod.1y7.posScalerCut} [ {(H.hod.1y7.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y8+:  {H.hod.1y8.posScalerCut} [ {(H.hod.1y8.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y9+:  {H.hod.1y9.posScalerCut} [ {(H.hod.1y9.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y10+: {H.hod.1y10.posScalerCut} [ {(H.hod.1y10.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H1Y1-:  {H.hod.1y1.negScalerCut} [ {(H.hod.1y1.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y2-:  {H.hod.1y2.negScalerCut} [ {(H.hod.1y2.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y3-:  {H.hod.1y3.negScalerCut} [ {(H.hod.1y3.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y4-:  {H.hod.1y4.negScalerCut} [ {(H.hod.1y4.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y5-:  {H.hod.1y5.negScalerCut} [ {(H.hod.1y5.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y6-:  {H.hod.1y6.negScalerCut} [ {(H.hod.1y6.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y7-:  {H.hod.1y7.negScalerCut} [ {(H.hod.1y7.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y8-:  {H.hod.1y8.negScalerCut} [ {(H.hod.1y8.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y9-:  {H.hod.1y9.negScalerCut} [ {(H.hod.1y9.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H1Y10-: {H.hod.1y10.negScalerCut} [ {(H.hod.1y10.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H2X1+:  {H.hod.2x1.posScalerCut} [ {(H.hod.2x1.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X2+:  {H.hod.2x2.posScalerCut} [ {(H.hod.2x2.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X3+:  {H.hod.2x3.posScalerCut} [ {(H.hod.2x3.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X4+:  {H.hod.2x4.posScalerCut} [ {(H.hod.2x4.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X5+:  {H.hod.2x5.posScalerCut} [ {(H.hod.2x5.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X6+:  {H.hod.2x6.posScalerCut} [ {(H.hod.2x6.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X7+:  {H.hod.2x7.posScalerCut} [ {(H.hod.2x7.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X8+:  {H.hod.2x8.posScalerCut} [ {(H.hod.2x8.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X9+:  {H.hod.2x9.posScalerCut} [ {(H.hod.2x9.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X10+: {H.hod.2x10.posScalerCut} [ {(H.hod.2x10.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X11+: {H.hod.2x11.posScalerCut} [ {(H.hod.2x11.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X12+: {H.hod.2x12.posScalerCut} [ {(H.hod.2x12.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X13+: {H.hod.2x13.posScalerCut} [ {(H.hod.2x13.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X14+: {H.hod.2x14.posScalerCut} [ {(H.hod.2x14.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X15+: {H.hod.2x15.posScalerCut} [ {(H.hod.2x15.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X16+: {H.hod.2x16.posScalerCut} [ {(H.hod.2x16.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H2X1-:  {H.hod.2x1.negScalerCut} [ {(H.hod.2x1.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X2-:  {H.hod.2x2.negScalerCut} [ {(H.hod.2x2.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X3-:  {H.hod.2x3.negScalerCut} [ {(H.hod.2x3.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X4-:  {H.hod.2x4.negScalerCut} [ {(H.hod.2x4.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X5-:  {H.hod.2x5.negScalerCut} [ {(H.hod.2x5.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X6-:  {H.hod.2x6.negScalerCut} [ {(H.hod.2x6.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X7-:  {H.hod.2x7.negScalerCut} [ {(H.hod.2x7.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X8-:  {H.hod.2x8.negScalerCut} [ {(H.hod.2x8.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X9-:  {H.hod.2x9.negScalerCut} [ {(H.hod.2x9.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X10-: {H.hod.2x10.negScalerCut} [ {(H.hod.2x10.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X11-: {H.hod.2x11.negScalerCut} [ {(H.hod.2x11.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X12-: {H.hod.2x12.negScalerCut} [ {(H.hod.2x12.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X13-: {H.hod.2x13.negScalerCut} [ {(H.hod.2x13.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X14-: {H.hod.2x14.negScalerCut} [ {(H.hod.2x14.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X15-: {H.hod.2x15.negScalerCut} [ {(H.hod.2x15.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2X16-: {H.hod.2x16.negScalerCut} [ {(H.hod.2x16.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H2Y1+:  {H.hod.2y1.posScalerCut} [ {(H.hod.2y1.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y2+:  {H.hod.2y2.posScalerCut} [ {(H.hod.2y2.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y3+:  {H.hod.2y3.posScalerCut} [ {(H.hod.2y3.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] 
+H2Y4+:  {H.hod.2y4.posScalerCut} [ {(H.hod.2y4.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y5+:  {H.hod.2y5.posScalerCut} [ {(H.hod.2y5.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y6+:  {H.hod.2y6.posScalerCut} [ {(H.hod.2y6.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y7+:  {H.hod.2y7.posScalerCut} [ {(H.hod.2y7.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y8+:  {H.hod.2y8.posScalerCut} [ {(H.hod.2y8.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y9+:  {H.hod.2y9.posScalerCut} [ {(H.hod.2y9.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y10+: {H.hod.2y10.posScalerCut} [ {(H.hod.2y10.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+
+H2Y1-:  {H.hod.2y1.negScalerCut} [ {(H.hod.2y1.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y2-:  {H.hod.2y2.negScalerCut} [ {(H.hod.2y2.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y3-:  {H.hod.2y3.negScalerCut} [ {(H.hod.2y3.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y4-:  {H.hod.2y4.negScalerCut} [ {(H.hod.2y4.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y5-:  {H.hod.2y5.negScalerCut} [ {(H.hod.2y5.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y6-:  {H.hod.2y6.negScalerCut} [ {(H.hod.2y6.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y7-:  {H.hod.2y7.negScalerCut} [ {(H.hod.2y7.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y8-:  {H.hod.2y8.negScalerCut} [ {(H.hod.2y8.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y9-:  {H.hod.2y9.negScalerCut} [ {(H.hod.2y9.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+H2Y10-: {H.hod.2y10.negScalerCut} [ {(H.hod.2y10.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
