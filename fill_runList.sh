@@ -39,20 +39,23 @@ elif [[ "${HOSTNAME}" = *"deuteron"* ]]; then
 fi
 
 # Run number and run type should be read in by the "master" script, automating the target would be more difficult, master script prompts for this
-RUNNUMBER=$1
-RUNTYPE=$2  #"sample", "prod", "lumi", "tgt_boil", "p_abs"
-#KINTYPE=$3  $ "heep", "MF", "SRC"  (these are for specific cuts to be applied)
-#TARGET=$3
+RUN_NUM=$1
+EVT_NUM=$2
+RUNTYPE=$3  # "sample", "prod", "lumi", "tgt_boil", "p_abs"
+KINTYPE=$4  # "heep_sing", "heep_coin", "MF", "SRC"  (these are for specific cuts to be applied)
+TARGET=$5
+
+# cafe experiment runlist filename
 RUNLIST="${REPLAYPATH}/UTILS_CAFE/runlist_cafe_2022.csv"
 
 # cafe standard kinematics file (to get beam, momenta, target info)
 KINFILE="${REPLAYPATH}/DBASE/COIN/standard.kinematics"
 
-# Get cafe report file based upon run type
-REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUNNUMBER}_-1.txt" 
+# Get generic report file 
+REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUN_NUM}_-1.txt" 
 
 # Get information available in standard.kinematics, execute a python script to do this for us
-KINFILE_INFO=`python3 $REPLAYPATH/UTILS_CAFE/online_scripts/kinfile.py ${KINFILE} ${RUNNUMBER}` # The output of this python script is just a comma separated string
+KINFILE_INFO=`python3 $REPLAYPATH/UTILS_CAFE/online_scripts/kinfile.py ${KINFILE} ${RUN_NUM}` # The output of this python script is just a comma separated string
 
 # Split the string we get to individual variables, easier for printing and use later
 EBeam=`echo ${KINFILE_INFO}     | cut -d ','  -f1`
@@ -103,7 +106,7 @@ fi
 echo "========================================================================="
 echo "These values autofill into the run list ..."
 echo
-echo "Run number: $RUNNUMBER"
+echo "Run number: $RUN_NUM"
 echo "Run type: $RUNTYPE"
 echo "Target: $TARGET"
 echo "Beam energy: $EBeam"
@@ -155,7 +158,7 @@ Comment=$(echo "$Comment" | tr "," " ") # Remove any commas from the comment lin
 Comment=$(echo "$Comment" | tr ";" " ") # Remove any semicolons from the comment line as well, grammar get out!
 Comment=$(echo "$Comment" | tr "\t" " ") # Tabs can go to hell too
 # Need to fix widths of entries with blank space at some point, see the test file for widths (based on headers)
-RUNLIST_INFO="${RUNNUMBER},${RUNTYPE},${TARGET},${EBeam},${SHMS_P},${SHMS_Angle},${HMS_P},${HMS_Angle},${Current},${PS1},${PS4},${PS5},${HMS_Rate},${SHMS_Rate},${COIN_Rate},${Charge},${Raw_HMS},${Raw_SHMS},${Raw_COIN},${EDTM},${Tracking},${Comment}"
+RUNLIST_INFO="${RUN_NUM},${RUNTYPE},${TARGET},${EBeam},${SHMS_P},${SHMS_Angle},${HMS_P},${HMS_Angle},${Current},${PS1},${PS4},${PS5},${HMS_Rate},${SHMS_Rate},${COIN_Rate},${Charge},${Raw_HMS},${Raw_SHMS},${Raw_COIN},${EDTM},${Tracking},${Comment}"
 
 # Check if there is already an entry for this run number, if there is, ask if you want to overwrite it, if not, print it to the file
 DuplicateLines=() # Array to store line numbers of duplicated entries
@@ -163,7 +166,7 @@ LineNum=1 # Counter, starts at 1 since we skip the header
 # Read run list, find any lines which already include an entry for this run number
 while IFS='' read -r line || [[ -n "$line" ]]; do
     LineNum=$(($LineNum + 1 ))
-    if [[ `echo ${line} | cut -d ','  -f1` == ${RUNNUMBER} ]]; then
+    if [[ `echo ${line} | cut -d ','  -f1` == ${RUN_NUM} ]]; then
 	DuplicateLines[${#DuplicateLines[@]}]="${LineNum}"
     fi
 done <  <(tail -n +2 ${RUNLIST}) # Ignores header line by using tail here
@@ -171,9 +174,9 @@ done <  <(tail -n +2 ${RUNLIST}) # Ignores header line by using tail here
 if [[ `echo "${#DuplicateLines[@]}"` != 0 ]]; then # If the array is not empty, check some stuff and check with the user if they want to remove duplicate entries
     # Ask if the user wants to remove duplicate lines, in a grammatically correct manner :)
     if [[ `echo "${#DuplicateLines[@]}"` == 1 ]]; then 
-	read -p "$(echo "${#DuplicateLines[@]}") entry already found in the runlist for run ${RUNNUMBER}, delete dupliacte entry and print new entry to file? <Y/N> " prompt
+	read -p "$(echo "${#DuplicateLines[@]}") entry already found in the runlist for run ${RUN_NUM}, delete dupliacte entry and print new entry to file? <Y/N> " prompt
     elif [[ `echo "${#DuplicateLines[@]}"` -gt 1 ]]; then
-	read -p "$(echo "${#DuplicateLines[@]}") entries already found in the runlist for run ${RUNNUMBER}, delete dupliacte entries and print new entry to file? <Y/N> " prompt
+	read -p "$(echo "${#DuplicateLines[@]}") entries already found in the runlist for run ${RUN_NUM}, delete dupliacte entries and print new entry to file? <Y/N> " prompt
     fi
     if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
 	DeletedLines=0 # Counter to check how many lines we have deleted already

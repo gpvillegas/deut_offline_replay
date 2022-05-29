@@ -21,7 +21,7 @@ public:
   
   //MAIN ANALYSIS FUNCTIONS
   void run_data_analysis();
-  //void run_simc_analysis();
+  void run_bcm_calib(); // mainly for generating cafe output file (for bcm calib runs)
   
   //Function prototypes
   void ReadInputFile();
@@ -110,7 +110,8 @@ protected:
 
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )
   TString tgt_type;
-
+  Double_t tgt_mass;
+  
   Double_t beam_energy;
   Double_t hms_part_mass;
   Double_t hms_p;

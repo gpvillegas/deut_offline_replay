@@ -837,46 +837,57 @@ void baseAnalyzer::ReadReport()
   
   if(abs(temp_var-MH_amu)<=max_diff){
     tgt_type = "LH2";
+    tgt_mass = MH_amu;
   }
   
   else if(abs(temp_var-MD_amu)<=max_diff){
     tgt_type = "LD2";
+    tgt_mass = MD_amu;
   }
   
   else if(abs(temp_var-MBe9_amu)<=max_diff){
     tgt_type = "Be9";
+    tgt_mass = MBe9_amu;
   }
   
   else if(abs(temp_var-MB10_amu)<=max_diff){
     tgt_type = "B10";
+    tgt_mass = MB10_amu;
   }
   
   else if(abs(temp_var-MB11_amu)<=max_diff){
     tgt_type = "B11";
+    tgt_mass = MB11_amu;
   }
  
   else if(abs(temp_var-MC12_amu)<=max_diff){
     tgt_type = "C12";
+    tgt_mass = MC12_amu;
   }
   
   else if(abs(temp_var-MAl27_amu)<=max_diff){ 
     tgt_type = "Al27";
+    tgt_mass = MAl27_amu;
   }
 
   else if(abs(temp_var-MCa40_amu)<=max_diff){
     tgt_type = "Ca40";
+    tgt_mass = MCa40_amu;
   }
 
   else if(abs(temp_var-MCa48_amu)<=max_diff){
     tgt_type = "Ca48";
+    tgt_mass = MCa48_amu;
   }
 
   else if(abs(temp_var-MFe54_amu)<=max_diff){
     tgt_type = "Fe54";
+    tgt_mass = MFe54_amu;
   }
 
   else if(abs(temp_var-MTi48_amu)<=max_diff){
     tgt_type = "Ti48";
+    tgt_mass = MTi48_amu;
   }
   
   else{
@@ -2142,6 +2153,8 @@ void baseAnalyzer::EventLoop()
 	  
 	  tree->GetEntry(ientry);
 
+	  
+  
 	  //cout << "ientry = " << ientry << endl;
 
 	  //--------------CALCULATED KINEMATICS VARIABLES (IF THEY ARE NOT ALREADY DONE IN HCANA)-----------
@@ -2425,7 +2438,13 @@ void baseAnalyzer::EventLoop()
 
 	  // user pre-determined analysis kinematics cuts
 
-	  if(analysis_cut=="heep_sing"){
+	  if(analysis_cut=="tgt_boil"){ // will need to remember to put specific cuts around current of ~ 10 uA and ~70 uA
+	    c_baseCuts =  e_delta>=-10. && e_delta<=22. && c_pidCuts_shms;
+	  }
+	  else if(analysis_cut=="optics"){  // will need to call Holly's script that generates optics plots (from raw ROOTfile)
+	    c_baseCuts =  c_pidCuts_shms;
+	  }
+	  else if(analysis_cut=="heep_singles"){
 	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts;
 	  }
 	  else if(analysis_cut=="heep_coin"){
@@ -2473,6 +2492,7 @@ void baseAnalyzer::EventLoop()
 	      if(c_trig4 && c_noedtm) { total_trig4_accp_bcm_cut++; }
 	      if(c_trig5 && c_noedtm) { total_trig5_accp_bcm_cut++; }
 	      if(c_trig6 && c_noedtm) { total_trig6_accp_bcm_cut++; }
+
 	      
 	      //REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS
 	      if(c_noedtm)
@@ -2489,7 +2509,7 @@ void baseAnalyzer::EventLoop()
 		  
 		  //----------------------Fill DATA Histograms-----------------------
 
-
+		  
 		  //2D Kin plots to help clean out online data
 		  if(c_accpCuts && c_pidCuts){
 		    H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
@@ -3211,13 +3231,16 @@ void baseAnalyzer::WriteReport()
     out_file << "# General Run Configuration                              " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "                                     " << endl;
-    out_file << Form("run_number: %d                     ", run) << endl;  
-    out_file << Form("daq_Mode: %s                     ", daq_mode.Data()) << endl;
+    out_file << Form("run_number: %d                     ", run) << endl;
+    out_file << Form("run_type: %s                     ", analysis_cut.Data()) << endl;
+    out_file << "" << endl;
+    out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
     out_file << Form("daq_run_length [sec]: %.3f       ", total_time_bcm_cut) << endl;
     out_file << Form("events_replayed: %lld              ", nentries ) << endl;
     out_file << "" << endl;
     out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
-    out_file << Form("target: %s                       ", tgt_type.Data() ) << endl;      
+    out_file << Form("target: %s                       ", tgt_type.Data() ) << endl;
+    out_file << Form("target_amu: %.6f                 ", tgt_mass        ) << endl;      
     out_file << "" << endl;      
     out_file << Form("hms_particle_mass [GeV]: %.6f          ",  hms_part_mass ) << endl;          
     out_file << Form("hms_momentum [GeV/c]: %.4f             ",  hms_p ) << endl;
@@ -3232,7 +3255,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
 
-    if(analysis_cut=="heep_sing")
+    if(analysis_cut=="heep_singles")
       {
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "# CaFe H(e,e')p  Singles Counts    " << endl;
@@ -3283,6 +3306,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
       }
 
+    if(analysis_cut!="bcm_calib"){
     out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# Drift Chambers Tracking Efficiency  " << endl;
@@ -3306,51 +3330,51 @@ void baseAnalyzer::WriteReport()
     out_file << Form("T1_scaler:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
     out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
     if(Ps1_factor > -1) {
-      out_file << Form("T1_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
-      out_file << Form("T1_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig1,                   tLT_trig1_err_Bi) << endl;	
+      out_file << Form("T1_cpuLT:    %.3f +- %.3f ",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
+      out_file << Form("T1_tLT:      %.3f +- %.3f ",  tLT_trig1,                   tLT_trig1_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps2_factor: %.1f", Ps2_factor) << endl;
     out_file << Form("T2_scaler:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
     out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
     if(Ps2_factor > -1) {
-      out_file << Form("T2_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
-      out_file << Form("T2_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig2,                   tLT_trig2_err_Bi) << endl;	
+      out_file << Form("T2_cpuLT:    %.3f +- %.3f ",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
+      out_file << Form("T2_tLT:      %.3f +- %.3f ",  tLT_trig2,                   tLT_trig2_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps3_factor: %.1f", Ps3_factor) << endl;
     out_file << Form("T3_scaler:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
     out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;
     if(Ps3_factor > -1) {
-      out_file << Form("T3_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
-      out_file << Form("T3_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig3,                   tLT_trig3_err_Bi) << endl;	
+      out_file << Form("T3_cpuLT:    %.3f +- %.3f ",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
+      out_file << Form("T3_tLT:      %.3f +- %.3f ",  tLT_trig3,                   tLT_trig3_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps4_factor: %.1f", Ps4_factor) << endl;
     out_file << Form("T4_scaler:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
     out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut) << endl;
     if(Ps4_factor > -1) {
-      out_file << Form("T4_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
-      out_file << Form("T4_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig4,                   tLT_trig4_err_Bi) << endl;	
+      out_file << Form("T4_cpuLT:    %.3f +- %.3f ",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
+      out_file << Form("T4_tLT:      %.3f +- %.3f ",  tLT_trig4,                   tLT_trig4_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps5_factor: %.1f", Ps5_factor) << endl;
     out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
     out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut) << endl;
     if(Ps5_factor > -1) {
-      out_file << Form("T5_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
-      out_file << Form("T5_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig5,                   tLT_trig5_err_Bi) << endl;	
+      out_file << Form("T5_cpuLT:    %.3f +- %.3f ",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
+      out_file << Form("T5_tLT:      %.3f +- %.3f ",  tLT_trig5,                   tLT_trig5_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
     out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
     out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
     out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut) << endl;
     if(Ps6_factor > -1) {
-      out_file << Form("T6_cpuLT:    %.3f +- %.3f [ %% ]",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
-      out_file << Form("T6_tLT:      %.3f +- %.3f [ %% ]",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
+      out_file << Form("T6_cpuLT:    %.3f +- %.3f ",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
+      out_file << Form("T6_tLT:      %.3f +- %.3f ",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-
+    }
     
     
     // CLOSE files
@@ -3654,8 +3678,6 @@ void baseAnalyzer::run_data_analysis()
     to be added.
 
   */
-
- 
   //------------------
   ReadInputFile();
   ReadReport();
@@ -3678,5 +3700,24 @@ void baseAnalyzer::run_data_analysis()
   MakePlots();
   
   //------------------
+
+  
+}
+
+//--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
+void baseAnalyzer::run_bcm_calib()
+{
+ 
+  //------------------
+  ReadInputFile();
+  ReadReport();
+  
+  ReadScalerTree();   
+  ScalerEventLoop();       
+
+  WriteReport();
+
+  //------------------
+
   
 }

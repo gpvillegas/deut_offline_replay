@@ -30,9 +30,13 @@ void main_analysis(int     run           = 3289,   int evtNum           = 100000
 
   //----initialize baseAnalyzer (base class)----
   baseAnalyzer ba(run, evtNum, daq_mode.Data(), e_arm.Data(), analyze_data, analysis_cut.Data(), analysis_type.Data(), hel_flag, bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
-  ba.run_data_analysis();
 
-
+  if(analysis_cut=="bcm_calib"){
+    ba.run_bcm_analysis();
+  }
+  else{
+    ba.run_data_analysis();
+  }
 
 
   /*
