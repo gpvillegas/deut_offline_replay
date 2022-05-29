@@ -3714,7 +3714,7 @@ void baseAnalyzer::run_cafe_scalers()
   
   ReadScalerTree();   
   ScalerEventLoop();       
-
+  CalcEff();
   WriteReport();
 
   //------------------

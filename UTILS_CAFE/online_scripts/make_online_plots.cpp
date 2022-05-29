@@ -20,7 +20,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF="CAFE_REPORT/PDF/cafe_output_%d.pdf";
+  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%d.pdf", run);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -1253,7 +1253,8 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    // Complete writing out multi-page .pdf
    c1->Print(Form("cafe_output_%d.pdf]", run));
    
-   gSystem->Exec(Form("evince cafe_output_%d.pdf", run));
+   gSystem->Exec(Form("mv cafe_output_%d.pdf %s", run, outPDF.Data()));
+   gSystem->Exec(Form("evince %s", outPDF.Data()));
    //gSystem->Exec(Form("open cafe_output_%d.pdf", run));
       
 }

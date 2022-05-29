@@ -1,16 +1,19 @@
-# Run 3305 Data Analysis Summary
+# Run 3291 Data Analysis Summary
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # General Run Configuration                              
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-run_number: 3305                     
-daq_Mode: coin                     
-daq_run_length [sec]: 2997.953       
-events_replayed: 21682              
+run_number: 3291                     
+run_type: SRC                     
+
+daq_mode: coin                     
+daq_run_length [sec]: 2960.677       
+events_replayed: 18022              
 
 beam_energy [GeV]: 10.6000          
 target: LD2                       
+target_amu: 2.014102                 
 
 hms_particle_mass [GeV]: 0.938272          
 hms_momentum [GeV/c]: 2.1940             
@@ -21,25 +24,25 @@ shms_momentum [GeV/c]: 8.5342
 shms_angle [deg]: 12.1940                  
 
 BCM4A_Current_Threshold [uA]: > 5.00 
-BCM4A_Average_Current [uA]: 50.595 
-BCM4A_Charge [mC]: 151.681 
+BCM4A_Average_Current [uA]: 49.734 
+BCM4A_Charge [mC]: 147.248 
 
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # CaFe A(e,e')p Short-Range Correlated (SRC) Counts  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-SRC_total    : 36.000
-SRC_real     : 36.000
-SRC_random   : 0.000
+SRC_total    : 52.000
+SRC_real     : 51.400
+SRC_random   : 0.600
                                      
-SRC_real_rate [Hz]  : 0.012
+SRC_real_rate [Hz]  : 0.017
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # Drift Chambers Tracking Efficiency  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-hms_track_eff:  0.937 +- 0.005
-shms_track_eff: 0.970 +- 0.005
+hms_track_eff:  0.942 +- 0.005
+shms_track_eff: 0.971 +- 0.005
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:
 # DAQ Trigger Information  
@@ -49,32 +52,32 @@ shms_track_eff: 0.970 +- 0.005
 #       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
 #       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
                                      
-edtm_scaler   :  8993.000  
-edtm_accepted :  8379.000  
+edtm_scaler   :  8881.000  
+edtm_accepted :  8246.000  
                                      
 Ps1_factor: -1.0
-T1_scaler:  421556319.000 [ 140.615 kHz ] 
-T1_accepted: 8121.000 [ 0.003 kHz ]  
+T1_scaler:  409366225.000 [ 138.268 kHz ] 
+T1_accepted: 7758.000 [ 0.003 kHz ]  
                                      
 Ps2_factor: -1.0
-T2_scaler:  156103187.000 [ 52.070 kHz ] 
-T2_accepted: 4170.000 [ 0.001 kHz ]  
+T2_scaler:  150397748.000 [ 50.798 kHz ] 
+T2_accepted: 3869.000 [ 0.001 kHz ]  
                                      
 Ps3_factor: -1.0
-T3_scaler:  101903546.000 [ 33.991 kHz ] 
-T3_accepted: 3084.000 [ 0.001 kHz ]  
+T3_scaler:  98301941.000 [ 33.203 kHz ] 
+T3_accepted: 2919.000 [ 0.001 kHz ]  
                                      
 Ps4_factor: -1.0
-T4_scaler:  442945.000 [ 0.148 kHz ] 
-T4_accepted: 8121.000 [ 0.003 kHz ]  
+T4_scaler:  431311.000 [ 0.146 kHz ] 
+T4_accepted: 7758.000 [ 0.003 kHz ]  
                                      
 Ps5_factor: -1.0
-T5_scaler:  -8993.000 [ -0.003 kHz ] 
+T5_scaler:  -8881.000 [ -0.003 kHz ] 
 T5_accepted: 0.000 [ 0.000 kHz ]  
                                      
 Ps6_factor: 1.0
-T6_scaler:  7535.000 [ 0.003 kHz ] 
-T6_accepted: 8121.000 [ 0.003 kHz ]  
-T6_cpuLT:    1.078 +- -nan [ % ]
-T6_tLT:      0.932 +- 0.003 [ % ]
+T6_scaler:  7147.000 [ 0.002 kHz ] 
+T6_accepted: 7758.000 [ 0.003 kHz ]  
+T6_cpuLT:    1.085 +- -nan 
+T6_tLT:      0.928 +- 0.003 
                                      

@@ -22,39 +22,61 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "No <run_number> and/or <kin_type> was specified. "
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
     echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "
-    echo "<kin_type> = \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
+    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
+    exit 0    
+    # fool-proof, make sure only options: bcm_calib, tgt_boil, optics, heep_singles, heep_coin, MF, SRC         
+elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "tgt_boil" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
+    echo ""                                                                                                                                                                                
+else
+    echo " Invalid <kin_type> = \"$kin_type\" was specified. "
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
+    echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "   
+    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" " 
     exit 0
 fi
 
 if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
-    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <run_type> <run_number>"
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number>"
     evtNum=100000
     echo "evtNum=$evtNum"
     
 elif [ "${ana_type}" = "prod" ]; then
     echo "replaying all events."
-    echo "e.g., ./run_cafe_${a}.sh <run_number> <run_type> <run_number>"
+    echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
     evtNum=-1
-    echo "evtNum=$evtNum"   
 fi
 
+# fool-proof, make sure only options: bcm_calib, tgt_boil, optics, heep_singles, heep_coin, MF, SRC
+#if [ "$kin_type" != "bcm_calib" ]; then 
+#    exit 0
+#fi
+
+#if [ "$2" != "bcm_calib" ] ||  [ "$2" != "tgt_boil" ] || [ "$2" != "optics" ] || \
+#    [ "$2" != "heep_singles" ] ||  [ "$2" != "heep_coin" ] || [ "$2" != "MF" ] || [ "$2" != "SRC" ]; then
+#if [[ -z "$2" || ! "$kin_type" =~ bcm_calib|tgt_boil|optics|heep_singles|heep_coin|MF|SRC ]]; then
+#    echo "invalid <kin_type> = \"$2\"  !"
+#    echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
+#    echo "<kin_type> = \"bcm_calib\", \"tgt_boil\", \"optics\", \"heep_singles\", \"heep_
 
 daq_mode="coin"
 e_arm="SHMS"
 analyze_data=1   # 1: true (analyze data), 0: false (analyze simc)
 hel_flag=0
 bcm_type="BCM4A"
-bcm_thrs=5
+bcm_thrs=5           # beam current threhsold cut > bcm_thrs [uA]
 trig_type="trig6"
 combine_runs=0
 
-# scripts
-if[ "${kin_type}" = "bcm_calib" ]; then
+# hcana scripts
+if [ "${kin_type}" = "bcm_calib" ]; then
     replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe_scalers.C"
+    bcm_thrs=-1      # don't apply any bcm cut 
 else
     replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C" 
+fi
 
+# cafe script
 prod_script="UTILS_CAFE/main_analysis.cpp"
 
 # command to run scripts

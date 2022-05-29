@@ -1,0 +1,29 @@
+# Run 3243 Data Analysis Summary
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# General Run Configuration                              
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+run_number: 3243                     
+run_type: bcm_calib                     
+
+daq_mode: coin                     
+daq_run_length [sec]: 35.218       
+events_replayed: 0              
+
+beam_energy [GeV]: 10.6000          
+target: LH2                       
+target_amu: 1.007940                 
+
+hms_particle_mass [GeV]: 0.938272          
+hms_momentum [GeV/c]: 2.9381             
+hms_angle [deg]: -37.2900                  
+
+shms_particle_mass [GeV]: 0.000511          
+shms_momentum [GeV/c]: 8.5342             
+shms_angle [deg]: 12.2000                  
+
+BCM4A_Current_Threshold [uA]: > -1.00 
+BCM4A_Average_Current [uA]: 34.630 
+BCM4A_Charge [mC]: 1.220 
+

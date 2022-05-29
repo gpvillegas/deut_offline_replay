@@ -2,9 +2,9 @@
 #include "baseAnalyzer.cpp"
 #include <iostream>
 
-void main_analysis(int     run           = 3289,   int evtNum           = 100000,
+void main_analysis(int     run           = 3243,   int evtNum           = -1,
 		   TString daq_mode      = "coin", TString e_arm        = "SHMS",
-		   Bool_t analyze_data = 1, TString analysis_cut = "MF", TString analysis_type= "sample",
+		   Bool_t analyze_data = 1, TString analysis_cut = "bcm_calib", TString analysis_type= "prod",
 		   Bool_t  hel_flag     = 0, TString bcm_type  = "BCM4A",  double bcm_thrs        = 5,
 		   TString trig_type = "trig6",  Bool_t combine_runs    = 0		   
 		   )
@@ -32,7 +32,7 @@ void main_analysis(int     run           = 3289,   int evtNum           = 100000
   baseAnalyzer ba(run, evtNum, daq_mode.Data(), e_arm.Data(), analyze_data, analysis_cut.Data(), analysis_type.Data(), hel_flag, bcm_type.Data(), bcm_thrs, trig_type.Data(), combine_runs);
 
   if(analysis_cut=="bcm_calib"){
-    ba.run_bcm_analysis();
+    ba.run_cafe_scalers();
   }
   else{
     ba.run_data_analysis();
