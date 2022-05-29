@@ -50,10 +50,12 @@ trig_type="trig6"
 combine_runs=0
 
 # scripts
-replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C"
+if[ "${kin_type}" = "bcm_calib" ]; then
+    replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe_scalers.C"
+else
+    replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C" 
 
 prod_script="UTILS_CAFE/main_analysis.cpp"
-
 
 # command to run scripts
 runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""

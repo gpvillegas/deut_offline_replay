@@ -3705,7 +3705,7 @@ void baseAnalyzer::run_data_analysis()
 }
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
-void baseAnalyzer::run_bcm_calib()
+void baseAnalyzer::run_cafe_scalers()
 {
  
   //------------------

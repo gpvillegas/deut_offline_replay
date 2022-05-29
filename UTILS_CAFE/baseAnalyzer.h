@@ -21,7 +21,7 @@ public:
   
   //MAIN ANALYSIS FUNCTIONS
   void run_data_analysis();
-  void run_bcm_calib(); // mainly for generating cafe output file (for bcm calib runs)
+  void run_cafe_scalers(); // mainly for generating cafe output file (for bcm calib runs)
   
   //Function prototypes
   void ReadInputFile();
