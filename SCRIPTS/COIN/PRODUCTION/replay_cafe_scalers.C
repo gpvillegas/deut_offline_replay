@@ -5,7 +5,7 @@ using namespace std;
 using namespace std::chrono;
 
 
-void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
+void replay_cafe_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   
   // Get RunNumber and MaxEvent if not provided.
