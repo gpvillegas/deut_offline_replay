@@ -12,13 +12,19 @@ import sys, math, os, subprocess
 
 sys.path.insert(0, 'python/')
 
-if len(sys.argv)-1!=1:
-    print("!!!!! ERROR !!!!!\n Expected 1 argument\n Usage is with - ReportFilePath \n!!!!! ERROR !!!!!")
+if len(sys.argv)-1!=2:
+    print("Invalid number of arguments. \n 
+    e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n
+    <entry_type> = gen_run_info, trig_info, eff_info, good_evt_info" )
     sys.exit(1)
 
-ReportFilePath = sys.argv[1]
 
-ReportFile = open(ReportFilePath)
+# user input
+cafe_report_path = sys.argv[1]
+entry_type = sys.argv[2]  # <entry_type> = "gen_run", "trig_info", "eff_info", "good_evt_info"
+
+cafe_report = open(cafe_report_path)
+
 
 # general run info
 run_num=0
@@ -35,6 +41,7 @@ shms_angle=0
 bcm_thrs=0
 bcm_current=0
 bcm_charge=0
+
 # good events counts
 heep_singles      =-1
 heep_singles_rate =-1
@@ -44,12 +51,13 @@ MF_real           =-1
 MF_real_rate      =-1
 SRC_real          =-1
 SRC_real_rate     =-1
+
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
-PS1=0    # SHMS 3/4
-PS2=0    # SHMS EL-REAL
-PS3=0    # HMS 3/4
-PS5=0    # SHMS EL-REAL x HMS 3/4 ( this needs to be implemented after pionLT run ends in August 2022 )
-PS6=0    # HMS 3/4 x SHMS 3/4
+PS1=-1    # SHMS 3/4
+PS2=-1    # SHMS EL-REAL
+PS3=-1    # HMS 3/4
+PS5=-1    # SHMS EL-REAL x HMS 3/4 ( this needs to be implemented after pionLT run ends in August 2022 )
+PS6=-1    # HMS 3/4 x SHMS 3/4
 
 T1_scaler=-1
 T2_scaler=-1
@@ -96,7 +104,7 @@ T6_cpuLT=-1
 T6_tLT=-1
 
 TestVar = 0 # Counter to check the right number of variables have been set, 
-for line in ReportFile:
+for line in cafe_report:
     if (line[0]=="#") continue;
 
     # general run information
@@ -345,9 +353,33 @@ for line in ReportFile:
         T6_tLT = float(line.split(":")[1].split("+")[0].strip())
         print(T6_tLT)
 
+# general run entry list
+gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
+               (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name, tgt_mass, hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
 
-RunListEntry = "%i       %s        %.3f     %i       %.4f     %s        %.6f                                                                                 " % \
-               (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name                                          )
+# trigger info
+trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
+            (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
-print(RunListEntry)
-ReportFile.close()
+# live time and trk_eff info
+efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f        " % \
+           (T1_tLT, T2_tLT, T3_tLT, T5_tLT, T6_tLT, hms_trk_eff, shms_trk_eff )
+
+# good event count info
+good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
+                (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
+
+if(entry_type == "gen_run_info"):
+    print(gen_run_info)
+elif(entry_type == "trig_info"):
+    print(trig_info)
+elif(entry_type == "eff_info"):
+    print(efficiency_info)
+elif(entry_type == "good_evt_info"):
+    print(good_evt_info)
+else:
+    print("Invalid <entry_type> \n 
+    e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n
+    <entry_type> = gen_run_info, trig_info, eff_info, good_evt_info")
+
+cafe_report.close()
