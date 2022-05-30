@@ -124,14 +124,14 @@ fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
   echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
   echo ""
   echo "Filling CaFe RunList for replayed run ${runNum}:"
-  echo " -> SCRIPT:  ${prod_script}"
+  echo " -> SCRIPT:  ${fill_list_script}"
   echo " -> RUN:     ${runNum}"
-  echo " -> COMMAND: ${runCafe}"
+  echo " -> COMMAND: ${fill_RunList}"
   echo ""
   echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
 
   sleep 2
-  eval ${runCafe} 
+  eval ${fill_RunList} 
 
 
 }

@@ -3650,7 +3650,7 @@ void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
 
-  string cmd0 = Form("emacs -d DISPLAY %s", output_ReportFileName.Data());
+  string cmd0 = Form("emacs -nw %s", output_ReportFileName.Data());
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
   

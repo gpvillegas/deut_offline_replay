@@ -5,44 +5,44 @@
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
 run_number: 3288                     
-run_type: heep_coin                     
+kin_type: heep_coin                     
 
 daq_mode: coin                     
-daq_run_length [sec]: 185.938       
-events_replayed: 20000              
+daq_run_length [sec]: 91.775       
+events_replayed: 10000              
 
 beam_energy [GeV]: 10.6005          
-target: LH2                       
+target_name: LH2                       
 target_amu: 1.007940                 
 
-hms_particle_mass [GeV]: 0.938272          
-hms_momentum [GeV/c]: 2.9355             
-hms_angle [deg]: -37.3380                  
+hms_h_particle_mass [GeV]: 0.938272          
+hms_h_momentum [GeV/c]: 2.9355             
+hms_h_angle [deg]: -37.3380                  
 
-shms_particle_mass [GeV]: 0.000511          
-shms_momentum [GeV/c]: 8.5342             
-shms_angle [deg]: 12.1940                  
+shms_e_particle_mass [GeV]: 0.000511          
+shms_e_momentum [GeV/c]: 8.5342             
+shms_e_angle [deg]: 12.1940                  
 
 BCM4A_Current_Threshold [uA]: > 5.00 
-BCM4A_Average_Current [uA]: 54.852 
-BCM4A_Charge [mC]: 10.199 
+BCM4A_Average_Current [uA]: 54.883 
+BCM4A_Charge [mC]: 5.037 
 
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # CaFe H(e,e')p Coincidence Counts  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-heep_total    : 9423.000
-heep_real     : 9395.400
-heep_random   : 27.600
+heep_total_counts    : 4738.000
+heep_real_counts     : 4726.600
+heep_random_counts   : 11.400
                                      
-heep_real_rate [Hz]  : 50.530
+heep_real_rate [Hz]  : 51.502
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # Drift Chambers Tracking Efficiency  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-hms_track_eff:  0.969 +- 0.001
-shms_track_eff: 0.973 +- 0.001
+hms_had_track_eff:  0.970 +- 0.002
+shms_elec_track_eff: 0.974 +- 0.002
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:
 # DAQ Trigger Information  
@@ -52,32 +52,32 @@ shms_track_eff: 0.973 +- 0.001
 #       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
 #       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
                                      
-edtm_scaler   :  558.000  
-edtm_accepted :  514.000  
+edtm_scaler   :  276.000  
+edtm_accepted :  254.000  
                                      
 Ps1_factor: -1.0
-T1_scaler:  14955440.000 [ 80.432 kHz ] 
-T1_accepted: 19486.000 [ 0.105 kHz ]  
+T1_scaler:  7388603.000 [ 80.507 kHz ] 
+T1_accepted: 9746.000 [ 0.106 kHz ]  
                                      
 Ps2_factor: -1.0
-T2_scaler:  5737703.000 [ 30.858 kHz ] 
-T2_accepted: 19143.000 [ 0.103 kHz ]  
+T2_scaler:  2833089.000 [ 30.870 kHz ] 
+T2_accepted: 9589.000 [ 0.104 kHz ]  
                                      
 Ps3_factor: -1.0
-T3_scaler:  3918881.000 [ 21.076 kHz ] 
-T3_accepted: 18505.000 [ 0.100 kHz ]  
+T3_scaler:  1934613.000 [ 21.080 kHz ] 
+T3_accepted: 9282.000 [ 0.101 kHz ]  
                                      
 Ps4_factor: -1.0
-T4_scaler:  70122.000 [ 0.377 kHz ] 
-T4_accepted: 19486.000 [ 0.105 kHz ]  
+T4_scaler:  34818.000 [ 0.379 kHz ] 
+T4_accepted: 9746.000 [ 0.106 kHz ]  
                                      
 Ps5_factor: -1.0
-T5_scaler:  -558.000 [ -0.003 kHz ] 
+T5_scaler:  -276.000 [ -0.003 kHz ] 
 T5_accepted: 0.000 [ 0.000 kHz ]  
                                      
 Ps6_factor: 1.0
-T6_scaler:  19814.000 [ 0.107 kHz ] 
-T6_accepted: 19486.000 [ 0.105 kHz ]  
+T6_scaler:  9917.000 [ 0.108 kHz ] 
+T6_accepted: 9746.000 [ 0.106 kHz ]  
 T6_cpuLT:    0.983 +- 0.001 
-T6_tLT:      0.921 +- 0.011 
+T6_tLT:      0.920 +- 0.016 
                                      

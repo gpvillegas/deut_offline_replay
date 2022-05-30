@@ -17,10 +17,10 @@ import sys, math, os, subprocess, csv
 
 sys.path.insert(0, 'python/')
 
-if len(sys.argv)-1!=2:
-    print("Invalid number of arguments. \n "
-    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n")
-    sys.exit(1)
+#if len(sys.argv)-1!=3:
+#    print("Invalid number of arguments. \n "
+#    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n")
+#    sys.exit(1)
     
 # user input
 ANATYPE = sys.argv[1]
@@ -28,7 +28,7 @@ RUNNUM = sys.argv[2]
 EVTNUM = sys.argv[3]
 
 # construct generic report output file from the user input (whihc should have been generated)
-cafe_report_path = "CAFE_OUTPUT/REPORT/cafe_%s_report_%i_%i.txt" % (ANATYPE, RUNNUM, EVTNUM)
+cafe_report_path = "CAFE_OUTPUT/REPORT/cafe_%s_report_%s_%s.txt" % (ANATYPE, RUNNUM, EVTNUM)
 
 #bcm_type = sys.argv[2]         # <entry_type> = "bcm_type", passed from run_cafe_prod.sh
 
@@ -396,8 +396,8 @@ total_header = header_1 + header_2 + header_3 + header_4
 
 
 # read user comment (raw_input is required for python 2.7, else use input())
-comment = input("Please enter any relevant comments this run: \n")
-#comment = raw_input("Please enter any relevant comments this run: \n")
+#comment = input("Please enter any relevant comments this run: \n")
+comment = raw_input("Please enter any relevant comments this run: \n")
 
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
