@@ -1,48 +1,48 @@
-# Run 3289 Data Analysis Summary
+# Run 3288 Data Analysis Summary
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # General Run Configuration                              
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-run_number: 3289                     
-kin_type: MF                     
+run_number: 3288                     
+kin_type: heep_coin                     
 
 daq_mode: coin                     
-daq_run_length [sec]: 214.221       
-events_replayed: 25000              
+daq_run_length [sec]: 8.098       
+events_replayed: 1000              
 
-beam_energy [GeV]: 10.6000          
-target_name: LD2                       
-target_amu: 2.014102                 
+beam_energy [GeV]: 10.6005          
+target_name: LH2                       
+target_amu: 1.007940                 
 
 hms_h_particle_mass [GeV]: 0.938272          
-hms_h_momentum [GeV/c]: 2.8440             
-hms_h_angle [deg]: -38.8960                  
+hms_h_momentum [GeV/c]: 2.9355             
+hms_h_angle [deg]: -37.3380                  
 
 shms_e_particle_mass [GeV]: 0.000511          
 shms_e_momentum [GeV/c]: 8.5342             
 shms_e_angle [deg]: 12.1940                  
 
-BCM4A_Current_Threshold [uA]: > 5.00 
-BCM4A_Average_Current [uA]: 54.987 
-BCM4A_Charge [mC]: 11.779 
+BCM4A_Current_Threshold [uA]: >5.00 
+BCM4A_Average_Current [uA]: 54.573 
+BCM4A_Charge [mC]: 0.442 
 
-# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
-# CaFe A(e,e')p Mean-Field (MF) Counts  
-# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# CaFe H(e,e')p Coincidence Counts  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-MF_total_counts    : 8713.000
-MF_real_counts     : 8683.600
-MF_random_counts   : 29.400
+heep_total_counts    : 459.000
+heep_real_counts     : 457.200
+heep_random_counts   : 1.800
                                      
-MF_real_rate [Hz]  : 40.536
+heep_real_rate [Hz]  : 56.456
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # Drift Chambers Tracking Efficiency  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-hms_had_track_eff:  0.977 +- 0.001
-shms_elec_track_eff: 0.966 +- 0.001
+hms_had_track_eff:  0.970 +- 0.006
+shms_elec_track_eff: 0.973 +- 0.006
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:
 # DAQ Trigger Information  
@@ -52,32 +52,32 @@ shms_elec_track_eff: 0.966 +- 0.001
 #       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
 #       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
                                      
-edtm_scaler   :  643.000  
-edtm_accepted :  585.000  
+edtm_scaler   :  25.000  
+edtm_accepted :  25.000  
                                      
 Ps1_factor: -1.0
-T1_scaler:  33135640.000 [ 154.680 kHz ] 
-T1_accepted: 24415.000 [ 0.114 kHz ]  
+T1_scaler:  644949.000 [ 79.639 kHz ] 
+T1_accepted: 975.000 [ 0.120 kHz ]  
                                      
 Ps2_factor: -1.0
-T2_scaler:  12003802.000 [ 56.035 kHz ] 
-T2_accepted: 23170.000 [ 0.108 kHz ]  
+T2_scaler:  248180.000 [ 30.646 kHz ] 
+T2_accepted: 962.000 [ 0.119 kHz ]  
                                      
 Ps3_factor: -1.0
-T3_scaler:  7840254.000 [ 36.599 kHz ] 
-T3_accepted: 22242.000 [ 0.104 kHz ]  
+T3_scaler:  169417.000 [ 20.920 kHz ] 
+T3_accepted: 924.000 [ 0.114 kHz ]  
                                      
 Ps4_factor: -1.0
-T4_scaler:  143963.000 [ 0.672 kHz ] 
-T4_accepted: 24415.000 [ 0.114 kHz ]  
+T4_scaler:  3042.000 [ 0.376 kHz ] 
+T4_accepted: 975.000 [ 0.120 kHz ]  
                                      
 Ps5_factor: -1.0
-T5_scaler:  -643.000 [ -0.003 kHz ] 
+T5_scaler:  -25.000 [ -0.003 kHz ] 
 T5_accepted: 0.000 [ 0.000 kHz ]  
                                      
 Ps6_factor: 1.0
-T6_scaler:  24772.000 [ 0.116 kHz ] 
-T6_accepted: 24415.000 [ 0.114 kHz ]  
-T6_cpuLT:    0.986 +- 0.001 
-T6_tLT:      0.910 +- 0.011 
+T6_scaler:  835.000 [ 0.103 kHz ] 
+T6_accepted: 975.000 [ 0.120 kHz ]  
+T6_cpuLT:    1.168 +- -nan 
+T6_tLT:      1.000 +- 0.000 
                                      

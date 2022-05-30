@@ -397,7 +397,7 @@ total_header = header_1 + header_2 + header_3 + header_4
 
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
-comment = raw_input("Please enter any relevant comments for run %s: \n", %(RUNNUM))
+comment = raw_input("Please enter any relevant comments for run %s: \n >> " %(RUNNUM))
 
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
@@ -421,9 +421,12 @@ total_list.append(comment)
 # close report file
 cafe_report.close()
 
-
 # --- create / append data to cafe runlist .csv file ----------
+
 fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
+
+os.system('mkdir -p UTILS_CAFE/runlist') 
+os.system('mkdir -p UTILS_CAFE/runlist/backup')
 
 # check if run list exists, else create it and add a header
 if os.path.isfile(fname_path):

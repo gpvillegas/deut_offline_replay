@@ -23,7 +23,7 @@ shms_e_particle_mass [GeV]: 0.000511
 shms_e_momentum [GeV/c]: 8.5342             
 shms_e_angle [deg]: 12.1940                  
 
-BCM4A_Current_Threshold [uA]: > 5.00 
+BCM4A_Current_Threshold [uA]: >5.00 
 BCM4A_Average_Current [uA]: 50.401 
 BCM4A_Charge [mC]: 81.430 
 
