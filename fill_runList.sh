@@ -24,6 +24,9 @@
 # read_file = pd.read_csv (r'runlist.csv')
 # read_file.to_excel (r'runlist.xlsx', index = None, header=True)
 
+# check if csv file exists, if it does not, create a csv, add a header and add the 1st entry of columns
+# if csv file exists, then it already has a header (assuming it was created with this code), and simply add rows
+
 #---------------
 
 # Set up paths depending upon location

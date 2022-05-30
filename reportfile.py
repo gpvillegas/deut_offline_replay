@@ -7,8 +7,51 @@
 # C. Yero - May 26, 2022
 # Modified to meet the needs of CaFe 2022 Experiment
 
+
+'''
+#  pseudo code for testing writing to csv file
+
+import  csv
+
+header1 = ['run_num', 'T1_rates [kHz]', 'kin_type'] 
+header2 = ['h_eff', 'cpuLT', 'Comments']
+header =  header1+header2
+
+# rows of information, except the user comment
+row = "%i %.3f %s" % (3288, 6.87, 'heep_coin')
+row2 = "%.3f %i " % (5.212, 6643)
+
+# read user comment
+comment = "this is !&@# is }[\| my & crazy comment? "
+
+# clean user comment out of weird characters or spaces and replace them with _
+specialChars = "!@#$%^&*(),/\|{[]}<> "
+  for specialChar in specialChars:
+    comment = comment.replace(specialChar, '_')
+
+
+# convert row to list
+my_list = row.split()
+
+# other possible sub-lists (like, good_evt, eff, ...)
+my_list2 = row2.split()
+
+tota_list = my_list + my_list2
+
+# append comment to total_list
+total_list = total_list.append(comment)
+
+# write to csv file
+with open("out.csv","a") as f:
+        wr = csv.writer(f,delimiter=",")
+        wr.writerow(l)
+f.close()
+
+'''
+   
+
 # Import relevant packages
-import sys, math, os, subprocess
+import sys, math, os, subprocess, csv
 
 sys.path.insert(0, 'python/')
 
@@ -353,33 +396,30 @@ for line in cafe_report:
         T6_tLT = float(line.split(":")[1].split("+")[0].strip())
         # print(T6_tLT)
 
+
+#  run list was separated into sub-categories for ease of use and more flexibility if things need to be changed
+
 # general run entry list
+header_1     = ['']
 gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
                (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name, tgt_mass, hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
+
 
 # trigger info
 trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
             (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
+
 # live time and trk_eff info
 efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f        " % \
            (T1_tLT, T2_tLT, T3_tLT, T5_tLT, T6_tLT, hms_trk_eff, shms_trk_eff )
+
 
 # good event count info
 good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
-if(entry_type == "gen_run_info"):
-    print(gen_run_info)
-elif(entry_type == "trig_info"):
-    print(trig_info)
-elif(entry_type == "eff_info"):
-    print(efficiency_info)
-elif(entry_type == "good_evt_info"):
-    print(good_evt_info)
-else:
-    print("Invalid <entry_type> \n" 
-    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n"
-    "<entry_type> = gen_run_info, trig_info, eff_info, good_evt_info")
-    sys.exit(1)
+
+
+
 cafe_report.close()
