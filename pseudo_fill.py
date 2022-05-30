@@ -16,7 +16,7 @@ row2 = "%.3f %i " % (5.212, 6643)
 
 # read user comment
 #comment = "this is !&@# is }[\| my & crazy comment? "
-comment = input("Please enter any relevant comments for this run: ")
+comment = raw_input("Please enter any relevant comments for this run: ")
 
 
 # clean user comment out of weird characters or spaces and replace them with _

@@ -38,26 +38,15 @@ fi
 if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
     echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number>"
-    evtNum=100000
+    evtNum=1000
     echo "evtNum=$evtNum"
     
 elif [ "${ana_type}" = "prod" ]; then
     echo "replaying all events."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
-    evtNum=-1
+    #evtNum=-1
+    evtNum=10000  # for now set to 10000
 fi
-
-# fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC
-#if [ "$kin_type" != "bcm_calib" ]; then 
-#    exit 0
-#fi
-
-#if [ "$2" != "bcm_calib" ] ||  [ "$2" != "lumi" ] || [ "$2" != "optics" ] || \
-#    [ "$2" != "heep_singles" ] ||  [ "$2" != "heep_coin" ] || [ "$2" != "MF" ] || [ "$2" != "SRC" ]; then
-#if [[ -z "$2" || ! "$kin_type" =~ bcm_calib|lumi|optics|heep_singles|heep_coin|MF|SRC ]]; then
-#    echo "invalid <kin_type> = \"$2\"  !"
-#    echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
-#    echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_
 
 daq_mode="coin"
 e_arm="SHMS"
@@ -68,7 +57,7 @@ bcm_thrs=5           # beam current threhsold cut > bcm_thrs [uA]
 trig_type="trig6"
 combine_runs=0
 
-# hcana scripts
+# hcana script
 if [ "${kin_type}" = "bcm_calib" ]; then
     replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe_scalers.C"
     bcm_thrs=-1      # don't apply any bcm cut 
@@ -76,8 +65,12 @@ else
     replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C" 
 fi
 
-# cafe script
+# cafe serious analysis script
 prod_script="UTILS_CAFE/main_analysis.cpp"
+
+# cafe fill run list script
+fill_list_script="UTILS_CAFE/online_scripts/fill_cafe_runlist.py"
+
 
 # command to run scripts
 runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
@@ -90,6 +83,7 @@ runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
                                    \\\"${trig_type}\\\", ${combine_runs}
                      )\""
 
+fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
 
 # Start data replay and analysis
 {
@@ -115,6 +109,21 @@ runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
   echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
   echo ""
   echo "Running CaFe Data Analysis for replayed run ${runNum}:"
+  echo " -> SCRIPT:  ${prod_script}"
+  echo " -> RUN:     ${runNum}"
+  echo " -> COMMAND: ${runCafe}"
+  echo ""
+  echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+
+  sleep 2
+  eval ${runCafe} 
+
+  echo "" 
+  echo ""
+  echo ""
+  echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+  echo ""
+  echo "Filling CaFe RunList for replayed run ${runNum}:"
   echo " -> SCRIPT:  ${prod_script}"
   echo " -> RUN:     ${runNum}"
   echo " -> COMMAND: ${runCafe}"

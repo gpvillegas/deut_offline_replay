@@ -5,23 +5,33 @@
 # This script scans every line of the report file to find the correct info
 
 # C. Yero - May 26, 2022
-# Modified to meet the needs of CaFe 2022 Experiment
+# Modified to meet the needs of CaFe 2022 Experiment.
+# The modified code creates a csv file and writes the
+# pertinent information from the cafe output report to
+# a .csv file on a run-by-run basis
+
+   
 
 # Import relevant packages
-import sys, math, os, subprocess
+import sys, math, os, subprocess, csv
 
 sys.path.insert(0, 'python/')
 
 if len(sys.argv)-1!=2:
     print("Invalid number of arguments. \n "
-    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n"
-    "<entry_type> = gen_run_info, trig_info, eff_info, good_evt_info" )
+    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n")
     sys.exit(1)
-
-
+    
 # user input
-cafe_report_path = sys.argv[1]
-entry_type = sys.argv[2]  # <entry_type> = "gen_run", "trig_info", "eff_info", "good_evt_info"
+ANATYPE = sys.argv[1]
+RUNNUM = sys.argv[2]
+EVTNUM = sys.argv[3]
+
+# construct generic report output file from the user input (whihc should have been generated)
+cafe_report_path = "CAFE_OUTPUT/REPORT/cafe_%s_report_%i_%i.txt" % (ANATYPE, RUNNUM, EVTNUM)
+
+#bcm_type = sys.argv[2]         # <entry_type> = "bcm_type", passed from run_cafe_prod.sh
+
 
 cafe_report = open(cafe_report_path)
 
@@ -353,33 +363,86 @@ for line in cafe_report:
         T6_tLT = float(line.split(":")[1].split("+")[0].strip())
         # print(T6_tLT)
 
+
+#  run list was separated into sub-categories for ease of use and more flexibility if things need to be changed
+
+
 # general run entry list
+header_1     = ['run_number', 'kin_study', 'run_time [sec]', 'evts_replayed', 'beam_energy [GeV]', 'target', 'target_mass [amu]', 'HMS_P [GeV/c]', 'HMS_Angle [deg]', 'SHMS_P [GeV/c]', 'SHMS_Angle [deg]', 'BCM4A_thrs [uA]', 'BCM4A_current [uA]', 'BCM4A_charge [mC]' ]
 gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
                (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name, tgt_mass, hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
 
+
 # trigger info
+# should probably define what these are more specifically later on . . . e.g., PS1 : SHMS 3/4 . . .
+header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1_scl_rate [kHz]', 'T2_scl_rate [kHz]','T3_scl_rate [kHz]','T5_scl_rate [kHz]','T6_scl_rate [kHz]', 'T1_accp_rate [kHz]','T2_accp_rate [kHz]','T3_accp_rate [kHz]','T5_accp_rate [kHz]','T6_accp_rate [kHz]' ]
 trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
             (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
 # live time and trk_eff info
+header_3   = ['T1_tLT', 'T2_tLT','T3_tLT','T5_tLT','T6_tLT','HMS_TrkEff', 'SHMS_TrkEff']
 efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f        " % \
            (T1_tLT, T2_tLT, T3_tLT, T5_tLT, T6_tLT, hms_trk_eff, shms_trk_eff )
 
+
 # good event count info
+header_4   = ['heep_singles', 'heep_singles_rates [Hz]', 'heep_coin', 'heep_coin_rate [Hz]', 'MF_real', 'MF_real_rate', 'SRC_real', 'SRC_real_rate', 'Comments']
 good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
-if(entry_type == "gen_run_info"):
-    print(gen_run_info)
-elif(entry_type == "trig_info"):
-    print(trig_info)
-elif(entry_type == "eff_info"):
-    print(efficiency_info)
-elif(entry_type == "good_evt_info"):
-    print(good_evt_info)
-else:
-    print("Invalid <entry_type> \n" 
-    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n"
-    "<entry_type> = gen_run_info, trig_info, eff_info, good_evt_info")
-    sys.exit(1)
+
+# combine headers
+total_header = header_1 + header_2 + header_3 + header_4
+
+
+# read user comment (raw_input is required for python 2.7, else use input())
+comment = input("Please enter any relevant comments this run: \n")
+#comment = raw_input("Please enter any relevant comments this run: \n")
+
+# clean user comment out of weird characters or spaces and replace them with '_'
+specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
+
+for specialChar in specialChars:
+        comment = comment.replace(specialChar, '_')
+
+
+# convert data strings to a list
+gen_run_info_list    = gen_run_info.split()
+trig_info_list       = trig_info.split()
+efficiency_info_list = efficiency_info.split()
+good_evt_info_list   = good_evt_info.split()
+
+# combine lists
+total_list = gen_run_info_list + trig_info_list + efficiency_info_list + good_evt_info_list
+
+# append user comments to list
+total_list.append(comment)
+
+# close report file
 cafe_report.close()
+
+
+# --- create / append data to cafe runlist .csv file ----------
+fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
+
+# check if run list exists, else create it and add a header
+if os.path.isfile(fname_path):
+    print (fname_path," exists !")
+
+    with open(fname_path, "a") as f:
+        wr = csv.writer(f,delimiter=",")
+        wr.writerow(total_list)
+        
+else:
+    print (fname_path," does NOT exist ! \n Will create it and add a header")
+    
+    with open(fname_path, "a") as f:
+        wr = csv.writer(f,delimiter=",")
+        wr.writerow(total_header)
+        wr.writerow(total_list)
+        
+f.close()
+
+fname_path_bkp='UTILS_CAFE/runlist/backup/cafe-2022_runlist_backup.csv'
+
+os.system('cp %s %s' % (fname_path, fname_path_bkp))
