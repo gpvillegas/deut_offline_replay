@@ -32,12 +32,10 @@
 # Note, farm paths are only for testing
 if [[ "${HOSTNAME}" = *"cdaq"* ]]; then
     REPLAYPATH="/home/cdaq/c-cafe-2022/cafe_online_replay"
-elif [[ "${HOSTNAME}" = *"farm"* ]]; then  
+if [[ "${HOSTNAME}" = *"farm"* ]]; then  
     REPLAYPATH="/w/hallc-scshelf2102/c-cafe-2022/$USER/cafe_online_replay"
 elif [[ "${HOSTNAME}" = *"deuteron"* ]]; then
     REPLAYPATH="/Users/nuclear/cafe_online_replay"
-elif [[ "${HOSTNAME}" = *"physics"* ]]; then
-    REPLAYPATH="/Users/deuteron/CaFe-Online/cafe_online_replay"
 fi
 
 # Run number and run type should be read in by the "master" script, automating the target would be more difficult, master script prompts for this
@@ -45,10 +43,11 @@ RUN_NUM=$1
 EVT_NUM=$2
 RUNTYPE=$3  # "sample", "prod", 
 KINTYPE=$4  # "bcm_calib", "lumi", "optics", "heep_singles", "heep_coin", "MF", "SRC"  (these are for specific cuts to be applied)
+TARGET=$5
 
 # cafe experiment runlist filename
-RUNLIST="${REPLAYPATH}/runlist_cafe_2022.csv"
-HEADER="Run,heep_singles,Comment"
+RUNLIST="${REPLAYPATH}/UTILS_CAFE/runlist_cafe_2022.csv"
+
 # cafe standard kinematics file (to get beam, momenta, target info)
 #KINFILE="${REPLAYPATH}/DBASE/COIN/standard.kinematics"
 
@@ -70,19 +69,56 @@ REPORTFILE="${REPLAYPATH}/CAFE_OUTPUT/REPORT/cafe_${RUN_TYPE}_report_${RUN_NUM}_
 
 # Get information available in the report file
 if [[ -f ${REPORTFILE} ]]; then
+    
     print_gen_run=`python $REPLAYPATH/UTILS_CAFE/online_scripts/reportfile.py ${REPORTFILE} gen_run_info`
+    
     run_num=`echo ${print_gen_run} | cut -d ',' -f1`
+
 fi
+
 
 echo "========================================================================="
 echo "These values autofill into the run list ..."
 echo
 echo "Run number: $RUN_NUM"
 echo "Run type: $RUNTYPE"
+echo "Target: $TARGET"
+echo "Beam energy: $EBeam"
+echo "SHMS momentum: $SHMS_P"
+echo "SHMS angle : $SHMS_Angle"
+echo "SHMS particle mass : $SHMS_mass"
+echo "HMS momentum: $HMS_P"
+echo "HMS angle: $HMS_Angle"
+echo "HMS particle mass : $HMS_mass"
+echo "Current: $Current"
+if [[ ${RUNTYPE} != "HeePSing" ]]; then
+    echo "PS1 : $PS1"
+else echo "PS2 : $PS1" # For HeepSingles we care about both ELReal triggers (2 and 4)
+fi
+echo "PS4 : $PS4"
+echo "PS5 : $PS5"
+echo "HMS rate [kHz]: $HMS_Rate"
+echo "SHMS rate [kHz]: $SHMS_Rate"
+if [[ ${RUNTYPE} != "HeePSing" ]]; then
+    echo "COIN rate [kHz]: $COIN_Rate"
+else echo "COIN rate [kHz] (No coin - SHMS rate duplicated): $COIN_Rate"
+fi
+echo "Charge [mC]: $Charge"
+echo "Raw HMS: $Raw_HMS"
+echo "Raw SHMS: $Raw_SHMS"
+if [[ ${RUNTYPE} != "HeePSing" ]]; then
+    echo "Raw coin: $Raw_COIN"
+else echo "Raw coin (No coin - SHMS number duplicated): $Raw_COIN"
+fi
+echo "EDTM: $EDTM"
+if [[ ${RUNTYPE} != "HeePSing" ]]; then
+    echo "SHMS hadron tracking: $Tracking"
+else echo "SHMS electron tracking: $Tracking"
+fi
 echo "========================================================================="
 
 while true; do
-    read -p "Do these values all look correct/reasonable ? (Please answer yes or no) " yn
+    read -p "Do these values all look correct? (Please answer yes or no) " yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit;;
@@ -91,48 +127,44 @@ while true; do
 done
 
 # Ask user for a comment
-read -p "Enter any comments pertinent to run ${RUN_NUM} (comments will be added to cafe_run_list.csv) : " Comment
+read -p "Enter number of pi/n events and/or any other comments: " Comment
 Comment=$(echo "$Comment" | tr "," " ") # Remove any commas from the comment line as this will cause... issues
 Comment=$(echo "$Comment" | tr ";" " ") # Remove any semicolons from the comment line as well, grammar get out!
 Comment=$(echo "$Comment" | tr "\t" " ") # Tabs can go to hell too
-
 # Need to fix widths of entries with blank space at some point, see the test file for widths (based on headers)
-RUNLIST_INFO="${RUN_NUM},${RUNTYPE}, $Comment"
+RUNLIST_INFO="${RUN_NUM},${RUNTYPE},${TARGET},${EBeam},${SHMS_P},${SHMS_Angle},${HMS_P},${HMS_Angle},${Current},${PS1},${PS4},${PS5},${HMS_Rate},${SHMS_Rate},${COIN_Rate},${Charge},${Raw_HMS},${Raw_SHMS},${Raw_COIN},${EDTM},${Tracking},${Comment}"
 
 # Check if there is already an entry for this run number, if there is, ask if you want to overwrite it, if not, print it to the file
 DuplicateLines=() # Array to store line numbers of duplicated entries
 LineNum=1 # Counter, starts at 1 since we skip the header
-
 # Read run list, find any lines which already include an entry for this run number
-#while IFS='' read -r line || [[ -n "$line" ]]; do
-#    LineNum=$(($LineNum + 1 ))
-#    if [[ `echo ${line} | cut -d ','  -f1` == ${RUN_NUM} ]]; then
-#	DuplicateLines[${#DuplicateLines[@]}]="${LineNum}"
-#    fi
-#done <  <(tail -n +2 ${RUNLIST}) # Ignores header line by using tail here
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    LineNum=$(($LineNum + 1 ))
+    if [[ `echo ${line} | cut -d ','  -f1` == ${RUN_NUM} ]]; then
+	DuplicateLines[${#DuplicateLines[@]}]="${LineNum}"
+    fi
+done <  <(tail -n +2 ${RUNLIST}) # Ignores header line by using tail here
 
-echo ${HEADER} >> ${RUNLIST}
-echo ${RUNLIST_INFO} >> ${RUNLIST}
-
-#if [[ `echo "${#DuplicateLines[@]}"` != 0 ]]; then # If the array is not empty, check some stuff and check with the user if they want to remove duplicate entries
+if [[ `echo "${#DuplicateLines[@]}"` != 0 ]]; then # If the array is not empty, check some stuff and check with the user if they want to remove duplicate entries
     # Ask if the user wants to remove duplicate lines, in a grammatically correct manner :)
-#    if [[ `echo "${#DuplicateLines[@]}"` == 1 ]]; then 
-#	read -p "$(echo "${#DuplicateLines[@]}") entry already found in the runlist for run ${RUN_NUM}, delete dupliacte entry and print new entry to file? <Y/N> " prompt
-#    elif [[ `echo "${#DuplicateLines[@]}"` -gt 1 ]]; then
-#	read -p "$(echo "${#DuplicateLines[@]}") entries already found in the runlist for run ${RUN_NUM}, delete dupliacte entries and print new entry to file? <Y/N> " prompt
-#    fi
-#    if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
-#	DeletedLines=0 # Counter to check how many lines we have deleted already
+    if [[ `echo "${#DuplicateLines[@]}"` == 1 ]]; then 
+	read -p "$(echo "${#DuplicateLines[@]}") entry already found in the runlist for run ${RUN_NUM}, delete dupliacte entry and print new entry to file? <Y/N> " prompt
+    elif [[ `echo "${#DuplicateLines[@]}"` -gt 1 ]]; then
+	read -p "$(echo "${#DuplicateLines[@]}") entries already found in the runlist for run ${RUN_NUM}, delete dupliacte entries and print new entry to file? <Y/N> " prompt
+    fi
+    if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
+	DeletedLines=0 # Counter to check how many lines we have deleted already
 	# Loop over all line numbers identified earlier as being duplicates, delete them with a sed command
-#	for value in "${DuplicateLines[@]}"
-#	do
-#	    LineNum=$(($value-$DeletedLines)) # We need to account for any lines we delete as we go
-#	    sed -i "${LineNum}d" ${RUNLIST}
-#	    DeletedLines=$(($DeletedLines + 1))
-#	done
-#	echo ${RUNLIST_INFO} >> ${RUNLIST} # Print the run list info to the file
-#    else echo "Will not remove duplicate entries or print new entry to the file, please edit the runlist manually"
-#    fi
-#else
-#    echo ${RUNLIST_INFO} >> ${RUNLIST} # Print the run list info to the file
-#fi
+	for value in "${DuplicateLines[@]}"
+	do
+	    LineNum=$(($value-$DeletedLines)) # We need to account for any lines we delete as we go
+	    sed -i "${LineNum}d" ${RUNLIST}
+	    DeletedLines=$(($DeletedLines + 1))
+	done
+    echo ${RUNLIST_INFO} >> ${RUNLIST} # Print the run list info to the file
+    else echo "Will not remove duplicate entries or print new entry to the file, please edit the runlist manually"
+    fi
+else
+    echo ${RUNLIST_INFO} >> ${RUNLIST} # Print the run list info to the file
+fi
+

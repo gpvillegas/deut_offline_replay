@@ -13,9 +13,9 @@ import sys, math, os, subprocess
 sys.path.insert(0, 'python/')
 
 if len(sys.argv)-1!=2:
-    print("Invalid number of arguments. \n 
-    e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n
-    <entry_type> = gen_run_info, trig_info, eff_info, good_evt_info" )
+    print("Invalid number of arguments. \n "
+    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n"
+    "<entry_type> = gen_run_info, trig_info, eff_info, good_evt_info" )
     sys.exit(1)
 
 
@@ -105,253 +105,253 @@ T6_tLT=-1
 
 TestVar = 0 # Counter to check the right number of variables have been set, 
 for line in cafe_report:
-    if (line[0]=="#") continue;
+    if (line[0]=="#"): continue;
 
     # general run information
     if "run_number" in line :
         run_num = int((line.split(":")[1]).strip())
         TestVar+=1
-        print(run_num)
+        # print(run_num)
     if "kin_type" in line :
         kin_type = (line.split(":")[1]).strip()
         TestVar+=1
-        print(kin_type)
+        # print(kin_type)
     if "daq_run_length" in line :
         run_len = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(run_len)
+        # print(run_len)
     if "events_replayed" in line :
         evt_num = int((line.split(":")[1]).strip())
         TestVar+=1
-        print(evt_num)
+        # print(evt_num)
     if "beam_energy" in line :
         beam_e = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(beam_e)
+        # print(beam_e)
     if "target_name:" in line :
         tgt_name = (line.split(":")[1]).strip()
         TestVar+=1
-        print(tgt_name)
+        # print(tgt_name)
     if "target_amu" in line :
         tgt_mass = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(tgt_mass)
+        # print(tgt_mass)
     if "hms_h_momentum" in line :
         hms_p = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(hms_p)
+        # print(hms_p)
     if "hms_h_angle" in line :
         hms_angle = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(hms_angle)
+        # print(hms_angle)
     if "shms_e_momentum" in line :
         shms_p = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(shms_p)
+        # print(shms_p)
     if "shms_e_angle" in line :
         shms_angle = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(shms_angle)
+        # print(shms_angle)
     if "_Current_Threshold" in line :
         bcm_thrs = (line.split(":")[1]).strip()
         TestVar+=1
-        print(bcm_thrs)
+        # print(bcm_thrs)
     if "_Average_Current" in line :
         bcm_current = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(bcm_current)
+        # print(bcm_current)
     if "_Charge" in line :
         bcm_charge = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(bcm_charge)
+        # print(bcm_charge)
         
     # good elastic, MF or SRC counts/rates
     if "heep_total_singles_counts" in line :
         heep_singles = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(heep_singles)
+        # print(heep_singles)
     if "heep_total_singles_rate" in line :
         heep_singles_rate = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(heep_singles_rate)
+        # print(heep_singles_rate)
     if "heep_real_counts" in line :
         heep_real = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(heep_real)
+        # print(heep_real)
     if "heep_real_rate" in line :
         heep_real_rate = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(heep_real_rate)
+        # print(heep_real_rate)
     if "MF_real_counts" in line :
         MF_real = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(MF_real)
+        # print(MF_real)
     if "MF_real_rate" in line :
         MF_real_rate = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(MF_real_rate)
+        # print(MF_real_rate)
     if "SRC_real_counts" in line :
         SRC_real = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(SRC_real)
+        # print(SRC_real)
     if "SRC_real_rate" in line :
         SRC_real_rate = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(SRC_real_rate)
+        # print(SRC_real_rate)
 
     # trigger info
     if "Ps1_factor" in line :
-        PS1 = int((line.split(":")[1]).strip())
+        PS1 = float(line.split(":")[1].strip())
         TestVar+=1
-        print(PS1)
+        # print(PS1)
     if "Ps2_factor" in line :
-        PS2 = int((line.split(":")[1]).strip())
+        PS2 = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(PS2)
+        # print(PS2)
     if "Ps3_factor" in line :
-        PS3 = int((line.split(":")[1]).strip())
+        PS3 = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(PS3)
+        # print(PS3)
     if "Ps5_factor" in line :
-        PS5 = int((line.split(":")[1]).strip())
+        PS5 = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(PS5)
+        # print(PS5)
     if "Ps6_factor" in line :
-        PS6 = int((line.split(":")[1]).strip())
+        PS6 = float((line.split(":")[1]).strip())
         TestVar+=1
-        print(PS6)
+        # print(PS6)
         
     # scaler counts
     if "T1_scaler" in line :
-        T1_scaler = int((line.split(":")[1]).split("[")[0].strip())
+        T1_scaler = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T1_scaler)
+        # print(T1_scaler)
     if "T2_scaler" in line :
-        T2_scaler = int((line.split(":")[1]).split("[")[0].strip())
+        T2_scaler = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T2_scaler)
+        # print(T2_scaler)
     if "T3_scaler" in line :
-        T3_scaler = int((line.split(":")[1]).split("[")[0].strip())
+        T3_scaler = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T3_scaler)
+        # print(T3_scaler)
     if "T5_scaler" in line :
-        T5_scaler = int((line.split(":")[1]).split("[")[0].strip())
+        T5_scaler = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T5_scaler)
+        # print(T5_scaler)
     if "T6_scaler" in line :
-        T6_scaler = int((line.split(":")[1]).split("[")[0].strip())
+        T6_scaler = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T6_scaler)
+        # print(T6_scaler)
         
     # scaler rates (same line, but get str within '[,]' brackets
     if "T1_scaler" in line :
         T1_scaler_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T1_scaler_rate)
+        # print(T1_scaler_rate)
     if "T2_scaler" in line :
         T2_scaler_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T2_scaler_rate)
+        # print(T2_scaler_rate)
     if "T3_scaler" in line :
         T3_scaler_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T3_scaler_rate)
+        # print(T3_scaler_rate)
     if "T5_scaler" in line :
         T5_scaler_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T5_scaler_rate)
+        # print(T5_scaler_rate)
     if "T6_scaler" in line :
         T6_scaler_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T6_scaler_rate)
+        # print(T6_scaler_rate)
 
     # accepted counts
     if "T1_accepted" in line :
-        T1_accp = int((line.split(":")[1]).split("[")[0].strip())
+        T1_accp = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T1_accp)
+        # print(T1_accp)
     if "T2_accepted" in line :
-        T2_accp = int((line.split(":")[1]).split("[")[0].strip())
+        T2_accp = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T2_accp)
+        # print(T2_accp)
     if "T3_accepted" in line :
-        T3_accp = int((line.split(":")[1]).split("[")[0].strip())
+        T3_accp = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T3_accp)
+        # print(T3_accp)
     if "T5_accepted" in line :
-        T5_accp = int((line.split(":")[1]).split("[")[0].strip())
+        T5_accp = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T5_accp)
+        # print(T5_accp)
     if "T6_accepted" in line :
-        T6_accp = int((line.split(":")[1]).split("[")[0].strip())
+        T6_accp = float((line.split(":")[1]).split("[")[0].strip())
         TestVar+=1
-        print(T6_accp)
+        # print(T6_accp)
         
     # accepted rates (same line, but get str within '[,]' brackets
     if "T1_accepted" in line :
         T1_accp_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T1_accp_rate)
+        # print(T1_accp_rate)
     if "T2_accepted" in line :
         T2_accp_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T2_accp_rate)
+        # print(T2_accp_rate)
     if "T3_accepted" in line :
         T3_accp_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T3_accp_rate)
+        # print(T3_accp_rate)
     if "T5_accepted" in line :
         T5_accp_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T5_accp_rate)
+        # print(T5_accp_rate)
     if "T6_accepted" in line :
         T6_accp_rate = float((line.split("[")[1]).split("kHz")[0].strip())
         TestVar+=1
-        print(T6_accp_rate)
+        # print(T6_accp_rate)
 
     # tracking efficiency
     if "hms_had_track_eff" in line :
         hms_trk_eff = float(line.split(":")[1].split("+")[0].strip())
-        print(hms_trk_eff)
+        # print(hms_trk_eff)
     if "shms_elec_track_eff" in line :
         shms_trk_eff = float(line.split(":")[1].split("+")[0].strip())
-        print(shms_trk_eff)
+        # print(shms_trk_eff)
         
     # live times
     if "T1_cpuLT" in line :
         T1_cpuLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T1_cpuLT)
+        # print(T1_cpuLT)
     if "T1_tLT" in line :
         T1_tLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T1_tLT)
+        # print(T1_tLT)
 
     if "T2_cpuLT" in line :
         T2_cpuLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T2_cpuLT)
+        # print(T2_cpuLT)
     if "T2_tLT" in line :
         T2_tLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T2_tLT)
+        # print(T2_tLT)
 
     if "T3_cpuLT" in line :
         T3_cpuLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T3_cpuLT)
+        # print(T3_cpuLT)
     if "T3_tLT" in line :
         T3_tLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T3_tLT)
+        # print(T3_tLT)
 
     if "T5_cpuLT" in line :
         T5_cpuLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T5_cpuLT)
+        # print(T5_cpuLT)
     if "T5_tLT" in line :
         T5_tLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T5_tLT)
+        # print(T5_tLT)
 
     if "T6_cpuLT" in line :
         T6_cpuLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T6_cpuLT)
+        # print(T6_cpuLT)
     if "T6_tLT" in line :
         T6_tLT = float(line.split(":")[1].split("+")[0].strip())
-        print(T6_tLT)
+        # print(T6_tLT)
 
 # general run entry list
 gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
@@ -378,8 +378,8 @@ elif(entry_type == "eff_info"):
 elif(entry_type == "good_evt_info"):
     print(good_evt_info)
 else:
-    print("Invalid <entry_type> \n 
-    e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n
-    <entry_type> = gen_run_info, trig_info, eff_info, good_evt_info")
-
+    print("Invalid <entry_type> \n" 
+    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n"
+    "<entry_type> = gen_run_info, trig_info, eff_info, good_evt_info")
+    sys.exit(1)
 cafe_report.close()

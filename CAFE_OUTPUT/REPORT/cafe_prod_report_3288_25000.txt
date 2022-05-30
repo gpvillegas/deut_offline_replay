@@ -1,0 +1,83 @@
+# Run 3288 Data Analysis Summary
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# General Run Configuration                              
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+run_number: 3288                     
+kin_type: heep_coin                     
+
+daq_mode: coin                     
+daq_run_length [sec]: 230.343       
+events_replayed: 25000              
+
+beam_energy [GeV]: 10.6005          
+target_name: LH2                       
+target_amu: 1.007940                 
+
+hms_h_particle_mass [GeV]: 0.938272          
+hms_h_momentum [GeV/c]: 2.9355             
+hms_h_angle [deg]: -37.3380                  
+
+shms_e_particle_mass [GeV]: 0.000511          
+shms_e_momentum [GeV/c]: 8.5342             
+shms_e_angle [deg]: 12.1940                  
+
+BCM4A_Current_Threshold [uA]: > 5.00 
+BCM4A_Average_Current [uA]: 54.870 
+BCM4A_Charge [mC]: 12.639 
+
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# CaFe H(e,e')p Coincidence Counts  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+heep_total_counts    : 11759.000
+heep_real_counts     : 11722.400
+heep_random_counts   : 36.600
+                                     
+heep_real_rate [Hz]  : 50.891
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# Drift Chambers Tracking Efficiency  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+hms_had_track_eff:  0.968 +- 0.001
+shms_elec_track_eff: 0.972 +- 0.001
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:
+# DAQ Trigger Information  
+# =:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+# NOTE: scaler triggers are not pre-scaled | accepted triggers are pre-scaled  
+#       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
+#       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
+                                     
+edtm_scaler   :  691.000  
+edtm_accepted :  641.000  
+                                     
+Ps1_factor: -1.0
+T1_scaler:  18533773.000 [ 80.462 kHz ] 
+T1_accepted: 24359.000 [ 0.106 kHz ]  
+                                     
+Ps2_factor: -1.0
+T2_scaler:  7110020.000 [ 30.867 kHz ] 
+T2_accepted: 23936.000 [ 0.104 kHz ]  
+                                     
+Ps3_factor: -1.0
+T3_scaler:  4856244.000 [ 21.083 kHz ] 
+T3_accepted: 23157.000 [ 0.101 kHz ]  
+                                     
+Ps4_factor: -1.0
+T4_scaler:  86796.000 [ 0.377 kHz ] 
+T4_accepted: 24359.000 [ 0.106 kHz ]  
+                                     
+Ps5_factor: -1.0
+T5_scaler:  -691.000 [ -0.003 kHz ] 
+T5_accepted: 0.000 [ 0.000 kHz ]  
+                                     
+Ps6_factor: 1.0
+T6_scaler:  24559.000 [ 0.107 kHz ] 
+T6_accepted: 24359.000 [ 0.106 kHz ]  
+T6_cpuLT:    0.992 +- 0.001 
+T6_tLT:      0.928 +- 0.010 
+                                     
