@@ -3250,7 +3250,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("shms_e_momentum [GeV/c]: %.4f             ",  shms_p ) << endl;
     out_file << Form("shms_e_angle [deg]: %.4f                  ",  shms_angle ) << endl;  
     out_file << "" << endl;      
-    out_file << Form("%s_Current_Threshold [uA]: > %.2f ", bcm_type.Data(), bcm_thrs) << endl;
+    out_file << Form("%s_Current_Threshold [uA]: >%.2f ", bcm_type.Data(), bcm_thrs) << endl;
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;

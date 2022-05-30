@@ -397,7 +397,7 @@ total_header = header_1 + header_2 + header_3 + header_4
 
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
-comment = raw_input("Please enter any relevant comments this run: \n")
+comment = raw_input("Please enter any relevant comments for run %s: \n", %(RUNNUM))
 
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "

@@ -118,20 +118,23 @@ fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
   sleep 2
   eval ${runCafe} 
 
-  echo "" 
-  echo ""
-  echo ""
-  echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
-  echo ""
-  echo "Filling CaFe RunList for replayed run ${runNum}:"
-  echo " -> SCRIPT:  ${fill_list_script}"
-  echo " -> RUN:     ${runNum}"
-  echo " -> COMMAND: ${fill_RunList}"
-  echo ""
-  echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
-
-  sleep 2
-  eval ${fill_RunList} 
+  # Only full run list for production runs (i.e., full event replays)
+  # sample runs (./run_cafe_sample.sh, are just for getting quick estimates to make predictions)
+  if [ "${ana_type}" = "prod" ]; then
+      echo "" 
+      echo ""
+      echo ""
+      echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+      echo ""
+      echo "Filling CaFe RunList for replayed run ${runNum}:"
+      echo " -> SCRIPT:  ${fill_list_script}"
+      echo " -> RUN:     ${runNum}"
+      echo " -> COMMAND: ${fill_RunList}"
+      echo ""
+      echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+      
+      sleep 2
+      eval ${fill_RunList} 
 
 
 }
