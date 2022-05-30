@@ -2,6 +2,7 @@
 
 import  csv
 import os.path
+import stat
 
 header1 = ['run_num', 'T1_rates [kHz]', 'kin_type'] 
 header2 = ['h_eff', 'cpuLT', 'Comments']
@@ -60,6 +61,10 @@ else:
         wr.writerow(header)
         wr.writerow(total_list)
         
-
 f.close()
+
+fname_path_bkp='UTILS_CAFE/runlist/backup/cafe-2022_runlist_backup.csv'
+
+os.system('cp %s %s' % (fname_path, fname_path_bkp))
+
 
