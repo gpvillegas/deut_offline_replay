@@ -31,11 +31,11 @@ BCM4A_Charge [mC]: 4.708
 # CaFe A(e,e')p Mean-Field (MF) Counts  
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
                                      
-MF_total_counts    : 3537.000
-MF_real_counts     : 3527.400
-MF_random_counts   : 9.600
+MF_total_counts    : 3934.000
+MF_real_counts     : 3923.200
+MF_random_counts   : 10.800
                                      
-MF_real_rate [Hz]  : 41.326
+MF_real_rate [Hz]  : 45.963
                                      
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 # Drift Chambers Tracking Efficiency  

@@ -109,7 +109,7 @@ cpid_petot_trkNorm_min = 0.7
 cpid_petot_trkNorm_max = 5.
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
-pngcer_pidCut_flag = 1
+pngcer_pidCut_flag = 0
 cpid_pngcer_npeSum_min = 1.5
 cpid_pngcer_npeSum_max = 100.
 
@@ -220,7 +220,7 @@ c_MF_Pm_max = 0.250
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
 Em_d2MF_cut_flag = 1
 c_d2MF_Em_min = -0.02
-c_d2MF_Em_max = 0.05
+c_d2MF_Em_max = 0.1
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied ONLY for A>2 nuclei)
 Em_MF_cut_flag = 1
@@ -255,7 +255,7 @@ c_SRC_thrq_max = 40.
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
 Em_d2SRC_cut_flag = 1
 c_d2SRC_Em_min = -0.02
-c_d2SRC_Em_max = 0.05
+c_d2SRC_Em_max = 0.1
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied for A>2 nuclei)
 # this is a dynamic cut on missing energy:  Em_nuc < Em_src, to reduce background.
