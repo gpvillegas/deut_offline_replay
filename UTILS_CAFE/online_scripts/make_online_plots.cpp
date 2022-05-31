@@ -20,7 +20,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d.pdf", ana_type.Data(), ana_type.Data(), run);
+  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d.pdf", ana_type.Data(), run);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -500,8 +500,8 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   else if (tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
 
-    data_file->GetObject("kin_plots/data_Em_nuc_vs_Pm", data_Em_nuc_vs_Pm);
-    data_file->GetObject("kin_plots/data_Em_src_vs_Pm", data_Em_src_vs_Pm);
+    data_file->GetObject("kin_plots/H_Em_nuc_vs_Pm", data_Em_nuc_vs_Pm);
+    data_file->GetObject("kin_plots/H_Em_src_vs_Pm", data_Em_src_vs_Pm);
     
   }
   
@@ -820,11 +820,11 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   c1->Divide(1,2);
 
   c1->cd(1);
-  gPad->SetLogZ();
+  //gPad->SetLogz();
   data_Em_nuc_vs_Pm->Draw("colz");
 
   c1->cd(2);
-  gPad->SetLogZ();
+  //gPad->SetLogz();
   data_Em_src_vs_Pm->Draw("colz");
 
   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
@@ -911,6 +911,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
    leg_kf->Draw();
 
    c1->cd(8);
+   data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetMaximum());
    data_Em->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
    data_Em->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_Em->Draw("hist");
