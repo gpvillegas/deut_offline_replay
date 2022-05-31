@@ -138,7 +138,7 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
 
   cd ../${monPdfDir}
   
-  # Link onlineGUI moniroting plots to latest monitoring
+  # Link onlineGUI monitoring plots to latest monitoring
   ln -sf ${monPdfFile} ${latestMonPdfFile}
   
   echo "" 

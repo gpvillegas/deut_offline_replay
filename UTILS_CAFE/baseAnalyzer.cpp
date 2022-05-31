@@ -585,7 +585,6 @@ void baseAnalyzer::ReadInputFile()
   //----------------------------------
   //----OUTPUTS (USER WRITES OUT)-----
   //----------------------------------
-  cout << "L588 OK" << endl;
   //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
   temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
   data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
@@ -606,7 +605,6 @@ void baseAnalyzer::ReadInputFile()
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
   //==========================================
-  cout << "L609 OK " << endl;
   //HMS Tracking Efficiency Cut Flags / Limits
   hdc_ntrk_cut_flag = stoi(split(FindString("hdc_ntrk_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_hdc_ntrk_min = stod(split(FindString("c_hdc_ntrk_min", input_CutFileName.Data())[0], '=')[1]);
@@ -656,7 +654,6 @@ void baseAnalyzer::ReadInputFile()
   //==========================================
   //     READ Data/SIMC ANALYSIS CUTS
   //==========================================
-  cout << "Line 659 OK " << endl;
   //------PID Cuts-----
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
@@ -703,7 +700,6 @@ void baseAnalyzer::ReadInputFile()
 
 
   //-----Kinematics Cuts------
-  cout << "Line 706 OK " << endl; 
   // H(e,e'p)
   
   //4-Momentum Transfers [GeV^2]
@@ -728,7 +724,6 @@ void baseAnalyzer::ReadInputFile()
   c_heep_MM_max = stod(split(FindString("c_heep_MM_max", input_CutFileName.Data())[0], '=')[1]);
 
   // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
-  cout << "Line 731 OK " << endl; 
   // 4-Momentum Transfers [GeV^2]
   Q2_MF_cut_flag = stoi(split(FindString("Q2_MF_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_MF_Q2_min = stod(split(FindString("c_MF_Q2_min", input_CutFileName.Data())[0], '=')[1]);
@@ -750,7 +745,6 @@ void baseAnalyzer::ReadInputFile()
   c_MF_Em_max = stod(split(FindString("c_MF_Em_max", input_CutFileName.Data())[0], '=')[1]);
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts 
-  cout << "Line 753 OK " << endl; 
   // 4-Momentum Transfers [GeV^2]
   Q2_SRC_cut_flag = stoi(split(FindString("Q2_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_Q2_min = stod(split(FindString("c_SRC_Q2_min", input_CutFileName.Data())[0], '=')[1]);
@@ -814,7 +808,6 @@ void baseAnalyzer::ReadInputFile()
   c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
   
  
-  cout << "Line 817 OK " << endl; 
 }
   
 
@@ -3347,33 +3340,33 @@ void baseAnalyzer::WriteReport()
     if(Ps1_factor > -1) {
       out_file << Form("T1_cpuLT:    %.3f +- %.3f ",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
       out_file << Form("T1_tLT:      %.3f +- %.3f ",  tLT_trig1,                   tLT_trig1_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     if(Ps2_factor > -1) {
       out_file << Form("T2_cpuLT:    %.3f +- %.3f ",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
       out_file << Form("T2_tLT:      %.3f +- %.3f ",  tLT_trig2,                   tLT_trig2_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     if(Ps3_factor > -1) {
       out_file << Form("T3_cpuLT:    %.3f +- %.3f ",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
       out_file << Form("T3_tLT:      %.3f +- %.3f ",  tLT_trig3,                   tLT_trig3_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     if(Ps4_factor > -1) {
       out_file << Form("T4_cpuLT:    %.3f +- %.3f ",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
       out_file << Form("T4_tLT:      %.3f +- %.3f ",  tLT_trig4,                   tLT_trig4_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     if(Ps5_factor > -1) {
       out_file << Form("T5_cpuLT:    %.3f +- %.3f ",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
       out_file << Form("T5_tLT:      %.3f +- %.3f ",  tLT_trig5,                   tLT_trig5_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     if(Ps6_factor > -1) {
       out_file << Form("T6_cpuLT:    %.3f +- %.3f ",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
       out_file << Form("T6_tLT:      %.3f +- %.3f ",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
+      out_file << "                                     " << endl;
     }
-    out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# Drift Chambers Tracking Efficiency  " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
