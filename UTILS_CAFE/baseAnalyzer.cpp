@@ -2511,7 +2511,7 @@ void baseAnalyzer::EventLoop()
 
 		  
 		  //2D Kin plots to help clean out online Em data
-		  if(c_accpCuts && c_pidCuts){
+		  if(c_accpCuts && c_pidCuts && eP_ctime_cut){
 		    H_Em_nuc_vs_Pm ->Fill(Pm, Em_nuc);
 		    H_Em_src_vs_Pm ->Fill(Pm, Em_src);
 		  }
@@ -3654,7 +3654,7 @@ void baseAnalyzer::MakePlots()
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
 
   gSystem->Exec(cmd.c_str());

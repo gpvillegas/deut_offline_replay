@@ -98,7 +98,7 @@ protected:
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
   Bool_t analyze_data;    // analyze data ? if true (analyze data), if false, (analyze_simc)
-  TString analysis_cut;    // analysis cuts: either "heep", "MF" or "SRC" 
+  TString analysis_cut;    // analysis cuts: either "bcm_calib", "lumi", "optics", "heep_singles", "heep_coin", "MF" or "SRC" 
   TString analysis_type;   // online analysis prefix: either "prod" (for production) or "sample" for sample replay of 100k events (or any other sample evts)
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"

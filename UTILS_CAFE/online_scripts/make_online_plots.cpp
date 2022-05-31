@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -20,7 +20,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%d.pdf", run);
+  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d.pdf", ana_type.Data(), ana_type.Data(), run);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -135,6 +135,10 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   TH1F *simc_Pmy = 0;
   TH1F *simc_Pmz = 0;
 
+  // 2d kinematics
+  TH2F * simc_Em_nuc_vs_Pm = 0;
+  TH2F * simc_Em_src_vs_Pm = 0;
+  
   //Define data histos
   TH1F *data_Q2 =  0;
   TH1F *data_nu =  0;
@@ -157,7 +161,10 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   TH1F *data_Pmx = 0;
   TH1F *data_Pmy = 0;
   TH1F *data_Pmz = 0;
-
+  // 2d kinematics
+  TH2F * data_Em_nuc_vs_Pm = 0;
+  TH2F * data_Em_src_vs_Pm = 0;
+  
   //---------------------------------------------------------------
 
   
@@ -492,6 +499,10 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   }
   else if (tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
+
+    data_file->GetObject("kin_plots/data_Em_nuc_vs_Pm", data_Em_nuc_vs_Pm);
+    data_file->GetObject("kin_plots/data_Em_src_vs_Pm", data_Em_src_vs_Pm);
+    
   }
   
   data_file->GetObject("kin_plots/H_MM", data_MM);
@@ -654,7 +665,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
     
   // Create canvas to store multi-page .pdf plots
   TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
-  c1->Print(Form("cafe_output_%d.pdf[", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf[", ana_type.Data(), run));
   c1->Clear();
   
   //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
@@ -695,7 +706,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   hctime_leg->SetTextSize(0.05);
   hctime_leg->Draw();
   
-  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   }
   
@@ -722,7 +733,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   hW_leg->SetTextSize(0.05);
   hW_leg->Draw();
 
-  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   
   // ------ MISSING MASS ------
@@ -748,7 +759,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   hMM_leg->SetTextSize(0.05);
   hMM_leg->Draw();
       
-  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
     
   // ------ MISSING MOMENTUM ------
@@ -773,7 +784,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   hPm_leg->SetTextSize(0.05);
   hPm_leg->Draw();
 
-  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   
   // ------ MISSING ENERGY ------
@@ -798,10 +809,27 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   hEm_leg->SetTextSize(0.05);
   hEm_leg->Draw();
   
-  c1->Print(Form("cafe_output_%d.pdf", run));
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   }
-  
+
+  // ------ 2D Nuclear Missing Energy vs. Pm ------------------------------------------
+  // NOTE: Em_nuc = nu - Tp -T_{A-1}  Em_src =  nu - Tp - T_{nucleon}
+  //       Em_src, is missing energy assuming kinetic energy of spectator SRC nucleon (it is used to determine a cut on to clean bkg)
+
+  c1->Divide(1,2);
+
+  c1->cd(1);
+  gPad->SetLogZ();
+  data_Em_nuc_vs_Pm->Draw("colz");
+
+  c1->cd(2);
+  gPad->SetLogZ();
+  data_Em_src_vs_Pm->Draw("colz");
+
+  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Clear();
+   
   //-----------------------------------------------------------------------------------
 
 
@@ -901,7 +929,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    leg_MM->Draw();
 
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();                                                              
 
    //---------- PLOT ADDITIONAL KINEMATICS----------
@@ -1001,7 +1029,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    leg_Pmz->Draw();
                                                                     
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
   
    
@@ -1049,7 +1077,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
    leg16->Draw();
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
                                                                              
 
@@ -1093,7 +1121,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
    hfp_l4->Draw();
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
                                                                                   
 
@@ -1138,7 +1166,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
    leg8->Draw();
    
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
 
 
@@ -1182,7 +1210,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
    htr_l4->Draw();
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
    
 
@@ -1243,7 +1271,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
    if(simc_exist) legpzt->AddEntry(simc_ztarP,"SIMC");
    legpzt->Draw();
 
-   c1->Print(Form("cafe_output_%d.pdf", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
 
    //--------------------------------------------------------------------
@@ -1251,10 +1279,10 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_cut="", TStri
   
 
    // Complete writing out multi-page .pdf
-   c1->Print(Form("cafe_output_%d.pdf]", run));
+   c1->Print(Form("cafe_output_%s_%d.pdf]", ana_type.Data(), run));
    
-   gSystem->Exec(Form("mv cafe_output_%d.pdf %s", run, outPDF.Data()));
+   gSystem->Exec(Form("mv cafe_output_%s_%d.pdf %s", ana_type.Data(), run, outPDF.Data()));
    gSystem->Exec(Form("evince %s", outPDF.Data()));
-   //gSystem->Exec(Form("open cafe_output_%d.pdf", run));
+   //gSystem->Exec(Form("open cafe_output_%s_%d.pdf", ana_type.Data(), run));
       
 }
