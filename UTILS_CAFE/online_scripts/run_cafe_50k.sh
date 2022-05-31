@@ -36,6 +36,7 @@ if [ -z "$numEvents" ]; then
 fi
 
 # Set this run as the golden run  ?
+# usage: e.g., ./run_coin_hms.sh 3289 50000 set-golden 
 #(for purposes of pedestal monitoring future runs, 
 #whose pedestal will be compared to this run)
 goldenRun=$3
@@ -125,7 +126,9 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
 
   if [ "$goldenRun" = "set-golden" ]; then
       echo "--------------------------------------------"
+      echo " "
       echo "Setting ${SPEC} COIN run ${runNum} as GOLDEN RUN ! ! !"
+      echo " "
       echo "--------------------------------------------"  
 
       # optional, set this run as the golden run:
