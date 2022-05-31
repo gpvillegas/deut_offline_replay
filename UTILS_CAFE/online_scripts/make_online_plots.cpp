@@ -813,25 +813,26 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   c1->Clear();
   }
 
-  // ------ 2D Nuclear Missing Energy vs. Pm ------------------------------------------
-  // NOTE: Em_nuc = nu - Tp -T_{A-1}  Em_src =  nu - Tp - T_{nucleon}
-  //       Em_src, is missing energy assuming kinetic energy of spectator SRC nucleon (it is used to determine a cut on to clean bkg)
-
-  c1->Divide(1,2);
-
-  c1->cd(1);
-  //gPad->SetLogz();
-  data_Em_nuc_vs_Pm->Draw("colz");
-
-  c1->cd(2);
-  //gPad->SetLogz();
-  data_Em_src_vs_Pm->Draw("colz");
-
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
+  if(tgt_type!="LH2"){
+    // ------ 2D Nuclear Missing Energy vs. Pm ------------------------------------------
+    // NOTE: Em_nuc = nu - Tp -T_{A-1}  Em_src =  nu - Tp - T_{nucleon}
+    //       Em_src, is missing energy assuming kinetic energy of spectator SRC nucleon (it is used to determine a cut on to clean bkg)
+    
+    c1->Divide(1,2);
+    
+    c1->cd(1);
+    //gPad->SetLogz();
+    data_Em_nuc_vs_Pm->Draw("colz");
+    
+    c1->cd(2);
+    //gPad->SetLogz();
+    data_Em_src_vs_Pm->Draw("colz");
+    
+    c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Clear();
    
   //-----------------------------------------------------------------------------------
-
+  }
 
   //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
@@ -872,6 +873,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
    data_W->GetXaxis()->CenterTitle();
    if(simc_exist) simc_W->Draw();
    data_W->Draw("sameshistE0");
+   data_W->GetYaxis()->SetRangeUser(0., data_W->GetBinContent(data_W->GetMaximumBin())+300.);
    leg_W->AddEntry(data_W,"Data", "f");
    if(simc_exist) leg_W->AddEntry(simc_W,"SIMC");
    leg_W->Draw();
@@ -911,11 +913,11 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
    leg_kf->Draw();
 
    c1->cd(8);
-   data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetMaximum());
    data_Em->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
    data_Em->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_Em->Draw("hist");
    data_Em->Draw("sameshistE0");
+   data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetBinContent(data_Em->GetMaximumBin())+300.);
    leg_Em->AddEntry(data_Em,"Data","f");
    if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
    leg_Em->Draw();
@@ -925,6 +927,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
    data_MM->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_MM->Draw("hist");
    data_MM->Draw("sameshistE0");
+   data_MM->GetYaxis()->SetRangeUser(0., data_MM->GetBinContent(data_MM->GetMaximumBin())+300.);
    leg_MM->AddEntry(data_MM,"Data","f");
    if(simc_exist) leg_MM->AddEntry(simc_MM,"SIMC");
    leg_MM->Draw();
@@ -951,6 +954,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
    data_Pm->GetXaxis()->CenterTitle();
    if(simc_exist) simc_Pm->Draw();
    data_Pm->Draw("sameshistE0");
+   data_Pm->GetYaxis()->SetRangeUser(0., data_Pm->GetBinContent(data_Pm->GetMaximumBin())+300.);
    leg_Pm->AddEntry(data_Pm,"Data", "f");
    if(simc_exist) leg_Pm->AddEntry(simc_Pm,"SIMC");
    leg_Pm->Draw();

@@ -1385,8 +1385,8 @@ void baseAnalyzer::CreateHist()
   H_qx      = new TH1F("H_qx", "|#vec{q}_{x}|", qx_nbins, qx_xmin, qx_xmax);
   H_qy      = new TH1F("H_qy", "|#vec{q}_{y}|", qy_nbins, qy_xmin, qy_xmax);
   H_qz      = new TH1F("H_qz", "|#vec{q}_{z}|", qz_nbins, qz_xmin, qz_xmax);
-  H_thq     = new TH1F("H_thq", "In-Plane Angle w.r.t +z(lab), #theta_{q}", thq_nbins, thq_xmin, thq_xmax); 
-  H_phq     = new TH1F("H_phq", "Out-of-Plane Angle w.r.t +z(lab), #phi_{q}", phq_nbins, phq_xmin, phq_xmax); 
+  H_thq     = new TH1F("H_thq", "#theta_{q}", thq_nbins, thq_xmin, thq_xmax); 
+  H_phq     = new TH1F("H_phq", "#phi_{q}", phq_nbins, phq_xmin, phq_xmax); 
   H_epsilon = new TH1F("H_epsilon", "Virtual Photon (#gamma) Polarization Factor" , epsilon_nbins, epsilon_xmin, epsilon_xmax); 
 
   //Secondary (Hadron) Kinematics (recoil and missing are used interchageably) ()
@@ -1400,22 +1400,22 @@ void baseAnalyzer::CreateHist()
   H_Pmx_q   = new TH1F("H_Pmx_q","P_{miss, xq} (w.r.t #vec{q}) ", Pmx_q_nbins, Pmx_q_xmin, Pmx_q_xmax);   
   H_Pmy_q   = new TH1F("H_Pmy_q","P_{miss, yq} (w.r.t #vec{q}) ", Pmy_q_nbins, Pmy_q_xmin, Pmy_q_xmax); 
   H_Pmz_q   = new TH1F("H_Pmz_q","P_{miss, zq} (along #vec{q}) ", Pmz_q_nbins, Pmz_q_xmin, Pmz_q_xmax); 
-  H_Tx      = new TH1F("H_Tx", "Kinetic Energy, T_{x} (detected)", Tx_nbins, Tx_xmin, Tx_xmax);     
+  H_Tx      = new TH1F("H_Tx", "Kinetic Energy, T_{p} (detected)", Tx_nbins, Tx_xmin, Tx_xmax);     
   H_Tr      = new TH1F("H_Tr", "Kinetic Energy, T_{r} (recoil)",   Tr_nbins, Tr_xmin, Tr_xmax);  
   H_MM      = new TH1F("H_MM","Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_MM2     = new TH1F("H_MM2","Missing Mass Squared, M^{2}_{miss}", MM2_nbins, MM2_xmin, MM2_xmax); 
-  H_thx     = new TH1F("H_thx", "Hadron Scattering Angle (detected), #theta_{x}", thx_nbins, thx_xmin, thx_xmax);
+  H_thx     = new TH1F("H_thx", "Hadron Scattering Angle (detected), #theta_{p}", thx_nbins, thx_xmin, thx_xmax);
   H_Pf      = new TH1F("H_Pf", "Final Hadron Momentum (detected), p_{f}", Pf_nbins, Pf_xmin, Pf_xmax);
-  H_thxq    = new TH1F("H_thxq", "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
-  H_thrq    = new TH1F("H_thrq", "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
-  H_phxq    = new TH1F("H_phxq", "Out-of-Plane Angle, #phi_{xq}", phxq_nbins, phxq_xmin, phxq_xmax);
-  H_phrq    = new TH1F("H_phrq", "Out-of-Plane Angle, #phi_{rq}", phrq_nbins, phrq_xmin, phrq_xmax);
+  H_thxq    = new TH1F("H_thxq", "In-Plane (detected) Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
+  H_thrq    = new TH1F("H_thrq", "In-Plane (recoil) Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
+  H_phxq    = new TH1F("H_phxq", "Out-of-Plane (detected) Angle, #phi_{pq}", phxq_nbins, phxq_xmin, phxq_xmax);
+  H_phrq    = new TH1F("H_phrq", "Out-of-Plane (recoil) Angle, #phi_{rq}", phrq_nbins, phrq_xmin, phrq_xmax);
   H_Tx_cm   = new TH1F("H_Tx_cm", "Kinetic Energy, T_{x, cm} (detected)", Tx_cm_nbins, Tx_cm_xmin, Tx_cm_xmax);     
   H_Tr_cm   = new TH1F("H_Tr_cm", "Kinetic Energy, T_{r, cm} (recoil)",   Tr_cm_nbins, Tr_cm_xmin, Tr_cm_xmax);  
-  H_thxq_cm = new TH1F("H_thxq_cm", "In-Plane Angle, #theta_{xq, cm}", thxq_cm_nbins, thxq_cm_xmin, thxq_cm_xmax);
-  H_thrq_cm = new TH1F("H_thrq_cm", "In-Plane Angle, #theta_{rq, cm}", thrq_cm_nbins, thrq_cm_xmin, thrq_cm_xmax);
-  H_phxq_cm = new TH1F("H_phxq_cm", "Out-of-Plane Angle, #phi_{xq, cm}", phxq_cm_nbins, phxq_cm_xmin, phxq_cm_xmax);
-  H_phrq_cm = new TH1F("H_phrq_cm", "Out-of-Plane Angle, #phi_{rq, cm}", phrq_cm_nbins, phrq_cm_xmin, phrq_cm_xmax);
+  H_thxq_cm = new TH1F("H_thxq_cm", "In-Plane (detected) Angle, #theta_{pq, cm}", thxq_cm_nbins, thxq_cm_xmin, thxq_cm_xmax);
+  H_thrq_cm = new TH1F("H_thrq_cm", "In-Plane (recoil) Angle, #theta_{rq, cm}", thrq_cm_nbins, thrq_cm_xmin, thrq_cm_xmax);
+  H_phxq_cm = new TH1F("H_phxq_cm", "Out-of-Plane (detected) Angle, #phi_{pq, cm}", phxq_cm_nbins, phxq_cm_xmin, phxq_cm_xmax);
+  H_phrq_cm = new TH1F("H_phrq_cm", "Out-of-Plane (recoil) Angle, #phi_{rq, cm}", phrq_cm_nbins, phrq_cm_xmin, phrq_cm_xmax);
   H_Ttot_cm = new TH1F("H_Ttot_cm", "Total CM Kinetic Energy, T_{tot,cm}", Ttot_cm_nbins, Ttot_cm_xmin, Ttot_cm_xmax);
   H_MandelS = new TH1F("H_MandelS", "s-Mandelstam", MandelS_nbins, MandelS_xmin, MandelS_xmax);     
   H_MandelT = new TH1F("H_MandelT", "t-Mandelstam", MandelT_nbins, MandelT_xmin, MandelT_xmax);
@@ -1423,22 +1423,22 @@ void baseAnalyzer::CreateHist()
   
   // (Cosine, Sine) Histos of detected AND recoil angles (range is fixed at: -1, 1)
   //LAB FRAME
-  H_cth_xq = new TH1F("H_cth_xq", "cos(#theta_{xq})", thxq_nbins, -1, 1);
+  H_cth_xq = new TH1F("H_cth_xq", "cos(#theta_{pq})", thxq_nbins, -1, 1);
   H_cth_rq = new TH1F("H_cth_rq", "cos(#theta_{rq})", thrq_nbins, -1, 1);
-  H_sth_xq = new TH1F("H_sth_xq", "sin(#theta_{xq})", thxq_nbins, -1, 1);
+  H_sth_xq = new TH1F("H_sth_xq", "sin(#theta_{pq})", thxq_nbins, -1, 1);
   H_sth_rq = new TH1F("H_sth_rq", "sin(#theta_{rq})", thrq_nbins, -1, 1);
-  H_cphi_xq = new TH1F("H_cphi_xq", "cos(#phi_{xq})", phxq_nbins, -1, 1);
+  H_cphi_xq = new TH1F("H_cphi_xq", "cos(#phi_{pq})", phxq_nbins, -1, 1);
   H_cphi_rq = new TH1F("H_cphi_rq", "cos(#phi_{rq})", phrq_nbins, -1, 1);
-  H_sphi_xq = new TH1F("H_sphi_xq", "sin(#phi_{xq})", phxq_nbins, -1, 1);
+  H_sphi_xq = new TH1F("H_sphi_xq", "sin(#phi_{pq})", phxq_nbins, -1, 1);
   H_sphi_rq = new TH1F("H_sphi_rq", "sin(#phi_{rq})", phrq_nbins, -1, 1);
   //CM FRAME
-  H_cth_xq_cm = new TH1F("H_cth_xq_cm", "cos(#theta_{xq,cm})", thxq_cm_nbins, -1, 1);
+  H_cth_xq_cm = new TH1F("H_cth_xq_cm", "cos(#theta_{pq,cm})", thxq_cm_nbins, -1, 1);
   H_cth_rq_cm = new TH1F("H_cth_rq_cm", "cos(#theta_{rq,cm})", thrq_cm_nbins, -1, 1);
-  H_sth_xq_cm = new TH1F("H_sth_xq_cm", "sin(#theta_{xq,cm})", thxq_cm_nbins, -1, 1);
+  H_sth_xq_cm = new TH1F("H_sth_xq_cm", "sin(#theta_{pq,cm})", thxq_cm_nbins, -1, 1);
   H_sth_rq_cm = new TH1F("H_sth_rq_cm", "sin(#theta_{rq,cm})", thrq_cm_nbins, -1, 1);
-  H_cphi_xq_cm = new TH1F("H_cphi_xq_cm", "cos(#phi_{xq,cm})", phxq_cm_nbins, -1, 1);
+  H_cphi_xq_cm = new TH1F("H_cphi_xq_cm", "cos(#phi_{pq,cm})", phxq_cm_nbins, -1, 1);
   H_cphi_rq_cm = new TH1F("H_cphi_rq_cm", "cos(#phi_{rq,cm})", phrq_cm_nbins, -1, 1);
-  H_sphi_xq_cm = new TH1F("H_sphi_xq_cm", "sin(#phi_{xq,cm})", phxq_cm_nbins, -1, 1);
+  H_sphi_xq_cm = new TH1F("H_sphi_xq_cm", "sin(#phi_{pq,cm})", phxq_cm_nbins, -1, 1);
   H_sphi_rq_cm = new TH1F("H_sphi_rq_cm", "sin(#phi_{rq,cm})", phrq_cm_nbins, -1, 1);
 
   // 2d kin histos
@@ -1550,15 +1550,15 @@ void baseAnalyzer::CreateHist()
   
 
   //Target Reconstruction (Hall Coord. System) 
-  H_htar_x = new TH1F("H_htar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts ", h_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
-  H_htar_y = new TH1F("H_htar_y", Form("%s y_Target (Lab); y-Target [cm]; Counts ", h_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
-  H_htar_z = new TH1F("H_htar_z", Form("%s z_Target (Lab); z-Target [cm]; Counts ", h_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
-  H_etar_x = new TH1F("H_etar_x", Form("%s x-Target (Lab); x-Target [cm]; Counts ", e_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
-  H_etar_y = new TH1F("H_etar_y", Form("%s y-Target (Lab); y-Target [cm]; Counts ", e_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
-  H_etar_z = new TH1F("H_etar_z", Form("%s z-Target (Lab); z-Target [cm]; Counts ", e_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
+  H_htar_x = new TH1F("H_htar_x", Form("Fast Raster (%s) x-Vertex (Lab) ; x-Vertex [cm]; Counts ", h_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_htar_y = new TH1F("H_htar_y", Form("Fast Raster (%s) y_Vertex (Lab) ; y-Vertex [cm]; Counts ", h_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_htar_z = new TH1F("H_htar_z", Form("%s z-Vertex (Lab)               ; z-Vertex [cm]; Counts ", h_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
+  H_etar_x = new TH1F("H_etar_x", Form("Fast Raster (%s) x-Vertex (Lab) ; x-Target [cm]; Counts ", e_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_etar_y = new TH1F("H_etar_y", Form("Fast Raster (%s) y-Vertex (Lab) ; y-Target [cm]; Counts ", e_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_etar_z = new TH1F("H_etar_z", Form("%s z-Vertex (Lab)               ; z-Vertex [cm]; Counts ", e_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
 
   //difference in reaction vertex z (user-defined)
-  H_ztar_diff = new TH1F("H_ztar_diff", "Ztar Difference; z-Target Difference [cm]; Counts ", ztar_diff_nbins, ztar_diff_xmin, ztar_diff_xmax);
+  H_ztar_diff = new TH1F("H_ztar_diff", "z-Vertex Difference; (HMS-SHMS) z-Vertex Difference [cm]; Counts ", ztar_diff_nbins, ztar_diff_xmin, ztar_diff_xmax);
 
   //HMS / SHMS Collimator
   H_hXColl = new TH1F("H_hXColl", Form("%s X Collimator; X-Collimator [cm]; Counts ", h_arm_name.Data()), hXColl_nbins, hXColl_xmin, hXColl_xmax);
@@ -1631,7 +1631,7 @@ void baseAnalyzer::CreateHist()
   H_Em_nuc_rand     = new TH1F("H_Em_nuc_rand", "Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_Pm_rand         = new TH1F("H_Pm_rand",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
   H_MM_rand         = new TH1F("H_MM_rand",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
-  H_thxq_rand       = new TH1F("H_thxq_rand",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
+  H_thxq_rand       = new TH1F("H_thxq_rand",   "In-Plane Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
   H_thrq_rand       = new TH1F("H_thrq_rand",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
   
   rand_HList->Add( H_ep_ctime_rand );
@@ -1661,7 +1661,7 @@ void baseAnalyzer::CreateHist()
   H_Em_nuc_rand_sub     = new TH1F("H_Em_nuc_rand_sub", "Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_Pm_rand_sub         = new TH1F("H_Pm_rand_sub",     "Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax);
   H_MM_rand_sub         = new TH1F("H_MM_rand_sub",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
-  H_thxq_rand_sub       = new TH1F("H_thxq_rand_sub",   "In-Plane Angle, #theta_{xq}", thxq_nbins, thxq_xmin, thxq_xmax);
+  H_thxq_rand_sub       = new TH1F("H_thxq_rand_sub",   "In-Plane Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
   H_thrq_rand_sub       = new TH1F("H_thrq_rand_sub",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
   
   randSub_HList->Add( H_ep_ctime_rand_sub );
@@ -2438,14 +2438,14 @@ void baseAnalyzer::EventLoop()
 
 	  // user pre-determined analysis kinematics cuts
 
-	  if(analysis_cut=="lumi"){ // will need to remember to put specific cuts around current of ~ 10 uA and ~70 uA
+	  if(analysis_cut=="lumi"){ 
 	    c_baseCuts =  e_delta>=-10. && e_delta<=22. && c_pidCuts_shms;
 	  }
 	  else if(analysis_cut=="optics"){  // will need to call Holly's script that generates optics plots (from raw ROOTfile)
 	    c_baseCuts =  c_pidCuts_shms;
 	  }
 	  else if(analysis_cut=="heep_singles"){
-	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts && (eP_ctime_cut=1); //setting eP_ctime=1 guarantees cut will always pass (i.e. turned OFF)
+	    c_baseCuts =  c_accpCuts_shms && c_pidCuts_shms && c_kinHeepSing_Cuts && (eP_ctime_cut=1); //setting eP_ctime=1 guarantees cut will always pass (i.e. turned coin time cut OFF)
 	  }
 	  else if(analysis_cut=="heep_coin"){
 	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeepCoin_Cuts;
@@ -3308,13 +3308,6 @@ void baseAnalyzer::WriteReport()
 
     if(analysis_cut!="bcm_calib"){
     out_file << "                                     " << endl;
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "# Drift Chambers Tracking Efficiency  " << endl;
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "                                     " << endl;
-    out_file << Form("hms_had_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
-    out_file << Form("shms_elec_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
-    out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# DAQ Trigger Information  " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -3326,54 +3319,75 @@ void baseAnalyzer::WriteReport()
     out_file << Form("edtm_scaler   :  %.3f  ",         total_edtm_scaler_bcm_cut ) << endl;
     out_file << Form("edtm_accepted :  %.3f  ",         total_edtm_accp_bcm_cut) << endl;
     out_file << "                                     " << endl;
+    out_file << "# pre-scale factors (-1: trigger OFF)                 " << endl;
     out_file << Form("Ps1_factor: %.1f", Ps1_factor) << endl;
+    out_file << Form("Ps2_factor: %.1f", Ps2_factor) << endl;
+    out_file << Form("Ps3_factor: %.1f", Ps3_factor) << endl;
+    out_file << Form("Ps4_factor: %.1f", Ps4_factor) << endl;
+    out_file << Form("Ps5_factor: %.1f", Ps5_factor) << endl;
+    out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
+    out_file << "                                     " << endl;
+    out_file << "# pre-trigger scalers                 " << endl;
     out_file << Form("T1_scaler:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
+    out_file << Form("T2_scaler:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
+    out_file << Form("T3_scaler:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
+    out_file << Form("T4_scaler:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
+    out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
+    out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
+    out_file << "                                     " << endl;
+    out_file << "# accepted triggers           " << endl;
     out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
+    out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
+    out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;
+    out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut) << endl;
+    out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut) << endl;
+    out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut) << endl;
+    out_file << "                                     " << endl;
+    out_file << "# daq computer (cpu) and total live time  " << endl;
     if(Ps1_factor > -1) {
       out_file << Form("T1_cpuLT:    %.3f +- %.3f ",  cpuLT_trig1,                 cpuLT_trig1_err_Bi) << endl;
       out_file << Form("T1_tLT:      %.3f +- %.3f ",  tLT_trig1,                   tLT_trig1_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps2_factor: %.1f", Ps2_factor) << endl;
-    out_file << Form("T2_scaler:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
-    out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
     if(Ps2_factor > -1) {
       out_file << Form("T2_cpuLT:    %.3f +- %.3f ",  cpuLT_trig2,                 cpuLT_trig2_err_Bi) << endl;
       out_file << Form("T2_tLT:      %.3f +- %.3f ",  tLT_trig2,                   tLT_trig2_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps3_factor: %.1f", Ps3_factor) << endl;
-    out_file << Form("T3_scaler:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
-    out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;
     if(Ps3_factor > -1) {
       out_file << Form("T3_cpuLT:    %.3f +- %.3f ",  cpuLT_trig3,                 cpuLT_trig3_err_Bi) << endl;
       out_file << Form("T3_tLT:      %.3f +- %.3f ",  tLT_trig3,                   tLT_trig3_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps4_factor: %.1f", Ps4_factor) << endl;
-    out_file << Form("T4_scaler:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
-    out_file << Form("T4_accepted: %.3f [ %.3f kHz ]  ", total_trig4_accp_bcm_cut,    TRIG4accpRate_bcm_cut) << endl;
     if(Ps4_factor > -1) {
       out_file << Form("T4_cpuLT:    %.3f +- %.3f ",  cpuLT_trig4,                 cpuLT_trig4_err_Bi) << endl;
       out_file << Form("T4_tLT:      %.3f +- %.3f ",  tLT_trig4,                   tLT_trig4_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps5_factor: %.1f", Ps5_factor) << endl;
-    out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
-    out_file << Form("T5_accepted: %.3f [ %.3f kHz ]  ", total_trig5_accp_bcm_cut,    TRIG5accpRate_bcm_cut) << endl;
     if(Ps5_factor > -1) {
       out_file << Form("T5_cpuLT:    %.3f +- %.3f ",  cpuLT_trig5,                 cpuLT_trig5_err_Bi) << endl;
       out_file << Form("T5_tLT:      %.3f +- %.3f ",  tLT_trig5,                   tLT_trig5_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
-    out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
-    out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
-    out_file << Form("T6_accepted: %.3f [ %.3f kHz ]  ", total_trig6_accp_bcm_cut,    TRIG6accpRate_bcm_cut) << endl;
     if(Ps6_factor > -1) {
       out_file << Form("T6_cpuLT:    %.3f +- %.3f ",  cpuLT_trig6,                 cpuLT_trig6_err_Bi) << endl;
       out_file << Form("T6_tLT:      %.3f +- %.3f ",  tLT_trig6,                   tLT_trig6_err_Bi) << endl;	
     }
     out_file << "                                     " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# Drift Chambers Tracking Efficiency  " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "                                     " << endl;
+    out_file << Form("hms_had_track_eff:  %.3f +- %.3f",  hTrkEff,  hTrkEff_err) << endl;
+    out_file << Form("shms_elec_track_eff: %.3f +- %.3f",  pTrkEff, pTrkEff_err) << endl;
+    out_file << "                                     " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# Data Analysis Cuts                  " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "  # need to add here . . .                                   " << endl;
+    // need to add . . .
+
+    
     } // end !bcm_calib requirement
     
     
