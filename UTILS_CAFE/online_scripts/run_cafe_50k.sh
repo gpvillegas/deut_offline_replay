@@ -29,10 +29,18 @@ if [ -z "$runNum" ]; then
   runNum=$lastRun
 fi
 
-# How many events to analyze.
+# How many events to analyze, else defaults to 50k
 numEvents=$2
 if [ -z "$numEvents" ]; then
  numEvents=50000 
+fi
+
+# Set this run as the golden run  ?
+#(for purposes of pedestal monitoring future runs, 
+#whose pedestal will be compared to this run)
+goldenRun=$3
+if [ -z "$goldenRun" ]; then
+    goldenRun=""
 fi
 
 # Which scripts to run.
@@ -72,6 +80,7 @@ outFileMonitor="output.txt"
 replayFile="cafe_replay_${spec}50k_${runNum}"
 rootFile="${replayFile}_${numEvents}.root"
 latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
+goldenRootFile="${rootFileDir}/${spec}50k/${spec}_coin_replay_production_golden.root"
 
 # Names of the monitoring ROOTfile
 monRootFile=${outFileBase}".root"
@@ -114,7 +123,15 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   # Link the ROOT file to latest for online monitoring
   ln -sf ${rootFile} ${latestRootFile}
 
-  
+  if [ "$goldenRun" = "set-golden" ]; then
+      echo "--------------------------------------------"
+      echo "Setting ${SPEC} COIN run ${runNum} as GOLDEN RUN ! ! !"
+      echo "--------------------------------------------"  
+
+      # optional, set this run as the golden run:
+      ln -sf ${rootFile} ${goldenRootFile}
+  fi
+
   echo "" 
   echo ""
   echo ""
