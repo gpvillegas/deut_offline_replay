@@ -12,18 +12,16 @@
 ** do we really need HMS/SHMS EPICS BPM in onlineGUI ?? Ask D. Gaskell. answer: not essential . --> done
 ** on HMS PID:  ONLY add beta from the track vs. delta, and calorimeter norm. track energy vs. delta --> done
 
-** MOVE SHMS Hodo Track monitoring to "expert_" section
 
-** where does P.tr.beta come from?? --> Beta determined from hodoscope using track info
-(maybe better to add P.hod.beta, instead) See THcHodoscope.cxx
+** MOVE SHMS Hodo Track monitoring to "expert_" section
 
 ** SHMS/HMS Target Quantities: Remove Xtar, and put in ztar (HMS: H.react.z, 
 SHMS: P.react.z, reaction vertex z-component)
 
-** Remove ALL SHMS Aerogel/Heavy Gas Cherenkov Plots
+** Remove ALL SHMS Aerogel/Heavy Gas Cherenkov Plots --> done
 
-** Add Calorimeter normalized track energy in PID, as well as hodo beta as
+** Add Calorimeter normalized track energy in PID, as well as hodo beta as  --> done
 a fucntion of delta: i.e., P.hod.beta:P.gtr.dp,  P.cal.etottracknorm:P.gtr.dp
 
-* in SHMS Kinematics (remove W2)
+* in SHMS Kinematics (remove W2) --> done
 

@@ -133,6 +133,23 @@ TH1F pdc2x1_rawwirenum 'SHMS DC 2X1 Wiremap; Wire Number (all hits); Number of E
 TH1F pdc2u2_rawwirenum 'SHMS DC 2U2 Wiremap; Wire Number (all hits); Number of Entries' P.dc.2u2.raw.wirenum 107 0.5 107.5
 TH1F pdc2u1_rawwirenum 'SHMS DC 2U1 Wiremap; Wire Number (all hits); Number of Entries' P.dc.2u1.raw.wirenum 107 0.5 107.5
 
+#-----------------
+# SHMS DC Raw TDC
+#-----------------
+TH1F pdc1u1_rawtdc 'SHMS DC 1U1 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1u1.rawtdc 1000 -20000 20000
+TH1F pdc1u2_rawtdc 'SHMS DC 1U2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1u2.rawtdc 1000 -20000 20000
+TH1F pdc1x1_rawtdc 'SHMS DC 1X1 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1x1.rawtdc 1000 -20000 20000
+TH1F pdc1x2_rawtdc 'SHMS DC 1X2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1x2.rawtdc 1000 -20000 20000
+TH1F pdc1v1_rawtdc 'SHMS DC 1V1 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1v1.rawtdc 1000 -20000 20000
+TH1F pdc1v2_rawtdc 'SHMS DC 1V2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.1v2.rawtdc 1000 -20000 20000
+                  
+TH1F pdc2v2_rawtdc 'SHMS DC 2V2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.2v2.rawtdc 1000 -20000 20000
+TH1F pdc2v1_rawtdc 'SHMS DC 2V1 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.2v1.rawtdc 1000 -20000 20000
+TH1F pdc2x2_rawtdc 'SHMS DC 2X2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.2x2.rawtdc 1000 -20000 20000
+TH1F pdc2x1_rawtdc 'SHMS DC 2X1 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.2x1.rawtdc 1000 -20000 20000
+TH1F pdc2u2_rawtdc 'SHMS DC 2U2 Raw TDC Time; Raw TDC Time (Channel); Number of Entries' P.dc.2u2.rawtdc 1000 -20000 20000
+TH1F pdc2u1_rawtdc 'SHMS DC 2U1 Raw TDC Time; Raw TDC Time (Channel(; Number of Entries' P.dc.2u1.rawtdc 1000 -20000 20000
+
 #----------------------------------
 # SHMS DC Drift Distance Per Plane 
 #----------------------------------
@@ -182,16 +199,17 @@ TH2F pdc_yfp_vs_xpfp  'SHMS DC Y_{fp} vs X'_{fp}; X'_{fp} / 0.002 rad; Y_{fp} / 
 TH2F pdc_yfp_vs_ypfp  'SHMS DC Y_{fp} vs Y'_{fp}; Y'_{fp} / 0.002 rad; Y_{fp} / 1 cm'  P.dc.yp_fp P.dc.y_fp 100 -.1 .1 80 -40 40
 TH2F pdc_yfp_vs_beta  'SHMS DC Y_{fp} vs Beta; Beta; Y_{fp} / 1 cm' P.tr.beta P.dc.y_fp 100 -0.5 1.5 80 -40 40
 
-#-------------------
-# TARGET VARIABLES
-#-------------------
+#------------------------
+# SHMS Target Quantities
+#------------------------
 TH1F pgtr_delta 'SHMS Momentum Acceptance, Delta; Delta [%]; Number of Entries' P.gtr.dp 100 -15. 25. 
-TH1F pgtr_xtar 'SHMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries / 0.05 cm' P.gtr.x 80 -2 2 pcut_CleanTrack
-TH1F pgtr_ytar 'SHMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries / 0.25 cm' P.gtr.y 60 -7.5 7.5 pcut_CleanTrack
-TH2F pgtr_ytar_vs_yptar  'SHMS Golden Track Y_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; Y_{tar} / 0.25 cm'  P.gtr.ph P.gtr.y 100 -.1 .1 60 -7.5 7.5 pcut_CleanTrack
-TH2F pgtr_xptar_vs_yptar 'SHMS Golden Track X'_{tar} vs Y'_{tar}; Y'_{tar} / 0.002 rad; X'_{tar} / 0.002 rad' P.gtr.ph P.gtr.th 100 -.1 .1 100 -.1 .1 pcut_CleanTrack
-TH2F pgtr_xtar_vs_reactz 'SHMS Golden Track X_{tar}; Z_{react} / 0.1 cm; X_{tar} / 0.05 cm' P.react.z P.gtr.x 200 -10 10 80 -2 2 pcut_CleanTrack
-TH2F pextcor_xysieve 'SHMS Extended Target Correction XY-Sieve; Y_{sieve} / 0.1 cm; X_{sieve} / 0.1 cm' P.extcor.ysieve P.extcor.xsieve 200 -10 10 300 -15 15 pcut_CleanTrack
+TH1F pgtr_reactz 'SHMS z-Vertex; Z Reaction Vertex (cm); Number of Entries' P.react.z 200 -10 10 pcut_CleanTrack
+TH1F pgtr_ytar 'SHMS Golden Track Y_{tar}; Y_{tar} (cm); Number of Entries' P.gtr.y 60 -7.5 7.5 pcut_CleanTrack
+TH2F pgtr_ytar_vs_yptar  'SHMS Golden Track Y_{tar} vs Y'_{tar}; Y'_{tar} (rad); Y_{tar} (cm)'  P.gtr.ph P.gtr.y 100 -.1 .1 60 -7.5 7.5 pcut_CleanTrack
+TH2F pgtr_xptar_vs_yptar 'SHMS Golden Track X'_{tar} vs Y'_{tar}; Y'_{tar} (rad); X'_{tar} (rad)' P.gtr.ph P.gtr.th 100 -.1 .1 100 -.1 .1 pcut_CleanTrack
+TH2F pgtr_xtar_vs_reactz 'SHMS Golden Track X_{tar}; Z_{react} (cm); X_{tar} (cm)' P.react.z P.gtr.x 200 -10 10 80 -2 2 pcut_CleanTrack
+TH2F pextcor_xysieve 'SHMS Extended Target Correction XY-Sieve; Y_{sieve} (cm); X_{sieve} (cm)' P.extcor.ysieve P.extcor.xsieve 200 -10 10 300 -15 15 pcut_CleanTrack
+TH1F pgtr_xtar 'SHMS Golden Track X_{tar}; X_{tar} (cm); Number of Entries' P.gtr.x 80 -2 2 pcut_CleanTrack
 
 
 #--------------------------------
@@ -359,12 +377,16 @@ TH1F hBPMT_Y 'Beam BPMT_Y ; BPM_Y projected to target  (CM); Counts' P.rb.raster
 #------------
 # SHMS PID
 #------------
-TH2F hgc_vs_prshw      'SHMS HGC NPE Sum vs. PreSh Energy; Total PreSh Energy Deposition / 0.01 GeV; HGC NPE Sum / 0.5' P.cal.pr.eplane P.hgcer.npeSum 400 0 4 80 0 40 P.cal.pr.eplane>0.0&&P.hgcer.npeSum>0.0 
-TH2F pcal_shw_vs_prshw      'SHMS Shower vs. PreShower Energy Deposition; PreShower Energy / 0.01 GeV; Shower Energy / 0.01 GeV' P.cal.pr.eplane P.cal.fly.earray 400 0 4 1200 0 12 P.cal.pr.eplane>0.0&&P.cal.fly.earray>0.0 
-TH1F pdc_trk_beta     'SHMS DC Track Beta; Beta (GeV); Number of Entires' P.tr.beta 300 -1.5 1.5
+TH1F pgtr_beta             'SHMS DC Golden Track Beta; Beta; Number of Entires' P.gtr.beta 250 -0.5 1.5 pcut_CleanTrack
+TH1F pcal_etottracknorm    'SHMS Cal Etot/Ptrk; Total Energy Deposited / Track Momentum; Number of Entries' P.cal.etottracknorm 100, 0., 1.5 pcut_CleanTrack
+TH2F pgtr_beta_vs_delta    'SHMS DC Golden Track Beta vs. Delta; Delta (%); Beta; Number of Entires'  P.gtr.dp P.gtr.beta 100 -12. 25. 300 -0.5 1.5 
+TH2F pgtr_etottracknorm_vs_delta  'SHMS Cal Etot/Ptrk vs. Delta; Total Energy Deposited / Track Momentum; Delta'  P.gtr.dp P.cal.etottracknorm 100 -12. 25. 200 -0.5 1.5 
+
+
+TH2F hgc_vs_prshw              'SHMS HGC NPE Sum vs. PreSh Energy; Total PreSh Energy Deposition / 0.01 GeV; HGC NPE Sum / 0.5' P.cal.pr.eplane P.hgcer.npeSum 400 0 4 80 0 40 P.cal.pr.eplane>0.0&&P.hgcer.npeSum>0.0 
+TH2F pcal_shw_vs_prshw         'SHMS Shower vs. PreShower Energy Deposition; PreShower Energy / 0.01 GeV; Shower Energy / 0.01 GeV' P.cal.pr.eplane P.cal.fly.earray 400 0 4 1200 0 12 P.cal.pr.eplane>0.0&&P.cal.fly.earray>0.0 
 TH2F pcal_xtrack_vs_etracknorm 'SHMS Calorimeter X-Track vs Total Track Energy; Normalized Track Energy Deposition (Gev) / 0.025; X Track (cm) / 1 cm' P.cal.etottracknorm P.cal.xtrack 60 0 1.5 120 -60 60 pcut_CleanTrack
 TH2F pcal_ytrack_vs_etracknorm 'SHMS Calorimeter Y-Track vs Total Track Energy; Normalized Track Energy Deposition (Gev) / 0.025; Y Track (cm) / 1 cm' P.cal.etottracknorm P.cal.ytrack 60 0 1.5 100 -50 50 pcut_CleanTrack
-TH2F pcal_delta_etracknorm      'SHMS Delta vs. Cal E/p; Normalized Track Energy Deposition / 0.025; Delta / 0.25' P.cal.etracknorm P.gtr.dp 60 0. 1.5 128 -10. 22. pcut_CleanTrack
 TH2F paero_vrs_phgcer 'SHMS Areogel NPE vrs HGC NPE; Aerogel Number Photoelectrons; HGC Number of photoelectrons' P.aero.npeSum P.hgcer.npeSum 50 0. 50 50 0. 50 pcut_CleanTrack
 TH2F pngcer_vrs_phgcer 'SHMS NGC NPE vrs HGC NPE; NGC Number Photoelectrons; HGC Number of photoelectrons' P.ngcer.npeSum P.hgcer.npeSum 50 0. 50 50 0. 50 pcut_CleanTrack
 
@@ -436,13 +458,13 @@ TH1F pdc2u1_wirenum_should 'SHMS DC 2U1 Wiremap; Wire Number; Number of Entries'
 #-----------------
 # SHMS KINEMATICS
 #-----------------
-TH1F pdc_trk_mom      'SHMS DC Track Momentum; P (GeV); Number of Entires / 50 MeV' P.tr.p 240 0 12
-TH1F pkin_theta       'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg); Number of Entries / 0.06 deg' P.kin.primary.scat_ang_deg 350 5 40 pcut_CleanTrack
-TH1F pkin_q2          '4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.050 GeV^{2}' P.kin.primary.Q2 400 0 20 pcut_CleanTrack
-TH1F pkin_q           '3-Momentum Transfer, |q|; |q| (GeV); Number of Entries / 0.050 GeV' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
-TH1F pkin_thq         '3-Momentum Transfer Angle w/ +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries / 0.5 deg' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
-TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries / 0.050 GeV' P.kin.primary.W 200 0 10 pcut_CleanTrack
-TH1F pkin_omega       'Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries / 0.050 GeV' P.kin.primary.omega 200 0 10 pcut_CleanTrack
-TH1F pkin_w2          'Invariant Mass W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.100 GeV^{2}' P.kin.primary.W2 100 0 10 pcut_CleanTrack
+TH1F pdc_trk_mom      'SHMS DC Track Momentum; P (GeV); Number of Entires' P.tr.p 240 5 12
+TH1F pkin_theta       'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg); Number of Entries' P.kin.primary.scat_ang_deg 350 5 20 pcut_CleanTrack
+TH1F pkin_q2          '4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries' P.kin.primary.Q2 100 0 8 pcut_CleanTrack
+TH1F pkin_q           '3-Momentum Transfer, |q|; |q| (GeV); Number of Entries' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
+TH1F pkin_thq         '3-Momentum Transfer Angle w/ +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
+TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries' P.kin.primary.W 200 0 10 pcut_CleanTrack
+TH1F pkin_omega       'Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries' P.kin.primary.omega 200 0 6 pcut_CleanTrack
+TH1F pkin_xbj         'x-Bjorken; Xbj; Number of Entries' P.kin.primary.x_bj 100 0.4 2 pcut_CleanTrack
 
 
