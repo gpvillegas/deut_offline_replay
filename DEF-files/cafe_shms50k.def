@@ -240,7 +240,10 @@ TH2F pngcer_good_pped_vs_pmt 'SHMS Noble Gas Cherenkov Good Pulse Pedestal vs. P
 TH2F paero_npe_pos 'SHMS Aero+ NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.aero.posNpe 7 0.5 7.5 60 0 30 P.aero.posNpe>0.0 
 TH2F paero_npe_neg 'SHMS Aero- NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.aero.negNpe 7 0.5 7.5 60 0 30 P.aero.negNpe>0.0 
 TH2F phgcer_npe 'SHMS Heavy Gas Cherenkov NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.hgcer.npe 4 0.5 4.5 60 0 30 P.hgcer.npe>0.0 
-TH2F pngcer_npe 'SHMS Noble Gas Cherenkov Number of Photoelectrons vs. PMT Number; PMT Number; Number of Photoelectrons / 0.5 Photoelectrons' [I+1] P.ngcer.npe 4 0.5 4.5 100 0 50 P.ngcer.npe>0.0 
+TH2F pngcer_npe 'SHMS Noble Gas Cherenkov Number of Photoelectrons vs. PMT Number; PMT Number; Number of Photoelectrons / 0.5 Photoelectrons' [I+1] P.ngcer.npe 4 0.5 4.5 100 0 50 P.ngcer.npe>0.0
+
+TH1F pngcer_npeSum 'SHMS Noble Gas Cherenkov Number of Photoelectrons SUM; Total Number of Photoelectrons; Number of Entries' P.ngcer.npeSum 100 0 25
+
 #TH2F paero_y_vs_npe 'SHMS Aerogel Y vs NPE; NPE / 0.5 PE ; Y (cm) / 1 cm' P.aero.npeSum P.aero.yAtAero 60 0 30 120 -60 60 P.aero.xAtAero!=0.0&&P.aero.yAtAero!=0
 #TH2F paero_x_vs_npe 'SHMS Aerogel X vs NPE; NPE / 0.5 PE ; X (cm) / 1 cm' P.aero.npeSum P.aero.xAtAero 60 0 30 120 -60 60 P.aero.xAtAero!=0.0&&P.aero.yAtAero!=0
 #TH2F phgcer_x_vs_npe 'SHMS Heavy Gas Cherenkov X vs NPE; NPE / 0.5 PE ; X (cm) / 1 cm' P.hgcer.npeSum P.hgcer.xAtCer 60 0 30 120 -60 60 P.hgcer.xAtCer!=0.0&&P.hgcer.yAtCer!=0
@@ -377,9 +380,9 @@ TH1F hBPMT_Y 'Beam BPMT_Y ; BPM_Y projected to target  (CM); Counts' P.rb.raster
 #------------
 # SHMS PID
 #------------
-TH1F pgtr_beta             'SHMS DC Golden Track Beta; Beta; Number of Entires' P.gtr.beta 250 -0.5 1.5 pcut_CleanTrack
+TH1F phod_beta             'SHMS Hodo Beta (track); Beta; Number of Entires' P.hod.beta 250 -0.5 1.5 pcut_CleanTrack
 TH1F pcal_etottracknorm    'SHMS Cal Etot/Ptrk; Total Energy Deposited / Track Momentum; Number of Entries' P.cal.etottracknorm 100, 0., 1.5 pcut_CleanTrack
-TH2F pgtr_beta_vs_delta    'SHMS DC Golden Track Beta vs. Delta; Delta (%); Beta; Number of Entires'  P.gtr.dp P.gtr.beta 100 -12. 25. 300 -0.5 1.5 
+TH2F phod_beta_vs_delta    'SHMS Hodo Beta (track) vs. Delta; Delta (%); Beta; Number of Entires'  P.gtr.dp P.hod.beta 100 -12. 25. 300 -0.5 1.5 
 TH2F pgtr_etottracknorm_vs_delta  'SHMS Cal Etot/Ptrk vs. Delta; Total Energy Deposited / Track Momentum; Delta'  P.gtr.dp P.cal.etottracknorm 100 -12. 25. 200 -0.5 1.5 
 
 
