@@ -22,12 +22,12 @@ void plotOptics(int runNUM=-1, int evtNUM=0, TString ana_type=""){
   canvas->SetBorderSize(0);
   canvas->SetFrameFillColor(0);
   canvas->SetFrameBorderMode(0);
-  std::string pdf_file_name= Form("cafe_optics_plots_%s_%i_%i_sieve0.pdf", ana_type.Data(), runNUM, evtNUM);
+  std::string pdf_file_name= Form("CAFE_OUTPUT/PDF/cafe_optics_%s_%i_%i_sieve0.pdf", ana_type.Data(), runNUM, evtNUM);
   gROOT->SetBatch(true);
   gStyle->SetOptStat(0);
   canvas->SetGridx();
   canvas->SetGridy();
-  TFile *fout = new TFile(Form("cafe_optics_plots_%s_%i_%i_sieve0.root", ana_type.Data(), runNUM, evtNUM),"RECREATE");
+  TFile *fout = new TFile(Form("CAFE_OUTPUT/ROOT/cafe_optics_%s_%i_%i_sieve0.root", ana_type.Data(), runNUM, evtNUM),"RECREATE");
 
 
   //make plots

@@ -853,8 +853,9 @@ void baseAnalyzer::ReadReport()
     tgt_mass = MB11_amu;
   }
  
-  else if(abs(temp_var-MC12_amu)<=max_diff){
-    tgt_type = "C12";
+  else if(abs(temp_var-MC12_amu)<=max_diff){    
+    if(analysis_cut=="optics") {tgt_type = "C12_2-foils";}
+    else{tgt_type = "C12";}
     tgt_mass = MC12_amu;
   }
   
