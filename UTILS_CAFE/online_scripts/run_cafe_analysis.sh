@@ -67,13 +67,16 @@ fi
 
 # cafe serious analysis script
 prod_script="UTILS_CAFE/main_analysis.cpp"
+optics_script="UTILS_CAFE/online_scripts/plotOptics.C"
 
 # cafe fill run list script
 fill_list_script="UTILS_CAFE/online_scripts/fill_cafe_runlist.py"
 
 
-# command to run scripts
+# run scripts commands
 runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
+
+runOptics="root -l -q -b \"${optics_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
 
 runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum}, 
 	     	   		    \\\"${daq_mode}\\\",  \\\"${e_arm}\\\", 
@@ -84,6 +87,11 @@ runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
                      )\""
 
 fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
+
+
+
+
+
 
 # Start data replay and analysis
 {
@@ -102,7 +110,26 @@ fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
     
     sleep 2
     eval ${runHcana}
+
+    #--------------------------------------
     
+    if [ "${kin_type}" = "optics" ]; then
+	echo "" 
+	echo ""
+	echo ""
+	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+	echo ""
+	echo "Running CaFe Optics Analysis for replayed run ${runNum}:"
+	echo " -> SCRIPT:  ${optics_script}"
+	echo " -> RUN:     ${runNum}"
+	echo " -> COMMAND: ${runOptics}"
+	echo ""
+	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
+	
+	sleep 2
+	eval ${runOptics}
+    fi
+    #--------------------------------------
     echo "" 
     echo ""
     echo ""
@@ -117,6 +144,8 @@ fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"
     
     sleep 2
     eval ${runCafe} 
+
+    #---------------------------------------
     
     # Only full run list for production runs (i.e., full event replays)
     # sample runs (./run_cafe_sample.sh, are just for getting quick estimates to make predictions)
