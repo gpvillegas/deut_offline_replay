@@ -1,6 +1,6 @@
-** remove HMS Hodo Track Monitoring 
+** remove HMS Hodo Track Monitoring  --> done
 
-** remove ALL HMS Cherenkov-RELATED INFO
+** remove ALL HMS Cherenkov-RELATED INFO  --> we do use HMS cher. for hadron tracking eff. definition of (basically, cer npe_sum < 0.5, suppress pions)
 
 ** add calorimeter info at the end, if we really want it, but optional
 --> calorimeter beta is the most relevant,
@@ -9,10 +9,8 @@
 --> add pedestals / PED MONITORING under the "expert_" category
 
 
-** do we really need HMS/SHMS EPICS BPM in onlineGUI ?? Ask D. Gaskell
-
-** on HMS PID:  ONLY add beta from the track vs. delta, and calorimeter norm. track energy vs. delta
-
+** do we really need HMS/SHMS EPICS BPM in onlineGUI ?? Ask D. Gaskell. answer: not essential . --> done
+** on HMS PID:  ONLY add beta from the track vs. delta, and calorimeter norm. track energy vs. delta --> done
 
 ** MOVE SHMS Hodo Track monitoring to "expert_" section
 
