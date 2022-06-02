@@ -16,7 +16,7 @@
 ** MOVE SHMS Hodo Track monitoring to "expert_" section
 
 ** SHMS/HMS Target Quantities: Remove Xtar, and put in ztar (HMS: H.react.z, 
-SHMS: P.react.z, reaction vertex z-component)
+SHMS: P.react.z, reaction vertex z-component) --> done
 
 ** Remove ALL SHMS Aerogel/Heavy Gas Cherenkov Plots --> done
 
