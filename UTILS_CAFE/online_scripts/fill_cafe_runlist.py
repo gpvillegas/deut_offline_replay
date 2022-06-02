@@ -391,14 +391,18 @@ good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
 
-# combine headers
+ # combine headers
 total_header = header_1 + header_2 + header_3 + header_4
 
 
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
-comment = raw_input("Please enter any relevant comments for run %s: \n >> " %(RUNNUM))
-
+query = raw_input("Would you like to make a comment for run %s ? [y/n] " %(RUNNUM))
+if (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
+    comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_'): \n >> " %(RUNNUM))
+elif(query=="n" or query=="N" or query=="No" or query=="NO"):
+    print("OK. No comments will be writte to the .csv")
+    
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
 
