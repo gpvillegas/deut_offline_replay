@@ -100,6 +100,9 @@ fi
 #fi
 
 #--- define tape allocations ---
+# make sure to point to the pionLT 2022 tape dir
+# when we run the 1st part of cafe (heep and optics checks)
+# since this 1st part will be taken during pionLT running.
 
 # where CaFe raw data output to be replayed will be stored (.dat files(
 # but these are NOT directly accessible, one would have to look for them in cache.

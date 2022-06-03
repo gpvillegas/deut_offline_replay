@@ -309,7 +309,7 @@ TH1F htrig_hT1_raw_tdc 'HMS hT1 Raw TDC Time (Slot 2,  Channel 6);   Raw Time (C
 TH1F htrig_hT2_raw_tdc 'HMS hT2 Raw TDC Time (Slot 20, Channel 127); Raw Time (Channels); Counts ' T.coin.hT2_tdcTimeRaw 1000 0 10000
 TH1F htrig_hT3_raw_tdc 'HMS hT3 Raw TDC Time (Slot 2,  Channel 63);  Raw Time (Channels); Counts ' T.coin.hT3_tdcTimeRaw 1000 0 10000
 
-TH1F htrig_hFADC_TREF_ROC1_raw_tdc 'HMS hFADC_TREF_ROC1 Raw Pulse Time; Raw Pulse Time (Channels); Counts ' T.coin.hFADC_TREF_ROC1_adcPulseTimeRaw 1000 0 10000
+TH1F htrig_hFADC_TREF_ROC1_raw_tdc 'HMS hFADC_TREF_ROC1 Raw Pulse Time (use this histo to set *_adcrefcut*); Raw Pulse Time (Channels); Counts ' T.coin.hFADC_TREF_ROC1_adcPulseTimeRaw 1000 0 10000
 
 
 #--------------------

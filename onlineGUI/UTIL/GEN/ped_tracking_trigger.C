@@ -9,7 +9,7 @@ void ped_tracking_trigger(TString golden_file="",TString trigger="", TString spe
     cin >> golden_file;
   }
   if (trigger=="") {
-    cout << "Enter trigger prefix (hgc, shwr, cer, rshwr (SHMS)): " << endl;
+    cout << "Enter trigger prefix (hgc, shwr, ngc, cer, rshwr ): " << endl;
     cin >> trigger;    
   }
   if (spect=="") {
@@ -20,6 +20,7 @@ void ped_tracking_trigger(TString golden_file="",TString trigger="", TString spe
   TString histname = Form("%s%s",spect.Data(),trigger.Data());
   if (histname.Contains("hgc")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"sum_pped");
   if (histname.Contains("shwr") && spect.Contains("p")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"sum_pped");
+  if (histname.Contains("ngc")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"sum_pped");
   if (histname.Contains("cer")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"adc_pped");
   if (histname.Contains("hwr") && spect.Contains("h")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"adc_pped");
   if (histname.Contains("Sum")) histname = Form("%strig_%s_%s",spect.Data(),histname.Data(),"adc_pped");

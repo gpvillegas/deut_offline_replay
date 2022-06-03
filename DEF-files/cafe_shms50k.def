@@ -240,8 +240,7 @@ TH2F pngcer_good_pped_vs_pmt 'SHMS Noble Gas Cherenkov Good Pulse Pedestal vs. P
 TH2F paero_npe_pos 'SHMS Aero+ NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.aero.posNpe 7 0.5 7.5 60 0 30 P.aero.posNpe>0.0 
 TH2F paero_npe_neg 'SHMS Aero- NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.aero.negNpe 7 0.5 7.5 60 0 30 P.aero.negNpe>0.0 
 TH2F phgcer_npe 'SHMS Heavy Gas Cherenkov NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.hgcer.npe 4 0.5 4.5 60 0 30 P.hgcer.npe>0.0 
-TH2F pngcer_npe 'SHMS Noble Gas Cherenkov Number of Photoelectrons vs. PMT Number; PMT Number; Number of Photoelectrons / 0.5 Photoelectrons' [I+1] P.ngcer.npe 4 0.5 4.5 100 0 50 P.ngcer.npe>0.0
-
+TH2F pngcer_npe 'SHMS Noble Gas Cherenkov NPE vs. PMT Number; PMT Number; NPE / 0.5 Photoelectrons' [I+1] P.ngcer.npe 4 0.5 4.5 60 0 30 P.ngcer.npe>0.0
 TH1F pngcer_npeSum 'SHMS Noble Gas Cherenkov Number of Photoelectrons SUM; Total Number of Photoelectrons; Number of Entries' P.ngcer.npeSum 100 0 25
 
 #TH2F paero_y_vs_npe 'SHMS Aerogel Y vs NPE; NPE / 0.5 PE ; Y (cm) / 1 cm' P.aero.npeSum P.aero.yAtAero 60 0 30 120 -60 60 P.aero.xAtAero!=0.0&&P.aero.yAtAero!=0
@@ -349,7 +348,7 @@ TH1F ptrig_p2y_raw_tdc 'SHMS p2y Raw TDC Time; Raw TDC Time (Channels); Counts '
 TH1F ptrig_pT1_raw_tdc 'SHMS pT1 Raw TDC Time (Slot 20, Channel 15); Raw TDC Time (Channels); Counts ' T.coin.pT1_tdcTimeRaw 1000 0 15000 
 TH1F ptrig_pT2_raw_tdc 'SHMS pT2 Raw TDC Time (Slot 19, Channel 31); Raw TDC Time (Channels); Counts ' T.coin.pT2_tdcTimeRaw 1000 0 15000 
 TH1F ptrig_pT3_raw_tdc 'SHMS pT3 Raw TDC Time (Slot 19, Channel 38); Raw TDC Time (Channels); Counts ' T.coin.pT3_tdcTimeRaw 1000 0 15000 
-TH1F ptrig_pFADC_TREF_ROC2_raw_tdc 'SHMS pFADC_TREF_ROC2 Raw Pulse Time; Raw Pulse Time (Channels); Counts ' T.coin.pFADC_TREF_ROC2_adcPulseTimeRaw 1000 0 15000 
+TH1F ptrig_pFADC_TREF_ROC2_raw_tdc 'SHMS pFADC_TREF_ROC2 Raw Pulse Time (use this histo to set *_adcrefcut*); Raw Pulse Time (Channels); Counts ' T.coin.pFADC_TREF_ROC2_adcPulseTimeRaw 1000 0 15000 
 
 
 #-------------------
@@ -400,6 +399,7 @@ TH2F pngcer_vrs_phgcer 'SHMS NGC NPE vrs HGC NPE; NGC Number Photoelectrons; HGC
 
 TH1F ptrig_prshwr_sum_pped   'SHMS Preshwr Sum FADC pulse Pedestal; Pulse Pedestal; Number of Entries / 0.5 mV'    T.coin.pPSHWR_adcPed      400 0 200  T.coin.pPSHWR_adcPed>0.0
 TH1F ptrig_phgc_sum_pped     'SHMS Heavy Gas Sum FADC Pulse Pedestal; Pulse Pedestal; Number of Entries / 0.5 mV' T.coin.pHGCER_adcPed       400 0 200  T.coin.pHGCER_adcPed>0.0
+TH1F ptrig_pngc_sum_pped     'SHMS Noble Gas Sum FADC Pulse Pedestal; Pulse Pedestal; Number of Entries / 0.5 mV' T.coin.pNGCER_adcPed       400 0 200  T.coin.pNGCER_adcPed>0.0
 
 
 #=================================================

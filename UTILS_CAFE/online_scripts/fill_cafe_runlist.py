@@ -53,13 +53,13 @@ bcm_current=0
 bcm_charge=0
 
 # good events counts
-heep_singles      =-1
+heep_singles      = 0
 heep_singles_rate =-1
-heep_real         =-1
+heep_real         = 0
 heep_real_rate    =-1
-MF_real           =-1
+MF_real           = 0
 MF_real_rate      =-1
-SRC_real          =-1
+SRC_real          = 0
 SRC_real_rate     =-1
 
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
@@ -69,11 +69,11 @@ PS3=-1    # HMS 3/4
 PS5=-1    # SHMS EL-REAL x HMS 3/4 ( this needs to be implemented after pionLT run ends in August 2022 )
 PS6=-1    # HMS 3/4 x SHMS 3/4
 
-T1_scaler=-1
-T2_scaler=-1
-T3_scaler=-1
-T5_scaler=-1
-T6_scaler=-1
+T1_scaler=0
+T2_scaler=0
+T3_scaler=0
+T5_scaler=0
+T6_scaler=0
 
 T1_scaler_rate=-1
 T2_scaler_rate=-1
@@ -81,11 +81,11 @@ T3_scaler_rate=-1
 T5_scaler_rate=-1
 T6_scaler_rate=-1
 
-T1_accp=-1
-T2_accp=-1
-T3_accp=-1
-T5_accp=-1
-T6_accp=-1
+T1_accp=0
+T2_accp=0
+T3_accp=0
+T5_accp=0
+T6_accp=0
 
 T1_accp_rate=-1
 T2_accp_rate=-1
@@ -368,25 +368,25 @@ for line in cafe_report:
 
 
 # general run entry list
-header_1     = ['run_number', 'kin_study', 'run_time [sec]', 'evts_replayed', 'beam_energy [GeV]', 'target', 'target_mass [amu]', 'HMS_P [GeV/c]', 'HMS_Angle [deg]', 'SHMS_P [GeV/c]', 'SHMS_Angle [deg]', 'BCM4A_thrs [uA]', 'BCM4A_current [uA]', 'BCM4A_charge [mC]' ]
+header_1     = ['run\nnumber', 'kin\nstudy', 'run\ntime\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]' ]
 gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
                (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name, tgt_mass, hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
 
 
 # trigger info
 # should probably define what these are more specifically later on . . . e.g., PS1 : SHMS 3/4 . . .
-header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1_scl_rate [kHz]', 'T2_scl_rate [kHz]','T3_scl_rate [kHz]','T5_scl_rate [kHz]','T6_scl_rate [kHz]', 'T1_accp_rate [kHz]','T2_accp_rate [kHz]','T3_accp_rate [kHz]','T5_accp_rate [kHz]','T6_accp_rate [kHz]' ]
+header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1\nscaler_rates\n[kHz]', 'T2\nscaler_nrates\n[kHz]','T3\nscaler_rates\n[kHz]','T5\nscaler_rates\n[kHz]','T6\nscaler_rates\n[kHz]', 'T1\naccp_rates\n[kHz]','T2\naccp_rates\n[kHz]','T3\naccp_rates\n[kHz]','T5\naccp_rates\n[kHz]','T6\naccp_rates\n[kHz]' ]
 trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
             (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
 # live time and trk_eff info
-header_3   = ['T1_tLT', 'T2_tLT','T3_tLT','T5_tLT','T6_tLT','HMS_TrkEff', 'SHMS_TrkEff']
+header_3   = ['T1_tLT', 'T2_tLT','T3_tLT','T5_tLT','T6_tLT','HMS\nTrkEff', 'SHMS\nTrkEff']
 efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f        " % \
            (T1_tLT, T2_tLT, T3_tLT, T5_tLT, T6_tLT, hms_trk_eff, shms_trk_eff )
 
 
 # good event count info
-header_4   = ['heep_singles', 'heep_singles_rates [Hz]', 'heep_coin', 'heep_coin_rate [Hz]', 'MF_real', 'MF_real_rate', 'SRC_real', 'SRC_real_rate', 'Comments']
+header_4   = ['heep_singles\ncounts', 'heep_singles\nrates [Hz]', 'heep_coin\ncounts', 'heep_coin\nrates [Hz]', 'MF_real\ncounts', 'MF_real\nrates [Hz]', 'SRC_real\ncounts', 'SRC_real\nrates [Hz]', 'Comments']
 good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
@@ -402,7 +402,7 @@ if (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
     comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_'): \n >> " %(RUNNUM))
 elif(query=="n" or query=="N" or query=="No" or query=="NO"):
     print("OK. No comments will be writte to the .csv")
-    
+    comment=""
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
 
@@ -430,7 +430,7 @@ cafe_report.close()
 fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
 
 os.system('mkdir -p UTILS_CAFE/runlist') 
-os.system('mkdir -p UTILS_CAFE/runlist/backup')
+os.system('mkdir -p /home/cdaq/cyero/backup_runlist')
 
 # check if run list exists, else create it and add a header
 if os.path.isfile(fname_path):
@@ -450,6 +450,6 @@ else:
         
 f.close()
 
-fname_path_bkp='UTILS_CAFE/runlist/backup/cafe-2022_runlist_backup.csv'
+fname_path_bkp='/home/cdaq/cyero/backup_runlist/cafe-2022_runlist_backup.csv'
 
 os.system('cp %s %s' % (fname_path, fname_path_bkp))
