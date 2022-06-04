@@ -4,7 +4,7 @@
 ;
 ; Scintillator parameters
 href_npaddles = 0
-href_nsperchan = 0.1
+href_nsperchan = 0.09766
 href_offset = 0.0
 
 ;HMS Central Path Lenth from target to focal plane

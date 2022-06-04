@@ -14,5 +14,4 @@ g_ctp_calib_filename      = "DBASE/COIN/GEN/archive/det_calib_spring18.param"
 g_ctp_cuts_filename       = "DBASE/COIN/GEN/archive/det_cuts_spring18.param"
 
 
-
 # Begin CaFe 2022 Run Period

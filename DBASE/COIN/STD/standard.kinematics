@@ -12,6 +12,7 @@
 # 12C  gtargmass_amu = 12.0107
 # Ca40 gtargmass_amu = 39.962590863
 # Ca48 gtargmass_amu = 47.95252276
+# Ti48 gtargmass_amu = 47.9479463
 # Fe54 gtargmass_amu = 53.9396147
 #
 # do not use 27Al as target mass for dummy runs, we want to analyze as if it were LH2 or LD2
@@ -137,7 +138,7 @@ ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
-
+# CaFe H(e,e'p) /Optics Check
 14806 - 999999
 gpbeam = 10.600
 gtargmass_amu=1.00794

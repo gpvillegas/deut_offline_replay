@@ -4,7 +4,8 @@ raddeg=3.14159265/180
 cminch=2.54
 
 ; General Hall-C parameter files
-; Note: gscalers has the BCM parameters and threshold being used 
+; Note: gscalers has the BCM parameters and threshold being used
+;       gbeam.param has BPM position / fast raster parameters
 #include "PARAM/GEN/genflags.param"
 #include "PARAM/GEN/gdebug.param"
 #include "PARAM/GEN/gtarget.param"
