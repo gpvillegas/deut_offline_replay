@@ -1,7 +1,7 @@
 ; Utilize per wire tzero offsets, 1 means true
 p_using_tzero_per_wire = 1
 
-; open TDC window limits for each plane.
+; fall 2022 open TDC window limits for each plane.
 pdc_tdc_min_win = -25000, -25000, -25000, -25000, -25000, -25000
                   -25000, -25000, -25000, -25000, -25000, -25000
 pdc_tdc_max_win =  25000,  25000,  25000,  25000,  25000,  25000
@@ -11,5 +11,5 @@ pdc_fix_lr = 1
 pdc_fix_propcorr = 1
 
 ; Zero time correction for each plane in ns that is added to TDC time.
-pdc_plane_time_zero = 1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45.
-                      1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45., 1270.0+45.
+pdc_plane_time_zero = 1315.0, 1315.0, 1315.0, 1315.0, 1315.0, 1315.0
+                      1315.0, 1315.0, 1315.0, 1315.0, 1315.0, 1315.0

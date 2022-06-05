@@ -76,33 +76,33 @@ pdc_pitch = 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
 pdc_wire_counting = 0, 0, 0, 0, 0, 0
                     0, 0, 0, 0, 0, 0
 
-; x position in cm defaults to global
-pdc_xpos = pdc_xcenter[0]-0.006
-           pdc_xcenter[0]-0.018
-           pdc_xcenter[0]
-           pdc_xcenter[0]
-           pdc_xcenter[0]
-           pdc_xcenter[0]-0.015
-           pdc_xcenter[1]-0.012
-           pdc_xcenter[1]+0.014
-           pdc_xcenter[1]
-           pdc_xcenter[1]
-           pdc_xcenter[1]-0.01
-           pdc_xcenter[1]+0.001
+; x position in cm defaults to global (copied over from pionLT)
+pdc_xpos = pdc_xcenter[0]-0.0045
+           pdc_xcenter[0]-0.028
+           pdc_xcenter[0]+0.0105
+           pdc_xcenter[0]+0.0085
+           pdc_xcenter[0]-0.007
+           pdc_xcenter[0]-0.035
+           pdc_xcenter[1]-0.036
+           pdc_xcenter[1]+0.036
+           pdc_xcenter[1]+0.0015
+           pdc_xcenter[1]-0.0025
+           pdc_xcenter[1]-0.0045
+           pdc_xcenter[1]+0.012
            
 ; y position in cm defaults to global
-pdc_ypos = pdc_ycenter[0]-0.009
-           pdc_ycenter[0]-0.017
+pdc_ypos = pdc_ycenter[0]-0.007
+           pdc_ycenter[0]-0.0205
            pdc_ycenter[0]
            pdc_ycenter[0]
-           pdc_ycenter[0]
-           pdc_ycenter[0]+0.015
-           pdc_ycenter[1]-0.012
-           pdc_ycenter[1]+0.018
+           pdc_ycenter[0]+0.0045
+           pdc_ycenter[0]+0.022
+           pdc_ycenter[1]-0.019
+           pdc_ycenter[1]+0.0245
            pdc_ycenter[1]
            pdc_ycenter[1]
-           pdc_ycenter[1]-0.003
-           pdc_ycenter[1]-0.001
+           pdc_ycenter[1]+0.0035
+           pdc_ycenter[1]-0.006
 
 ; z position in cm of each plane measured from focal plane.
 ; From technical drawings.

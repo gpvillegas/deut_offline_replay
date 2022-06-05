@@ -10,5 +10,5 @@ SHMS_CentralPathLen = 18.1*100   ; 18.1 m (or 1810 cm)
 ;p_recon_coeff_filename = "DATFILES/shms-2017-optimized.dat"
 ;p_recon_coeff_filename = "DATFILES/shms-2017-optimized_delta_newfit3.dat"
 
-; Starting shms matrix file (CaFe 2022)
+; Starting shms matrix file (CaFe 2022) (suggested by M. Jones for PION-LT 2021)
 p_recon_coeff_filename = "DATFILES/shms_newfit_xptar_april2020.dat"

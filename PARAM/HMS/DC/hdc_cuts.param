@@ -1,8 +1,10 @@
 ;Utilize per wire tzero offsets, 1 means true
 h_using_tzero_per_wire = 1
 
+
 ; fall 2022 open TDC window limits for each plane.
-;              
+;      DC1           1u1       1u2       1x1       1x2       1v2       1v1
+;      DC2           2v1       2v2       2x2       2x1       2u2       2u1
 hdc_tdc_min_win = -25000.0, -25000.0, -25000.0, -25000.0, -25000.0, -25000.0
                   -25000.0, -25000.0, -25000.0, -25000.0, -25000.0, -25000.0
 hdc_tdc_max_win =  25000.0,  25000.0,  25000.0,  25000.0,  25000.0,  25000.0
