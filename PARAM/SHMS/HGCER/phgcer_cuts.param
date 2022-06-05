@@ -20,7 +20,10 @@ phgcer_npe_thresh = 0.5
 ; ADC time window cut values used to select "good" ADC events
 phgcer_adc_tdc_offset   =  200.0
 
-; fall 2019 startup
+fall 2022 startup
+phgcer_PedDefault= 2083, 2142, 2309, 1976
+
+; fall 2022 startup
 ; cut variable is P.hgcer.goodAdcTdcDiffTime
-phgcer_adcTimeWindowMin = -60.0, -60.0, -60.0, -60.0
-phgcer_adcTimeWindowMax =  80.0,  80.0,  80.0,  80.0
+phgcer_adcTimeWindowMin = -500.0, -500.0, -500.0, -500.0
+phgcer_adcTimeWindowMax =  500.0,  500.0,  500.0,  500.0
