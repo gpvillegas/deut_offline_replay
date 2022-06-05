@@ -8,7 +8,7 @@ hcal_ADCmode=1
 hcal_adc_tdc_offset = 200.
 
 ; FADC Pulse time window cuts
-; fall 2019 startup
+; fall 2022 startup
 ; variable = H.cal.(1pr, 2ta, 3ta, 4ta).goodNeg(Pos)AdcTdcDiffTime
 
 hcal_pos_AdcTimeWindowMin = -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100.,

@@ -470,4 +470,36 @@ TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries' P.kin.prim
 TH1F pkin_omega       'Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries' P.kin.primary.omega 200 0 6 pcut_CleanTrack
 TH1F pkin_xbj         'x-Bjorken; Xbj; Number of Entries' P.kin.primary.x_bj 100 0.4 2 pcut_CleanTrack
 
+#--------------------------
+# SHMS HODO AdcTdcDiffTime
+#--------------------------
+TH1F phod1x_posAdcTdcDiffTime 'SHMS HODO 1X+ AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.1x.GoodPosAdcTdcDiffTime 100,-500,500 P.hod.1x.GoodPosAdcMult==1
+TH1F phod1x_negAdcTdcDiffTime 'SHMS HODO 1X- AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.1x.GoodNegAdcTdcDiffTime 100,-500,500 P.hod.1x.GoodNegAdcMult==1
 
+TH1F phod1y_posAdcTdcDiffTime 'SHMS HODO 1Y+ AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.1y.GoodPosAdcTdcDiffTime 100,-500,500 P.hod.1y.GoodPosAdcMult==1
+TH1F phod1y_negAdcTdcDiffTime 'SHMS HODO 1Y- AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.1y.GoodNegAdcTdcDiffTime 100,-500,500 P.hod.1y.GoodNegAdcMult==1
+
+TH1F phod2x_posAdcTdcDiffTime 'SHMS HODO 2X+ AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.2x.GoodPosAdcTdcDiffTime 100,-500,500 P.hod.2x.GoodPosAdcMult==1
+TH1F phod2x_negAdcTdcDiffTime 'SHMS HODO 2X- AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.2x.GoodNegAdcTdcDiffTime 100,-500,500 P.hod.2x.GoodNegAdcMult==1
+
+TH1F phod2y_posAdcTdcDiffTime 'SHMS HODO 2Y+ AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.2y.GoodPosAdcTdcDiffTime 100,-500,500 P.hod.2y.GoodPosAdcMult==1
+TH1F phod2y_negAdcTdcDiffTime 'SHMS HODO 2Y- AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.hod.2y.GoodNegAdcTdcDiffTime 100,-500,500 P.hod.2y.GoodNegAdcMult==1
+
+#--------------------------
+# SHMS NGCER AdcTdcDiffTime
+#--------------------------
+TH1F pngcer_pmt1 'SHMS NGCER PMT_1 AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.ngcer.goodAdcTdcDiffTime[0] 100 -500 500
+TH1F pngcer_pmt2 'SHMS NGCER PMT_2 AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.ngcer.goodAdcTdcDiffTime[1] 100 -500 500
+TH1F pngcer_pmt3 'SHMS NGCER PMT_3 AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.ngcer.goodAdcTdcDiffTime[2] 100 -500 500
+TH1F pngcer_pmt4 'SHMS NGCER PMT_4 AdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.ngcer.goodAdcTdcDiffTime[3] 100 -500 500
+
+#-----------------------------
+# SHMS PRE-SH AdcTdcDiffTime
+#-----------------------------
+TH1F pcal_prsh_pos 'SHMS PreSh posAdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.cal.pr.goodPosAdcTdcDiffTime 100 -500, 500
+TH1F pcal_prsh_neg 'SHMS PreSh negAdcTdcDiffTime; Adc-Tdc Time Difference (ns); Number of Entries' P.cal.pr.goodNegAdcTdcDiffTime 100 -500, 500
+
+#--------------------------
+# SHMS CAL AdcTdcDiffTime
+#--------------------------
+TH1F pcal_fly_all 'SHMS CAL AdcTdcDiffTime (all blocks); Adc-Tdc Time Difference (ns); Number of Entries' P.cal.fly.goodAdcTdcDiffTime 100 -500, 500
