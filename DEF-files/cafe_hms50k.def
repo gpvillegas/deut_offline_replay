@@ -441,31 +441,31 @@ TH2D hms_dcref_vs_hodoref 'HMS HODO REF (hT2) vs. HMS DC REF 1; hT2 TDC Time Raw
 #--------------------------
 # HMS HODO AdcTdcDiffTime
 #--------------------------
-TH1F hhod1x_posAdcTdcDiffTime 'HMS HODO 1X+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1x.GoodPosAdcTdcDiffTime 100 -500 500 H.hod.1x.GoodPosAdcMult==1
-TH1F hhod1x_negAdcTdcDiffTime 'HMS HODO 1X- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1x.GoodNegAdcTdcDiffTime 100 -500 500 H.hod.1x.GoodNegAdcMult==1
+TH2F hhod1x_posAdcTdcDiffTime 'HMS HODO 1X+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1x.GoodPosAdcTdcDiffTime 16 0.5 16.5 100 -500 500 H.hod.1x.GoodPosAdcMult==1
+TH2F hhod1x_negAdcTdcDiffTime 'HMS HODO 1X- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1x.GoodNegAdcTdcDiffTime 16 0.5 16.5 100 -500 500 H.hod.1x.GoodNegAdcMult==1
 
-TH1F hhod1y_posAdcTdcDiffTime 'HMS HODO 1Y+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1y.GoodPosAdcTdcDiffTime 100 -500 500 H.hod.1y.GoodPosAdcMult==1
-TH1F hhod1y_negAdcTdcDiffTime 'HMS HODO 1Y- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1y.GoodNegAdcTdcDiffTime 100 -500 500 H.hod.1y.GoodNegAdcMult==1
+TH2F hhod1y_posAdcTdcDiffTime 'HMS HODO 1Y+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1y.GoodPosAdcTdcDiffTime 10 0.5 10.5 100 -500 500 H.hod.1y.GoodPosAdcMult==1
+TH2F hhod1y_negAdcTdcDiffTime 'HMS HODO 1Y- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.1y.GoodNegAdcTdcDiffTime 10 0.5 10.5 100 -500 500 H.hod.1y.GoodNegAdcMult==1
 
-TH1F hhod2x_posAdcTdcDiffTime 'HMS HODO 2X+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2x.GoodPosAdcTdcDiffTime 100 -500 500 H.hod.2x.GoodPosAdcMult==1
-TH1F hhod2x_negAdcTdcDiffTime 'HMS HODO 2X- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2x.GoodNegAdcTdcDiffTime 100 -500 500 H.hod.2x.GoodNegAdcMult==1
+TH2F hhod2x_posAdcTdcDiffTime 'HMS HODO 2X+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2x.GoodPosAdcTdcDiffTime 16 0.5 16.5 100 -500 500 H.hod.2x.GoodPosAdcMult==1
+TH2F hhod2x_negAdcTdcDiffTime 'HMS HODO 2X- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2x.GoodNegAdcTdcDiffTime 16 0.5 16.5 100 -500 500 H.hod.2x.GoodNegAdcMult==1
 
-TH1F hhod2y_posAdcTdcDiffTime 'HMS HODO 2Y+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2y.GoodPosAdcTdcDiffTime 100 -500 500 H.hod.2y.GoodPosAdcMult==1
-TH1F hhod2y_negAdcTdcDiffTime 'HMS HODO 2Y- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2y.GoodNegAdcTdcDiffTime 100 -500 500 H.hod.2y.GoodNegAdcMult==1
+TH2F hhod2y_posAdcTdcDiffTime 'HMS HODO 2Y+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2y.GoodPosAdcTdcDiffTime 10 0.5 10.5 100 -500 500 H.hod.2y.GoodPosAdcMult==1
+TH2F hhod2y_negAdcTdcDiffTime 'HMS HODO 2Y- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.hod.2y.GoodNegAdcTdcDiffTime 10 0.5 10.5 100 -500 500 H.hod.2y.GoodNegAdcMult==1
 
 #--------------------------
 # HMS CER AdcTdcDiffTime
 #--------------------------
-TH1F hcer_AdcTdcDiffTime 'HMS CER AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cer.goodAdcTdcDiffTime 100 -500 500
+TH2F hcer_AdcTdcDiffTime 'HMS CER AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cer.goodAdcTdcDiffTime 2 0.5 2.5 100 -500 500
 
 #--------------------------
 # HMS CAL AdcTdcDiffTime
 #--------------------------
-TH1F hcal_1pr_posAdcTdcDiffTime 'HMS Cal 1pr+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.1pr.goodPosAdcTdcDiffTime 100 -500 500
-TH1F hcal_1pr_negAdcTdcDiffTime 'HMS Cal 1pr- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.1pr.goodNegAdcTdcDiffTime 100 -500 500
+TH2F hcal_1pr_posAdcTdcDiffTime 'HMS Cal 1pr+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.1pr.goodPosAdcTdcDiffTime 13 0.5 13.5 100 -500 500
+TH2F hcal_1pr_negAdcTdcDiffTime 'HMS Cal 1pr- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.1pr.goodNegAdcTdcDiffTime 13 0.5 13.5 100 -500 500
 
-TH1F hcal_2ta_posAdcTdcDiffTime 'HMS Cal 2ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.2ta.goodPosAdcTdcDiffTime 100 -500 500
-TH1F hcal_2ta_negAdcTdcDiffTime 'HMS Cal 2ta- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.2ta.goodNegAdcTdcDiffTime 100 -500 500
+TH2F hcal_2ta_posAdcTdcDiffTime 'HMS Cal 2ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.2ta.goodPosAdcTdcDiffTime 13 0.5 13.5 100 -500 500
+TH2F hcal_2ta_negAdcTdcDiffTime 'HMS Cal 2ta- AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.2ta.goodNegAdcTdcDiffTime 13 0.5 13.5 100 -500 500
 
-TH1F hcal_3ta_posAdcTdcDiffTime 'HMS Cal 3ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.3ta.goodPosAdcTdcDiffTime 100 -500 500
-TH1F hcal_4ta_posAdcTdcDiffTime 'HMS Cal 4ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.4ta.goodPosAdcTdcDiffTime 100 -500 500
+TH2F hcal_3ta_posAdcTdcDiffTime 'HMS Cal 3ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.3ta.goodPosAdcTdcDiffTime 13 0.5 13.5 100 -500 500
+TH2F hcal_4ta_posAdcTdcDiffTime 'HMS Cal 4ta+ AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns)' [I+1] H.cal.4ta.goodPosAdcTdcDiffTime 13 0.5 13.5 100 -500 500

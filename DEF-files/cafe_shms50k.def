@@ -488,7 +488,7 @@ TH2F phod2y_negAdcTdcDiffTime 'SHMS HODO 2Y- AdcTdcDiffTime; PMT Number; Adc-Tdc
 #--------------------------
 # SHMS NGCER AdcTdcDiffTime
 #--------------------------
-TH1F pngcer_AdcTdcDiffTime 'SHMS NGCER AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns) ' [I+1] P.ngcer.goodAdcTdcDiffTime 4, 0.5, 4.5 100 -500 500
+TH2F pngcer_AdcTdcDiffTime 'SHMS NGCER AdcTdcDiffTime; PMT Number; Adc-Tdc Time Difference (ns) ' [I+1] P.ngcer.goodAdcTdcDiffTime 4, 0.5, 4.5 100 -500 500
 
 
 #-----------------------------
