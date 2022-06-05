@@ -50,7 +50,7 @@ phodo_adc_tdc_offset = 200., 200., 200., 200.
 
 ; variables = P.hod.(1x, 1y, 2x, 2y).GoodNeg(Pos)AdcTdcDiffTime
 
-                      1x                   1y                   2x                   2y 
+;                      1x                   1y                   2x                   2y 
 phodo_PosAdcTimeWindowMin = -500.0,            -500.0,            -500.0,            -500.0
                             -500.0,            -500.0,            -500.0,            -500.0
                             -500.0,            -500.0,            -500.0,            -500.0
