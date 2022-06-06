@@ -56,5 +56,5 @@ gfryb_adcpercm = -(64417-45240)/.2
  
  
 ; positions of FR magnets relative to target
-  gfrx_dist  = 1375   ; cm
-  gfry_dist  = 1337   ; cm
+gfrx_dist  = 1375   ; cm
+gfry_dist  = 1337   ; cm

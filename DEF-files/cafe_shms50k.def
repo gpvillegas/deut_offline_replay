@@ -382,7 +382,7 @@ TH1F hBPMT_Y 'Beam BPMT_Y ; BPM_Y projected to target  (CM); Counts' P.rb.raster
 TH1F phod_beta             'SHMS Hodo Beta (track); Beta; Number of Entires' P.hod.beta 250 -0.5 1.5 pcut_CleanTrack
 TH1F pcal_etottracknorm    'SHMS Cal Etot/Ptrk; Total Energy Deposited / Track Momentum; Number of Entries' P.cal.etottracknorm 100, 0., 1.5 pcut_CleanTrack
 TH2F phod_beta_vs_delta    'SHMS Hodo Beta (track) vs. Delta; Delta (%); Beta; Number of Entires'  P.gtr.dp P.hod.beta 100 -12. 25. 300 -0.5 1.5 
-TH2F pgtr_etottracknorm_vs_delta  'SHMS Cal Etot/Ptrk vs. Delta; Total Energy Deposited / Track Momentum; Delta'  P.gtr.dp P.cal.etottracknorm 100 -12. 25. 200 -0.5 1.5 
+TH2F pgtr_etottracknorm_vs_delta  'SHMS Cal Etot/Ptrk vs. Delta; Delta (%); Total Energy Deposited / Track Momentum'  P.gtr.dp P.cal.etottracknorm 100 -12. 25. 200 -0.5 1.5 
 
 
 TH2F hgc_vs_prshw              'SHMS HGC NPE Sum vs. PreSh Energy; Total PreSh Energy Deposition / 0.01 GeV; HGC NPE Sum / 0.5' P.cal.pr.eplane P.hgcer.npeSum 400 0 4 80 0 40 P.cal.pr.eplane>0.0&&P.hgcer.npeSum>0.0 

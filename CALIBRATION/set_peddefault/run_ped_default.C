@@ -87,9 +87,11 @@ void calc_ped_default(TString golden_file = "", TString detector = "",
     histname = Form("%s%s", histname.Data(), "_good_pped_vs_pmt_pos");
   if (histname.Contains("hcal_h") && polarity == 2)
     histname = Form("%s%s", histname.Data(), "_good_pped_vs_pmt_neg");
-
+  
+  //C.Y.
+  //cout << Form("histname = %s", histname.Data()) << endl;
   TH2F* H1_ped_vs_pmt;
-
+  
   TFile* f1 = new TFile(golden_file, "READ");
   if (f1->IsZombie()) {
     cout << "Cannot find : " << golden_file << endl;
