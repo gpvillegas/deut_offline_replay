@@ -1,0 +1,32 @@
+*  pEL REAL x h3/4
+
+calcualte diff. in proton transit time in HMS (22 m) for both MF/SRC
+
+* make sure the shms trigger window (pEL-REAL) is wider than the
+  hms trigger window, so that we may have uniform accidentals both
+  left/right of the trigger
+
+           _____          ______ HMS (3/4)
+---------       |        |         -------------  SHMS (pEL-REAL)
+        |       |        |        |
+	|       |________|        |
+	|_________________________|
+        <------>
+	  min = 8 ns
+
+HMS path length: 22.1 m ( 2210 cm)
+For CaFe:
+
+MF
+1.3 GeV/c proton
+beta = 0.81
+time_HMS = 90.4 ns.
+
+SRC
+1.8 GeV/c proton
+beta = 0.89
+time_HMS = 82.7 ns
+
+This gives a delta t = 8 ns.  THE HMS TRIGGER should be at least 8 ns ahead the SHMS EL-REAL, to make
+sure we have a uniform accidentals background at both ends of the main coin. peak.
+
