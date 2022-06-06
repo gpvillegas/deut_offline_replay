@@ -16,8 +16,8 @@
 ; SHMS default calibration parameter files
 
 #include "PARAM/SHMS/HODO/phodo_calib.param"
-#include "PARAM/SHMS/HODO/phodo_TWcalib.param"
-#include "PARAM/SHMS/HODO/phodo_Vpcalib.param"
+#include "PARAM/SHMS/HODO/archive/spring18/phodo_TWcalib.param"
+#include "PARAM/SHMS/HODO/archive/spring18/phodo_Vpcalib.param"
 
 #include "PARAM/SHMS/DC/pdc_calib.param"
 #include "PARAM/SHMS/DC/pdc_tzero_per_wire.param"
