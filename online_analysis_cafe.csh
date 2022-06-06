@@ -4,8 +4,10 @@
 unsetenv SOURCE_SCRIPT
 # Must be here!!
 
+# C.Y. |  NEED TO MODIFY ACCORDINGLY 
+
 #set onlineDir="/home/cdaq/hallc-online" # This is still set to pol-he3 for now
-set onlineDir="/home/cdaq/pionLT-2021"
+set onlineDir="/home/cdaq/cafe-2022"
 
 # Piggies love emacs
 setenv EDITOR emacs

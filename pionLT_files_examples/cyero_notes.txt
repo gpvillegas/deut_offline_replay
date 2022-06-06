@@ -1,2 +1,0 @@
-The files in this directory I copied from the recetn pionlt run group and will use as 
-a reference to make our own script to set environment for CaFe during online analysis on cdaq.

@@ -1,7 +1,0 @@
-# Run 3288 Data Analysis Summary
-#                                     
-# BCM4A  | Beam Current Threshold: > 5.00 uA 
-#                                     
-# DAQ Mode: coin | Trigger: trig6              
-# electron arm: SHMS                        
-#                                              
