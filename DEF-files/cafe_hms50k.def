@@ -1,16 +1,58 @@
-block T.coin.*
-block CTime*
-block RFTime.* 
+block T.coin.hT2_tdcTimeRaw
+block T.coin.hDCREF1_tdcTimeRaw
+block CTime.epCoinTime_ROC2
 
-block H.cer.*
-block H.dc.*
-block H.tr.*
-block H.hod.*
-block H.cal.*
-block H.gtr.*
-block H.kin.*
-block H.rb.*
-block H.react.*
+#block RFTime.* 
+
+block H.hod.*.*numGood*
+block H.hod.*.*totNumGood*
+block H.hod.*.Good*AdcPed
+block H.hod.*.Good*AdcTdcDiffTime
+block H.hod.*.Track*
+block H.hod.beta*
+
+block H.cer.numGoodAdcHits
+block H.cer.totNumGoodAdcHits
+block H.cer.goodAdcPed
+block H.cer.npe*
+block H.cer.*AtCer*
+block H.cer.goodAdcTdcDiffTime
+
+block H.dc.*.raw.wirenum
+block H.dc.*.wirenum
+block H.dc.*.rawtdc
+block H.dc.*.dist
+block H.dc.*.time
+block H.dc.*_fp
+block H.dc.ntrack
+block H.dc.wireHit*
+
+block H.tr.beta
+block H.tr.p
+
+block H.cal.*.numGood*
+block H.cal.*.totNumGood*
+block H.cal.*.good*AdcPed
+block H.cal.etot*
+block H.cal.*.eplane
+block H.cal.*track*
+block H.cal.*.good*AdcTdcDiffTime
+
+block H.gtr.dp
+block H.gtr.y
+block H.gtr.x
+block H.gtr.ph
+block H.gtr.th
+
+block H.kin.secondary.xangle
+block H.kin.secondary.Mrecoil
+block H.kin.secondary.emiss*
+block H.kin.secondary.pmiss
+block H.kin.secondary.th_xq
+block H.kin.secondary.th_bq
+ 
+block H.rb.raster.fr_*
+block H.react.z
 block P.kin.primary.scat_ang_deg
 
 begin epics
