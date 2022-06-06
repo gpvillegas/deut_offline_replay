@@ -1,3 +1,4 @@
+; start fall 2022
 ; Lookup Table: RUN 2369
 ; number of bins in time to distance lookup table
 hdriftbins = 190

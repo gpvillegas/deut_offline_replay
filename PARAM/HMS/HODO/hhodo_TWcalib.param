@@ -1,3 +1,4 @@
+; start fall 2022
 ;HMS Hodoscopes Output Parameter File
 hscin_tdc_to_time = 0.09766                                                  
 

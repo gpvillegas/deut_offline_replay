@@ -1,7 +1,6 @@
+; start fall 2022
 ; HMS Hodoscope Parameter File Containing propagation velocities per paddle 
-; and signal cable time diff. offsets per paddle 
- 
- 
+; and signal cable time diff. offsets per paddle  
  
 ;Propagation Velocity Per Paddle
 ;                  1x                 1y              2x              2y 
