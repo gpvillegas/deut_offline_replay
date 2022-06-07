@@ -402,12 +402,12 @@ if (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
     comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_'): \n >> " %(RUNNUM))
 elif(query=="n" or query=="N" or query=="No" or query=="NO"):
     print("OK. No comments will be writte to the .csv")
-    comment=""
+    comment="no_comment"
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
 
 for specialChar in specialChars:
-        comment = comment.replace(specialChar, '_')
+    comment = comment.replace(specialChar, '_')
 
 
 # convert data strings to a list
@@ -430,7 +430,7 @@ cafe_report.close()
 fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
 
 os.system('mkdir -p UTILS_CAFE/runlist') 
-os.system('mkdir -p /home/cdaq/cyero/backup_runlist')
+#os.system('mkdir -p /home/cdaq/cyero/backup_runlist')
 
 # check if run list exists, else create it and add a header
 if os.path.isfile(fname_path):
