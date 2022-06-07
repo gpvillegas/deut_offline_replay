@@ -22,9 +22,9 @@ hostName=$(hostname -s)
 echo "user@host=${userName}@${hostName}"
 
 case "${userName}@${hostName}" in
-    #cdaq@cdaql[123] )    # TAG
-    deuteron@physics )
-        export SOURCE_SCRIPT="/home/cdaq/bin/SOURCE_SCRIPTS/online_analysis_pionlt.csh"
+    cdaq@cdaql[123] )    # TAG
+    #deuteron@physics )
+        export SOURCE_SCRIPT="/home/cdaq/bin/SOURCE_SCRIPTS/online_analysis_cafe.csh"
         exec /bin/tcsh
         ;;
     * )
