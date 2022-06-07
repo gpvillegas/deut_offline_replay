@@ -684,7 +684,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   
   
   // ------- COINCIDENCE TIME -----
-  if(ana_cut!="heep_sing"){
+  if(ana_cut!="heep_singles"){
   c1->cd();
   c1->SetLogy();
   nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
@@ -737,7 +737,7 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
   c1->Clear();
   
   // ------ MISSING MASS ------
-  if(ana_cut!="heep_sing") {
+  if(ana_cut!="heep_singles") {
   c1->cd();
   gPad->SetLogy();
   nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
