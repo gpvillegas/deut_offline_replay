@@ -104,15 +104,23 @@ fi
 # when we run the 1st part of cafe (heep and optics checks)
 # since this 1st part will be taken during pionLT running.
 
+
 # where CaFe raw data output to be replayed will be stored (.dat files(
 # but these are NOT directly accessible, one would have to look for them in cache.
-tape_raw_dir="/mss/hallc/c-cafe-2022/raw"
+# tape_raw_dir="/mss/hallc/c-cafe-2022/raw"
+tape_raw_dir="/mss/hallc/c-pionlt/raw"
+
+
 
 # tape volume for analysis output (simulation or replay output you want to keep long-term)
 tape_analysis_out="/mss/hallc/c-cafe-2022/analysis" 
 
 #--- define cache allocations ---
-cache_raw_dir="/cache/hallc/c-cafe-2022/raw/"
+# cafe
+#cache_raw_dir="/cache/hallc/c-cafe-2022/raw/"
+cache_raw_dir="/cache/hallc/c-pionlt/raw"
+
+
 cache_analysis_out="/cache/hallc/c-cafe-2022/analysis/"
 
 #=================================
