@@ -37,15 +37,14 @@ fi
 
 if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
-    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number>"
-    evtNum=1000
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number> <optional run_number>"
+    evtNum=100000
     echo "evtNum=$evtNum"
     
 elif [ "${ana_type}" = "prod" ]; then
     echo "replaying all events."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
-    #evtNum=-1
-    evtNum=10000  # for now set to 10000
+    evtNum=-1
 fi
 
 daq_mode="coin"
