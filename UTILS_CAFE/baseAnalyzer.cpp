@@ -706,6 +706,12 @@ void baseAnalyzer::ReadInputFile()
   Q2_heep_cut_flag = stoi(split(FindString("Q2_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_heep_Q2_min = stod(split(FindString("c_heep_Q2_min", input_CutFileName.Data())[0], '=')[1]);
   c_heep_Q2_max = stod(split(FindString("c_heep_Q2_max", input_CutFileName.Data())[0], '=')[1]);
+
+  //bjorken-x
+  xbj_heep_cut_flag = stoi(split(FindString("xbj_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_xbj_min = stod(split(FindString("c_heep_xbj_min", input_CutFileName.Data())[0], '=')[1]);
+  c_heep_xbj_max = stod(split(FindString("c_heep_xbj_max", input_CutFileName.Data())[0], '=')[1]);
+
   
   //Missing Energy [GeV]
   Em_heep_cut_flag = stoi(split(FindString("Em_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -2355,6 +2361,10 @@ void baseAnalyzer::EventLoop()
 	  if(Q2_heep_cut_flag){c_heep_Q2 = Q2>=c_heep_Q2_min && Q2<=c_heep_Q2_max;}
 	  else{c_heep_Q2=1;}
 
+	  //xbj
+	  if(xbj_heep_cut_flag){c_heep_xbj = X>=c_heep_xbj_min && X<=c_heep_xbj_max;}
+	  else{c_heep_xbj=1;}
+	  
 	  //Missing Energy, Em
 	  if(Em_heep_cut_flag){c_heep_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;}
 	  else{c_heep_Em=1;}
@@ -2369,10 +2379,10 @@ void baseAnalyzer::EventLoop()
 
 
 	  // H(e,e'p) singles ( e- trigger only)
-	  c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W;
+	  c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W && c_heep_xbj;
 
 	  // H(e,e'p) coin ( e- + p coin. trigger )
-	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_Em && c_heep_W && c_heep_MM;
+	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_xbj && c_heep_Em && c_heep_W && c_heep_MM;
 	  
 	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
 

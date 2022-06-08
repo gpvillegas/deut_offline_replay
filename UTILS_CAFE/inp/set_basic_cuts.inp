@@ -185,6 +185,11 @@ Q2_heep_cut_flag = 0
 c_heep_Q2_min = 4
 c_heep_Q2_max = 5
 
+# x-Bjorken
+xbj_heep_cut_flag = 0
+c_heep_xbj_min = 0.8
+c_heep_xbj_max = 1.2
+
 # Missing Energy [GeV]
 # this cut will NOT be activated with analysis_cut=="heep_singles"
 Em_heep_cut_flag = 0

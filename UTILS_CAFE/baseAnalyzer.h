@@ -955,6 +955,12 @@ protected:
   Double_t c_heep_Q2_min;
   Double_t c_heep_Q2_max;
 
+  //4-Momentum Transfers
+  Bool_t xbj_heep_cut_flag;
+  Bool_t c_heep_xbj;
+  Double_t c_heep_xbj_min;
+  Double_t c_heep_xbj_max;
+  
   //Missing Energy
   Bool_t Em_heep_cut_flag;
   Bool_t c_heep_Em;
