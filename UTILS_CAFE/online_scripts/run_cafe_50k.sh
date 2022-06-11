@@ -81,7 +81,7 @@ outFileMonitor="output.txt"
 replayFile="cafe_replay_${spec}50k_${runNum}"
 replayFile_latest="cafe_replay_${spec}50k"
 rootFile="${replayFile}_${numEvents}.root"
-latestRootFile="${rootFileDir}/${spec}50k/${replayFile_latest}_latest.root"
+latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
 goldenRootFile="${rootFileDir}/${spec}50k/${spec}_coin_replay_production_golden.root"
 
 # Names of the monitoring ROOTfile
@@ -122,7 +122,7 @@ replayReport="${reportFileDir}/replayReport_${spec}_production_${runNum}_${numEv
   eval ${runHcana}
 
   
-  # Link the ROOT file to latest for online monitoring
+  # Link the ROOT file to latest for online monitoring 
   ln -sf ${rootFile} ${latestRootFile}
 
   if [ "$goldenRun" = "set-golden" ]; then
