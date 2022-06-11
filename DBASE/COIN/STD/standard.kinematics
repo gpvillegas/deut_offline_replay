@@ -139,7 +139,7 @@ ppartmass = 0.0005109
 hpartmass = 0.93827231
 
 # cosmics data fall 2022
-14806 - 999999
+14806 - 14849
 gpbeam = 10.600
 gtargmass_amu=1.00794
 htheta_lab = -25.
@@ -148,3 +148,15 @@ hpcentral = 2.0
 ppcentral = 8.55
 ppartmass = 0.0005109
 hpartmass = 0.93827231
+
+                                                                                                                                                                                        
+# c-hole check pion lt fall 2022                 
+14850 - 999999                                    
+gpbeam = 10.600                                   
+gtargmass_amu = 12.0107                           
+htheta_lab = -12.5                                
+ptheta_lab = 12.0                                 
+hpcentral = 4.4                                   
+ppcentral = 5.53                                  
+ppartmass = 0.0005109                             
+hpartmass = 0.0005109   
