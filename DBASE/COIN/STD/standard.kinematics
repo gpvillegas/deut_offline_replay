@@ -63,6 +63,17 @@ ppcentral = 8.5342488
 ppartmass = 0.0005109                                                                                      
 hpartmass = 0.93827231 
 
+# optics scan for SHMS Q3 and HB with optics #1 and sieve
+3283-3287
+gpbeam = 10.6005
+gtargmass_amu = 12.0107
+hpartmass = 0.938272
+ppartmass = 0.00051099
+htheta_lab = -54.945
+ptheta_lab = 8.938
+hpcentral = 2.1943
+ppcentral = 8.5342488 
+
 # Hydrogen Elastic Data After SHMS Q1/Q3 Corr.
 3288
 gpbeam = 10.6005
