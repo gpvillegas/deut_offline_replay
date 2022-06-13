@@ -162,23 +162,28 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir $base_dir_voli$USER . . ."
 	mkdir $base_dir_voli$USER
 
+	unlink raw
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-	ln -sf $tape_raw_dir tape
+	ln -sf $tape_raw_dir
 
+	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
 	ln -sf $cache_raw_dir cache
-		
+
+	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_voli$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_voli$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_voli$USER"/REPORT_OUTPUT"
-	
+
+	unlink CAFE_OUTPUT
 	echo "Creating dir and symlink to $base_dir_voli$USER/CAFE_OUTPUT . . ."
 	mkdir $base_dir_voli$USER"/CAFE_OUTPUT"
 	ln -sf $base_dir_voli$USER"/CAFE_OUTPUT" 
 	mkdir -p "CAFE_OUTPUT/ROOT"
 	mkdir -p "CAFE_OUTPUT/REPORT"
 	mkdir -p "CAFE_OUTPUT/PDF" 
-	
+
+	unlink ROOTfiles
 	echo "Creating dir and symlink to $base_dir_voli$USER/ROOTfiles . . ."
 	mkdir $base_dir_voli$USER"/ROOTfiles"
 	ln -sf $base_dir_voli$USER"/ROOTfiles"
@@ -192,23 +197,28 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir $base_dir_work$USER . . ."
 	mkdir $base_dir_work$USER
 
+	unlink raw
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
 	ln -sf $tape_raw_dir
 
+	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
 	ln -sf $cache_raw_dir cache
-		
+
+	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_work$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_work$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_work$USER"/REPORT_OUTPUT"
 
+	unlink CAFE_OUTPUT
 	echo "Creating dir and symlink to $base_dir_work$USER/CAFE_OUTPUT . . ."	
 	mkdir $base_dir_work$USER"/CAFE_OUTPUT" 
 	ln -sf $base_dir_work$USER"/CAFE_OUTPUT"
 	mkdir -p "CAFE_OUTPUT/ROOT"
 	mkdir -p "CAFE_OUTPUT/REPORT"
 	mkdir -p "CAFE_OUTPUT/PDF" 
-	
+
+	unlink ROOTfiles
 	echo "Creating dir and symlink to $base_dir_work$USER/ROOTfiles . . ."
 	mkdir $base_dir_work$USER"/ROOTfiles"
 	ln -sf $base_dir_work$USER"/ROOTfiles"
@@ -221,23 +231,28 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating dir $base_dir_group$USER . . ."
 	mkdir $base_dir_group$USER
 
+	unlink raw
 	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
 	ln -sf $tape_raw_dir
 
+	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
 	ln -sf $cache_raw_dir cache
-		
+
+	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_group$USER/REPORT_OUTPUT . . ."
 	mkdir $base_dir_group$USER"/REPORT_OUTPUT"
 	ln -sf $base_dir_group$USER"/REPORT_OUTPUT"
-	
+
+	unlink CAFE_OUTPUT
 	echo "Creating dir and symlink to $base_dir_group$USER/CAFE_OUTPUT . . ."
 	mkdir $base_dir_group$USER"/CAFE_OUTPUT"
 	ln -sf $base_dir_group$USER"/CAFE_OUTPUT"
 	mkdir -p "CAFE_OUTPUT/ROOT"
 	mkdir -p "CAFE_OUTPUT/REPORT"
 	mkdir -p "CAFE_OUTPUT/PDF" 
-	
+
+	unlink ROOTfiles
 	echo "Creating dir and symlink to $base_dir_group$USER/ROOTfiles . . ."
 	mkdir $base_dir_group$USER"/ROOTfiles"
 	ln -sf $base_dir_group$USER"/ROOTfiles"
