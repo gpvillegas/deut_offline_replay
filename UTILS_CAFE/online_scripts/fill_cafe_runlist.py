@@ -397,6 +397,7 @@ total_header = header_1 + header_2 + header_3 + header_4
 
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
+comment=""
 query = raw_input("Would you like to make a comment for run %s ? [y/n] " %(RUNNUM))
 if (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
     comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_'): \n >> " %(RUNNUM))

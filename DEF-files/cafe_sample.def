@@ -12,6 +12,7 @@ block T.coin.pEDTM*
 #block H.gtr.beta
 #block H.gtr.p
 #block H.gtr.y
+#block H.gtr.x
 #block H.gtr.ph
 #block H.gtr.th
 #block H.gtr.dp
@@ -19,6 +20,7 @@ block T.coin.pEDTM*
 #block H.extcor.*sieve*
 #block H.cer.npeSum
 #block H.cal.etot*norm*
+#block H.cal.etracknorm
 #block H.hod.beta
 #block H.hod.betanotrack
 #block H.hod.goodscinhit
@@ -29,6 +31,7 @@ block P.dc.ntrack
 block P.gtr.beta
 block P.gtr.p
 block P.gtr.y
+block P.gtr.x
 block P.gtr.ph
 block P.gtr.th
 block P.gtr.dp
@@ -37,6 +40,7 @@ block P.extcor.*sieve*
 block P.hgcer.npeSum
 block P.ngcer.npeSum
 block P.cal.etot*norm*
+block P.cal.etracknorm
 block P.hod.beta
 block P.hod.betanotrack
 block P.hod.goodscinhit
