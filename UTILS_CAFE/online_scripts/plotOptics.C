@@ -131,4 +131,7 @@ void plotOptics(int runNUM=-1, int evtNUM=0, TString ana_type=""){
   fout->Write();
   fout->Close();
 
+  gSystem->Exec(Form("evince %s", pdf_file_name.c_str()));
+
+  
 }
