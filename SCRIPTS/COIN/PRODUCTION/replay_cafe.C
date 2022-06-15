@@ -41,8 +41,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   vector<TString> pathList;
   pathList.push_back(".");
-  //pathList.push_back("./raw");
-  //pathList.push_back("./raw/../raw.copiedtotape");
+  pathList.push_back("./coda_raw");
+  pathList.push_back("./coda_raw.copiedtotape");
+  pathList.push_back("./raw");
   pathList.push_back("./cache");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";

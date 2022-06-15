@@ -99,6 +99,11 @@ fi
 #    echo "***************************************"
 #fi
 
+
+#--- most recent raw data (irrespective of exp.)----
+coda_raw="/net/cdaq/cdaql1data/coda/data/raw"
+coda_raw_copiedtotape="/net/cdaq/cdaql1data/coda/data/raw.copiedtotape"
+
 #--- define tape allocations ---
 # make sure to point to the pionLT 2022 tape dir
 # when we run the 1st part of cafe (heep and optics checks)
@@ -304,6 +309,12 @@ if [[ cdaq_flg -eq 1 ]]; then
     set_hcana_link
     
     base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022"
+
+    echo "Creating symlink to ${coda_raw}"
+    ln -sf $coda_raw coda_raw
+
+    echo "Creating symlink to ${coda_raw_copiedtotape}"
+    ln -sf $coda_raw_copiedtotape coda_raw.copiedtotape
 
     echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
     ln -sf $tape_raw_dir
