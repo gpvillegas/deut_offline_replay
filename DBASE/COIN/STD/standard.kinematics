@@ -162,12 +162,32 @@ hpartmass = 0.93827231
 
                                                                              
 # c-hole check pion lt fall 2022                 
-14850 - 999999                                    
-gpbeam = 10.600                                   
-gtargmass_amu = 12.0107                           
-htheta_lab = -12.5                                
-ptheta_lab = 12.0                                 
-hpcentral = 4.4                                   
-ppcentral = 5.53                                  
-ppartmass = 0.0005109                             
-hpartmass = 0.0005109   
+14827 - 14958
+gpbeam = 10.549355
+gtargmass_amu = 12.0107 
+htheta_lab = -12.500
+ptheta_lab = 12.00
+hpcentral = 4.400
+ppcentral = 5.530
+hpartmass =  0.000511
+ppartmass =  0.000511
+
+14959 - 14967
+gpbeam = 10.549355
+gtargmass_amu = 1.008665
+htheta_lab = -12.495
+ptheta_lab = 10.00
+hpcentral = 4.400
+ppcentral = 8.035
+hpartmass =  0.000511
+ppartmass =  0.000511
+
+14968 - 99999
+gpbeam = 10.549355
+gtargmass_amu = 12.0107
+htheta_lab = -12.495
+ptheta_lab = 10.00
+hpcentral = 6.7920
+ppcentral = 8.035
+hpartmass =  0.000511
+ppartmass =  0.000511
