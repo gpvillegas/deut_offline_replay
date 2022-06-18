@@ -860,7 +860,7 @@ void baseAnalyzer::ReadReport()
   }
  
   else if(abs(temp_var-MC12_amu)<=max_diff){    
-    if(analysis_cut=="optics") {tgt_type = "C12_2-foils";}
+    if(analysis_cut=="optics") {tgt_type = "C12_optics";}
     else{tgt_type = "C12";}
     tgt_mass = MC12_amu;
   }
