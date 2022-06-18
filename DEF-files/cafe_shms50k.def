@@ -13,7 +13,7 @@ block P.ngcer.numGoodAdcHits
 block P.ngcer.totNumGoodAdcHits
 block P.ngcer.goodAdcPed
 block P.ngcer.npe*
-block P.ngcer.*AtCer*
+block P.ngcer.*
 block P.ngcer.goodAdcTdcDiffTime
 
 block P.dc.*.raw.wirenum

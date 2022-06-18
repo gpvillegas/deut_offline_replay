@@ -1,5 +1,8 @@
 # Standard Kinematics File for CaFe Fall-2022
 #
+# Loop 1: 10 cm Liquid Deuterium (LD2)
+# Loop 2: 10 cm Liquid Hydrogen (LH2)
+#
 # Need to set htheta_lab to a NEGATIVE value
 # Need to set ptheta_lab to a POSITIVE value
 #
@@ -15,7 +18,7 @@
 # Ti48 gtargmass_amu = 47.9479463
 # Fe54 gtargmass_amu = 53.9396147
 #
-# do not use 27Al as target mass for dummy runs, we want to analyze as if it were LH2 or LD2
+# for dummy runs, we want to analyze as if it were LH2 (or LD2), so keep the mass as is (either for 1H or 2H)
 # 27Al gtargmass_amu = 26.98153  (Dummy target should be analyzed as 1H, since it is the background underneath)
 
 # Carbon Hole Run
@@ -162,7 +165,7 @@ hpartmass = 0.93827231
 
                                                                              
 # c-hole check pion lt fall 2022                 
-14827 - 14958
+14827 - 14964
 gpbeam = 10.549355
 gtargmass_amu = 12.0107 
 htheta_lab = -12.500
@@ -172,9 +175,10 @@ ppcentral = 5.530
 hpartmass =  0.000511
 ppartmass =  0.000511
 
-14959 - 14967
+# 14967 is defocused
+14965 - 14967
 gpbeam = 10.549355
-gtargmass_amu = 1.008665
+gtargmass_amu =  2.014101
 htheta_lab = -12.495
 ptheta_lab = 10.00
 hpcentral = 4.400
@@ -182,12 +186,32 @@ ppcentral = 8.035
 hpartmass =  0.000511
 ppartmass =  0.000511
 
-14968 - 99999
+14968 - 14972
 gpbeam = 10.549355
 gtargmass_amu = 12.0107
 htheta_lab = -12.495
 ptheta_lab = 10.00
 hpcentral = 6.7920
 ppcentral = 8.035
+hpartmass =  0.000511
+ppartmass =  0.000511
+
+14973 - 14994
+gpbeam = 10.549355
+gtargmass_amu = 1.00794
+htheta_lab = -21.67
+ptheta_lab = 23.11
+hpcentral = 5.878
+ppcentral = 5.530
+hpartmass =  0.000511
+ppartmass =  0.938272
+
+14995 - 99999
+gpbeam = 10.549355
+gtargmass_amu = 1.00794
+htheta_lab = -13.31
+ptheta_lab = 19.655
+hpcentral = 6.792
+ppcentral = 3.493
 hpartmass =  0.000511
 ppartmass =  0.000511
