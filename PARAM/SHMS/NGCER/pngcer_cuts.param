@@ -21,9 +21,9 @@ pngcer_npe_thresh = 0.5
 pngcer_adc_tdc_offset   =  200.0
 
 ; fall 2022 startup
-
 ;pngcer_PedDefault= 2080., 2068., 2029., 1954.
-; cut variable is P.ngcer.goodAdcTdcDiffTime
 pngcer_PedDefault= 2059, 0, 2137, 1932
+
+; cut variable is P.ngcer.goodAdcTdcDiffTime
 pngcer_adcTimeWindowMin = -200.0, -200.0, -200.0, -200.0
 pngcer_adcTimeWindowMax =  200.0,  200.0,  200.0,  200.0
