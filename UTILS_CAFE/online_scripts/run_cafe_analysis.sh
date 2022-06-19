@@ -19,31 +19,50 @@ kin_type=$2   # CaFe kinematics type, set by user:  "heep_singles", "heep_coin",
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
 if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "" 
     echo "No <run_number> and/or <kin_type> was specified. "
-    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
-    echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "
+    echo ""
+    echo "-------------------------------------------------"
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <optional evt_number>"
+    echo "-------------------------------------------------" 
+    echo ""
     echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
+    echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! " 
+    echo "" 
     exit 0    
     # fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC         
 elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "lumi" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
     echo ""                                                                                                                                                                                
 else
+    echo "" 
     echo " Invalid <kin_type> = \"$kin_type\" was specified. "
-    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> "
+    echo ""  
+    echo "-------------------------------------------------"  
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <optional evt_number>"
+    echo "-------------------------------------------------"  
+    echo ""     
     echo "If you don't know which <kin_type> to choose, please ask the run coordinator ! ! ! "   
     echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" " 
+    echo "" 
     exit 0
 fi
 
 if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
+    echo "" 
     echo "No number of events was specified. Defaulting to 100k event sample"
-    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number> <optional run_number>"
+    echo ""     
+    echo "-------------------------------------------------"   
+    echo "e.g., ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number> <optional evt_number>"
+    echo "-------------------------------------------------"   
+    echo "" 
     evtNum=100000
     echo "evtNum=$evtNum"
-    
+    echo "" 
 elif [ "${ana_type}" = "prod" ]; then
+    echo "" 
     echo "replaying all events."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
+    echo "" 
     evtNum=-1
 fi
 
