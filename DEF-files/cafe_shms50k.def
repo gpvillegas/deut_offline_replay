@@ -1,5 +1,8 @@
-#block T.coin.*
+block g.*
+block T.coin.p*_tdcTimeRaw
+block T.coin.pDCREF*_tdcTimeRaw
 block CTime.epCoinTime_ROC2
+
 #block RFTime.* 
 
 block P.hod.*.*numGood*

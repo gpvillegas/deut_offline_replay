@@ -41,10 +41,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   vector<TString> pathList;
   pathList.push_back(".");
-  pathList.push_back("./coda_raw");
-  pathList.push_back("./coda_raw.copiedtotape");
   pathList.push_back("./raw");
   pathList.push_back("./cache");
+  pathList.push_back("./raw.copiedtotape");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
@@ -90,7 +89,13 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     // Load 2018 map
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_comm18.map");
   }
+  if(RunNumber>=14933 || RunNumber<=15079){
+    
+    //Load map which has SHMS Cal ROC 04 SLot 9 offset by +1 channels (channel 0 empty)
+    gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_FADC_ROC4_Slot9_Offset.map");
   
+  }
+
   //=:=:=:=
   // SHMS 
   //=:=:=:=

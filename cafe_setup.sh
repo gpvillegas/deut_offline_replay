@@ -168,8 +168,8 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_voli$USER
 
 	unlink raw
-	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-	ln -sf $tape_raw_dir
+	echo "Creating symlink to $coda_raw"
+	ln -sf $coda_raw
 
 	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
@@ -203,8 +203,8 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_work$USER
 
 	unlink raw
-	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-	ln -sf $tape_raw_dir
+	echo "Creating symlink to $coda_raw"
+	ln -sf $coda_raw
 
 	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
@@ -237,8 +237,8 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir $base_dir_group$USER
 
 	unlink raw
-	echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-	ln -sf $tape_raw_dir
+	echo "Creating symlink to $coda_raw"
+	ln -sf $coda_raw
 
 	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
@@ -284,7 +284,7 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir -p "CAFE_OUTPUT/PDF" 
 
 	unlink raw
-	ln -sf $raw_dir raw	
+	ln -sf $cache_raw_dir 	
 	ln -sf $ROOTfiles_dir
 	ln -sf $REPORT_OUTPUT_dir
 	ln -sf $CAFE_OUTPUT_dir  
@@ -311,15 +311,12 @@ if [[ cdaq_flg -eq 1 ]]; then
     base_dir_cdaq="/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022"
 
     echo "Creating symlink to ${coda_raw}"
-    ln -sf $coda_raw coda_raw
+    ln -sf $coda_raw
 
     echo "Creating symlink to ${coda_raw_copiedtotape}"
-    ln -sf $coda_raw_copiedtotape coda_raw.copiedtotape
+    ln -sf $coda_raw_copiedtotape 
 
-    echo "Creating symlink to /mss/hallc/c-cafe-2022/raw"
-    ln -sf $tape_raw_dir
-
-    echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
+    echo "Creating symlink to $cache_raw_dir"
     ln -sf $cache_raw_dir cache
 	
     echo "Creating dir and symlink to $base_dir_cdaq/REPORT_OUTPUT . . ."
