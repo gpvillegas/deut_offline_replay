@@ -41,8 +41,13 @@ fig.update_layout(bargap=0)
 #fig.update_layout(xaxis={'visible': False, 'showticklabels': False})
 #fig.show()
 
+# create .html interactive plot 
+fig.write_html("index.html")
 
-charts.plot(fig, filename = 'basic-line', auto_open=True)
+# copy it to my github pages
+
+
+#charts.plot(fig, filename = 'basic-line', auto_open=True)
 
 
 
