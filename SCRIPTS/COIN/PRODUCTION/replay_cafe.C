@@ -294,7 +294,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Define the run(s) that we want to analyze.
   // We just set up one, but this could be many.
   THcRun* run = new THcRun( pathList, Form(RunFileNamePattern, RunNumber) );
-
+  run->Init();
   // Set to read in Hall C run database parameters
   run->SetRunParamClass("THcRunParameters");
   
@@ -362,6 +362,19 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 
+
+
+
+  // Write timestamp to REPORT_FILE to keep track of run start_time
+  ofstream file_object;
+  file_object.open(REPORT_FileName.Data(), std::ios_base::app); 
+  file_object << "" << endl;
+  file_object << "time_stamp: " << (run->GetDate()).AsString();
+  file_object << "" << endl;
+  file_object.close(); 
+
+
+  
   // Get ending timepoint
   auto stop = high_resolution_clock::now();
   
@@ -372,5 +385,6 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   
   cout << "Time taken by replay_cafe: "
        << duration.count() << " sec." << endl;
+
   
 }
