@@ -30,25 +30,34 @@ fig.update_layout(bargap=0)
 #fig.update_layout(xaxis={'visible': False, 'showticklabels': False})
 fig.show()
 
+'''
+how to convert string time_stamp to python formatted timestamp to plot
+from datetime import datetime, timedelta
 
-#min_run=min(df['run'])
-#max_run=max(df['run'])
+time_stamp= 'Sat Jun 18 13:13:41 2022'
 
-#df_LD2_MF = df[(df['target'].str.contains('LD2')) & (df['kin_type'].str.contains('MF')) ]
-#df_LD2_SRC = df[(df['target'].str.contains('LD2')) & (df['kin_type'].str.contains('SRC')) ]
+In [12]: time_stamp_fmt = datetime.strptime(time_stamp, '%a %b %d %H:%M:%S %Y') make sure to put the correct format of the string
 
-# get cumulative charges per target and per kin type (MF or SRC)
-#print(df_LD2_MF['charge'].cumsum())
+In [13]: time_stamp_fmt
+Out[13]: datetime.datetime(2022, 6, 18, 13, 13, 41)
 
-#total_bins=max_run - min_run + 1
+time_stamp_fmt.timestamp() --> this gives an absolute time number in seconds.
 
-#plotting the histogram
-#hist = px.histogram(df, x="run", y="charge", color='target', nbins=total_bins, hover_data=df.columns)
-#line = px.line(df_LD2_MF, x="run", y="charge", color="target")
+# to add delta time (e.g., run length in seconds) to get the end_time, do:
+end_time = time_stamp_fmt + timedelta(seconds=3600)  # if a run lasted 1 hour
 
-#hist.update_layout(bargap=0.2)
+In [24]: time_stamp_fmt
+Out[24]: datetime.datetime(2022, 6, 18, 13, 13, 41)
 
-#fig = make_subplots(specs=[[{"secondary_y": True}]])
-#fig.add_histogram(hist)
-# showing the plot
-#fig.show()
+In [25]: end_time
+Out[25]: datetime.datetime(2022, 6, 22, 2, 13, 41)
+
+# calculate time width of the run (sec)
+In [26]: end_time.timestamp() - time_stamp_fmt.timestamp()
+Out[26]: 306000.0
+
+# calculate mid-point of the run (to put correct tick in center)
+In [27]: time_stamp_fmt + 0.5*(end_time - time_stamp_fmt)
+Out[27]: datetime.datetime(2022, 6, 20, 7, 43, 41)
+
+'''
