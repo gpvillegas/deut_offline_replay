@@ -119,6 +119,7 @@ protected:
   Double_t shms_part_mass;
   Double_t shms_p;
   Double_t shms_angle;
+  Double_t run_len;
   
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;

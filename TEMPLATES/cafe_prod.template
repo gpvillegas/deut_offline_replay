@@ -21,8 +21,8 @@ SW_SHMS_Particle_Mass	:		{ppartmass}
 SW_SHMS_P_Central	: 	        {ppcentral}
 SW_SHMS_Angle		:		{ptheta_lab}
 
-SW_SHMS_Run_Length	:		{P.1MHz.scalerTime:%.3f} sec
-SW_HMS_Run_Length	:	        {H.1MHz.scalerTime:%.3f} sec
+SW_SHMS_Run_Length_sec	:		{P.1MHz.scalerTime:%.3f} 
+SW_HMS_Run_Length_sec	:	        {H.1MHz.scalerTime:%.3f} 
 
 ---------------------------
 Beam Current Monitors (BCM)
@@ -131,8 +131,8 @@ SHMS_Particle_Mass	:		{ppartmass}
 SHMS_P_Central	        : 	        {ppcentral}
 SHMS_Angle		:		{ptheta_lab}
 
-SHMS_Run_Length	        :		{P.1MHz.scalerTime:%.3f} sec
-HMS_Run_Length	        :	        {H.1MHz.scalerTime:%.3f} sec
+SHMS_Run_Length_sec	        :		{P.1MHz.scalerTime:%.3f} 
+HMS_Run_Length_sec	        :	        {H.1MHz.scalerTime:%.3f} 
 
 ***********
 * Beamline

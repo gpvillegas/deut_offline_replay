@@ -41,10 +41,9 @@ void replay_cafe_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype=
 
   vector<TString> pathList;
   pathList.push_back(".");
-  pathList.push_back("./coda_raw");
-  pathList.push_back("./coda_raw.copiedtotape");
   pathList.push_back("./raw");
   pathList.push_back("./cache");
+  pathList.push_back("./raw.copiedtotape");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
@@ -236,6 +235,14 @@ void replay_cafe_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype=
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
 
+  // Write timestamp to REPORT_FILE to keep track of run start_time
+  ofstream file_object;
+  file_object.open(REPORT_FileName.Data(), std::ios_base::app); 
+  file_object << "" << endl;
+  file_object << "start_of_run: " << (run->GetDate()).AsSQLString();
+  file_object << "" << endl;
+  file_object.close();
+  
   // Get ending timepoint
   auto stop = high_resolution_clock::now();
   

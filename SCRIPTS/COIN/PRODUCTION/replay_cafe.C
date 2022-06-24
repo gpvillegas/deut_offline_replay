@@ -369,7 +369,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   ofstream file_object;
   file_object.open(REPORT_FileName.Data(), std::ios_base::app); 
   file_object << "" << endl;
-  file_object << "time_stamp: " << (run->GetDate()).AsString();
+  file_object << "start_of_run: " << (run->GetDate()).AsSQLString();
   file_object << "" << endl;
   file_object.close(); 
 

@@ -21,8 +21,8 @@ SW_SHMS_Particle_Mass	:		{ppartmass}
 SW_SHMS_P_Central	: 	        {ppcentral}
 SW_SHMS_Angle		:		{ptheta_lab}
 
-SW_SHMS_Run_Length	:		{P.1MHz.scalerTime:%.3f} sec
-SW_HMS_Run_Length	:	        {H.1MHz.scalerTime:%.3f} sec
+SW_SHMS_Run_Length_sec	:		{P.1MHz.scalerTime:%.3f} 
+SW_HMS_Run_Length_sec	:	        {H.1MHz.scalerTime:%.3f} 
 
 ---------------------------
 Beam Current Monitors (BCM)
@@ -131,8 +131,8 @@ SHMS_Particle_Mass	:		{ppartmass}
 SHMS_P_Central	        : 	        {ppcentral}
 SHMS_Angle		:		{ptheta_lab}
 
-SHMS_Run_Length	        :		{P.1MHz.scalerTime:%.3f} sec
-HMS_Run_Length	        :	        {H.1MHz.scalerTime:%.3f} sec
+SHMS_Run_Length_sec	        :		{P.1MHz.scalerTime:%.3f} 
+HMS_Run_Length_sec	        :	        {H.1MHz.scalerTime:%.3f} 
 
 ***********
 * Beamline
@@ -534,3 +534,4 @@ H2Y7-:  {H.hod.2y7.negScalerCut} [ {(H.hod.2y7.negScalerCut/H.1MHz.scalerTimeCut
 H2Y8-:  {H.hod.2y8.negScalerCut} [ {(H.hod.2y8.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
 H2Y9-:  {H.hod.2y9.negScalerCut} [ {(H.hod.2y9.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
 H2Y10-: {H.hod.2y10.negScalerCut} [ {(H.hod.2y10.negScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
+

@@ -939,6 +939,13 @@ void baseAnalyzer::ReadReport()
   
   temp = FindString("SHMS_Angle",  data_InputReport.Data())[0];
   shms_angle = stod(split(temp, ':')[1]);
+
+  // run length (run_len) in sec.
+  temp = FindString("SHMS_Run_Length_sec", data_InputReport.Data())[0];
+  run_len = stod(split(temp, ':')[1]);
+
+  // run start_time (format: yyyy-mm-dd HH:MM:SS)
+  temp = FindString("start_of_run", data_InputReport.Data())[0];
   
   
 }
