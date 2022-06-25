@@ -38,8 +38,9 @@ cafe_report = open(cafe_report_path)
 
 # general run info
 run_num=0
+start_of_run=0
+end_of_run=0
 kin_type=0
-run_len=0
 evt_num=0
 beam_e=0
 tgt_name=0
@@ -48,6 +49,7 @@ hms_p=0
 hms_angle=0
 shms_p=0
 shms_angle=0
+beam_on_target=0
 bcm_thrs=0
 bcm_current=0
 bcm_charge=0
@@ -126,10 +128,14 @@ for line in cafe_report:
         kin_type = (line.split(":")[1]).strip()
         TestVar+=1
         # print(kin_type)
-    if "daq_run_length" in line :
-        run_len = float((line.split(":")[1]).strip())
+    if "start_of_run" in line :
+        start_of_run = (line.split("=")[1]).strip()
         TestVar+=1
-        # print(run_len)
+        # print(start_of_run)
+    if "end_of_run" in line :
+        end_of_run = (line.split("=")[1]).strip()
+        TestVar+=1
+        # print(end_of_run)
     if "events_replayed" in line :
         evt_num = int((line.split(":")[1]).strip())
         TestVar+=1
@@ -162,6 +168,10 @@ for line in cafe_report:
         shms_angle = float((line.split(":")[1]).strip())
         TestVar+=1
         # print(shms_angle)
+    if "beam_on_target" in line :
+        beam_on_target = float((line.split(":")[1]).strip())
+        TestVar+=1
+        # print(beam_on_target_time)
     if "_Current_Threshold" in line :
         bcm_thrs = (line.split(":")[1]).strip()
         TestVar+=1
@@ -368,9 +378,9 @@ for line in cafe_report:
 
 
 # general run entry list
-header_1     = ['run\nnumber', 'kin\nstudy', 'run\ntime\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]' ]
-gen_run_info = "%i       %s        %.3f     %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
-               (run_num, kin_type, run_len, evt_num, beam_e,  tgt_name, tgt_mass, hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
+header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]' ]
+gen_run_info = "%i            %s           %s           %s         %.3f          %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
+               (run_num, start_of_run,  end_of_run,  kin_type, beam_on_target, evt_num, beam_e,  tgt_name, tgt_mass,  hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
 
 
 # trigger info

@@ -940,14 +940,13 @@ void baseAnalyzer::ReadReport()
   temp = FindString("SHMS_Angle",  data_InputReport.Data())[0];
   shms_angle = stod(split(temp, ':')[1]);
 
-  // run length (run_len) in sec.
-  temp = FindString("SHMS_Run_Length_sec", data_InputReport.Data())[0];
-  run_len = stod(split(temp, ':')[1]);
-
   // run start_time (format: yyyy-mm-dd HH:MM:SS)
   temp = FindString("start_of_run", data_InputReport.Data())[0];
-  
-  
+  start_of_run =  split(temp, '=')[1];
+
+  // run end_time (format: yyyy-mm-dd HH:MM:SS)
+  temp = FindString("end_of_run", data_InputReport.Data())[0];
+  end_of_run =  split(temp, '=')[1];
 }
 
 //_______________________________________________________________________________
@@ -3243,10 +3242,12 @@ void baseAnalyzer::WriteReport()
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "                                     " << endl;
     out_file << Form("run_number: %d                     ", run) << endl;
-    out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
     out_file << "" << endl;
+    out_file << Form("start_of_run = %s", start_of_run.Data())<< endl;
+    out_file << Form("end_of_run = %s", end_of_run.Data())<< endl;
+    out_file << "" << endl;    
+    out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
-    out_file << Form("daq_run_length [sec]: %.3f       ", total_time_bcm_cut) << endl;
     out_file << Form("events_replayed: %lld              ", nentries ) << endl;
     out_file << "" << endl;
     out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
@@ -3262,6 +3263,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("shms_e_angle [deg]: %.4f                  ",  shms_angle ) << endl;  
     out_file << "" << endl;      
     out_file << Form("%s_Current_Threshold [uA]: >%.2f ", bcm_type.Data(), bcm_thrs) << endl;
+    out_file << Form("beam_on_target [sec]: %.3f       ", total_time_bcm_cut) << endl;
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;

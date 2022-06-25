@@ -235,20 +235,43 @@ void replay_cafe_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype=
   //}
   
   analyzer->PrintReport( TEMPLATE_FileName, REPORT_FileName );  // optional
-
+  //----------------------------------------
   
-  // Write timestamp to REPORT_FILE to keep track of run start_time
+  // C.Y. Jun 25, 2022  Added functionality to get start_of_run time, run_length, and hence calculate end_of_run time)
+  // This calculation reads the REPORT_FILE output and hence assumes certain syntax, which MUST NOT be changed for this to work
+
+  //  Write timestamp to REPORT_FILE to keep track of run start_time 
   ofstream file_object;
   file_object.open(REPORT_FileName.Data(), std::ios_base::app); 
   file_object << "" << endl;
-  file_object << "start_of_run = " << (run->GetDate()).AsSQLString();
-  file_object << "" << endl;
-  file_object.close();
-
-  // determine end of run time
+  file_object << "start_of_run = " << (run->GetDate()).AsSQLString() << endl; // written in format: yyyy-mm-dd HH:MM:SS )
+ 
   
-  
+  // get the year, month day, hour, min sec of the start_of_run
+  int year = (run->GetDate()).GetYear();
+  int month = (run->GetDate()).GetMonth();
+  int day = (run->GetDate()).GetDay();
+  int hour = (run->GetDate()).GetHour();
+  int minute = (run->GetDate()).GetMinute();
+  int second = (run->GetDate()).GetSecond();
 
+  // set TTimeStamp for start_of_run
+  TTimeStamp *start_of_run_timestamp = new TTimeStamp(year, month, day, hour, minute, second);
+
+  // get the run length from the REPORT FILE (NOTE this is the run length corresponding to the number of evts replayed.
+  // if the Full Replay was done (all events),  end_of_run time will correspond to the HCLOG end_of_run time, otherwise
+  // it will correspond to the run lenght of the number of events replayed)
+  double run_len = stod(split(FindString("SHMS_Run_Length_sec", REPORT_FileName.Data())[0], ':')[1]); // in sec
+
+  // add the run length in sec.
+  start_of_run_timestamp->Add(run_len);
+
+  // convert output to string in format: yyyy-mm-dd HH:MM:SS, with an implied UTC
+  string end_of_run_time = start_of_run_timestamp->AsString("s");
+
+  file_object << "end_of_run = " << end_of_run_time.c_str() << endl;
+  file_object.close(); 
+ 
 
 
   

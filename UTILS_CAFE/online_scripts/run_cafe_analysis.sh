@@ -63,7 +63,7 @@ elif [ "${ana_type}" = "prod" ]; then
     echo "replaying all events."
     echo "e.g., ./run_cafe_${a}.sh <run_number> <kin_type> "
     echo "" 
-    evtNum=-1
+    evtNum=20000
 fi
 
 daq_mode="coin"
