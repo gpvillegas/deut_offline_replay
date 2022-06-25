@@ -1,6 +1,6 @@
 #include <chrono>
 #include <iostream>
-#include "./UTILS_CAFE/UTILS/parse_utils.h" //useful C++ string parsing utilities
+#include "../../../UTILS_CAFE/UTILS/parse_utils.h" //useful C++ string parsing utilities
 
 using namespace std;
 using namespace std::chrono;
@@ -376,7 +376,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   ofstream file_object;
   file_object.open(REPORT_FileName.Data(), std::ios_base::app); 
   file_object << "" << endl;
-  file_object << "start_of_run = " << (run->GetDate()).AsSQLString(); // written in format: yyyy-mm-dd HH:MM:SS )
+  file_object << "start_of_run = " << (run->GetDate()).AsSQLString() << endl; // written in format: yyyy-mm-dd HH:MM:SS )
  
   
   // get the year, month day, hour, min sec of the start_of_run
@@ -401,7 +401,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // convert output to string in format: yyyy-mm-dd HH:MM:SS, with an implied UTC
   string end_of_run_time = start_of_run_timestamp->AsString("s");
 
-  file_object << "end_of_run = " << end_of_run_time.c_str();
+  file_object << "end_of_run = " << end_of_run_time.c_str() << endl;
   file_object.close(); 
   
 
