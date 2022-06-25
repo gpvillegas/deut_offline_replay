@@ -120,6 +120,12 @@ protected:
   Double_t shms_p;
   Double_t shms_angle;
   Double_t run_len;
+  Double_t start_of_run;
+  Double_t end_of_run;
+
+  // variables to store ans set timestamp for start/end of run
+  Int_t year, month, day, hour, min, sec;
+
   
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
