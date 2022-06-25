@@ -77,8 +77,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
-  gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
 
+  gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");     
+  
   //use spring18 config det. map  / params
   //All runs before coin 4361 did NOT have hDCREF_5 added in ROC3
   if(RunNumber<=4361){
@@ -89,13 +90,14 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     // Load 2018 map
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_comm18.map");
   }
-  if(RunNumber>=14933 || RunNumber<=15079){
+  
+  else if(RunNumber>=14933 && RunNumber<=15079){
     
     //Load map which has SHMS Cal ROC 04 SLot 9 offset by +1 channels (channel 0 empty)
     gHcDetectorMap->Load("MAPS/COIN/DETEC/coin_FADC_ROC4_Slot9_Offset.map");
   
   }
-
+  
   //=:=:=:=
   // SHMS 
   //=:=:=:=
