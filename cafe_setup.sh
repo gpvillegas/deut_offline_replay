@@ -125,6 +125,8 @@ tape_analysis_out="/mss/hallc/c-cafe-2022/analysis"
 #cache_raw_dir="/cache/hallc/c-cafe-2022/raw/"
 cache_raw_dir="/cache/hallc/c-pionlt/raw"
 
+# only for testing purposes (test raw data is here)
+volatile_raw_dir_test="/volatile/hallc/c-cafe-2022/test_raw"
 
 cache_analysis_out="/cache/hallc/c-cafe-2022/analysis/"
 
@@ -166,10 +168,6 @@ if [[ ifarm_flg -eq 1 ]]; then
 
 	echo "Creating dir $base_dir_voli$USER . . ."
 	mkdir $base_dir_voli$USER
-
-	unlink raw
-	echo "Creating symlink to $coda_raw"
-	ln -sf $coda_raw
 
 	unlink cache
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
@@ -284,7 +282,7 @@ if [[ ifarm_flg -eq 1 ]]; then
 	mkdir -p "CAFE_OUTPUT/PDF" 
 
 	unlink raw
-	ln -sf $cache_raw_dir 	
+	ln -sf $volatile_raw_dir_test raw 	
 	ln -sf $ROOTfiles_dir
 	ln -sf $REPORT_OUTPUT_dir
 	ln -sf $CAFE_OUTPUT_dir  

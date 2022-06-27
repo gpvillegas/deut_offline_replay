@@ -14,7 +14,7 @@
 
 # Import relevant packages
 import sys, math, os, subprocess, csv
-
+from datetime import datetime
 sys.path.insert(0, 'python/')
 
 #if len(sys.argv)-1!=3:
@@ -130,10 +130,14 @@ for line in cafe_report:
         # print(kin_type)
     if "start_of_run" in line :
         start_of_run = (line.split("=")[1]).strip()
+        #convert to datetime object
+        start_of_run = datetime.strptime(start_of_run, '%Y-%m-%d %H:%M:%S')
         TestVar+=1
         # print(start_of_run)
     if "end_of_run" in line :
         end_of_run = (line.split("=")[1]).strip()
+        #convert to datetime object
+        end_of_run = datetime.strptime(end_of_run, '%Y-%m-%d %H:%M:%S') 
         TestVar+=1
         # print(end_of_run)
     if "events_replayed" in line :
@@ -379,7 +383,7 @@ for line in cafe_report:
 
 # general run entry list
 header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]' ]
-gen_run_info = "%i            %s           %s           %s         %.3f          %i       %.4f     %s        %.6f      %.4f   %.3f       %.4f    %.3f        %s        %.3f         %.3f       " % \
+gen_run_info = "%i,            %s,           %s,           %s,         %.3f,          %i,       %.4f,     %s,        %.6f,      %.4f,   %.3f,       %.4f,    %.3f,        %s,        %.3f,         %.3f       " % \
                (run_num, start_of_run,  end_of_run,  kin_type, beam_on_target, evt_num, beam_e,  tgt_name, tgt_mass,  hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge)
 
 
@@ -422,7 +426,7 @@ for specialChar in specialChars:
 
 
 # convert data strings to a list
-gen_run_info_list    = gen_run_info.split()
+gen_run_info_list    = gen_run_info.split(',')
 trig_info_list       = trig_info.split()
 efficiency_info_list = efficiency_info.split()
 good_evt_info_list   = good_evt_info.split()
