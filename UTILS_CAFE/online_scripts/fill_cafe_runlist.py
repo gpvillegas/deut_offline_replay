@@ -413,11 +413,15 @@ total_header = header_1 + header_2 + header_3 + header_4
 #comment = input("Please enter any relevant comments this run: \n")
 comment=""
 query = raw_input("Would you like to make a comment for run %s ? [y/n] " %(RUNNUM))
-if (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
+# FOOL PROOF
+if(query!="n" or query!="N" or query!="No" or query!="NO" or query!="Y" or query!="y" or query!="Yes" or query!="YES"):
+    query=raw_input("Would you like to make a comment for run %s ? Please enter [y/n]: " %(RUNNUM))
+elif (query=="Y" or query=="y" or query=="Yes" or query=="YES"):
     comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_'): \n >> " %(RUNNUM))
 elif(query=="n" or query=="N" or query=="No" or query=="NO"):
     print("OK. No comments will be writte to the .csv")
     comment="no_comment"
+
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
 
