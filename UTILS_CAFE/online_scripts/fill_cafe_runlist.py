@@ -31,8 +31,46 @@ EVTNUM = sys.argv[3]
 cafe_report_path = "CAFE_OUTPUT/REPORT/cafe_%s_report_%s_%s.txt" % (ANATYPE, RUNNUM, EVTNUM)
 
 #bcm_type = sys.argv[2]         # <entry_type> = "bcm_type", passed from run_cafe_prod.sh
-
 cafe_report = open(cafe_report_path)
+
+
+
+
+# check if run list exists, else create it and add a header
+run_exists_flag = False
+overwrite_flag = False
+
+if os.path.isfile(fname_path):
+    print (fname_path," exists !")
+    
+# ---------------check if RUNNUM already exists-------------    
+    f= open(fname_path, 'r') 
+    lines = csv.reader(f, delimiter=',')
+    
+    for row in lines:
+        if(row[0]==str(RUNNUM)):
+            run_exists_flag = True        
+            break;
+        else:
+            run_exists_flag = False
+            
+    f.close()
+
+    query=""
+    if(run_exists_flag):
+        if( int(sys.version[0]) < 3 ): 
+            query = raw_input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM))
+        else:
+            query = input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM)) 
+        print('query_test: ', query)
+        if(query=='y' or query=='Y' or query=='yes' or query=='YES'):
+            print('OK, will overwrite run %s in csv file !' % RUNNUM)
+            overwrite_flag = True
+        elif(query=='n' or query=='N' or query=='no' or query=='NO'):
+            print('Will NOT overwrite run %s in csv file !' % RUNNUM)
+            overwrite_flag = False
+        
+#---------------------------------------------------
 
 
 # general run info
@@ -450,56 +488,15 @@ os.system('mkdir -p UTILS_CAFE/runlist')
 if os.path.isfile(fname_path):
     print (fname_path," exists !")
     
-    # ---------------check if RUNNUM already exists-------------
-    run_exists_flag = False
-    
-    f= open(fname_path, 'r') 
-    lines = csv.reader(f, delimiter=',')
-    
-    for row in lines:
-        if(row[0]==str(RUNNUM)):
-            run_exists_flag = True        
-            break;
-        else:
-            run_exists_flag = False
-            
-    f.close()
-
-    overwrite_flag = False
-
-    query=""
-    if(run_exists_flag):
-        if( int(sys.version[0]) < 3 ): 
-            query = raw_input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM))
-        else:
-            query = input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM)) 
-        print('query_test: ', query)
-        if(query=='y' or query=='Y' or query=='yes' or query=='YES'):
-            print('OK, will overwrite run %s in csv file !' % RUNNUM)
-            overwrite_flag = True
-        elif(query=='n' or query=='N' or query=='no' or query=='NO'):
-            print('Will NOT overwrite run %s in csv file !' % RUNNUM)
-            overwrite_flag = False
-        
-        #---------------------------------------------------
-
     if(overwrite_flag):
-        print('LEVEL 1 PASSED')
         with open(fname_path) as inf, open(temp_fname_path, 'w') as outf:
             reader = csv.reader(inf)
             writer = csv.writer(outf)
-            print('LEVEL 2 PASSED')
             for line in reader:       
-                print('LEVEL 3 PASSED')
-                print(line[0])
                 #search for RUNNUM, and replace line when it finds it
                 if(line[0]==str(RUNNUM)):
-                    print('LEVEL 4 PASSED: found %s' % RUNNUM)
-                    print('replacing line ', line, 'with\n',total_list)
-                    print('replacing line(type) ', type(line), 'with\n (type)',type(total_list)) 
                     writer.writerow(total_list)
                 else:
-                    print('LEVEL 5 PASSED: ')
                     writer.writerow(line)
         # move temp.csv back to original .csv file
         os.system('cp %s %s '%(temp_fname_path, fname_path))
@@ -523,5 +520,5 @@ else:
 
 
 
-fname_path_bkp='/home/cdaq/cyero/backup_runlist/cafe-2022_runlist_backup.csv'
-os.system('cp %s %s' % (fname_path, fname_path_bkp))
+#fname_path_bkp='/home/cdaq/cyero/backup_runlist/cafe-2022_runlist_backup.csv'
+#os.system('cp %s %s' % (fname_path, fname_path_bkp))

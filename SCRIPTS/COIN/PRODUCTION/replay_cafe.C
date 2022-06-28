@@ -33,6 +33,10 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     }
   }
 
+
+  
+
+  
   // Get starting timepoint
   auto start = high_resolution_clock::now();
     
@@ -310,6 +314,23 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   // Define the analysis parameters
   TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
+
+
+  TString user_answer = "";
+  if(gSystem->AccessPathName(ROOTFileName.Data())){
+    std::cout << Form("%s does NOT exist !",ROOTFileName.Data()) << std::endl;
+    } else {
+        std::cout << Form("%s already exists !  Are you sure you want to overwrite it ? [y/n] : ",ROOTFileName.Data());
+	cin >> user_answer;
+  }
+  if(user_answer=="yes"){
+    cout << Form("Will overwrite % !", ROOTFileName.Data()) << endl;
+  }
+  else if(user_answer=="no"){
+    cout << Form("OK, ! Will NOT overwrite % s Exiting Now . . .", ROOTFileName.Data()) << endl;
+    gSystem->Exit(1);
+  }
+  
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number
