@@ -34,6 +34,10 @@ cafe_report_path = "CAFE_OUTPUT/REPORT/cafe_%s_report_%s_%s.txt" % (ANATYPE, RUN
 cafe_report = open(cafe_report_path)
 
 
+# define filenames
+fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'                                                                                                                                         
+temp_fname_path='UTILS_CAFE/runlist/temp.csv' # temporary file (for overwriting entry, if the user desires)                                                                                    
+    
 
 
 # check if run list exists, else create it and add a header
@@ -72,13 +76,13 @@ if os.path.isfile(fname_path):
             overwrite_flag = False
 
             if( int(sys.version[0]) < 3 ): 
-                query_2 = raw_input('Would you like to write it as a duplicate entry? [y/n]:' %(RUNNUM))
+                query_2 = raw_input('Would you like to write Run Number %s as a duplicate entry? [y/n]:' %(RUNNUM))
             else:
-                query_2 = input('Would you like to write it as a duplicate entry? [y/n]:' %(RUNNUM))
+                query_2 = input('Would you like to write Run Number %s as a duplicate entry? [y/n]:' %(RUNNUM))
             if(query_2=='y' or query_2=='Y' or query_2=='yes' or query_2=='YES'):
-                print('OK, will add run %s as a duplicate in csv file !' % RUNNUM)
+                print('OK, will add Run Number %s as a duplicate in csv file !' % RUNNUM)
             elif(query_2=='n' or query_2=='N' or query_2=='no' or query_2=='NO'):
-                print('OK, will NOT add run %s as a duplicate in csv file !\n Exiting Now . . .' % RUNNUM)
+                print('OK, will NOT add Run Number %s as a duplicate in csv file !\n Exiting Now . . .' % RUNNUM)
                 exit()
             
         
@@ -489,9 +493,6 @@ total_list.append(comment)
 cafe_report.close()
 
 # --- create / append data to cafe runlist .csv file ----------
-
-fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
-temp_fname_path='UTILS_CAFE/runlist/temp.csv' # temporary file (for overwriting entry, if the user desires)
 
 os.system('mkdir -p UTILS_CAFE/runlist') 
 #os.system('mkdir -p /home/cdaq/cyero/backup_runlist')
