@@ -90,7 +90,6 @@ optics_script="UTILS_CAFE/online_scripts/plotOptics.C"
 # cafe fill run list script
 fill_list_script="UTILS_CAFE/online_scripts/fill_cafe_runlist.py"
 
-
 # run scripts commands
 runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
 

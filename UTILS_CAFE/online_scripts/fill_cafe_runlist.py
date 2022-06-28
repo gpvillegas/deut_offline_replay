@@ -15,13 +15,13 @@
 # Import relevant packages
 import sys, math, os, subprocess, csv
 from datetime import datetime
+import numpy as np
 sys.path.insert(0, 'python/')
 
 #if len(sys.argv)-1!=3:
 #    print("Invalid number of arguments. \n "
-#    "e.g., python reportfile.py <path/to/cafe_report_run.txt> <entry_type> \n")
-#    sys.exit(1)
-    
+#    "e.g., python reportfile.py <path/to/cafe
+
 # user input
 ANATYPE = sys.argv[1]
 RUNNUM = sys.argv[2]
@@ -53,15 +53,15 @@ bcm_thrs=0
 bcm_current=0
 bcm_charge=0
 
-# good events counts
-heep_singles      = 0
-heep_singles_rate =-1
-heep_real         = 0
-heep_real_rate    =-1
-MF_real           = 0
-MF_real_rate      =-1
-SRC_real          = 0
-SRC_real_rate     =-1
+# good events counts (initialize to NaN for ease of use with python later on)
+heep_singles      = np.nan
+heep_singles_rate = np.nan
+heep_real         = np.nan
+heep_real_rate    = np.nan
+MF_real           = np.nan
+MF_real_rate      = np.nan
+SRC_real          = np.nan
+SRC_real_rate     = np.nan
 
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
 PS1=-1    # SHMS 3/4
@@ -70,33 +70,33 @@ PS3=-1    # HMS 3/4
 PS5=-1    # SHMS EL-REAL x HMS 3/4 ( this needs to be implemented after pionLT run ends in August 2022 )
 PS6=-1    # HMS 3/4 x SHMS 3/4
 
-T1_scaler=0
-T2_scaler=0
-T3_scaler=0
-T5_scaler=0
-T6_scaler=0
+T1_scaler=np.nan
+T2_scaler=np.nan
+T3_scaler=np.nan
+T5_scaler=np.nan
+T6_scaler=np.nan
 
-T1_scaler_rate=-1
-T2_scaler_rate=-1
-T3_scaler_rate=-1
-T5_scaler_rate=-1
-T6_scaler_rate=-1
+T1_scaler_rate=np.nan
+T2_scaler_rate=np.nan
+T3_scaler_rate=np.nan
+T5_scaler_rate=np.nan
+T6_scaler_rate=np.nan
 
-T1_accp=0
-T2_accp=0
-T3_accp=0
-T5_accp=0
-T6_accp=0
+T1_accp=np.nan
+T2_accp=np.nan
+T3_accp=np.nan
+T5_accp=np.nan
+T6_accp=np.nan
 
-T1_accp_rate=-1
-T2_accp_rate=-1
-T3_accp_rate=-1
-T5_accp_rate=-1
-T6_accp_rate=-1
+T1_accp_rate=np.nan
+T2_accp_rate=np.nan
+T3_accp_rate=np.nan
+T5_accp_rate=np.nan
+T6_accp_rate=np.nan
 
 # tracking efficiency
-hms_trk_eff=-1
-shms_trk_eff=-1
+hms_trk_eff=np.nan
+shms_trk_eff=np.nan
 
 # daq live time
 T1_cpuLT=-1
@@ -404,14 +404,17 @@ good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
 
- # combine headers
+# combine headers
 total_header = header_1 + header_2 + header_3 + header_4
 
 
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
 comment=""
-comment = raw_input("Please enter comments for run %s \n (NOTE: all special chars/blanks will be replaced by '_' \n Press \'Enter\' to ommit comment): \n >> " %(RUNNUM))
+if( int(sys.version[0]) < 3 ):
+    comment = raw_input("Please enter comments for run %s (press Enter to skip): " %(RUNNUM))
+else:
+    comment = input("Please enter comments for run %s (press Enter to skip) " %(RUNNUM))   
 
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
@@ -438,6 +441,7 @@ cafe_report.close()
 # --- create / append data to cafe runlist .csv file ----------
 
 fname_path='UTILS_CAFE/runlist/cafe-2022_runlist.csv'
+temp_fname_path='UTILS_CAFE/runlist/temp.csv' # temporary file (for overwriting entry, if the user desires)
 
 os.system('mkdir -p UTILS_CAFE/runlist') 
 #os.system('mkdir -p /home/cdaq/cyero/backup_runlist')
@@ -445,21 +449,79 @@ os.system('mkdir -p UTILS_CAFE/runlist')
 # check if run list exists, else create it and add a header
 if os.path.isfile(fname_path):
     print (fname_path," exists !")
+    
+    # ---------------check if RUNNUM already exists-------------
+    run_exists_flag = False
+    
+    f= open(fname_path, 'r') 
+    lines = csv.reader(f, delimiter=',')
+    
+    for row in lines:
+        if(row[0]==str(RUNNUM)):
+            run_exists_flag = True        
+            break;
+        else:
+            run_exists_flag = False
+            
+    f.close()
 
-    with open(fname_path, "a") as f:
-        wr = csv.writer(f,delimiter=",")
-        wr.writerow(total_list)
+    overwrite_flag = False
+
+    query=""
+    if(run_exists_flag):
+        if( int(sys.version[0]) < 3 ): 
+            query = raw_input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM))
+        else:
+            query = input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM)) 
+        print('query_test: ', query)
+        if(query=='y' or query=='Y' or query=='yes' or query=='YES'):
+            print('OK, will overwrite run %s in csv file !' % RUNNUM)
+            overwrite_flag = True
+        elif(query=='n' or query=='N' or query=='no' or query=='NO'):
+            print('Will NOT overwrite run %s in csv file !' % RUNNUM)
+            overwrite_flag = False
         
+        #---------------------------------------------------
+
+    if(overwrite_flag):
+        print('LEVEL 1 PASSED')
+        with open(fname_path) as inf, open(temp_fname_path, 'w') as outf:
+            reader = csv.reader(inf)
+            writer = csv.writer(outf)
+            print('LEVEL 2 PASSED')
+            for line in reader:       
+                print('LEVEL 3 PASSED')
+                print(line[0])
+                #search for RUNNUM, and replace line when it finds it
+                if(line[0]==str(RUNNUM)):
+                    print('LEVEL 4 PASSED: found %s' % RUNNUM)
+                    print('replacing line ', line, 'with\n',total_list)
+                    print('replacing line(type) ', type(line), 'with\n (type)',type(total_list)) 
+                    writer.writerow(total_list)
+                else:
+                    print('LEVEL 5 PASSED: ')
+                    writer.writerow(line)
+        # move temp.csv back to original .csv file
+        os.system('cp %s %s '%(temp_fname_path, fname_path))
+
+    else:
+        print('Writing new run information to file')
+        with open(fname_path, "a") as f:
+            writer = csv.writer(f,delimiter=",")
+            writer.writerow(total_list)
+            
+                
 else:
     print (fname_path," does NOT exist ! \n Will create it and add a header")
     
     with open(fname_path, "a") as f:
-        wr = csv.writer(f,delimiter=",")
-        wr.writerow(total_header)
-        wr.writerow(total_list)
+        writer = csv.writer(f,delimiter=",")
+        writer.writerow(total_header)
+        writer.writerow(total_list)
         
-f.close()
+        f.close()
+
+
 
 fname_path_bkp='/home/cdaq/cyero/backup_runlist/cafe-2022_runlist_backup.csv'
-
 os.system('cp %s %s' % (fname_path, fname_path_bkp))
