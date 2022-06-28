@@ -57,6 +57,7 @@ if os.path.isfile(fname_path):
     f.close()
 
     query=""
+    query_2=""
     if(run_exists_flag):
         if( int(sys.version[0]) < 3 ): 
             query = raw_input('Run Number %s exits ! Are you sure you want to overwrite it? [y/n]:' %(RUNNUM))
@@ -67,8 +68,19 @@ if os.path.isfile(fname_path):
             print('OK, will overwrite run %s in csv file !' % RUNNUM)
             overwrite_flag = True
         elif(query=='n' or query=='N' or query=='no' or query=='NO'):
-            print('Will NOT overwrite run %s in csv file !' % RUNNUM)
+            print('Will NOT overwrite run %s in csv file !' % RUNNUM)            
             overwrite_flag = False
+
+            if( int(sys.version[0]) < 3 ): 
+                query_2 = raw_input('Would you like to write it as a duplicate entry? [y/n]:' %(RUNNUM))
+            else:
+                query_2 = input('Would you like to write it as a duplicate entry? [y/n]:' %(RUNNUM))
+            if(query_2=='y' or query_2=='Y' or query_2=='yes' or query_2=='YES'):
+                print('OK, will add run %s as a duplicate in csv file !' % RUNNUM)
+            elif(query_2=='n' or query_2=='N' or query_2=='no' or query_2=='NO'):
+                print('OK, will NOT add run %s as a duplicate in csv file !\n Exiting Now . . .' % RUNNUM)
+                exit()
+            
         
 #---------------------------------------------------
 
@@ -502,7 +514,6 @@ if os.path.isfile(fname_path):
         os.system('cp %s %s '%(temp_fname_path, fname_path))
 
     else:
-        print('Writing new run information to file')
         with open(fname_path, "a") as f:
             writer = csv.writer(f,delimiter=",")
             writer.writerow(total_list)
