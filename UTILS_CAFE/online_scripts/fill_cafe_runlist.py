@@ -153,20 +153,20 @@ hms_trk_eff=np.nan
 shms_trk_eff=np.nan
 
 # daq live time
-T1_cpuLT=-1
-T1_tLT=-1
+T1_cpuLT=np.nan
+T1_tLT=np.nan
 
-T2_cpuLT=-1
-T2_tLT=-1
+T2_cpuLT=np.nan
+T2_tLT=np.nan
 
-T3_cpuLT=-1
-T3_tLT=-1
+T3_cpuLT=np.nan
+T3_tLT=np.nan
 
-T5_cpuLT=-1
-T5_tLT=-1
+T5_cpuLT=np.nan
+T5_tLT=np.nan
 
-T6_cpuLT=-1
-T6_tLT=-1
+T6_cpuLT=np.nan
+T6_tLT=np.nan
 
 TestVar = 0 # Counter to check the right number of variables have been set, 
 for line in cafe_report:
