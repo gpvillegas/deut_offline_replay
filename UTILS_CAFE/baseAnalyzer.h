@@ -48,6 +48,8 @@ public:
   // Helper Functions
   Double_t GetCoinTimePeak();
   void MakePlots();
+  Double_t GetLuminosity(Double_t total_charge=0, TString target_name="");
+
   
 protected:
 
@@ -55,19 +57,20 @@ protected:
   const Double_t pi = TMath::Pi(); 
   const Double_t dtr = pi / 180.;
   const Double_t amu2GeV = 0.93149432;
-
-  // target mass (amu) 
-  Double_t MH_amu     = 1.00794       ;
-  Double_t MD_amu     = 2.01410177812 ;
-  Double_t MBe9_amu   = 9.012182      ;
-  Double_t MB10_amu   = 10.0129370    ;
-  Double_t MB11_amu   = 11.009306     ;
-  Double_t MC12_amu   = 12.0107       ;
-  Double_t MAl27_amu  = 26.98153      ;
-  Double_t MCa40_amu  = 39.962590863  ;
-  Double_t MCa48_amu  = 47.95252276   ;
-  Double_t MFe54_amu  = 53.9396147    ;
-  Double_t MTi48_amu  = 47.9479463    ;
+  const Double_t NA = 6.022*1e23;  // Avogadro's number ( # atoms / mol), 1 g/mol = 1amu
+  
+  // target mass (amu),  mass number 
+  Double_t MH_amu     = 1.00794       , A_H   = 1;
+  Double_t MD_amu     = 2.01410177812 , A_D   = 2;
+  Double_t MBe9_amu   = 9.012182      , A_Be9 = 9;
+  Double_t MB10_amu   = 10.0129370    , A_B10 = 10;
+  Double_t MB11_amu   = 11.009306     , A_B11 = 11;
+  Double_t MC12_amu   = 12.0107       , A_C12 = 12;
+  Double_t MAl27_amu  = 26.98153      , A_Al27 = 27;
+  Double_t MCa40_amu  = 39.962590863  , A_Ca40 = 40;
+  Double_t MCa48_amu  = 47.95252276   , A_Ca48 = 48;
+  Double_t MFe54_amu  = 53.9396147    , A_Fe54 = 54;
+  Double_t MTi48_amu  = 47.9479463    , A_Ti48 = 48;
   // target mass (GeV)
   Double_t MH     = MH_amu    * amu2GeV;
   Double_t MD     = MD_amu    * amu2GeV;
@@ -90,6 +93,49 @@ protected:
   const Double_t MLam = 1.115683; //Neutral Lambda (uds) Mass
   const Double_t MSig = 1.192642; //Neutral Sigma (uds) Mass
   
+  //target length (thickness) (cm) obtained from D. Meekins table on Hall C 2022 targets
+  //https://docs.google.com/spreadsheets/d/1GoHMHbCv3v6CbVybqTQws-4VhQeSifFP/edit#gid=140150071
+
+
+  //target density (g/cm^3)  
+  Double_t rho_H    = 0.07231;   
+  Double_t rho_D    = 0.167;   
+  Double_t rho_Be9  = 1.848; 
+  Double_t rho_B10  = 2.29; 
+  Double_t rho_B11  = 2.52; 
+  Double_t rho_C12  = 1.8; 
+  Double_t rho_Al27 = 2.699;
+  Double_t rho_Ca40 = 1.55;
+  Double_t rho_Ca48 = 1.86;
+  Double_t rho_Fe54 = 7.87;
+  Double_t rho_Ti48 = 4.5;
+
+  //target thickness (or length) (cm) 
+  Double_t thick_H    = 10.;   
+  Double_t thick_D    = 10.;
+  Double_t thick_Be9  = 0.5292;
+  Double_t thick_B10  = 0.2498;
+  Double_t thick_B11  = 0.2516;
+  Double_t thick_C12  = 0.2911;
+  Double_t thick_Al27 = 0.1541;
+  Double_t thick_Ca40 = 0.5161;
+  Double_t thick_Ca48 = 0.4301;
+  Double_t thick_Fe54 = 0.528;
+  Double_t thick_Ti48 = 0.718;
+
+  // target areal density (g/cm2) = target_density(g/cm3) * target_thickness(cm)
+  Double_t sig_H    = rho_H    * thick_H   ;   
+  Double_t sig_D    = rho_D    * thick_D   ;  
+  Double_t sig_Be9  = rho_Be9  * thick_Be9 ;
+  Double_t sig_B10  = rho_B10  * thick_B10 ;
+  Double_t sig_B11  = rho_B11  * thick_B11 ;
+  Double_t sig_C12  = rho_C12  * thick_C12 ;
+  Double_t sig_Al27 = rho_Al27 * thick_Al27;
+  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40;
+  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48;
+  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54;
+  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48;
+
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number

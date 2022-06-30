@@ -3673,6 +3673,33 @@ void baseAnalyzer::CombineHistos()
 }
 
 //______________________________________________________________________________
+Double_t baseAnalyzer::GetLuminosity(Double_t total_charge=0, TString target_name="")
+{
+  /* 
+     Brief: calculates luminosity  as follows: luminosity = total_charge / targetfac,
+     where targetfac is areal density (g/cm^2) converted to ( # nucleons / cm2)
+     
+     Standard definition:  luminosity = (1/xsec) * dN/dt, where xsec is the cross section 
+     and dN/dt is the event count rate. If 'xsec' is in [cm^2] and 'dN/dt' is in [Hz], then 
+     luminosity is in [cm^-2 sec^-1]. One can also get the integrated luminosity by integrated over
+     total beam-on-target run time.
+   
+   */
+  Double_t targetfac;
+  Double_t luminosity;
+  
+  targetfac = (sig_H / MH_amu) * NA * A_H;  // # nucleons / cm^2
+  luminosity = total_charge / targetfac;    // mC * cm^2
+
+
+  return luminosity;
+
+    
+  return 0;
+  
+}
+
+//______________________________________________________________________________
 void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
