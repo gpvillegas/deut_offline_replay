@@ -3270,7 +3270,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
-    out_file << Form("integrated_luminosity [ub^-1]: %.4E", GetLuminosity()) << endl;
+    out_file << Form("integrated_luminosity [fb^-1]: %.4E", GetLuminosity()) << endl;
       
     if(analysis_cut=="heep_singles")
       {
@@ -3688,7 +3688,7 @@ Double_t baseAnalyzer::GetLuminosity()
      luminosity is in [cm^-2 sec^-1]. One can also get the integrated luminosity by integrated over
      total beam-on-target run time.
 
-     To get the constant in units of microbarn, given the areal density in g/cm^2, and charge in milliCoulomb :
+     To get the constant in units of cm^2, given the areal density in g/cm^2, and charge in milliCoulomb :
      L = Constant * (1 mC / e-) *  (1 g / cm^2) / 1 amu
      
      ** 1 e- = 1.60217663 × 10^-19 Coulombs ---> 1 mC / e- = 1/ (1.60217663 × 10^-19 ) * 1e-3 mC/ 1 C = 6241509090043338.0 ---> 1 mC/e- ~ 6.24e15
@@ -3697,8 +3697,10 @@ Double_t baseAnalyzer::GetLuminosity()
 
      C = (6.241509090043338 x 10^15)  * (6.02214076 x 10^23) = 3.7587246295060495e+39 cm^-2  | 1 ubarn = 1e-30 cm^2
      
-     C[ub] =  3.7587246295060495e+39 cm^-2 * 1e-30 cm^2 / 1 ub = 3758724629.5060496 ----> C ~ 3.75872 x 10^9 ub^-1  (inverse microbarns)
-   
+     C[ub^-1] =  3.7587246295060495e+39 cm^-2 * 1e-30 cm^2 / 1 ub = 3758724629.5060496 ----> C ~ 3.75872 x 10^9 ub^-1  (inverse microbarns)
+     
+      might be more useful to convert to femtobarns, just in case: here it is
+     C[cm^-2] * 1 cm^2 / 1e39 [fb]
      
      To directly compare different targets, one can normalize the total experimental counts (N)  by total luminosity
 
@@ -3710,18 +3712,18 @@ Double_t baseAnalyzer::GetLuminosity()
   //  [cm^-2]      [g/cm^2]      /  [g/mol]
   targetfac = tgt_areal_density / tgt_mass ;  
 
-  Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-30; // units: [ub^-1] inverse-microbarns
+  Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-39; // units: [fb^-1] inverse-femtobarns
 
   // calculate integrated luminosity
   luminosity =  Constant * total_charge_bcm_cut * targetfac;  
 
-  cout << "target_areal_density [g/cm^2] : " << tgt_areal_density << endl;
-  cout << "targetfac [cm^-2] : " << targetfac << endl;
-  cout << "total_charge [mC]: " << total_charge_bcm_cut << endl;
-  cout << "Constant [ub^-1]: " << Constant << endl;
+  cout << Form("target_areal_density [g/cm^2] %.4f: ", tgt_areal_density) << endl;
+  cout << Form("targetfac [cm^-2] : %.4E", targetfac) << endl;
+  cout << Form("total_charge [mC]: %.3f", total_charge_bcm_cut) << endl;
+  cout << Form("Constant [fb^-1]: %.5E", Constant) << endl;
   cout << "--------------------------" << endl;
-  cout << "Integrated Luminosity [ub^-1]: " << luminosity << endl;
-
+  cout << Form("Integrated Luminosity [fb^-1]: %.5E ", luminosity) << endl;
+  
   return luminosity;  
 
 }
