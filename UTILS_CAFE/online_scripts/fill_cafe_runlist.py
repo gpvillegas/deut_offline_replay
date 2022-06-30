@@ -442,7 +442,7 @@ gen_run_info = "%i,            %s,           %s,           %s,         %.3f,    
 
 # trigger info
 # should probably define what these are more specifically later on . . . e.g., PS1 : SHMS 3/4 . . .
-header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1\nscaler_rates\n[kHz]', 'T2\nscaler_nrates\n[kHz]','T3\nscaler_rates\n[kHz]','T5\nscaler_rates\n[kHz]','T6\nscaler_rates\n[kHz]', 'T1\naccp_rates\n[kHz]','T2\naccp_rates\n[kHz]','T3\naccp_rates\n[kHz]','T5\naccp_rates\n[kHz]','T6\naccp_rates\n[kHz]' ]
+header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1\nscaler_rates\n[kHz]', 'T2\nscaler_rates\n[kHz]','T3\nscaler_rates\n[kHz]','T5\nscaler_rates\n[kHz]','T6\nscaler_rates\n[kHz]', 'T1\naccp_rates\n[kHz]','T2\naccp_rates\n[kHz]','T3\naccp_rates\n[kHz]','T5\naccp_rates\n[kHz]','T6\naccp_rates\n[kHz]' ]
 trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
             (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
