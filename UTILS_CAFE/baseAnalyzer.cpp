@@ -836,58 +836,59 @@ void baseAnalyzer::ReadReport()
   
   if(abs(temp_var-MH_amu)<=max_diff){
     tgt_type = "LH2";
-    tgt_mass = MH_amu;
+    tgt_mass = MH_amu; tgt_density = rho_H; tgt_thickness = thick_H;
+    
   }
   
   else if(abs(temp_var-MD_amu)<=max_diff){
     tgt_type = "LD2";
-    tgt_mass = MD_amu;
+    tgt_mass = MD_amu; tgt_density = rho_D; tgt_thickness = thick_D;
   }
   
   else if(abs(temp_var-MBe9_amu)<=max_diff){
     tgt_type = "Be9";
-    tgt_mass = MBe9_amu;
+    tgt_mass = MBe9_amu; tgt_density = rho_Be9; tgt_thickness = thick_Be9;
   }
   
   else if(abs(temp_var-MB10_amu)<=max_diff){
     tgt_type = "B10";
-    tgt_mass = MB10_amu;
+    tgt_mass = MB10_amu; tgt_density = rho_B10; tgt_thickness = thick_B10;
   }
   
   else if(abs(temp_var-MB11_amu)<=max_diff){
     tgt_type = "B11";
-    tgt_mass = MB11_amu;
+    tgt_mass = MB11_amu; tgt_density = rho_B11; tgt_thickness = thick_B11;
   }
  
   else if(abs(temp_var-MC12_amu)<=max_diff){    
     if(analysis_cut=="optics") {tgt_type = "C12_optics";}
     else{tgt_type = "C12";}
-    tgt_mass = MC12_amu;
+    tgt_mass = MC12_amu; tgt_density = rho_C12; tgt_thickness = thick_C12;
   }
   
   else if(abs(temp_var-MAl27_amu)<=max_diff){ 
     tgt_type = "Al27";
-    tgt_mass = MAl27_amu;
+    tgt_mass = MAl27_amu;  tgt_density = rho_Al27; tgt_thickness = thick_Al27;
   }
 
   else if(abs(temp_var-MCa40_amu)<=max_diff){
     tgt_type = "Ca40";
-    tgt_mass = MCa40_amu;
+    tgt_mass = MCa40_amu; tgt_density = rho_Ca40; tgt_thickness = thick_Ca40;
   }
 
   else if(abs(temp_var-MCa48_amu)<=max_diff){
     tgt_type = "Ca48";
-    tgt_mass = MCa48_amu;
+    tgt_mass = MCa48_amu; tgt_density = rho_Ca48; tgt_thickness = thick_Ca48;
   }
 
   else if(abs(temp_var-MFe54_amu)<=max_diff){
-    tgt_type = "Fe54";
-    tgt_mass = MFe54_amu;
+    tgt_type = "Fe54"; 
+    tgt_mass = MFe54_amu; tgt_density = rho_Fe54; tgt_thickness = thick_Fe54;
   }
 
   else if(abs(temp_var-MTi48_amu)<=max_diff){
     tgt_type = "Ti48";
-    tgt_mass = MTi48_amu;
+    tgt_mass = MTi48_amu; tgt_density = rho_Ti48; tgt_thickness = thick_Ti48;
   }
   
   else{
@@ -2954,6 +2955,8 @@ void baseAnalyzer::CalcEff()
   //Calculate SHMS Tracking Efficiency                                                                                                
   pTrkEff = p_did / p_should; 
   pTrkEff_err = sqrt(p_should-p_did) / p_should;                                                            
+
+  
   
     
 }
@@ -3267,7 +3270,8 @@ void baseAnalyzer::WriteReport()
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
-
+    out_file << Form("integrated_luminosity [ub^-1]: %.4E", GetLuminosity()) << endl;
+      
     if(analysis_cut=="heep_singles")
       {
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -3673,31 +3677,56 @@ void baseAnalyzer::CombineHistos()
 }
 
 //______________________________________________________________________________
-Double_t baseAnalyzer::GetLuminosity(Double_t total_charge=0, TString target_name="")
+Double_t baseAnalyzer::GetLuminosity()
 {
   /* 
-     Brief: calculates luminosity  as follows: luminosity = total_charge / targetfac,
-     where targetfac is areal density (g/cm^2) converted to ( # nucleons / cm2)
+     Brief: calculates luminosity  as follows: luminosity = Constant * total_charge / targetfac,
+     where targetfac = m_amu / tgt_areal_density
      
-     Standard definition:  luminosity = (1/xsec) * dN/dt, where xsec is the cross section 
+     Standard definition:  differential luminosity, dL = (1/xsec) * dN/dt, where xsec is the cross section 
      and dN/dt is the event count rate. If 'xsec' is in [cm^2] and 'dN/dt' is in [Hz], then 
      luminosity is in [cm^-2 sec^-1]. One can also get the integrated luminosity by integrated over
      total beam-on-target run time.
+
+     To get the constant in units of microbarn, given the areal density in g/cm^2, and charge in milliCoulomb :
+     L = Constant * (1 mC / e-) *  (1 g / cm^2) / 1 amu
+     
+     ** 1 e- = 1.60217663 × 10^-19 Coulombs ---> 1 mC / e- = 1/ (1.60217663 × 10^-19 ) * 1e-3 mC/ 1 C = 6241509090043338.0 ---> 1 mC/e- ~ 6.24e15
+     
+     ** (1 g / cm^2) / 1 amu  =  NA atoms / mol = 6.02214076 x 10^23
+
+     C = (6.241509090043338 x 10^15)  * (6.02214076 x 10^23) = 3.7587246295060495e+39 cm^-2  | 1 ubarn = 1e-30 cm^2
+     
+     C[ub] =  3.7587246295060495e+39 cm^-2 * 1e-30 cm^2 / 1 ub = 3758724629.5060496 ----> C ~ 3.75872 x 10^9 ub^-1  (inverse microbarns)
    
+     
+     To directly compare different targets, one can normalize the total experimental counts (N)  by total luminosity
+
    */
-  Double_t targetfac;
-  Double_t luminosity;
-  
-  targetfac = (sig_H / MH_amu) * NA * A_H;  // # nucleons / cm^2
-  luminosity = total_charge / targetfac;    // mC * cm^2
 
+  // [g/cm^2]     =    [g/cm^3]    *   [cm]
+  tgt_areal_density =  tgt_density *  tgt_thickness;  
 
-  return luminosity;
+  //  [cm^-2]      [g/cm^2]      /  [g/mol]
+  targetfac = tgt_areal_density / tgt_mass ;  
 
-    
-  return 0;
-  
+  Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-30; // units: [ub^-1] inverse-microbarns
+
+  // calculate integrated luminosity
+  luminosity =  Constant * total_charge_bcm_cut * targetfac;  
+
+  cout << "target_areal_density [g/cm^2] : " << tgt_areal_density << endl;
+  cout << "targetfac [cm^-2] : " << targetfac << endl;
+  cout << "total_charge [mC]: " << total_charge_bcm_cut << endl;
+  cout << "Constant [ub^-1]: " << Constant << endl;
+  cout << "--------------------------" << endl;
+  cout << "Integrated Luminosity [ub^-1]: " << luminosity << endl;
+
+  return luminosity;  
+
 }
+
+
 
 //______________________________________________________________________________
 void baseAnalyzer::MakePlots()

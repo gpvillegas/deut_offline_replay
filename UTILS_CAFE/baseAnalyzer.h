@@ -48,7 +48,7 @@ public:
   // Helper Functions
   Double_t GetCoinTimePeak();
   void MakePlots();
-  Double_t GetLuminosity(Double_t total_charge=0, TString target_name="");
+  Double_t GetLuminosity();
 
   
 protected:
@@ -58,8 +58,10 @@ protected:
   const Double_t dtr = pi / 180.;
   const Double_t amu2GeV = 0.93149432;
   const Double_t NA = 6.022*1e23;  // Avogadro's number ( # atoms / mol), 1 g/mol = 1amu
+  const Double_t elementary_charge = 1.60217663*1e-19; // Coulombs 
   
-  // target mass (amu),  mass number 
+  // target mass (amu),  mass number
+  Int_t mass_number_A = 0;
   Double_t MH_amu     = 1.00794       , A_H   = 1;
   Double_t MD_amu     = 2.01410177812 , A_D   = 2;
   Double_t MBe9_amu   = 9.012182      , A_Be9 = 9;
@@ -97,7 +99,8 @@ protected:
   //https://docs.google.com/spreadsheets/d/1GoHMHbCv3v6CbVybqTQws-4VhQeSifFP/edit#gid=140150071
 
 
-  //target density (g/cm^3)  
+  //target density (g/cm^3)
+  Double_t tgt_density = 0.0;  // generic variable to hold target density
   Double_t rho_H    = 0.07231;   
   Double_t rho_D    = 0.167;   
   Double_t rho_Be9  = 1.848; 
@@ -110,7 +113,8 @@ protected:
   Double_t rho_Fe54 = 7.87;
   Double_t rho_Ti48 = 4.5;
 
-  //target thickness (or length) (cm) 
+  //target thickness (or length) (cm)
+  Double_t tgt_thickness = 0.0;  // generic variable to hold target thickness
   Double_t thick_H    = 10.;   
   Double_t thick_D    = 10.;
   Double_t thick_Be9  = 0.5292;
@@ -123,19 +127,11 @@ protected:
   Double_t thick_Fe54 = 0.528;
   Double_t thick_Ti48 = 0.718;
 
-  // target areal density (g/cm2) = target_density(g/cm3) * target_thickness(cm)
-  Double_t sig_H    = rho_H    * thick_H   ;   
-  Double_t sig_D    = rho_D    * thick_D   ;  
-  Double_t sig_Be9  = rho_Be9  * thick_Be9 ;
-  Double_t sig_B10  = rho_B10  * thick_B10 ;
-  Double_t sig_B11  = rho_B11  * thick_B11 ;
-  Double_t sig_C12  = rho_C12  * thick_C12 ;
-  Double_t sig_Al27 = rho_Al27 * thick_Al27;
-  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40;
-  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48;
-  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54;
-  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48;
-
+  // variables to calculate the luminosity
+  Double_t targetfac;
+  Double_t luminosity;
+  Double_t tgt_areal_density;
+  
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
