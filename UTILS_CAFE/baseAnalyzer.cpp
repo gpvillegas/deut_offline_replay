@@ -3295,7 +3295,7 @@ void baseAnalyzer::WriteReport()
 	out_file << "                                     " << endl;
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
 	out_file << Form("lumiNorm_counts [fb]: %.4E", W_real/GetLuminosity() ) << endl;
-	out_file "" << endl;
+	out_file << "" << endl;
 	//out_file << Form("SIMC_heep_real_rate x (45 uA / 60 uA) [Hz]: %.3f", SIMC_W_real_rate * beam_current / 60. ) << endl;
 	
       }
