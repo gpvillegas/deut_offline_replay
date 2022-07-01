@@ -1,0 +1,54 @@
+"run
+number",start_run,end_run,"kin
+study","beam_on_target
+[sec]","evts
+replayed","beam
+energy
+[GeV]",target,"target
+mass
+[amu]","HMS_P
+[GeV/c]","HMS_Angle
+[deg]","SHMS_P
+[GeV/c]","SHMS_Angle
+[deg]","BCM4A
+thrs
+[uA]","BCM4A
+current
+[uA]","BCM4A
+charge
+[mC]","integrated
+luminosity
+[fb^-1]",lumiNorm_counts[fb],PS1,PS2,PS3,PS5,PS6,"T1
+scaler_rates
+[kHz]","T2
+scaler_rates
+[kHz]","T3
+scaler_rates
+[kHz]","T5
+scaler_rates
+[kHz]","T6
+scaler_rates
+[kHz]","T1
+accp_rates
+[kHz]","T2
+accp_rates
+[kHz]","T3
+accp_rates
+[kHz]","T5
+accp_rates
+[kHz]","T6
+accp_rates
+[kHz]",T1_tLT,T2_tLT,T3_tLT,T5_tLT,T6_tLT,"HMS
+TrkEff","SHMS
+TrkEff","heep_singles
+counts","heep_singles
+rates [Hz]","heep_coin
+counts","heep_coin
+rates [Hz]","MF_real
+counts","MF_real
+rates [Hz]","SRC_real
+counts","SRC_real
+rates [Hz]",Comments
+3291,            2018-04-05 19:27:13,           2018-04-05 20:27:45,           SRC,         2960.677,          18022,       10.6000,     LD2,        2.014102,      2.1940,   -54.990,       8.5342,    12.194,        >5.00,        49.734,         147.248,          4.5890E+02,                  9.8933E-02 ,-1,-1,-1,-1,1,138.268,50.798,33.203,-0.003,0.002,0.003,0.001,0.001,0.000,0.003,nan,nan,nan,nan,0.928,0.946,0.971,nan,nan,nan,nan,nan,nan,45.40,0.015,
+3292,            2018-04-05 20:28:28,           2018-04-05 21:29:05,           SRC,         3103.970,          18861,       10.6000,     LD2,        2.014102,      2.1940,   -54.990,       8.5342,    12.194,        >5.00,        48.997,         152.086,          4.7398E+02,                  1.0001E-01 ,-1,-1,-1,-1,1,138.074,50.186,32.715,-0.003,0.003,0.003,0.001,0.001,0.000,0.003,nan,nan,nan,nan,0.933,0.956,0.958,nan,nan,nan,nan,nan,nan,47.40,0.015,
+3293,            2018-04-05 21:29:45,           2018-04-05 22:33:02,           SRC,         2861.810,          17551,       10.6000,     LD2,        2.014102,      2.1940,   -54.990,       8.5342,    12.194,        >5.00,        46.763,         133.826,          4.1707E+02,                  7.4329E-02 ,-1,-1,-1,-1,1,126.829,48.027,31.311,-0.003,0.002,0.002,0.001,0.001,0.000,0.002,nan,nan,nan,nan,0.934,0.957,0.975,nan,nan,nan,nan,nan,nan,31.00,0.011,

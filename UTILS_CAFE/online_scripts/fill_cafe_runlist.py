@@ -445,7 +445,7 @@ for line in cafe_report:
 
 # general run entry list
 header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]', 'integrated\nluminosity\n[fb^-1]', 'lumiNorm_counts[fb]' ]
-gen_run_info = "%i,            %s,           %s,           %s,         %.3f,          %i,       %.4f,     %s,        %.6f,      %.4f,   %.3f,       %.4f,    %.3f,        %s,        %.3f,         %.3f          %.4E                  %.4E " % \
+gen_run_info = "%i,            %s,           %s,           %s,         %.3f,          %i,       %.4f,     %s,        %.6f,      %.4f,   %.3f,       %.4f,    %.3f,        %s,        %.3f,         %.3f,          %.4E,                  %.4E " % \
                (run_num,  start_of_run,  end_of_run,    kin_type,  beam_on_target,  evt_num,   beam_e,  tgt_name,   tgt_mass,   hms_p,  hms_angle,  shms_p, shms_angle, bcm_thrs, bcm_current,  bcm_charge, integrated_luminosity,  lumiNorm_counts)
 
 
