@@ -3294,7 +3294,10 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("heep_random_counts   : %.3f", W_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
-	out_file << Form("luminosityNorm_heep_real_counts [fb]: %.4E", W_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.4E", W_real/GetLuminosity() ) << endl;
+	out_file "" << endl;
+	//out_file << Form("SIMC_heep_real_rate x (45 uA / 60 uA) [Hz]: %.3f", SIMC_W_real_rate * beam_current / 60. ) << endl;
+	
       }
     
     if(analysis_cut=="MF")
@@ -3308,7 +3311,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("MF_random_counts   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("luminosityNorm_MF_real_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;	
+	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;	
       }
     if(analysis_cut=="SRC")
       {
@@ -3321,7 +3324,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("luminosityNorm_SRC_real_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;
       }
 
     if(analysis_cut!="bcm_calib"){

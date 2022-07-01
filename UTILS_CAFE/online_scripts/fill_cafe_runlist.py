@@ -118,6 +118,9 @@ MF_real_rate      = np.nan
 SRC_real          = np.nan
 SRC_real_rate     = np.nan
 
+# luminosity-normalized real counts (Counts / integrated_luminosity)
+lumiNorm_counts = np.nan
+
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
 PS1=-1    # SHMS 3/4
 PS2=-1    # SHMS EL-REAL
@@ -244,6 +247,9 @@ for line in cafe_report:
         # print(bcm_charge)
     if "_luminosity" in line :
         integrated_luminosity = float((line.split(":")[1]).strip()) 
+        TestVar+=1
+    if "lumiNorm_counts" in line :
+        lumiNorm_counts = float((line.split(":")[1]).strip()) 
         TestVar+=1
     # good elastic, MF or SRC counts/rates
     if "heep_total_singles_counts" in line :
@@ -438,9 +444,9 @@ for line in cafe_report:
 
 
 # general run entry list
-header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]', 'integrated\nluminosity\n[fb^-1]' ]
-gen_run_info = "%i,            %s,           %s,           %s,         %.3f,          %i,       %.4f,     %s,        %.6f,      %.4f,   %.3f,       %.4f,    %.3f,        %s,        %.3f,         %.3f     %.4E  " % \
-               (run_num, start_of_run,  end_of_run,  kin_type, beam_on_target, evt_num, beam_e,  tgt_name, tgt_mass,  hms_p, hms_angle, shms_p, shms_angle, bcm_thrs, bcm_current, bcm_charge, integrated_luminosity)
+header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', 'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]', 'BCM4A\ncharge\n[mC]', 'integrated\nluminosity\n[fb^-1]', 'lumiNorm_counts[fb]' ]
+gen_run_info = "%i,            %s,           %s,           %s,         %.3f,          %i,       %.4f,     %s,        %.6f,      %.4f,   %.3f,       %.4f,    %.3f,        %s,        %.3f,         %.3f          %.4E                  %.4E " % \
+               (run_num,  start_of_run,  end_of_run,    kin_type,  beam_on_target,  evt_num,   beam_e,  tgt_name,   tgt_mass,   hms_p,  hms_angle,  shms_p, shms_angle, bcm_thrs, bcm_current,  bcm_charge, integrated_luminosity,  lumiNorm_counts)
 
 
 # trigger info
