@@ -1,0 +1,40 @@
+# CaFe SIMC parameters @ 10.6 GeV beam.
+# Rates will be read in by the analysis to compare to experimental data during online monitoring
+
+# See: https://hallcweb.jlab.org/wiki/images/f/ff/CaFe_HeepElastic_Estimates_cyero.pdf
+
+# beam current [uA]
+heep_Ib_simc = 60.
+
+# H(e,e'p) Elastics Rates Estimates [Hz]
+heep_kin0_rates = 818.
+heep_kin1_rates = 1513.
+heep_kin2_rates = 2745.
+
+
+# See https://hallcweb.jlab.org/wiki/images/0/0d/CAFE_rate_AND_run_plan_07012022.pdf
+
+# beam current [uA]
+cafe_Ib_simc = 80.
+
+# CaFe production rates estimates [Hz]
+d2_MF_rates  = 139.16
+Be9_MF_rates = 54.33
+B10_MF_rates = 31.77
+B11_MF_rates = 35.22
+C12_MF_rates = 29.11
+Ca40_MF_rates = 29.62
+Ca48_MF_rates = 29.62
+Ti48_MF_rates = -1.
+Fe54_MF_rates = 15.27
+
+# CaFe src rates for every target [Hz]
+d2_SRC_rates  = 0.211
+Be9_SRC_rates = 0.321
+B10_SRC_rates = 0.192
+B11_SRC_rates = 0.213
+C12_SRC_rates = 0.198
+Ca40_SRC_rates = 0.202
+Ca48_SRC_rates = 0.202
+Ti48_SRC_rates = -1.
+Fe54_SRC_rates = 0.121

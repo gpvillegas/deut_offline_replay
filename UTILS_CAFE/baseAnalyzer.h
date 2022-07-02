@@ -137,11 +137,14 @@ protected:
 
 
   //SIMC CaFe Rate Estimation for 10.6 GeV beam energy
-  // (these results will be used to access how close is simulation to experimental data rates
-
-  Double_t Ib_simc = 80; // beam current [uA], will  be used to scale rates to actual current we get
-  Double_t simc_d2SRC_rates = 0.211;  // SRC events / sec [Hz]
-  Double_t simc_d2MF_rates = 139.16;  //MF events / sec [Hz]
+  // These variables are placeholders for MF, SRC rates from SIMC for each target
+  Double_t heep_Ib_simc; // beam current [uA], will  be used to scale rates to actual current we get
+  Double_t cafe_Ib_simc;
+  Double_t heep_kin0_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+  Double_t simc_SRC_rates;    // SRC event rate
+  Double_t simc_MF_rates;     // MF event rate
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
@@ -207,7 +210,8 @@ protected:
   TString input_CutFileName;
   TString input_HBinFileName;
   TString input_FileNamePattern;
-
+  TString input_SIMCinfo_FileName;
+  
   ///Output .txt filenames
   TString output_SummaryFileName;
   TString output_ReportFileName;

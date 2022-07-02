@@ -541,7 +541,7 @@ void baseAnalyzer::ReadInputFile()
   input_FileNamePattern = "UTILS_CAFE/inp/set_basic_filenames.inp";
   input_CutFileName     = "UTILS_CAFE/inp/set_basic_cuts.inp";
   input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos.inp";
-
+  input_SIMCinfo_FileName = "UTILS_CAFE/inp/set_basic_simc_param.inp"
   //==========================================
   //     READ FILE NAME PATTERN
   //==========================================
@@ -837,17 +837,19 @@ void baseAnalyzer::ReadReport()
   if(abs(temp_var-MH_amu)<=max_diff){
     tgt_type = "LH2";
     tgt_mass = MH_amu; tgt_density = rho_H; tgt_thickness = thick_H;
+
     
   }
   
   else if(abs(temp_var-MD_amu)<=max_diff){
     tgt_type = "LD2";
     tgt_mass = MD_amu; tgt_density = rho_D; tgt_thickness = thick_D;
+
   }
   
   else if(abs(temp_var-MBe9_amu)<=max_diff){
     tgt_type = "Be9";
-    tgt_mass = MBe9_amu; tgt_density = rho_Be9; tgt_thickness = thick_Be9;
+    tgt_mass = MBe9_amu; tgt_density = rho_Be9; tgt_thickness = thick_Be9;    
   }
   
   else if(abs(temp_var-MB10_amu)<=max_diff){
@@ -3223,10 +3225,21 @@ void baseAnalyzer::WriteReport()
    */
   
   cout << "Calling WriteReport() . . ." << endl;
-
   
   if(analyze_data==true){
 
+    // Read sime rate estimates for CaFe (for comparison with online monitoring data)
+    heep_Ib_simc = stod(split(FindString("heep_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    heep_kin0_rates = stod(split(FindString("heep_kin0_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    heep_kin1_rates = stod(split(FindString("heep_kin1_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    heep_kin2_rates = stod(split(FindString("heep_kin2_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+
+    cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    simc_MF_rates = stod(split(FindString(Form("%s_MF_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    simc_SRC_rates = stod(split(FindString(Form("%s_SRC_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+
+
+    
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
 
@@ -3280,7 +3293,12 @@ void baseAnalyzer::WriteReport()
     
 	out_file << Form("heep_total_singles_counts  : %.3f ", W_total) << endl;
 	out_file << Form("heep_total_singles_rate [Hz]  : %.3f ", W_total_rate) << endl;
-
+	out_file << "" << endl;
+	out_file << Form("simc_heep_kin0_rates (shms=8.3 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin0_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
+	out_file << Form("simc_heep_kin1_rates (shms=7.5 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin1_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
+	out_file << Form("simc_heep_kin2_rates (shms=6.8 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin2_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
+	out_file << "" << endl;
+	
       }
 
     if(analysis_cut=="heep_coin")
@@ -3294,10 +3312,10 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("heep_random_counts   : %.3f", W_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
+	out_file << Form("simc_heep_kin0_rates (shms=8.3 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin0_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;	
+	out_file << "" << endl;
 	out_file << Form("lumiNorm_counts [fb]: %.3f", W_real/GetLuminosity() ) << endl;
 	out_file << "" << endl;
-	//out_file << Form("SIMC_heep_real_rate x (45 uA / 60 uA) [Hz]: %.3f", SIMC_W_real_rate * beam_current / 60. ) << endl;
-	
       }
     
     if(analysis_cut=="MF")
@@ -3311,7 +3329,9 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("MF_random_counts   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;	
+	out_file << Form("MF_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_MF_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
+	out_file << "                                     " << endl;	
+	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity() ) << endl;	
       }
     if(analysis_cut=="SRC")
       {
@@ -3324,9 +3344,9 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("SRC_simc_rate [Hz] x (%.3f uA / %.2f uA):  %.3f", avg_current_bcm_cut, Ib_simc, simc_d2SRC_rates * (avg_current_bcm_cut/Ib_simc) ) << endl;  
+	out_file << Form("SRC_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_MF_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
 	out_file << "" << endl;
-	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity() ) << endl;
       }
 
     if(analysis_cut!="bcm_calib"){
