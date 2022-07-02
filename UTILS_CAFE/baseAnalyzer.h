@@ -57,6 +57,9 @@ protected:
   const Double_t pi = TMath::Pi(); 
   const Double_t dtr = pi / 180.;
   const Double_t amu2GeV = 0.93149432;
+  const Double_t cm2topb = 1./1e-36;   // 1 pb / (1e-36 cm^2)
+  const Double_t pb_to_invGeV2 = 1. / (2.56819*1e-9); // 1 pb / (2.56819*1e-9 GeV^-2)
+  const Double_t cm2_to_invGeV2 = 1. / 3.8937929e-28;    // (1e-36 cm^2/ 1 pb ) * 1 pb / (2.56819*1e-9 GeV^-2)
   const Double_t NA = 6.022*1e23;  // Avogadro's number ( # atoms / mol), 1 g/mol = 1amu
   const Double_t elementary_charge = 1.60217663*1e-19; // Coulombs 
   
@@ -131,7 +134,14 @@ protected:
   Double_t targetfac;
   Double_t luminosity;
   Double_t tgt_areal_density;
-  
+
+
+  //SIMC CaFe Rate Estimation for 10.6 GeV beam energy
+  // (these results will be used to access how close is simulation to experimental data rates
+
+  Double_t Ib_simc = 80; // beam current [uA], will  be used to scale rates to actual current we get
+  Double_t simc_d2SRC_rates = 0.211;  // SRC events / sec [Hz]
+  Double_t simc_d2MF_rates = 139.16;  //MF events / sec [Hz]
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
