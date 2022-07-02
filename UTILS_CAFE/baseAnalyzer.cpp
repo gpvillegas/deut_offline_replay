@@ -541,7 +541,7 @@ void baseAnalyzer::ReadInputFile()
   input_FileNamePattern = "UTILS_CAFE/inp/set_basic_filenames.inp";
   input_CutFileName     = "UTILS_CAFE/inp/set_basic_cuts.inp";
   input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos.inp";
-  input_SIMCinfo_FileName = "UTILS_CAFE/inp/set_basic_simc_param.inp"
+  input_SIMCinfo_FileName = "UTILS_CAFE/inp/set_basic_simc_param.inp";
   //==========================================
   //     READ FILE NAME PATTERN
   //==========================================
@@ -3233,12 +3233,17 @@ void baseAnalyzer::WriteReport()
     heep_kin0_rates = stod(split(FindString("heep_kin0_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
     heep_kin1_rates = stod(split(FindString("heep_kin1_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
     heep_kin2_rates = stod(split(FindString("heep_kin2_rates",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-
+    
     cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-    simc_MF_rates = stod(split(FindString(Form("%s_MF_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-    simc_SRC_rates = stod(split(FindString(Form("%s_SRC_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-
-
+    
+    if ((tgt_type=="LH2") || (tgt_type=="C12_optics")) {
+	simc_MF_rates = -1.; 
+	simc_SRC_rates = -1.; 
+      }
+    else {
+      simc_MF_rates = stod(split(FindString(Form("%s_MF_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+      simc_SRC_rates = stod(split(FindString(Form("%s_SRC_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    }
     
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
@@ -3344,7 +3349,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("SRC_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_MF_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
+	out_file << Form("SRC_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_SRC_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
 	out_file << "" << endl;
 	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity() ) << endl;
       }
@@ -3428,11 +3433,6 @@ void baseAnalyzer::WriteReport()
     out_file << "# Data Analysis Cuts                  " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "  # need to add here . . .                                   " << endl;
-    // need to add . . .
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "# SIMC Rates Estimate                 " << endl;
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << Form("simc_d2SRC_rates x (%.3f / %.2f):  %.3f", avg_current_bcm_cut, Ib_simc, simc_d2SRC_rates * (avg_current_bcm_cut/Ib_simc) ) << endl;
     
     } // end !bcm_calib requirement
     
@@ -3749,19 +3749,10 @@ Double_t baseAnalyzer::GetLuminosity()
   // calculate integrated luminosity
   //              [GeV^2]        [mC]             [unitless]
   luminosity =  Constant * total_charge_bcm_cut * targetfac;  
-
-  cout << Form("target_areal_density [g/cm^2] %.4f: ", tgt_areal_density) << endl;
-  cout << Form("targetfac [cm^-2] : %.4E", targetfac) << endl;
-  cout << Form("total_charge [mC]: %.3f", total_charge_bcm_cut) << endl;
-  cout << Form("Constant [fb]: %.5E", Constant) << endl;
-  cout << "--------------------------" << endl;
-  cout << Form("Integrated Luminosity [fb^-1]: %.5E ", luminosity) << endl;
   
   return luminosity;  // [fb^-1] 
 
 }
-
-
 
 //______________________________________________________________________________
 void baseAnalyzer::MakePlots()

@@ -18,7 +18,7 @@ heep_kin2_rates = 2745.
 cafe_Ib_simc = 80.
 
 # CaFe production rates estimates [Hz]
-d2_MF_rates  = 139.16
+LD2_MF_rates  = 139.16
 Be9_MF_rates = 54.33
 B10_MF_rates = 31.77
 B11_MF_rates = 35.22
@@ -29,7 +29,7 @@ Ti48_MF_rates = -1.
 Fe54_MF_rates = 15.27
 
 # CaFe src rates for every target [Hz]
-d2_SRC_rates  = 0.211
+LD2_SRC_rates  = 0.211
 Be9_SRC_rates = 0.321
 B10_SRC_rates = 0.192
 B11_SRC_rates = 0.213
