@@ -3270,7 +3270,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
-    out_file << Form("integrated_luminosity [GeV^2]: %.4E", GetLuminosity()) << endl;
+    out_file << Form("integrated_luminosity [fb^-1]: %.3f", GetLuminosity()) << endl;
     out_file << "" << endl;
     if(analysis_cut=="heep_singles")
       {
@@ -3294,7 +3294,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("heep_random_counts   : %.3f", W_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
-	out_file << Form("lumiNorm_counts [GeV^-2]: %.4E", W_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.3f", W_real/GetLuminosity() ) << endl;
 	out_file << "" << endl;
 	//out_file << Form("SIMC_heep_real_rate x (45 uA / 60 uA) [Hz]: %.3f", SIMC_W_real_rate * beam_current / 60. ) << endl;
 	
@@ -3311,7 +3311,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("MF_random_counts   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("lumiNorm_counts [GeV^-2]: %.4E", Pm_real/GetLuminosity() ) << endl;	
+	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;	
       }
     if(analysis_cut=="SRC")
       {
@@ -3324,7 +3324,9 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("lumiNorm_counts [GeV^-2]: %.4E", Pm_real/GetLuminosity() ) << endl;
+	out_file << Form("SRC_simc_rate [Hz] x (%.3f uA / %.2f uA):  %.3f", avg_current_bcm_cut, Ib_simc, simc_d2SRC_rates * (avg_current_bcm_cut/Ib_simc) ) << endl;  
+	out_file << "" << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.4E", Pm_real/GetLuminosity() ) << endl;
       }
 
     if(analysis_cut!="bcm_calib"){
@@ -3722,10 +3724,8 @@ Double_t baseAnalyzer::GetLuminosity()
   //  [cm^-2]      [g/cm^2]      /  [g/mol]  --> becomaes unitless, since constant was extracted from this
   targetfac = tgt_areal_density / tgt_mass ;  
 
-  //Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-39; // units: [fb^-1] inverse-femtobarns
-  //                                              1e-3 C/mC
-  Double_t Constant = NA * (1./elementary_charge) * 1e-3 * cm2_to_invGeV2 ; // units: [1/GeV^-2] or [GeV^2]
-
+  Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-39; // units: [fb^-1] inverse-femtobarns
+  
   // calculate integrated luminosity
   //              [GeV^2]        [mC]             [unitless]
   luminosity =  Constant * total_charge_bcm_cut * targetfac;  
@@ -3733,11 +3733,11 @@ Double_t baseAnalyzer::GetLuminosity()
   cout << Form("target_areal_density [g/cm^2] %.4f: ", tgt_areal_density) << endl;
   cout << Form("targetfac [cm^-2] : %.4E", targetfac) << endl;
   cout << Form("total_charge [mC]: %.3f", total_charge_bcm_cut) << endl;
-  cout << Form("Constant [GeV^2]: %.5E", Constant) << endl;
+  cout << Form("Constant [fb]: %.5E", Constant) << endl;
   cout << "--------------------------" << endl;
-  cout << Form("Integrated Luminosity [GeV^2]: %.5E ", luminosity) << endl;
+  cout << Form("Integrated Luminosity [fb^-1]: %.5E ", luminosity) << endl;
   
-  return luminosity;  
+  return luminosity;  // [fb^-1] 
 
 }
 
