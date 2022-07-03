@@ -3303,7 +3303,8 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("simc_heep_kin1_rates (shms=7.5 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin1_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
 	out_file << Form("simc_heep_kin2_rates (shms=6.8 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin2_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
 	out_file << "" << endl;
-	
+	out_file << Form("lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity() ) << endl;
+	out_file << "" << endl;
       }
 
     if(analysis_cut=="heep_coin")
@@ -3432,7 +3433,31 @@ void baseAnalyzer::WriteReport()
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# Data Analysis Cuts                  " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "  # need to add here . . .                                   " << endl;
+    out_file << "                                   " << endl;
+    out_file << "#--- Tracking Efficiency Definition --- " << endl;
+    out_file << "# tracking efficiency = (did && should) / should" << endl;
+    out_file << "" << endl;
+    if(hdc_ntrk_cut_flag)    {out_file << Form("# (did) HMS min. number of tracks (H.dc.ntrack): >= %.1f", c_hdc_ntrk_min) << endl;}
+    if(hScinGood_cut_flag)   {out_file <<      "# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true"  << endl;}
+    if(hcer_cut_flag)        {out_file << Form("# (should) HMS gas Chrenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", c_hnpeSum_min, c_hnpeSum_max) << endl;}
+    if(hetotnorm_cut_flag)   {out_file << Form("# (should) HMS calorimeter energy / central_momentum  (H.cal.etotnorm): (%.1f, %.1f)", c_hetotnorm_min, c_hetotnorm_max) << endl;}
+    if(hBeta_notrk_cut_flag) {out_file << Form("# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (%.1f. %.1f)", c_hBetaNtrk_min, c_hBetaNtrk_max) << endl;}
+																				//if() {out_file << Form("",) << endl;}
+    
+    
+    out_file << "                                   " << endl;    
+    out_file << "#---Acceptance Cuts--- " << endl;
+    if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance (H.gtr.dp): (%.3f, %.3f) %%",  c_hdelta_min, c_hdelta_max ) << endl;}
+    if(hxptar_cut_flag)        {out_file << Form("# HMS Out-of-Plane (xptar) Angular Acceptance (H.gtr.th): (%.3f, %.3f) radians",  c_hxptar_min, c_hxptar_max ) << endl;}
+    if(hyptar_cut_flag)        {out_file << Form("# HMS In-Plane (yptar) Angular Acceptance (H.gtr.ph): (%.3f, %.3f) radians",  c_hyptar_min, c_hyptar_max ) << endl;}
+    if(edelta_cut_flag)        {out_file << Form("# SHMS Momentum Acceptance (P.gtr.dp): (%.3f, %.3f) %%", c_edelta_min, c_edelta_max ) << endl;}
+    if(exptar_cut_flag)        {out_file << Form("# SHMS Out-of-Plane (xptar) Angular Acceptance (P.gtr.th): (%.3f, %.3f) radians",  c_exptar_min, c_exptar_max ) << endl;}
+    if(eyptar_cut_flag)        {out_file << Form("# SHMS In-Plane (yptar) Angular Acceptance (P.gtr.ph): (%.3f, %.3f) radians",  c_eyptar_min, c_eyptar_max ) << endl;}
+    if(ztarDiff_cut_flag)      {out_file << Form("# Z-Reaction Vertex Difference (H.react.z-P.react.z): (%.3f, %.3f) cm", c_ztarDiff_min, c_ztarDiff_max ) << endl;}
+
+
+    out_file << "#                       " << endl;
+      
     
     } // end !bcm_calib requirement
     
