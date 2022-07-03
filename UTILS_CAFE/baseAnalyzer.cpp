@@ -3436,25 +3436,31 @@ void baseAnalyzer::WriteReport()
     out_file << "                                   " << endl;
     out_file << "#--- Tracking Efficiency Definition --- " << endl;
     out_file << "# tracking efficiency = (did && should) / should" << endl;
-    out_file << "" << endl;		      
-    if(hdc_ntrk_cut_flag)    {out_file << Form("# (did) HMS min. number of tracks (H.dc.ntrack): >= %.1f", c_hdc_ntrk_min) << endl;}
-    if(hScinGood_cut_flag)   {out_file <<      "# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true"  << endl;}
-    if(hcer_cut_flag)        {out_file << Form("# (should) HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", c_hnpeSum_min, c_hnpeSum_max) << endl;}
-    if(hetotnorm_cut_flag)   {out_file << Form("# (should) HMS calorimeter energy / central_momentum  (H.cal.etotnorm): (%.1f, %.1f)", c_hetotnorm_min, c_hetotnorm_max) << endl;}
-    if(hBeta_notrk_cut_flag) {out_file << Form("# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (%.1f. %.1f)", c_hBetaNtrk_min, c_hBetaNtrk_max) << endl;}        
-    out_file << "                                   " << endl;
-    if(pdc_ntrk_cut_flag)    {out_file << Form("# (did) SHMS min. number of tracks (P.dc.ntrack): >= %.1f", c_pdc_ntrk_min) << endl;}
-    if(pScinGood_cut_flag)   {out_file <<      "# (should) SHMS good (fiducial) scintillator hit (P.hod.goodscinhit): true"  << endl;}
-    if(pngcer_cut_flag)      {out_file << Form("# (should) SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.1f, %.1f)", c_pngcer_npeSum_min, c_pngcer_npeSum_max) << endl;}
-    if(phgcer_cut_flag)      {out_file << Form("# (should) SHMS heavy gas Chrenkov number of photoelectrons (P.hgcer.npeSum): (%.1f, %.1f)", c_phgcer_npeSum_min, c_phgcer_npeSum_max) << endl;}
-    if(petotnorm_cut_flag)   {out_file << Form("# (should) SHMS calorimeter energy / central_momentum  (p.cal.etotnorm): (%.1f, %.1f)", c_petotnorm_min, c_petotnorm_max) << endl;}
-    if(pBeta_notrk_cut_flag) {out_file << Form("# (should) SHMS hodoscope beta no_track (P.hod.betanotrack): (%.1f. %.1f)", c_pBetaNtrk_min, c_pBetaNtrk_max) << endl;}    
+    out_file << "" << endl;
+    if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") )
+      {
+	if(hdc_ntrk_cut_flag)    {out_file << Form("# (did) HMS min. number of tracks (H.dc.ntrack): >= %.1f", c_hdc_ntrk_min) << endl;}
+	if(hScinGood_cut_flag)   {out_file <<      "# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true"  << endl;}
+	if(hcer_cut_flag)        {out_file << Form("# (should) HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", c_hnpeSum_min, c_hnpeSum_max) << endl;}
+	if(hetotnorm_cut_flag)   {out_file << Form("# (should) HMS calorimeter energy / central_momentum  (H.cal.etotnorm): (%.1f, %.1f)", c_hetotnorm_min, c_hetotnorm_max) << endl;}
+	if(hBeta_notrk_cut_flag) {out_file << Form("# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (%.1f. %.1f)", c_hBetaNtrk_min, c_hBetaNtrk_max) << endl;}
+      }
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") )
+      {
+	out_file << "                                   " << endl;
+	if(pdc_ntrk_cut_flag)    {out_file << Form("# (did) SHMS min. number of tracks (P.dc.ntrack): >= %.1f", c_pdc_ntrk_min) << endl;}
+	if(pScinGood_cut_flag)   {out_file <<      "# (should) SHMS good (fiducial) scintillator hit (P.hod.goodscinhit): true"  << endl;}
+	if(pngcer_cut_flag)      {out_file << Form("# (should) SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.1f, %.1f)", c_pngcer_npeSum_min, c_pngcer_npeSum_max) << endl;}
+	if(phgcer_cut_flag)      {out_file << Form("# (should) SHMS heavy gas Chrenkov number of photoelectrons (P.hgcer.npeSum): (%.1f, %.1f)", c_phgcer_npeSum_min, c_phgcer_npeSum_max) << endl;}
+	if(petotnorm_cut_flag)   {out_file << Form("# (should) SHMS calorimeter energy / central_momentum  (p.cal.etotnorm): (%.1f, %.1f)", c_petotnorm_min, c_petotnorm_max) << endl;}
+	if(pBeta_notrk_cut_flag) {out_file << Form("# (should) SHMS hodoscope beta no_track (P.hod.betanotrack): (%.1f. %.1f)", c_pBetaNtrk_min, c_pBetaNtrk_max) << endl;}
+      }
     out_file << "                                   " << endl;
       if(ePctime_cut_flag && ((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") ))     {
       out_file << "#---Coincidence Time Cut--- " << endl;
-      out_file << Form("electron (SHMS)-proton(HMS) (prompt) coincidence time (CTime.epCoinTime_ROC2):   (%.3f, %.3f) [ns]", ePctime_cut_min, ePctime_cut_max) << endl;
-      out_file << Form("electron (SHMS)-proton(HMS) (left)   accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_max_L, ePctime_cut_min_L) << endl;
-      out_file << Form("electron (SHMS)-proton(HMS) (right)  accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_min_R, ePctime_cut_max_R) << endl;      
+      out_file << Form("# electron (SHMS)-proton(HMS) (prompt) coincidence time (CTime.epCoinTime_ROC2):   (%.3f, %.3f) [ns]", ePctime_cut_min, ePctime_cut_max) << endl;
+      out_file << Form("# electron (SHMS)-proton(HMS) (left)   accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_max_L, ePctime_cut_min_L) << endl;
+      out_file << Form("# electron (SHMS)-proton(HMS) (right)  accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_min_R, ePctime_cut_max_R) << endl;      
     }
     out_file << "                                   " << endl;
     out_file << "#---Acceptance Cuts--- " << endl;
