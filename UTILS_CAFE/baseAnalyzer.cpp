@@ -3436,29 +3436,86 @@ void baseAnalyzer::WriteReport()
     out_file << "                                   " << endl;
     out_file << "#--- Tracking Efficiency Definition --- " << endl;
     out_file << "# tracking efficiency = (did && should) / should" << endl;
-    out_file << "" << endl;
+    out_file << "" << endl;		      
     if(hdc_ntrk_cut_flag)    {out_file << Form("# (did) HMS min. number of tracks (H.dc.ntrack): >= %.1f", c_hdc_ntrk_min) << endl;}
     if(hScinGood_cut_flag)   {out_file <<      "# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true"  << endl;}
-    if(hcer_cut_flag)        {out_file << Form("# (should) HMS gas Chrenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", c_hnpeSum_min, c_hnpeSum_max) << endl;}
+    if(hcer_cut_flag)        {out_file << Form("# (should) HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", c_hnpeSum_min, c_hnpeSum_max) << endl;}
     if(hetotnorm_cut_flag)   {out_file << Form("# (should) HMS calorimeter energy / central_momentum  (H.cal.etotnorm): (%.1f, %.1f)", c_hetotnorm_min, c_hetotnorm_max) << endl;}
-    if(hBeta_notrk_cut_flag) {out_file << Form("# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (%.1f. %.1f)", c_hBetaNtrk_min, c_hBetaNtrk_max) << endl;}
-																				//if() {out_file << Form("",) << endl;}
-    
-    
-    out_file << "                                   " << endl;    
+    if(hBeta_notrk_cut_flag) {out_file << Form("# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (%.1f. %.1f)", c_hBetaNtrk_min, c_hBetaNtrk_max) << endl;}        
+    out_file << "                                   " << endl;
+    if(pdc_ntrk_cut_flag)    {out_file << Form("# (did) SHMS min. number of tracks (P.dc.ntrack): >= %.1f", c_pdc_ntrk_min) << endl;}
+    if(pScinGood_cut_flag)   {out_file <<      "# (should) SHMS good (fiducial) scintillator hit (P.hod.goodscinhit): true"  << endl;}
+    if(pngcer_cut_flag)      {out_file << Form("# (should) SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.1f, %.1f)", c_pngcer_npeSum_min, c_pngcer_npeSum_max) << endl;}
+    if(phgcer_cut_flag)      {out_file << Form("# (should) SHMS heavy gas Chrenkov number of photoelectrons (P.hgcer.npeSum): (%.1f, %.1f)", c_phgcer_npeSum_min, c_phgcer_npeSum_max) << endl;}
+    if(petotnorm_cut_flag)   {out_file << Form("# (should) SHMS calorimeter energy / central_momentum  (p.cal.etotnorm): (%.1f, %.1f)", c_petotnorm_min, c_petotnorm_max) << endl;}
+    if(pBeta_notrk_cut_flag) {out_file << Form("# (should) SHMS hodoscope beta no_track (P.hod.betanotrack): (%.1f. %.1f)", c_pBetaNtrk_min, c_pBetaNtrk_max) << endl;}    
+    out_file << "                                   " << endl;
+      if(ePctime_cut_flag && ((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") ))     {
+      out_file << "#---Coincidence Time Cut--- " << endl;
+      out_file << Form("electron (SHMS)-proton(HMS) (prompt) coincidence time (CTime.epCoinTime_ROC2):   (%.3f, %.3f) [ns]", ePctime_cut_min, ePctime_cut_max) << endl;
+      out_file << Form("electron (SHMS)-proton(HMS) (left)   accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_max_L, ePctime_cut_min_L) << endl;
+      out_file << Form("electron (SHMS)-proton(HMS) (right)  accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_min_R, ePctime_cut_max_R) << endl;      
+    }
+    out_file << "                                   " << endl;
     out_file << "#---Acceptance Cuts--- " << endl;
-    if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance (H.gtr.dp): (%.3f, %.3f) %%",  c_hdelta_min, c_hdelta_max ) << endl;}
-    if(hxptar_cut_flag)        {out_file << Form("# HMS Out-of-Plane (xptar) Angular Acceptance (H.gtr.th): (%.3f, %.3f) radians",  c_hxptar_min, c_hxptar_max ) << endl;}
-    if(hyptar_cut_flag)        {out_file << Form("# HMS In-Plane (yptar) Angular Acceptance (H.gtr.ph): (%.3f, %.3f) radians",  c_hyptar_min, c_hyptar_max ) << endl;}
-    if(edelta_cut_flag)        {out_file << Form("# SHMS Momentum Acceptance (P.gtr.dp): (%.3f, %.3f) %%", c_edelta_min, c_edelta_max ) << endl;}
-    if(exptar_cut_flag)        {out_file << Form("# SHMS Out-of-Plane (xptar) Angular Acceptance (P.gtr.th): (%.3f, %.3f) radians",  c_exptar_min, c_exptar_max ) << endl;}
-    if(eyptar_cut_flag)        {out_file << Form("# SHMS In-Plane (yptar) Angular Acceptance (P.gtr.ph): (%.3f, %.3f) radians",  c_eyptar_min, c_eyptar_max ) << endl;}
-    if(ztarDiff_cut_flag)      {out_file << Form("# Z-Reaction Vertex Difference (H.react.z-P.react.z): (%.3f, %.3f) cm", c_ztarDiff_min, c_ztarDiff_max ) << endl;}
-
-
+    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+       {    
+	 if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance (H.gtr.dp): (%.3f, %.3f) [%%]",  c_hdelta_min, c_hdelta_max ) << endl;}
+	 if(hxptar_cut_flag)        {out_file << Form("# HMS Out-of-Plane (xptar) Angular Acceptance (H.gtr.th): (%.3f, %.3f) [radians]",  c_hxptar_min, c_hxptar_max ) << endl;}
+	 if(hyptar_cut_flag)        {out_file << Form("# HMS In-Plane (yptar) Angular Acceptance (H.gtr.ph): (%.3f, %.3f) [radians]",  c_hyptar_min, c_hyptar_max ) << endl;}
+       }
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+      {
+	if(edelta_cut_flag)        {out_file << Form("# SHMS Momentum Acceptance (P.gtr.dp): (%.3f, %.3f) [%%]", c_edelta_min, c_edelta_max ) << endl;}
+	if(exptar_cut_flag)        {out_file << Form("# SHMS Out-of-Plane (xptar) Angular Acceptance (P.gtr.th): (%.3f, %.3f) [radians]",  c_exptar_min, c_exptar_max ) << endl;}
+	if(eyptar_cut_flag)        {out_file << Form("# SHMS In-Plane (yptar) Angular Acceptance (P.gtr.ph): (%.3f, %.3f) [radians]",  c_eyptar_min, c_eyptar_max ) << endl;}
+	if(ztarDiff_cut_flag)      {out_file << Form("# Z-Reaction Vertex Difference (H.react.z-P.react.z): (%.3f, %.3f) [cm]", c_ztarDiff_min, c_ztarDiff_max ) << endl;}
+      }
     out_file << "#                       " << endl;
-      
-    
+    out_file << "#---Particle Identification (PID) Cuts--- " << endl;
+    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+      {    
+	if(hetot_trkNorm_pidCut_flag) {out_file << Form("# HMS calorimeter total energy / track momentum (H.cal.etottracknorm): (%.1f, %.1f)", cpid_hetot_trkNorm_min, cpid_hetot_trkNorm_max) << endl;}
+	if(hcer_pidCut_flag)          {out_file << Form("# HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", cpid_hcer_npeSum_min, cpid_hcer_npeSum_max) << endl;}
+      }
+      if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+      {
+	if(petot_trkNorm_pidCut_flag)  {out_file << Form("# SHMS calorimeter total energy / track momentum (P.cal.etottracknorm): (%.1f, %.1f)",cpid_petot_trkNorm_min, cpid_petot_trkNorm_max) << endl;}
+	if(pngcer_pidCut_flag)        {out_file << Form("# SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.1f, %.1f)",cpid_pngcer_npeSum_min,cpid_pngcer_npeSum_max) << endl;}
+	if(phgcer_pidCut_flag)        {out_file << Form("# SHMS heavy gas Chrenkov number of photoelectrons (P.hgcer.npeSum): (%.1f, %.1f)",cpid_phgcer_npeSum_min,cpid_phgcer_npeSum_max) << endl;}
+      }
+    out_file << "#                       " << endl;
+    out_file << "#---Kinematics Cuts--- " << endl;
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin"))
+      {
+	if(Q2_heep_cut_flag)  {out_file << Form("# H(e,e'p) 4-momentum transferred squared, Q2 (P.kin.primary.Q2): (%.3f, %.3f) [GeV2]", c_heep_Q2_min, c_heep_Q2_max) << endl;}
+	if(xbj_heep_cut_flag) {out_file << Form("# H(e,e'p) x-Bjorken, Xbj (P.kin.primary.x_bj): (%.3f, %.3f)", c_heep_xbj_min, c_heep_xbj_max) << endl;}
+	if(W_heep_cut_flag)  {out_file << Form("# H(e,e'p) Invariant Mass, W (P.kin.primary.W): (%.3f, %.3f) [GeV]", c_heep_W_min, c_heep_W_max) << endl;}
+      }
+     if(analysis_cut=="heep_coin")
+       {
+	 if(MM_heep_cut_flag)  {out_file << Form("# H(e,e'p) Missing Mass, MM (H.kin.secondary.Mrecoil): (%.3f, %.3f) [GeV]", c_heep_MM_min, c_heep_MM_max) << endl;}
+	 if(Em_heep_cut_flag)  {out_file << Form("# H(e,e'p) Missing Energy, Em=nu-Ep (H.kin.secondary.Em): (%.3f, %.3f) [GeV]", c_heep_Em_min, c_heep_Em_max) << endl;}
+       }
+     if(analysis_cut=="MF")
+       {
+	 if(Q2_MF_cut_flag) {out_file << Form("# A(e,e'p) 4-momentum transferred squared, Q2 (P.kin.primary.Q2): (%.3f, %.3f) [GeV2]", c_MF_Q2_min, c_MF_Q2_max) << endl;}
+	 if(Pm_MF_cut_flag) {out_file << Form("# A(e,e'p) Missing Momentum, Pm (H.kin.secondary.Pm): (%.3f, %.3f) [GeV]", c_MF_Pm_min, c_MF_Pm_max) << endl;}
+	 if(Em_d2MF_cut_flag && tgt_type=="LD2") {out_file << Form("# A(e,e'p) Missing Energy, Em (H.kin.secondary.Em_nuc): (%.3f, %.3f) [GeV]", c_d2MF_Em_min, c_d2MF_Em_max) << endl;}
+	 if(Em_MF_cut_flag && tgt_type!="LD2") {out_file << Form("# A(e,e'p) Missing Energy, Em (H.kin.secondary.Em_nuc): (%.3f, %.3f) [GeV]", c_MF_Em_min, c_MF_Em_max) << endl;}
+
+       }
+     if(analysis_cut=="SRC")
+       {
+	 if(Q2_SRC_cut_flag) {out_file << Form("# A(e,e'p) 4-momentum transferred squared, Q2 (P.kin.primary.Q2): (%.3f, %.3f) [GeV2]", c_SRC_Q2_min, c_SRC_Q2_max) << endl;}
+	 if(Pm_SRC_cut_flag) {out_file << Form("# A(e,e'p) Missing Momentum, Pm (H.kin.secondary.Pm): (%.3f, %.3f) [GeV]", c_SRC_Pm_min, c_SRC_Pm_max) << endl;}
+	 if(Xbj_SRC_cut_flag) {out_file << Form("# A(e,e'p) x-Bjorken, Xbj (P.kin.primary.x_bj): (%.3f, %.3f)", c_SRC_Xbj_min, c_SRC_Xbj_max) << endl;}
+	 if(thrq_SRC_cut_flag) {out_file << Form("# A(e,e'p) theta_rq  (H.kin.secondary.th_bq): (%.3f, %.3f) [deg]", c_SRC_thrq_min, c_SRC_thrq_max) << endl;}	 
+	 if(Em_d2SRC_cut_flag && tgt_type=="LD2") {out_file << Form("# A(e,e'p) Missing Energy, Em (H.kin.secondary.Em_nuc): (%.3f, %.3f) [GeV]", c_d2MF_Em_min, c_d2MF_Em_max) << endl;}
+	 if(Em_SRC_cut_flag && tgt_type!="LD2") {out_file << "# A(e,e'p) Dynamic Missing Energy (A>2 nuclei), Em_src = nu - Tp - (sqrt(MN*MN + Pm*Pm) - MN) | see definition in baseAnalyzer.cpp" << endl;}
+
+       }
+					    
     } // end !bcm_calib requirement
     
     
