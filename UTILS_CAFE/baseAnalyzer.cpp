@@ -3237,12 +3237,18 @@ void baseAnalyzer::WriteReport()
     cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
     
     if ((tgt_type=="LH2") || (tgt_type=="C12_optics")) {
-	simc_MF_rates = -1.; 
-	simc_SRC_rates = -1.; 
+      total_simc_time = -1.;
+      total_simc_counts = -1.;
+      simc_cafe_rates = -1.;
+	
       }
-    else {
-      simc_MF_rates = stod(split(FindString(Form("%s_MF_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-      simc_SRC_rates = stod(split(FindString(Form("%s_SRC_rates", tgt_type.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]);
+    else if( (analysis_cut=="MF") || (analysis_cut=="SRC")) {
+
+      total_simc_counts = stod(split(FindString(Form("%s_%s_counts", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [counts]
+      total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
+
+      simc_cafe_rates = total_simc_counts / (total_simc_time * 3600.); //[Hz]
+      
     }
     
     //Check if file already exists
@@ -3288,7 +3294,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("%s_Average_Current [uA]: %.3f ", bcm_type.Data(), avg_current_bcm_cut ) << endl;
     out_file << Form("%s_Charge [mC]: %.3f ", bcm_type.Data(), total_charge_bcm_cut ) << endl;
     out_file << "" << endl;
-    out_file << Form("integrated_luminosity [fb^-1]: %.3f", GetLuminosity()) << endl;
+    out_file << Form("integrated_luminosity [fb^-1]: %.3f", GetLuminosity("data_lumi")) << endl;
     out_file << "" << endl;
     if(analysis_cut=="heep_singles")
       {
@@ -3303,8 +3309,10 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("simc_heep_kin1_rates (shms=7.5 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin1_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
 	out_file << Form("simc_heep_kin2_rates (shms=6.8 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin2_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
 	out_file << "" << endl;
-	out_file << Form("lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity("data_lumi") ) << endl;
 	out_file << "" << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
+
       }
 
     if(analysis_cut=="heep_coin")
@@ -3320,7 +3328,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("heep_real_rate [Hz]  : %.3f", W_real_rate)  << endl;
 	out_file << Form("simc_heep_kin0_rates (shms=8.3 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin0_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;	
 	out_file << "" << endl;
-	out_file << Form("lumiNorm_counts [fb]: %.3f", W_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.3f", W_real/GetLuminosity("data_lumi") ) << endl;
 	out_file << "" << endl;
       }
     
@@ -3335,9 +3343,19 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("MF_random_counts   : %.3f", Pm_rand )  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("MF_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("MF_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_MF_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
+	out_file << Form("MF_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_cafe_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
 	out_file << "                                     " << endl;	
-	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity() ) << endl;	
+	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity("data_lumi") ) << endl;
+	out_file << "                                     " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# SIMC Statistical Goal  " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << Form("simc_counts_goal : %.3f", total_simc_counts ) << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
+	out_file << Form("simc_lumiNorm_counts [fb]: %.3f", total_simc_counts/GetLuminosity("simc_lumi") ) << endl;
+	out_file << "                                     " << endl;
+
+
       }
     if(analysis_cut=="SRC")
       {
@@ -3350,9 +3368,17 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("SRC_random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << "                                     " << endl;
 	out_file << Form("SRC_real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
-	out_file << Form("SRC_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_SRC_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
+	out_file << Form("SRC_simc_rate [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, cafe_Ib_simc,  simc_cafe_rates * (avg_current_bcm_cut/cafe_Ib_simc) ) << endl;	
 	out_file << "" << endl;
-	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity() ) << endl;
+	out_file << Form("lumiNorm_counts [fb]: %.3f", Pm_real/GetLuminosity("data_lumi") ) << endl;
+	out_file << "" << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << "# SIMC Statistical Goal  " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
+	out_file << Form("simc_counts_goal : %.3f", total_simc_counts ) << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
+	out_file << Form("simc_lumiNorm_counts [fb]: %.3f", total_simc_counts/GetLuminosity("simc_lumi") ) << endl;
+	out_file << "                                     " << endl;
       }
 
     if(analysis_cut!="bcm_calib"){
@@ -3794,7 +3820,7 @@ void baseAnalyzer::CombineHistos()
 }
 
 //______________________________________________________________________________
-Double_t baseAnalyzer::GetLuminosity()
+Double_t baseAnalyzer::GetLuminosity(TString user_input="")
 {
   /* 
      Brief: calculates luminosity  as follows: luminosity = Constant * total_charge / targetfac,
@@ -3825,7 +3851,10 @@ Double_t baseAnalyzer::GetLuminosity()
      To directly compare different targets, one can normalize the total experimental counts (N)  by total luminosity
 
    */
-
+  
+  // initialize return values
+  luminosity =  luminosity_simc = 0.0;
+  
   // [g/cm^2]     =    [g/cm^3]    *   [cm]
   tgt_areal_density =  tgt_density *  tgt_thickness;  
 
@@ -3834,12 +3863,34 @@ Double_t baseAnalyzer::GetLuminosity()
 
   Double_t Constant = NA * (1./elementary_charge) * 1e-3 * 1e-39; // units: [fb^-1] inverse-femtobarns
   
-  // calculate integrated luminosity
-  //              [GeV^2]        [mC]             [unitless]
+  // calculate DATA integrated luminosity
+  //              [fb^-1]        [mC]             [unitless]
   luminosity =  Constant * total_charge_bcm_cut * targetfac;  
-  
-  return luminosity;  // [fb^-1] 
 
+  if( (analysis_cut=="MF") || (analysis_cut=="SRC") ){
+
+    // calculate simc integrated luminosity (based on simulation predictions)
+    total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
+    cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]); //[uA]
+    
+
+    // [mC]                [uC / sec]        [hr]      [sec]/[hr]  0.001 mC / 1 uC
+    total_simc_charge =  cafe_Ib_simc * total_simc_time * 3600. * 1e-3;
+    
+    luminosity_simc = Constant * total_simc_charge * targetfac;
+
+  }
+
+  if(user_input=="data_lumi"){
+    return luminosity;  // [fb^-1] 
+  }
+  else if(user_input=="simc_lumi"){
+    return luminosity_simc;  // [fb^-1]     
+  }
+  else{
+    return 0.0
+  }
+  
 }
 
 //______________________________________________________________________________

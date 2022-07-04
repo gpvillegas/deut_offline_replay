@@ -17,24 +17,69 @@ heep_kin2_rates = 2745.
 # beam current [uA]
 cafe_Ib_simc = 80.
 
-# CaFe production rates estimates [Hz]
+# CaFe MF production rates estimates [Hz]
 LD2_MF_rates  = 139.16
-Be9_MF_rates = 54.33
-B10_MF_rates = 31.77
-B11_MF_rates = 35.22
-C12_MF_rates = 29.11
+Be9_MF_rates  = 54.33
+B10_MF_rates  = 31.77
+B11_MF_rates  = 35.22
+C12_MF_rates  = 29.11
 Ca40_MF_rates = 29.62
 Ca48_MF_rates = 29.62
 Ti48_MF_rates = -1.
 Fe54_MF_rates = 15.27
 
-# CaFe src rates for every target [Hz]
+# CaFe MF production time estimates [hr]
+LD2_MF_time  = 0.5
+Be9_MF_time  = 0.5
+B10_MF_time  = 0.5
+B11_MF_time  = 0.5
+C12_MF_time  = 0.5
+Ca40_MF_time = 0.5
+Ca48_MF_time = 0.5
+Ti48_MF_time = -1
+Fe54_MF_time = 1.0
+
+# CaFe MF production total count goal estimates 
+LD2_MF_counts  = 250000.
+Be9_MF_counts  = 98000.
+B10_MF_counts  = 57000.
+B11_MF_counts  = 63000.
+C12_MF_counts  = 52000.
+Ca40_MF_counts = 53000.
+Ca48_MF_counts = 53000.
+Ti48_MF_counts = -1.
+Fe54_MF_counts = 55000.
+
+
+# CaFe SRC production rates estimates [Hz]
 LD2_SRC_rates  = 0.211
-Be9_SRC_rates = 0.321
-B10_SRC_rates = 0.192
-B11_SRC_rates = 0.213
-C12_SRC_rates = 0.198
+Be9_SRC_rates  = 0.321
+B10_SRC_rates  = 0.192
+B11_SRC_rates  = 0.213
+C12_SRC_rates  = 0.198
 Ca40_SRC_rates = 0.202
 Ca48_SRC_rates = 0.202
 Ti48_SRC_rates = -1.
 Fe54_SRC_rates = 0.121
+
+# CaFe SRC production time estimates [hr]
+LD2_SRC_time  = 7.
+Be9_SRC_time  = 4.
+B10_SRC_time  = 6.5
+B11_SRC_time  = 6.5
+C12_SRC_time  = 7.
+Ca40_SRC_time = 12.
+Ca48_SRC_time = 12.
+Ti48_SRC_time = -1
+Fe54_SRC_time = 20.
+
+# CaFe SRC production total count goal estimates 
+LD2_SRC_counts  = 5300. 
+Be9_SRC_counts  = 4600.
+B10_SRC_counts  = 4500.
+B11_SRC_counts  = 5000.
+C12_SRC_counts  = 5000.
+Ca40_SRC_counts = 8700.
+Ca48_SRC_counts = 8700.
+Ti48_SRC_counts = -1.
+Fe54_SRC_counts = 8700.

@@ -48,7 +48,7 @@ public:
   // Helper Functions
   Double_t GetCoinTimePeak();
   void MakePlots();
-  Double_t GetLuminosity();
+  Double_t GetLuminosity(TString user_input="");
 
   
 protected:
@@ -135,6 +135,11 @@ protected:
   Double_t luminosity;
   Double_t tgt_areal_density;
 
+  // calculate simc luminosity
+  Double_t total_simc_time;
+  Double_t total_simc_charge;
+  Double_t total_simc_counts;
+  
 
   //SIMC CaFe Rate Estimation for 10.6 GeV beam energy
   // These variables are placeholders for MF, SRC rates from SIMC for each target
@@ -143,8 +148,7 @@ protected:
   Double_t heep_kin0_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
   Double_t heep_kin1_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
   Double_t heep_kin2_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
-  Double_t simc_SRC_rates;    // SRC event rate
-  Double_t simc_MF_rates;     // MF event rate
+  Double_t simc_cafe_rates;    // MF/SRC event rate
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
