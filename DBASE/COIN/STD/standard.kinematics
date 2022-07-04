@@ -102,7 +102,7 @@ hpartmass = 0.93827231
 # Pmiss = 580 MeV Setting After SHMS Q1/Q3 Corr
 3290-3305
 gpbeam = 10.600
-gtargmass_amu=2.014101
+gtargmass_amu= 2.014101
 htheta_lab = -54.99
 ptheta_lab = 12.194
 hpcentral = 2.194

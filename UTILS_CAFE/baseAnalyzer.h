@@ -139,7 +139,7 @@ protected:
   Double_t total_simc_time;
   Double_t total_simc_charge;
   Double_t total_simc_counts;
-  
+  Double_t luminosity_simc;   
 
   //SIMC CaFe Rate Estimation for 10.6 GeV beam energy
   // These variables are placeholders for MF, SRC rates from SIMC for each target
