@@ -106,7 +106,6 @@ beam_on_target=0
 bcm_thrs=0
 bcm_current=0
 bcm_charge=0
-integrated_luminosity=0
 
 # good events counts (initialize to NaN for ease of use with python later on)
 heep_singles      = np.nan
@@ -119,6 +118,7 @@ SRC_real          = np.nan
 SRC_real_rate     = np.nan
 
 # luminosity-normalized real counts (Counts / integrated_luminosity)
+integrated_luminosity=np.nan
 lumiNorm_counts = np.nan
 
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
@@ -171,6 +171,13 @@ T5_tLT=np.nan
 
 T6_cpuLT=np.nan
 T6_tLT=np.nan
+
+
+# SIMC cafe statistical goals 
+simc_counts_goal          = np.nan
+simc_charge_goal          = np.nan
+simc_integrated_luminosity = np.nan
+simc_lumiNorm_counts       = np.nan
 
 TestVar = 0 # Counter to check the right number of variables have been set, 
 for line in cafe_report:
@@ -439,7 +446,17 @@ for line in cafe_report:
         T6_tLT = float(line.split(":")[1].split("+")[0].strip())
         # print(T6_tLT)
 
+    # SIMC statistical goals
+    if "simc_counts_goal" in line:
+        simc_counts_goal = float((line.split(":")[1]).strip())
+    if "simc_charge_goal" in line:
+        simc_charge_goal = float((line.split(":")[1]).strip())
+    if "simc_integrated_luminosity" in line:
+        simc_integrated_luminosity = float((line.split(":")[1]).strip())
+    if "simc_lumiNorm_counts" in line:
+        simc_lumiNorm_counts = float((line.split(":")[1]).strip())
 
+        
 #  run list was separated into sub-categories for ease of use and more flexibility if things need to be changed
 
 
@@ -466,9 +483,13 @@ header_4   = ['heep_singles\ncounts', 'heep_singles\nrates [Hz]', 'heep_coin\nco
 good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
+# SIMC cafe statistical goals (full stats goal for each (target, kin_type) combo, e.g. (Be9, MF)
+header_5             = ['simc_counts_goal', 'simc_charge_goal\n[mC]', 'simc_integrated\nluminosity\n[fb^-1]', 'simc_lumiNorm_counts[fb]']
+simc_stats_goal_info = "%.3f                        %.3f                       %.4f                                 %.4f" % \
+                       (simc_counts_goal,     simc_charge_goal,        simc_integrated_luminosity,              simc_lumiNorm_counts)
 
 # combine headers
-total_header = header_1 + header_2 + header_3 + header_4
+total_header = header_1 + header_2 + header_3 + header_4 + header_5
 
 
 # read user comment (raw_input is required for python 2.7, else use input())
@@ -491,9 +512,10 @@ gen_run_info_list    = gen_run_info.split(',')
 trig_info_list       = trig_info.split()
 efficiency_info_list = efficiency_info.split()
 good_evt_info_list   = good_evt_info.split()
+simc_stats_goal_info_list = simc_stats_goal_info.split()
 
 # combine lists
-total_list = gen_run_info_list + trig_info_list + efficiency_info_list + good_evt_info_list
+total_list = gen_run_info_list + trig_info_list + efficiency_info_list + good_evt_info_list + simc_stats_goal_info_list
 
 # append user comments to list
 total_list.append(comment)

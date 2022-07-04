@@ -3246,8 +3246,10 @@ void baseAnalyzer::WriteReport()
 
       total_simc_counts = stod(split(FindString(Form("%s_%s_counts", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [counts]
       total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
-
       simc_cafe_rates = total_simc_counts / (total_simc_time * 3600.); //[Hz]
+      
+      // [mC]                [uC / sec]        [hr]      [sec]/[hr]  0.001 mC / 1 uC
+      total_simc_charge =  cafe_Ib_simc * total_simc_time * 3600. * 1e-3;
       
     }
     
@@ -3330,6 +3332,8 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("integrated_luminosity [fb^-1]: %.3f", GetLuminosity("data_lumi")) << endl;
 	out_file << Form("lumiNorm_counts [fb]: %.3f", W_real/GetLuminosity("data_lumi") ) << endl;
 	out_file << "" << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
+		
       }
     
     if(analysis_cut=="MF")
@@ -3352,8 +3356,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << Form("simc_counts_goal : %.3f", total_simc_counts ) << endl;
-	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
-	out_file << Form("simc_lumiNorm_counts [fb]: %.3f", total_simc_counts/GetLuminosity("simc_lumi") ) << endl;
+	out_file << Form("simc_charge_goal [mC] : %.3f", total_simc_charge ) << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("simc_lumi")) << endl;
+	out_file << Form("simc_lumiNorm_counts [fb]: %.4f", total_simc_counts/GetLuminosity("simc_lumi") ) << endl;
 	out_file << "                                     " << endl;
 
 
@@ -3378,6 +3383,7 @@ void baseAnalyzer::WriteReport()
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << Form("simc_counts_goal : %.3f", total_simc_counts ) << endl;
+	out_file << Form("simc_charge_goal [mC] : %.3f", total_simc_charge ) << endl;
 	out_file << Form("simc_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("simc_lumi")) << endl;
 	out_file << Form("simc_lumiNorm_counts [fb]: %.3f", total_simc_counts/GetLuminosity("simc_lumi") ) << endl;
 	out_file << "                                     " << endl;
