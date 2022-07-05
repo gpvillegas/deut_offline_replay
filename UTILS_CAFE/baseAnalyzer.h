@@ -168,6 +168,7 @@ protected:
   
   
   Double_t simc_cafe_counts=0;    // MF/SRC event rate
+  Double_t simc_cafe_rates=0;    // MF/SRC event rate
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
