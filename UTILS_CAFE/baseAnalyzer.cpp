@@ -3340,9 +3340,9 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("simc_heep_kin1_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin1")) << endl;
 	out_file << Form("simc_heep_kin2_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin2")) << endl;
 	out_file << "" << endl;
-	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", total_simc_counts/GetLuminosity("heep_kin0") ) << endl;
-	out_file << Form("simc_heep_kin1_lumiNorm_counts [fb]: %.4f", total_simc_counts/GetLuminosity("heep_kin1") ) << endl;
-	out_file << Form("simc_heep_kin2_lumiNorm_counts [fb]: %.4f", total_simc_counts/GetLuminosity("heep_kin2") ) << endl;
+	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
+	out_file << Form("simc_heep_kin1_lumiNorm_counts [fb]: %.4f", heep_kin1_counts/GetLuminosity("heep_kin1") ) << endl;
+	out_file << Form("simc_heep_kin2_lumiNorm_counts [fb]: %.4f", heep_kin2_counts/GetLuminosity("heep_kin2") ) << endl;
 	out_file << "                                     " << endl;
 
       }
@@ -3369,7 +3369,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("simc_heep_kin0_counts_goal        : %.1f", heep_kin0_counts  ) << endl;
 	out_file << Form("simc_heep_kin0_charge_goal [mC]   : %.3f", heep_kin0_charge ) << endl;
 	out_file << Form("simc_heep_kin0_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin0")) << endl;
-	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", total_simc_counts/GetLuminosity("heep_kin0") ) << endl;
+	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
 	out_file << "                                     " << endl;
       }
     
@@ -3957,7 +3957,7 @@ Double_t baseAnalyzer::GetLuminosity(TString user_input="")
   else if(user_input=="heep_kin1"){
     return heep_kin1_lumi_simc; // [fb^-1]
   }
-  else if(user_input=="heep_kin0"){
+  else if(user_input=="heep_kin2"){
     return heep_kin2_lumi_simc; // [fb^-1]
   }
   else{
