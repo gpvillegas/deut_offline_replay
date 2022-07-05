@@ -11,6 +11,18 @@ heep_kin0_rates = 818.
 heep_kin1_rates = 1513.
 heep_kin2_rates = 2745.
 
+# H(e,e'p) production time estimates [hr]
+# ~ 30 min
+heep_kin0_time = 0.51
+# ~ 15 min
+heep_kin1_time = 0.275
+# ~ 10 min
+heep_kin2_time = 0.152
+
+# H(e,e'p) singles production count goal (mostly for doing detector calibrations)
+heep_kin0_counts = 1500000.
+heep_kin1_counts = 1500000.
+heep_kin2_counts = 1500000.
 
 # See https://hallcweb.jlab.org/wiki/images/0/0d/CAFE_rate_AND_run_plan_07012022.pdf
 

@@ -130,25 +130,44 @@ protected:
   Double_t thick_Fe54 = 0.528;
   Double_t thick_Ti48 = 0.718;
 
-  // variables to calculate the luminosity
+  // variables to calculate the luminosity data
   Double_t targetfac;
   Double_t luminosity;
   Double_t tgt_areal_density;
-
-  // calculate simc luminosity
-  Double_t total_simc_time;
-  Double_t total_simc_charge;
-  Double_t total_simc_counts;
-  Double_t luminosity_simc;   
+  
+  // calculate simc cafe production luminosity
+  Double_t total_simc_time=0;
+  Double_t total_simc_charge=0;
+  Double_t total_simc_counts=0;
+  Double_t luminosity_simc=0;   
 
   //SIMC CaFe Rate Estimation for 10.6 GeV beam energy
   // These variables are placeholders for MF, SRC rates from SIMC for each target
-  Double_t heep_Ib_simc; // beam current [uA], will  be used to scale rates to actual current we get
-  Double_t cafe_Ib_simc;
-  Double_t heep_kin0_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
-  Double_t heep_kin1_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
-  Double_t heep_kin2_rates;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
-  Double_t simc_cafe_rates;    // MF/SRC event rate
+  Double_t heep_Ib_simc=0; // beam current [uA], will  be used to scale rates to actual current we get
+  Double_t cafe_Ib_simc=0;
+
+  Double_t heep_kin0_rates=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_rates=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_rates=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+
+  Double_t heep_kin0_time=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_time=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_time=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+
+  Double_t heep_kin0_counts=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_counts=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_counts=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+
+  Double_t heep_kin0_charge=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_charge=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_charge=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+
+  Double_t heep_kin0_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
+  Double_t heep_kin1_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+  
+  
+  Double_t simc_cafe_counts=0;    // MF/SRC event rate
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
