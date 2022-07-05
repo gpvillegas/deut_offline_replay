@@ -479,12 +479,12 @@ efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f    
 
 
 # good event count info
-header_4   = ['heep_singles\ncounts', 'heep_singles\nrates [Hz]', 'heep_coin\ncounts', 'heep_coin\nrates [Hz]', 'MF_real\ncounts', 'MF_real\nrates [Hz]', 'SRC_real\ncounts', 'SRC_real\nrates [Hz]', 'Comments']
+header_4   = ['heep_singles\ncounts', 'heep_singles\nrates [Hz]', 'heep_coin\ncounts', 'heep_coin\nrates [Hz]', 'MF_real\ncounts', 'MF_real\nrates [Hz]', 'SRC_real\ncounts', 'SRC_real\nrates [Hz]']
 good_evt_info = "%.2f           %.3f               %.2f       %.3f            %.2f     %.3f          %.2f      %.3f    " % \
                 (heep_singles,  heep_singles_rate, heep_real, heep_real_rate, MF_real, MF_real_rate, SRC_real, SRC_real_rate )
 
 # SIMC cafe statistical goals (full stats goal for each (target, kin_type) combo, e.g. (Be9, MF)
-header_5             = ['simc_counts_goal', 'simc_charge_goal\n[mC]', 'simc_integrated\nluminosity\n[fb^-1]', 'simc_lumiNorm_counts[fb]']
+header_5             = ['simc_counts_goal', 'simc_charge_goal\n[mC]', 'simc_integrated\nluminosity\n[fb^-1]', 'simc_lumiNorm_counts[fb]', 'Comments']
 simc_stats_goal_info = "%.3f                        %.3f                       %.4f                                 %.4f" % \
                        (simc_counts_goal,     simc_charge_goal,        simc_integrated_luminosity,              simc_lumiNorm_counts)
 
