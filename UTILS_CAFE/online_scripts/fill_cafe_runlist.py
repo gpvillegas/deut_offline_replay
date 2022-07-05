@@ -252,10 +252,10 @@ for line in cafe_report:
         bcm_charge = float((line.split(":")[1]).strip())
         TestVar+=1
         # print(bcm_charge)
-    if "_luminosity" in line :
+    if "data_integrated_luminosity" in line :
         integrated_luminosity = float((line.split(":")[1]).strip()) 
         TestVar+=1
-    if "lumiNorm_counts" in line :
+    if "data_lumiNorm_counts" in line :
         lumiNorm_counts = float((line.split(":")[1]).strip()) 
         TestVar+=1
     # good elastic, MF or SRC counts/rates
