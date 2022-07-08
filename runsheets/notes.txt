@@ -1,0 +1,3 @@
+to open tgif file, just do:
+
+tgif runsheet_pion21.tgif.obj 
