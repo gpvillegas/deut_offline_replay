@@ -1,0 +1,296 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[legalpaper, margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\title{CaFe 2022 Experimental Run Plan}
+\date{August 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Optics Checkout / Hydrogen H$(e,e')$ Elastic Singles}
+This part of the CaFe experiment run plan will be taken during the pionLT run period
+before the accelerator pass change on August 08, 2022.\\
+
+Prescale GUI settings for both Optics / H(e,e') studies:
+    
+    \begin{center}
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  ?  & 5 KHz$^{\dagger}$ \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & ? (used by pionLT)  & - - \\
+    PS5 (HMS-ELREAL x SHMS-3/4)  & -1 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+    NOTE: PS = -1 (trigger disabled) PS = 0 (accepts all triggers, i.e., no pre-scales). $^{\dagger}$Set a target rate of 5 kHz ONLY for H$(e,e')$,  and if trigger rates exceed this threshold, 
+    a pre-scale factor will be automatically determined by the DAQ. For Optics, since
+    Sieve Slit will be inserted, the rates will be significantly lower so there is no need to pre-scale (but if need be
+    it can also be pre-scaled). \textbf{PionLT group will simultaneously be doing their studies with HMS singles trigger enabled}.
+    
+\subsection*{SHMS Optics Checkout at large angle setting ($\theta_{\mathrm{SHMS}} =10.26^{\circ}$, $\delta_{\mathrm{SHMS}}=5\%$)}
+\begin{enumerate}
+    \item Ensure beam is OFF (request MCC to mask the beam)
+    \item Change target to Carbon-12 Optics-1 +/- 8 cm (2-foil) (\textbf{operational limit:} 50 uA) 
+    \item \textbf{Change SHMS polarity to negative.} Follow the magnet cycling procedure. 
+    \item SHMS momentum = $-8.55$ GeV/c (negative polarity and magnets cycled) 
+    \item SHMS Angle = 10.26  deg
+    \item Insert SHMS Sieve Slit
+    \item Ensure raster is set to 2x2 mm$^{2}$, request 50~$\mu$A beam 
+    \item Take data for $\sim$10 minutes (beam-on-target), verify 200 counts / hole / foil
+    \item Repeat all steps above with Carbon 0.5\% (1-foil) (\textbf{operational limit:} 80 uA)
+\end{enumerate}
+
+    \subsection*{SHMS Optics Checkout at small angle setting ($\theta_{\mathrm{SHMS}} =6.74^{\circ}$, $\delta_{\mathrm{SHMS}}=15$)}
+\begin{enumerate}
+    \item Ensure beam is OFF (request MCC to mask the beam)
+    \item Change target to Carbon-12 Optics-1 +/- 8cm (2-foil) (\textbf{operational limit:} 50 uA) 
+    \item \textbf{Ensure SHMS polarity is negative.} Follow the magnet cycling procedure if needed.
+    \item SHMS momentum = $-8.55$ GeV/c (negative polarity and magnets cycled) 
+    \item SHMS Angle = 6.74  deg 
+    \item Insert SHMS Sieve Slit (should be already inserted)
+    \item Ensure raster is set to 2x2 mm$^{2}$, request 50~$\mu$A beam
+    \item Take data for $\sim$10 minutes (beam-on-target), verify 200 counts / hole / foil
+    \item Repeat all steps above with Carbon 0.5\% (1-foil) (\textbf{operational limit:} 80 uA)
+\end{enumerate}
+\newpage
+\subsection*{H(e,e') SHMS Elastics Singles}
+\begin{enumerate}
+    \item Ensure beam is OFF (request MCC to mask the beam) and SHMS momentum is set to -8.55 GeV/c
+    \item Change target to 10 cm LH2 
+    \end{enumerate}
+
+    \begin{enumerate}
+    \subsection*{H(e,e') Elastics Kin-Setting 2}
+    \item SHMS angle = 6.74 deg (from TV camera)
+    \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
+    \item Take data for $\sim$ 10  min. at 60 uA beam-on-target to get $\sim$1.5 million \\
+    good H$(e,e')$ elastics singles events (based on simulation elastic rates estimates of $\sim$2710 Hz @ 60 uA)
+    \end{enumerate}
+    
+    \begin{enumerate}
+    \subsection*{H(e,e') Elastics Kin-Setting 1}
+    \item SHMS angle = 8.6 deg (from TV camera)
+    \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
+    \item Take data for $\sim$ 30  min. at 60 uA beam-on-target to get $\sim$1 million \\
+     good H(e,e') elastics singles events (based on simulation elastic rates estimates of $\sim$607 Hz @ 60 uA)
+    \end{enumerate}
+    
+    \begin{enumerate}
+    \subsection*{H(e,e') Elastics Kin-Setting 0}
+    \item SHMS angle = 10.26 deg (from TV camera)
+    \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
+    \item Take data for $\sim$ 20  min. at 60 uA beam-on-target to get $\sim$250,000 \\
+     good H(e,e') elastics singles events (based on simulation elastic rates estimates of $\sim$198 Hz @ 60 uA)
+    \end{enumerate}
+
+  \begin{enumerate}
+    \subsection*{H(e,e')p Elastics Kin-Setting 0 (SHMS HODO HV TEST )}
+    \item Ensure SHMS is   at Kin-Setting 0
+    \item Turn OFF SHMS Hodoscope PMTs High-Voltage for Planes S1X[1-6]+/- and S2X[1-6]+/- 
+    \item Take data for $\sim$ 20  min. at 60 uA beam-on-target to get $\sim$250,000 \\
+     good H(e,e'p) elastics singles events (based on simulation elastic rates estimates of $\sim$198 Hz @ 60 uA)
+     \item  Turn back ON the SHMS Hodoscope PMTs High-Voltage for pionLT group to continue their studies.
+    \end{enumerate}
+
+    
+
+
+\section{Pre-Beam Checkout (September 2022)}
+ During change out from smaller to larger Hall C beamline (on September 2022), we will have a few days to prepare for CaFe.
+ \begin{itemize}
+ \item (contact: Brad Sawatzky) identify SHMS EL-REAL, HMS 3/4 trigger cables in Counting Room and input them
+ in the proper coincidence module to form T5 coincidence. The cables already
+ exist, and the timing was already set in the past, but will need to check
+ (Larry requests to remove the NGC trigger leg from the SHMS EL-REAL)
+
+\item (contact: Brad Sawatzky) SHMS will detect e- momenta up to ~10.3 GeV/c, therefore if we want to use SHMS NGC for pion rejection, it will require ~ 90:10 Ne:Ar gas mixture for said momentum.
+
+\item Set HMS/SHMS to CaFe mean-field kinematic setting (beam/trigger checkout \& special studies will be done at this setting as well) 
+
+    \begin{enumerate}
+    \item Set SHMS momentum = -8.55 GeV, SHMS angle = 8.3 deg  
+    \item Set HMS momentum = 1.767 GeV, HMS angle = 49 deg
+    \end{enumerate}
+ 
+ \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
+ 
+ \end{itemize}
+
+\section{Beam / Trigger Checkout}
+Follow instructions on: \url{https://hallcweb.jlab.org/wiki/index.php/Beam_Checkout_Procedures}\\
+
+\begin{itemize}
+Prescale GUI settings for Beam / Trigger Checkout:
+    \begin{center}
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  0  & - - \\
+    PS3 (HMS-3/4)     & 0  & - -\\
+    PS4 (HMS-ELREAL)  & -1  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & 0 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+ \item carbon hole check (raster ON @ 2x2 mm$^{2}$, hole diameter $\sim$ 2 mm)
+ \item do harp scans to check beam profile ( raster OFF, tune beam) \\(BPM calibrations can
+ be done using the results from the harp scans and BPM positions as input. Do we need to
+ do BPM calibrations during on-line?) \\ \textbf{NOTE:} Ensure MCC turns the raster back ON to 2x2 mm$^{2}$ when this study concludes.
+ \item look at the T5 coincidence signal on Oscilloscope, and make sure they are in
+time (i.e., one of the logic signals should be at least ~8ns within the other signal, to make
+sure we get uniform accidentals across the spectrum)
+\end{itemize}
+
+\section{Special Studies}
+\subsection{BCM Calibrations}
+\begin{enumerate}
+    \item (contact/notify D. Mack) Follow instructions on: \\ \url{https://hallcweb.jlab.org/wiki/images/2/29/BCMCalibrationProcedureJuly2022v1.pdf}
+    
+\end{enumerate}
+\subsection{(optional) SHMS Hodoscopes HV ON/OFF Test}
+\textbf{Purpose:} Verify similar H$(e,e'p)$ counts are obtained with part of the
+SHMS Hodo HV ON / OFF. \\
+ \begin{center}
+  Prescale GUI settings for SHMS Hodoscopes HV ON/OFF Test
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) & -1  & - - \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & -1  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & 0 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+ \subsubsection*{\underline{SHMS HV ON:}}
+ \begin{enumerate}
+    \item Ensure beam is OFF and change target to 10 cm LH2
+    \item Request MCC to deliver highest stable beam current (60 $\mu$A?)
+    \item During beam-on-target, check PS2, PS3, PS5 rates from pre-scale GUI (preferably take snapshot and post log-entry on the HC-LOG)
+    \item Start run for $\sim$ 3  min. beam-on-target at 60 $\mu$A 
+    \item Start full production analysis (\texttt{./run\_cafe\_prod.sh <run\_number> heep\_coin})
+    when the run has $\sim 1$ min. left, to save time
+\end{enumerate}
+\subsubsection*{\underline{SHMS HV OFF:}}
+ \begin{enumerate}
+    \item Ensure beam is OFF and target is set to 10 cm LH2
+    \item Turn OFF SHMS Hodoscope PMTs High-Voltage for Planes S1X[1-6]+/- and S2X[1-6]+/- 
+    \item Request MCC to deliver same beam current as with \textbf{SHMS HV ON:} above (we want consistency here!)
+    \item During beam-on-target, check PS2, PS3, PS5 rates from pre-scale GUI (preferably take snapshot and post log-entry on the HC-LOG) \\\\ \textbf{NOTE:} PS2 (SHMS-ELREAL) singles rates should be smaller and PS5 (coincidence) rates should be similar when compared to the \textbf{SHMS HV ON} configuration 
+    \item Start run for $\sim$ 3  min. beam-on-target at same beam current as \textbf{SHMS HV ON}
+    \item Start full production analysis (\texttt{./run\_cafe\_prod.sh <run\_number> heep\_coin}) when the run has $\sim 1$ min. left, to save time
+    \end{enumerate}
+\subsubsection*{\underline{ANALYSIS:}}
+ \begin{enumerate}
+ To check that the test passed, please check from the automatic pop-up plots or the CaFe output file, that number of elastic counts per accumulated charge under the invariant mass peak W is similar between the two configurations (maybe not more than a $\sim 1\%$ difference)
+ If this study is successful, then leave the HV OFF and proceed.
+ \end{enumerate}
+\subsection{HMS Proton Absorption Study}
+\begin{enumerate}
+    \item Ensure beam is OFF (request MCC to mask beam) and check spectrometers are
+    set to the correct momentum/angle settings
+    \item Change target to 10 cm LH2 and ensure raster is set to 2x2 mm$^{2}$
+\end{enumerate}
+\subsubsection*{\underline{ONLY singles trigger:}}
+  \begin{center}
+    Prescale GUI settings for proton absorption study \textbf{ONLY singles trigger}
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  0  & - - \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & -1  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & -1 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+\begin{enumerate}
+    \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
+    \item Before starting the run, please verify the PS2 (SHMS-ELREAL) rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
+    \item Start a run using \textbf{ONLY singles trigger} (SHMS EL-REAL) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e')$ singles elastic events based on simulation rate estimates of $\sim914$ Hz (recall, good events here are defined as the integral over invariant proton mass W)
+\end{enumerate}
+\subsubsection*{\underline{ONLY coin trigger:}} 
+    \begin{center}
+    Prescale GUI settings for proton absorption study \textbf{ONLY coin trigger}
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  -1  & - - \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & -1  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & 0 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+\begin{enumerate}
+    \item Set pre-scale GUI settings to \textbf{ONLY coin trigger}
+    \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
+    \item Before starting the run, please verify the rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
+    \item Start a run using \textbf{ONLY coin trigger} PS5 (SHMS-ELREAL x HMS-3/4) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e'p)$ coincidence elastic events based on simulation rate estimates of $\sim914$ Hz
+    (recall, good events here are defined as the integral over invariant proton mass W)
+\end{enumerate}      
+    
+\subsection{Target Boiling Studies}
+
+\section{Production run plan} 
+\subsection{Mean-field production}
+\begin{itemize}
+
+\item LH2: $\sim$ 10 min LH2 @ 10 uA, (For boiling study), 
+\item LH2: $\sim$ 5 min LH2  @ 80 uA, (for boiling study)
+\item LD2: $\sim$ 10 min LH2 @ 10 uA, (For boiling study), 
+\item LD2: $\sim$ 5 min LH2  @ 80 uA, (for boiling study)
+\item LD2: $\sim$ 20 min LH2  @ 80 uA, (250k)
+\item do for all other targets
+
+\end{itemize}
+ 
+ \subsection{SRC production run}
+ \begin{itemize}
+ \item change kinematics to SRC
+ \item Ca40 (check rates to see how close it is to simulation)
+ \item Ca48,  and the rest
+ \end{itemize}
+\end{document}
+
+
