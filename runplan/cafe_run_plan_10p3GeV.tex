@@ -3,7 +3,7 @@
 \usepackage[legalpaper, margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{xcolor}
-\title{CaFe 2022 Experimental Run Plan}
+\title{CaFe 2022 Experimental Run Plan, BEAM Energy 10.3 GeV}
 \date{August 2022}
 
 \begin{document}
@@ -41,7 +41,7 @@ Prescale GUI settings for both Optics / H(e,e') studies:
     
 \subsection*{SHMS Optics Checkout at large angle setting ($\theta_{\mathrm{SHMS}} =10.26^{\circ}$, $\delta_{\mathrm{SHMS}}=5\%$)}
 \begin{enumerate}
-    \item Ensure beam is OFF (request MCC to mask the beam)
+    \item Ensure beam is OFF (request MCC to mask the target)
     \item Change target to Carbon-12 Optics-1 +/- 8 cm (2-foil) (\textbf{operational limit:} 50 uA) 
     \item \textbf{Change SHMS polarity to negative.} Follow the magnet cycling procedure. 
     \item SHMS momentum = $-8.55$ GeV/c (negative polarity and magnets cycled) 
@@ -54,7 +54,7 @@ Prescale GUI settings for both Optics / H(e,e') studies:
 
     \subsection*{SHMS Optics Checkout at small angle setting ($\theta_{\mathrm{SHMS}} =6.74^{\circ}$, $\delta_{\mathrm{SHMS}}=15$)}
 \begin{enumerate}
-    \item Ensure beam is OFF (request MCC to mask the beam)
+    \item Ensure beam is OFF (request MCC to mask the target)
     \item Change target to Carbon-12 Optics-1 +/- 8cm (2-foil) (\textbf{operational limit:} 50 uA) 
     \item \textbf{Ensure SHMS polarity is negative.} Follow the magnet cycling procedure if needed.
     \item SHMS momentum = $-8.55$ GeV/c (negative polarity and magnets cycled) 
@@ -67,7 +67,7 @@ Prescale GUI settings for both Optics / H(e,e') studies:
 \newpage
 \subsection*{H(e,e') SHMS Elastics Singles}
 \begin{enumerate}
-    \item Ensure beam is OFF (request MCC to mask the beam) and SHMS momentum is set to -8.55 GeV/c
+    \item Ensure beam is OFF (request MCC to mask the target) and SHMS momentum is set to -8.55 GeV/c
     \item Change target to 10 cm LH2 
     \end{enumerate}
 
@@ -97,7 +97,7 @@ Prescale GUI settings for both Optics / H(e,e') studies:
 
   \begin{enumerate}
     \subsection*{H(e,e')p Elastics Kin-Setting 0 (SHMS HODO HV TEST )}
-    \item Ensure SHMS is   at Kin-Setting 0
+    \item Ensure SHMS is at Kin-Setting 0
     \item Turn OFF SHMS Hodoscope PMTs High-Voltage for Planes S1X[1-6]+/- and S2X[1-6]+/- 
     \item Take data for $\sim$ 20  min. at 60 uA beam-on-target to get $\sim$250,000 \\
      good H(e,e'p) elastics singles events (based on simulation elastic rates estimates of $\sim$198 Hz @ 60 uA)
@@ -124,9 +124,8 @@ Prescale GUI settings for both Optics / H(e,e') studies:
     \item Set HMS momentum = 1.767 GeV, HMS angle = 49 deg
     \end{enumerate}
  
- \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
- 
- \end{itemize}
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
+\end{itemize}
 
 \section{Beam / Trigger Checkout}
 Follow instructions on: \url{https://hallcweb.jlab.org/wiki/index.php/Beam_Checkout_Procedures}\\
@@ -213,9 +212,9 @@ SHMS Hodo HV ON / OFF. \\
  \end{enumerate}
 \subsection{HMS Proton Absorption Study}
 \begin{enumerate}
-    \item Ensure beam is OFF (request MCC to mask beam) and check spectrometers are
+    \item Ensure beam is OFF (request MCC to mask the target) and check spectrometers are
     set to the correct momentum/angle settings
-    \item Change target to 10 cm LH2 and ensure raster is set to 2x2 mm$^{2}$
+    \item Ensure target is set to 10 cm LH2 and raster is set to 2x2 mm$^{2}$
 \end{enumerate}
 \subsubsection*{\underline{ONLY singles trigger:}}
   \begin{center}
@@ -240,7 +239,7 @@ SHMS Hodo HV ON / OFF. \\
 \begin{enumerate}
     \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
     \item Before starting the run, please verify the PS2 (SHMS-ELREAL) rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
-    \item Start a run using \textbf{ONLY singles trigger} (SHMS EL-REAL) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e')$ singles elastic events based on simulation rate estimates of $\sim914$ Hz (recall, good events here are defined as the integral over invariant proton mass W)
+    \item Start a run using \textbf{ONLY singles trigger} (SHMS EL-REAL) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e')$ singles elastic events based on simulation rate estimates of $\sim914$ Hz at 60 $\mu$A (recall, good events here are defined as the integral over invariant mass W)
 \end{enumerate}
 \subsubsection*{\underline{ONLY coin trigger:}} 
     \begin{center}
@@ -266,31 +265,204 @@ SHMS Hodo HV ON / OFF. \\
     \item Set pre-scale GUI settings to \textbf{ONLY coin trigger}
     \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
     \item Before starting the run, please verify the rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
-    \item Start a run using \textbf{ONLY coin trigger} PS5 (SHMS-ELREAL x HMS-3/4) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e'p)$ coincidence elastic events based on simulation rate estimates of $\sim914$ Hz
-    (recall, good events here are defined as the integral over invariant proton mass W)
+    \item Start a run using \textbf{ONLY coin trigger} PS5 (SHMS-ELREAL x HMS-3/4) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e'p)$ coincidence elastic events based on simulation rate estimates of $\sim914$ Hz at 60 $\mu$A
+    (recall, good events here are defined as the integral over invariant mass W)
 \end{enumerate}      
     
 \subsection{Target Boiling Studies}
+    \begin{center}
+    Prescale GUI settings for target boiling study
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  0  & - - \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & -1  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & -1 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
 
-\section{Production run plan} 
-\subsection{Mean-field production}
+
+\subsubsection*{\underline{LH2 $\@$ 10 $\mu$A:}}     
+\begin{enumerate}
+\item Ensure target is set to 10 cm LH2 
+\item Request MCC to deliver 10 $\mu$A beam current
+\item Check PS2 rates and ensure they are $<$2 kHz (most likely will be due to low current), otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 15 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events)
+\end{enumerate}    
+
+\subsubsection*{\underline{LH2 $\@$ 60 $\mu$A:}}     
+\begin{enumerate}
+\item Ensure target is set to 10 cm LH2 
+\item Request MCC to deliver 60 $\mu$A beam current
+\item Check PS2 rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 5 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events) 
+\end{enumerate}   
+
+\subsubsection*{\underline{LD2 $\@$ 10 $\mu$A:}}     
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to 10 cm LD2
+\item Request MCC to deliver 10 $\mu$A of beam current
+\item Check PS2 rates and ensure they are $<$2 kHz (most likely will be due to low current), otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 15 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events)
+\end{enumerate}    
+
+\subsubsection*{\underline{LD2 $\@$ 60 $\mu$A:}}     
+\begin{enumerate}
+\item Ensure target is set to 10 cm LD2 
+\item Request MCC to deliver 60 $\mu$A beam current
+\item Check PS2 rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 5 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events) 
+\end{enumerate}   
+
+
+\section{Production Run Plan} 
+    \begin{center}
+    Prescale GUI settings for CaFe MF/SRC Production
+    \begin{tabular}{ |p{6cm}| |p{3cm}| |p{3cm}| }
+    \hline
+    \multicolumn{3}{|c|}{COIN DAQ} \\
+    \hline
+    TRIGGER & PRE-SCALE & TARGET RATE\\
+    \hline
+    PS1 (SHMS-3/4)    & -1  & - - \\
+    PS2 (SHMS-ELREAL) &  0  & - - \\
+    PS3 (HMS-3/4)     & -1  & - -\\
+    PS4 (HMS-ELREAL)  & 0  & - - \\
+    PS5 (SHMS-ELREAL x HMS-3/4)  & 0 & - -  \\
+    PS6 (HMS-3/4 x SHMS-3/4)     & -1 & - -  \\
+    \hline
+    EDTM Target Prescale Rate & - - & 10 Hz \\
+    \hline
+    \end{tabular}
+    \end{center}
+    \textbf{NOTE:} SHMS/HMS singles and coincidence (PS2, PS3, PS5) triggers will be taken simultaneously for the remainder of the CaFe production run plan. If at any of the kinematic settings below, the PS2, PS3 or PS5 trigger rate exceeds 2 kHz, set the target rate to 2 kHz for the corresponding trigger to automatically set the proper pre-scale factor before starting a run.
+\subsection{Mean-Field (MF) Production}
+\subsubsection*{\underline{LD2 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure target is set to 10 cm LD2 and raster is set to 2x2 mm$^{2}$
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings (if necessary)
+\item Request MCC to deliver 60 $\mu$A beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
 \begin{itemize}
-
-\item LH2: $\sim$ 10 min LH2 @ 10 uA, (For boiling study), 
-\item LH2: $\sim$ 5 min LH2  @ 80 uA, (for boiling study)
-\item LD2: $\sim$ 10 min LH2 @ 10 uA, (For boiling study), 
-\item LD2: $\sim$ 5 min LH2  @ 80 uA, (for boiling study)
-\item LD2: $\sim$ 20 min LH2  @ 80 uA, (250k)
-\item do for all other targets
-
+    \item statistical goal: $\sim$188,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 104 Hz @ 60 $\mu$A
 \end{itemize}
- 
- \subsection{SRC production run}
- \begin{itemize}
- \item change kinematics to SRC
- \item Ca40 (check rates to see how close it is to simulation)
- \item Ca48,  and the rest
- \end{itemize}
+\end{enumerate}
+\subsubsection*{\underline{C12 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to Carbon-0.5 \% (C12)
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$39,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 22 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{Ca48 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to Ca48
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$39,750 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 22.1 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{Ca40 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to Ca40
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$39,750 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 22.1 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{Fe54 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to Fe54
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$20,625 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 11.5 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{Be9 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to Be9
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$73,500 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 41 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{B10 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to B10
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$42,750 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 23.8 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{B11 @ MF Kinematics:}}
+\begin{enumerate}
+\item Ensure beam is OFF (request MCC to mask the target)
+\item Change target to B11
+\item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
+\item Request MCC to deliver 60 $\mu$A of beam current
+\item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\begin{itemize}
+    \item statistical goal: $\sim$47,250 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 26.2 Hz @ 60 $\mu$A
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{\underline{Aluminum Dummy at @ MF Kinematics:}}
+\begin{itemize}
+\end{itemize}
+
+\subsection{Short-Range Correlations (SRC) Production}
+
 \end{document}
 
 
