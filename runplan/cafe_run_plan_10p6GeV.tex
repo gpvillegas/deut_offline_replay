@@ -4,7 +4,7 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{soul}
-\title{CaFe 2022 Experimental Run Plan, BEAM Energy 10.3 GeV}
+\title{CaFe 2022 Experimental Run Plan, BEAM Energy 10.6 GeV}
 \date{August 2022}
 
 \begin{document}
@@ -106,7 +106,7 @@ some time late Aug 07 Swing $\rightarrow$ Aug 08 Owl shift (before the accelerat
 
   \begin{enumerate}
     \subsection*{H(e,e')p Elastics Kin-Setting 0 (SHMS HODO HV TEST )}
-    \item     \textbf{NOTE:} Due to time constraints, even if our goal of 250k events is not reached (we may take data for less time, use your best judgement), for this particular test, the relevant observable is charge-normalized counts: \texttt{Counts / charge [mC]}\\ \\
+    \item[]   \textbf{NOTE:} Due to time constraints, even if our goal of 250k events is not reached (we may take data for less time, use your best judgement), for this particular test, the relevant observable is charge-normalized counts: \texttt{Counts / charge [mC]}\\ \\
     The \textbf{TEST PASSED} if the charge-normalized H$(e,e')$ counts (W integral counts divided by charge) is the same (maybe to within $\sim$1-2\%) for both SHMS HV ON/OFF configurations of Kin-Setting 0. \\ 
     \item Ensure SHMS is at Kin-Setting 0
     \item Turn OFF SHMS Hodoscope PMTs High-Voltage for Planes S1X[1-6]+/- and S2X[1-6]+/- 
@@ -134,7 +134,7 @@ some time late Aug 07 Swing $\rightarrow$ Aug 08 Owl shift (before the accelerat
 
     \begin{enumerate}
     \item Set SHMS momentum = -8.55 GeV, SHMS angle = 8.3 deg  
-    \item Set HMS momentum = 1.767 GeV, HMS angle = 49 deg
+    \item Set HMS momentum = 1.820 GeV, HMS angle = 48.3 deg
     \end{enumerate}
  
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings.
@@ -203,9 +203,9 @@ SHMS Hodo HV ON / OFF. \\
  \subsubsection*{\underline{SHMS HV ON:}}
  \begin{enumerate}
     \item Ensure beam is OFF and change target to 10 cm LH2
-    \item Request MCC to deliver highest stable beam current (60 $\mu$A?)
+    \item Request MCC to deliver highest stable beam current (80 $\mu$A?)
     \item During beam-on-target, check PS2, PS3, PS5 rates from pre-scale GUI (preferably take snapshot and post log-entry on the HC-LOG)
-    \item Start run for $\sim$ 3  min. beam-on-target at 60 $\mu$A 
+    \item Start run for $\sim$ 3  min. beam-on-target at 80 $\mu$A 
     \item Start full production analysis (\texttt{./run\_cafe\_prod.sh <run\_number> heep\_coin})
     when the run has $\sim 1$ min. left, to save time
 \end{enumerate}
@@ -250,9 +250,9 @@ SHMS Hodo HV ON / OFF. \\
     \end{tabular}
     \end{center}
 \begin{enumerate}
-    \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
+    \item Request MCC to deliver highest possible beam current (80 $\mu$A?)
     \item Before starting the run, please verify the PS2 (SHMS-ELREAL) rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
-    \item Start a run using \textbf{ONLY singles trigger} (SHMS EL-REAL) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e')$ singles elastic events based on simulation rate estimates of $\sim914$ Hz at 60 $\mu$A (recall, good events here are defined as the integral over invariant mass W)
+    \item Start a run using \textbf{ONLY singles trigger} (SHMS EL-REAL) for $\sim$22 min. beam-on-target to collect $\sim$ 1 million good H$(e,e')$ singles elastic events based on simulation rate estimates of $\sim762$ Hz at 60 $\mu$A (recall, good events here are defined as the integral over invariant mass W)
 \end{enumerate}
 \subsubsection*{\underline{ONLY coin trigger:}} 
     \begin{center}
@@ -276,9 +276,9 @@ SHMS Hodo HV ON / OFF. \\
     \end{center}
 \begin{enumerate}
     \item Set pre-scale GUI settings to \textbf{ONLY coin trigger}
-    \item Request MCC to deliver highest possible beam current (60 $\mu$A?)
+    \item Request MCC to deliver highest possible beam current (80 $\mu$A?)
     \item Before starting the run, please verify the rates and if they exceed 2 kHz, set the target rate to 2 kHz (which will set an appropriate pre-scale factor) to ensure $>95\%$ computer live time
-    \item Start a run using \textbf{ONLY coin trigger} PS5 (SHMS-ELREAL x HMS-3/4) for $\sim$20 min. beam-on-target to collect $\sim$ 1 million good H$(e,e'p)$ coincidence elastic events based on simulation rate estimates of $\sim914$ Hz at 60 $\mu$A
+    \item Start a run using \textbf{ONLY coin trigger} PS5 (SHMS-ELREAL x HMS-3/4) for $\sim$22 min. beam-on-target to collect $\sim$ 1 million good H$(e,e'p)$ coincidence elastic events based on simulation rate estimates of $\sim762$ Hz at 60 $\mu$A
     (recall, good events here are defined as the integral over invariant mass W)
 \end{enumerate}      
     
@@ -312,10 +312,10 @@ SHMS Hodo HV ON / OFF. \\
 \item Start a run for $\sim$ 15 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events)
 \end{enumerate}    
 
-\subsubsection*{\underline{LH2 $\@$ 60 $\mu$A:}}     
+\subsubsection*{\underline{LH2 $\@$ 80 $\mu$A:}}     
 \begin{enumerate}
 \item Ensure target is set to 10 cm LH2 
-\item Request MCC to deliver 60 $\mu$A beam current
+\item Request MCC to deliver 80 $\mu$A beam current (if possible)
 \item Check PS2 rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
 \item Start a run for $\sim$ 5 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events) 
 \end{enumerate}   
@@ -329,10 +329,10 @@ SHMS Hodo HV ON / OFF. \\
 \item Start a run for $\sim$ 15 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events)
 \end{enumerate}    
 
-\subsubsection*{\underline{LD2 $\@$ 60 $\mu$A:}}     
+\subsubsection*{\underline{LD2 $\@$ 80 $\mu$A:}}     
 \begin{enumerate}
 \item Ensure target is set to 10 cm LD2 
-\item Request MCC to deliver 60 $\mu$A beam current
+\item Request MCC to deliver 80 $\mu$A beam current (if possible)
 \item Check PS2 rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
 \item Start a run for $\sim$ 5 min. of beam-on-target to collect reasonable statistics ($\sim$ 100-200k events) 
 \end{enumerate}   
@@ -364,12 +364,12 @@ SHMS Hodo HV ON / OFF. \\
 \begin{enumerate}
 \item Ensure target is set to 10 cm LD2 and raster is set to 2x2 mm$^{2}$
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings (if necessary)
-\item Request MCC to deliver 60 $\mu$A beam current
+\item Request MCC to deliver 80 $\mu$A beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$188,000 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 104 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$250,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 139 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 \subsubsection*{\underline{C12 @ MF Kinematics:}}
@@ -377,12 +377,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Carbon-0.5 \% r.l. (C12)
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$39,000 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 22 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$52,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 29 Hz @ 60 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -391,12 +391,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Ca48
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$39,750 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 22.1 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$53,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 29.4 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -405,12 +405,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Ca40
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$39,750 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 22.1 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$53,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 29.4 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -419,12 +419,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Fe54
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$20,625 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 11.5 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$27,500 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 15.3 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -433,12 +433,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Be9
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$73,500 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 41 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$98,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 54.4 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -447,12 +447,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to B10
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$42,750 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 23.8 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$57,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 32 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -461,12 +461,12 @@ SHMS Hodo HV ON / OFF. \\
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to B11
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 60 $\mu$A:
+\item Start a run for $\sim$ 30 min. (0.5 hr) of beam-on-target at 80 $\mu$A:
 \begin{itemize}
-    \item statistical goal: $\sim$47,250 MF counts
-    \item estimated \texttt{SIMC} coincidence rate: 26.2 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$63,000 MF counts
+    \item estimated \texttt{SIMC} coincidence rate: 35 Hz @ 80 $\mu$A
 \end{itemize}
 \end{enumerate}
 
@@ -493,7 +493,7 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \begin{enumerate}
     \item Ensure beam is OFF (request MCC to mask the target) for spectrometer kinematic change
     \item Verify SHMS momentum = -8.55 GeV, SHMS angle = 8.3 deg \\ (should be same since the start of the run period)
-    \item Set HMS momentum = 1.325 GeV, SHMS angle = 65.8 deg \\(going to lower momentum; HMS magnets should \textbf{NOT} have to be cycled)
+    \item Set HMS momentum = 1.325 GeV, SHMS angle = 66.4 deg \\(going to lower momentum; HMS magnets should \textbf{NOT} have to be cycled)
 \end{enumerate}
 
 \subsubsection*{\underline{Ca48 @ SRC Kinematics:}}
@@ -501,12 +501,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Ca48
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$6,525 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.151 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$8,700 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.2 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 12 hrs
 \end{itemize}
 \end{enumerate}
@@ -516,12 +516,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Ca40
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$6,525 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0151 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$8,700 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.2 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 12 hrs
 \end{itemize}
 \end{enumerate}
@@ -531,12 +531,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Fe54
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 6,525 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.091 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 8,700 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.12 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 20 hrs
 \end{itemize}
 \end{enumerate}
@@ -546,12 +546,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Carbon-0.5 \% r.l. (C12)
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 3,750 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.149 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 5,000 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.2 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 7 hrs
 \end{itemize}
 \end{enumerate}
@@ -561,12 +561,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to Be9
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 3,450 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.24 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 4,600 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.32 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 4 hrs
 \end{itemize}
 \end{enumerate}
@@ -576,12 +576,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to B10
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 3,375 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.144 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 4,500 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.2 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 6.5 hrs
 \end{itemize}
 \end{enumerate}
@@ -591,12 +591,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to B11
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 3,750 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.16 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 5,000 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.21 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 6.5 hrs
 \end{itemize}
 \end{enumerate}
@@ -606,12 +606,12 @@ simply a matter of subtracting the dummy run from the MF LD2)
 \item Ensure beam is OFF (request MCC to mask the target)
 \item Change target to 10 cm LD2
 \item Update the \texttt{DBASE/COIN/STD/standard.kinematics} with the new settings
-\item Request MCC to deliver 60 $\mu$A of beam current
+\item Request MCC to deliver 80 $\mu$A of beam current
 \item Check (PS2, PS3, PS5) rates and ensure it is $<$2 kHz, otherwise set target rate to 2 kHz
-\item Start consecutive 1-hour long runs at 60 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
+\item Start consecutive 1-hour long runs at 80 $\mu$A until statistical goal is achieved \\ (beam-on-target time may be $<$1 hr due to beam trips) :
 \begin{itemize}
-    \item statistical goal: $\sim$ 3,975 SRC counts
-    \item estimated \texttt{SIMC} coincidence rate: 0.158 Hz @ 60 $\mu$A
+    \item statistical goal: $\sim$ 5,300 SRC counts
+    \item estimated \texttt{SIMC} coincidence rate: 0.21 Hz @ 80 $\mu$A
     \item estimated total beam-on-target time: 7 hrs
 \end{itemize}
 \end{enumerate}
