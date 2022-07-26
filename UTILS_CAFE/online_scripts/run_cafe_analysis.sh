@@ -90,7 +90,8 @@ fi
 
 # cafe serious analysis script
 prod_script="UTILS_CAFE/main_analysis.cpp"
-optics_script="UTILS_CAFE/online_scripts/plotOptics.C"
+#optics_script="UTILS_CAFE/online_scripts/plotOptics.C"
+optics_script="UTILS_CAFE/online_scripts/plotOptics_modified.C"   # modified by Dien Nguyen
 
 # cafe fill run list script
 fill_list_script="UTILS_CAFE/online_scripts/fill_cafe_runlist.py"

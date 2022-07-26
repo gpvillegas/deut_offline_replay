@@ -3978,8 +3978,9 @@ void baseAnalyzer::MakePlots()
   string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
   cout << cmd.c_str() << endl;
 
-  gSystem->Exec(cmd.c_str());
-  
+  if(analysis_cut!="optics"){
+    gSystem->Exec(cmd.c_str());
+  }
   
 }
 
