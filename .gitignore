@@ -11,6 +11,8 @@
 .nfs*
 *.root
 
+!runplan/*.pdf
+
 # Directories
 RAID
 REPORT_OUTPUT
