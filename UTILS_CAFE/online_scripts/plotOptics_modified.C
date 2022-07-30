@@ -19,11 +19,11 @@ void plotOptics_modified(int runNUM = -1, int evtNUM = 0, TString ana_type = "")
 
   // here's the cut
   TCut cut =
-      "P.gtr.dp<20&&P.gtr.dp>-15&&P.cal.etracknorm>0.8&&P.ngcer.npeSum>5";
+      "P.gtr.dp<20&&P.cal.etracknorm>0.8&&P.ngcer.npeSum>5";
 
   TCut z_pos = "P.react.z > 5 && P.react.z <10";
   TCut z_neg = "P.react.z > -11 && P.react.z < -6 ";
-  TCut delta_0 = "P.gtr.dp > -15";  // need to set this to > 0% for cafe 
+  TCut delta_0 = "P.gtr.dp > 0";  // need to set this to > 0% for cafe
 
   TCut cutCentral =
       "abs(P.gtr.x+P.gtr.th*253.0)<1&&abs((-0.019*P.gtr.dp+0.00019*P.gtr.dp*P."
