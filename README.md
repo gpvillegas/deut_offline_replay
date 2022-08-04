@@ -74,7 +74,10 @@ $ ./cafe_setup.sh
 # I added specially for CaFe, to faciliate our analysis. To test it, put the following info when 
 # asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: test,  and this will use the specific parameters 
 # at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/test directory.
-$ ./hcana replay_cafe.C 
+$ ./hcana SCRIPTS/COIN/PRODUCTION/replay_cafe.C  
+
+# the script will ask you to enter a specific run number, event number and analysis type to use (please choose 'prod' for production)
+# as this will replay data with all the encessary tree leaf variables you need for lower (i.e., calibration, etc.) and upper-level analysis.
 ```
  
 # How-To Guide for Active Contributors
