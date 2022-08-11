@@ -1,0 +1,64 @@
+"run
+number",start_run,end_run,"kin
+study","beam_on_target
+[sec]","evts
+replayed","beam
+energy
+[GeV]",target,"target
+mass
+[amu]","HMS_P
+[GeV/c]","HMS_Angle
+[deg]","SHMS_P
+[GeV/c]","SHMS_Angle
+[deg]","BCM4A
+thrs
+[uA]","BCM4A
+current
+[uA]","BCM4A
+charge
+[mC]","integrated
+luminosity
+[fb^-1]",lumiNorm_counts[fb],PS1,PS2,PS3,PS5,PS6,"T1
+scaler_rates
+[kHz]","T2
+scaler_rates
+[kHz]","T3
+scaler_rates
+[kHz]","T5
+scaler_rates
+[kHz]","T6
+scaler_rates
+[kHz]","T1
+accp_rates
+[kHz]","T2
+accp_rates
+[kHz]","T3
+accp_rates
+[kHz]","T5
+accp_rates
+[kHz]","T6
+accp_rates
+[kHz]",T1_tLT,T2_tLT,T3_tLT,T5_tLT,T6_tLT,"HMS
+TrkEff","SHMS
+TrkEff","heep_singles
+counts","heep_singles
+rates [Hz]","heep_coin
+counts","heep_coin
+rates [Hz]","MF_real
+counts","MF_real
+rates [Hz]","SRC_real
+counts","SRC_real
+rates [Hz]",simc_counts_goal,"simc_charge_goal
+[mC]","simc_integrated
+luminosity
+[fb^-1]",simc_lumiNorm_counts[fb],Comments
+16024,            2022-08-08 17:27:39,           2022-08-08 17:41:46,           optics,         800.817,          552877,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    6.800,        >5.00,        43.284,         34.662,          nan,                  nan ,-1,17,-1,-1,-1,8.712,6.272,0.605,0.000,0.000,0.372,0.371,0.310,0.000,0.000,nan,17.002,nan,nan,nan,nan,0.999,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,
+16025,            2022-08-08 17:43:06,           2022-08-08 17:54:00,           optics,         617.796,          1079400,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    6.800,        >5.00,        47.757,         29.504,          nan,                  nan ,-1,5,-1,-1,-1,9.640,6.943,0.667,0.000,0.000,1.395,1.394,0.343,0.000,0.000,nan,5.017,nan,nan,nan,nan,0.998,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics__-8cm_
+16028,            2022-08-08 18:39:08,           2022-08-08 18:50:56,           heep_singles,         684.006,          2416281,       10.5494,     LH2,        1.007940,      5.5870,   -12.500,       8.5500,    7.495,        >5.00,        14.819,         10.136,          27.332,                  2111.8100 ,-1,65,-1,-1,-1,233.413,193.664,15.227,0.178,0.224,3.002,2.979,0.701,0.013,0.013,nan,4.756,nan,nan,nan,nan,0.992,57720.00,84.385,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,elastic_singles_
+16029,            2022-08-08 18:59:42,           2022-08-08 19:15:20,           optics,         938.082,          2420275,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    7.495,        >5.00,        49.362,         46.306,          nan,                  nan ,-1,2,-1,-1,-1,5.921,4.140,0.688,0.000,0.000,2.062,2.062,0.352,0.000,0.000,nan,1.993,nan,nan,nan,nan,0.999,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics__-8cm_7p5_deg
+16031,            2022-08-08 19:26:04,           2022-08-08 19:35:12,           optics,         527.845,          1275555,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    7.495,        >5.00,        71.935,         37.971,          nan,                  nan ,-1,9,-1,-1,-1,17.780,12.361,2.043,0.001,0.002,1.391,1.385,1.034,0.001,0.001,nan,8.992,nan,nan,nan,nan,0.998,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics_C0p5_perc_at_7p5_deg
+16033,            2022-08-08 19:41:30,           2022-08-08 19:53:25,           optics,         667.505,          1548188,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    8.295,        >5.00,        69.235,         46.215,          nan,                  nan ,-1,5,-1,-1,-1,9.852,6.557,1.973,0.001,0.001,1.320,1.317,0.997,0.001,0.001,nan,4.997,nan,nan,nan,nan,0.998,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics_C0p5_perc_8p3deg
+16034,            2022-08-08 19:59:17,           2022-08-08 20:12:17,           optics,         634.282,          1613916,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    8.295,        >5.00,        47.774,         30.302,          nan,                  nan ,-1,1,-1,-1,-1,3.284,2.205,0.664,-0.000,0.000,2.187,2.187,0.337,0.000,0.000,nan,0.987,nan,nan,nan,nan,0.999,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics_C__-8cm_8p3deg
+16035,            2022-08-08 20:12:53,           2022-08-08 20:24:21,           optics,         684.813,          1726445,       10.5494,     C12_optics,        12.010700,      5.5870,   -12.500,       8.5500,    8.295,        >5.00,        47.430,         32.480,          nan,                  nan ,-1,1,-1,-1,-1,3.282,2.200,0.664,0.000,0.000,2.176,2.176,0.337,0.000,0.000,nan,0.992,nan,nan,nan,nan,0.999,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,optics_C__-8_cm_8p3deg
+16036,            2022-08-08 20:31:48,           2022-08-08 20:46:59,           heep_singles,         845.635,          2549066,       10.5494,     LH2,        1.007940,      5.5870,   -12.500,       8.5500,    8.295,        >5.00,        19.695,         16.655,          44.909,                  919.5490 ,-1,65,-1,-1,-1,177.407,143.108,20.307,0.183,0.230,2.286,2.259,0.927,0.013,0.013,nan,4.990,nan,nan,nan,nan,0.993,41296.00,48.834,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,elastics_singles_HV_ON
+16037,            2022-08-08 20:51:25,           2022-08-08 21:04:41,           heep_singles,         444.155,          1570400,       10.5494,     LH2,        1.007940,      5.5870,   -12.500,       8.5500,    8.295,        >5.00,        17.610,         7.822,          21.091,                  2804.5770 ,-1,17,-1,-1,-1,85.513,67.214,9.638,0.044,0.058,3.525,3.525,0.040,0.002,0.003,nan,0.968,nan,nan,nan,nan,0.993,59151.00,133.177,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,elastics_singles_HV_OFF

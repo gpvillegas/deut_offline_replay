@@ -148,7 +148,7 @@ c_hyptar_max = 0.035
 
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
-c_edelta_min = -10.
+c_edelta_min = 0.
 c_edelta_max = 22.
 
 # electron out-of-plane angular range, xptar [rad]

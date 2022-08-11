@@ -19,7 +19,7 @@ void plotOptics_modified(int runNUM = -1, int evtNUM = 0, TString ana_type = "")
 
   // here's the cut
   TCut cut =
-      "P.gtr.dp<20&&P.cal.etracknorm>0.8&&P.ngcer.npeSum>5";
+      "P.gtr.dp > 0 && P.gtr.dp<20&&P.cal.etracknorm>0.8&&P.ngcer.npeSum>5";
 
   TCut z_pos = "P.react.z > 5 && P.react.z <10";
   TCut z_neg = "P.react.z > -11 && P.react.z < -6 ";
@@ -39,7 +39,7 @@ void plotOptics_modified(int runNUM = -1, int evtNUM = 0, TString ana_type = "")
   canvas->SetFrameBorderMode(0);
 
   gROOT->SetBatch(false);
-  gStyle->SetOptStat(0);
+ //  gStyle->SetOptStat(0);
   canvas->SetGridx();
   canvas->SetGridy();
 
