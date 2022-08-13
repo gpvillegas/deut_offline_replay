@@ -107,6 +107,10 @@ bcm_thrs=0
 bcm_current=0
 bcm_charge=0
 
+# luminosity-normalized real counts (Counts / integrated_luminosity)
+integrated_luminosity=np.nan
+lumiNorm_counts = np.nan
+
 # good events counts (initialize to NaN for ease of use with python later on)
 heep_singles      = np.nan
 heep_singles_rate = np.nan
@@ -117,9 +121,7 @@ MF_real_rate      = np.nan
 SRC_real          = np.nan
 SRC_real_rate     = np.nan
 
-# luminosity-normalized real counts (Counts / integrated_luminosity)
-integrated_luminosity=np.nan
-lumiNorm_counts = np.nan
+
 
 # trigger info (only enabled triggers, i.e PS# != -1 will be written to kin file)
 PS1=-1    # SHMS 3/4
