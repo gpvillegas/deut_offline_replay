@@ -3060,8 +3060,9 @@ void baseAnalyzer::ApplyWeight()
   //FullWeight = 1. / (total_charge_bcm_cut * hTrkEff * pTrkEff * tLT_trig * tgtBoil_corr * hadAbs_corr);
 
   //For testing purposes and online experiment production (do not scale by charge or det. inefficieny)
-  FullWeight = 1.; // / total_charge_bcm_cut;
+  //FullWeight = 1.; // / total_charge_bcm_cut;
 
+  FullWeight = Ps_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
 
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
   
@@ -3318,9 +3319,10 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("heep_total_singles_counts  : %.3f ", W_total) << endl;
 	out_file << Form("heep_total_singles_rate [Hz]  : %.3f ", W_total_rate) << endl;
 	out_file << "" << endl;
-	out_file << Form("simc_heep_kin0_rates (shms=8.3 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin0_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
-	out_file << Form("simc_heep_kin1_rates (shms=7.5 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin1_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
-	out_file << Form("simc_heep_kin2_rates (shms=6.8 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin2_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;
+	// check if shms angle is within 0.1 deg of nominal
+	if(abs(8.3-shms_angle)<0.1) { out_file << Form("simc_heep_kin0_rates (shms=8.3 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin0_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;}
+	if(abs(7.5-shms_angle)<0.1) { out_file << Form("simc_heep_kin1_rates (shms=7.5 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin1_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;}
+	if(abs(6.8-shms_angle)<0.1) { out_file << Form("simc_heep_kin2_rates (shms=6.8 deg) [Hz] x (%.1f uA/%.1f uA) : %.3f ", avg_current_bcm_cut, heep_Ib_simc,  heep_kin2_rates * (avg_current_bcm_cut/heep_Ib_simc) ) << endl;}
 	out_file << "" << endl;
 	out_file << Form("data_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("data_lumi")) << endl;
 	out_file << Form("data_lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity("data_lumi") ) << endl;
@@ -3328,23 +3330,25 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
-	out_file << Form("simc_heep_kin0_counts_goal        : %.1f", heep_kin0_counts  ) << endl;
-	out_file << Form("simc_heep_kin1_counts_goal        : %.1f", heep_kin1_counts  ) << endl;
-	out_file << Form("simc_heep_kin2_counts_goal        : %.1f", heep_kin2_counts  ) << endl;
 	out_file << "" << endl;
-	out_file << Form("simc_heep_kin0_charge_goal [mC]   : %.3f", heep_kin0_charge ) << endl;
-	out_file << Form("simc_heep_kin1_charge_goal [mC]   : %.3f", heep_kin1_charge ) << endl;
-	out_file << Form("simc_heep_kin2_charge_goal [mC]   : %.3f", heep_kin2_charge ) << endl;
-	out_file << "" << endl;
-	out_file << Form("simc_heep_kin0_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin0")) << endl;
-	out_file << Form("simc_heep_kin1_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin1")) << endl;
-	out_file << Form("simc_heep_kin2_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin2")) << endl;
-	out_file << "" << endl;
-	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
-	out_file << Form("simc_heep_kin1_lumiNorm_counts [fb]: %.4f", heep_kin1_counts/GetLuminosity("heep_kin1") ) << endl;
-	out_file << Form("simc_heep_kin2_lumiNorm_counts [fb]: %.4f", heep_kin2_counts/GetLuminosity("heep_kin2") ) << endl;
-	out_file << "                                     " << endl;
-
+	if(abs(8.3-shms_angle)<0.1) { 
+	  out_file << Form("simc_counts_goal        : %.1f", heep_kin0_counts  ) << endl;
+	  out_file << Form("simc_charge_goal [mC]   : %.3f", heep_kin0_charge ) << endl;
+	  out_file << Form("simc_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin0")) << endl;
+	  out_file << Form("simc_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
+	}
+	if(abs(7.5-shms_angle)<0.1) { 
+	  out_file << Form("simc_counts_goal        : %.1f", heep_kin1_counts  ) << endl;
+	  out_file << Form("simc_charge_goal [mC]   : %.3f", heep_kin1_charge ) << endl;
+	  out_file << Form("simc_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin1")) << endl;
+	  out_file << Form("simc_lumiNorm_counts [fb]: %.4f", heep_kin1_counts/GetLuminosity("heep_kin1") ) << endl;
+	}
+	if(abs(6.8-shms_angle)<0.1) { 
+	  out_file << Form("simc_counts_goal        : %.1f", heep_kin2_counts  ) << endl;
+	  out_file << Form("simc_charge_goal [mC]   : %.3f", heep_kin2_charge ) << endl;
+	  out_file << Form("simc_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin2")) << endl;
+	  out_file << Form("simc_lumiNorm_counts [fb]: %.4f", heep_kin2_counts/GetLuminosity("heep_kin2") ) << endl;
+	}
       }
 
     if(analysis_cut=="heep_coin")
@@ -3366,10 +3370,10 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
-	out_file << Form("simc_heep_kin0_counts_goal        : %.1f", heep_kin0_counts  ) << endl;
-	out_file << Form("simc_heep_kin0_charge_goal [mC]   : %.3f", heep_kin0_charge ) << endl;
-	out_file << Form("simc_heep_kin0_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin0")) << endl;
-	out_file << Form("simc_heep_kin0_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
+	out_file << Form("simc_counts_goal        : %.1f", heep_kin0_counts  ) << endl;
+	out_file << Form("simc_charge_goal [mC]   : %.3f", heep_kin0_charge ) << endl;
+	out_file << Form("simc_integrated_luminosity [fb^-1]: %.4f", GetLuminosity("heep_kin0")) << endl;
+	out_file << Form("simc_lumiNorm_counts [fb]: %.4f", heep_kin0_counts/GetLuminosity("heep_kin0") ) << endl;
 	out_file << "                                     " << endl;
       }
     
