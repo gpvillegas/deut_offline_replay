@@ -68,7 +68,7 @@ elif [ "${ana_type}" = "prod" ]; then
     echo ""
     echo "full event replay."
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
-    evtNum=-1
+    evtNum=20000
 fi
 
 daq_mode="coin"
@@ -77,7 +77,7 @@ analyze_data=1   # 1: true (analyze data), 0: false (analyze simc)
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5           # beam current threhsold cut > bcm_thrs [uA]
-trig_type="trig6"
+trig_type="trig2"
 combine_runs=0
 
 # hcana script

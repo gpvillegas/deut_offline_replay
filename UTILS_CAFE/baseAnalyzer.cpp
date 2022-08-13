@@ -2875,6 +2875,14 @@ void baseAnalyzer::CalcEff()
   TRIG6scalerRate_bcm_cut = TRIG6scalerRate_bcm_cut / 1000.;
   EDTMscalerRate_bcm_cut  = EDTMscalerRate_bcm_cut  / 1000.;
 
+  //Apply Pre-scale factor to accepted triggers (to make comparisons with scaler triggers)
+  total_trig1_accp_bcm_cut = total_trig1_accp_bcm_cut * Ps1_factor;
+  total_trig2_accp_bcm_cut = total_trig2_accp_bcm_cut * Ps2_factor;  
+  total_trig3_accp_bcm_cut = total_trig3_accp_bcm_cut * Ps3_factor;  
+  total_trig4_accp_bcm_cut = total_trig4_accp_bcm_cut * Ps4_factor;  
+  total_trig5_accp_bcm_cut = total_trig5_accp_bcm_cut * Ps5_factor;  
+  total_trig6_accp_bcm_cut = total_trig6_accp_bcm_cut * Ps6_factor;  
+
   //Calculate Accepted Trigger/EDTM Rates in kHz
   TRIG1accpRate_bcm_cut = (total_trig1_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
   TRIG2accpRate_bcm_cut = (total_trig2_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
@@ -2886,12 +2894,12 @@ void baseAnalyzer::CalcEff()
   
   //Calculate Pure Computer Live Time (numerator->accepted tdc trig requires NO EDTM :: denominator -> EDTM has already been subtracted from scaler counts)
   //Pre-Scale factor has been accounted 
-  cpuLT_trig1 = total_trig1_accp_bcm_cut / (total_trig1_scaler_bcm_cut / Ps1_factor);
-  cpuLT_trig2 = total_trig2_accp_bcm_cut / (total_trig2_scaler_bcm_cut / Ps2_factor);
-  cpuLT_trig3 = total_trig3_accp_bcm_cut / (total_trig3_scaler_bcm_cut / Ps3_factor);
-  cpuLT_trig4 = total_trig4_accp_bcm_cut / (total_trig4_scaler_bcm_cut / Ps4_factor);
-  cpuLT_trig5 = total_trig5_accp_bcm_cut / (total_trig5_scaler_bcm_cut / Ps5_factor);
-  cpuLT_trig6 = total_trig6_accp_bcm_cut / (total_trig6_scaler_bcm_cut / Ps6_factor);
+  cpuLT_trig1 = total_trig1_accp_bcm_cut / (total_trig1_scaler_bcm_cut);
+  cpuLT_trig2 = total_trig2_accp_bcm_cut / (total_trig2_scaler_bcm_cut);
+  cpuLT_trig3 = total_trig3_accp_bcm_cut / (total_trig3_scaler_bcm_cut);
+  cpuLT_trig4 = total_trig4_accp_bcm_cut / (total_trig4_scaler_bcm_cut);
+  cpuLT_trig5 = total_trig5_accp_bcm_cut / (total_trig5_scaler_bcm_cut);
+  cpuLT_trig6 = total_trig6_accp_bcm_cut / (total_trig6_scaler_bcm_cut);
 
   //Calculate Computer Live Time Error (Use Binomial Statistics Error formula: err^2 = N * P * (1-P), where S->total counts (or trials), and P->probability of success : accepted_triggers  / scalers 
   cpuLT_trig1_err_Bi = sqrt( total_trig1_accp_bcm_cut * (1. - (total_trig1_accp_bcm_cut )/total_trig1_scaler_bcm_cut ) ) * Ps1_factor / total_trig1_scaler_bcm_cut;
