@@ -3068,10 +3068,14 @@ void baseAnalyzer::ApplyWeight()
   //FullWeight = 1. / (total_charge_bcm_cut * hTrkEff * pTrkEff * tLT_trig * tgtBoil_corr * hadAbs_corr);
 
   //For testing purposes and online experiment production (do not scale by charge or det. inefficieny)
-  //FullWeight = 1.; // / total_charge_bcm_cut;
+  FullWeight = 1.; // / total_charge_bcm_cut;
 
-  FullWeight = Ps_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
-
+  if(analysis_cut=="heep_singles"){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
+    FullWeight = Ps2_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
+  }
+  else{ // else use pre-scale factor determined from trig_type input parameter
+    FullWeight = Ps_factor; 
+  }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
   
   //----SCALE HISTOGRAMS BY LOOPING OVER LISTS----
