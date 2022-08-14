@@ -293,19 +293,19 @@ MandelU_xmax = 10.
 #---------------------------------
 exfp_nbins = 100
 exfp_xmin = -15.
-exfp_xmax = 15.
+exfp_xmax = 25.
 
 expfp_nbins = 100
 expfp_xmin = -0.15
 expfp_xmax = 0.15
   
 eyfp_nbins = 100
-eyfp_xmin = -15.
+eyfp_xmin = -25.
 eyfp_xmax = 15.
 
 eypfp_nbins = 100
-eypfp_xmin = -0.15
-eypfp_xmax = 0.15
+eypfp_xmin = -0.06
+eypfp_xmax = 0.06
 
 #-----------------------------------
 #----Electron Arm Reconstructed-----
@@ -377,8 +377,8 @@ tary_xmin = -0.5
 tary_xmax = 0.5
 
 tarz_nbins = 100
-tarz_xmin = -10.
-tarz_xmax = 10.
+tarz_xmin = -15.
+tarz_xmax = 15.
 
 ztar_diff_nbins = 100
 ztar_diff_xmin = -10.

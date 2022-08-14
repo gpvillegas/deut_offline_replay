@@ -2494,9 +2494,15 @@ void baseAnalyzer::EventLoop()
 	    {
 	      
 	      //cout << "passed BCM Cut !" << endl;
+	      bool event_type_cut = false;
 	      
+	      if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
+		event_type_cut = (gevtyp==1);  // use this to calculate live time for shms singles events only                               
+              }
+	      else if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
+		event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
 	      //Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
-	      if(c_edtm){ total_edtm_accp_bcm_cut++;}
+	      if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
 	      
 	      //Count Accepted TRIG1-6 events (without EDTM and with bcm current cut: to be used in the computer live time calculation)
 	      if(c_trig1 && c_noedtm) { total_trig1_accp_bcm_cut++; }
@@ -2505,8 +2511,8 @@ void baseAnalyzer::EventLoop()
 	      if(c_trig4 && c_noedtm) { total_trig4_accp_bcm_cut++; }
 	      if(c_trig5 && c_noedtm) { total_trig5_accp_bcm_cut++; }
 	      if(c_trig6 && c_noedtm) { total_trig6_accp_bcm_cut++; }
-
 	      
+
 	      //REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS
 	      if(c_noedtm)
 		{
@@ -2875,14 +2881,14 @@ void baseAnalyzer::CalcEff()
   TRIG6scalerRate_bcm_cut = TRIG6scalerRate_bcm_cut / 1000.;
   EDTMscalerRate_bcm_cut  = EDTMscalerRate_bcm_cut  / 1000.;
 
-  //Apply Pre-scale factor to accepted triggers (to make comparisons with scaler triggers)
+  /*---- Apply Pre-scale factor to accepted triggers (to make comparisons with scaler triggers)
   total_trig1_accp_bcm_cut = total_trig1_accp_bcm_cut * Ps1_factor;
   total_trig2_accp_bcm_cut = total_trig2_accp_bcm_cut * Ps2_factor;  
   total_trig3_accp_bcm_cut = total_trig3_accp_bcm_cut * Ps3_factor;  
   total_trig4_accp_bcm_cut = total_trig4_accp_bcm_cut * Ps4_factor;  
   total_trig5_accp_bcm_cut = total_trig5_accp_bcm_cut * Ps5_factor;  
   total_trig6_accp_bcm_cut = total_trig6_accp_bcm_cut * Ps6_factor;  
-
+  */
   //Calculate Accepted Trigger/EDTM Rates in kHz
   TRIG1accpRate_bcm_cut = (total_trig1_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
   TRIG2accpRate_bcm_cut = (total_trig2_accp_bcm_cut / total_time_bcm_cut ) / 1000.;
@@ -2894,12 +2900,12 @@ void baseAnalyzer::CalcEff()
   
   //Calculate Pure Computer Live Time (numerator->accepted tdc trig requires NO EDTM :: denominator -> EDTM has already been subtracted from scaler counts)
   //Pre-Scale factor has been accounted 
-  cpuLT_trig1 = total_trig1_accp_bcm_cut / (total_trig1_scaler_bcm_cut);
-  cpuLT_trig2 = total_trig2_accp_bcm_cut / (total_trig2_scaler_bcm_cut);
-  cpuLT_trig3 = total_trig3_accp_bcm_cut / (total_trig3_scaler_bcm_cut);
-  cpuLT_trig4 = total_trig4_accp_bcm_cut / (total_trig4_scaler_bcm_cut);
-  cpuLT_trig5 = total_trig5_accp_bcm_cut / (total_trig5_scaler_bcm_cut);
-  cpuLT_trig6 = total_trig6_accp_bcm_cut / (total_trig6_scaler_bcm_cut);
+  cpuLT_trig1 = total_trig1_accp_bcm_cut * Ps1_factor / (total_trig1_scaler_bcm_cut);
+  cpuLT_trig2 = total_trig2_accp_bcm_cut * Ps2_factor / (total_trig2_scaler_bcm_cut);
+  cpuLT_trig3 = total_trig3_accp_bcm_cut * Ps3_factor / (total_trig3_scaler_bcm_cut);
+  cpuLT_trig4 = total_trig4_accp_bcm_cut * Ps4_factor / (total_trig4_scaler_bcm_cut);
+  cpuLT_trig5 = total_trig5_accp_bcm_cut * Ps5_factor / (total_trig5_scaler_bcm_cut);
+  cpuLT_trig6 = total_trig6_accp_bcm_cut * Ps6_factor / (total_trig6_scaler_bcm_cut);
 
   //Calculate Computer Live Time Error (Use Binomial Statistics Error formula: err^2 = N * P * (1-P), where S->total counts (or trials), and P->probability of success : accepted_triggers  / scalers 
   cpuLT_trig1_err_Bi = sqrt( total_trig1_accp_bcm_cut * (1. - (total_trig1_accp_bcm_cut )/total_trig1_scaler_bcm_cut ) ) * Ps1_factor / total_trig1_scaler_bcm_cut;
@@ -3471,7 +3477,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
     out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
     out_file << "                                     " << endl;
-    out_file << "# accepted triggers           " << endl;
+    out_file << "# accepted triggers (pre-scaled)     " << endl;
     out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
     out_file << Form("T2_accepted: %.3f [ %.3f kHz ]  ", total_trig2_accp_bcm_cut,    TRIG2accpRate_bcm_cut) << endl;
     out_file << Form("T3_accepted: %.3f [ %.3f kHz ]  ", total_trig3_accp_bcm_cut,    TRIG3accpRate_bcm_cut) << endl;

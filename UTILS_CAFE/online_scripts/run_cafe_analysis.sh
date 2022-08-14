@@ -68,7 +68,7 @@ elif [ "${ana_type}" = "prod" ]; then
     echo ""
     echo "full event replay."
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
-    evtNum=20000
+    evtNum=100000
 fi
 
 daq_mode="coin"
