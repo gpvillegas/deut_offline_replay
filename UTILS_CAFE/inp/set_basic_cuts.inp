@@ -105,8 +105,8 @@ ePctime_cut_max_L = -10.0
 
 # (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
 petot_trkNorm_pidCut_flag = 1
-cpid_petot_trkNorm_min = 0.7
-cpid_petot_trkNorm_max = 5.
+cpid_petot_trkNorm_min = 0.8
+cpid_petot_trkNorm_max = 1.3
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
 pngcer_pidCut_flag = 1
@@ -137,17 +137,17 @@ c_hdelta_min = -10.
 c_hdelta_max = 10.
 
 # hadron out-of-plane angular range, xptar [rad]
-hxptar_cut_flag = 0
+hxptar_cut_flag = 1
 c_hxptar_min = -0.06
 c_hxptar_max = 0.06
 
 # hadron in-plane angular range, yptar [rad]
-hyptar_cut_flag = 0
+hyptar_cut_flag = 1
 c_hyptar_min = -0.035
 c_hyptar_max = 0.035
 
 # HMS colliamtor cut (can be used as alternative to xptar,yptar cuts)
-hmsCollCut_flag = 1
+hmsCollCut_flag = 0
 
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
@@ -155,17 +155,17 @@ c_edelta_min = 0.
 c_edelta_max = 22.
 
 # electron out-of-plane angular range, xptar [rad]
-exptar_cut_flag = 0
+exptar_cut_flag = 1
 c_exptar_min = -0.04
 c_exptar_max = 0.04
 
 # electron in-plane angular range, yptar [rad]
-eyptar_cut_flag = 0
+eyptar_cut_flag = 1
 c_eyptar_min = -0.024
 c_eyptar_max = 0.024
 
 # SHMS colliamtor cut (can be used as alternative to xptar,yptar cuts)
-shmsCollCut_flag = 1
+shmsCollCut_flag = 0
 
 # Z-Reaction Vertex Difference, [cm]
 ztarDiff_cut_flag = 0

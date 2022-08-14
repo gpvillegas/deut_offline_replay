@@ -2511,7 +2511,7 @@ void baseAnalyzer::EventLoop()
 	      bool event_type_cut = false;
 	      
 	      if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
-		event_type_cut = (gevtyp==1);  // use this to calculate live time for shms singles events only                               
+		event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
               }
 	      else if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
 		event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
@@ -3138,7 +3138,7 @@ void baseAnalyzer::ApplyWeight()
   //For testing purposes and online experiment production (do not scale by charge or det. inefficieny)
   FullWeight = 1.; // / total_charge_bcm_cut;
 
-  if(analysis_cut=="heep_singles"){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
+  if((analysis_cut=="heep_singles") || (analysis_cut=="optics") || (analysis_cut=="lumi") || (analysis_cut=="bcm_calib")){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
     FullWeight = Ps2_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
   }
   else{ // else use pre-scale factor determined from trig_type input parameter
@@ -3532,12 +3532,14 @@ void baseAnalyzer::WriteReport()
     out_file << Form("Ps6_factor: %.1f", Ps6_factor) << endl;
     out_file << "                                     " << endl;
     out_file << "# pre-trigger scalers                 " << endl;
+    out_file << Form("S1X_scaler:  %.3f [ %.3f kHz ] ", total_s1x_scaler_bcm_cut,    S1XscalerRate_bcm_cut) << endl; 
     out_file << Form("T1_scaler:  %.3f [ %.3f kHz ] ",  total_trig1_scaler_bcm_cut,  TRIG1scalerRate_bcm_cut) << endl;
     out_file << Form("T2_scaler:  %.3f [ %.3f kHz ] ",  total_trig2_scaler_bcm_cut,  TRIG2scalerRate_bcm_cut) << endl;
     out_file << Form("T3_scaler:  %.3f [ %.3f kHz ] ",  total_trig3_scaler_bcm_cut,  TRIG3scalerRate_bcm_cut) << endl;
     out_file << Form("T4_scaler:  %.3f [ %.3f kHz ] ",  total_trig4_scaler_bcm_cut,  TRIG4scalerRate_bcm_cut) << endl;
     out_file << Form("T5_scaler:  %.3f [ %.3f kHz ] ",  total_trig5_scaler_bcm_cut,  TRIG5scalerRate_bcm_cut) << endl;
     out_file << Form("T6_scaler:  %.3f [ %.3f kHz ] ",  total_trig6_scaler_bcm_cut,  TRIG6scalerRate_bcm_cut) << endl;
+    
     out_file << "                                     " << endl;
     out_file << "# accepted triggers (pre-scaled)     " << endl;
     out_file << Form("T1_accepted: %.3f [ %.3f kHz ]  ", total_trig1_accp_bcm_cut,    TRIG1accpRate_bcm_cut) << endl;
