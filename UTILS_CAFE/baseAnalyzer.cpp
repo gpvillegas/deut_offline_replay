@@ -793,7 +793,8 @@ void baseAnalyzer::ReadInputFile()
   hyptar_cut_flag = stoi(split(FindString("hyptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_hyptar_min = stod(split(FindString("c_hyptar_min", input_CutFileName.Data())[0], '=')[1]);
   c_hyptar_max = stod(split(FindString("c_hyptar_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
+  hmsCollCut_flag = stoi(split(FindString("hmsCollCut_flag", input_CutFileName.Data())[0], '=')[1]);
   
   //Electron Arm
   edelta_cut_flag = stoi(split(FindString("edelta_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -807,7 +808,9 @@ void baseAnalyzer::ReadInputFile()
   eyptar_cut_flag = stoi(split(FindString("eyptar_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_eyptar_min = stod(split(FindString("c_eyptar_min", input_CutFileName.Data())[0], '=')[1]);
   c_eyptar_max = stod(split(FindString("c_eyptar_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
+  shmsCollCut_flag = stoi(split(FindString("shmsCollCut_flag", input_CutFileName.Data())[0], '=')[1]);
+
   // Z-Reaction Vertex Difference Cut
   ztarDiff_cut_flag = stoi(split(FindString("ztarDiff_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_ztarDiff_min = stod(split(FindString("c_ztarDiff_min", input_CutFileName.Data())[0], '=')[1]);
@@ -2146,6 +2149,9 @@ void baseAnalyzer::EventLoop()
 {
   gROOT->SetBatch(1);
   cout << "Calling Base EventLoop() . . . " << endl;
+
+  //Call Method to Set Collimator Graphical Cuts (In case it is used)
+  CollimatorStudy();
   
   //Loop over Events
   
@@ -2341,7 +2347,11 @@ void baseAnalyzer::EventLoop()
 	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
 	  else{c_hyptar=1;}
 
-	  c_accpCuts_hms = c_hdelta && c_hxptar && c_hyptar;
+	  //Collimator CUTS
+	  if(hmsCollCut_flag)  { hmsColl_Cut =  hms_Coll_gCut->IsInside(hYColl, hXColl);}
+	  else{hmsColl_Cut=1;}
+	  
+	  c_accpCuts_hms = c_hdelta && c_hxptar && c_hyptar && hmsColl_Cut;
 	  
 	  // electron arm
 	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
@@ -2353,7 +2363,11 @@ void baseAnalyzer::EventLoop()
 	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
 	  else{c_eyptar=1;}
 
-	  c_accpCuts_shms = c_edelta && c_exptar && c_eyptar;
+	  //Collimator Cuts
+	  if(shmsCollCut_flag) { shmsColl_Cut =  shms_Coll_gCut->IsInside(eYColl, eXColl);}
+	  else{shmsColl_Cut=1;}
+	  
+	  c_accpCuts_shms = c_edelta && c_exptar && c_eyptar && shmsColl_Cut;
   
 	  // z-reaction vertex difference
 	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
@@ -2857,7 +2871,55 @@ void baseAnalyzer::RandSub()
   
 }
 
+//_________________________________________________________
+void baseAnalyzer::CollimatorStudy()
+{
 
+  //Method to study various collimator cuts on the H(e,e'p) and D(e,e'p)n  Yield across Ytar, Y'tar, X'tar and delta
+
+  cout << "Calling CollimatorStudy() . . . " << endl;
+  
+  //Scaling the HMS/SHMS Collimator Cuts
+  hms_hsize = hms_scale*hms_hsize;  //The scale factor is read from set_heep_cuts.inp
+  hms_vsize = hms_scale*hms_vsize;
+  
+  shms_hsize = shms_scale*shms_hsize;
+  shms_vsize = shms_scale*shms_vsize;  
+
+  //Define HMS Collimator Shape
+  hms_Coll_gCut = new TCutG("hmsCollCut", 8 );
+  hms_Coll_gCut->SetVarX("X");
+  hms_Coll_gCut->SetVarY("Y");
+ 
+  hms_Coll_gCut->SetPoint(0,  hms_hsize,     hms_vsize/2.);
+  hms_Coll_gCut->SetPoint(1,  hms_hsize/2.,  hms_vsize   );
+  hms_Coll_gCut->SetPoint(2, -hms_hsize/2.,  hms_vsize   );
+  hms_Coll_gCut->SetPoint(3, -hms_hsize,     hms_vsize/2.);
+  hms_Coll_gCut->SetPoint(4, -hms_hsize,    -hms_vsize/2.);
+  hms_Coll_gCut->SetPoint(5, -hms_hsize/2., -hms_vsize   );
+  hms_Coll_gCut->SetPoint(6,  hms_hsize/2., -hms_vsize   );
+  hms_Coll_gCut->SetPoint(7,  hms_hsize,    -hms_vsize/2.);
+  hms_Coll_gCut->SetPoint(8,  hms_hsize,     hms_vsize/2.);
+
+  //Define SHMS Collimator Shape
+  shms_Coll_gCut = new TCutG("shmsCollCut", 8 );
+  shms_Coll_gCut->SetVarX("X");
+  shms_Coll_gCut->SetVarY("Y");
+ 
+  shms_Coll_gCut->SetPoint(0,  shms_hsize,     shms_vsize/2.);
+  shms_Coll_gCut->SetPoint(1,  shms_hsize/2.,  shms_vsize   );
+  shms_Coll_gCut->SetPoint(2, -shms_hsize/2.,  shms_vsize   );
+  shms_Coll_gCut->SetPoint(3, -shms_hsize,     shms_vsize/2.);
+  shms_Coll_gCut->SetPoint(4, -shms_hsize,    -shms_vsize/2.);
+  shms_Coll_gCut->SetPoint(5, -shms_hsize/2., -shms_vsize   );
+  shms_Coll_gCut->SetPoint(6,  shms_hsize/2., -shms_vsize   );
+  shms_Coll_gCut->SetPoint(7,  shms_hsize,    -shms_vsize/2.);
+  shms_Coll_gCut->SetPoint(8,  shms_hsize,     shms_vsize/2.);
+
+  cout << "Ending CollimatorStudy() . . . " << endl;
+
+
+}
 //_______________________________________________________________________________
 void baseAnalyzer::CalcEff()
 {
@@ -3562,13 +3624,24 @@ void baseAnalyzer::WriteReport()
 	 if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance (H.gtr.dp): (%.3f, %.3f) [%%]",  c_hdelta_min, c_hdelta_max ) << endl;}
 	 if(hxptar_cut_flag)        {out_file << Form("# HMS Out-of-Plane (xptar) Angular Acceptance (H.gtr.th): (%.3f, %.3f) [radians]",  c_hxptar_min, c_hxptar_max ) << endl;}
 	 if(hyptar_cut_flag)        {out_file << Form("# HMS In-Plane (yptar) Angular Acceptance (H.gtr.ph): (%.3f, %.3f) [radians]",  c_hyptar_min, c_hyptar_max ) << endl;}
+	 if(hmsCollCut_flag)        {out_file << "# HMS Collimator Cut: ON " << endl;}
+	 
+	 if(edelta_cut_flag)        {out_file << Form("# SHMS Momentum Acceptance (P.gtr.dp): (%.3f, %.3f) [%%]", c_edelta_min, c_edelta_max ) << endl;}
+	 if(exptar_cut_flag)        {out_file << Form("# SHMS Out-of-Plane (xptar) Angular Acceptance (P.gtr.th): (%.3f, %.3f) [radians]",  c_exptar_min, c_exptar_max ) << endl;}
+	 if(eyptar_cut_flag)        {out_file << Form("# SHMS In-Plane (yptar) Angular Acceptance (P.gtr.ph): (%.3f, %.3f) [radians]",  c_eyptar_min, c_eyptar_max ) << endl;}
+	 if(shmsCollCut_flag)       {out_file << "# SHMS Collimator Cut: ON " << endl;}
+	
+	 if(ztarDiff_cut_flag)      {out_file << Form("# Z-Reaction Vertex Difference (H.react.z-P.react.z): (%.3f, %.3f) [cm]", c_ztarDiff_min, c_ztarDiff_max ) << endl;}
+	
        }
-    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+    if((analysis_cut=="heep_singles") || (analysis_cut=="optics")  ||  (analysis_cut=="lumi") )
       {
 	if(edelta_cut_flag)        {out_file << Form("# SHMS Momentum Acceptance (P.gtr.dp): (%.3f, %.3f) [%%]", c_edelta_min, c_edelta_max ) << endl;}
 	if(exptar_cut_flag)        {out_file << Form("# SHMS Out-of-Plane (xptar) Angular Acceptance (P.gtr.th): (%.3f, %.3f) [radians]",  c_exptar_min, c_exptar_max ) << endl;}
 	if(eyptar_cut_flag)        {out_file << Form("# SHMS In-Plane (yptar) Angular Acceptance (P.gtr.ph): (%.3f, %.3f) [radians]",  c_eyptar_min, c_eyptar_max ) << endl;}
-	if(ztarDiff_cut_flag)      {out_file << Form("# Z-Reaction Vertex Difference (H.react.z-P.react.z): (%.3f, %.3f) [cm]", c_ztarDiff_min, c_ztarDiff_max ) << endl;}
+	if(shmsCollCut_flag)       {out_file << "# SHMS Collimator Cut: ON " << endl;}
+
+
       }
     out_file << "#                       " << endl;
     out_file << "#---Particle Identification (PID) Cuts--- " << endl;

@@ -47,6 +47,7 @@ public:
   
   // Helper Functions
   Double_t GetCoinTimePeak();
+  void CollimatorStudy();
   void MakePlots();
   Double_t GetLuminosity(TString user_input="");
 
@@ -1161,6 +1162,32 @@ protected:
   Bool_t c_ztarDiff;
   Double_t c_ztarDiff_min;
   Double_t c_ztarDiff_max;
+
+
+  //-------Collimator Study-------
+  Bool_t hmsCollCut_flag;      //flag to enable/disable collimator cut
+  Bool_t shmsCollCut_flag;
+
+  Bool_t hmsColl_Cut;
+  Bool_t shmsColl_Cut;
+
+  TCutG *hms_Coll_gCut;   //HMS Collimator Graphical Cut
+  TCutG *shms_Coll_gCut;  //SHMS Collimator Graphical Cut
+
+  //HMS Octagonal Collimator Size (Each of the octagonal points is a multiple of 1 or 1/2 of these values)
+  Double_t hms_hsize = 4.575;  //cm
+  Double_t hms_vsize = 11.646;
+ 
+  //SHMS Octagonal Collimator Size (Each of the octagonal points is a multiple of 1 or 1/2 of these values)
+  Double_t shms_hsize = 17.;  //cm
+  Double_t shms_vsize = 25.;
+
+  //Scaling factor to scale collimator cuts from original size cut
+  Double_t hms_scale=1.;   //Default
+  Double_t shms_scale=1.;
+
+  //------------------------------
+
   
   //COMBINE ALL CUTS
   Bool_t c_baseCuts;  //base cuts
