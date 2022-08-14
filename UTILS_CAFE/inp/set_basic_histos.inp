@@ -293,7 +293,7 @@ MandelU_xmax = 10.
 #---------------------------------
 exfp_nbins = 100
 exfp_xmin = -15.
-exfp_xmax = 25.
+exfp_xmax = 40.
 
 expfp_nbins = 100
 expfp_xmin = -0.15
