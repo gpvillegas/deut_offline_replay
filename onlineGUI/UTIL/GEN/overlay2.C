@@ -46,6 +46,8 @@ void overlay2(TString hist1name, TString hist2name, TString label1="", TString l
   double xpos = H1->GetXaxis()->GetBinCenter(H1->GetXaxis()->GetFirst()+4);
   double ypos = 0.95*H1->GetMaximum();
 
+  //Read ref.time cuts for hodo / dc
+
   TText* t1 = new TText(xpos,0.2*ypos,label1);
   t1->SetTextColor(4);
   TText* t2 = new TText(xpos,0.7*ypos,label2);

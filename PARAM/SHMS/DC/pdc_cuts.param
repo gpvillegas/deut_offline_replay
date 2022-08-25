@@ -7,7 +7,7 @@ p_using_tzero_per_wire = 1
 ;pdc_tdc_max_win =  25000,  25000,  25000,  25000,  25000,  25000
 ;                   25000,  25000,  25000,  25000,  25000,  25000
 
-; fall 2022 TDC window limits for each plane. (determined from run 14965, both arm '-' polarity)
+; Init CaFe Fall 2022 TDC window limits for each plane. (determined from CaFe 50k replay run 16026) 
 pdc_tdc_min_win = -12900.0, -12900.0, -12900.0, -12900.0, -12900.0, -12900.0
                   -12900.0, -12900.0, -12900.0, -12900.0, -12900.0, -12900.0
 pdc_tdc_max_win =  -10200.0,  -10200.0,  -10200.0,  -10200.0,  -10200.0,  -10200.0

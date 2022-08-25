@@ -9,6 +9,11 @@ block T.coin.pEDTM*
 #block H.kin.*
 #block H.dc.*_fp*
 #block H.dc.ntrack
+#block H.dc.*.time
+#block H.dc.*.dist
+#block H.dc.*.wirenum
+#block H.dc.*.nhit
+#block H.dc.residual*
 #block H.gtr.beta
 #block H.gtr.p
 #block H.gtr.y
@@ -24,10 +29,16 @@ block T.coin.pEDTM*
 #block H.hod.beta
 #block H.hod.betanotrack
 #block H.hod.goodscinhit
+#block H.hod.*.*Track* 
 
 block P.kin.*
 block P.dc.*_fp*
 block P.dc.ntrack
+block P.dc.*.time
+block P.dc.*.dist
+block P.dc.*.wirenum
+block P.dc.*.nhit
+block P.dc.residual*
 block P.gtr.beta
 block P.gtr.p
 block P.gtr.y
@@ -43,7 +54,7 @@ block P.cal.etracknorm
 block P.hod.beta
 block P.hod.betanotrack
 block P.hod.goodscinhit
-
+block P.hod.*.*Track*
 
 
 
@@ -73,4 +84,5 @@ IPM3H07B.XSOF
 IPM3H07B.YSOF
 IPM3H07C.XSOF
 IPM3H07C.YSOF
+
 end epics

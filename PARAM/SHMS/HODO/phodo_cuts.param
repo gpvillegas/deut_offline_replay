@@ -46,7 +46,7 @@ phodo_tdc_offset = 2000, 2000, 2000, 2000
 phodo_adc_tdc_offset = 200., 200., 200., 200.
 
 
-; SHMS Hodoscope TimeWindow Min/Max Cuts
+; Init SHMS Hodoscope TimeWindow Min/Max Cuts (determined from CaFe 50k replay run 16026)
 
 ; variables = P.hod.(1x, 1y, 2x, 2y).GoodNeg(Pos)AdcTdcDiffTime
 

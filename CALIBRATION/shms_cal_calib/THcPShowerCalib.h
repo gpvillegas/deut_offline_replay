@@ -558,7 +558,7 @@ void THcPShowerCalib::CalcThresholds() {
     //      cout << "CalcThreshods: nev=" << nev << "  Enorm=" << Enorm << endl;
     }
 
-    if (nev > 200000) break;
+    if (nev > 2000000) break;
   };
 
   //Find max bin (peak) and fit in range
@@ -1032,7 +1032,7 @@ void THcPShowerCalib::FillHEcal() {
 
     }
 
-    if (nev > 200000) break;
+    if (nev > 2000000) break;
   };
 
   //  output.close();

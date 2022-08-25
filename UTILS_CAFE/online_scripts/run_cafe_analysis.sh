@@ -57,7 +57,7 @@ if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"    
-    evtNum=100000
+    evtNum=500000
     echo "evtNum=$evtNum"
     echo "" 
 elif [ "${ana_type}" = "prod" ]; then

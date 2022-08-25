@@ -9,16 +9,7 @@
 ; Cut is on reference time per detector.
 
 
-; CaFe 2022 Initial Ref. Times (wide open)
-;pdc_tdcrefcut    =-50000.
-;phodo_tdcrefcut  =-10000.
-;phodo_adcrefcut  =-10000.
-;pngcer_adcrefcut =-10000.
-;phgcer_adcrefcut =-10000.
-;paero_adcrefcut  =-10000.
-;pcal_adcrefcut   =-10000.
-
-; CaFe 2022 Initial Ref. Times (determined from 50k replay of run 14965, both arms set to neg. polarity)
+; CaFe 2022 Initial Ref. Times (determined from 50k replay of run 16026)
 pdc_tdcrefcut    =-14000.
 phodo_tdcrefcut  =-3200.
 phodo_adcrefcut  =-4000.

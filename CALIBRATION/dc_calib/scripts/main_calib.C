@@ -15,22 +15,11 @@ int main_calib()
   //measure execution time
   clock_t cl;
   cl = clock();
-                                                                                                  
-                                                                                                        //pid_elec,  pid_kFALSE (no PID cuts) 
-                                                                                                        // |
-                                                                                                        // v
-  //  DC_calib obj("HMS", "../../../ROOTfiles/hms_replay_production_all_1856_hodtrefcut1000_-1.root", 1856,-1, "pid_elec", "card");
-  //DC_calib obj("SHMS", "../../../ROOTfiles/shms_replay_production_all_2774_-1.root", 2774, -1, "pid_elec"); 
-  //  DC_calib obj("SHMS", "~/abishek/hallc_replay/ROOTfiles/shms_replay_production_all_1791_-1.root", 1791, 10000000, "pid_elec", "card");
-    
-  DC_calib obj("HMS", "../../../ROOTfiles/hms_replay_production_all_2369_500000.root", 2369, 500000, "pid_elec", "card");                                                                                                        
-  //DC_calib obj("SHMS", "../../../ROOTfiles/shms_replay_production_all_7110_500000.root", 7110, 500000, "pid_elec", "card");                                                                                                        
-
-
-    //DC_calib obj("SHMS", "../../../ROOTfiles/shms_replay_production_all_7109_500000.root", 7109, 500000, "pid_elec", "card");                                                                                                        
-
-
-    // DC_calib obj("HMS", "../../../ROOTfiles/hms_coin_replay_production_1866_1000000.root", 1866, 1000, "pid_kFALSE");
+  
+  //template arguments
+  //DC_calib obj("spec", "path/to/rootfile.root", runNUM, eventNUm, "pid_flag", "calib_mode"); pid_flag: "pid_elec" or "pid_kFALSE", calib_mode: "wire" or "card"
+               
+  DC_calib obj("SHMS", "ROOTfiles/cafe_replay_dc_calib_16036_1000000_UnCalib.root", 16036, 1000000, "pid_elec", "card");
   
   obj.setup_Directory();
   obj.SetPlaneNames();

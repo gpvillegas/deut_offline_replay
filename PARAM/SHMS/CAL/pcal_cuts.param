@@ -30,7 +30,7 @@ pcal_arr_PedDefault= 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 
-; fall 2022 startup
+; Init CaFe Fall 2022 startup (determined from CaFe 50k replay run 16026)
 ; varaible = P.cal.pr.goodPos(Neg)AdcTdcDiffTime
 pcal_pos_AdcTimeWindowMin = -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100.
 pcal_neg_AdcTimeWindowMin = -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100.
@@ -48,7 +48,7 @@ pcal_arr_ADCmode = 1
 pcal_arr_adc_tdc_offset = 200.0
 
 ; FADC pulse time window cuts
-; fall 2022 startup
+; Init CaFe Fall 2022 startup (determined from CaFe 50k replay run 16026) 
 ; varaible = P.cal.fly.goodAdcTdcDiffTime
 pcal_arr_AdcTimeWindowMin = -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100.,
 			    -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100., -100.,

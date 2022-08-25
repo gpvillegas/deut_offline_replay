@@ -68,7 +68,7 @@ c_phgcer_npeSum_max = 1.5
 # SHMS Calorimeter Total Energy / Spec. Central Momentum (search "etotnorm" in /hcana/src/THcShower.cxx)
 petotnorm_cut_flag = 1
 c_petotnorm_min = 0.7
-c_petotnorm_max = 1.3
+c_petotnorm_max = 1.1
 
 # SHMS Beta (p/E) Calculated from Scintillator Hits (without using Tracking Info) (search "betanotrack" in /hcana/src/THcHodoscope.cxx)
 pBeta_notrk_cut_flag = 1
@@ -105,8 +105,8 @@ ePctime_cut_max_L = -10.0
 
 # (SHMS PID) Calorimeter Total Energy Normalized By Track Momentum
 petot_trkNorm_pidCut_flag = 1
-cpid_petot_trkNorm_min = 0.8
-cpid_petot_trkNorm_max = 1.3
+cpid_petot_trkNorm_min = 0.6
+cpid_petot_trkNorm_max = 1.2
 
 # (SHMS PID) Noble Gas Cherenkov Total Number of Photo-Electrons
 pngcer_pidCut_flag = 1

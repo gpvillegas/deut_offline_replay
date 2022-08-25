@@ -67,7 +67,7 @@ static const Double_t refAdcPulseTimeCutHigh = 370.0;  // Units of ns
 static const Double_t adcTdcTimeDiffCutLow   = 0.0; // Units of ns
 static const Double_t adcTdcTimeDiffCutHigh  = 100.0;  // Units of ns
 static const Double_t calEtotnormCutVal      = 0.7;    // Units of Normalized energy
-static const Double_t cerNpeSumCutVal        = 0.5;    // Units of NPE in aerogel
+static const Double_t cerNpeSumCutVal        = 0.5;    // Units of NPE 
 // static const Double_t adcTdcTimeDiffCutLow   = -6000.0;  // Units of ns
 // static const Double_t adcTdcTimeDiffCutHigh  = 1000.0;  // Units of ns
 
@@ -270,8 +270,8 @@ void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_
   //C.Y. Dec 21. 2021 | Suggestion: These types of cuts should be placed externaly to let the uset
   // select the appropiate cut based on their experiment
   rawDataTree->SetBranchAddress("P.cal.etracknorm", &calEtotnorm);
-  rawDataTree->SetBranchAddress("P.hgcer.npeSum", &cerNpeSum);
-  //rawDataTree->SetBranchAddress("P.ngcer.npeSum", &cerNpeSum);
+  //rawDataTree->SetBranchAddress("P.hgcer.npeSum", &cerNpeSum);
+  rawDataTree->SetBranchAddress("P.ngcer.npeSum", &cerNpeSum);
 
   rawDataTree->SetBranchAddress("P.hod.1x.nhits", &phod_1xnhits);
   rawDataTree->SetBranchAddress("P.hod.1y.nhits", &phod_1ynhits);
@@ -367,8 +367,8 @@ void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_
   Bool_t good_two_ended_hits_2y;
   
     // Loop over the events and fill histograms
-  nentries = rawDataTree->GetEntries();
-  
+  //nentries = rawDataTree->GetEntries();
+  nentries = 1000000;
   cout << "\n******************************************"    << endl;
   cout << nentries << " Events Will Be Processed"           << endl;
   cout << "******************************************\n"    << endl;
