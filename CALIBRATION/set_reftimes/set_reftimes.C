@@ -838,6 +838,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hT1_Line->SetLineWidth(3);
     hT1_Line->Draw();
     legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
+    legend->Draw();
     
     hms_REF_Canv->cd(2);
     gPad->SetLogy();
@@ -868,13 +869,19 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //SHMS
     shms_REF_Canv = new TCanvas("REF Times", "SHMS REF TIMES",  1500, 500);
     shms_REF_Canv->Divide(3,1);
+
+    phod_trefcut = read_ref_times("SHMS", "phodo_tdcrefcut");
+    pdc_trefcut  = read_ref_times("SHMS", "pdc_tdcrefcut");
+    padc_trefcut = read_ref_times("SHMS", "phodo_adcrefcut");
     
-    pT2_Line = new TLine(phod_trefcut, 0,  phod_trefcut, P_hodo_Tref2->GetMaximum());
-    pDCREF_Line = new TLine(pdc_trefcut, 0,  pdc_trefcut, P_DC_Tref[0]->GetMaximum());
-    pFADC_Line = new TLine(padc_trefcut, 0,  padc_trefcut, P_FADC_Tref->GetMaximum());
+    
+    pT2_Line = new TLine(abs(phod_trefcut), 0,    abs(phod_trefcut), P_hodo_Tref2->GetMaximum());
+    pDCREF_Line = new TLine(abs(pdc_trefcut), 0,  abs(pdc_trefcut), P_DC_Tref[0]->GetMaximum());
+    pFADC_Line = new TLine(abs(padc_trefcut), 0,  abs(padc_trefcut), P_FADC_Tref->GetMaximum());
     
     shms_REF_Canv->cd(1);
     gPad->SetLogy();
+    auto legend = new TLegend(0.1, 0.9, 0.3, 1);
     P_hodo_Tref1_CUT->SetLineColor(kRed);
     P_hodo_Tref2_CUT->SetLineColor(kRed); 
     P_hodo_Tref1->Draw();
@@ -885,6 +892,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     pT2_Line->SetLineStyle(2);
     pT2_Line->SetLineWidth(3);
     pT2_Line->Draw();
+    legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
+    legend->Draw();
     
     shms_REF_Canv->cd(2);
     gPad->SetLogy();
