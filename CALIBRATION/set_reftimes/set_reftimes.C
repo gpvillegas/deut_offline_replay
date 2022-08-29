@@ -829,7 +829,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     hms_REF_Canv->cd(1);
     gPad->SetLogy();
-    auto legend = new TLegend(0.1, 0.9, 0.3, 1);
+    auto href_legend = new TLegend(0.1, 0.9, 0.3, 1);
     H_hodo_Tref_CUT->SetLineColor(kRed);
     H_hodo_Tref->Draw();
     H_hodo_Tref_CUT->Draw("sames");
@@ -837,8 +837,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hT1_Line->SetLineStyle(2);
     hT1_Line->SetLineWidth(3);
     hT1_Line->Draw();
-    legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
-    legend->Draw();
+    href_legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
+    href_legend->Draw();
     
     hms_REF_Canv->cd(2);
     gPad->SetLogy();
@@ -881,7 +881,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     shms_REF_Canv->cd(1);
     gPad->SetLogy();
-    auto legend = new TLegend(0.1, 0.9, 0.3, 1);
+    auto pref_legend = new TLegend(0.1, 0.9, 0.3, 1);
     P_hodo_Tref1_CUT->SetLineColor(kRed);
     P_hodo_Tref2_CUT->SetLineColor(kRed); 
     P_hodo_Tref1->Draw();
@@ -892,8 +892,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     pT2_Line->SetLineStyle(2);
     pT2_Line->SetLineWidth(3);
     pT2_Line->Draw();
-    legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
-    legend->Draw();
+    pref_legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
+    pref_legend->Draw();
     
     shms_REF_Canv->cd(2);
     gPad->SetLogy();
