@@ -30,7 +30,7 @@ Double_t GetParam(string fname="", string param_name="", int col_idx=-1, int row
 		 .                               .
 		 val_(row_idx_max, 0), . . . . .. . . . val(row_idx_max, col_idx_max)
   
-   Typical examples of these parameter format structuca can be found on: 
+   Typical examples of these parameter format structure can be found on: 
    1) hallc_replay/PARAM/SHMS/HODO/phodo_TWcalib.param   or 
    2  hallc_replay/PARAM/HMS/CAL/hcal_calib.param    etc.   
    ( you get the idea . . . )
@@ -41,7 +41,12 @@ Double_t GetParam(string fname="", string param_name="", int col_idx=-1, int row
    param_name  : actual parameter name as is present in the parameter file
    col_idx     : column index, starting from 0
    row_idx     : row index, starting from 0
-   row_idx_max : maximum row index, for example for SHMS Hodo Quartz Plane: row_idx_max = 21
+   row_idx_max : maximum row index, for example for SHMS Hodo, row_idx_max = 21
+   
+   example, get column 0 (S1X),  row 2 (paddle 3) since paddle # starts at 1 and row indx at 0: 
+   root [7] GetParam("../../PARAM/SHMS/HODO/phodo_cuts.param", "phodo_PosAdcTimeWindowMin", 0, 2, 21)
+  (double) -50.000000
+   
 
   */
   
