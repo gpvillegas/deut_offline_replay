@@ -98,6 +98,9 @@ Double_t hDC_tWinMax[dc_PLANES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 Double_t phodo_tWinMin[hod_PLANES][SIDES][21] = {0.};
 Double_t phodo_tWinMax[hod_PLANES][SIDES][21] = {0.};
 
+Double_t phodo_tWinMin_old[hod_PLANES][SIDES][21] = {0.};
+Double_t phodo_tWinMax_old[hod_PLANES][SIDES][21] = {0.};
+
 //----------------------------------------
 //------ SHMS Fly's EYE CALORIMETER ------
 //----------------------------------------
@@ -355,6 +358,9 @@ TLine *hCER_LineMin[2];
 TLine *hCER_LineMax[2];
 
 //SHMS
+TLine *phod_LineMin_old[hod_PLANES][SIDES][21];
+TLine *phod_LineMax_old[hod_PLANES][SIDES][21];
+
 TLine *phod_LineMin[hod_PLANES][SIDES][21];
 TLine *phod_LineMax[hod_PLANES][SIDES][21];
 
