@@ -1004,7 +1004,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   ptrg4r2_LineMin->Draw();
   ptrg4r2_LineMax->Draw();
 
-  pTRG_Canv->SaveAs(Form("Time_cuts_refTime%d/coin_trg_tWin.pdf",run));
+  pTRG_Canv->SaveAs(Form("Time_cuts_tWinSet%d/coin_trg_tWin.pdf",run));
   
   //===========
   //Cherenkovs
