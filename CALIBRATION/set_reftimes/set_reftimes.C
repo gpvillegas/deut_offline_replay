@@ -1297,8 +1297,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hhod_LineMin_old[npl][iside][ipmt] = new TLine(hhodo_tWinMin_old[npl][iside][ipmt], 0, hhodo_tWinMin_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hhod_LineMax_old[npl][iside][ipmt] = new TLine(hhodo_tWinMax_old[npl][iside][ipmt], 0, hhodo_tWinMax_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
-	      hhod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlack);
-	      hhod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      hhod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlue);
+	      hhod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlue);
 	      
 	      hhod_LineMin_old[npl][iside][ipmt]->SetLineStyle(1);
 	      hhod_LineMax_old[npl][iside][ipmt]->SetLineStyle(1);
@@ -1319,8 +1319,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hhod_LineMin[npl][iside][ipmt] = new TLine(hhodo_tWinMin[npl][iside][ipmt], 0, hhodo_tWinMin[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hhod_LineMax[npl][iside][ipmt] = new TLine(hhodo_tWinMax[npl][iside][ipmt], 0, hhodo_tWinMax[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
-	      hhod_LineMin[npl][iside][ipmt]->SetLineColor(kBlack);
-	      hhod_LineMax[npl][iside][ipmt]->SetLineColor(kBlack);
+	      hhod_LineMin[npl][iside][ipmt]->SetLineColor(kGreen+3);
+	      hhod_LineMax[npl][iside][ipmt]->SetLineColor(kGreen+3);
 	      
 	      hhod_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      hhod_LineMax[npl][iside][ipmt]->SetLineStyle(2);
@@ -1333,6 +1333,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
 	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
+	      
 	      hhod_LineMin[npl][iside][ipmt]->Draw();
 	      hhod_LineMax[npl][iside][ipmt]->Draw();
 
