@@ -829,7 +829,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     hms_REF_Canv->cd(1);
     gPad->SetLogy();
-    auto href_legend = new TLegend(0.1, 0.7, 048, 0.9);
+    auto href_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
     H_hodo_Tref_CUT->SetLineColor(kRed);
     H_hodo_Tref->Draw();
     H_hodo_Tref_CUT->Draw("sames");
@@ -1284,16 +1284,32 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Loop over HMS HODO PMTs
 	  for (Int_t ipmt = 0; ipmt < hmaxPMT[npl]; ipmt++)
 	    {
+
+	      // -------- Read the existing min/max parameters HMS Hodo TdcAdcDiffTime (read from existinf hhodo_cuts.param file)	      
+
+	      hhodo_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMin", npl, ipmt, 16);
+	      hhodo_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMax", npl, ipmt, 16);
+	      
+	      hhod_LineMin_old[npl][iside][ipmt] = new TLine(hhodo_tWinMin_old[npl][iside][ipmt], 0, hhodo_tWinMin_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+	      hhod_LineMax_old[npl][iside][ipmt] = new TLine(hhodo_tWinMax_old[npl][iside][ipmt], 0, hhodo_tWinMax_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+
+	      hhod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      hhod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      
+	      hhod_LineMin_old[npl][iside][ipmt]->SetLineStyle(1);
+	      hhod_LineMax_old[npl][iside][ipmt]->SetLineStyle(1);
+	      
+	      // --------------------
+	      
 	      //Get Mean and Sigma
 	      binmax = H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetMaximumBin();
 
 	      mean = H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetXaxis()->GetBinCenter(binmax);
 	      sig =  H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetStdDev();
 	      
-	      //Set Time Window Cuts
+	      //Set Time Window Cuts 
 	      hhodo_tWinMin[npl][iside][ipmt] = mean - hhod_nSig;
 	      hhodo_tWinMax[npl][iside][ipmt] = mean + hhod_nSig;
-
 	            
 	      //Set Min/Max Line Limits
 	      hhod_LineMin[npl][iside][ipmt] = new TLine(hhodo_tWinMin[npl][iside][ipmt], 0, hhodo_tWinMin[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
@@ -1307,12 +1323,27 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      hhodoCanv[npl][iside]->cd(ipmt+1);
 	      gPad->SetLogy();
+
+
+    
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
 	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
 	      hhod_LineMin[npl][iside][ipmt]->Draw();
 	      hhod_LineMax[npl][iside][ipmt]->Draw();
-	         
+
+	      // draw existing min/max cuts
+	      hhod_LineMin_old[npl][iside][ipmt]->Draw();
+	      hhod_LineMax_old[npl][iside][ipmt]->Draw();
+
+	      // add legend (only necessary on single side
+	      if((iside==0 || iside==1) && ipmt==0){
+		auto hhodo_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing", "l");
+		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new", "l");
+		hhodo_legend->Draw();
+	      }
+	      
 	      if(debug) hhodo_tdcCanv[npl][iside]->cd(ipmt+1);
 	      gPad->SetLogy();
 	      if(debug) H_hod_TdcTimeUnCorr[npl][iside][ipmt]->Draw();

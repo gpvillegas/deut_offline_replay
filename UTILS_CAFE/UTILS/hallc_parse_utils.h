@@ -26,7 +26,7 @@ Double_t GetParam(string fname="", string param_name="", int col_idx=-1, int row
     param_name = val_(01),  val_(02),  val_(03), . . .  val_(0, col_idx_max)
                  val_(10),  val_(11),  val_(12), . . . 
 		 .           .
-    		 .                     .
+GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMin", 0, 2, 13)    		 .                     .
 		 .                               .
 		 val_(row_idx_max, 0), . . . . .. . . . val(row_idx_max, col_idx_max)
   

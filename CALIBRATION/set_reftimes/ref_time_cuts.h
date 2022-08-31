@@ -68,6 +68,8 @@ Double_t padc_trefcut = 0.;            //**NOTE: Use this to set t_coin_trig_tdc
 Double_t hhodo_tWinMin[hod_PLANES][SIDES][16] = {0.};
 Double_t hhodo_tWinMax[hod_PLANES][SIDES][16] = {0.};
 
+Double_t hhodo_tWinMin_old[hod_PLANES][SIDES][16] = {0.};
+Double_t hhodo_tWinMax_old[hod_PLANES][SIDES][16] = {0.};
 
 //-----------------------------
 //------ HMS CALORIMETER ------
@@ -337,6 +339,9 @@ TLine *pFADC_Line;    //flash ADC ref. time
 //-----Detectors Time Window CUts Lines-----
 
 //HMS
+TLine *hhod_LineMin_old[hod_PLANES][SIDES][16];
+TLine *hhod_LineMax_old[hod_PLANES][SIDES][16];
+
 TLine *hhod_LineMin[hod_PLANES][SIDES][16];
 TLine *hhod_LineMax[hod_PLANES][SIDES][16];
 
