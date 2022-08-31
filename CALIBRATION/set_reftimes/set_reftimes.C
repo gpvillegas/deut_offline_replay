@@ -52,12 +52,12 @@ Double_t read_ref_times(TString spec="", TString det_reftime_name=""){
   
   if(spec=="SHMS"){
     param_fname = "../../PARAM/SHMS/GEN/p_reftime_cut.param";
-    cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
+    //cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
     det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),  param_fname.Data())[0], '=')[1]);
   }
   else if (spec=="HMS"){
     param_fname = "../../PARAM/HMS/GEN/h_reftime_cut.param";
-    cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
+    //cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
     det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),   param_fname.Data())[0], '=')[1]);
   }
   
@@ -121,6 +121,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //========================================
     mkdir(Form("Time_cuts_refTime%d", run), S_IRWXU);
     
+    mkdir(Form("Time_cuts_refTime%d/param_files", run), S_IRWXU);
+    
     mkdir(Form("Time_cuts_refTime%d/HMS", run), S_IRWXU);
     mkdir(Form("Time_cuts_refTime%d/SHMS", run), S_IRWXU); 
 
@@ -141,6 +143,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //====Create Directories to Save Plots====
     //========================================
     mkdir(Form("Time_cuts_tWinSet%d", run), S_IRWXU);
+    mkdir(Form("Time_cuts_tWinSet%d/param_files", run), S_IRWXU);
     mkdir(Form("Time_cuts_tWinSet%d/HMS", run), S_IRWXU);
     mkdir(Form("Time_cuts_tWinSet%d/SHMS", run), S_IRWXU);
     
@@ -529,7 +532,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   //===================================
 
   Long64_t nentries = T->GetEntries();
-  
+  nentries = 10000;
   //Define A Boolean for multiplicity CUTS
   Bool_t good_Mult;
   
@@ -1022,7 +1025,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   pngCer_Canv = new TCanvas("pNGCer_ADC:TDC Time Diff", "SHMS Noble Gas Cherenkov ADC:TDC Time Diff", 1500, 1500);
   pngCer_Canv->Divide(2,2);
   
-
+  
   //Loop over Chernkovs PMTs
   for (Int_t ipmt = 0; ipmt < 4; ipmt++ )
     {
@@ -1031,7 +1034,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       if(ipmt < 2)
 	{
 	  hCer_tWinMin[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMin", ipmt, 0, 2);
-	  hCer_tWinMax[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMax", ipmt, 1, 2);
+	  hCer_tWinMax[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMax", ipmt, 0, 2);
 	   
 	  //Set Min/Max Line Limits
 	  hCER_LineMin[ipmt] = new TLine(hCer_tWinMin[ipmt], 0, hCer_tWinMin[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1051,7 +1054,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  hCER_LineMin[ipmt]->Draw();
 	  hCER_LineMax[ipmt]->Draw();
 	}
-      
+     
       //======================
       // HEAVY GAS CHERENKOV
       //======================
@@ -1082,9 +1085,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //===========================
       //====NOBLE GAS CHERENKOV====
       //===========================
-
-      pngcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/NGCER/phgcer_cuts.param", "pngcer_adcTimeWindowMin", ipmt, 0, 4);
-      pngcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/NGCER/phgcer_cuts.param", "pngcer_adcTimeWindowMax", ipmt, 0, 4);
+      
+      pngcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/NGCER/pngcer_cuts.param", "pngcer_adcTimeWindowMin", ipmt, 0, 4);
+      pngcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/NGCER/pngcer_cuts.param", "pngcer_adcTimeWindowMax", ipmt, 0, 4);
       
       //Set Min/Max Line Limits
       pngcer_LineMin[ipmt] = new TLine(pngcer_tWinMin[ipmt], 0, pngcer_tWinMin[ipmt], P_ngcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1115,6 +1118,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   phgCer_Canv->SaveAs(Form("Time_cuts_tWinSet%d/SHMS/CER/pHGCER_timeWindow.pdf",run));
   pngCer_Canv->SaveAs(Form("Time_cuts_tWinSet%d/SHMS/CER/pNGCER_timeWindow.pdf",run));
   
+ 
   //==================
   //==Drift Chambers==
   //==================
@@ -1338,7 +1342,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // add legend (only necessary on single side
 	      if((iside==0 || iside==1) && ipmt==0){
-		auto hhodo_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+		auto hhodo_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
 		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing", "l");
 		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new", "l");
 		hhodo_legend->Draw();
@@ -1409,9 +1413,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      // add legend (only necessary on single side
 	      if((iside==0 || iside==1) && ipmt==0){
-		auto phodo_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+		auto phodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing", "l");
-		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt], "new", "l");
+		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new", "l");
+		
 		phodo_legend->Draw();
 	      }
 	      
@@ -1644,61 +1649,61 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
  // Later on, once could set an actual path to where to write these parameter, for now, write in current dir.
  //HMS Hodo
- out_hhodo.open(Form("./hhodo_tWin_%d.param", run));
+ out_hhodo.open(Form("Time_cuts_tWinSet%d/param_files/hhodo_tWin_%d.param", run, run));
  out_hhodo << "; HMS Hodoscope Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hhodo << " " << endl;
  out_hhodo << " " << endl;
  out_hhodo << " " << endl;
  //SHMS Hodo
- out_phodo.open(Form("./phodo_tWin_%d.param", run));
+ out_phodo.open(Form("Time_cuts_tWinSet%d/param_files/phodo_tWin_%d.param", run, run));
  out_phodo << "; SHMS Hodoscope Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_phodo << " " << endl;
  out_phodo << " " << endl;
  out_phodo << " " << endl;
  //HMS Cal
- out_hcal.open(Form("./hcal_tWin_%d.param", run));
+ out_hcal.open(Form("Time_cuts_tWinSet%d/param_files/hcal_tWin_%d.param", run, run));
  out_hcal << "; HMS Calorimeter Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hcal << " " << endl;
  out_hcal << " " << endl;
  out_hcal << " " << endl;
  //SHMS PreSh
- out_pprsh.open(Form("./pprsh_tWin_%d.param", run));
+ out_pprsh.open(Form("Time_cuts_tWinSet%d/param_files/pprsh_tWin_%d.param", run, run));
  out_pprsh << "; SHMS Pre-Shower Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pprsh << " " << endl;
  out_pprsh << " " << endl;
  out_pprsh << " " << endl;
  //SHMS Fly's Eye Cal
- out_pcal.open(Form("./pcal_tWin_%d.param", run));
+ out_pcal.open(Form("Time_cuts_tWinSet%d/param_files/pcal_tWin_%d.param", run, run));
  out_pcal << "; SHMS Fly's Eye Calorimeter  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pcal << " " << endl;
  out_pcal << " " << endl;
  out_pcal << " " << endl;
  //HMS DC
- out_hdc.open(Form("./hdc_tWin_%d.param", run));
+ out_hdc.open(Form("Time_cuts_tWinSet%d/param_files/hdc_tWin_%d.param", run, run));
  out_hdc << "; HMS DC  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hdc << " " << endl;
  out_hdc << " " << endl;
  out_hdc << " " << endl;
  //SHMS DC
- out_pdc.open(Form("./pdc_tWin_%d.param", run));
+ out_pdc.open(Form("Time_cuts_tWinSet%d/param_files/pdc_tWin_%d.param", run, run));
  out_pdc << "; SHMS DC  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pdc << " " << endl;
  out_pdc << " " << endl;
  out_pdc << " " << endl;
  //HMS Cer
- out_hcer.open(Form("./hcer_tWin_%d.param", run));
+ out_hcer.open(Form("Time_cuts_tWinSet%d/param_files/hcer_tWin_%d.param", run, run));
  out_hcer << "; HMS Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hcer << " " << endl;
  out_hcer << " " << endl;
  out_hcer << " " << endl;
 //SHMS HGCER
- out_phgcer.open(Form("./phgcer_tWin_%d.param", run));
+ out_phgcer.open(Form("Time_cuts_tWinSet%d/param_files/phgcer_tWin_%d.param",run, run));
  out_phgcer << "; SHMS Heavy Gas Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_phgcer << " " << endl;
  out_phgcer << " " << endl;
  out_phgcer << " " << endl;
 //SHMS NGCER
- out_pngcer.open(Form("./pngcer_tWin_%d.param", run));
+ out_pngcer.open(Form("Time_cuts_tWinSet%d/param_files/pngcer_tWin_%d.param", run, run));
  out_pngcer << "; SHMS Noble Gas Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pngcer << " " << endl;
  out_pngcer << " " << endl;
