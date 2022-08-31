@@ -837,8 +837,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hT1_Line->SetLineStyle(2);
     hT1_Line->SetLineWidth(3);
     hT1_Line->Draw();
-    href_legend->AddEntry(hT1_Line, "ref. time cut (existing)", "l");
-    href_legend->SetTextSize(20);
+    href_legend->AddEntry(hT1_Line, "ref. time cut (current)", "l");
     href_legend->Draw();
     
     hms_REF_Canv->cd(2);
@@ -893,7 +892,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     pT2_Line->SetLineStyle(2);
     pT2_Line->SetLineWidth(3);
     pT2_Line->Draw();
-    pref_legend->AddEntry(hT1_Line, "ref. time (existing)", "l");
+    pref_legend->AddEntry(pT2_Line, "ref. time (current)", "l");
     pref_legend->SetTextSize(30);
     pref_legend->Draw();
     
@@ -948,10 +947,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     ptrg1r2_LineMax = new TLine(ptrg1r2_tWinMax, 0, ptrg1r2_tWinMax, pTrig1_ROC2_rawTdcTime->GetMaximum());
 
     ptrg4r1_LineMin = new TLine(ptrg4r1_tWinMin, 0, ptrg4r1_tWinMin, pTrig4_ROC1_rawTdcTime->GetMaximum());
-  ptrg4r1_LineMax = new TLine(ptrg4r1_tWinMax, 0, ptrg4r1_tWinMax, pTrig4_ROC1_rawTdcTime->GetMaximum());
+    ptrg4r1_LineMax = new TLine(ptrg4r1_tWinMax, 0, ptrg4r1_tWinMax, pTrig4_ROC1_rawTdcTime->GetMaximum());
   
-  ptrg4r2_LineMin = new TLine(ptrg4r2_tWinMin, 0, ptrg4r2_tWinMin, pTrig4_ROC2_rawTdcTime->GetMaximum());
-  ptrg4r2_LineMax = new TLine(ptrg4r2_tWinMax, 0, ptrg4r2_tWinMax, pTrig4_ROC2_rawTdcTime->GetMaximum());
+    ptrg4r2_LineMin = new TLine(ptrg4r2_tWinMin, 0, ptrg4r2_tWinMin, pTrig4_ROC2_rawTdcTime->GetMaximum());
+    ptrg4r2_LineMax = new TLine(ptrg4r2_tWinMax, 0, ptrg4r2_tWinMax, pTrig4_ROC2_rawTdcTime->GetMaximum());
   
   ptrg1r1_LineMin->SetLineColor(kBlack);
   ptrg1r1_LineMax->SetLineColor(kBlack);
@@ -1031,7 +1030,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //HMS Cherenkov
       if(ipmt < 2)
 	{
-	  
+	  hCer_tWinMin[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMin", ipmt, 0, 2);
+	  hCer_tWinMax[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMax", ipmt, 1, 2);
+	   
 	  //Set Min/Max Line Limits
 	  hCER_LineMin[ipmt] = new TLine(hCer_tWinMin[ipmt], 0, hCer_tWinMin[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	  hCER_LineMax[ipmt] = new TLine(hCer_tWinMax[ipmt], 0, hCer_tWinMax[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1054,7 +1055,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //======================
       // HEAVY GAS CHERENKOV
       //======================
-      
+
+      phgcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/HGCER/phgcer_cuts.param", "phgcer_adcTimeWindowMin", ipmt, 0, 4);
+      phgcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/HGCER/phgcer_cuts.param", "phgcer_adcTimeWindowMax", ipmt, 0, 4);
       //Set Min/Max Line Limits
       phgcer_LineMin[ipmt] = new TLine(phgcer_tWinMin[ipmt], 0, phgcer_tWinMin[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       phgcer_LineMax[ipmt] = new TLine(phgcer_tWinMax[ipmt], 0, phgcer_tWinMax[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1079,6 +1082,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //===========================
       //====NOBLE GAS CHERENKOV====
       //===========================
+
+      pngcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/NGCER/phgcer_cuts.param", "pngcer_adcTimeWindowMin", ipmt, 0, 4);
+      pngcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/NGCER/phgcer_cuts.param", "pngcer_adcTimeWindowMax", ipmt, 0, 4);
       
       //Set Min/Max Line Limits
       pngcer_LineMin[ipmt] = new TLine(pngcer_tWinMin[ipmt], 0, pngcer_tWinMin[ipmt], P_ngcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1126,6 +1132,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   for (Int_t npl = 0; npl < 12; npl++ )
     {
 
+      // read dc time window parameters
+      if(npl<=5){
+	hDC_tWinMin[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_min_win", npl, 0, 5);
+	hDC_tWinMax[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_max_win", npl, 0, 5);
+
+      }
+      else{
+	hDC_tWinMin[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_min_win", npl-6, 1, 5);
+	hDC_tWinMax[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_max_win", npl-6, 1, 5);
+      }
+      
       hdc_LineMin[npl] = new TLine(hDC_tWinMin[npl], 0, hDC_tWinMin[npl], H_dc_rawTDC[npl]->GetMaximum());
       hdc_LineMax[npl] = new TLine(hDC_tWinMax[npl], 0, hDC_tWinMax[npl], H_dc_rawTDC[npl]->GetMaximum());
 
@@ -1145,7 +1162,19 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       hdc_LineMin[npl]->Draw();
       hdc_LineMax[npl]->Draw();
 
-      //SHMS  
+      //SHMS
+
+      // read dc time window parameters
+      if(npl<=5){
+	pDC_tWinMin[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_min_win", npl, 0, 5);
+	pDC_tWinMax[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_max_win", npl, 0, 5);
+
+      }
+      else{
+	pDC_tWinMin[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_min_win", npl-6, 1, 5);
+	pDC_tWinMax[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_max_win", npl-6, 1, 5);
+      }
+      
       pdc_LineMin[npl] = new TLine(pDC_tWinMin[npl], 0, pDC_tWinMin[npl], P_dc_rawTDC[npl]->GetMaximum());
       pdc_LineMax[npl] = new TLine(pDC_tWinMax[npl], 0, pDC_tWinMax[npl], P_dc_rawTDC[npl]->GetMaximum());
       

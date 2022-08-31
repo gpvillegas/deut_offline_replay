@@ -78,15 +78,15 @@ Double_t hCal_tWinMax[cal_PLANES][SIDES][13] = {0.};
 //-----------------------------
 //------ HMS CHERENKOV --------
 //-----------------------------
-Double_t hCer_tWinMin[2] = {110., 110.};
-Double_t hCer_tWinMax[2] = {170., 170.};
+Double_t hCer_tWinMin[2] = {0., 0.};
+Double_t hCer_tWinMax[2] = {0., 0.};
 
 //----------------------------------
 //------ HMS DRIFT CHAMBERS --------
 //----------------------------------
 // Deuteron H(e,e'p) Elastics
-Double_t hDC_tWinMin[dc_PLANES] = {-15.e3, -15.e3,  -15.e3, -15.e3,  -15.e3,  -15.e3,  -15.e3,   -15.e3,  -15.e3, -15.e3,  -15.e3, -15.e3  };
-Double_t hDC_tWinMax[dc_PLANES] = { -10.e3,  -10.e3,   -10.e3,  -10.e3,   -10.e3,   -10.e3,   -10.e3,    -10.e3,   -10.e3,  -10.e3,   -10.e3,  -10.e3 };
+Double_t hDC_tWinMin[dc_PLANES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+Double_t hDC_tWinMax[dc_PLANES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 
 
@@ -117,14 +117,14 @@ Double_t pPrsh_tWinMax[2][14] =  { { 100., 100., 100., 100., 100., 100., 100., 1
 //----------------------------------------
 //------ SHMS HEAVY GAS CHERENKOV --------
 //----------------------------------------
-Double_t phgcer_tWinMin[4] = {-80., -80., -80., -80.};
-Double_t phgcer_tWinMax[4] = { 80.,  80.,  80.,  80.};
+Double_t phgcer_tWinMin[4] = {0., 0., 0., 0.};
+Double_t phgcer_tWinMax[4] = {0., 0., 0., 0.};
 
 //----------------------------------------
 //------ SHMS NOBLE GAS CHERENKOV --------
 //----------------------------------------
-Double_t pngcer_tWinMin[4] = {-80., -80., -80., -80.};
-Double_t pngcer_tWinMax[4] = { 80.,  80.,  80.,  80.};
+Double_t pngcer_tWinMin[4] = {0., 0., 0., 0.};
+Double_t pngcer_tWinMax[4] = {0., 0., 0., 0.};
 
 //----------------------------------
 //------ HMS DRIFT CHAMBERS --------
@@ -132,8 +132,8 @@ Double_t pngcer_tWinMax[4] = { 80.,  80.,  80.,  80.};
 
 //Deuteron H(e,e'p) Elastics
 //Tighter SHMS DC Time Window Lower Limitcuts (Used run3377), to study the W yield
-Double_t pDC_tWinMin[dc_PLANES] = {-14.e3, -14.e3,  -14.e3, -14.e3, -14.e3, -14.e3, -14.e3, -14.e3, -14.e3,-14.e3, -14.e3, -14.e3};        
-Double_t pDC_tWinMax[dc_PLANES] = { -10.e3,  -10.e3,   -10.e3,  -10.e3,  -10.e3,  -10.e3,  -10.e3,  -10.e3,  -10.e3, -10.e3,  -10.e3,  -10.e3};      
+Double_t pDC_tWinMin[dc_PLANES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};        
+Double_t pDC_tWinMax[dc_PLANES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};      
 
 //---------------------------------------
 //----Define and set +/- time (ns) away from mean 
