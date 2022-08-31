@@ -77,6 +77,9 @@ Double_t hhodo_tWinMax_old[hod_PLANES][SIDES][16] = {0.};
 Double_t hCal_tWinMin[cal_PLANES][SIDES][13] = {0.};
 Double_t hCal_tWinMax[cal_PLANES][SIDES][13] = {0.};
 
+Double_t hCal_tWinMin_old[cal_PLANES][SIDES][13] = {0.};
+Double_t hCal_tWinMax_old[cal_PLANES][SIDES][13] = {0.};
+
 //-----------------------------
 //------ HMS CHERENKOV --------
 //-----------------------------
@@ -112,12 +115,12 @@ Double_t pCal_tWinMax[224] = {0.};
 //-----------------------------------------
 
 //**NOTE** : { {POS SIDE} , {NEG SIDE} }  --> 1st inner curly brackets contain the PMTs 0, 1, . . . 14  "Time Window Min Cut"
-Double_t pPrsh_tWinMin[2][14] = { { -100., -100., -100., -100., -100., -100., -100., -80., -100., -100., -100., -100., -100., -100. }, 
-				  { -100., -100., -100., -100., -80., -100., -100., -100., -100., -100., -100, -100., -100., -100. } };
+Double_t pPrsh_tWinMin[2][14] = { { 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0. }, 
+				  { 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0, 0., 0., 0. } };
 
 
-Double_t pPrsh_tWinMax[2][14] =  { { 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100. }, 
-				   { 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100. } };
+Double_t pPrsh_tWinMax[2][14] =  { { 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0. }, 
+				   { 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0. } };
 
 //----------------------------------------
 //------ SHMS HEAVY GAS CHERENKOV --------
@@ -347,6 +350,9 @@ TLine *hhod_LineMax_old[hod_PLANES][SIDES][16];
 
 TLine *hhod_LineMin[hod_PLANES][SIDES][16];
 TLine *hhod_LineMax[hod_PLANES][SIDES][16];
+
+TLine *hcal_LineMin_old[cal_PLANES][SIDES][13];
+TLine *hcal_LineMax_old[cal_PLANES][SIDES][13];
 
 TLine *hcal_LineMin[cal_PLANES][SIDES][13];
 TLine *hcal_LineMax[cal_PLANES][SIDES][13];

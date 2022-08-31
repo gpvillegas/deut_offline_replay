@@ -832,15 +832,15 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     hms_REF_Canv->cd(1);
     gPad->SetLogy();
-    auto href_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+    auto href_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
     H_hodo_Tref_CUT->SetLineColor(kRed);
     H_hodo_Tref->Draw();
     H_hodo_Tref_CUT->Draw("sames");
-    hT1_Line->SetLineColor(kBlack);
+    hT1_Line->SetLineColor(kBlue);
     hT1_Line->SetLineStyle(2);
     hT1_Line->SetLineWidth(3);
     hT1_Line->Draw();
-    href_legend->AddEntry(hT1_Line, "ref. time cut (current)", "l");
+    href_legend->AddEntry(hT1_Line, "ref. time cut (existing)", "l");
     href_legend->Draw();
     
     hms_REF_Canv->cd(2);
@@ -851,7 +851,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     H_DC_Tref[1]->Draw("sames");
     H_DC_Tref[2]->Draw("sames");
     H_DC_Tref[3]->Draw("sames");
-    hDCREF_Line->SetLineColor(kBlack);
+    hDCREF_Line->SetLineColor(kBlue);
     hDCREF_Line->SetLineStyle(2);
     hDCREF_Line->SetLineWidth(3);
     hDCREF_Line->Draw();
@@ -861,7 +861,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     H_FADC_Tref_CUT->SetLineColor(kRed);
     H_FADC_Tref->Draw();
     H_FADC_Tref_CUT->Draw("sames");
-    hFADC_Line->SetLineColor(kBlack);
+    hFADC_Line->SetLineColor(kBlue);
     hFADC_Line->SetLineStyle(2);
     hFADC_Line->SetLineWidth(3);
     hFADC_Line->Draw();
@@ -884,18 +884,18 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     shms_REF_Canv->cd(1);
     gPad->SetLogy();
-    auto pref_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+    auto pref_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
     P_hodo_Tref1_CUT->SetLineColor(kRed);
     P_hodo_Tref2_CUT->SetLineColor(kRed); 
     P_hodo_Tref1->Draw();
     P_hodo_Tref2->Draw("sames");
     P_hodo_Tref1_CUT->Draw("sames");
     P_hodo_Tref2_CUT->Draw("sames");  
-    pT2_Line->SetLineColor(kBlack);
+    pT2_Line->SetLineColor(kBlue);
     pT2_Line->SetLineStyle(2);
     pT2_Line->SetLineWidth(3);
     pT2_Line->Draw();
-    pref_legend->AddEntry(pT2_Line, "ref. time (current)", "l");
+    pref_legend->AddEntry(pT2_Line, "ref. time (existing)", "l");
     pref_legend->SetTextSize(30);
     pref_legend->Draw();
     
@@ -908,7 +908,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	P_DC_Tref[iref]->Draw("sames");
 	P_DC_Tref_CUT[iref]->Draw("sames");
       }
-    pDCREF_Line->SetLineColor(kBlack);
+    pDCREF_Line->SetLineColor(kBlue);
     pDCREF_Line->SetLineStyle(2);
     pDCREF_Line->SetLineWidth(3);
     pDCREF_Line->Draw();
@@ -918,7 +918,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     P_FADC_Tref_CUT->SetLineColor(kRed);
     P_FADC_Tref->Draw();
     P_FADC_Tref_CUT->Draw("sames"); 
-    pFADC_Line->SetLineColor(kBlack);
+    pFADC_Line->SetLineColor(kBlue);
     pFADC_Line->SetLineStyle(2);
     pFADC_Line->SetLineWidth(3);
     pFADC_Line->Draw();
@@ -1046,6 +1046,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  hCER_LineMin[ipmt]->SetLineStyle(2);
 	  hCER_LineMax[ipmt]->SetLineStyle(2);
 
+	  
 	  hCer_Canv->cd(ipmt+1);
 	  gPad->SetLogy();
 	  H_cer_TdcAdcTimeDiff_CUT[ipmt]->SetLineColor(kRed);
@@ -1053,6 +1054,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  H_cer_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
 	  hCER_LineMin[ipmt]->Draw();
 	  hCER_LineMax[ipmt]->Draw();
+
+	  if(ipmt==0){
+	    auto hcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "ref. time (existing)", "l");	 
+	    hcer_legend->Draw();
+	  }
+	  
 	}
      
       //======================
@@ -1065,8 +1073,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       phgcer_LineMin[ipmt] = new TLine(phgcer_tWinMin[ipmt], 0, phgcer_tWinMin[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       phgcer_LineMax[ipmt] = new TLine(phgcer_tWinMax[ipmt], 0, phgcer_tWinMax[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       
-      phgcer_LineMin[ipmt]->SetLineColor(kBlack);
-      phgcer_LineMax[ipmt]->SetLineColor(kBlack);
+      phgcer_LineMin[ipmt]->SetLineColor(kBlue);
+      phgcer_LineMax[ipmt]->SetLineColor(kBlue);
       
       phgcer_LineMin[ipmt]->SetLineStyle(2);
       phgcer_LineMax[ipmt]->SetLineStyle(2);
@@ -1081,7 +1089,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       P_hgcer_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
       phgcer_LineMin[ipmt]->Draw();
       phgcer_LineMax[ipmt]->Draw();
-      
+
+      if(ipmt==0){
+	auto phgcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+	phgcer_legend->AddEntry(phgcer_LineMin[ipmt], "ref. time (existing)", "l");       
+	phgcer_legend->Draw();
+      }
+	  
       //===========================
       //====NOBLE GAS CHERENKOV====
       //===========================
@@ -1093,8 +1107,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       pngcer_LineMin[ipmt] = new TLine(pngcer_tWinMin[ipmt], 0, pngcer_tWinMin[ipmt], P_ngcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       pngcer_LineMax[ipmt] = new TLine(pngcer_tWinMax[ipmt], 0, pngcer_tWinMax[ipmt], P_ngcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       
-      pngcer_LineMin[ipmt]->SetLineColor(kBlack);
-      pngcer_LineMax[ipmt]->SetLineColor(kBlack);
+      pngcer_LineMin[ipmt]->SetLineColor(kBlue);
+      pngcer_LineMax[ipmt]->SetLineColor(kBlue);
       
       pngcer_LineMin[ipmt]->SetLineStyle(2);
       pngcer_LineMax[ipmt]->SetLineStyle(2);
@@ -1109,7 +1123,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       P_ngcer_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
       pngcer_LineMin[ipmt]->Draw();
       pngcer_LineMax[ipmt]->Draw();
-      
+
+      if(ipmt==0){
+	auto pngcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+	pngcer_legend->AddEntry(pngcer_LineMin[ipmt], "ref. time (existing)", "l");	
+	pngcer_legend->Draw();
+      }
+	    
     } //end loop over cer pmts
   
 
@@ -1150,8 +1170,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       hdc_LineMin[npl] = new TLine(hDC_tWinMin[npl], 0, hDC_tWinMin[npl], H_dc_rawTDC[npl]->GetMaximum());
       hdc_LineMax[npl] = new TLine(hDC_tWinMax[npl], 0, hDC_tWinMax[npl], H_dc_rawTDC[npl]->GetMaximum());
 
-      hdc_LineMin[npl]->SetLineColor(kBlack);
-      hdc_LineMax[npl]->SetLineColor(kBlack);
+      hdc_LineMin[npl]->SetLineColor(kBlue);
+      hdc_LineMax[npl]->SetLineColor(kBlue);
       
       hdc_LineMin[npl]->SetLineStyle(2);
       hdc_LineMax[npl]->SetLineStyle(2);
@@ -1166,6 +1186,12 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       hdc_LineMin[npl]->Draw();
       hdc_LineMax[npl]->Draw();
 
+      if(npl==0){
+	auto hdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+	hdc_legend->AddEntry(hdc_LineMin[npl], "ref. time (existing)", "l");	
+	hdc_legend->Draw();
+      }
+	    
       //SHMS
 
       // read dc time window parameters
@@ -1182,8 +1208,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       pdc_LineMin[npl] = new TLine(pDC_tWinMin[npl], 0, pDC_tWinMin[npl], P_dc_rawTDC[npl]->GetMaximum());
       pdc_LineMax[npl] = new TLine(pDC_tWinMax[npl], 0, pDC_tWinMax[npl], P_dc_rawTDC[npl]->GetMaximum());
       
-      pdc_LineMin[npl]->SetLineColor(kBlack);
-      pdc_LineMax[npl]->SetLineColor(kBlack);
+      pdc_LineMin[npl]->SetLineColor(kBlue);
+      pdc_LineMax[npl]->SetLineColor(kBlue);
            
       pdc_LineMin[npl]->SetLineStyle(2);
       pdc_LineMax[npl]->SetLineStyle(2);
@@ -1197,6 +1223,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       P_dc_rawTDC_CUT[npl]->Draw("sames");
       pdc_LineMin[npl]->Draw();
       pdc_LineMax[npl]->Draw();
+
+      if(npl==0){
+	auto pdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+	pdc_legend->AddEntry(pdc_LineMin[npl], "ref. time (existing)", "l");
+	pdc_legend->SetTextColor(kBlue);
+	pdc_legend->Draw();
+      }
       
     } //end dc plane loop
   
@@ -1218,18 +1251,18 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	{  
 	  
 	  //Define HMS Hodo Canv
-	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  1500, 600);
-	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  1500, 600);
+	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
+	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
 
 	  
 	  //Define SHMS Hodo Canv
-	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  1500, 600);
-	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  1500, 600);
+	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
+	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
 
 	  
 	  //Define HMS Calorimeter Canvas for all planes
 	  if (!(npl==2&&iside==1) && !(npl==3&&iside==1)){
-	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  1500, 600);
+	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  2000, 1500);
 	    hcaloCanv[npl][iside]->Divide(5,3);	     
 	  }
 	  
@@ -1237,8 +1270,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Define SHMS PreShower and Calorimeter Canvas
 	  if(npl==0)
 	    {
-	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  1500, 600);
-	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  1500, 600);
+	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  2000, 1500);
+	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  2000, 1500);
 
 	    }
 	  
@@ -1343,7 +1376,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // add legend (only necessary on single side
 	      if((iside==0 || iside==1) && ipmt==0){
-		auto hhodo_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+		auto hhodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing", "l");
 		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new", "l");
 		hhodo_legend->Draw();
@@ -1370,8 +1403,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      phod_LineMin_old[npl][iside][ipmt] = new TLine(phodo_tWinMin_old[npl][iside][ipmt], 0, phodo_tWinMin_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      phod_LineMax_old[npl][iside][ipmt] = new TLine(phodo_tWinMax_old[npl][iside][ipmt], 0, phodo_tWinMax_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
-	      phod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlack);
-	      phod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      phod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlue);
+	      phod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlue);
 	      
 	      phod_LineMin_old[npl][iside][ipmt]->SetLineStyle(1);
 	      phod_LineMax_old[npl][iside][ipmt]->SetLineStyle(1);
@@ -1392,8 +1425,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      phod_LineMin[npl][iside][ipmt] = new TLine(phodo_tWinMin[npl][iside][ipmt], 0, phodo_tWinMin[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      phod_LineMax[npl][iside][ipmt] = new TLine(phodo_tWinMax[npl][iside][ipmt], 0, phodo_tWinMax[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
-	      phod_LineMin[npl][iside][ipmt]->SetLineColor(kBlack);
-	      phod_LineMax[npl][iside][ipmt]->SetLineColor(kBlack);
+	      phod_LineMin[npl][iside][ipmt]->SetLineColor(kGreen+3);
+	      phod_LineMax[npl][iside][ipmt]->SetLineColor(kGreen+3);
 	      
 	      phod_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      phod_LineMax[npl][iside][ipmt]->SetLineStyle(2);
@@ -1416,8 +1449,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto phodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing", "l");
-		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new", "l");
-		
+		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new", "l");	       
 		phodo_legend->Draw();
 	      }
 	      
@@ -1432,6 +1464,26 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Loop over HMS Calorimeter pmts
 	  for (Int_t ipmt = 0; ipmt < 13; ipmt++)
 	    {
+
+	      // -------- Read the existing min/max parameters HMS Cal TdcAdcDiffTime (read from existinf hcal_cuts.param file)
+
+	     
+	      hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMin", ipmt, npl, 4);
+	      hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMax", ipmt, npl, 4);
+
+	      //Set Min/Max Line Limits
+	      hcal_LineMin_old[npl][iside][ipmt] = new TLine(hCal_tWinMin_old[npl][iside][ipmt], 0, hCal_tWinMin_old[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+	      hcal_LineMax_old[npl][iside][ipmt] = new TLine(hCal_tWinMax_old[npl][iside][ipmt], 0, hCal_tWinMax_old[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+
+	      hcal_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlue);
+	      hcal_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlue);
+	      
+	      hcal_LineMin_old[npl][iside][ipmt]->SetLineStyle(1);
+	      hcal_LineMax_old[npl][iside][ipmt]->SetLineStyle(1);
+	      
+	      //-------------------------
+	      
+	      
 	      //Get Mean and Sigma
 	      binmax = H_cal_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetMaximumBin();
 	      mean = H_cal_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetXaxis()->GetBinCenter(binmax);
@@ -1445,8 +1497,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hcal_LineMin[npl][iside][ipmt] = new TLine(hCal_tWinMin[npl][iside][ipmt], 0, hCal_tWinMin[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hcal_LineMax[npl][iside][ipmt] = new TLine(hCal_tWinMax[npl][iside][ipmt], 0, hCal_tWinMax[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
-	      hcal_LineMin[npl][iside][ipmt]->SetLineColor(kBlack);
-	      hcal_LineMax[npl][iside][ipmt]->SetLineColor(kBlack);
+	      hcal_LineMin[npl][iside][ipmt]->SetLineColor(kGreen+3);
+	      hcal_LineMax[npl][iside][ipmt]->SetLineColor(kGreen+3);
 	      
 	      hcal_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      hcal_LineMax[npl][iside][ipmt]->SetLineStyle(2);
@@ -1460,6 +1512,14 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hcal_LineMin[npl][iside][ipmt]->Draw();
 	      hcal_LineMax[npl][iside][ipmt]->Draw();
 	      
+	      // add legend (only necessary on single side)
+	      if((iside==0 || iside==1) && ipmt==0){
+		auto hcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+		hcal_legend->AddEntry(hcal_LineMin_old[npl][iside][ipmt], "existing", "l");
+		hcal_legend->AddEntry(hcal_LineMin[npl][iside][ipmt], "new", "l");
+		hcal_legend->Draw();
+	      }
+	      
 	      }
 	    } //end pmt loop
 	  
@@ -1468,24 +1528,48 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	    {
 	      if (npl!=0) continue;
 
+	      
+	      // -------- Read the existing min/max parameters SHMS Cal TdcAdcDiffTime (read from existinf pcal_cuts.param file)
+	      
+
+	      if(iside==0){
+		pPrsh_tWinMin[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_pos_AdcTimeWindowMin", ipmt, npl, 14);
+		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_pos_AdcTimeWindowMax", ipmt, npl, 14);
+	      }
+	      
+	      else if(iside==1){	      
+		pPrsh_tWinMin[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
+		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
+		
+	      }
+
+	      
 	      //Set Min/Max Line Limits
 	      pPrsh_LineMin[iside][ipmt] = new TLine(pPrsh_tWinMin[iside][ipmt], 0, pPrsh_tWinMin[iside][ipmt], P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetMaximum());
 	      pPrsh_LineMax[iside][ipmt] = new TLine(pPrsh_tWinMax[iside][ipmt], 0, pPrsh_tWinMax[iside][ipmt], P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetMaximum());
 	      
-	      pPrsh_LineMin[iside][ipmt]->SetLineColor(kBlack);
-	      pPrsh_LineMax[iside][ipmt]->SetLineColor(kBlack);
+	      pPrsh_LineMin[iside][ipmt]->SetLineColor(kBlue);
+	      pPrsh_LineMax[iside][ipmt]->SetLineColor(kBlue);
 	       
 	      pPrsh_LineMin[iside][ipmt]->SetLineStyle(2);
 	      pPrsh_LineMax[iside][ipmt]->SetLineStyle(2);
 	      
 	      pPrshCanv[iside]->cd(ipmt+1);
+	      
 	      gPad->SetLogy();
 	      P_prSh_TdcAdcTimeDiff_CUT[iside][ipmt]->SetLineColor(kRed);
 	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->Draw();
 	      P_prSh_TdcAdcTimeDiff_CUT[iside][ipmt]->Draw("sames");
 	      pPrsh_LineMin[iside][ipmt]->Draw();
 	      pPrsh_LineMax[iside][ipmt]->Draw();
-	      	      
+
+	      // add legend (only necessary on single side)
+	      if((iside==0 || iside==1) && ipmt==0){
+		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+		prsh_legend->AddEntry(pPrsh_LineMin[npl][iside][ipmt], "existing", "l");
+		prsh_legend->Draw();
+	      }
+	      
 	      if(debug) pPrshAdcCanv[iside]->cd(ipmt+1);
 	      gPad->SetLogy();
 	      if(debug) P_prSh_AdcTime[iside][ipmt]->Draw();
@@ -1496,9 +1580,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  	  
 	  if(iside==0)
 	    {
+	      int npl_
 	      //Loop over SHMS FLy's Eye PMTs
 	      for(int ipmt=0; ipmt<224; ipmt++)
 		{
+
+		  
+		  if(ipmt<=13){
+		    GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMin", ipmt, 0, 16 );
+		  }
+
+		  
 		  //Get Mean and Sigma
 		  binmax =  P_cal_TdcAdcTimeDiff_CUT[ipmt]->GetMaximumBin();
 		  mean = P_cal_TdcAdcTimeDiff_CUT[ipmt]->GetXaxis()->GetBinCenter(binmax);
@@ -1557,10 +1649,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
  for(int row=0; row < 16; row++)
    {
 
-     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  1500, 600);
+     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  2000, 1500);
      pcalCanv[row]->Divide(7,2);
 
-     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  1500, 600);
+     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  2000, 1500);
      pcalAdcCanv[row]->Divide(7,2);
 
      for(int col=0; col<14; col++)
