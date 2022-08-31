@@ -1355,6 +1355,24 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Loop over SHMS HODO PMTs
 	  for (Int_t ipmt = 0; ipmt < pmaxPMT[npl]; ipmt++)
 	    {
+
+
+	      // -------- Read the existing min/max parameters HMS Hodo TdcAdcDiffTime (read from existinf hhodo_cuts.param file)	      
+
+	      phodo_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/SHMS/HODO/phodo_cuts.param", "phodo_PosAdcTimeWindowMin", npl, ipmt, 21);
+	      phodo_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/SHMS/HODO/phodo_cuts.param", "phodo_PosAdcTimeWindowMax", npl, ipmt, 21);
+	      
+	      phod_LineMin_old[npl][iside][ipmt] = new TLine(phodo_tWinMin_old[npl][iside][ipmt], 0, phodo_tWinMin_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+	      phod_LineMax_old[npl][iside][ipmt] = new TLine(phodo_tWinMax_old[npl][iside][ipmt], 0, phodo_tWinMax_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
+
+	      phod_LineMin_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      phod_LineMax_old[npl][iside][ipmt]->SetLineColor(kBlack);
+	      
+	      phod_LineMin_old[npl][iside][ipmt]->SetLineStyle(1);
+	      phod_LineMax_old[npl][iside][ipmt]->SetLineStyle(1);
+	      
+	      // --------------------
+	      
 	      //Get Mean and Sigma
 	      binmax = P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetMaximumBin();
 	      mean = P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->GetXaxis()->GetBinCenter(binmax);
@@ -1377,11 +1395,25 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      phodoCanv[npl][iside]->cd(ipmt+1);
 	      gPad->SetLogy();
+
+	      
 	      P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
 	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
 	      phod_LineMin[npl][iside][ipmt]->Draw();
 	      phod_LineMax[npl][iside][ipmt]->Draw();
+
+	      // draw existing min/max cuts
+	      phod_LineMin_old[npl][iside][ipmt]->Draw();
+	      phod_LineMax_old[npl][iside][ipmt]->Draw();
+	      
+	      // add legend (only necessary on single side
+	      if((iside==0 || iside==1) && ipmt==0){
+		auto phodo_legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing", "l");
+		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt], "new", "l");
+		phodo_legend->Draw();
+	      }
 	      
 	      if(debug) phodo_tdcCanv[npl][iside]->cd(ipmt+1);
 	      gPad->SetLogy();
