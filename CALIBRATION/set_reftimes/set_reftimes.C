@@ -1040,8 +1040,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  hCER_LineMin[ipmt] = new TLine(hCer_tWinMin[ipmt], 0, hCer_tWinMin[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	  hCER_LineMax[ipmt] = new TLine(hCer_tWinMax[ipmt], 0, hCer_tWinMax[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	  
-	  hCER_LineMin[ipmt]->SetLineColor(kBlack);
-	  hCER_LineMax[ipmt]->SetLineColor(kBlack);
+	  hCER_LineMin[ipmt]->SetLineColor(kBlue);
+	  hCER_LineMax[ipmt]->SetLineColor(kBlue);
 	  	  
 	  hCER_LineMin[ipmt]->SetLineStyle(2);
 	  hCER_LineMax[ipmt]->SetLineStyle(2);
@@ -1466,11 +1466,15 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	    {
 
 	      // -------- Read the existing min/max parameters HMS Cal TdcAdcDiffTime (read from existinf hcal_cuts.param file)
-
-	     
-	      hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMin", ipmt, npl, 4);
-	      hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMax", ipmt, npl, 4);
-
+	      
+	      if(iside==0){
+		hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMin", ipmt, npl, 4);
+		hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMax", ipmt, npl, 4);
+	      }
+	      else if(iside==1){
+		hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_neg_AdcTimeWindowMin", ipmt, npl, 4);
+		hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_neg_AdcTimeWindowMax", ipmt, npl, 4);
+	      }
 	      //Set Min/Max Line Limits
 	      hcal_LineMin_old[npl][iside][ipmt] = new TLine(hCal_tWinMin_old[npl][iside][ipmt], 0, hCal_tWinMin_old[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hcal_LineMax_old[npl][iside][ipmt] = new TLine(hCal_tWinMax_old[npl][iside][ipmt], 0, hCal_tWinMax_old[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
@@ -1566,7 +1570,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      // add legend (only necessary on single side)
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-		prsh_legend->AddEntry(pPrsh_LineMin[npl][iside][ipmt], "existing", "l");
+		prsh_legend->AddEntry(pPrsh_LineMin[iside][ipmt], "existing", "l");
 		prsh_legend->Draw();
 	      }
 	      
@@ -1580,15 +1584,53 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  	  
 	  if(iside==0)
 	    {
-	      int npl_
+
+
+	      int row_cnt = 0;
+	      int ipmt_min, ipmt_max = 0;
+	      
 	      //Loop over SHMS FLy's Eye PMTs
 	      for(int ipmt=0; ipmt<224; ipmt++)
 		{
 
 		  
-		  if(ipmt<=13){
-		    GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMin", ipmt, 0, 16 );
+		  //-----------------------
+		  
+		  // set initial param
+		  if(ipmt==0){
+		    
+		    ipmt_min = 14 * row_cnt;
+		    ipmt_max = ipmt_min + 13;
 		  }
+
+		  if(ipmt>=ipmt_min && ipmt<=ipmt_max){
+
+		    pCal_tWinMin_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMin", ipmt-ipmt_min, row_cnt, 16 );
+		    pCal_tWinMax_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMax", ipmt-ipmt_min, row_cnt, 16 );
+		    
+		    
+		  }
+      
+		  // increment row counter at the end of each row
+		  if(ipmt==ipmt_max){
+		    
+		    cout << "reached end of row" << endl;
+		    row_cnt = row_cnt + 1;
+		    ipmt_min = 14 * row_cnt;
+		    ipmt_max = ipmt_min + 13;
+		  }
+
+		  //Set Min/Max Line Limits
+		  pcal_LineMin_old[ipmt] = new TLine(pCal_tWinMin_old[ipmt], 0, pCal_tWinMin_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
+		  pcal_LineMax_old[ipmt] = new TLine(pCal_tWinMax_old[ipmt], 0, pCal_tWinMax_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
+		  
+		  pcal_LineMin_old[ipmt]->SetLineColor(kBlue);
+		  pcal_LineMax_old[ipmt]->SetLineColor(kBlue);
+		  
+		  pcal_LineMin_old[ipmt]->SetLineStyle(1);
+		  pcal_LineMax_old[ipmt]->SetLineStyle(1);
+		  
+		  //-----------------------
 
 		  
 		  //Get Mean and Sigma
@@ -1604,17 +1646,25 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		  pcal_LineMin[ipmt] = new TLine(pCal_tWinMin[ipmt], 0, pCal_tWinMin[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 		  pcal_LineMax[ipmt] = new TLine(pCal_tWinMax[ipmt], 0, pCal_tWinMax[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 		  
-		  pcal_LineMin[ipmt]->SetLineColor(kBlack);
-		  pcal_LineMax[ipmt]->SetLineColor(kBlack);
+		  pcal_LineMin[ipmt]->SetLineColor(kGreen+3);
+		  pcal_LineMax[ipmt]->SetLineColor(kGreen+3);
 		  
 		  pcal_LineMin[ipmt]->SetLineStyle(2);
 		  pcal_LineMax[ipmt]->SetLineStyle(2);
+
+		  // add legend (only necessary on single pmt)
+		  if(ipmt==0){
+		      auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+		      pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
+		      pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+		      pcal_legend->Draw();
+		    }
 
 		} // End FLys Eye PMT loop
 	      
 	     
 
-	    } //ennd single side requirement
+		} //ennd single side requirement
 	
 	  
 	  
@@ -1644,7 +1694,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 
  int ipmt = 0; //initialize pmt counter
- 
+ int ipmt_min, ipmt_max = 0;
+
  //Alternative Cal Plot
  for(int row=0; row < 16; row++)
    {
@@ -1657,6 +1708,45 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
      for(int col=0; col<14; col++)
        {
+
+
+	 //-----------------------
+	 
+	 // set initial param
+	 if(ipmt==0){
+	   
+	   ipmt_min = 14 * row;
+	   ipmt_max = ipmt_min + 13;
+	 }
+	 
+	 if(ipmt>=ipmt_min && ipmt<=ipmt_max){
+	   
+	   pCal_tWinMin_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMin", ipmt-ipmt_min, row, 16 );
+	   pCal_tWinMax_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMax", ipmt-ipmt_min, row, 16 );
+	   
+	   
+	 }
+	 
+	 if(ipmt==ipmt_max){
+
+	   ipmt_min = 14 * row;
+	   ipmt_max = ipmt_min + 13;
+	 }
+
+
+
+	 
+	 //Set Min/Max Line Limits
+	 pcal_LineMin_old[ipmt] = new TLine(pCal_tWinMin_old[ipmt], 0, pCal_tWinMin_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
+	 pcal_LineMax_old[ipmt] = new TLine(pCal_tWinMax_old[ipmt], 0, pCal_tWinMax_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
+	 
+	 pcal_LineMin_old[ipmt]->SetLineColor(kBlue);
+	 pcal_LineMax_old[ipmt]->SetLineColor(kBlue);
+	 
+	 pcal_LineMin_old[ipmt]->SetLineStyle(1);
+	 pcal_LineMax_old[ipmt]->SetLineStyle(1);
+	 
+	 //-----------------------
 	 	 
 	 //Get Mean and Sigma
 	 binmax =  P_cal_TdcAdcTimeDiff_CUT[ipmt]->GetMaximumBin();
@@ -1671,8 +1761,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 pcal_LineMin[ipmt] = new TLine(pCal_tWinMin[ipmt], 0, pCal_tWinMin[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	 pcal_LineMax[ipmt] = new TLine(pCal_tWinMax[ipmt], 0, pCal_tWinMax[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	 
-	 pcal_LineMin[ipmt]->SetLineColor(kBlack);
-	 pcal_LineMax[ipmt]->SetLineColor(kBlack);
+	 pcal_LineMin[ipmt]->SetLineColor(kGreen+3);
+	 pcal_LineMax[ipmt]->SetLineColor(kGreen+3);
 	 
 	 pcal_LineMin[ipmt]->SetLineStyle(2);
 	 pcal_LineMax[ipmt]->SetLineStyle(2);
@@ -1687,6 +1777,15 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 pcal_LineMin[ipmt]->Draw();
 	 pcal_LineMax[ipmt]->Draw();
 
+	 
+	 // add legend (only necessary on single pmt)
+	 if(ipmt==0){
+	     auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+	     pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
+	     pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+	     pcal_legend->Draw();
+	   }
+	   
 	 pcalAdcCanv[row]->cd(col+1);
 	 gPad->SetLogy();
 	 if(debug) P_cal_AdcTime[ipmt]->Draw();
