@@ -1056,8 +1056,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  hCER_LineMax[ipmt]->Draw();
 
 	  if(ipmt==0){
-	    auto hcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "ref. time (existing)", "l");	 
+	    auto hcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
+	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "existing", "l");	 
+	    hcer_legend->SetTextSize(0.05);
 	    hcer_legend->Draw();
 	  }
 	  
@@ -1091,8 +1092,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       phgcer_LineMax[ipmt]->Draw();
 
       if(ipmt==0){
-	auto phgcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	phgcer_legend->AddEntry(phgcer_LineMin[ipmt], "ref. time (existing)", "l");       
+	auto phgcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
+	phgcer_legend->AddEntry(phgcer_LineMin[ipmt], "existing", "l");       
+	phgcer_legend->SetTextSize(0.05);
 	phgcer_legend->Draw();
       }
 	  
@@ -1125,8 +1127,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       pngcer_LineMax[ipmt]->Draw();
 
       if(ipmt==0){
-	auto pngcer_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	pngcer_legend->AddEntry(pngcer_LineMin[ipmt], "ref. time (existing)", "l");	
+	auto pngcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
+	pngcer_legend->AddEntry(pngcer_LineMin[ipmt], "existing", "l");	
+	pngcer_legend->SetTextSize(0.05);   
 	pngcer_legend->Draw();
       }
 	    
@@ -1188,7 +1191,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(npl==0){
 	auto hdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	hdc_legend->AddEntry(hdc_LineMin[npl], "ref. time (existing)", "l");	
+	hdc_legend->AddEntry(hdc_LineMin[npl], "existing", "l");	
+	hdc_legend->SetTextSize(0.08);
 	hdc_legend->Draw();
       }
 	    
@@ -1226,8 +1230,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(npl==0){
 	auto pdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	pdc_legend->AddEntry(pdc_LineMin[npl], "ref. time (existing)", "l");
-	pdc_legend->SetTextColor(kBlue);
+	pdc_legend->AddEntry(pdc_LineMin[npl], "existing", "l");
+	pdc_legend->SetTextSize(0.08);
 	pdc_legend->Draw();
       }
       
@@ -1450,6 +1454,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		auto phodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing", "l");
 		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new", "l");	       
+		phodo_legend->SetTextSize(0.08);
 		phodo_legend->Draw();
 	      }
 	      
@@ -1569,7 +1574,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // add legend (only necessary on single side)
 	      if((iside==0 || iside==1) && ipmt==0){
-		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.8);
 		prsh_legend->AddEntry(pPrsh_LineMin[iside][ipmt], "existing", "l");
 		prsh_legend->Draw();
 	      }
@@ -1581,7 +1586,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 
 	    } //end pmt loop
-	  	  
+	  /*	  
 	  if(iside==0)
 	    {
 
@@ -1652,11 +1657,16 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		  pcal_LineMin[ipmt]->SetLineStyle(2);
 		  pcal_LineMax[ipmt]->SetLineStyle(2);
 
+		  
+		
 		  // add legend (only necessary on single pmt)
 		  if(ipmt==0){
 		      auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		      pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
+		      pcal_legend->SetTextColor(kBlue);
 		      pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+		      pcal_legend->SetTextColor(kGreen+3);
+		      pcal_legend->SetTextSize(0.08);
 		      pcal_legend->Draw();
 		    }
 
@@ -1664,8 +1674,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	     
 
-		} //ennd single side requirement
-	
+	    } //ennd single side requirement
+	  */
 	  
 	  
 	  hhodoCanv[npl][iside]->SaveAs(Form("Time_cuts_tWinSet%d/HMS/HODO/hHodo_%s%s.pdf",run, hod_pl_names[npl].Data(), side_names[iside].Data()));
@@ -1691,19 +1701,22 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     } //end plane loop
 
   //------------------------x
-
-
- int ipmt = 0; //initialize pmt counter
- int ipmt_min, ipmt_max = 0;
+  
+  
+  cout << "------ initialize ipmt_min,max to (0, 13)" << endl;
+  int row_cnt = 0; //redundant counter 
+  int ipmt = 0; //initialize pmt counter
+  int ipmt_min = 0; 
+  int ipmt_max = 13;
 
  //Alternative Cal Plot
  for(int row=0; row < 16; row++)
    {
-
-     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  2000, 1500);
+   
+     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  2000, 500);
      pcalCanv[row]->Divide(7,2);
 
-     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  2000, 1500);
+     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  2000, 500);
      pcalAdcCanv[row]->Divide(7,2);
 
      for(int col=0; col<14; col++)
@@ -1711,13 +1724,11 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 
 	 //-----------------------
-	 
-	 // set initial param
-	 if(ipmt==0){
-	   
-	   ipmt_min = 14 * row;
-	   ipmt_max = ipmt_min + 13;
-	 }
+
+	 cout << "ipmt ---> " << ipmt << endl;
+	 cout << "row, col ---> " << row << ", " << col << endl;                                                                                                             
+	 cout << "ipmt_min, ipmt_max ----> " << ipmt_min << ", " << ipmt_max << endl;  	 
+       
 	 
 	 if(ipmt>=ipmt_min && ipmt<=ipmt_max){
 	   
@@ -1726,16 +1737,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	   
 	   
 	 }
+
+	 cout << "is pmt == ipmt_max ?? " << endl;
+	 cout << "ipmt: " << ipmt << " ? ipmt_max: " << ipmt_max << endl;
 	 
 	 if(ipmt==ipmt_max){
-
-	   ipmt_min = 14 * row;
+	   cout << "YES" << endl;
+	   row_cnt = row_cnt + 1;
+	   ipmt_min = 14 * row_cnt;
 	   ipmt_max = ipmt_min + 13;
 	 }
 
-
-
-	 
 	 //Set Min/Max Line Limits
 	 pcal_LineMin_old[ipmt] = new TLine(pCal_tWinMin_old[ipmt], 0, pCal_tWinMin_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	 pcal_LineMax_old[ipmt] = new TLine(pCal_tWinMax_old[ipmt], 0, pCal_tWinMax_old[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1776,15 +1788,18 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 P_cal_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
 	 pcal_LineMin[ipmt]->Draw();
 	 pcal_LineMax[ipmt]->Draw();
+	 pcal_LineMin_old[ipmt]->Draw();  
+	 pcal_LineMax_old[ipmt]->Draw(); 
 
 	 
 	 // add legend (only necessary on single pmt)
-	 if(ipmt==0){
-	     auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-	     pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
-	     pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
-	     pcal_legend->Draw();
-	   }
+	 if(ipmt==ipmt_min){
+	   auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+	   pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
+	   pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+	   pcal_legend->SetTextSize(0.08);
+	   pcal_legend->Draw();
+	 }
 	   
 	 pcalAdcCanv[row]->cd(col+1);
 	 gPad->SetLogy();
