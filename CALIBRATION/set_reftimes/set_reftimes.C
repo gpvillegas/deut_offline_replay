@@ -1649,8 +1649,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      else if(iside==1){	      
 		pPrsh_tWinMin[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
-		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
-		
+		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMax", ipmt, npl, 14);
 	      }
 
 	      
@@ -1677,6 +1676,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		prsh_legend->AddEntry(pPrsh_LineMin[iside][ipmt], "existing cut", "l");
+
 		prsh_legend->SetTextSize(0.1);
 		prsh_legend->Draw();
 	      }
