@@ -192,17 +192,17 @@ Double_t pcal_nSig = 40.;  // calorimeter
 
 //**NOTE** : These are found in the PARAM/TRIG/tcoin.param file
 
-static const Double_t ptrg1r1_tWinMin = 2200;    //pTRIG1_ROC1
-static const Double_t ptrg1r1_tWinMax = 3050;
+static const Double_t ptrg1r1_tWinMin = 0;    //pTRIG1_ROC1
+static const Double_t ptrg1r1_tWinMax = 0;
 
-static const Double_t ptrg1r2_tWinMin = 2850;    //pTRIG1_ROC2
-static const Double_t ptrg1r2_tWinMax = 3800;
+static const Double_t ptrg1r2_tWinMin = 0;    //pTRIG1_ROC2
+static const Double_t ptrg1r2_tWinMax = 0;
 
-static const Double_t ptrg4r1_tWinMin = 1900;
-static const Double_t ptrg4r1_tWinMax = 2900;
+static const Double_t ptrg4r1_tWinMin = 0;
+static const Double_t ptrg4r1_tWinMax = 0;
 
-static const Double_t ptrg4r2_tWinMin = 2600;
-static const Double_t ptrg4r2_tWinMax = 3550;
+static const Double_t ptrg4r2_tWinMin = 0;
+static const Double_t ptrg4r2_tWinMax = 0;
 
 //==============================================================
 
@@ -247,8 +247,18 @@ Double_t pcalAdc_nbins, pcalAdc_xmin, pcalAdc_xmax;
 //TRG DETECTOR Components
 Double_t ptrg1_roc1_nbins, ptrg1_roc1_xmin, ptrg1_roc1_xmax;
 Double_t ptrg1_roc2_nbins, ptrg1_roc2_xmin, ptrg1_roc2_xmax;
+
+Double_t ptrg2_roc1_nbins, ptrg2_roc1_xmin, ptrg2_roc1_xmax;
+Double_t ptrg2_roc2_nbins, ptrg2_roc2_xmin, ptrg2_roc2_xmax;
+
+Double_t ptrg3_roc1_nbins, ptrg3_roc1_xmin, ptrg3_roc1_xmax;
+Double_t ptrg3_roc2_nbins, ptrg3_roc2_xmin, ptrg3_roc2_xmax;
+
 Double_t ptrg4_roc1_nbins, ptrg4_roc1_xmin, ptrg4_roc1_xmax;
 Double_t ptrg4_roc2_nbins, ptrg4_roc2_xmin, ptrg4_roc2_xmax;
+
+Double_t pEDTM_nbins, pEDTM_xmin, pEDTM_xmax;
+
 
 //-------------------------------------------------------
 
@@ -313,8 +323,17 @@ TH1F *P_ngcer_TdcAdcTimeDiff_CUT[4];
 //TRG DETECTOR Histograms
 TH1F *pTrig1_ROC1_rawTdcTime;
 TH1F *pTrig1_ROC2_rawTdcTime;
+
+TH1F *pTrig2_ROC1_rawTdcTime;
+TH1F *pTrig2_ROC2_rawTdcTime;
+
+TH1F *pTrig3_ROC1_rawTdcTime;
+TH1F *pTrig3_ROC2_rawTdcTime;
+
 TH1F *pTrig4_ROC1_rawTdcTime;
 TH1F *pTrig4_ROC2_rawTdcTime;
+
+TH1F *pEDTM_rawTdcTime;
 
 //=========================
 //====DEFINE CANVAS========
@@ -489,8 +508,17 @@ TString n_pFADC_adcMult;
 //TRG Detector  Leaf Names
 TString n_ptrg1_r1;
 TString n_ptrg1_r2;
+
+TString n_ptrg2_r1;
+TString n_ptrg2_r2;
+
+TString n_ptrg3_r1;
+TString n_ptrg3_r2;
+
 TString n_ptrg4_r1;
 TString n_ptrg4_r2;
+
+TString n_pEDTM;
 
 //========================================
 //Define Variables Associated with Leafs
@@ -559,8 +587,17 @@ static Int_t pndata_rawTDC[dc_PLANES];
 //TRG Detector Leaf Variables
 static Double_t ptrg1_r1;
 static Double_t ptrg1_r2;
+
+static Double_t ptrg2_r1;
+static Double_t ptrg2_r2;
+
+static Double_t ptrg3_r1;
+static Double_t ptrg3_r2;
+
 static Double_t ptrg4_r1;
 static Double_t ptrg4_r2;
+
+static Double_t pEDTM;
 
 //=========================================================
 

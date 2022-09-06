@@ -150,7 +150,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //========================================
     mkdir(Form("Time_cuts_refTime%d", run), S_IRWXU);
     
-    mkdir(Form("Time_cuts_refTime%d/param_files", run), S_IRWXU);
+    //mkdir(Form("Time_cuts_refTime%d/param_files", run), S_IRWXU);
     
     mkdir(Form("Time_cuts_refTime%d/HMS", run), S_IRWXU);
     mkdir(Form("Time_cuts_refTime%d/SHMS", run), S_IRWXU); 
@@ -218,12 +218,21 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   }
 
   else{
-    //TRG (ptrig1,2,3,4,5,6)
-    ptrg1_roc1_nbins=200, ptrg1_roc1_xmin=500, ptrg1_roc1_xmax=4000;
-    ptrg1_roc2_nbins=200, ptrg1_roc2_xmin=500, ptrg1_roc2_xmax=4000;
-    ptrg4_roc1_nbins=200, ptrg4_roc1_xmin=500, ptrg4_roc1_xmax=4000;
-    ptrg4_roc2_nbins=200, ptrg4_roc2_xmin=500, ptrg4_roc2_xmax=4000;
+    //TRG (ptrig1,2,3,4), ONLY singles triggers (user may only be interested in triggers that form a coin. for example, pTRIG2, pTRIG3 (SHMS EL-REAL x HMS 3/4)
+    ptrg1_roc1_nbins=200, ptrg1_roc1_xmin=0, ptrg1_roc1_xmax=8000;
+    ptrg1_roc2_nbins=200, ptrg1_roc2_xmin=0, ptrg1_roc2_xmax=8000;
     
+    ptrg2_roc1_nbins=200, ptrg2_roc1_xmin=0, ptrg2_roc1_xmax=8000;
+    ptrg2_roc2_nbins=200, ptrg2_roc2_xmin=0, ptrg2_roc2_xmax=8000;
+
+    ptrg3_roc1_nbins=200, ptrg3_roc1_xmin=0, ptrg3_roc1_xmax=8000;
+    ptrg3_roc2_nbins=200, ptrg3_roc2_xmin=0, ptrg3_roc2_xmax=8000;
+
+    ptrg4_roc1_nbins=200, ptrg4_roc1_xmin=0, ptrg4_roc1_xmax=8000;
+    ptrg4_roc2_nbins=200, ptrg4_roc2_xmin=0, ptrg4_roc2_xmax=8000;
+    
+    pEDTM_nbins=200, pEDTM_xmin=0, pEDTM_xmax=8000;
+
     
     //ADC-TDC Time Diff Histos
     //HMS               SHMS
@@ -238,10 +247,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     hdc_nbins = 100,    pdc_nbins = 100;                                                      
     hdc_xmin = -20000,  pdc_xmin = -20000;               
-    hdc_xmax = -20000,  pdc_xmax = -20000;  
+    hdc_xmax = -10000,  pdc_xmax = -10000;  
     
     hcer_nbins = 100,   phgcer_nbins = 200,    pngcer_nbins = 200;                    
-    hcer_xmin = 0,      phgcer_xmin = -500,    pngcer_xmin = -500;       
+    hcer_xmin = -200,   phgcer_xmin = -500,    pngcer_xmin = -500;       
     hcer_xmax = 200,    phgcer_xmax = 500,     pngcer_xmax = 500;               
     
     hcal_nbins = 100,   pPrsh_nbins = 300,      pcal_nbins = 100;  
@@ -347,19 +356,47 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //TRIGGER DETECTOR (ONLY WHEN LOOKING AT COINCIDENCES)
     n_ptrg1_r1 = "T.coin.pTRIG1_ROC1_tdcTimeRaw";
     n_ptrg1_r2 = "T.coin.pTRIG1_ROC2_tdcTimeRaw";
+    
+    n_ptrg2_r1 = "T.coin.pTRIG2_ROC1_tdcTimeRaw";
+    n_ptrg2_r2 = "T.coin.pTRIG2_ROC2_tdcTimeRaw";
+    
+    n_ptrg3_r1 = "T.coin.pTRIG3_ROC1_tdcTimeRaw";
+    n_ptrg3_r2 = "T.coin.pTRIG3_ROC2_tdcTimeRaw";
+
     n_ptrg4_r1 = "T.coin.pTRIG4_ROC1_tdcTimeRaw";
     n_ptrg4_r2 = "T.coin.pTRIG4_ROC2_tdcTimeRaw";
     
+    n_pEDTM = "T.coin.pEDTM_tdcTimeRaw";
+
     T->SetBranchAddress(n_ptrg1_r1, &ptrg1_r1);
     T->SetBranchAddress(n_ptrg1_r2, &ptrg1_r2);
+    
+    T->SetBranchAddress(n_ptrg2_r1, &ptrg2_r1);
+    T->SetBranchAddress(n_ptrg2_r2, &ptrg2_r2);
+    
+    T->SetBranchAddress(n_ptrg3_r1, &ptrg3_r1);
+    T->SetBranchAddress(n_ptrg3_r2, &ptrg3_r2);
+
     T->SetBranchAddress(n_ptrg4_r1, &ptrg4_r1);
     T->SetBranchAddress(n_ptrg4_r2, &ptrg4_r2);
     
+    T->SetBranchAddress(n_pEDTM, &pEDTM);
+
     pTrig1_ROC1_rawTdcTime = new TH1F("pTRIG1_ROC1_rawTdcTime", "pTRIG1_ROC1_rawTdcTime", ptrg1_roc1_nbins, ptrg1_roc1_xmin, ptrg1_roc1_xmax);
     pTrig1_ROC2_rawTdcTime = new TH1F("pTRIG1_ROC2_rawTdcTime", "pTRIG1_ROC2_rawTdcTime", ptrg1_roc2_nbins, ptrg1_roc2_xmin, ptrg1_roc2_xmax);
+ 
+    pTrig2_ROC1_rawTdcTime = new TH1F("pTRIG2_ROC1_rawTdcTime", "pTRIG2_ROC1_rawTdcTime", ptrg2_roc1_nbins, ptrg2_roc1_xmin, ptrg2_roc1_xmax);
+    pTrig2_ROC2_rawTdcTime = new TH1F("pTRIG2_ROC2_rawTdcTime", "pTRIG2_ROC2_rawTdcTime", ptrg2_roc2_nbins, ptrg2_roc2_xmin, ptrg2_roc2_xmax);
+ 
+    pTrig3_ROC1_rawTdcTime = new TH1F("pTRIG3_ROC1_rawTdcTime", "pTRIG3_ROC1_rawTdcTime", ptrg3_roc1_nbins, ptrg3_roc1_xmin, ptrg3_roc1_xmax);
+    pTrig3_ROC2_rawTdcTime = new TH1F("pTRIG3_ROC2_rawTdcTime", "pTRIG3_ROC2_rawTdcTime", ptrg3_roc2_nbins, ptrg3_roc2_xmin, ptrg3_roc2_xmax);
+
     pTrig4_ROC1_rawTdcTime = new TH1F("pTRIG4_ROC1_rawTdcTime", "pTRIG4_ROC1_rawTdcTime", ptrg4_roc1_nbins, ptrg4_roc1_xmin, ptrg4_roc1_xmax);
     pTrig4_ROC2_rawTdcTime = new TH1F("pTRIG4_ROC2_rawTdcTime", "pTRIG4_ROC2_rawTdcTime", ptrg4_roc2_nbins, ptrg4_roc2_xmin, ptrg4_roc2_xmax);
     
+    pEDTM_rawTdcTime       = new TH1F("pEDTM_rawTdcTime",       "pEDTM_rawTdcTime",       pEDTM_nbins, pEDTM_xmin, pEDTM_xmax);
+
+
     
     //Loov over HMS  Cherenkov PMTs
     for (Int_t ipmt = 0; ipmt < 2; ipmt++ )
@@ -631,9 +668,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	//Fill TRG Detector Leafs
 	pTrig1_ROC1_rawTdcTime->Fill(ptrg1_r1);
 	pTrig1_ROC2_rawTdcTime->Fill(ptrg1_r2);
+	
+	pTrig2_ROC1_rawTdcTime->Fill(ptrg2_r1);
+	pTrig2_ROC2_rawTdcTime->Fill(ptrg2_r2);
+	
+	pTrig3_ROC1_rawTdcTime->Fill(ptrg3_r1);
+	pTrig3_ROC2_rawTdcTime->Fill(ptrg3_r2);
+
 	pTrig4_ROC1_rawTdcTime->Fill(ptrg4_r1);
 	pTrig4_ROC2_rawTdcTime->Fill(ptrg4_r2);
 	
+	pEDTM_rawTdcTime->Fill(pEDTM);
 
 	//Loop over Cherenkov PMTs
 	
@@ -869,7 +914,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hT1_Line->SetLineStyle(2);
     hT1_Line->SetLineWidth(3);
     hT1_Line->Draw();
-    href_legend->AddEntry(hT1_Line, "ref. time cut (existing)", "l");
+    href_legend->AddEntry(hT1_Line, "ref. time cut (existing cut)", "l");
+    href_legend->AddEntry(H_hodo_Tref_CUT, "multiplicity=1", "l");
+
     href_legend->Draw();
     
     hms_REF_Canv->cd(2);
@@ -924,8 +971,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     pT2_Line->SetLineStyle(2);
     pT2_Line->SetLineWidth(3);
     pT2_Line->Draw();
-    pref_legend->AddEntry(pT2_Line, "ref. time (existing)", "l");
-    pref_legend->SetTextSize(30);
+    pref_legend->AddEntry(pT2_Line, "ref. time (existing cut)", "l");
+    pref_legend->AddEntry(P_hodo_Tref2_CUT, "multiplicity=1", "l");
     pref_legend->Draw();
     
     shms_REF_Canv->cd(2);
@@ -968,9 +1015,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     //TRG Detector
     pTRG_Canv = new TCanvas("pTRIG_RawTimes", "pTRIG Raw TDC Times", 1500, 1500);
-    pTRG_Canv->Divide(2,2);
+    pTRG_Canv->Divide(2,3);
     
     
+    /*
     //Set Min/Max Line Limits
     ptrg1r1_LineMin = new TLine(ptrg1r1_tWinMin, 0, ptrg1r1_tWinMin, pTrig1_ROC1_rawTdcTime->GetMaximum());
     ptrg1r1_LineMax = new TLine(ptrg1r1_tWinMax, 0, ptrg1r1_tWinMax, pTrig1_ROC1_rawTdcTime->GetMaximum());
@@ -984,59 +1032,79 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     ptrg4r2_LineMin = new TLine(ptrg4r2_tWinMin, 0, ptrg4r2_tWinMin, pTrig4_ROC2_rawTdcTime->GetMaximum());
     ptrg4r2_LineMax = new TLine(ptrg4r2_tWinMax, 0, ptrg4r2_tWinMax, pTrig4_ROC2_rawTdcTime->GetMaximum());
   
-  ptrg1r1_LineMin->SetLineColor(kBlack);
-  ptrg1r1_LineMax->SetLineColor(kBlack);
-  ptrg1r2_LineMin->SetLineColor(kBlack);
-  ptrg1r2_LineMax->SetLineColor(kBlack);
-  ptrg4r1_LineMin->SetLineColor(kBlack);
-  ptrg4r1_LineMax->SetLineColor(kBlack);
-  ptrg4r2_LineMin->SetLineColor(kBlack);
-  ptrg4r2_LineMax->SetLineColor(kBlack);
+    ptrg1r1_LineMin->SetLineColor(kBlack);
+    ptrg1r1_LineMax->SetLineColor(kBlack);
+    ptrg1r2_LineMin->SetLineColor(kBlack);
+    ptrg1r2_LineMax->SetLineColor(kBlack);
+    ptrg4r1_LineMin->SetLineColor(kBlack);
+    ptrg4r1_LineMax->SetLineColor(kBlack);
+    ptrg4r2_LineMin->SetLineColor(kBlack);
+    ptrg4r2_LineMax->SetLineColor(kBlack);
+    
+    ptrg1r1_LineMin->SetLineStyle(2);                                                                                                                                      
+    ptrg1r1_LineMax->SetLineStyle(2);                                                                                                                                      
+    ptrg1r2_LineMin->SetLineStyle(2);                                                                                                                                      
+    ptrg1r2_LineMax->SetLineStyle(2);                                                                                                                                        
+    ptrg4r1_LineMin->SetLineStyle(2);                                                                                                                                       
+    ptrg4r1_LineMax->SetLineStyle(2);                                                                                                                                           
+    ptrg4r2_LineMin->SetLineStyle(2);                                                                                                                                            
+    ptrg4r2_LineMax->SetLineStyle(2);                                                                                                                                          
+    
+    
+    ptrg1r1_LineMin->SetLineWidth(3);                                                                                                                          
+    ptrg1r1_LineMax->SetLineWidth(3);                                                                                                                                           
+    ptrg1r2_LineMin->SetLineWidth(3);                                                                                                                                        
+    ptrg1r2_LineMax->SetLineWidth(3);                                                                                                                          
+    ptrg4r1_LineMin->SetLineWidth(3);                                                                                                                                 
+    ptrg4r1_LineMax->SetLineWidth(3);                                                                                                                                          
+    ptrg4r2_LineMin->SetLineWidth(3);                                                                                                                                      
+    ptrg4r2_LineMax->SetLineWidth(3);  
+    */
+    
+    pTRG_Canv->cd(1);
+    gPad->SetLogy();
+    pTrig1_ROC1_rawTdcTime->SetLineStyle(1);
+    pTrig1_ROC2_rawTdcTime->SetLineStyle(2);
+    pTrig1_ROC1_rawTdcTime->Draw();
+    pTrig2_ROC1_rawTdcTime->Draw("same");
 
-  ptrg1r1_LineMin->SetLineStyle(2);                                                                                                                                      
-  ptrg1r1_LineMax->SetLineStyle(2);                                                                                                                                      
-  ptrg1r2_LineMin->SetLineStyle(2);                                                                                                                                      
-  ptrg1r2_LineMax->SetLineStyle(2);                                                                                                                                        
-  ptrg4r1_LineMin->SetLineStyle(2);                                                                                                                                       
-  ptrg4r1_LineMax->SetLineStyle(2);                                                                                                                                           
-  ptrg4r2_LineMin->SetLineStyle(2);                                                                                                                                            
-  ptrg4r2_LineMax->SetLineStyle(2);                                                                                                                                          
-                                         
+    
+    pTRG_Canv->cd(2);
+    gPad->SetLogy();
+    pTrig2_ROC1_rawTdcTime->SetLineStyle(1);
+    pTrig2_ROC2_rawTdcTime->SetLineStyle(2);
+    pTrig2_ROC1_rawTdcTime->Draw();
+    pTrig2_ROC2_rawTdcTime->Draw("same");
 
-  ptrg1r1_LineMin->SetLineWidth(3);                                                                                                                          
-  ptrg1r1_LineMax->SetLineWidth(3);                                                                                                                                           
-  ptrg1r2_LineMin->SetLineWidth(3);                                                                                                                                        
-  ptrg1r2_LineMax->SetLineWidth(3);                                                                                                                          
-  ptrg4r1_LineMin->SetLineWidth(3);                                                                                                                                 
-  ptrg4r1_LineMax->SetLineWidth(3);                                                                                                                                          
-  ptrg4r2_LineMin->SetLineWidth(3);                                                                                                                                      
-  ptrg4r2_LineMax->SetLineWidth(3);  
+    
+    pTRG_Canv->cd(3);
+    gPad->SetLogy();
+    pTrig3_ROC1_rawTdcTime->SetLineStyle(1);
+    pTrig3_ROC2_rawTdcTime->SetLineStyle(2);
+    pTrig3_ROC1_rawTdcTime->Draw();
+    pTrig3_ROC2_rawTdcTime->Draw("same");
 
-  pTRG_Canv->cd(1);
-  gPad->SetLogy();
-  pTrig1_ROC1_rawTdcTime->Draw();
-  ptrg1r1_LineMin->Draw();
-  ptrg1r1_LineMax->Draw();
+    
+    pTRG_Canv->cd(4);
+    gPad->SetLogy();
+    pTrig4_ROC1_rawTdcTime->SetLineStyle(1);
+    pTrig4_ROC2_rawTdcTime->SetLineStyle(2);
+    pTrig4_ROC1_rawTdcTime->Draw();
+    pTrig4_ROC2_rawTdcTime->Draw("same");
   
-  pTRG_Canv->cd(2);
-  gPad->SetLogy();
-  pTrig1_ROC2_rawTdcTime->Draw();
-  ptrg1r2_LineMin->Draw();
-  ptrg1r2_LineMax->Draw();
+    pTRG_Canv->cd(5);
+    gPad->SetLogy();
+    pEDTM_rawTdcTime->SetLineStyle(1);
+    pEDTM_rawTdcTime->Draw();
 
-  pTRG_Canv->cd(3);
-  gPad->SetLogy();
-  pTrig4_ROC1_rawTdcTime->Draw();
-  ptrg4r1_LineMin->Draw();
-  ptrg4r1_LineMax->Draw();
-  
-  pTRG_Canv->cd(4);
-  gPad->SetLogy();
-  pTrig4_ROC2_rawTdcTime->Draw();
-  ptrg4r2_LineMin->Draw();
-  ptrg4r2_LineMax->Draw();
+    pTRG_Canv->cd(6);
+    auto tc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+    tc_legend->AddEntry(pTrig4_ROC1_rawTdcTime, "ROC1", "l");	 
+    tc_legend->AddEntry(pTrig4_ROC2_rawTdcTime, "ROC2", "l");	 
+    tc_legend->SetTextSize(0.1);
+    tc_legend->Draw();
 
-  pTRG_Canv->SaveAs(Form("Time_cuts_tWinSet%d/coin_trg_tWin.pdf",run));
+    pTRG_Canv->SaveAs(Form("Time_cuts_tWinSet%d/tcoin_trg_tWin.pdf",run));
   
   //===========
   //Cherenkovs
@@ -1086,7 +1154,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	  if(ipmt==0){
 	    auto hcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
-	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "existing", "l");	 
+	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "existing cut", "l");	 
 	    hcer_legend->SetTextSize(0.05);
 	    hcer_legend->Draw();
 	  }
@@ -1122,7 +1190,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(ipmt==0){
 	auto phgcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
-	phgcer_legend->AddEntry(phgcer_LineMin[ipmt], "existing", "l");       
+	phgcer_legend->AddEntry(phgcer_LineMin[ipmt], "existing cut", "l");       
 	phgcer_legend->SetTextSize(0.05);
 	phgcer_legend->Draw();
       }
@@ -1157,7 +1225,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(ipmt==0){
 	auto pngcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
-	pngcer_legend->AddEntry(pngcer_LineMin[ipmt], "existing", "l");	
+	pngcer_legend->AddEntry(pngcer_LineMin[ipmt], "existing cut", "l");	
 	pngcer_legend->SetTextSize(0.05);   
 	pngcer_legend->Draw();
       }
@@ -1220,8 +1288,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(npl==0){
 	auto hdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	hdc_legend->AddEntry(hdc_LineMin[npl], "existing", "l");	
-	hdc_legend->SetTextSize(0.08);
+	hdc_legend->AddEntry(hdc_LineMin[npl], "existing cut", "l");	
+	hdc_legend->SetTextSize(0.05);
 	hdc_legend->Draw();
       }
 	    
@@ -1259,8 +1327,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       if(npl==0){
 	auto pdc_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
-	pdc_legend->AddEntry(pdc_LineMin[npl], "existing", "l");
-	pdc_legend->SetTextSize(0.08);
+	pdc_legend->AddEntry(pdc_LineMin[npl], "existing cut", "l");
+	pdc_legend->SetTextSize(0.04);
 	pdc_legend->Draw();
       }
       
@@ -1410,8 +1478,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      // add legend (only necessary on single side
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto hhodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing", "l");
-		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new", "l");
+		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing cut", "l");
+		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new cut", "l");
 		hhodo_legend->Draw();
 	      }
 	      
@@ -1481,8 +1549,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      // add legend (only necessary on single side
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto phodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing", "l");
-		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new", "l");	       
+		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing cut", "l");
+		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new cut", "l");	       
 		phodo_legend->SetTextSize(0.08);
 		phodo_legend->Draw();
 	      }
@@ -1549,12 +1617,16 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      H_cal_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
 	      hcal_LineMin[npl][iside][ipmt]->Draw();
 	      hcal_LineMax[npl][iside][ipmt]->Draw();
+
+	      // draw existing time win. cuts
+	      hcal_LineMin_old[npl][iside][ipmt]->Draw();
+	      hcal_LineMax_old[npl][iside][ipmt]->Draw();
 	      
 	      // add legend (only necessary on single side)
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto hcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-		hcal_legend->AddEntry(hcal_LineMin_old[npl][iside][ipmt], "existing", "l");
-		hcal_legend->AddEntry(hcal_LineMin[npl][iside][ipmt], "new", "l");
+		hcal_legend->AddEntry(hcal_LineMin_old[npl][iside][ipmt], "existing cut", "l");
+		hcal_legend->AddEntry(hcal_LineMin[npl][iside][ipmt], "new cut", "l");
 		hcal_legend->Draw();
 	      }
 	      
@@ -1603,8 +1675,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // add legend (only necessary on single side)
 	      if((iside==0 || iside==1) && ipmt==0){
-		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.8);
-		prsh_legend->AddEntry(pPrsh_LineMin[iside][ipmt], "existing", "l");
+		auto prsh_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
+		prsh_legend->AddEntry(pPrsh_LineMin[iside][ipmt], "existing cut", "l");
+		prsh_legend->SetTextSize(0.1);
 		prsh_legend->Draw();
 	      }
 	      
@@ -1693,7 +1766,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		      auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		      pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
 		      pcal_legend->SetTextColor(kBlue);
-		      pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+		      pcal_legend->AddEntry(pcal_LineMin[ipmt], "new cut", "l");
 		      pcal_legend->SetTextColor(kGreen+3);
 		      pcal_legend->SetTextSize(0.08);
 		      pcal_legend->Draw();
@@ -1732,7 +1805,6 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   //------------------------x
   
   
-  cout << "------ initialize ipmt_min,max to (0, 13)" << endl;
   int row_cnt = 0; //redundant counter 
   int ipmt = 0; //initialize pmt counter
   int ipmt_min = 0; 
@@ -1753,25 +1825,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 
 	 //-----------------------
-
-	 cout << "ipmt ---> " << ipmt << endl;
-	 cout << "row, col ---> " << row << ", " << col << endl;                                                                                                             
-	 cout << "ipmt_min, ipmt_max ----> " << ipmt_min << ", " << ipmt_max << endl;  	 
        
 	 
 	 if(ipmt>=ipmt_min && ipmt<=ipmt_max){
 	   
-	   pCal_tWinMin_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMin", ipmt-ipmt_min, row, 16 );
-	   pCal_tWinMax_old[ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param",  "pcal_arr_AdcTimeWindowMax", ipmt-ipmt_min, row, 16 );
+	   pCal_tWinMin_old[ipmt] = GetParam( pcal_param_fname.Data(),  "pcal_arr_AdcTimeWindowMin", ipmt-ipmt_min, row, 16 );
+	   pCal_tWinMax_old[ipmt] = GetParam( pcal_param_fname.Data(),  "pcal_arr_AdcTimeWindowMax", ipmt-ipmt_min, row, 16 );
 	   
 	   
 	 }
 
-	 cout << "is pmt == ipmt_max ?? " << endl;
-	 cout << "ipmt: " << ipmt << " ? ipmt_max: " << ipmt_max << endl;
-	 
 	 if(ipmt==ipmt_max){
-	   cout << "YES" << endl;
 	   row_cnt = row_cnt + 1;
 	   ipmt_min = 14 * row_cnt;
 	   ipmt_max = ipmt_min + 13;
@@ -1824,8 +1888,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 // add legend (only necessary on single pmt)
 	 if(ipmt==ipmt_min){
 	   auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
-	   pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing", "l");
-	   pcal_legend->AddEntry(pcal_LineMin[ipmt], "new", "l");
+	   pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing cut", "l");
+	   pcal_legend->AddEntry(pcal_LineMin[ipmt], "new cut", "l");
 	   pcal_legend->SetTextSize(0.08);
 	   pcal_legend->Draw();
 	 }
@@ -1883,63 +1947,62 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
  ofstream out_phgcer;
  ofstream out_pngcer; 
 
- // Later on, once could set an actual path to where to write these parameter, for now, write in current dir.
  //HMS Hodo
- out_hhodo.open(Form("Time_cuts_tWinSet%d/param_files/hhodo_tWin_%d.param", run, run));
+ out_hhodo.open(Form("Time_cuts_tWinSet%d/param_files/hhodo_tWin_%d_new.param", run, run));
  out_hhodo << "; HMS Hodoscope Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hhodo << " " << endl;
  out_hhodo << " " << endl;
  out_hhodo << " " << endl;
  //SHMS Hodo
- out_phodo.open(Form("Time_cuts_tWinSet%d/param_files/phodo_tWin_%d.param", run, run));
+ out_phodo.open(Form("Time_cuts_tWinSet%d/param_files/phodo_tWin_%d_new.param", run, run));
  out_phodo << "; SHMS Hodoscope Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_phodo << " " << endl;
  out_phodo << " " << endl;
  out_phodo << " " << endl;
  //HMS Cal
- out_hcal.open(Form("Time_cuts_tWinSet%d/param_files/hcal_tWin_%d.param", run, run));
+ out_hcal.open(Form("Time_cuts_tWinSet%d/param_files/hcal_tWin_%d_new.param", run, run));
  out_hcal << "; HMS Calorimeter Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hcal << " " << endl;
  out_hcal << " " << endl;
  out_hcal << " " << endl;
  //SHMS PreSh
- out_pprsh.open(Form("Time_cuts_tWinSet%d/param_files/pprsh_tWin_%d.param", run, run));
+ out_pprsh.open(Form("Time_cuts_tWinSet%d/param_files/pprsh_tWin_%d_existing.param", run, run));
  out_pprsh << "; SHMS Pre-Shower Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pprsh << " " << endl;
  out_pprsh << " " << endl;
  out_pprsh << " " << endl;
  //SHMS Fly's Eye Cal
- out_pcal.open(Form("Time_cuts_tWinSet%d/param_files/pcal_tWin_%d.param", run, run));
+ out_pcal.open(Form("Time_cuts_tWinSet%d/param_files/pcal_tWin_%d_new.param", run, run));
  out_pcal << "; SHMS Fly's Eye Calorimeter  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pcal << " " << endl;
  out_pcal << " " << endl;
  out_pcal << " " << endl;
  //HMS DC
- out_hdc.open(Form("Time_cuts_tWinSet%d/param_files/hdc_tWin_%d.param", run, run));
+ out_hdc.open(Form("Time_cuts_tWinSet%d/param_files/hdc_tWin_%d_existing.param", run, run));
  out_hdc << "; HMS DC  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hdc << " " << endl;
  out_hdc << " " << endl;
  out_hdc << " " << endl;
  //SHMS DC
- out_pdc.open(Form("Time_cuts_tWinSet%d/param_files/pdc_tWin_%d.param", run, run));
+ out_pdc.open(Form("Time_cuts_tWinSet%d/param_files/pdc_tWin_%d_existing.param", run, run));
  out_pdc << "; SHMS DC  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pdc << " " << endl;
  out_pdc << " " << endl;
  out_pdc << " " << endl;
  //HMS Cer
- out_hcer.open(Form("Time_cuts_tWinSet%d/param_files/hcer_tWin_%d.param", run, run));
+ out_hcer.open(Form("Time_cuts_tWinSet%d/param_files/hcer_tWin_%d_existing.param", run, run));
  out_hcer << "; HMS Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_hcer << " " << endl;
  out_hcer << " " << endl;
  out_hcer << " " << endl;
 //SHMS HGCER
- out_phgcer.open(Form("Time_cuts_tWinSet%d/param_files/phgcer_tWin_%d.param",run, run));
+ out_phgcer.open(Form("Time_cuts_tWinSet%d/param_files/phgcer_tWin_%d_existing.param",run, run));
  out_phgcer << "; SHMS Heavy Gas Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_phgcer << " " << endl;
  out_phgcer << " " << endl;
  out_phgcer << " " << endl;
 //SHMS NGCER
- out_pngcer.open(Form("Time_cuts_tWinSet%d/param_files/pngcer_tWin_%d.param", run, run));
+ out_pngcer.open(Form("Time_cuts_tWinSet%d/param_files/pngcer_tWin_%d_existing.param", run, run));
  out_pngcer << "; SHMS Noble Gas Cer  Parameter File Containing TimeWindow Min/Max Cuts " << endl;
  out_pngcer << " " << endl;
  out_pngcer << " " << endl;

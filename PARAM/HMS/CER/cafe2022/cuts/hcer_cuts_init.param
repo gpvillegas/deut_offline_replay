@@ -26,5 +26,5 @@ hcer_adc_tdc_offset= 0.
 hcer_PedDefault= 2161., 1940.
 
 ; cut variable is H.cer.goodAdcTdcDiffTime
-hcer_adcTimeWindowMin =   -500.,  -500.
-hcer_adcTimeWindowMax =    500.,   500.
+hcer_adcTimeWindowMin =  -190.,  -190.
+hcer_adcTimeWindowMax =  190.,   190.

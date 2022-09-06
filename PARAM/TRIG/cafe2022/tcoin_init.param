@@ -1,3 +1,5 @@
+; fall 2022 cafe start-up
+
 t_coin_numAdc = 19
 t_coin_numTdc = 115
 
@@ -7,8 +9,8 @@ t_coin_adc_tdc_offset = 200.
 t_coin_tdcchanperns = 0.09766
 eHadCoinTime_Offset = 0.
 
-t_coin_trig_tdcrefcut = -1000.
-t_coin_trig_adcrefcut = -1000.
+t_coin_trig_tdcrefcut = -3200.
+t_coin_trig_adcrefcut = -4000.
 
 ;NOTE: pTRIG1_ROC1, pTRIG4_ROC1, pTRIG1_ROC2, pTRIG4_ROC2 (tdcTimeRaw),  are hard-coded in THcTrigDet.cxx class
 ;      These varibles and their indices are used for the coincidence time calculation, and should NOT change here.

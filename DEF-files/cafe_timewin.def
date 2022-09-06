@@ -1,0 +1,40 @@
+# Def-files with leaf variables relevant for setting detector time window cuts
+block T.coin.pTRIG*_tdcTimeRaw
+block T.coin.pEDTM_tdcTimeRaw
+
+# ---------------------------------------
+
+
+block H.cer.goodAdcTdcDiffTime
+block H.cer.goodAdcMult
+
+block H.dc.*.rawtdc
+
+block H.hod.*.*TdcTimeUnCorr
+block H.hod.*.*AdcTdcDiffTime
+block H.hod.*.*AdcMult
+
+block H.cal.*.*AdcTdcDiffTime
+block H.cal.*.*AdcMult
+
+#----------------------------------------
+
+block P.hgcer.goodAdcTdcDiffTime
+block P.hgcer.goodAdcMult
+
+block P.ngcer.goodAdcTdcDiffTime
+block P.ngcer.goodAdcMult
+
+block P.dc.*.rawtdc
+
+block P.hod.*.*TdcTimeUnCorr
+block P.hod.*.*AdcTdcDiffTime
+block P.hod.*.*AdcMult
+
+block P.cal.pr.good*AdcTdcDiffTime
+block P.cal.pr.good*AdcMult
+block P.cal.pr.good*AdcPulseTime
+
+block P.cal.fly.goodAdcTdcDiffTime
+block P.cal.fly.goodAdcMult
+block P.cal.fly.goodAdcPulseTime
