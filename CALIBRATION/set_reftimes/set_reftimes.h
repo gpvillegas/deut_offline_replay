@@ -1,5 +1,5 @@
-#ifndef REF_TIME_CUTS
-#define REF_TIME_CUTS
+#ifndef SET_REFTIMES
+#define SET_REFTIMES
 
 
 //=====================================================
@@ -30,6 +30,30 @@ static const Int_t pmaxPMT[hod_PLANES] = {13, 13, 14, 21};
 
 //=====================================================
 
+
+
+  //===========================================================
+  // Set Existing Detector Time Window / Ref Times Param Files
+  //===========================================================
+
+  // User MUST point to the param files currently being used
+  // by their replay script so that the existing cuts may be overlayed with
+  // the replayed data, and determine whether to change the limits or not
+TString pref_param_fname;
+TString href_param_fname;
+
+TString phodo_param_fname;
+TString hhodo_param_fname;
+
+TString pdc_param_fname;
+  TString hdc_param_fname;
+
+TString phgcer_param_fname;
+TString pngcer_param_fname;
+TString hcer_param_fname;
+
+TString hcal_param_fname;
+TString pcal_param_fname;
 
 
 //=====================================================

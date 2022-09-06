@@ -13,12 +13,38 @@
 #include <iostream>
 
 // load dedicated header files for this task
-#include "ref_time_cuts.h"
+#include "set_reftimes.h"
 #include "../../UTILS_CAFE/UTILS/parse_utils.h"
 #include "../../UTILS_CAFE/UTILS/hallc_parse_utils.h"
 
 using namespace std;
 
+
+void set_param_files(){
+  
+  // User MUST point to the param files currently being used
+  // by their replay script so that the existing cuts may be overlayed with
+  // the replayed data, and determine whether to change the limits or not
+  // the new limits (for hodoscopes and calorimeter will be determined automatically,
+  // given the high channel density
+
+  pref_param_fname = "../../PARAM/SHMS/GEN/p_reftime_cut.param";
+  href_param_fname = "../../PARAM/HMS/GEN/h_reftime_cut.param";
+
+  phodo_param_fname = "../../PARAM/SHMS/HODO/phodo_cuts.param";
+  hhodo_param_fname = "../../PARAM/HMS/HODO/hhodo_cuts.param";
+  
+  pdc_param_fname = "../../PARAM/SHMS/DC/pdc_cuts.param";
+  hdc_param_fname = "../../PARAM/HMS/DC/hdc_cuts.param";
+
+  phgcer_param_fname = "../../PARAM/SHMS/HGCER/phgcer_cuts.param";
+  pngcer_param_fname = "../../PARAM/SHMS/NGCER/pngcer_cuts.param";
+  hcer_param_fname = "../../PARAM/HMS/CER/hcer_cuts.param";
+
+  pcal_param_fname = "../../PARAM/SHMS/CAL/pcal_cuts.param";
+  hcal_param_fname = "../../PARAM/HMS/CAL/hcal_cuts.param";
+
+}
 
 Double_t read_ref_times(TString spec="", TString det_reftime_name=""){
 
@@ -45,20 +71,19 @@ Double_t read_ref_times(TString spec="", TString det_reftime_name=""){
 
    */
 
-
+  // call function that defines param file paths
+  set_param_files();
   
   Double_t  det_reftime;
-  TString param_fname;
+ 
   
   if(spec=="SHMS"){
-    param_fname = "../../PARAM/SHMS/GEN/p_reftime_cut.param";
     //cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
-    det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),  param_fname.Data())[0], '=')[1]);
+    det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),  pref_param_fname.Data())[0], '=')[1]);
   }
   else if (spec=="HMS"){
-    param_fname = "../../PARAM/HMS/GEN/h_reftime_cut.param";
     //cout << Form("reading reference time parameter '%s' from: %s",  det_reftime_name.Data(), param_fname.Data()) << endl;
-    det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),   param_fname.Data())[0], '=')[1]);
+    det_reftime = stod(split(FindString(Form("%s", det_reftime_name.Data()),   href_param_fname.Data())[0], '=')[1]);
   }
   
   return det_reftime;
@@ -90,12 +115,16 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   
   //prevent overcrouded axes
   TGaxis::SetMaxDigits(3);
+
+
+  // call function that defines param file paths
+  set_param_files();
+
   
   //=========================
   //====OPEN ROOT FILE=======
   //=========================
   
-  TString rtype = "coin";  //coin or "hms", "shms"  (singles in coin mode)
     
   // Open Ref Time Windows (used to set ref. times)
   //TString filename = Form("../ROOTfiles/open_ref_times/Pion_coin_replay_timeWin_check_cyero_%d_100000.root", run);
@@ -130,7 +159,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     mkdir(Form("Time_cuts_refTime%d/SHMS/refTime", run), S_IRWXU);
 
     //Create output root file where histograms will be stored                                                                  
-    outROOT = new TFile(Form("./Time_cuts_refTime%d/refTime_%s_histos_run%d.root", run, rtype.Data(), run), "recreate"); 
+    outROOT = new TFile(Form("./Time_cuts_refTime%d/refTime_%s_histos_run%d.root", run, daq_mode.Data(), run), "recreate"); 
   }
   
   //Create HMS/SHMS Det time win. Dir
@@ -159,7 +188,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     mkdir(Form("Time_cuts_tWinSet%d/SHMS/DC", run), S_IRWXU);
 
     //Create output root file where histograms will be stored                                        
-    outROOT = new TFile(Form("./Time_cuts_tWinSet%d/detTimeWin_%s_histos_run%d.root", run, rtype.Data(), run), "recreate"); 
+    outROOT = new TFile(Form("./Time_cuts_tWinSet%d/detTimeWin_%s_histos_run%d.root", run, daq_mode.Data(), run), "recreate"); 
   }
 
   
@@ -1033,8 +1062,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //HMS Cherenkov
       if(ipmt < 2)
 	{
-	  hCer_tWinMin[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMin", ipmt, 0, 2);
-	  hCer_tWinMax[ipmt] = GetParam("../../PARAM/HMS/CER/hcer_cuts.param", "hcer_adcTimeWindowMax", ipmt, 0, 2);
+	  hCer_tWinMin[ipmt] = GetParam(hcer_param_fname.Data(), "hcer_adcTimeWindowMin", ipmt, 0, 2);
+	  hCer_tWinMax[ipmt] = GetParam(hcer_param_fname.Data(), "hcer_adcTimeWindowMax", ipmt, 0, 2);
 	   
 	  //Set Min/Max Line Limits
 	  hCER_LineMin[ipmt] = new TLine(hCer_tWinMin[ipmt], 0, hCer_tWinMin[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1068,8 +1097,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       // HEAVY GAS CHERENKOV
       //======================
 
-      phgcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/HGCER/phgcer_cuts.param", "phgcer_adcTimeWindowMin", ipmt, 0, 4);
-      phgcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/HGCER/phgcer_cuts.param", "phgcer_adcTimeWindowMax", ipmt, 0, 4);
+      phgcer_tWinMin[ipmt] = GetParam(phgcer_param_fname.Data() , "phgcer_adcTimeWindowMin", ipmt, 0, 4);
+      phgcer_tWinMax[ipmt] = GetParam(phgcer_param_fname.Data(), "phgcer_adcTimeWindowMax", ipmt, 0, 4);
       //Set Min/Max Line Limits
       phgcer_LineMin[ipmt] = new TLine(phgcer_tWinMin[ipmt], 0, phgcer_tWinMin[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       phgcer_LineMax[ipmt] = new TLine(phgcer_tWinMax[ipmt], 0, phgcer_tWinMax[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
