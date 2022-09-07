@@ -14,8 +14,8 @@
 
 // load dedicated header files for this task
 #include "set_reftimes.h"
-#include "../../UTILS_CAFE/UTILS/parse_utils.h"
-#include "../../UTILS_CAFE/UTILS/hallc_parse_utils.h"
+#include "../../../UTILS_CAFE/UTILS/parse_utils.h"
+#include "../../../UTILS_CAFE/UTILS/hallc_parse_utils.h"
 
 using namespace std;
 
@@ -598,7 +598,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   //===================================
 
   Long64_t nentries = T->GetEntries();
-  nentries = 10000;
+  
   //Define A Boolean for multiplicity CUTS
   Bool_t good_Mult;
   
@@ -1352,13 +1352,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	{  
 	  
 	  //Define HMS Hodo Canv
-	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
-	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
+	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
+	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
 
 	  
 	  //Define SHMS Hodo Canv
-	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
-	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2000, 1500);
+	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
+	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
 
 	  
 	  //Define HMS Calorimeter Canvas for all planes

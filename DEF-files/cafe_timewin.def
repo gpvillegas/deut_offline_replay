@@ -1,6 +1,25 @@
 # Def-files with leaf variables relevant for setting detector time window cuts
+
 block T.coin.pTRIG*_tdcTimeRaw
 block T.coin.pEDTM_tdcTimeRaw
+
+block T.coin.hT1_tdcTimeRaw 
+block T.coin.hT1_tdcMultiplicity 
+
+block T.coin.hDCREF*_tdcTimeRaw
+block T.coin.hDCREF*_tdcMultiplicity
+
+block T.coin.hFADC_TREF_ROC1_adcPulseTimeRaw  
+block T.coin.hFADC_TREF_ROC1_adcMultiplicity
+
+block T.coin.pT*_tdcTimeRaw 
+block T.coin.pT*_tdcMultiplicity
+
+block T.coin.pDCREF*_tdcTimeRaw
+block T.coin.pDCREF*_tdcMultiplicity
+
+block T.coin.pFADC_TREF_ROC2_adcPulseTimeRaw
+block T.coin.pFADC_TREF_ROC2_adcMultiplicity
 
 # ---------------------------------------
 

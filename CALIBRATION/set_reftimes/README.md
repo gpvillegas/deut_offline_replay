@@ -14,9 +14,9 @@ The main script takes the following arguments:
 `
 
 ```sh
-# To load the script, simply do:      
+# To run the script on an existing ROOTfile, simply do:      
 $ root -l                                                                                                                                                                   
-$ .L set_reftimes.C
+$ .L scripts/set_reftimes.C
 
 # Then, to check/set reference times or detector time windows, 
 # change the 'Bool_t set_refTimes' flag to either 'true' (ref. times) or
