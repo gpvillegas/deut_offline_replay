@@ -1,14 +1,22 @@
 # Overview
 Useful Docuentation: [https://hallcweb.jlab.org/DocDB/0010/001032/001/analysis_notes.pdf]()
 
-### Scripts in current directory: <br>
+### directory structure: <br>
 
-`set_reftimes.C` main script to check/set reference times or detector time window cuts
+`scripts/set_reftimes.C` main script to check/set reference times or detector time window cuts
 
-`set_reftimes.h` header file to define variables used in the main script
+`scripts/set_reftimes.h` header file to define variables used in the main script
 
+`set_reftime.sh`: shell script that (1) replays data and (2) checks ref. time of replayed data
 
-### How-to Guide:
+`set_timewin.sh`: shell script that (1) replays data and (2) checks detector time windows of replayed data
+
+**NOTE**: Since checking/setting ref. times/detector time windows requires specific leaf variables to be in a ROOTfile, the shell script automatically replays the data with the  required variables and thne analyzes the output ROOTfile to determine the existing reference time/detector time windows currently
+set and in the case of hodoscopes/calorimeters, it suggests new time window cuts as well, since these are high-density detectors with many channels for a user to set manually.
+
+### how-to guide:
+If there is an existing ROOTfile (assuming it has the required leaf variables), the user may run the main script directly.
+
 The main script takes the following arguments:
 `void set_reftimes(TString filename = "", int run = 0, TString daq_mode = "coin", Bool_t set_refTimes = true, Bool_t debug = false)
 `
