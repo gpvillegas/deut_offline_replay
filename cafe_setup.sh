@@ -55,7 +55,7 @@ set_hcana_link()
 	echo "Creating hcana symbolic link now  . . ."
 	ln -sf $HCANALYZER"/hcana"
 	ln -sf $HCANALYZER"/libHallC.so"
-	ln -sf $HCANALYZER"/libHallC.so.0.90.0"
+	ln -sf $HCANALYZER"/libHallC.so.0.95.0"
 	echo ""
     fi    
 }
