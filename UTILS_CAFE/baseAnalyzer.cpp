@@ -3036,6 +3036,7 @@ void baseAnalyzer::CalcEff()
   if(trig_type_single=="trig2") { Ps_factor_single = Ps2_factor; }
   if(trig_type_single=="trig3") { Ps_factor_single = Ps3_factor; }
   if(trig_type_single=="trig4") { Ps_factor_single = Ps4_factor; }
+  
 
   if(trig_type_coin=="trig5") { Ps_factor_coin = Ps5_factor; }
   if(trig_type_coin=="trig6") { Ps_factor_coin = Ps6_factor; }
@@ -3156,13 +3157,13 @@ void baseAnalyzer::ApplyWeight()
   if((analysis_cut=="heep_singles") || (analysis_cut=="optics") || (analysis_cut=="lumi") || (analysis_cut=="bcm_calib")){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
 
     FullWeight = Ps_factor_single;    // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
-
+    cout << "Ps_factor_single = " << Ps_factor_single << endl;
   }
 
   else{ // else use pre-scale factor determined from trig_type input parameter (pre-scale factor for coincidence trigger, determined from input param)
 
     FullWeight = Ps_factor_coin; 
-
+    cout << "Ps_factor_coin = " << Ps_factor_single << endl; 
   }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
   

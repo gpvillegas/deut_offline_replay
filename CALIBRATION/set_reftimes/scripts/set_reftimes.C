@@ -237,8 +237,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //ADC-TDC Time Diff Histos
     //HMS               SHMS
     hhod_nbins = 100,   phod_nbins = 100;    
-    hhod_xmin = -200,    phod_xmin = -200;    
-    hhod_xmax = 200,     phod_xmax = 200;  
+    hhod_xmin = -500,    phod_xmin = -500;    
+    hhod_xmax = 500,     phod_xmax = 500;  
     
     //hodo tdc time bins (debug)
     hhod_tnbins = 100,   phod_tnbins = 100;    
@@ -247,15 +247,15 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     hdc_nbins = 100,    pdc_nbins = 100;                                                      
     hdc_xmin = -20000,  pdc_xmin = -20000;               
-    hdc_xmax = -10000,  pdc_xmax = -10000;  
+    hdc_xmax = 0.,  pdc_xmax = 0;  
     
     hcer_nbins = 100,   phgcer_nbins = 200,    pngcer_nbins = 200;                    
-    hcer_xmin = -200,   phgcer_xmin = -500,    pngcer_xmin = -500;       
-    hcer_xmax = 200,    phgcer_xmax = 500,     pngcer_xmax = 500;               
+    hcer_xmin = -500,   phgcer_xmin = -500,    pngcer_xmin = -500;       
+    hcer_xmax = 500,    phgcer_xmax = 500,     pngcer_xmax = 500;               
     
-    hcal_nbins = 100,   pPrsh_nbins = 300,      pcal_nbins = 100;  
-    hcal_xmin = -150,   pPrsh_xmin = -300,      pcal_xmin = -150;    
-    hcal_xmax = 150,    pPrsh_xmax = 300,       pcal_xmax = 150; 
+    hcal_nbins = 100,   pPrsh_nbins = 100,      pcal_nbins = 100;  
+    hcal_xmin = -500,   pPrsh_xmin = -500,      pcal_xmin = -500;    
+    hcal_xmax = 500,    pPrsh_xmax = 500,       pcal_xmax = 500; 
     
     pPrshAdc_nbins = 500,         pcalAdc_nbins = 500;
     pPrshAdc_xmin = -500.,        pcalAdc_xmin = -500.;
@@ -1352,18 +1352,18 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	{  
 	  
 	  //Define HMS Hodo Canv
-	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
-	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
+	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
+	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
 
 	  
 	  //Define SHMS Hodo Canv
 	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
-	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
+	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
 
 	  
 	  //Define HMS Calorimeter Canvas for all planes
 	  if (!(npl==2&&iside==1) && !(npl==3&&iside==1)){
-	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  2000, 1500);
+	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  2000, 500);
 	    hcaloCanv[npl][iside]->Divide(5,3);	     
 	  }
 	  
@@ -1371,8 +1371,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Define SHMS PreShower and Calorimeter Canvas
 	  if(npl==0)
 	    {
-	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  2000, 1500);
-	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  2000, 1500);
+	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  2000, 500);
+	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  2000, 500);
 
 	    }
 	  
