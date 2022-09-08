@@ -77,7 +77,8 @@ analyze_data=1   # 1: true (analyze data), 0: false (analyze simc)
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5           # beam current threhsold cut > bcm_thrs [uA]
-trig_type="trig5"    # trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps6_factor)  (only for coin triggers, if singles tirgger, then change manually inside baseAnalyzer.cpp)
+trig_single="trig2"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
+trig_coin="trig5"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
 combine_runs=0
 
 # hcana script
@@ -106,7 +107,7 @@ runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
 				   ${analyze_data}, \\\"${kin_type}\\\", \\\"${ana_type}\\\",
           			    ${hel_flag},
                                    \\\"${bcm_type}\\\", ${bcm_thrs},
-                                   \\\"${trig_type}\\\", ${combine_runs}
+                                   \\\"${trig_single}\\\", \\\"${trig_coin}\\\", ${combine_runs}
                      )\""
 
 fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"

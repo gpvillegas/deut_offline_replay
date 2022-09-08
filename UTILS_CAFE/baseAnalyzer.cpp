@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
-  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type_single(trig_single), trig_type_coin(trig_coin), combine_runs_flag(combine_flag)   //initialize member list 
 {
   
   cout << "Calling BaseConstructor " << endl;
@@ -3018,13 +3018,27 @@ void baseAnalyzer::CalcEff()
   if(Ps6_factor==-1) { cpuLT_trig6 = -1.0, tLT_trig6 = -1.0; }
   
   //Choose what trigger type to use in correction factor (see set_basic_cuts.inp)
-  if(trig_type=="trig1") { trig_rate = TRIG1scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig1, cpuLT_trig_err_Bi = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig1_err_Bay, tLT_trig = tLT_trig1, tLT_trig_err_Bi = tLT_trig1_err_Bi, tLT_trig_err_Bay = tLT_trig1_err_Bay, Ps_factor = Ps1_factor, total_trig_scaler_bcm_cut = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig1_accp_bcm_cut; }
-  if(trig_type=="trig2") { trig_rate = TRIG2scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig2, cpuLT_trig_err_Bi = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig2_err_Bay, tLT_trig = tLT_trig2, tLT_trig_err_Bi = tLT_trig2_err_Bi, tLT_trig_err_Bay = tLT_trig2_err_Bay, Ps_factor = Ps2_factor, total_trig_scaler_bcm_cut = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig2_accp_bcm_cut; }
-  if(trig_type=="trig3") { trig_rate = TRIG3scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig3, cpuLT_trig_err_Bi = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig3_err_Bay, tLT_trig = tLT_trig3, tLT_trig_err_Bi = tLT_trig3_err_Bi, tLT_trig_err_Bay = tLT_trig3_err_Bay, Ps_factor = Ps3_factor, total_trig_scaler_bcm_cut = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig3_accp_bcm_cut; }
-  if(trig_type=="trig4") { trig_rate = TRIG4scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig4, cpuLT_trig_err_Bi = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig4_err_Bay, tLT_trig = tLT_trig4, tLT_trig_err_Bi = tLT_trig4_err_Bi, tLT_trig_err_Bay = tLT_trig4_err_Bay, Ps_factor = Ps4_factor, total_trig_scaler_bcm_cut = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig4_accp_bcm_cut; }
-  if(trig_type=="trig5") { trig_rate = TRIG5scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig5, cpuLT_trig_err_Bi = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig5_err_Bay, tLT_trig = tLT_trig5, tLT_trig_err_Bi = tLT_trig5_err_Bi, tLT_trig_err_Bay = tLT_trig5_err_Bay, Ps_factor = Ps5_factor, total_trig_scaler_bcm_cut = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig5_accp_bcm_cut; }
-  if(trig_type=="trig6") { trig_rate = TRIG6scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig6, cpuLT_trig_err_Bi = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig6_err_Bay, tLT_trig = tLT_trig6, tLT_trig_err_Bi = tLT_trig6_err_Bi, tLT_trig_err_Bay = tLT_trig6_err_Bay, Ps_factor = Ps6_factor, total_trig_scaler_bcm_cut = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig6_accp_bcm_cut; }
+  //---- will need to thing about removing the lines below, and just require a Ps_singles and Ps_coin factors, to be applied in the full weight, since every trigger info is already wirtten
+  // to a report file, there is no need to be selective, except on pre-scale factor that goes in weight
+  /*
+  if(trig_type_single=="trig1") { trig_rate = TRIG1scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig1, cpuLT_trig_err_Bi = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig1_err_Bay, tLT_trig = tLT_trig1, tLT_trig_err_Bi = tLT_trig1_err_Bi, tLT_trig_err_Bay = tLT_trig1_err_Bay, Ps_factor = Ps1_factor, total_trig_scaler_bcm_cut = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig1_accp_bcm_cut; }
+  if(trig_type_single=="trig2") { trig_rate = TRIG2scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig2, cpuLT_trig_err_Bi = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig2_err_Bay, tLT_trig = tLT_trig2, tLT_trig_err_Bi = tLT_trig2_err_Bi, tLT_trig_err_Bay = tLT_trig2_err_Bay, Ps_factor = Ps2_factor, total_trig_scaler_bcm_cut = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig2_accp_bcm_cut; }
+  if(trig_type_single=="trig3") { trig_rate = TRIG3scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig3, cpuLT_trig_err_Bi = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig3_err_Bay, tLT_trig = tLT_trig3, tLT_trig_err_Bi = tLT_trig3_err_Bi, tLT_trig_err_Bay = tLT_trig3_err_Bay, Ps_factor = Ps3_factor, total_trig_scaler_bcm_cut = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig3_accp_bcm_cut; }
+  if(trig_type_single=="trig4") { trig_rate = TRIG4scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig4, cpuLT_trig_err_Bi = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig4_err_Bay, tLT_trig = tLT_trig4, tLT_trig_err_Bi = tLT_trig4_err_Bi, tLT_trig_err_Bay = tLT_trig4_err_Bay, Ps_factor = Ps4_factor, total_trig_scaler_bcm_cut = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig4_accp_bcm_cut; }
 
+
+  if(trig_type_coin=="trig5") { trig_rate = TRIG5scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig5, cpuLT_trig_err_Bi = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig5_err_Bay, tLT_trig = tLT_trig5, tLT_trig_err_Bi = tLT_trig5_err_Bi, tLT_trig_err_Bay = tLT_trig5_err_Bay, Ps_factor = Ps5_factor, total_trig_scaler_bcm_cut = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig5_accp_bcm_cut; }
+  if(trig_type_coin=="trig6") { trig_rate = TRIG6scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig6, cpuLT_trig_err_Bi = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig6_err_Bay, tLT_trig = tLT_trig6, tLT_trig_err_Bi = tLT_trig6_err_Bi, tLT_trig_err_Bay = tLT_trig6_err_Bay, Ps_factor = Ps6_factor, total_trig_scaler_bcm_cut = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig6_accp_bcm_cut; }
+  */
+
+  // select which pre-scale factors to apply in the weight (depend if looking at singles or coin)
+  if(trig_type_single=="trig1") { Ps_factor_single = Ps1_factor; }
+  if(trig_type_single=="trig2") { Ps_factor_single = Ps2_factor; }
+  if(trig_type_single=="trig3") { Ps_factor_single = Ps3_factor; }
+  if(trig_type_single=="trig4") { Ps_factor_single = Ps4_factor; }
+
+  if(trig_type_coin=="trig5") { Ps_factor_coin = Ps5_factor; }
+  if(trig_type_coin=="trig6") { Ps_factor_coin = Ps6_factor; }
 
   //Calculate HMS Tracking Efficiency                                                                                                                 
   hTrkEff = h_did / h_should;                                                                                                                  
@@ -3140,12 +3154,15 @@ void baseAnalyzer::ApplyWeight()
 
   // assuming these options are used on SHMS singles with EL-REAL trigger
   if((analysis_cut=="heep_singles") || (analysis_cut=="optics") || (analysis_cut=="lumi") || (analysis_cut=="bcm_calib")){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
-    FullWeight = Ps2_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
-    cout << "FullWeight ----> Ps2_factor; = " << FullWeight  << endl; 
+
+    FullWeight = Ps_factor_single;    // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
+
   }
+
   else{ // else use pre-scale factor determined from trig_type input parameter (pre-scale factor for coincidence trigger, determined from input param)
-    FullWeight = Ps_factor; 
-    cout << "FullWeight ----> Ps_factor; = " << FullWeight << endl; 
+
+    FullWeight = Ps_factor_coin; 
+
   }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
   
@@ -3704,13 +3721,14 @@ void baseAnalyzer::WriteReport()
   
 }
 
+/*
 //_______________________________________________________________________________
 void baseAnalyzer::WriteReportSummary()
 {
   
-  /*Method to write charge, efficiencies, live time and other relevant quantities to a data file
-    on a run-by-run basis, and self-updating file, meaning, each run that is replayed will be appended into the file.    
-   */
+  //Method to write charge, efficiencies, live time and other relevant quantities to a data file
+  //  on a run-by-run basis, and self-updating file, meaning, each run that is replayed will be appended into the file.    
+   
   
   cout << "Calling WriteReportSummary() . . ." << endl;
 
@@ -3774,6 +3792,7 @@ void baseAnalyzer::WriteReportSummary()
   cout << "Ending WriteReportSummary() . . ." << endl;
   
 } //End WriteReport()
+*/
 
 //_______________________________________________________________________________
 void baseAnalyzer::CombineHistos()

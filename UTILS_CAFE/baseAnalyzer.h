@@ -16,7 +16,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
@@ -164,8 +164,8 @@ protected:
   Double_t heep_kin2_charge=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
 
   Double_t heep_kin0_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
-  Double_t heep_kin1_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
-  Double_t heep_kin2_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+  Double_t heep_kin1_lumi_simc=0;   // H(e,e'p) elastics kin1 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_lumi_simc=0;   // H(e,e'p) elastics kin2 (SHMS angle = 6.8 deg)
   
   
   Double_t simc_cafe_counts=0;    // MF/SRC event rate
@@ -183,7 +183,10 @@ protected:
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
-  TString trig_type;      // trigger type to actually use when calculating live tim
+
+  TString trig_type_single;      // trigger type to actually use when applying pre-scale factor to event weight (only if analyzing singles)
+  TString trig_type_coin;      // trigger type to actually use when applying pre-scale factor to event weight   (only if analyzing coincidence)
+  
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
 
   // Read in general info from REPORT file 
@@ -928,7 +931,8 @@ protected:
   Bool_t c_trig6;
 
   //Pre-Scale factor for each pre-trigger (used in computer/total live time calculation, to account for pre-scaled triggers)
-  Float_t Ps_factor = 1;  //generic pre-scale factor
+  Float_t Ps_factor_single = 1;  //generic pre-scale factor for singles
+  Float_t Ps_factor_coin = 1;  //generic pre-scale factor for coin
   Float_t Ps1_factor = 1;  //default is 1
   Float_t Ps2_factor = 1;
   Float_t Ps3_factor = 1;
