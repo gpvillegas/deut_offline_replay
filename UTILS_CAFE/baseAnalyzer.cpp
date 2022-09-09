@@ -581,6 +581,45 @@ void baseAnalyzer::ReadInputFile()
     gSystem->Exit(0);
   }
   in_file.close();
+
+  if(analyze_data==false){
+    
+    //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
+    if(analysis_cut=="heep_coin"){
+      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_heep_scan_kin2_rad.root"; //shms 8.55 GeV, 8.3 deg
+      simc_ifile             = "hallc_simulations/infiles/cafe_heep_scan_kin2_rad.data";
+      
+      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_heep_scan_kin2_rad_output.root"; //shms 8.55 GeV, 8.3 deg
+      
+    }
+    
+    if(analysis_cut=="MF"){
+      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_c12_MF_rad.root";
+      simc_ifile             = "hallc_simulations/infiles/cafe_c12_MF_rad.data";
+      
+      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+      
+    }
+    
+    if(analysis_cut=="SRC"){
+      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_d2_SRC_rad.root";
+      simc_ifile             = "hallc_simulations/infiles/cafe_d2_SRC_rad.data";
+      
+      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+      
+    }
+
+    // Read SIMC input file central values during online analysis (to be used in calculations later,
+    // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
+
+    tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
+    beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
+    hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+    hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+    shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+    shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+    
+  }
   
   //----------------------------------
   //----OUTPUTS (USER WRITES OUT)-----
@@ -2102,7 +2141,126 @@ void baseAnalyzer::ReadTree()
 
   else if(analyze_data==false)
     {
-      cout << "SIMC ANALYSIS C++ CODE HAS NOT BEEN DONE YET ! ! !" << endl;
+
+      //Read ROOTfile
+      inROOT = new TFile(simc_InputFileName_rad, "READ");
+
+      //Get the tree
+      tree = (TTree*)inROOT->Get("SNT");
+      nentries = tree->GetEntries();
+
+
+      //--- Primary Kinematics (electron kinematics) ---
+      tree->SetBranchAddress("theta_e", &th_e);
+      tree->SetBranchAddress("W", &W);
+      // W2 can be calculated in event loop
+      tree->SetBranchAddress("Q2", &Q2);
+      //Xbj needs to be calculated in the event loop
+      tree->SetBranchAddress("nu", &nu);
+      tree->SetBranchAddress("q", &q); //[GeV]
+      // qx,qy,qz can be calculated in event loop
+      // th_q needs to be calculated in the event loop
+      // ph_q can be calculated in event loop
+
+      
+      //--- Secondary Kinematics (hadron kinematics) ---
+      tree->SetBranchAddress("Em", &Em);
+      tree->SetBranchAddress("Pm", &Pm);
+      tree->SetBranchAddress("Pmx", &Pmx_lab);
+      tree->SetBranchAddress("Pmy", &Pmy_lab);
+      tree->SetBranchAddress("Pmz", &Pmz_lab);
+      
+      tree->SetBranchAddress("PmPer", &Pmx_q);  //in-plane perpendicular component to +z
+      tree->SetBranchAddress("PmOop", &Pmy_q);  //out-of-plane component (Oop)
+      tree->SetBranchAddress("PmPar", &Pmz_q);  //parallel component to +z
+      
+      //Pmx_lab,Pmy_lab,Pmz_lab, Pmx_q, Pmy_q, Pmz_q can also
+      //calculated externally in the EventLoop (using auxiliary methods from hcana), but this is for later
+      
+      //Tx, Tr -> kinetic energy of detected (x) and recoil (r) are calculated in the event loop
+
+      // MM -> missing (recoil) mass calculated in event loop
+      tree->SetBranchAddress("theta_pq", &th_xq); // in-plane angle between detected (x) and q [rad]
+      tree->SetBranchAddress("theta_rq", &th_rq); // in-plane angle between recoil (r) and q [rad] | can also be calculated in the event loop (externally using hcana methods)
+      tree->SetBranchAddress("phi_pq", &ph_xq); // out-of-plane angle between detected (x) and q [rad] 
+      // ph_rq | out-of-plane angle between recoil (r) and q [rad] | can be calculated in the event loop (externally using hcana methods)
+      tree->SetBranchAddress("theta_p", &th_x); // proton angle [rad]
+
+
+      tree->SetBranchAddress("h_pf",    &Pf); // proton final momentum [MeV/c]
+      tree->SetBranchAddress("e_pf",    &kf); // electron final momentum [MeV/c]
+
+      //----Hadron Arm Focal Plane----- 
+      tree->SetBranchAddress("h_xfp",  &h_xfp);
+      tree->SetBranchAddress("h_xpfp", &h_xpfp);
+      tree->SetBranchAddress("h_yfp",  &h_yfp);
+      tree->SetBranchAddress("h_ypfp", &h_ypfp);
+
+      //----Hadron Arm Reconstructed-----
+      tree->SetBranchAddress("h_ytar",  &h_ytar);
+      tree->SetBranchAddress("h_yptar", &h_yptar);
+      tree->SetBranchAddress("h_xptar", &h_xptar);
+      tree->SetBranchAddress("h_delta", &h_delta);
+
+      //----Electron Arm Focal Plane---- 
+      tree->SetBranchAddress("e_xfp",  &e_xfp);
+      tree->SetBranchAddress("e_xpfp", &e_xpfp);
+      tree->SetBranchAddress("e_yfp",  &e_yfp);
+      tree->SetBranchAddress("e_ypfp", &e_ypfp);
+
+      //----Electron Arm Reconstructed----- 
+      tree->SetBranchAddress("e_ytar",  &e_ytar);
+      tree->SetBranchAddress("e_yptar", &e_yptar);
+      tree->SetBranchAddress("e_xptar", &e_xptar);
+      tree->SetBranchAddress("e_delta", &e_delta);
+
+      //----Target Quantities----
+      //(tarx, tary, tarz) in Hall Coord. System      
+      tree->SetBranchAddress("tar_x", &tar_x);
+      tree->SetBranchAddress("h_yv",  &htar_y);
+      tree->SetBranchAddress("h_zv",  &htar_z);
+      tree->SetBranchAddress("e_yv",  &etar_y);
+      tree->SetBranchAddress("e_zv",  &etar_z);
+ 
+      //--- Collimator Quantities ---
+      // is calculated in event loop, something like . . .
+      // htarx_corr = tar_x - h_xptar*htar_z*cos(th_x*dtr);  hXColl = htarx_corr + h_xptar*168.;   //in cm
+      // etarx_corr = tar_x - e_xptar*etar_z*cos(th_e*dtr);
+      // eYColl = e_ytar + e_yptar*253.-(0.019+40.*.01*0.052)*e_delta+(0.00019+40*.01*.00052)*e_delta*e_delta; 
+      
+      //SIMC-SPECIFIC LEAF VARIABLES (Not all may be used here)
+      // the 'i' represents thrown (not reconstructed) quantities, from the vertex to focal plane
+      tree->SetBranchAddress("Normfac",  &Normfac);
+      tree->SetBranchAddress("Weight",   &Weight);
+      
+      tree->SetBranchAddress("h_deltai", &h_deltai);
+      tree->SetBranchAddress("h_yptari", &h_yptari);
+      tree->SetBranchAddress("h_xptari", &h_xptari);
+      tree->SetBranchAddress("h_ytari",  &h_ytari);
+
+      tree->SetBranchAddress("e_deltai", &e_deltai);
+      tree->SetBranchAddress("e_yptari", &e_yptari);
+      tree->SetBranchAddress("e_xptari", &e_xptari);
+      tree->SetBranchAddress("e_ytari",  &e_ytari);
+      
+      tree->SetBranchAddress("epsilon",  &epsilon);
+      tree->SetBranchAddress("corrsing", &corrsing);
+      tree->SetBranchAddress("fry",      &fry);
+      tree->SetBranchAddress("radphot",  &radphot);
+      tree->SetBranchAddress("sigcc",    &sigcc);
+      tree->SetBranchAddress("Jacobian", &Jacobian);
+      tree->SetBranchAddress("Genweight",&Genweight);
+      tree->SetBranchAddress("SF_weight", &SF_weight);
+      tree->SetBranchAddress("Jacobian_corr", &Jacobian_corr);
+      tree->SetBranchAddress("sig", &sig);
+      tree->SetBranchAddress("sig_recon", &sig_recon);
+      tree->SetBranchAddress("sigcc_recon", &sigcc_recon);
+      tree->SetBranchAddress("coul_corr", &coul_corr);
+      tree->SetBranchAddress("Ein", &Ein);
+      tree->SetBranchAddress("SF_weight_recon", &SF_weight_recon);
+      tree->SetBranchAddress("probabs", &prob_abs);
+      
+      
     } //END SIMC SET BRANCH ADDRESS
 
 
@@ -2168,13 +2326,9 @@ void baseAnalyzer::EventLoop()
 	  
 	  tree->GetEntry(ientry);
 
-	  
-  
-	  //cout << "ientry = " << ientry << endl;
-
 	  //--------------CALCULATED KINEMATICS VARIABLES (IF THEY ARE NOT ALREADY DONE IN HCANA)-----------
 
-	  th_x = xangle - th_e;  //hadron arm central angle for each particle
+	  th_x = xangle - th_e;  //detected hadron angle for each particle
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
@@ -2767,7 +2921,70 @@ void baseAnalyzer::EventLoop()
 
   if(analyze_data==false)
     {
-      cout << "SIMC ANALYSIS needs to be done . . . " << endl;
+      
+      for(int ientry=0; ientry<nentries; ientry++)
+	{
+	  
+	  tree->GetEntry(ientry);
+
+	  //SIMC FullWeight
+	  FullWeight = Normfac * Weight * prob_abs / nentries;
+
+	   //--------Calculated Kinematic Varibales----------------
+	  
+	  //Convert MeV to GeV
+	  Ein = Ein / 1000.;     //incident beam energy [GeV]
+	  kf = kf / 1000.;       //final electron momentum [GeV]
+	  Pf = Pf / 1000.;       //final proton momentum [GeV]
+
+	  ki = sqrt(Ein*Ein - me*me);        //initial electron momentum [GeV]
+ 
+	  
+	  W2 = W*W;
+	  X = Q2 / (2.*MP*nu);                           
+	  th_q = acos( (ki - kf*cos(th_e))/q );  // [rad]     
+
+	  // detected particle (proton for A(e,e'p) reactions)
+	  Ex = sqrt(MP*MP + Pf*Pf);	  
+	  Tx = Ex - MP;  // detected (x) particle kinetic energy (assuming proton)
+
+	  // recoil particle kinematics (ONLY LH2, LD2 and C12 allowed in SIMC), then can be scaled accordingly
+	  if(tgt_type=="LH2"){
+	    Er = nu + MH - Ex; // [GeV] supposed to be at zero, since there is no recoil particle for h(e,e'p)
+	    Tr = Er - 0;
+	    MM = sqrt(Er*Er - Pm*Pm);
+	  }
+	  else if(tgt_type=="LD2"){
+	    Er = nu + MD - Ex; 
+	    Tr = Er - MN;
+	    MM = sqrt(Er*Er - Pm*Pm);
+	  }	  
+	  else if(tgt_type=="C12"){
+	    Er = nu + MC12 - Ex;
+	    Tr = Er - MB11;       // C12 (6p,6n) -> 1p + B11(5p, 6n) single proton knockout of C12 gives B11 recoil system
+	    MM = sqrt(Er*Er - Pm*Pm);
+	  }
+
+
+	  
+	  //----------------------SIMC Collimator-------------------------
+	  
+	  htarx_corr = tar_x - h_xptar*htar_z*cos(hms_angle_simc*dtr);
+	  etarx_corr = tar_x - e_xptar*etar_z*cos(shms_angle_simc*dtr);  
+	  
+	  
+	  //Define Collimator (same as in HCANA)
+	  hXColl = htarx_corr + h_xptar*168.;   //in cm
+	  hYColl = h_ytar + h_yptar*168.;
+	  eXColl = etarx_corr + e_xptar*253.;
+	  eYColl = e_ytar + e_yptar*253.-(0.019+40.*.01*0.052)*e_delta+(0.00019+40*.01*.00052)*e_delta*e_delta; //correct for HB horizontal bend
+	  
+	  
+	  //--------------------------------------------------------------
+
+	  
+	} // end event loop
+
     }
   
 }

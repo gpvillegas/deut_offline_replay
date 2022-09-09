@@ -205,6 +205,14 @@ protected:
   TString start_of_run;
   TString end_of_run;
 
+  // Read general info from SIMC input file 
+  Double_t tgt_mass_simc;
+  Double_t beam_energy_simc;
+  Double_t hms_p_simc;
+  Double_t hms_angle_simc;
+  Double_t shms_p_simc;
+  Double_t shms_angle_simc;
+  
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
   TString hArm;
@@ -224,10 +232,14 @@ protected:
   //Input ROOTfile Name (to be read)
   TString data_InputFileName;
   TString data_InputReport;
-
+  TString simc_InputFileName_rad;
+  TString simc_InputFileName_norad;
+  TString simc_ifile;  // simc input file (to read central settings used in simulation)
   
   //Output ROOTfile Name
   TString data_OutputFileName;
+  TString simc_OutputFileName_rad;
+  TString simc_OutputFileName_norad;
   
   //ROOTfile to store combined hists from different runs
   TString data_OutputFileName_combined; 
@@ -1306,6 +1318,7 @@ protected:
   Double_t MandelU;               //Mandelstam u for secondary vertex [GeV^2]
 
   //Kinematics Defined in HCANA (which are not in primary/secondary modules)
+  Double_t ki;
   Double_t kf;       // final electron arm momentum [GeV/c]
   Double_t Pf;       // final proton momentum [GeV/c]
   
@@ -1313,6 +1326,11 @@ protected:
   Double_t th_x;                   //hadron arm particle central angle
   Double_t MM2;                   //Missing Mass Squared
 
+  Double_t Ex;  // energy of detected particle
+  Double_t Er;  // energy of recoil system
+
+  
+  
   //------------------------------------
   //-----Acceptance Leaf Variables------
   //------------------------------------
@@ -1349,6 +1367,8 @@ protected:
   Double_t etar_y;  //[cm]
   Double_t etar_z;  //[cm]
 
+  Double_t tar_x;  // common tarx in simc
+  
   //Collimator Quantities (in spectrometer corrdinate system)
   Double_t hXColl;  //[cm]
   Double_t hYColl;  //[cm]
@@ -1359,6 +1379,45 @@ protected:
   Double_t ztar_diff; //[cm]
 
 
+  //----- SIMC Specific TTree Variable Names -----
+  Double_t Normfac;
+  Double_t Weight;               //This Weight has the cross section in it
+
+  //Thrown quantities (Used to determine spec. resolution)
+  Double_t h_deltai;
+  Double_t h_yptari;
+  Double_t h_xptari;
+  Double_t h_ytari;
+  
+  Double_t e_deltai;
+  Double_t e_yptari;
+  Double_t e_xptari;
+  Double_t e_ytari;
+  
+  Double_t corrsing;
+  Double_t fry;
+  Double_t radphot;
+  Double_t sigcc;
+  Double_t Jacobian;
+  Double_t Genweight;
+  Double_t SF_weight;
+  Double_t Jacobian_corr;
+  Double_t sig;
+  Double_t sig_recon;
+  Double_t sigcc_recon;
+  Double_t coul_corr;
+  Double_t Ein;                  //single beam energy value (SIMC Uses this energy. If not corr. for energy loss, it should be same as in input file)
+  Double_t SF_weight_recon;
+
+  Double_t prob_abs;  // Probability of absorption of particle in the HMS Collimator
+                      //(Must be multiplies by the weight. If particle interation is
+                      //NOT simulated, it is set to 1.)
+  
+  //SIMC x-target corrected (used for  X,Y Collimator position calc.) 
+  Double_t htarx_corr;
+  Double_t etarx_corr;
+
+  
   
   //----------END TTREE LEAF VARIABLE NAMES (DATA or SIMC)--------------
 
@@ -1455,6 +1514,7 @@ protected:
   //-----------------VARIABLES RELATED TO FullWeight APPLIED TO DATA-YIELD------------------
 
   Double_t FullWeight = 1;  //default
+  
   
   Double_t hadAbs_corr;           //correct for lost coincidences due to the hadron in HMS (or SHMS) NOT making it to the hodoscopes to form trigger
   Double_t hadAbs_corr_err;       //uncertainty in hadron absorption correction factor

@@ -1,8 +1,9 @@
 # Set Input File Name Pattern from replayed data (same file pattern as set in replay_cafe.C script)
 
-# cafe (using mock runs from deut. exp 2018) | %s %s %d %d -> <analysis_type>, <analysis_type>, <runNum>, <evtNum>
+# cafe data  | %s %s %d %d -> <analysis_type>, <analysis_type>, <runNum>, <evtNum>
 input_ROOTfilePattern        = ROOTfiles/%s/cafe_replay_%s_%d_%d.root
 input_REPORTPattern          = REPORT_OUTPUT/%s/cafe_%s_%d_%d.report
+
 
 #Set User Analyzed Output File Name Pattern
 output_ROOTfilePattern        = CAFE_OUTPUT/ROOT/cafe_%s_histos_%d_%d.root
