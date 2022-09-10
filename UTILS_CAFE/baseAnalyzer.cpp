@@ -2437,7 +2437,7 @@ void baseAnalyzer::EventLoop()
 	  //=====END: CUTS USED IN TRACKING EFFICIENCY CALCULATION=====
 	  
 	  
-	  //====DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC, except PID CUTS on detectors)====
+	  //====DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC, except PID & COIN TIME CUTS on detectors)====
 
 	  // CUTS (SPECIFIC TO DATA)
 	 
@@ -2919,6 +2919,8 @@ void baseAnalyzer::EventLoop()
           
     }//END DATA ANALYSIS
 
+
+  
   if(analyze_data==false)
     {
       
@@ -2938,7 +2940,9 @@ void baseAnalyzer::EventLoop()
 	  Pf = Pf / 1000.;       //final proton momentum [GeV]
 
 	  ki = sqrt(Ein*Ein - me*me);        //initial electron momentum [GeV]
- 
+
+	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
+
 	  
 	  W2 = W*W;
 	  X = Q2 / (2.*MP*nu);                           
@@ -2948,23 +2952,23 @@ void baseAnalyzer::EventLoop()
 	  Ex = sqrt(MP*MP + Pf*Pf);	  
 	  Tx = Ex - MP;  // detected (x) particle kinetic energy (assuming proton)
 
+	  
 	  // recoil particle kinematics (ONLY LH2, LD2 and C12 allowed in SIMC), then can be scaled accordingly
-	  if(tgt_type=="LH2"){
+	  if(analysis_cut=="heep_coin"){
 	    Er = nu + MH - Ex; // [GeV] supposed to be at zero, since there is no recoil particle for h(e,e'p)
 	    Tr = Er - 0;
 	    MM = sqrt(Er*Er - Pm*Pm);
 	  }
-	  else if(tgt_type=="LD2"){
+	  else if(analysis_cut=="SRC"){
 	    Er = nu + MD - Ex; 
 	    Tr = Er - MN;
 	    MM = sqrt(Er*Er - Pm*Pm);
 	  }	  
-	  else if(tgt_type=="C12"){
+	  else if(analysis_cut=="MF"){
 	    Er = nu + MC12 - Ex;
 	    Tr = Er - MB11;       // C12 (6p,6n) -> 1p + B11(5p, 6n) single proton knockout of C12 gives B11 recoil system
 	    MM = sqrt(Er*Er - Pm*Pm);
 	  }
-
 
 	  
 	  //----------------------SIMC Collimator-------------------------
@@ -2982,6 +2986,165 @@ void baseAnalyzer::EventLoop()
 	  
 	  //--------------------------------------------------------------
 
+
+	  
+	  //----------------------------------------------------------
+	  //
+	  //===  SIMC ANALYSIS CUTS (MUST BE EXACTLY SAME AS DATA) ===
+	  //
+	  //----------------------------------------------------------
+
+
+	   //----Acceptance Cuts----
+
+	  // hadron arm
+	  if(hdelta_cut_flag){c_hdelta = h_delta>=c_hdelta_min && h_delta<=c_hdelta_max;} 
+	  else{c_hdelta=1;}
+
+	  if(hxptar_cut_flag){c_hxptar = h_xptar>=c_hxptar_min && h_xptar<=c_hxptar_max;} 
+	  else{c_hxptar=1;}
+
+	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
+	  else{c_hyptar=1;}
+
+	  //Collimator CUTS
+	  if(hmsCollCut_flag)  { hmsColl_Cut =  hms_Coll_gCut->IsInside(hYColl, hXColl);}
+	  else{hmsColl_Cut=1;}
+	  
+	  c_accpCuts_hms = c_hdelta && c_hxptar && c_hyptar && hmsColl_Cut;
+	  
+	  // electron arm
+	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
+	  else{c_edelta=1;} 
+
+	  if(exptar_cut_flag){c_exptar = e_xptar>=c_exptar_min && e_xptar<=c_exptar_max;} 
+	  else{c_exptar=1;}
+
+	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
+	  else{c_eyptar=1;}
+
+	  //Collimator Cuts
+	  if(shmsCollCut_flag) { shmsColl_Cut =  shms_Coll_gCut->IsInside(eYColl, eXColl);}
+	  else{shmsColl_Cut=1;}
+	  
+	  c_accpCuts_shms = c_edelta && c_exptar && c_eyptar && shmsColl_Cut;
+  
+	  // z-reaction vertex difference
+	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
+	  else{c_ztarDiff=1;}
+
+	  // combined hms/shms acceptance cuts 
+	  c_accpCuts = c_accpCuts_hms && c_accpCuts_shms && c_ztarDiff;
+	  
+	  //----Specialized Kinematics Cuts----
+
+	  // H(e,e'p) Kinematics
+	  
+	  //Q2
+	  if(Q2_heep_cut_flag){c_heep_Q2 = Q2>=c_heep_Q2_min && Q2<=c_heep_Q2_max;}
+	  else{c_heep_Q2=1;}
+
+	  //xbj
+	  if(xbj_heep_cut_flag){c_heep_xbj = X>=c_heep_xbj_min && X<=c_heep_xbj_max;}
+	  else{c_heep_xbj=1;}
+	  
+	  //Missing Energy, Em
+	  if(Em_heep_cut_flag){c_heep_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;}
+	  else{c_heep_Em=1;}
+
+	  //Invariant Mass, W
+	  if(W_heep_cut_flag){c_heep_W = W>=c_heep_W_min && W<=c_heep_W_max;}
+	  else{c_heep_W=1;}
+
+	  //Missing Mass, MM = sqrt( E_recoil^2 - P_miss ^2 )
+	  if(MM_heep_cut_flag){c_heep_MM = MM>=c_heep_MM_min && MM<=c_heep_MM_max;}
+	  else{c_heep_MM=1;}
+
+
+	  // H(e,e'p) singles ( e- trigger only)
+	  c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W && c_heep_xbj;
+
+	  // H(e,e'p) coin ( e- + p coin. trigger )
+	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_xbj && c_heep_Em && c_heep_W && c_heep_MM;
+	  
+	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_MF_cut_flag){c_MF_Q2 = Q2>=c_MF_Q2_min && Q2<=c_MF_Q2_max;}
+	  else{c_MF_Q2=1;}
+
+	  // Pm
+	  if(Pm_MF_cut_flag){c_MF_Pm = Pm>=c_MF_Pm_min && Pm<=c_MF_Pm_max;}
+	  else{c_MF_Pm=1;}
+
+	  // Em ( require this cut ONLY for deuteron) -- for now, ignore this CUT, as we'll ONLY use C12 for mean-field (maybe we change it later), C.Y. Sep 09, 2022
+	  //if(Em_d2MF_cut_flag){c_d2MF_Em = Em>=c_d2MF_Em_min && Em <= c_d2MF_Em_max;}
+	  //else{c_d2MF_Em=1;}
+
+	  // Em ( require this cut ONLY for A>2 nuclei)
+	  if(Em_MF_cut_flag){c_MF_Em = Em >= c_MF_Em_min && Em <= c_MF_Em_max;}
+	  else{c_MF_Em=1;}
+	  
+	  //c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_d2MF_Em && c_MF_Em;
+	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_MF_Em;
+	    
+	  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_SRC_cut_flag){c_SRC_Q2 = Q2>=c_SRC_Q2_min && Q2<=c_SRC_Q2_max;}
+	  else{c_SRC_Q2=1;}
+
+	  // Pm
+	  if(Pm_SRC_cut_flag){c_SRC_Pm = Pm>=c_SRC_Pm_min && Pm<=c_SRC_Pm_max;}
+	  else{c_SRC_Pm=1;}
+
+	  // Xbj
+	  if(Xbj_SRC_cut_flag){c_SRC_Xbj = X >= c_SRC_Xbj_min && X <= c_SRC_Xbj_max;}
+	  else{c_SRC_Xbj=1;}
+	  
+	  // theta_rq
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
+	  else{c_SRC_thrq=1;}
+	  
+	  // Em ( require this cut ONLY for deuteron)
+	  if(Em_d2SRC_cut_flag){c_d2SRC_Em = Em>=c_d2SRC_Em_min && Em <= c_d2SRC_Em_max;}
+	  else{c_d2SRC_Em=1;}
+
+	  // Em ( require this cut ONLY for A>2 nuclei) -- ignore cut for now, since we only use d2 for SRC simulation
+	  //if(Em_SRC_cut_flag && tgt_type!="LD2"){c_SRC_Em = Em_src>0. && Em_nuc <= Em_src; // put lower bound on Em_src cut
+	  //cout << "c_SRC_Em = " << c_SRC_Em << endl;
+	  //  }
+	  //else{c_SRC_Em=1;}
+	  
+
+	  //c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em && c_SRC_Em;
+	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em;
+
+
+	 
+			  	 
+	  // ----- Combine All CUTS -----
+
+	  // user pre-determined analysis kinematics cuts
+
+	  if(analysis_cut=="heep_coin"){
+	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeepCoin_Cuts;
+	  }
+	  else if(analysis_cut=="MF"){
+	    c_baseCuts =  c_accpCuts && c_kinMF_Cuts;
+	  }
+	  else if(analysis_cut=="SRC"){
+	    c_baseCuts =  c_accpCuts && c_kinSRC_Cuts;
+	  }
+	  
+	  
+	  
+	  //====END: SIMC ANALYSIS CUTS (MUST BE EXACTLY SAME AS DATA)===
+
+
+
+
+	  
 	  
 	} // end event loop
 
