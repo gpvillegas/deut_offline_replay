@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -27,8 +27,6 @@ void make_online_plots(int run=0, TString tgt_type="", TString ana_type="", TStr
     cout << Form("data file: %s does NOT exist. Exit. ", data_file_path.Data() ) << endl;
     gSystem->Exit(0);
   }
-
-  Bool_t simc_exist = !gSystem->AccessPathName( simc_file_path.Data() );
   
   cout << "simc_exist ? " << simc_exist << endl;
   //Where to store plots

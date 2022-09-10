@@ -835,46 +835,46 @@ void baseAnalyzer::ReadInputFile()
   // =====================
   //  SIMC
   //======================
-  if(analyze_data==false){
+ 
     
     //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
-    if(analysis_cut=="heep_coin"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
-      simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
-      
-    }
+  if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
+    simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
     
-    if(analysis_cut=="MF"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
-      simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
-      
-    }
-    
-    if(analysis_cut=="SRC"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
-      simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
-      
-    }
-
-    // Read SIMC input file central values during online analysis (to be used in calculations later,
-    // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
-
-    tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
-    beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
-    hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
-    hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
-    shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
-    shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
     
   }
+  
+  if(analysis_cut=="MF"){
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
+    simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
     
- 
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+    
+  }
+  
+  if(analysis_cut=="SRC"){
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
+    simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
+    
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+    
+  }
+
+    if(analyze_data==false){
+      // Read SIMC input file central values during online analysis (to be used in calculations later,
+      // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
+      
+      tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
+      beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
+      hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+      hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+      shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+      shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+      
+    }
+    
 }
   
 
@@ -4616,8 +4616,12 @@ void baseAnalyzer::MakePlots()
   string cmd0 = Form("emacs -nw %s", output_ReportFileName.Data());
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
+
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
+  Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
+ 
+    
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){
