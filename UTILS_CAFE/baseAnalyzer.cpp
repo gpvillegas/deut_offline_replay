@@ -3149,7 +3149,7 @@ void baseAnalyzer::EventLoop()
 
 	  //-------------------------------Fill SIMC Histograms--------------------------
 
-	  if(base_cuts){
+	  if(c_baseCuts){
 	    
 	    //Fill Primary Kin Histos
 	    H_the    ->Fill(th_e/dtr);

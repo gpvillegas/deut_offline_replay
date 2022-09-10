@@ -32,10 +32,6 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
       exit;
     }
   }
-
-
-  
-
   
   // Get starting timepoint
   auto start = high_resolution_clock::now();
@@ -57,14 +53,17 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
 
-  cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  if((ftype=="shms50k") || (ftype=="hms50k")){
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  }
   
   const char* ROOTFileNamePattern = "ROOTfiles/%s/cafe_replay_%s_%d_%d.root";
 
