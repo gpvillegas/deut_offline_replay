@@ -53,6 +53,24 @@ baseAnalyzer::baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts=""
   
   cout << "Calling BaseConstructor (SIMC) " << endl;
 
+  //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)                                                                                                         
+  if(daq_mode=="coin" && e_arm_name=="SHMS"){                                                                                                                                                  
+    eArm = "P";                                                                                                                                                                                
+    hArm = "H";                                                                                                                                                                                
+    e_arm = "p";                                                                                                                                                                               
+    h_arm = "h";                                                                                                                                                                               
+    nroc = "2";                                                                                                                                                                                
+    daq = "coin";    //string is used for storing either "shms", "hms" or "coin" in trigger leaf variable (T.*)                                                                                
+    scl_tree_name = "TSP";  //By default, if in coin mode, Read SHMS Scaler Tree                                                                                                               
+    h_arm_name = "HMS";                                                                                                                                                                        
+  }                                                                                                                                                                                            
+                                                                                                                                                                                               
+  else if(e_arm_name=="HMS"){                                                                                                                                              
+    eArm = "H";                                                                                                                                                                               
+    hArm = "P";                                                                                                                                                                                    e_arm = "h";                                                                                                                                                                    
+    h_arm = "p";                                                                                                                                                                                                                                                                                                                                                                               
+    h_arm_name = "SHMS";                                                                                                                                                          
+  }  
 }
 
 //_______________________________________________________________________________
@@ -4621,7 +4639,7 @@ void baseAnalyzer::MakePlots()
   Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
  
     
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){

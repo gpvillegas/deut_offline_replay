@@ -49,6 +49,7 @@ block P.gtr.dp
 block P.react.*
 block P.extcor.*sieve*
 block P.ngcer.npe*
+block P.hgcer.npe*
 block P.cal.etot*norm*
 block P.cal.etracknorm
 block P.hod.beta

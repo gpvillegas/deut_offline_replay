@@ -206,13 +206,13 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
     
     //----------Get Target Histograms------------------
     //Get Histogram objects from SIMC rootfile
-    simc_file->GetObject("H_hx_tar", simc_xtar);
+    simc_file->GetObject("accp_plots/H_htar_x", simc_xtar);
     
-    simc_file->GetObject("H_htar_y", simc_ytarH);
-    simc_file->GetObject("H_htar_z", simc_ztarH);
+    simc_file->GetObject("accp_plots/H_htar_y", simc_ytarH);
+    simc_file->GetObject("accp_plots/H_htar_z", simc_ztarH);
     
-    simc_file->GetObject("H_etar_y", simc_ytarP);  
-    simc_file->GetObject("H_etar_z", simc_ztarP); 
+    simc_file->GetObject("accp_plots/H_etar_y", simc_ytarP);  
+    simc_file->GetObject("accp_plots/H_etar_z", simc_ztarP); 
     
     //Set SIMC Histo Aesthetics
     simc_xtar->SetLineColor(kRed);
