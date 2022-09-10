@@ -2957,17 +2957,23 @@ void baseAnalyzer::EventLoop()
 	  if(analysis_cut=="heep_coin"){
 	    Er = nu + MH - Ex; // [GeV] supposed to be at zero, since there is no recoil particle for h(e,e'p)
 	    Tr = Er - 0;
-	    MM = sqrt(Er*Er - Pm*Pm);
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
 	  }
 	  else if(analysis_cut=="SRC"){
 	    Er = nu + MD - Ex; 
 	    Tr = Er - MN;
-	    MM = sqrt(Er*Er - Pm*Pm);
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
 	  }	  
 	  else if(analysis_cut=="MF"){
 	    Er = nu + MC12 - Ex;
 	    Tr = Er - MB11;       // C12 (6p,6n) -> 1p + B11(5p, 6n) single proton knockout of C12 gives B11 recoil system
-	    MM = sqrt(Er*Er - Pm*Pm);
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
 	  }
 
 	  
@@ -3062,7 +3068,7 @@ void baseAnalyzer::EventLoop()
 
 
 	  // H(e,e'p) singles ( e- trigger only)
-	  c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W && c_heep_xbj;
+	  //c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W && c_heep_xbj;
 
 	  // H(e,e'p) coin ( e- + p coin. trigger )
 	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_xbj && c_heep_Em && c_heep_W && c_heep_MM;
@@ -3128,7 +3134,7 @@ void baseAnalyzer::EventLoop()
 	  // user pre-determined analysis kinematics cuts
 
 	  if(analysis_cut=="heep_coin"){
-	    c_baseCuts =  c_accpCuts && c_pidCuts && c_kinHeepCoin_Cuts;
+	    c_baseCuts =  c_accpCuts && c_kinHeepCoin_Cuts;
 	  }
 	  else if(analysis_cut=="MF"){
 	    c_baseCuts =  c_accpCuts && c_kinMF_Cuts;
@@ -3138,12 +3144,84 @@ void baseAnalyzer::EventLoop()
 	  }
 	  
 	  
-	  
 	  //====END: SIMC ANALYSIS CUTS (MUST BE EXACTLY SAME AS DATA)===
 
 
+	  //-------------------------------Fill SIMC Histograms--------------------------
 
+	  if(base_cuts){
+	    
+	    //Fill Primary Kin Histos
+	    H_the    ->Fill(th_e/dtr);
+	    H_kf     ->Fill(kf);
+	    H_W      ->Fill(W);
+	    H_W2     ->Fill(W2);
+	    H_Q2     ->Fill(Q2);
+	    H_xbj    ->Fill(X);
+	    H_nu     ->Fill(nu);
+	    H_q      ->Fill(q);	  
+	    H_thq    ->Fill(th_q/dtr);
+	    //H_phq    ->Fill(ph_q/dtr);
+	    
+	    //Fill Secondary Kin Histos
+	    H_Em       ->Fill(Em);
+	    H_Pm       ->Fill(Pm);
+	    H_Tx       ->Fill(Tx);
+	    H_Tr       ->Fill(Tr);
+	    H_MM       ->Fill(MM);
+	    H_MM2      ->Fill(MM2);
+	    H_thx      ->Fill(th_x/dtr);
+	    H_Pf       ->Fill(Pf);
+	    H_thxq     ->Fill(th_xq/dtr);
+	    H_thrq     ->Fill(th_rq/dtr);
+	    H_phxq     ->Fill(ph_xq/dtr);
+	    // H_phrq     ->Fill(ph_rq/dtr);
 
+	    	    
+	    //----------------------------------------------------------------------
+	    //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
+	    //----------------------------------------------------------------------
+	    //Fill SPECTROMETER  ACCEPTANCE
+	    H_exfp       ->Fill(e_xfp);
+	    H_eyfp       ->Fill(e_yfp);
+	    H_expfp      ->Fill(e_xpfp);
+	    H_eypfp      ->Fill(e_ypfp);
+	    
+	    H_eytar      ->Fill(e_ytar);
+	    H_exptar     ->Fill(e_xptar);
+	    H_eyptar     ->Fill(e_yptar);
+	    H_edelta     ->Fill(e_delta);
+	    
+	    H_hxfp       ->Fill(h_xfp);
+	    H_hyfp       ->Fill(h_yfp);
+	    H_hxpfp      ->Fill(h_xpfp);
+	    H_hypfp      ->Fill(h_ypfp);
+	    
+	    H_hytar       ->Fill(h_ytar);
+	    H_hxptar      ->Fill(h_xptar);
+	    H_hyptar      ->Fill(h_yptar);
+	    H_hdelta      ->Fill(h_delta);
+	    
+	    H_htar_x       ->Fill(htar_x);
+	    H_htar_y       ->Fill(htar_y);
+	    H_htar_z       ->Fill(htar_z);
+	    H_etar_x       ->Fill(etar_x);
+	    H_etar_y       ->Fill(etar_y);
+	    H_etar_z       ->Fill(etar_z);
+	    H_ztar_diff    ->Fill(ztar_diff);
+	    
+	    H_hXColl      ->Fill(hXColl);
+	    H_hYColl      ->Fill(hYColl);
+	    H_eXColl      ->Fill(eXColl);
+	    H_eYColl      ->Fill(eYColl);
+	    
+	    H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl);
+	    H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl);
+	    
+	    H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp);
+	    H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp);
+	    
+	  }
 	  
 	  
 	} // end event loop
@@ -3689,12 +3767,33 @@ void baseAnalyzer::WriteHist()
       //Write selected Random-Subtracted histos to randSub_plots directory
       outROOT->cd("randSub_plots");
       randSub_HList->Write();
-
-
       
       //Close File
       outROOT->Close();
+
     }
+
+  else if(analyze_data==false){
+
+    //Create output ROOTfile
+    outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
+
+    //Make directories to store histograms based on category
+    outROOT->mkdir("kin_plots");
+    outROOT->mkdir("accp_plots");
+
+
+    //Write Kinematics histos to kin_plots directory
+    outROOT->cd("kin_plots");
+    kin_HList->Write();
+    
+    //Write Acceptance histos to accp_plots directory
+    outROOT->cd("accp_plots");
+    accp_HList->Write();
+          
+    //Close File
+    outROOT->Close();
+  }
 
   
 }
