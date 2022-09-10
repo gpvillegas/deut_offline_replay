@@ -586,26 +586,26 @@ void baseAnalyzer::ReadInputFile()
     
     //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
     if(analysis_cut=="heep_coin"){
-      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_heep_scan_kin2_rad.root"; //shms 8.55 GeV, 8.3 deg
-      simc_ifile             = "hallc_simulations/infiles/cafe_heep_scan_kin2_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
+      simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
       
-      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_heep_scan_kin2_rad_output.root"; //shms 8.55 GeV, 8.3 deg
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
       
     }
     
     if(analysis_cut=="MF"){
-      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_c12_MF_rad.root";
-      simc_ifile             = "hallc_simulations/infiles/cafe_c12_MF_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
+      simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
       
-      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
       
     }
     
     if(analysis_cut=="SRC"){
-      simc_InputFileName_rad = "hallc_simulations/worksim/cafe_d2_SRC_rad.root";
-      simc_ifile             = "hallc_simulations/infiles/cafe_d2_SRC_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
+      simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
       
-      simc_OutputFileName_rad = "hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
       
     }
 

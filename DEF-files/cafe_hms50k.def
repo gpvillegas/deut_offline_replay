@@ -1,6 +1,8 @@
 block g.*
 block T.coin.h*_tdcTimeRaw
 block T.coin.hDCREF*_tdcTimeRaw
+block CTime.epCoinTime_HMS
+block CTime.epCoinTime_ROC1
 block CTime.epCoinTime_ROC2
 
 #block RFTime.* 
@@ -469,10 +471,16 @@ TH1F hdc2x1_wirenum_did 'HMS DC 2X1 Wiremap; Wire Number; Number of Entries' H.d
 TH1F hdc2u2_wirenum_did 'HMS DC 2U2 Wiremap; Wire Number; Number of Entries' H.dc.wireHitDid[10] 96 0.5 96.5 
 TH1F hdc2u1_wirenum_did 'HMS DC 2U1 Wiremap; Wire Number; Number of Entries' H.dc.wireHitDid[11] 96 0.5 96.5 
 
-#*****************************************
-# HMS Secondary Kinematics
-# Kinematic Quantities
-#*****************************************
+#------------------                     
+# Coincidence Time                                                                                                                                    
+#------------------                                                                                                                           
+TH1F ep_ctime_roc1 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC1 200, -200, 200                                       
+TH1F ep_ctime_roc2 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC2 200, -200, 200                                            
+TH2F hhod_beta_vs_ctime  'HMS Hodo Beta vs. ep Coin. Time; ep Coin Time (ns); Beta'  CTime.epCoinTime_ROC2 H.hod.beta 200 -200. 200. 300 -0.5 1.5 
+
+#----------------
+# HMS KINEMATICS
+#----------------
 
 TH1F hdc_trk_mom 'HMS DC Track Momentum; P (GeV); Number of Entries' H.tr.p 200 0.5 7.5 hcut_CleanTrack
 TH1F hkin_theta  'HMS Scattering Angle, Theta_{p}; HMS Scattering Angle (deg); Number of Entries' (H.kin.secondary.xangle*(180/3.14)-P.kin.primary.scat_ang_deg) 400 10 70 hcut_CleanTrack
