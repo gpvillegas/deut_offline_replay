@@ -44,8 +44,21 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     else {eArm = "P"; e_arm = "p", nroc = "2", daq = "shms"; scl_tree_name = "TSP";}
   }
 
-  
+}
 
+//_______________________________________________________________________________
+baseAnalyzer::baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="")
+  : e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type)
+{
+  
+  cout << "Calling BaseConstructor (SIMC) " << endl;
+
+}
+
+//_______________________________________________________________________________
+void baseAnalyzer::Init(){
+
+  cout << "Initializing Pointers . . ." << endl;
   //Initialize TFile Pointers
   inROOT  = NULL;
   outROOT = NULL;
@@ -582,44 +595,6 @@ void baseAnalyzer::ReadInputFile()
   }
   in_file.close();
 
-  if(analyze_data==false){
-    
-    //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
-    if(analysis_cut=="heep_coin"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
-      simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
-      
-    }
-    
-    if(analysis_cut=="MF"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
-      simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
-      
-    }
-    
-    if(analysis_cut=="SRC"){
-      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
-      simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
-      
-      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
-      
-    }
-
-    // Read SIMC input file central values during online analysis (to be used in calculations later,
-    // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
-
-    tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
-    beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
-    hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
-    hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
-    shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
-    shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
-    
-  }
   
   //----------------------------------
   //----OUTPUTS (USER WRITES OUT)-----
@@ -854,7 +829,50 @@ void baseAnalyzer::ReadInputFile()
   ztarDiff_cut_flag = stoi(split(FindString("ztarDiff_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_ztarDiff_min = stod(split(FindString("c_ztarDiff_min", input_CutFileName.Data())[0], '=')[1]);
   c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
+
+  // =====================
+  //  SIMC
+  //======================
+  if(analyze_data==false){
+    
+    //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
+    if(analysis_cut=="heep_coin"){
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
+      simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
+      
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
+      
+    }
+    
+    if(analysis_cut=="MF"){
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
+      simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
+      
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+      
+    }
+    
+    if(analysis_cut=="SRC"){
+      simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
+      simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
+      
+      simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+      
+    }
+
+    // Read SIMC input file central values during online analysis (to be used in calculations later,
+    // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
+
+    tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
+    beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
+    hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+    hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+    shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+    shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+    
+  }
+    
  
 }
   
@@ -863,7 +881,7 @@ void baseAnalyzer::ReadInputFile()
 void baseAnalyzer::ReadReport()
 {
 
-  //Brief: Read Necessary Quantities from Report File
+  //Brief: Read Necessary Quantities from Data Report File
     
   cout << "Calling Base ReadReport() " << endl;
   
@@ -1892,9 +1910,10 @@ void baseAnalyzer::ReadTree()
   
   if(analyze_data==true)
     {
-      
-      cout << "Analyzing DATA . . . " << endl;
 
+      
+      cout << "Reading DATA Tree . . . " << endl;
+      
       //Read ROOTfile
       inROOT = new TFile(data_InputFileName.Data(), "READ");
       
@@ -2142,6 +2161,8 @@ void baseAnalyzer::ReadTree()
   else if(analyze_data==false)
     {
 
+      cout << "Reading SIMC Tree . . . " << endl;
+
       //Read ROOTfile
       inROOT = new TFile(simc_InputFileName_rad, "READ");
 
@@ -2319,7 +2340,7 @@ void baseAnalyzer::EventLoop()
       // Get Coin. Time peak to apply as an offset to center the coin. time peak at 0 ns    
       Double_t ctime_offset = GetCoinTimePeak();
 	
-      cout << "Loop over Data Events | nentries -->  " << nentries << endl;
+      cout << "Analyzing DATA Events | nentries -->  " << nentries << endl;
 
       for(int ientry=0; ientry<nentries; ientry++)
 	{
@@ -2923,16 +2944,20 @@ void baseAnalyzer::EventLoop()
   
   if(analyze_data==false)
     {
-      
+
+      cout << "Analyzing SIMC Events | nentries -->  " << nentries << endl;
+
       for(int ientry=0; ientry<nentries; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
-
+	  
 	  //SIMC FullWeight
+	  // Need to add transparency factor (depending on which target), also if
+	  // targets other than hydrogen, deuterium or carbon are used, need to scale target density accordingly (tgt_density A / tgt_density nucleus simulated)
 	  FullWeight = Normfac * Weight * prob_abs / nentries;
-
-	   //--------Calculated Kinematic Varibales----------------
+	  
+	  //--------Calculated Kinematic Varibales----------------
 	  
 	  //Convert MeV to GeV
 	  Ein = Ein / 1000.;     //incident beam energy [GeV]
@@ -2948,7 +2973,7 @@ void baseAnalyzer::EventLoop()
 	  X = Q2 / (2.*MP*nu);                           
 	  th_q = acos( (ki - kf*cos(th_e))/q );  // [rad]     
 
-	  // detected particle (proton for A(e,e'p) reactions)
+	  // detected particle final energy (proton for A(e,e'p) reactions)
 	  Ex = sqrt(MP*MP + Pf*Pf);	  
 	  Tx = Ex - MP;  // detected (x) particle kinetic energy (assuming proton)
 
@@ -3597,8 +3622,8 @@ void baseAnalyzer::ApplyWeight()
   */
   
   //C. Yero proton absorption results for HMS during E12-20-003 Commissioning
-  hadAbs_corr     = 0.9534;
-  hadAbs_corr_err = 0.0047; 
+  //hadAbs_corr     = 0.9534;
+  //hadAbs_corr_err = 0.0047; 
 
   //For now, assume no hadron absorption
   hadAbs_corr     = 1.;
@@ -3737,6 +3762,9 @@ void baseAnalyzer::WriteHist()
   //Write Data Histograms
   if(analyze_data==true)
     {
+
+      cout << "Write DATA Histos to File . . ." << endl;
+						   
       //Create Output ROOTfile
       outROOT = new TFile(data_OutputFileName, "RECREATE");
 
@@ -3774,6 +3802,8 @@ void baseAnalyzer::WriteHist()
     }
 
   else if(analyze_data==false){
+
+    cout << "Write SIMC Histos to File . . ." << endl;
 
     //Create output ROOTfile
     outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
@@ -4584,6 +4614,8 @@ void baseAnalyzer::MakePlots()
 }
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
+
+//______________________________________________________________________________
 void baseAnalyzer::run_data_analysis()
 {
   /*
@@ -4600,6 +4632,7 @@ void baseAnalyzer::run_data_analysis()
 
   */
   //------------------
+  Init();
   ReadInputFile();
   ReadReport();
   SetHistBins();
@@ -4625,11 +4658,12 @@ void baseAnalyzer::run_data_analysis()
   
 }
 
-//--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
+//______________________________________________________________________________
 void baseAnalyzer::run_cafe_scalers()
 {
  
   //------------------
+  Init();
   ReadInputFile();
   ReadReport();
   
@@ -4639,6 +4673,19 @@ void baseAnalyzer::run_cafe_scalers()
   WriteReport();
 
   //------------------
-
   
+}
+
+//______________________________________________________________________________
+void baseAnalyzer::run_simc_analysis()
+{
+
+  Init();
+  ReadInputFile();
+  SetHistBins();
+  CreateHist();
+  ReadTree();
+  EventLoop();
+  WriteHist();
+   
 }

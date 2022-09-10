@@ -17,13 +17,19 @@ public:
   
   //Constructor / Destructor
   baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
+
+  //2nd constructor (overload constructor, i.e., different arguments)
+  baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="");
+  
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
   void run_data_analysis();
+  void run_simc_analysis();
   void run_cafe_scalers(); // mainly for generating cafe output file (for bcm calib runs)
   
   //Function prototypes
+  void Init(); 
   void ReadInputFile();
   void ReadReport();
   void SetHistBins();
