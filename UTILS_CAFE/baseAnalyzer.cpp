@@ -562,60 +562,62 @@ void baseAnalyzer::ReadInputFile()
   TString temp; //temporary string placeholder
 
 
-  
-  //-------------------------------
-  //----INPUTS (USER READS IN)-----
-  //-------------------------------
-  
-  //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
-  temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputFileName = Form(temp.Data(),  analysis_type.Data(), analysis_type.Data(), run, evtNum);
+  if(analyze_data==true){
 
-  //Check if ROOTfile exists
-  in_file.open(data_InputFileName.Data());
-  cout << "in_file.fail() --> " << in_file.fail() << endl;
-  if(in_file.fail()){
-    cout << Form("ROOTFile: %s does NOT exist ! ! !", data_InputFileName.Data()) << endl;
-    cout << "Exiting NOW !" << endl;
-    gSystem->Exit(0);
-  }  
-  in_file.close();
-  
-  //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
-  temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
-  
-  //Check if REPORTFile exists
-  in_file.open(data_InputReport.Data());
-  cout << "in_file.fail() --> " << in_file.fail() << endl;
-  if(in_file.fail()){
-    cout << Form("REPORTFile: %s does NOT exist ! ! !", data_InputReport.Data()) << endl;
-    cout << "Exiting NOW !" << endl;
-    gSystem->Exit(0);
+    //-------------------------------
+    //----INPUTS (USER READS IN)-----
+    //-------------------------------
+    
+    //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
+    temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_InputFileName = Form(temp.Data(),  analysis_type.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Check if ROOTfile exists
+    in_file.open(data_InputFileName.Data());
+    cout << "in_file.fail() --> " << in_file.fail() << endl;
+    if(in_file.fail()){
+      cout << Form("ROOTFile: %s does NOT exist ! ! !", data_InputFileName.Data()) << endl;
+      cout << "Exiting NOW !" << endl;
+      gSystem->Exit(0);
+    }  
+    in_file.close();
+    
+    //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
+    temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Check if REPORTFile exists
+    in_file.open(data_InputReport.Data());
+    cout << "in_file.fail() --> " << in_file.fail() << endl;
+    if(in_file.fail()){
+      cout << Form("REPORTFile: %s does NOT exist ! ! !", data_InputReport.Data()) << endl;
+      cout << "Exiting NOW !" << endl;
+      gSystem->Exit(0);
+    }
+    in_file.close();
+    
+    
+    //----------------------------------
+    //----OUTPUTS (USER WRITES OUT)-----
+    //----------------------------------
+    //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
+    temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
+    temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
+    data_OutputFileName_combined = Form(temp.Data(), analysis_type.Data());
+    
+    //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
+    temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    output_SummaryFileName = Form(temp.Data(), analysis_type.Data());
+    
+    //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
+    temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    output_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
+    
   }
-  in_file.close();
-
   
-  //----------------------------------
-  //----OUTPUTS (USER WRITES OUT)-----
-  //----------------------------------
-  //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
-  temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
-
-  //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
-  temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName_combined = Form(temp.Data(), analysis_type.Data());
-
-  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
-  temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  output_SummaryFileName = Form(temp.Data(), analysis_type.Data());
-
-  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
-  temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  output_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
-
-
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
   //==========================================
@@ -662,13 +664,12 @@ void baseAnalyzer::ReadInputFile()
   
   //==========================================
   
-  
 
-  
   //==========================================
   //     READ Data/SIMC ANALYSIS CUTS
   //==========================================
-  //------PID Cuts-----
+
+  //------PID Cuts (DATA ONLY)-----
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
   
@@ -2957,6 +2958,17 @@ void baseAnalyzer::EventLoop()
 	  // targets other than hydrogen, deuterium or carbon are used, need to scale target density accordingly (tgt_density A / tgt_density nucleus simulated)
 	  FullWeight = Normfac * Weight * prob_abs / nentries;
 	  
+	  /*
+	  cout << "---------" << endl;
+	  cout << "ientry: " << ientry << endl;
+	  cout << "---------" << endl;   
+	  cout << "FullWeight: " << FullWeight << endl;
+	  cout << "Normfac: " << Normfac << endl;
+	  cout << "Weight: " << Weight << endl;
+	  cout << "prob_abs:" << prob_abs << endl;
+	  cout << "nentries: " << nentries << endl;
+	  */
+
 	  //--------Calculated Kinematic Varibales----------------
 	  
 	  //Convert MeV to GeV
@@ -3177,77 +3189,78 @@ void baseAnalyzer::EventLoop()
 	  if(c_baseCuts){
 	    
 	    //Fill Primary Kin Histos
-	    H_the    ->Fill(th_e/dtr);
-	    H_kf     ->Fill(kf);
-	    H_W      ->Fill(W);
-	    H_W2     ->Fill(W2);
-	    H_Q2     ->Fill(Q2);
-	    H_xbj    ->Fill(X);
-	    H_nu     ->Fill(nu);
-	    H_q      ->Fill(q);	  
-	    H_thq    ->Fill(th_q/dtr);
-	    //H_phq    ->Fill(ph_q/dtr);
+	    H_the    ->Fill(th_e/dtr, FullWeight);
+	    H_kf     ->Fill(kf, FullWeight);
+	    H_W      ->Fill(W, FullWeight);
+	    H_W2     ->Fill(W2, FullWeight);
+	    H_Q2     ->Fill(Q2, FullWeight);
+	    H_xbj    ->Fill(X, FullWeight);
+	    H_nu     ->Fill(nu, FullWeight);
+	    H_q      ->Fill(q, FullWeight);	  
+	    H_thq    ->Fill(th_q/dtr, FullWeight);
+	    //H_phq    ->Fill(ph_q/dtr, FullWeight);
 	    
 	    //Fill Secondary Kin Histos
-	    H_Em       ->Fill(Em);
-	    H_Pm       ->Fill(Pm);
-	    H_Tx       ->Fill(Tx);
-	    H_Tr       ->Fill(Tr);
-	    H_MM       ->Fill(MM);
-	    H_MM2      ->Fill(MM2);
-	    H_thx      ->Fill(th_x/dtr);
-	    H_Pf       ->Fill(Pf);
-	    H_thxq     ->Fill(th_xq/dtr);
-	    H_thrq     ->Fill(th_rq/dtr);
-	    H_phxq     ->Fill(ph_xq/dtr);
-	    // H_phrq     ->Fill(ph_rq/dtr);
+	    H_Em       ->Fill(Em, FullWeight);
+	    H_Pm       ->Fill(Pm, FullWeight);
+	    H_Tx       ->Fill(Tx, FullWeight);
+	    H_Tr       ->Fill(Tr, FullWeight);
+	    H_MM       ->Fill(MM, FullWeight);
+	    H_MM2      ->Fill(MM2, FullWeight);
+	    H_thx      ->Fill(th_x/dtr, FullWeight);
+	    H_Pf       ->Fill(Pf, FullWeight);
+	    H_thxq     ->Fill(th_xq/dtr, FullWeight);
+	    H_thrq     ->Fill(th_rq/dtr, FullWeight);
+	    H_phxq     ->Fill(ph_xq/dtr, FullWeight);
+	    // H_phrq     ->Fill(ph_rq/dtr, FullWeight);
 
 	    	    
 	    //----------------------------------------------------------------------
 	    //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
 	    //----------------------------------------------------------------------
 	    //Fill SPECTROMETER  ACCEPTANCE
-	    H_exfp       ->Fill(e_xfp);
-	    H_eyfp       ->Fill(e_yfp);
-	    H_expfp      ->Fill(e_xpfp);
-	    H_eypfp      ->Fill(e_ypfp);
+	    H_exfp       ->Fill(e_xfp, FullWeight);
+	    H_eyfp       ->Fill(e_yfp, FullWeight);
+	    H_expfp      ->Fill(e_xpfp, FullWeight);
+	    H_eypfp      ->Fill(e_ypfp, FullWeight);
 	    
-	    H_eytar      ->Fill(e_ytar);
-	    H_exptar     ->Fill(e_xptar);
-	    H_eyptar     ->Fill(e_yptar);
-	    H_edelta     ->Fill(e_delta);
+	    H_eytar      ->Fill(e_ytar, FullWeight);
+	    H_exptar     ->Fill(e_xptar, FullWeight);
+	    H_eyptar     ->Fill(e_yptar, FullWeight);
+	    H_edelta     ->Fill(e_delta, FullWeight);
 	    
-	    H_hxfp       ->Fill(h_xfp);
-	    H_hyfp       ->Fill(h_yfp);
-	    H_hxpfp      ->Fill(h_xpfp);
-	    H_hypfp      ->Fill(h_ypfp);
+	    H_hxfp       ->Fill(h_xfp, FullWeight);
+	    H_hyfp       ->Fill(h_yfp, FullWeight);
+	    H_hxpfp      ->Fill(h_xpfp, FullWeight);
+	    H_hypfp      ->Fill(h_ypfp, FullWeight);
 	    
-	    H_hytar       ->Fill(h_ytar);
-	    H_hxptar      ->Fill(h_xptar);
-	    H_hyptar      ->Fill(h_yptar);
-	    H_hdelta      ->Fill(h_delta);
+	    H_hytar       ->Fill(h_ytar, FullWeight);
+	    H_hxptar      ->Fill(h_xptar, FullWeight);
+	    H_hyptar      ->Fill(h_yptar, FullWeight);
+	    H_hdelta      ->Fill(h_delta, FullWeight);
 	    
-	    H_htar_x       ->Fill(htar_x);
-	    H_htar_y       ->Fill(htar_y);
-	    H_htar_z       ->Fill(htar_z);
-	    H_etar_x       ->Fill(etar_x);
-	    H_etar_y       ->Fill(etar_y);
-	    H_etar_z       ->Fill(etar_z);
-	    H_ztar_diff    ->Fill(ztar_diff);
+	    H_htar_x       ->Fill(htar_x, FullWeight);
+	    H_htar_y       ->Fill(htar_y, FullWeight);
+	    H_htar_z       ->Fill(htar_z, FullWeight);
+	    H_etar_x       ->Fill(etar_x, FullWeight);
+	    H_etar_y       ->Fill(etar_y, FullWeight);
+	    H_etar_z       ->Fill(etar_z, FullWeight);
+	    H_ztar_diff    ->Fill(ztar_diff, FullWeight);
 	    
-	    H_hXColl      ->Fill(hXColl);
-	    H_hYColl      ->Fill(hYColl);
-	    H_eXColl      ->Fill(eXColl);
-	    H_eYColl      ->Fill(eYColl);
+	    H_hXColl      ->Fill(hXColl, FullWeight);
+	    H_hYColl      ->Fill(hYColl, FullWeight);
+	    H_eXColl      ->Fill(eXColl, FullWeight);
+	    H_eYColl      ->Fill(eYColl, FullWeight);
 	    
-	    H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl);
-	    H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl);
+	    H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl, FullWeight);
+	    H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl, FullWeight);
 	    
-	    H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp);
-	    H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp);
+	    H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp, FullWeight);
+	    H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp, FullWeight);
 	    
 	  }
 	  
+	  cout << "SIMCEventLoop: " << std::setprecision(2) << double(ientry) / nentries * 100. << "  % " << std::flush << "\r"; 
 	  
 	} // end event loop
 

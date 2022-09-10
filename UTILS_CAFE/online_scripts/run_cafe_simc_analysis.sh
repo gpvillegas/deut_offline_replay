@@ -32,6 +32,19 @@ if [ -z "$1" ]; then
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
 
     exit 0    
+# fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC                                                                                         
+elif [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then                                                                                
+    echo ""                                                                                                                                                       
+else               
+    echo ""                                                                                                                                                       
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"                                                                                                         
+    echo ""                                                                                                                                                                                
+    echo "Usage:  ./run_cafe_simc_analysis.sh <kin_type>"                                                                                                                             
+    echo ""                                                                                                                                                                         
+    echo "<kin_type> = \"heep_coin\", \"MF\" or \"SRC\" "                                                                                                                  
+    echo ""                                                                                                                                                                      
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"  
+    exit 0
 fi
 
 e_arm="SHMS"
