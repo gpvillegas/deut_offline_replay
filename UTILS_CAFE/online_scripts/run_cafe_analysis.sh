@@ -33,7 +33,7 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 0    
     # fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC         
 elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "lumi" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
-    echo ""                                                                                                                                                                                
+    echo ""                                                                                                                                                                           
 else
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"

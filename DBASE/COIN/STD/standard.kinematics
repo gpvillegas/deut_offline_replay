@@ -320,8 +320,16 @@ hpcentral = 6.792
 ppcentral = 8.035                                                                                   
 hpartmass = 0.000511                                                                                
 ppartmass = 0.000511                                                                                
-helicity_freq = 120.0007547169                                                                      
-HMS_RF_Offset = 0.0                                                                                 
-SHMS_RF_Offset = 0.0                                                                                
-eHadCoinTime_Offset = 74.85                                                                       
-Bunch_Spacing_Override = 4.008  
+
+#---------------------
+# CAFE COSMIC TESTS
+#---------------------
+16922 - 9999999
+gpbeam = 10.549355                                                                                  
+gtargmass_amu = 1.00794                                                                             
+htheta_lab = -15.700                                                                                
+ptheta_lab = 12.240                                                                                 
+hpcentral = 6.792                                                                                   
+ppcentral = 8.035                                                                                   
+hpartmass = 0.93827231                                                                            
+ppartmass = 0.000511  
