@@ -870,7 +870,7 @@ void baseAnalyzer::ReadInputFile()
     simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
 
     // define MF SIMC output root file
-    simc_OutputFileName_rad = Form("../hallc_simulations/cafe_output/cafe_%s_MF_rad_output.root", tgt_type.Data());
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
       
       
   }
@@ -882,7 +882,7 @@ void baseAnalyzer::ReadInputFile()
     simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
 
     // define SRC SIMC output root file
-    simc_OutputFileName_rad = Form("../hallc_simulations/cafe_output/cafe_%s_SRC_rad_output.root", tgt_type.Data());
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
     
   }
 
@@ -3684,7 +3684,7 @@ void baseAnalyzer::ApplyWeight()
   else{ // else use pre-scale factor determined from trig_type input parameter (pre-scale factor for coincidence trigger, determined from input param)
 
     FullWeight = Ps_factor_coin; 
-    cout << "Ps_factor_coin = " << Ps_factor_single << endl; 
+    cout << "Ps_factor_coin = " << Ps_factor_coin << endl; 
   }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
 
@@ -3790,18 +3790,133 @@ void baseAnalyzer::ApplyWeight()
 }
 
 //_______________________________________________________________________________
-void baseAnalyzer::ScaleSIMC()
+void baseAnalyzer::ScaleSIMC(TString target="")
 {
   /*
-    Brief: Method to scale SIMC histograms by transparency (T) and target areal density (g/cm^2) as follows:
+    Brief: SIMC Histograms have already be weighted in their event loop. However, for targets other than d2 and C12,
+    a scaling must be done.
+
+    This method is used to scale SIMC yield by transparency (T), target areal density (g/cm^2), as follows:
     
-    For Mean-Field (MF), since our starting point is C12, the yield for nucleus A becomes:
+    For Mean-Field (MF), since our starting simulation was C12, the yield for nucleus A becomes:
     Yield_A_MF = Yield_C12_MF * ( T_A / T_C12 ) * (areal_density_A / areal_density_C12)
     
-    For Short-Range Correlations (SRC), since our starting point is deuterium, the yield for nucleus A becomes:
-    Yield_A_SRC = Yield_d2_SRC * ( T_A / T_d2 ) * (areal_density_A / areal_density_d2), but recall T_d2 = 1
+    For Short-Range Correlations (SRC), our starting simulation was deuterium; in addition, we scale by the factor "a2", which is the 
+    scaling of momentum distributions of nucleus A to that of deuterium (a2 = A / d), the yield for nucleus A becomes: 
+    Yield_A_SRC = Yield_d2_SRC * ( T_A / T_d2 ) * (areal_density_A / areal_density_d2) * a2
     
    */
+
+  Double_t scale_factor;
+
+  if(target=="Be9" && analysis_cut=="MF")  scale_factor = ( T("Be9") / T("C12") ) * ( sig("Be9") / sig("C12") ) ;
+  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("C12") ) * ( sig("Be9") / sig("C12") ) * a2("Be9") ;
+  
+  //==============================================
+  // SCALE SIMC HISTOGRAMS BY LOOPING OVER LISTS
+  //==============================================
+  
+  //determine what class types are in the list
+  TString class_name;
+  
+  
+  //-----------------------------------------------------
+  //Lopp over kin_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<kin_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = kin_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)kin_HList->At(i); h_i->Scale(scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)kin_HList->At(i); h2_i->Scale(scale_factor);
+    }   
+  }//end loop over kin_HList	
+  
+  //-----------------------------------------------------
+  //Lopp over accp_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<accp_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = accp_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)accp_HList->At(i); h_i->Scale(scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)accp_HList->At(i); h2_i->Scale(scale_factor);
+    }   
+  }//end loop over accp_HList
+
+
+  
+  //==============================================
+  // WRITE SCALED SIMC HISTOGRAMS TO FILE
+  //==============================================
+
+  TString simc_OutputFileName_rad_scaled = "";
+  //Create output ROOTfile
+  outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
+  
+  //Make directories to store histograms based on category
+  outROOT->mkdir("kin_plots");
+  outROOT->mkdir("accp_plots");
+  
+  //Write Kinematics histos to kin_plots directory
+  outROOT->cd("kin_plots");
+  kin_HList->Write();
+  
+  //Write Acceptance histos to accp_plots directory
+  outROOT->cd("accp_plots");
+  accp_HList->Write();
+  
+  //Close File
+  outROOT->Close();
+
+  //==============================================
+  // REVERT (UNDO) SCALING FACTOR FOR NEXT TARGET 
+  //==============================================
+
+  //-----------------------------------------------------
+  //Lopp over kin_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<kin_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = kin_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)kin_HList->At(i); h_i->Scale(1./scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)kin_HList->At(i); h2_i->Scale(1./scale_factor);
+    }   
+  }//end loop over kin_HList	
+  
+  //-----------------------------------------------------
+  //Lopp over accp_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<accp_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = accp_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)accp_HList->At(i); h_i->Scale(1./scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)accp_HList->At(i); h2_i->Scale(1./scale_factor);
+    }   
+  }//end loop over accp_HList
+  
   
 }
 //_______________________________________________________________________________
@@ -4649,6 +4764,8 @@ Double_t baseAnalyzer::GetLuminosity(TString user_input="")
   }
   
 }
+
+
 
 //______________________________________________________________________________
 void baseAnalyzer::MakePlots()

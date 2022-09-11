@@ -40,7 +40,7 @@ public:
   void EventLoop();
   void CalcEff();
   void ApplyWeight();
-  void ScaleSIMC();
+  void ScaleSIMC(TString target="");
   void WriteHist();
   void WriteReport();
   void WriteReportSummary();
@@ -138,6 +138,98 @@ protected:
   Double_t thick_Fe54 = 0.528;
   Double_t thick_Ti48 = 0.718;
 
+  //target areal density (g/cm^2)
+  Double_t sig_H    = rho_H   * thick_H;
+  Double_t sig_D    = rho_D   * thick_D;
+  Double_t sig_Be9  = rho_Be9 * thick_Be9;
+  Double_t sig_B10  = rho_B10 * thick_B10;
+  Double_t sig_B11  = rho_B11 * thick_B11;
+  Double_t sig_C12  = rho_C12 * thick_C12;
+  Double_t sig_Al27 = rho_Al27 * thick_Al27;
+  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40;
+  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48;
+  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54;
+  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48;
+
+  
+  Double_t T(TString target=""){
+
+    // helper function to return nuclear transparency of target
+    
+    // nuclear transparency factors (prob. that hit proton exits the nucleus)
+    Double_t T_H    = 1.;
+    Double_t T_D    = 1.; 
+    Double_t T_Be9  = 0.6;
+    Double_t T_B10  = 0.6;
+    Double_t T_B11  = 0.6;
+    Double_t T_C12  = 0.56;
+    Double_t T_Ca40 = 0.4;
+    Double_t T_Ca48 = 0.4;
+    Double_t T_Fe54 = 0.4;
+
+    if(target=="h")         return T_H;
+    else if(target=="d2")   return T_D;
+    else if(target=="Be9")  return T_Be9;
+    else if(target=="B10")  return T_B10;
+    else if(target=="B11")  return T_B11;
+    else if(target=="C12")  return T_C12;
+    else if(target=="Ca40") return T_Ca40;
+    else if(target=="Ca48") return T_Ca48;
+    else if(target=="Fe54") return T_Fe54;
+    else return 0.
+
+  }
+
+  Double_t a2(TString target=""){
+    
+    // helper function to return A/deuterium ratios for a given target with A nucleons
+
+    // a2 scaling factors (A/d) ratios
+    Double_t a2_D    = 1.0; 
+    Double_t a2_Be9  = 3.9;
+    Double_t a2_B10  = 4.0;
+    Double_t a2_B11  = 4.0;
+    Double_t a2_C12  = 4.5;
+    Double_t a2_Ca40 = 4.5;
+    Double_t a2_Ca48 = 4.5;
+    Double_t a2_Fe54 = 5.2;
+
+    if(target=="d2")        return a2_D;
+    else if(target=="Be9")  return a2_Be9;
+    else if(target=="B10")  return a2_B10;
+    else if(target=="B11")  return a2_B11;
+    else if(target=="C12")  return a2_C12;
+    else if(target=="Ca40") return a2_Ca40;
+    else if(target=="Ca48") return a2_Ca48;
+    else if(target=="Fe54") return a2_Fe54;
+    else return 0.
+    
+  }
+
+  Double_t sig_A(TString target=""){
+
+    // helper function to return target areal density (g/cm^2)
+
+    if(target=="h")         return sig_H;
+    else if(target=="d2")   return sig_D;
+    else if(target=="Be9")  return sig_Be9;
+    else if(target=="B10")  return sig_B10;
+    else if(target=="B11")  return sig_B11;
+    else if(target=="C12")  return sig_C12;
+    else if(target=="Al27") return sig_Al27;    
+    else if(target=="Ca40") return sig_Ca40;
+    else if(target=="Ca48") return sig_Ca48;
+    else if(target=="Fe54") return sig_Fe54;
+    else if(target=="Ti48") return sig_Ti48;
+    
+    else return 0.
+    
+    
+  }
+
+
+
+  
   // variables to calculate the luminosity data
   Double_t targetfac;
   Double_t luminosity;
