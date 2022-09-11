@@ -40,6 +40,7 @@ public:
   void EventLoop();
   void CalcEff();
   void ApplyWeight();
+  void ScaleSIMC();
   void WriteHist();
   void WriteReport();
   void WriteReportSummary();

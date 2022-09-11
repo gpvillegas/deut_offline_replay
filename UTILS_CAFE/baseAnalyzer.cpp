@@ -54,22 +54,20 @@ baseAnalyzer::baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts=""
   cout << "Calling BaseConstructor (SIMC) " << endl;
 
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)                                                                                                         
-  if(daq_mode=="coin" && e_arm_name=="SHMS"){                                                                                                                                                  
-    eArm = "P";                                                                                                                                                                                
-    hArm = "H";                                                                                                                                                                                
-    e_arm = "p";                                                                                                                                                                               
-    h_arm = "h";                                                                                                                                                                               
-    nroc = "2";                                                                                                                                                                                
-    daq = "coin";    //string is used for storing either "shms", "hms" or "coin" in trigger leaf variable (T.*)                                                                                
-    scl_tree_name = "TSP";  //By default, if in coin mode, Read SHMS Scaler Tree                                                                                                               
+  if(daq_mode=="coin" && e_arm_name=="SHMS"){
+    eArm = "P";
+    hArm = "H";
+    e_arm = "p";
+    h_arm = "h";
     h_arm_name = "HMS";                                                                                                                                                                        
   }                                                                                                                                                                                            
-                                                                                                                                                                                               
-  else if(e_arm_name=="HMS"){                                                                                                                                              
-    eArm = "H";                                                                                                                                                                               
-    hArm = "P";                                                                                                                                                                                    e_arm = "h";                                                                                                                                                                    
-    h_arm = "p";                                                                                                                                                                                                                                                                                                                                                                               
-    h_arm_name = "SHMS";                                                                                                                                                          
+  
+  else if(e_arm_name=="HMS"){
+    eArm = "H";
+    hArm = "P";
+    e_arm = "h";
+    h_arm = "p";
+    h_arm_name = "SHMS";
   }  
 }
 
@@ -857,6 +855,7 @@ void baseAnalyzer::ReadInputFile()
     
     //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
   if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
+
     simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
     simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
     
@@ -865,18 +864,25 @@ void baseAnalyzer::ReadInputFile()
   }
   
   if(analysis_cut=="MF"){
+
+    // default existing C12 MF SIMC file (other targets can be scaled from C12)
     simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
     simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
-    
-    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
-    
+
+    // define MF SIMC output root file
+    simc_OutputFileName_rad = Form("../hallc_simulations/cafe_output/cafe_%s_MF_rad_output.root", tgt_type.Data());
+      
+      
   }
   
   if(analysis_cut=="SRC"){
+
+    // default existing d2 SRC SIMC file (other targets can be scaled from d2)
     simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
     simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
-    
-    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+
+    // define SRC SIMC output root file
+    simc_OutputFileName_rad = Form("../hallc_simulations/cafe_output/cafe_%s_SRC_rad_output.root", tgt_type.Data());
     
   }
 
@@ -2972,8 +2978,9 @@ void baseAnalyzer::EventLoop()
 	  tree->GetEntry(ientry);
 	  
 	  //SIMC FullWeight
-	  // Need to add transparency factor (depending on which target), also if
-	  // targets other than hydrogen, deuterium or carbon are used, need to scale target density accordingly (tgt_density A / tgt_density nucleus simulated)
+	  // transparency is already accounted for when simulation was done for c12 (d2 and h2, T=1) .
+	  //if targets other than hydrogen, deuterium or carbon are used, will need to scale by transparency and target density
+	  //( scale is done separately, outside this event loop)
 	  FullWeight = Normfac * Weight * prob_abs / nentries;
 	  
 	  /*
@@ -3680,6 +3687,8 @@ void baseAnalyzer::ApplyWeight()
     cout << "Ps_factor_coin = " << Ps_factor_single << endl; 
   }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
+
+
   
   //----SCALE HISTOGRAMS BY LOOPING OVER LISTS----
   
@@ -3780,6 +3789,21 @@ void baseAnalyzer::ApplyWeight()
  
 }
 
+//_______________________________________________________________________________
+void baseAnalyzer::ScaleSIMC()
+{
+  /*
+    Brief: Method to scale SIMC histograms by transparency (T) and target areal density (g/cm^2) as follows:
+    
+    For Mean-Field (MF), since our starting point is C12, the yield for nucleus A becomes:
+    Yield_A_MF = Yield_C12_MF * ( T_A / T_C12 ) * (areal_density_A / areal_density_C12)
+    
+    For Short-Range Correlations (SRC), since our starting point is deuterium, the yield for nucleus A becomes:
+    Yield_A_SRC = Yield_d2_SRC * ( T_A / T_d2 ) * (areal_density_A / areal_density_d2), but recall T_d2 = 1
+    
+   */
+  
+}
 //_______________________________________________________________________________
 void baseAnalyzer::WriteHist()
 {
