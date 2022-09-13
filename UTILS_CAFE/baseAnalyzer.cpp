@@ -3809,8 +3809,8 @@ void baseAnalyzer::ScaleSIMC(TString target="")
 
   Double_t scale_factor;
 
-  if(target=="Be9" && analysis_cut=="MF")  scale_factor = ( T("Be9") / T("C12") ) * ( sig("Be9") / sig("C12") ) ;
-  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("C12") ) * ( sig("Be9") / sig("C12") ) * a2("Be9") ;
+  if(target=="Be9" && analysis_cut=="MF")  scale_factor = ( T("Be9") / T("C12") ) * ( sig_A("Be9") / sig_A("C12") ) ;
+  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("C12") ) * ( sig_A("Be9") / sig_A("C12") ) * a2("Be9") ;
   
   //==============================================
   // SCALE SIMC HISTOGRAMS BY LOOPING OVER LISTS
@@ -4010,16 +4010,24 @@ void baseAnalyzer::WriteReport()
   if(analyze_data==true){
 
 
-    if( (analysis_cut=="MF") || (analysis_cut=="SRC")) {
+    if( (analysis_cut=="MF") || (analysis_cut=="SRC") ) {
 
+      cout << "PASSED L1" << endl;
       cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-
+      cout << "PASSED L 1.1" << endl;
       total_simc_counts = stod(split(FindString(Form("%s_%s_counts", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [counts]
+      cout << "PASSED L 1.2" << endl;
       total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
+      cout << "PASSED L 1.3" << endl;
       simc_cafe_rates = total_simc_counts / (total_simc_time * 3600.); //[Hz]
-      
+      cout << "PASSED L 1.4" << endl;
+
       // [mC]                [uC / sec]        [hr]      [sec]/[hr]  0.001 mC / 1 uC
       total_simc_charge =  cafe_Ib_simc * total_simc_time * 3600. * 1e-3;  
+      
+      cout << "PASSED L2" << endl;
+
+
     }
     
     else if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ) {
@@ -4046,7 +4054,8 @@ void baseAnalyzer::WriteReport()
     }
     
     
-    
+    cout << "PASSED L3" << endl;
+
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
 
@@ -4056,7 +4065,8 @@ void baseAnalyzer::WriteReport()
     else if(in_file.fail()){
       cout << "Report File does NOT exist, will create one . . . " << endl;
     }
-    
+    cout << "PASSED L4" << endl;
+
     out_file.open(output_ReportFileName);
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
     out_file << "                                     " << endl;
@@ -4071,7 +4081,12 @@ void baseAnalyzer::WriteReport()
     out_file << "" << endl;    
     out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
-    out_file << Form("events_replayed: %lld              ", nentries ) << endl;
+    if(analysis_cut!="bcm_calib"){
+      out_file << Form("events_replayed: %lld              ", nentries ) << endl;
+    }
+    if(analysis_cut=="bcm_calib"){
+      out_file << Form("events_replayed: %.0f              ", Scal_evNum ) << endl;
+    }
     out_file << "" << endl;
     out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
     out_file << Form("target_name: %s                       ", tgt_type.Data() ) << endl;

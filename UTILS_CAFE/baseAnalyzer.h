@@ -176,7 +176,7 @@ protected:
     else if(target=="Ca40") return T_Ca40;
     else if(target=="Ca48") return T_Ca48;
     else if(target=="Fe54") return T_Fe54;
-    else return 0.
+    else return 0.;
 
   }
 
@@ -202,7 +202,7 @@ protected:
     else if(target=="Ca40") return a2_Ca40;
     else if(target=="Ca48") return a2_Ca48;
     else if(target=="Fe54") return a2_Fe54;
-    else return 0.
+    else return 0.;
     
   }
 
@@ -222,7 +222,7 @@ protected:
     else if(target=="Fe54") return sig_Fe54;
     else if(target=="Ti48") return sig_Ti48;
     
-    else return 0.
+    else return 0.;
     
     
   }
@@ -965,7 +965,6 @@ protected:
   //----------DATA-RELATED VARIABLES-----------
   TTree *tree;
   Long64_t nentries;
-
 
   //Set-Up Tdc Counters for accepted triggers
   Double_t total_trig1_accp = 0;
