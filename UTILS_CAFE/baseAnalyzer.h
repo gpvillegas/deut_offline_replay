@@ -71,7 +71,7 @@ protected:
   const Double_t NA = 6.022*1e23;  // Avogadro's number ( # atoms / mol), 1 g/mol = 1amu
   const Double_t elementary_charge = 1.60217663*1e-19; // Coulombs 
   
-  // target mass (amu),  mass number
+  // target mass (amu),  mass number (# of nucleons)
   Int_t mass_number_A = 0;
   Double_t MH_amu     = 1.00794       , A_H   = 1;
   Double_t MD_amu     = 2.01410177812 , A_D   = 2;

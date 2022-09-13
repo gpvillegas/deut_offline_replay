@@ -3809,8 +3809,26 @@ void baseAnalyzer::ScaleSIMC(TString target="")
 
   Double_t scale_factor;
 
+  // determine scale factors for various targets (scale c12 MF simulation by other targets)
   if(target=="Be9" && analysis_cut=="MF")  scale_factor = ( T("Be9") / T("C12") ) * ( sig_A("Be9") / sig_A("C12") ) ;
-  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("C12") ) * ( sig_A("Be9") / sig_A("C12") ) * a2("Be9") ;
+  if(target=="B10" && analysis_cut=="MF")  scale_factor = ( T("B10") / T("C12") ) * ( sig_A("B10") / sig_A("C12") ) ;
+  if(target=="B11" && analysis_cut=="MF")  scale_factor = ( T("B11") / T("C12") ) * ( sig_A("B11") / sig_A("C12") ) ;
+
+  if(target=="Ca40" && analysis_cut=="MF")  scale_factor = ( T("Ca40") / T("C12") ) * ( sig_A("Ca40") / sig_A("C12") ) ;
+  if(target=="Ca48" && analysis_cut=="MF")  scale_factor = ( T("Ca48") / T("C12") ) * ( sig_A("Ca48") / sig_A("C12") ) ;
+  if(target=="Fe54" && analysis_cut=="MF")  scale_factor = ( T("Fe54") / T("C12") ) * ( sig_A("Fe54") / sig_A("C12") ) ;
+
+
+  // determine scale factors for various targets (scale deuteron SRC simulation by other targets)
+  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("LD2") ) * ( sig_A("Be9") / sig_A("LD2") ) * a2("Be9") ;
+  if(target=="B10" && analysis_cut=="SRC") scale_factor = ( T("B10") / T("LD2") ) * ( sig_A("B10") / sig_A("LD2") ) * a2("B10") ;
+  if(target=="B11" && analysis_cut=="SRC") scale_factor = ( T("B11") / T("LD2") ) * ( sig_A("B11") / sig_A("LD2") ) * a2("B11") ;
+
+  if(target=="Ca40" && analysis_cut=="SRC") scale_factor = ( T("Ca40") / T("LD2") ) * ( sig_A("Ca40") / sig_A("LD2") ) * a2("Ca40") ;
+  if(target=="Ca48" && analysis_cut=="SRC") scale_factor = ( T("Ca48") / T("LD2") ) * ( sig_A("Ca48") / sig_A("LD2") ) * a2("Ca48") ;
+  if(target=="Fe54" && analysis_cut=="SRC") scale_factor = ( T("Fe54") / T("LD2") ) * ( sig_A("Fe54") / sig_A("LD2") ) * a2("Fe54") ;
+
+
   
   //==============================================
   // SCALE SIMC HISTOGRAMS BY LOOPING OVER LISTS
