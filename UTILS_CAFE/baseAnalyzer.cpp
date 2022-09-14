@@ -4813,7 +4813,7 @@ void baseAnalyzer::MakePlots()
   Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
  
     
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){

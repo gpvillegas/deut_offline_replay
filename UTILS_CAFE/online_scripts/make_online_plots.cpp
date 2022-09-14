@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="")
+void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -851,8 +851,17 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(1);
    data_Q2->GetXaxis()->SetTitle("Q^{2} [GeV^{2}]");
    data_Q2->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Q2->Draw();
-   data_Q2->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Q2->DrawNormalized();
+     data_Q2->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Q2->Draw();
+     data_Q2->Draw("sameshistE0");
+   }
+
    leg_Q2->AddEntry(data_Q2,"Data", "f");
    if(simc_exist) leg_Q2->AddEntry(simc_Q2,"SIMC");
    leg_Q2->Draw();
@@ -860,8 +869,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(2);
    data_nu->GetXaxis()->SetTitle("Energy Transfer, #nu [GeV]");
    data_nu->GetXaxis()->CenterTitle();  
-   if(simc_exist) simc_nu->Draw();
-   data_nu->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_nu->DrawNormalized();
+     data_nu->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_nu->Draw();
+     data_nu->Draw("sameshistE0");
+   }
    leg_nu->AddEntry(data_nu,"Data", "f");
    if(simc_exist) leg_nu->AddEntry(simc_nu,"SIMC");
    leg_nu->Draw();
@@ -869,8 +886,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(3);
    data_W->GetXaxis()->SetTitle("Invariant Mass, W [GeV]");
    data_W->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_W->Draw();
-   data_W->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_W->DrawNormalized();
+     data_W->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_W->Draw();
+     data_W->Draw("sameshistE0");
+   }
    data_W->GetYaxis()->SetRangeUser(0., data_W->GetBinContent(data_W->GetMaximumBin())+300.);
    leg_W->AddEntry(data_W,"Data", "f");
    if(simc_exist) leg_W->AddEntry(simc_W,"SIMC");
@@ -879,15 +904,31 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(4);
    data_thq->GetXaxis()->SetTitle("q-vector Angle, #theta_{q} [deg]");
    data_thq->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_thq->Draw();
-   data_thq->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_thq->DrawNormalized();
+     data_thq->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_thq->Draw();
+     data_thq->Draw("sameshistE0");
+   }
    leg_thq->AddEntry(data_thq,"Data", "f");
    if(simc_exist) leg_thq->AddEntry(simc_thq,"SIMC");
    leg_thq->Draw();
 
    c1->cd(5);
-   if(simc_exist) simc_xbj->Draw();
-   data_xbj->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_xbj->DrawNormalized();
+     data_xbj->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_xbj->Draw();
+     data_xbj->Draw("sameshistE0");
+   }
    leg_xbj->AddEntry(data_xbj,"Data","f");
    if(simc_exist) leg_xbj->AddEntry(simc_xbj,"SIMC");
    leg_xbj->Draw();
@@ -895,8 +936,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(6);
    data_the->GetXaxis()->SetTitle("Electron Scatt. Angle, #theta_{e} [deg]");
    data_the->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_the->Draw();
-   data_the->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_the->DrawNormalized();
+     data_the->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_the->Draw();
+     data_the->Draw("sameshistE0");
+   }
    leg_the->AddEntry(data_the,"Data","f");
    if(simc_exist) leg_the->AddEntry(simc_the,"SIMC");
    leg_the->Draw();
@@ -906,6 +955,11 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    data_kf->GetXaxis()->CenterTitle();   
    if(simc_exist) simc_kf->Draw();
    data_kf->Draw("sameshistE0");
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_kf->DrawNormalized();
+     data_kf->DrawNormalized("sameshistE0");
+   }
    leg_kf->AddEntry(data_kf,"Data","f");
    if(simc_exist) leg_kf->AddEntry(simc_kf,"SIMC");
    leg_kf->Draw();
@@ -913,8 +967,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(8);
    data_Em->GetXaxis()->SetTitle("Missing Energy, E_{m} [GeV/c] ");
    data_Em->GetXaxis()->CenterTitle();   
-   if(simc_exist) simc_Em->Draw("hist");
-   data_Em->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Em->DrawNormalized("hist");
+     data_Em->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Em->Draw("hist");
+     data_Em->Draw("sameshistE0");
+   }
    data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetBinContent(data_Em->GetMaximumBin())+300.);
    leg_Em->AddEntry(data_Em,"Data","f");
    if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
@@ -923,8 +985,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(9);
    data_MM->GetXaxis()->SetTitle("Missing Mass, MM [GeV] ");
    data_MM->GetXaxis()->CenterTitle();   
-   if(simc_exist) simc_MM->Draw("hist");
-   data_MM->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_MM->DrawNormalized("hist");
+     data_MM->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_MM->Draw("hist");
+     data_MM->Draw("sameshistE0");
+   }
    data_MM->GetYaxis()->SetRangeUser(0., data_MM->GetBinContent(data_MM->GetMaximumBin())+300.);
    leg_MM->AddEntry(data_MM,"Data","f");
    if(simc_exist) leg_MM->AddEntry(simc_MM,"SIMC");
@@ -950,8 +1020,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(1);
    data_Pm->GetXaxis()->SetTitle("Missing Momentum, P_{miss} [GeV]");
    data_Pm->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Pm->Draw();
-   data_Pm->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Pm->DrawNormalized();
+     data_Pm->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Pm->Draw();
+     data_Pm->Draw("sameshistE0");
+   }
    data_Pm->GetYaxis()->SetRangeUser(0., data_Pm->GetBinContent(data_Pm->GetMaximumBin())+300.);
    leg_Pm->AddEntry(data_Pm,"Data", "f");
    if(simc_exist) leg_Pm->AddEntry(simc_Pm,"SIMC");
@@ -960,8 +1038,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(2);
    data_Pf->GetXaxis()->SetTitle("Proton Momentum, P_{p} [GeV]");
    data_Pf->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Pf->Draw();
-   data_Pf->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Pf->DrawNormalized();
+     data_Pf->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Pf->Draw();
+     data_Pf->Draw("sameshistE0");
+   }
    leg_Pf->AddEntry(data_Pf,"Data", "f");
    if(simc_exist) leg_Pf->AddEntry(simc_Pf,"SIMC");
    leg_Pf->Draw();
@@ -969,8 +1055,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(3);
    data_thx->GetXaxis()->SetTitle("Proton Scatt. Angle, #theta_{p} [deg]");
    data_thx->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_thx->Draw();
-   data_thx->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_thx->DrawNormalized();
+     data_thx->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_thx->Draw();
+     data_thx->Draw("sameshistE0");
+   }
    leg_thp->AddEntry(data_thx,"Data", "f");
    if(simc_exist) leg_thp->AddEntry(simc_thx,"SIMC");
    leg_thp->Draw();
@@ -978,8 +1072,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(4);
    data_q->GetXaxis()->SetTitle("q-Vector Magnitude, |q| [GeV]");
    data_q->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_q->Draw();
-   data_q->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_q->DrawNormalized();
+     data_q->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_q->Draw();
+     data_q->Draw("sameshistE0");
+   }
    leg_q->AddEntry(data_q,"Data", "f");
    if(simc_exist) leg_q->AddEntry(simc_q,"SIMC");
    leg_q->Draw();
@@ -988,8 +1090,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(5);
    data_thxq->GetXaxis()->SetTitle("Proton-qVec. Angle, #theta_{pq} [deg]");
    data_thxq->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_thxq->Draw();
-   data_thxq->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_thxq->DrawNormalized();
+     data_thxq->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_thxq->Draw();
+     data_thxq->Draw("sameshistE0");
+   }
    leg_thxq->AddEntry(data_thxq,"Data", "f");
    if(simc_exist) leg_thxq->AddEntry(simc_thxq,"SIMC");
    leg_thxq->Draw();
@@ -997,8 +1107,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(6);
    data_thrq->GetXaxis()->SetTitle("Recoil-qVec. Angle, #theta_{rq} [deg]");
    data_thrq->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_thrq->Draw();
-   data_thrq->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_thrq->DrawNormalized();
+     data_thrq->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_thrq->Draw();
+     data_thrq->Draw("sameshistE0");
+   }
    leg_thrq->AddEntry(data_thrq,"Data", "f");
    if(simc_exist) leg_thrq->AddEntry(simc_thrq,"SIMC");
    leg_thrq->Draw();
@@ -1007,8 +1125,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(7);
    data_Pmx->GetXaxis()->SetTitle("Missing Momentum X-comp., Pm_{x} [GeV]");
    data_Pmx->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Pmx->Draw();
-   data_Pmx->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Pmx->DrawNormalized();
+     data_Pmx->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Pmx->Draw();
+     data_Pmx->Draw("sameshistE0");
+   }
    leg_Pmx->AddEntry(data_Pmx,"Data", "f");
    if(simc_exist) leg_Pmx->AddEntry(simc_Pmx,"SIMC");
    leg_Pmx->Draw();
@@ -1016,8 +1142,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(8);
    data_Pmy->GetXaxis()->SetTitle("Missing Momentum Y-comp., Pm_{y} [GeV]");
    data_Pmy->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Pmy->Draw();
-   data_Pmy->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Pmy->DrawNormalized();
+     data_Pmy->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Pmy->Draw();
+     data_Pmy->Draw("sameshistE0");
+   }
    leg_Pmy->AddEntry(data_Pmy,"Data", "f");
    if(simc_exist) leg_Pmy->AddEntry(simc_Pmy,"SIMC");
    leg_Pmy->Draw();
@@ -1025,8 +1159,16 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->cd(9);
    data_Pmz->GetXaxis()->SetTitle("Missing Momentum Z-comp., Pm_{z} [GeV]");
    data_Pmz->GetXaxis()->CenterTitle();
-   if(simc_exist) simc_Pmz->Draw();
-   data_Pmz->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_Pmz->DrawNormalized();
+     data_Pmz->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_Pmz->Draw();
+     data_Pmz->Draw("sameshistE0");
+   }
    leg_Pmz->AddEntry(data_Pmz,"Data", "f");
    if(simc_exist) leg_Pmz->AddEntry(simc_Pmz,"SIMC");
    leg_Pmz->Draw();
@@ -1053,29 +1195,61 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->Divide(2,2);
    
    c1->cd(1);
-   if(simc_exist) simc_exfp->Draw();
-   data_exfp->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_exfp->DrawNormalized();
+     data_exfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_exfp->Draw();
+     data_exfp->Draw("sameshistE0");
+   }
    leg13->AddEntry(data_exfp,"Data","f");
    if(simc_exist) leg13->AddEntry(simc_exfp,"SIMC");
    leg13->Draw();
    
    c1->cd(2);
-   if(simc_exist) simc_eyfp->Draw();
-   data_eyfp->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_eyfp->DrawNormalized();
+     data_eyfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_eyfp->Draw();
+     data_eyfp->Draw("sameshistE0");
+   }
    leg14->AddEntry(data_eyfp,"Data", "f");
    if(simc_exist) leg14->AddEntry(simc_eyfp,"SIMC");
    leg14->Draw();
 
    c1->cd(3);
-   if(simc_exist) simc_expfp->Draw();
-   data_expfp->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_expfp->DrawNormalized();
+     data_expfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_expfp->Draw();
+     data_expfp->Draw("sameshistE0");
+   }
    leg15->AddEntry(data_expfp,"Data", "f");
    if(simc_exist) leg15->AddEntry(simc_expfp,"SIMC");
    leg15->Draw();
      
    c1->cd(4);
-   if(simc_exist) simc_eypfp->Draw();
-   data_eypfp->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_eypfp->DrawNormalized();
+     data_eypfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_eypfp->Draw();
+     data_eypfp->Draw("sameshistE0");
+   }
    leg16->AddEntry(data_eypfp,"Data", "f");
    if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
    leg16->Draw();
@@ -1097,29 +1271,61 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->Divide(2,2);
 
    c1->cd(1);
-   if(simc_exist) simc_hxfp->Draw();
-   data_hxfp->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hxfp->DrawNormalized();
+     data_hxfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hxfp->Draw();
+     data_hxfp->Draw("sameshistE0");
+   }
    hfp_l1->AddEntry(data_hxfp,"Data","f");
    if(simc_exist) hfp_l1->AddEntry(simc_hxfp,"SIMC");
    hfp_l1->Draw();
    
    c1->cd(2);
-   if(simc_exist) simc_hyfp->Draw();
-   data_hyfp->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hyfp->DrawNormalized();
+     data_hyfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hyfp->Draw();
+     data_hyfp->Draw("sameshistE0");
+   }
    hfp_l2->AddEntry(data_hyfp,"Data", "f");
    if(simc_exist) hfp_l2->AddEntry(simc_hyfp,"SIMC");
    hfp_l2->Draw();
 
    c1->cd(3);
-   if(simc_exist) simc_hxpfp->Draw();
-   data_hxpfp->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hxpfp->DrawNormalized();
+     data_hxpfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hxpfp->Draw();
+     data_hxpfp->Draw("sameshistE0");
+   }
    hfp_l3->AddEntry(data_hxpfp,"Data", "f");
    if(simc_exist) hfp_l3->AddEntry(simc_hxpfp,"SIMC");
    hfp_l3->Draw();
      
    c1->cd(4);
-   if(simc_exist) simc_hypfp->Draw();
-   data_hypfp->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hypfp->DrawNormalized();
+     data_hypfp->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hypfp->Draw();
+     data_hypfp->Draw("sameshistE0");
+   }
    hfp_l4->AddEntry(data_hypfp,"Data", "f");
    if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
    hfp_l4->Draw();
@@ -1142,29 +1348,61 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->Divide(2,2);
 
    c1->cd(1);
-   if(simc_exist) simc_eytar->Draw();
-   data_eytar->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_eytar->DrawNormalized();
+     data_eytar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_eytar->Draw();
+     data_eytar->Draw("sameshistE0");
+   }
    leg5->AddEntry(data_eytar,"Data","f");
    if(simc_exist) leg5->AddEntry(simc_eytar,"SIMC");
    leg5->Draw();
 
    c1->cd(2);
-   if(simc_exist) simc_exptar->Draw();
-   data_exptar->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_exptar->DrawNormalized();
+     data_exptar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_exptar->Draw();
+     data_exptar->Draw("sameshistE0");
+   }
    leg5->AddEntry(data_exptar,"Data", "f");
    if(simc_exist) leg5->AddEntry(simc_exptar,"SIMC");
    leg5->Draw();
 
    c1->cd(3);
-   if(simc_exist) simc_eyptar->Draw();
-   data_eyptar->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_eyptar->DrawNormalized();
+     data_eyptar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_eyptar->Draw();
+     data_eyptar->Draw("sameshistE0");
+   }
    leg7->AddEntry(data_eyptar,"Data", "f");
    if(simc_exist) leg7->AddEntry(simc_eyptar,"SIMC");
    leg7->Draw();
      
    c1->cd(4);
-   if(simc_exist) simc_edelta->Draw();
-   data_edelta->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_edelta->DrawNormalized();
+     data_edelta->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_edelta->Draw();
+     data_edelta->Draw("sameshistE0");
+   }
    leg8->AddEntry(data_edelta,"Data", "f");
    if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
    leg8->Draw();
@@ -1186,29 +1424,61 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->Divide(2,2);
 
    c1->cd(1);
-   if(simc_exist) simc_hytar->Draw();
-   data_hytar->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hytar->DrawNormalized();
+     data_hytar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hytar->Draw();
+     data_hytar->Draw("sameshistE0");
+   }
    htr_l1->AddEntry(data_hytar,"Data","f");
    if(simc_exist) htr_l1->AddEntry(simc_hytar,"SIMC");
    htr_l1->Draw();
 
    c1->cd(2);
-   if(simc_exist) simc_hxptar->Draw();
-   data_hxptar->Draw("sameshistE0");
+   
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hxptar->DrawNormalized();
+     data_hxptar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hxptar->Draw();
+     data_hxptar->Draw("sameshistE0");
+   }
    htr_l2->AddEntry(data_hxptar,"Data", "f");
    if(simc_exist) htr_l2->AddEntry(simc_hxptar,"SIMC");
    htr_l2->Draw();
 
    c1->cd(3);
-   if(simc_exist) simc_hyptar->Draw();
-   data_hyptar->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hyptar->DrawNormalized();
+     data_hyptar->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hyptar->Draw();
+     data_hyptar->Draw("sameshistE0");
+   }
    htr_l3->AddEntry(data_hyptar,"Data", "f");
    if(simc_exist) htr_l3->AddEntry(simc_hyptar,"SIMC");
    htr_l3->Draw();
      
    c1->cd(4);
-   if(simc_exist) simc_hdelta->Draw();
-   data_hdelta->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_hdelta->DrawNormalized();
+     data_hdelta->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_hdelta->Draw();
+     data_hdelta->Draw("sameshistE0");
+   }
    htr_l4->AddEntry(data_hdelta,"Data", "f");
    if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
    htr_l4->Draw();
@@ -1233,43 +1503,91 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
    c1->Divide(3,2);
    
    c1->cd(1);
-   if(simc_exist) simc_xtar->Draw("hist");
-   data_xtarH->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_xtar->DrawNormalized("hist");
+     data_xtarH->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_xtar->Draw("hist");
+     data_xtarH->Draw("sameshistE0");
+   }
    leghxt->AddEntry(data_xtarH,"Data","f");
    if(simc_exist) leghxt->AddEntry(simc_xtar,"SIMC");
    leghxt->Draw();
   
    c1->cd(2);
-   if(simc_exist) simc_ytarH->Draw("hist");
-   data_ytarH->Draw("sameshistE0");
+  
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_ytarH->DrawNormalized("hist");
+     data_ytarH->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_ytarH->Draw("hist");
+     data_ytarH->Draw("sameshistE0");
+   }
    leghyt->AddEntry(data_ytarH,"Data","f");
    if(simc_exist) leghyt->AddEntry(simc_ytarH,"SIMC");
    leghyt->Draw();
 
    c1->cd(3);
-   if(simc_exist) simc_ztarH->Draw("hist");
-   data_ztarH->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_ztarH->DrawNormalized("hist");
+     data_ztarH->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_ztarH->Draw("hist");
+     data_ztarH->Draw("sameshistE0");
+   }
    leghzt->AddEntry(data_ztarH,"Data","f");
    if(simc_exist) leghzt->AddEntry(simc_ztarH,"SIMC");
    leghzt->Draw();   
 
    c1->cd(4);
-   if(simc_exist) simc_xtar->Draw("hist");
-   data_xtarP->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_xtar->DrawNormalized("hist");
+     data_xtarP->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_xtar->Draw("hist");
+     data_xtarP->Draw("sameshistE0");
+   }
    legpxt->AddEntry(data_xtarP,"Data","f");
    if(simc_exist) legpxt->AddEntry(simc_xtar,"SIMC");
    legpxt->Draw();
   
    c1->cd(5);
-   if(simc_exist) simc_ytarP->Draw("hist");
-   data_ytarP->Draw("sameshistE0");
+
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_ytarP->DrawNormalized("hist");
+     data_ytarP->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_ytarP->Draw("hist");
+     data_ytarP->Draw("sameshistE0");
+   }
    legpyt->AddEntry(data_ytarP,"Data","f");
    if(simc_exist) legpyt->AddEntry(simc_ytarP,"SIMC");
    legpyt->Draw();
 
    c1->cd(6);
-   if(simc_exist) simc_ztarP->Draw("hist");
-   data_ztarP->Draw("sameshistE0");
+ 
+   //Draw Normalized?
+   if(draw_norm){
+     if(simc_exist) simc_ztarP->DrawNormalized("hist");
+     data_ztarP->DrawNormalized("sameshistE0");
+   }
+   else{
+     if(simc_exist) simc_ztarP->Draw("hist");
+     data_ztarP->Draw("sameshistE0");
+   }
    legpzt->AddEntry(data_ztarP,"Data","f");
    if(simc_exist) legpzt->AddEntry(simc_ztarP,"SIMC");
    legpzt->Draw();
