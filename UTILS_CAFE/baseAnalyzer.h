@@ -76,8 +76,8 @@ protected:
   Double_t MH_amu     = 1.00794       , A_H   = 1;
   Double_t MD_amu     = 2.01410177812 , A_D   = 2;
   Double_t MBe9_amu   = 9.012182      , A_Be9 = 9;
-  Double_t MB10_amu   = 10.0129370    , A_B10 = 10;
-  Double_t MB11_amu   = 11.009306     , A_B11 = 11;
+  Double_t MB10_amu   = 10.0129370    , A_B10 = 10;   // target is actually 10B4C (Boron-Carbide)
+  Double_t MB11_amu   = 11.009306     , A_B11 = 11;  // target is actually 11B4C (Boron-Carbide)
   Double_t MC12_amu   = 12.0107       , A_C12 = 12;
   Double_t MAl27_amu  = 26.98153      , A_Al27 = 27;
   Double_t MCa40_amu  = 39.962590863  , A_Ca40 = 40;
