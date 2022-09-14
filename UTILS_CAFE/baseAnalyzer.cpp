@@ -4031,20 +4031,14 @@ void baseAnalyzer::WriteReport()
 
     if( (analysis_cut=="MF") || (analysis_cut=="SRC") ) {
 
-      cout << "PASSED L1" << endl;
       cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-      cout << "PASSED L 1.1" << endl;
       total_simc_counts = stod(split(FindString(Form("%s_%s_counts", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [counts]
-      cout << "PASSED L 1.2" << endl;
       total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
-      cout << "PASSED L 1.3" << endl;
       simc_cafe_rates = total_simc_counts / (total_simc_time * 3600.); //[Hz]
-      cout << "PASSED L 1.4" << endl;
 
       // [mC]                [uC / sec]        [hr]      [sec]/[hr]  0.001 mC / 1 uC
       total_simc_charge =  cafe_Ib_simc * total_simc_time * 3600. * 1e-3;  
       
-      cout << "PASSED L2" << endl;
 
 
     }
@@ -4073,8 +4067,6 @@ void baseAnalyzer::WriteReport()
     }
     
     
-    cout << "PASSED L3" << endl;
-
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
 
@@ -4084,10 +4076,32 @@ void baseAnalyzer::WriteReport()
     else if(in_file.fail()){
       cout << "Report File does NOT exist, will create one . . . " << endl;
     }
-    cout << "PASSED L4" << endl;
 
     out_file.open(output_ReportFileName);
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
+    out_file << "                                     " << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "# ! ! ! INFO FOR SHIFT WORKERS ! ! !" << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
+    out_file << "                                     " << endl;
+    out_file << "-------------------------------------" << endl;
+    out_file << Form("Current [uA]        : %.3f ", avg_current_bcm_cut) << endl;
+    out_file << Form("Charge [mC]         : %.3f ", total_charge_bcm_cut) << endl;
+    out_file << Form("Beam-on-Target [sec]: %.3f ", total_time_bcm_cut) << endl;
+    out_file << "                                     " << endl;
+    if(analysis_cut=="heep_singles"){
+      out_file << Form("heep_counts : %.3f ", W_total) << endl;
+    }
+    if(analysis_cut=="heep_coin"){
+      out_file << Form("heep_counts : %.3f ", W_real) << endl;
+    }
+    if(analysis_cut=="MF"){
+      out_file << Form("MF_counts : %.3f", Pm_real )  << endl;
+    }
+    if(analysis_cut=="SRC"){
+      out_file << Form("SRC_counts : %.3f", Pm_real)  << endl;
+    }
+    out_file << "-------------------------------------" << endl;
     out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# General Run Configuration                              " << endl;
