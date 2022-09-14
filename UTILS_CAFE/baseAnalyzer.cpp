@@ -2711,12 +2711,13 @@ void baseAnalyzer::EventLoop()
 	      bool event_type_cut = false;
 	      
 	      if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
-		event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
+		//event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
               }
 	      else if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
-		event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
-	      //Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
-	      if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
+		//event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
+		//Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
+		// if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
+		if(c_edtm){ total_edtm_accp_bcm_cut++;}
 	      
 	      //Count Accepted TRIG1-6 events (without EDTM and with bcm current cut: to be used in the computer live time calculation)
 	      if(c_trig1 && c_noedtm) { total_trig1_accp_bcm_cut++; }
