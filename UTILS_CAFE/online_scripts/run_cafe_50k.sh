@@ -19,7 +19,7 @@ SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
 
 
 lastRun=$( \
-	   ls raw/shms_all_*.dat raw/../raw.copiedtotape/shms_all_*.dat cache/shms_all_*.dat -R 2>/dev/null | perl -ne 'if(/0*(\d+)/) {print "$1\n"}' | sort -n | tail -1 \
+	   ls raw/shms_all_*.dat raw/../raw.copiedtotape/shms_all_*.dat CACHE_LINKS/cache_cafe/shms_all_*.dat -R 2>/dev/null | perl -ne 'if(/0*(\d+)/) {print "$1\n"}' | sort -n | tail -1 \
        )
 
 #

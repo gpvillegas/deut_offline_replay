@@ -316,8 +316,12 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
 
   
+  
   TString user_answer = "";
   
+  
+  if((ftype!="shms50k") || (ftype!="hms50k")){
+
   if(gSystem->AccessPathName(ROOTFileName.Data())){
     std::cout << Form("%s does NOT exist !",ROOTFileName.Data()) << std::endl;
   } else {
@@ -330,8 +334,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   else if(user_answer=="n" || user_answer=="no" || user_answer=="N" || user_answer=="NO"){
     cout << Form("OK, ! Will NOT overwrite % s.", ROOTFileName.Data()) << endl;
   
+    }
   }
-  
+
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number
