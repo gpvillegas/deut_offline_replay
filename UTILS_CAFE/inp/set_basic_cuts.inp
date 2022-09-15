@@ -272,4 +272,4 @@ c_d2SRC_Em_max = 0.1
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied for A>2 nuclei)
 # this is a dynamic cut on missing energy:  Em_nuc < Em_src, to reduce background.
 # Look at Em_nuc vs. Pm and Em_src vs. Pm histos as a check  before applying this cut.
-Em_SRC_cut_flag = 1
+Em_SRC_cut_flag = 0

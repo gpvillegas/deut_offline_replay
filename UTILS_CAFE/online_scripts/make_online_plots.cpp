@@ -9,7 +9,7 @@
 4) Target Vertex
 */
 
-void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
+void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
 {
 
   gROOT->SetBatch(kTRUE);  
@@ -20,7 +20,7 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d.pdf", ana_type.Data(), run);
+  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d_%d.pdf", ana_type.Data(), run, evt);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -716,17 +716,20 @@ void make_online_plots(int run=0, Bool_t simc_exist=0, TString tgt_type="", TStr
 
   data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
   data_W_total->Draw("histE0");   
-  data_W_real->Draw("sameshistE0");   
-  data_W_rand->Draw("sameshistE0");   
-  
+  if(ana_cut!="heep_singles"){
+    data_W_real->Draw("sameshistE0");   
+    data_W_rand->Draw("sameshistE0");   
+  }
+
   total = data_W_total->IntegralAndError(1, nbins, total_err);
   reals = data_W_real->IntegralAndError(1, nbins, reals_err);
   rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
   
   hW_leg->AddEntry(data_W_total, Form("Total   : %.3f", total),"f");
-  hW_leg->AddEntry(data_W_real,  Form("Reals   : %.3f", reals),"f");
-  hW_leg->AddEntry(data_W_rand,  Form("Randoms : %.3f", rands),"f");
-
+  if(ana_cut!="heep_singles"){
+    hW_leg->AddEntry(data_W_real,  Form("Reals   : %.3f", reals),"f");
+    hW_leg->AddEntry(data_W_rand,  Form("Randoms : %.3f", rands),"f");
+  }
   hW_leg->SetBorderSize(0);
   hW_leg->SetTextSize(0.05);
   hW_leg->Draw();

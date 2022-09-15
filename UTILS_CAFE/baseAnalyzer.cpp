@@ -54,7 +54,7 @@ baseAnalyzer::baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts=""
   cout << "Calling BaseConstructor (SIMC) " << endl;
 
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)                                                                                                         
-  if(daq_mode=="coin" && e_arm_name=="SHMS"){
+  if(e_arm_name=="SHMS"){
     eArm = "P";
     hArm = "H";
     e_arm = "p";
@@ -2708,16 +2708,18 @@ void baseAnalyzer::EventLoop()
 	    {
 	      
 	      //cout << "passed BCM Cut !" << endl;
-	      bool event_type_cut = false;
+	      //bool event_type_cut = false;
 	      
-	      if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
-		//event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
-              }
-	      else if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
-		//event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
-		//Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
-		// if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
-		if(c_edtm){ total_edtm_accp_bcm_cut++;}
+	      //if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
+	      //event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
+              //}
+	      //if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
+	      //event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only               
+	      //Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
+	      // if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
+	      //}
+	      
+	      if(c_edtm){ total_edtm_accp_bcm_cut++;}
 	      
 	      //Count Accepted TRIG1-6 events (without EDTM and with bcm current cut: to be used in the computer live time calculation)
 	      if(c_trig1 && c_noedtm) { total_trig1_accp_bcm_cut++; }
@@ -2972,7 +2974,6 @@ void baseAnalyzer::EventLoop()
     {
 
       cout << "Analyzing SIMC Events | nentries -->  " << nentries << endl;
-
       for(int ientry=0; ientry<nentries; ientry++)
 	{
 	  
@@ -3289,10 +3290,9 @@ void baseAnalyzer::EventLoop()
 	  cout << "SIMCEventLoop: " << std::setprecision(2) << double(ientry) / nentries * 100. << "  % " << std::flush << "\r"; 
 	  
 	} // end event loop
-
+      
     }
   
-    }
 }
 
 //_______________________________________________________________________________
@@ -3993,8 +3993,8 @@ void baseAnalyzer::WriteHist()
 
   else if(analyze_data==false){
 
-    cout << "Write SIMC Histos to File . . ." << endl;
-
+    cout << "Write SIMC Histos to: " << simc_OutputFileName_rad.Data() << endl;
+    
     //Create output ROOTfile
     outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
 
@@ -4081,15 +4081,16 @@ void baseAnalyzer::WriteReport()
     out_file.open(output_ReportFileName);
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
     out_file << "                                     " << endl;
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "# ! ! ! INFO FOR SHIFT WORKERS ! ! !" << endl;
-    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    out_file << "                                     " << endl;
-    out_file << "-------------------------------------" << endl;
-    out_file << Form("Current [uA]        : %.3f ", avg_current_bcm_cut) << endl;
-    out_file << Form("Charge [mC]         : %.3f ", total_charge_bcm_cut) << endl;
-    out_file << Form("Beam-on-Target [sec]: %.3f ", total_time_bcm_cut) << endl;
-    out_file << "                                     " << endl;
+    out_file << "#//////////////////////////////////////////" << endl; 
+    out_file << "                                         //" << endl;  
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //" << endl;
+    out_file << "# ! ! !   SHIFT WORKERS INFO   ! ! !     //" << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //" << endl;
+    out_file << "                                         //" << endl;
+    out_file << Form("Current [uA]        : %.3f          ", avg_current_bcm_cut) << endl;
+    out_file << Form("Charge [mC]         : %.3f          ", total_charge_bcm_cut) << endl;
+    out_file << Form("Beam-on-Target [sec]: %.3f          ", total_time_bcm_cut) << endl;
+    out_file << "                                         " << endl;
     if(analysis_cut=="heep_singles"){
       out_file << Form("heep_counts : %.3f ", W_total) << endl;
     }
@@ -4102,8 +4103,9 @@ void baseAnalyzer::WriteReport()
     if(analysis_cut=="SRC"){
       out_file << Form("SRC_counts : %.3f", Pm_real)  << endl;
     }
-    out_file << "-------------------------------------" << endl;
-    out_file << "                                     " << endl;
+    out_file << "#                                        //" << endl;
+    out_file << "#//////////////////////////////////////////" << endl;
+    out_file << "                                     " << endl;    
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# General Run Configuration                              " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -4118,7 +4120,7 @@ void baseAnalyzer::WriteReport()
     if(analysis_cut!="bcm_calib"){
       out_file << Form("events_replayed: %lld              ", nentries ) << endl;
     }
-    if(analysis_cut=="bcm_calib"){
+    else if(analysis_cut=="bcm_calib"){
       out_file << Form("events_replayed: %.0f              ", Scal_evNum ) << endl;
     }
     out_file << "" << endl;
@@ -4156,6 +4158,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("data_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("data_lumi")) << endl;
 	out_file << Form("data_lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity("data_lumi") ) << endl;
 	out_file << "" << endl;
+	
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -4829,7 +4832,7 @@ void baseAnalyzer::MakePlots()
   Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
  
     
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, evtNum, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){

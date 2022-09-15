@@ -319,7 +319,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   
   TString user_answer = "";
   
-  
+  /*
   if((ftype!="shms50k") || (ftype!="hms50k")){
 
   if(gSystem->AccessPathName(ROOTFileName.Data())){
@@ -336,6 +336,7 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   
     }
   }
+  */
 
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
