@@ -49,21 +49,21 @@ gpbeam = 10.600
 gtargmass_amu = 1.00794
 htheta_lab = -37.2900
 ptheta_lab = 12.200
-hpcentral = 2.93814
+hpcentral = 2.93814                                        
 ppcentral = 8.5342488
 ppartmass = 0.0005109
 hpartmass = 0.93827231
 
-#D2 Electro-Disintegration (E12-10-003) - April 4, 2018                                                       
+#D2 Electro-Disintegration (E12-10-003) - April 4, 2018    
 #Al Dummy Run (for H(e,e'p))                 
-3252-3258                                                                                        
-gpbeam = 10.600                                                                         
+3252-3258                                                  
+gpbeam = 10.600                                            
 gtargmass_amu = 26.98153
 htheta_lab = -37.2900           
-ptheta_lab = 12.200                                                                                    
-hpcentral = 2.93814                                                                                                    
-ppcentral = 8.5342488                                                                                                        
-ppartmass = 0.0005109                                                                                      
+ptheta_lab = 12.200                                        
+hpcentral = 2.93814                                               
+ppcentral = 8.5342488                                                   
+ppartmass = 0.0005109                                      
 hpartmass = 0.93827231 
 
 # optics scan for SHMS Q3 and HB with optics #1 and sieve
@@ -218,13 +218,13 @@ hpartmass =  0.000511
 ppartmass =  0.000511
 
 
-# Q2=8.5 GeV2, W=2.79 GeV, x=0.55, high eps (updated RF offset)                                                 
-15793 - 16022                                                                             
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 1.00794                                                                     
+# Q2=8.5 GeV2, W=2.79 GeV, x=0.55, high eps (updated RF offset)             
+15793 - 16022                                                               
+gpbeam = 10.549355                                                          
+gtargmass_amu = 1.00794                                                     
 htheta_lab = -34.105           
-ptheta_lab = 8.665                                                                  
-hpcentral = 2.341                                                               
+ptheta_lab = 8.665                                                          
+hpcentral = 2.341                                                           
 ppcentral = 7.913                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
@@ -233,67 +233,67 @@ ppartmass =  0.000511
 # CAFE Experiment
 #-------------------
 #Optics runs for Cafe SHMS angle = 6.8 on single foil + double foils
-16023 - 16025                                                                        
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 12.0107                                                                     
+16023 - 16025                                                               
+gpbeam = 10.549355                                                          
+gtargmass_amu = 12.0107                                                     
 htheta_lab = -12.5           
-ptheta_lab = 6.8                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 6.8                                                            
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
 #elastics run for Cafe SHMS angle = 6.8 on (e,e'p) H
-16026                                                                         
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 1.00794                                                                     
+16026                                                                       
+gpbeam = 10.549355                                                          
+gtargmass_amu = 1.00794                                                     
 htheta_lab = -12.5           
-ptheta_lab = 6.8                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 6.8                                                            
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
 #elastics runs for Cafe SHMS angle = 7.5 on (e,e'p) H
-16027 - 16028                                                                       
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 1.00794                                                                     
+16027 - 16028                                                               
+gpbeam = 10.549355                                                          
+gtargmass_amu = 1.00794                                                     
 htheta_lab = -12.5           
-ptheta_lab = 7.495                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 7.495                                                          
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
 #Optics runs for Cafe SHMS angle = 7.5 on (e,e') C12
-16029 - 16031                                                                       
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 12.0107                                                                    
+16029 - 16031                                                               
+gpbeam = 10.549355                                                          
+gtargmass_amu = 12.0107                                                     
 htheta_lab = -12.5           
-ptheta_lab = 7.495                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 7.495                                                          
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
 #Optics runs for Cafe SHMS angle = 8.3 on (e,e') C12
-16032 - 16035                                                                       
-gpbeam = 10.549355                                                                    
-gtargmass_amu = 12.0107                                                                    
+16032 - 16035                                                               
+gpbeam = 10.549355                                                          
+gtargmass_amu = 12.0107                                                     
 htheta_lab = -12.5           
-ptheta_lab = 8.295                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 8.295                                                          
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
 #elastics run for Cafe SHMS angle = 8.3 on (e,e'p) Hodo HV ON
 16036                                                                       
-gpbeam = 10.549355                                                                    
-gtargmass_amu =1.00794                                                                    
+gpbeam = 10.549355                                                          
+gtargmass_amu =1.00794                                                      
 htheta_lab = -12.5           
-ptheta_lab = 8.295                                                                 
-hpcentral = 5.587                                                              
+ptheta_lab = 8.295                                                          
+hpcentral = 5.587                                                           
 ppcentral = 8.55                                           
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
@@ -302,36 +302,36 @@ ppartmass =  0.000511
 #elastics run for Cafe SHMS angle = 8.3 Hodo Test (S1X [1-6]+/-, S2X [1-6]+/- HV OFF)
 16037                                                                       
 gpbeam = 10.549355                                                                    
-gtargmass_amu =1.00794                                                                    
+gtargmass_amu =1.00794        
 htheta_lab = -12.5           
-ptheta_lab = 8.295                                                                 
-hpcentral = 5.587                                                              
-ppcentral = 8.55                                           
-hpartmass =  0.000511                                   
+ptheta_lab = 8.295            
+hpcentral = 5.587             
+ppcentral = 8.55              
+hpartmass =  0.000511         
 ppartmass =  0.000511
 
 
-16038 - 16041                                                                                     
-gpbeam = 10.549355                                                                                  
-gtargmass_amu = 1.00794                                                                             
-htheta_lab = -15.700                                                                                
-ptheta_lab = 12.240                                                                                 
-hpcentral = 6.792                                        
-ppcentral = 8.035                                                                                   
-hpartmass = 0.000511                                                                                
-ppartmass = 0.000511                                                                                
+16038 - 16041                          
+gpbeam = 10.549355                       
+gtargmass_amu = 1.00794                  
+htheta_lab = -15.700                     
+ptheta_lab = 12.240                      
+hpcentral = 6.792             
+ppcentral = 8.035                        
+hpartmass = 0.000511                     
+ppartmass = 0.000511                     
 
 #---------------------
 # CAFE COSMIC TESTS
 #---------------------
 16922 - 16945
-gpbeam = 10.549355                                                                                  
-gtargmass_amu = 1.00794                                                                             
-htheta_lab = -15.700                                                                                
-ptheta_lab = 12.240                                                                                 
-hpcentral = 6.792                                                                                   
-ppcentral = 8.035                                                                                   
-hpartmass = 0.93827231                                                                            
+gpbeam = 10.549355                       
+gtargmass_amu = 1.00794                  
+htheta_lab = -15.700                     
+ptheta_lab = 12.240                      
+hpcentral = 6.792                        
+ppcentral = 8.035                        
+hpartmass = 0.93827231                 
 ppartmass = 0.000511  
 
 #---------------------
@@ -340,11 +340,11 @@ ppartmass = 0.000511
 
 # Carbon Hole Check
 16946 - 9999999
-gpbeam = 10.549355                                                                                  
-gtargmass_amu = 12.0107                                                                           
-htheta_lab = -48.30                                                                                
-ptheta_lab = 8.3                                                                                 
-hpcentral = 1.820                                                                                   
-ppcentral = 8.55                                                                                   
-hpartmass = 0.93827231                                                                            
+gpbeam = 10.549355                       
+gtargmass_amu = 12.0107                
+htheta_lab = -48.30                     
+ptheta_lab = 8.3                      
+hpcentral = 1.820                        
+ppcentral = 8.55                        
+hpartmass = 0.93827231                 
 ppartmass = 0.000511  
