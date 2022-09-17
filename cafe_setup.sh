@@ -55,7 +55,7 @@ set_hcana_link()
 	echo "Creating hcana symbolic link now  . . ."
 	ln -sf $HCANALYZER"/hcana"
 	ln -sf $HCANALYZER"/libHallC.so"
-	ln -sf $HCANALYZER"/libHallC.so.0.95.0"
+	ln -sf $HCANALYZER"/libHallC.so.0.90.0"
 	echo ""
     fi    
 }
@@ -122,8 +122,8 @@ tape_analysis_out="/mss/hallc/c-cafe-2022/analysis"
 
 #--- define cache allocations ---
 # cafe
-#cache_raw_dir="/cache/hallc/c-cafe-2022/raw/"
-cache_raw_dir="/cache/hallc/c-pionlt/raw"
+cache_raw_dir_cafe="/cache/hallc/c-cafe-2022/raw/"
+cache_raw_dir_pionlt="/cache/hallc/c-pionlt/raw"
 
 # only for testing purposes (test raw data is here)
 volatile_raw_dir_test="/volatile/hallc/c-cafe-2022/test_raw"
@@ -168,10 +168,14 @@ if [[ ifarm_flg -eq 1 ]]; then
 
 	echo "Creating dir $base_dir_voli$USER . . ."
 	mkdir $base_dir_voli$USER
-
-	unlink cache
+	
+	unlink CACHE_LINKS/cache_cafe
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
-	ln -sf $cache_raw_dir cache
+	ln -sf $cache_raw_dir_cafe cache_cafe
+	
+	unlink CACHE_LINKS/cache_pionlt
+	echo "Creating symlink to /cache/hallc/c-pionlt/raw/"
+	ln -sf $cache_raw_dir_pionlt cache_pionlt
 
 	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_voli$USER/REPORT_OUTPUT . . ."
@@ -203,10 +207,14 @@ if [[ ifarm_flg -eq 1 ]]; then
 	unlink raw
 	echo "Creating symlink to $coda_raw"
 	ln -sf $coda_raw
-
-	unlink cache
+	
+	unlink CACHE_LINKS/cache_cafe
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
-	ln -sf $cache_raw_dir cache
+	ln -sf $cache_raw_dir_cafe cache_cafe
+	
+	unlink CACHE_LINKS/cache_pionlt
+	echo "Creating symlink to /cache/hallc/c-pionlt/raw/"
+	ln -sf $cache_raw_dir_pionlt cache_pionlt
 
 	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_work$USER/REPORT_OUTPUT . . ."
@@ -238,9 +246,13 @@ if [[ ifarm_flg -eq 1 ]]; then
 	echo "Creating symlink to $coda_raw"
 	ln -sf $coda_raw
 
-	unlink cache
+	unlink CACHE_LINKS/cache_cafe
 	echo "Creating symlink to /cache/hallc/c-cafe-2022/raw/"
-	ln -sf $cache_raw_dir cache
+	ln -sf $cache_raw_dir_cafe cache_cafe
+	
+	unlink CACHE_LINKS/cache_pionlt
+	echo "Creating symlink to /cache/hallc/c-pionlt/raw/"
+	ln -sf $cache_raw_dir_pionlt cache_pionlt
 
 	unlink REPORT_OUTPUT
 	echo "Creating dir and symlink to $base_dir_group$USER/REPORT_OUTPUT . . ."
@@ -314,9 +326,12 @@ if [[ cdaq_flg -eq 1 ]]; then
     echo "Creating symlink to ${coda_raw_copiedtotape}"
     ln -sf $coda_raw_copiedtotape 
 
-    echo "Creating symlink to $cache_raw_dir"
-    ln -sf $cache_raw_dir cache
-	
+    echo "Creating symlink to $cache_raw_dir_cafe"
+    ln -sf $cache_raw_dir_cafe cache_cafe
+    
+    echo "Creating symlink to $cache_raw_dir_pionlt"
+    ln -sf $cache_raw_dir_cafe cache_pionlt
+
     echo "Creating dir and symlink to $base_dir_cdaq/REPORT_OUTPUT . . ."
     mkdir $base_dir_cdaq"/REPORT_OUTPUT"
     ln -sf $base_dir_cdaq"/REPORT_OUTPUT"
@@ -351,7 +366,7 @@ if [[ ifarm_flg==0 && cdaq_flg==0 ]]; then
     source setup.sh
     
     # This function checks if necessary dir. exists, else it creates them 
-    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS" "CAFE_OUTPUT")
+    dir_arr=("raw" "ROOTfiles" "REPORT_OUTPUT" "HISTOGRAMS" "CAFE_OUTPUT", "CACHE_LINKS")
     	
     echo "Checking if necessary directories or symlinks exist in local machine: " ${USER}"@"${HOSTNAME}". . ."
 

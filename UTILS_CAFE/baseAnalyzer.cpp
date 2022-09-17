@@ -3266,10 +3266,10 @@ void baseAnalyzer::EventLoop()
 	    H_hyptar      ->Fill(h_yptar, FullWeight);
 	    H_hdelta      ->Fill(h_delta, FullWeight);
 	    
-	    H_htar_x       ->Fill(htar_x, FullWeight);
+	    H_htar_x       ->Fill(htarx_corr, FullWeight);
 	    H_htar_y       ->Fill(htar_y, FullWeight);
 	    H_htar_z       ->Fill(htar_z, FullWeight);
-	    H_etar_x       ->Fill(etar_x, FullWeight);
+	    H_etar_x       ->Fill(etarx_corr, FullWeight);
 	    H_etar_y       ->Fill(etar_y, FullWeight);
 	    H_etar_z       ->Fill(etar_z, FullWeight);
 	    H_ztar_diff    ->Fill(ztar_diff, FullWeight);

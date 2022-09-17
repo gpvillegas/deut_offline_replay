@@ -43,10 +43,11 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   //---------------Target ----------------
   //Define SIMC histos ('h'-->hadron arm,  'e'-->electron arm)
   
-  TH1F *simc_xtar =  0;
+  TH1F *simc_xtarH =  0;
   TH1F *simc_ytarH =  0;
   TH1F *simc_ztarH =  0;
 
+  TH1F *simc_xtarP =  0;
   TH1F *simc_ytarP =  0;
   TH1F *simc_ztarP =  0;  
 
@@ -206,18 +207,21 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
     //----------Get Target Histograms------------------
     //Get Histogram objects from SIMC rootfile
-    simc_file->GetObject("accp_plots/H_htar_x", simc_xtar);
-    
+    simc_file->GetObject("accp_plots/H_htar_x", simc_xtarH);
     simc_file->GetObject("accp_plots/H_htar_y", simc_ytarH);
     simc_file->GetObject("accp_plots/H_htar_z", simc_ztarH);
     
+    simc_file->GetObject("accp_plots/H_etar_x", simc_xtarP);
     simc_file->GetObject("accp_plots/H_etar_y", simc_ytarP);  
     simc_file->GetObject("accp_plots/H_etar_z", simc_ztarP); 
     
     //Set SIMC Histo Aesthetics
-    simc_xtar->SetLineColor(kRed);
-    simc_xtar->SetLineWidth(2);
+    simc_xtarH->SetLineColor(kRed);
+    simc_xtarH->SetLineWidth(2);
     
+    simc_xtarP->SetLineColor(kRed);
+    simc_xtarP->SetLineWidth(2);
+
     simc_ytarH->SetLineColor(kRed);
     simc_ytarH->SetLineWidth(2);
     simc_ztarH->SetLineColor(kRed);
@@ -1509,15 +1513,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
  
    //Draw Normalized?
    if(draw_norm){
-     if(simc_exist) simc_xtar->DrawNormalized("hist");
+     if(simc_exist) simc_xtarH->DrawNormalized("hist");
      data_xtarH->DrawNormalized("sameshistE0");
    }
    else{
-     if(simc_exist) simc_xtar->Draw("hist");
+     if(simc_exist) simc_xtarP->Draw("hist");
      data_xtarH->Draw("sameshistE0");
    }
    leghxt->AddEntry(data_xtarH,"Data","f");
-   if(simc_exist) leghxt->AddEntry(simc_xtar,"SIMC");
+   if(simc_exist) leghxt->AddEntry(simc_xtarH,"SIMC");
    leghxt->Draw();
   
    c1->cd(2);
@@ -1554,15 +1558,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
    //Draw Normalized?
    if(draw_norm){
-     if(simc_exist) simc_xtar->DrawNormalized("hist");
+     if(simc_exist) simc_xtarP->DrawNormalized("hist");
      data_xtarP->DrawNormalized("sameshistE0");
    }
    else{
-     if(simc_exist) simc_xtar->Draw("hist");
+     if(simc_exist) simc_xtarP->Draw("hist");
      data_xtarP->Draw("sameshistE0");
    }
    legpxt->AddEntry(data_xtarP,"Data","f");
-   if(simc_exist) legpxt->AddEntry(simc_xtar,"SIMC");
+   if(simc_exist) legpxt->AddEntry(simc_xtarP,"SIMC");
    legpxt->Draw();
   
    c1->cd(5);
