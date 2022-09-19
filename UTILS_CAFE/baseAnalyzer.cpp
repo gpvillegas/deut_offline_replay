@@ -866,16 +866,16 @@ void baseAnalyzer::ReadInputFile()
   if(analysis_cut=="MF"){
 
     // default existing C12 MF SIMC file (other targets can be scaled from C12)
-    //simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
-    //simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
+    simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
 
-    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_MF_rad.root";
-    simc_ifile             = "../hallc_simulations/infiles/cafe_d2_MF_rad.data";
+    //simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_MF_rad.root";
+    //simc_ifile             = "../hallc_simulations/infiles/cafe_d2_MF_rad.data";
 
     // define MF SIMC output root file
-    //simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
     
-    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_MF_rad_output.root";
+    //simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_MF_rad_output.root";
 
       
   }
