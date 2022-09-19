@@ -383,7 +383,7 @@ hpartmass = 0.93827231
 ppartmass = 0.000511 
 
 # Carbon MF Kinematics
-16977 - 9999999
+16977
 gpbeam = 10.549355                       
 gtargmass_amu = 12.0107     
 htheta_lab = -48.30                     
@@ -393,3 +393,35 @@ ppcentral = 8.55
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
+# Ca48 MF Kinematics
+16978 - 16979
+gpbeam = 10.549355                       
+gtargmass_amu = 47.95252276
+htheta_lab = -48.30                     
+ptheta_lab = 8.3                      
+hpcentral = 1.820                        
+ppcentral = 8.55                        
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# Ca40 MF Kinematics                                                            
+16980                                                                 
+gpbeam = 10.549355                                                              
+gtargmass_amu = 39.962590863 
+htheta_lab = -48.30                                                             
+ptheta_lab = 8.3                                                                
+hpcentral = 1.820                                                               
+ppcentral = 8.55                                                                
+hpartmass = 0.93827231                                                          
+ppartmass = 0.000511 
+
+# Fe54 MF Kinematics                                                                         
+16981 - 9999999                                                                              
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 53.9396147   
+htheta_lab = -48.30                                                                          
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.820                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511    
