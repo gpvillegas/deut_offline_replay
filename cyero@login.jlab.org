@@ -1,0 +1,161 @@
+# Run 17012 Data Analysis Summary
+                                     
+#//////////////////////////////////////////
+                                         //
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //
+# ! ! !   SHIFT WORKERS INFO   ! ! !     //
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //
+                                         //
+Current [uA]        : 51.797          
+Charge [mC]         : 73.229          
+Beam-on-Target [sec]: 1413.777          
+                                         
+SRC_counts : 296.000
+#                                        //
+#//////////////////////////////////////////
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# General Run Configuration                              
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+run_number: 17012                     
+
+start_of_run =  2022-09-21 03:24:35
+end_of_run =  2022-09-21 04:24:42
+
+kin_type: SRC                     
+daq_mode: coin                     
+events_replayed: 408565              
+
+beam_energy [GeV]: 10.5494          
+target_name: Ca40                       
+target_amu: 39.962591                 
+
+hms_h_particle_mass [GeV]: 0.938272          
+hms_h_momentum [GeV/c]: 1.3250             
+hms_h_angle [deg]: -66.4000                  
+
+shms_e_particle_mass [GeV]: 0.000511          
+shms_e_momentum [GeV/c]: 8.5500             
+shms_e_angle [deg]: 8.3000                  
+
+BCM4A_Current_Threshold [uA]: >5.00 
+beam_on_target [sec]: 1413.777       
+BCM4A_Average_Current [uA]: 51.797 
+BCM4A_Charge [mC]: 73.229 
+
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# CaFe A(e,e')p Short-Range Correlated (SRC) Counts  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+SRC_total_counts    : 308.000
+SRC_real_counts     : 296.000
+SRC_random_counts   : 12.000
+                                     
+SRC_real_rate [Hz]  : 0.209
+SRC_simc_rate [Hz] x (51.8 uA/80.0 uA) : 0.130 
+
+data_integrated_luminosity [fb^-1]: 5.510
+data_lumiNorm_counts [fb]: 53.724
+
+# =:=:=:=:=:=:=:=:=:=:=:
+# SIMC Statistical Goal  
+# =:=:=:=:=:=:=:=:=:=:=:
+simc_counts_goal : 8700.000
+simc_charge_goal [mC] : 3456.000
+simc_integrated_luminosity [fb^-1]: 260.0255
+simc_lumiNorm_counts [fb]: 33.4583
+                                     
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:
+# DAQ Trigger Information  
+# =:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+# NOTE: scaler triggers are not pre-scaled | accepted triggers are pre-scaled  
+#       cpu_live_time   = T#_accepted / ( T#_scaler / Ps#_factor)       
+#       total_live_time = edtm_accepted / ( edtm_scaler / Ps#_factor)       
+                                     
+edtm_scaler   :  14089.000  
+edtm_accepted :  13262.000  
+                                     
+# pre-scale factors (-1: trigger OFF)                 
+Ps1_factor: -1.0
+Ps2_factor: 2049.0
+Ps3_factor: 257.0
+Ps4_factor: -1.0
+Ps5_factor: 1.0
+Ps6_factor: -1.0
+                                     
+# pre-trigger scalers                 
+S1X_scaler:  832344464.000 [ 588.738 kHz ] 
+T1_scaler:  264284995.000 [ 186.935 kHz ] 
+T2_scaler:  183363244.000 [ 129.697 kHz ] 
+T3_scaler:  26856211.000 [ 18.996 kHz ] 
+T4_scaler:  139172.000 [ 0.098 kHz ] 
+T5_scaler:  179910.000 [ 0.127 kHz ] 
+T6_scaler:  401684.000 [ 0.284 kHz ] 
+                                     
+# accepted triggers (pre-scaled)     
+T1_accepted: 291889.000 [ 0.206 kHz ]  
+T2_accepted: 285539.000 [ 0.202 kHz ]  
+T3_accepted: 286627.000 [ 0.203 kHz ]  
+T4_accepted: 1542.000 [ 0.001 kHz ]  
+T5_accepted: 180747.000 [ 0.128 kHz ]  
+T6_accepted: 160412.000 [ 0.113 kHz ]  
+                                     
+# daq computer (cpu) and total live time  
+T2_cpuLT:    3.191 +- 0.006 
+T2_tLT:      1928.727 +- 4.058 
+                                     
+T3_cpuLT:    2.743 +- 0.005 
+T3_tLT:      241.915 +- 0.509 
+                                     
+T5_cpuLT:    1.005 +- -nan 
+T5_tLT:      0.941 +- 0.002 
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# Drift Chambers Tracking Efficiency  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                     
+hms_had_track_eff:  0.996 +- 0.000
+shms_elec_track_eff: 0.978 +- 0.001
+                                     
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+# Data Analysis Cuts                  
+# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+                                   
+#--- Tracking Efficiency Definition --- 
+# tracking efficiency = (did && should) / should
+
+# (did) HMS min. number of tracks (H.dc.ntrack): >= 1.0
+# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true
+# (should) HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (0.0, 0.5)
+# (should) HMS calorimeter energy / central_momentum  (H.cal.etotnorm): (0.0, 0.7)
+# (should) HMS hodoscope beta no_track (H.hod.betanotrack): (0.5. 1.5)
+                                   
+# (did) SHMS min. number of tracks (P.dc.ntrack): >= 1.0
+# (should) SHMS good (fiducial) scintillator hit (P.hod.goodscinhit): true
+# (should) SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (0.5, 100.0)
+# (should) SHMS calorimeter energy / central_momentum  (p.cal.etotnorm): (0.7, 1.1)
+# (should) SHMS hodoscope beta no_track (P.hod.betanotrack): (0.5. 1.5)
+                                   
+#---Coincidence Time Cut--- 
+# electron (SHMS)-proton(HMS) (prompt) coincidence time (CTime.epCoinTime_ROC2):   (-3.000, 3.000) [ns]
+# electron (SHMS)-proton(HMS) (left)   accidentals sample: (-10.000, -5.000) [ns]
+# electron (SHMS)-proton(HMS) (right)  accidentals sample: (5.000, 10.000) [ns]
+                                   
+#---Acceptance Cuts--- 
+# HMS Momentum Acceptance (H.gtr.dp): (-10.000, 10.000) [%]
+# SHMS Momentum Acceptance (P.gtr.dp): (0.000, 22.000) [%]
+#                       
+#---Particle Identification (PID) Cuts--- 
+# HMS calorimeter total energy / track momentum (H.cal.etottracknorm): (0.0, 0.6)
+# HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (0.0, 0.5)
+# SHMS calorimeter total energy / track momentum (P.cal.etottracknorm): (0.6, 1.2)
+# SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (1.5, 100.0)
+#                       
+#---Kinematics Cuts--- 
+# A(e,e'p) 4-momentum transferred squared, Q2 (P.kin.primary.Q2): (1.800, 100.000) [GeV2]
+# A(e,e'p) Missing Momentum, Pm (H.kin.secondary.Pm): (0.350, 0.700) [GeV]
+# A(e,e'p) x-Bjorken, Xbj (P.kin.primary.x_bj): (1.200, 100.000)
+# A(e,e'p) theta_rq  (H.kin.secondary.th_bq): (0.000, 40.000) [deg]

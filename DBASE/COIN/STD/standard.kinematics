@@ -449,7 +449,7 @@ hpartmass = 0.93827231
 ppartmass = 0.000511
 
 # B11 MF Kinematics                                                                         
-16985 - 9999999                                                                              
+16985 - 16991                                                                             
 gpbeam = 10.549355                                                                           
 gtargmass_amu = 11.009306
 htheta_lab = -48.30                                                                      
@@ -459,4 +459,59 @@ ppcentral = 8.55
 hpartmass = 0.93827231                                                                       
 ppartmass = 0.000511
 
+#SRC KINEMATICS
 
+# Ca40 SRC Kinematics                                                                         
+16992 - 17004
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 39.962590863
+htheta_lab = -66.40                                                                      
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.325                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511
+
+#LD2 Trigger Check
+17005 - 17007
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 2.014101
+htheta_lab = -66.40                                                                      
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.325                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511
+
+# Ca40 SRC Kinematics                                                                         
+17008 - 17035
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 39.962590863
+htheta_lab = -66.40                                                                      
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.325                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511
+
+# Ca48 SRC Kinematics                                                                         
+17036 - 17057
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 47.95252276
+htheta_lab = -66.40                                                                      
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.325                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511
+
+# Fe54 SRC Kinematics                                                                         
+17058 - 99999
+gpbeam = 10.549355                                                                           
+gtargmass_amu = 53.9396147
+htheta_lab = -66.40                                                                      
+ptheta_lab = 8.3                                                                             
+hpcentral = 1.325                                                                            
+ppcentral = 8.55                                                                             
+hpartmass = 0.93827231                                                                       
+ppartmass = 0.000511

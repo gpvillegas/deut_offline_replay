@@ -110,6 +110,7 @@ void baseAnalyzer::Init(){
   //---------------------------------------------------------------
   
   //Coincidence Time
+  H_ep_ctime_total_noCUT  = NULL;
   H_ep_ctime_total  = NULL;
   H_ep_ctime  = NULL;
   
@@ -267,8 +268,13 @@ void baseAnalyzer::Init(){
   //--2D Acceptance Histos--
 
   //Collimator Shape
+  H_hXColl_vs_hYColl_noCUT    = NULL;
+  H_eXColl_vs_eYColl_noCUT    = NULL;
+
   H_hXColl_vs_hYColl    = NULL;
   H_eXColl_vs_eYColl    = NULL;
+  
+
   //Hour-Glass Shape
   H_hxfp_vs_hyfp    = NULL;
   H_exfp_vs_eyfp    = NULL;
@@ -342,6 +348,7 @@ baseAnalyzer::~baseAnalyzer()
   //-----------------------------
 
   //-Coin. Time-
+  delete H_ep_ctime_total_noCUT; H_ep_ctime_total_noCUT   = NULL;
   delete H_ep_ctime_total; H_ep_ctime_total   = NULL;
   delete H_ep_ctime; H_ep_ctime   = NULL;
 
@@ -501,6 +508,9 @@ baseAnalyzer::~baseAnalyzer()
   //--2D Acceptance Histos--
 
   //Collimator Shape
+  delete H_hXColl_vs_hYColl_noCUT;    H_hXColl_vs_hYColl_noCUT    = NULL;
+  delete H_eXColl_vs_eYColl_noCUT;    H_eXColl_vs_eYColl_noCUT    = NULL;
+
   delete H_hXColl_vs_hYColl;    H_hXColl_vs_hYColl    = NULL;
   delete H_eXColl_vs_eYColl;    H_eXColl_vs_eYColl    = NULL;
   //Hour-Glass Shape
@@ -571,6 +581,12 @@ void baseAnalyzer::ReadInputFile()
   input_CutFileName     = "UTILS_CAFE/inp/set_basic_cuts.inp";
   input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos.inp";
   input_SIMCinfo_FileName = "UTILS_CAFE/inp/set_basic_simc_param.inp";
+  
+  if(analysis_cut=="SRC"){
+    input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos_SRC.inp";
+  }
+
+  cout << " input_HBinFileName"<<  input_HBinFileName << endl;
   //==========================================
   //     READ FILE NAME PATTERN
   //==========================================
@@ -801,6 +817,7 @@ void baseAnalyzer::ReadInputFile()
   thrq_SRC_cut_flag = stoi(split(FindString("thrq_SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_thrq_min = stod(split(FindString("c_SRC_thrq_min", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_thrq_max = stod(split(FindString("c_SRC_thrq_max", input_CutFileName.Data())[0], '=')[1]);
+
 
   // Missing Energy [GeV] --- ONLY for deuteron target
   Em_d2SRC_cut_flag = stoi(split(FindString("Em_d2SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -1420,6 +1437,7 @@ void baseAnalyzer::CreateHist()
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
   H_ep_ctime_total   = new TH1F("H_ep_ctime_total", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_ep_ctime_total_noCUT   = new TH1F("H_ep_ctime_total_noCUT", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
 
 
   //HMS DETECTORS HISTOS
@@ -1447,6 +1465,7 @@ void baseAnalyzer::CreateHist()
   
   
   //Add PID Histos to TList
+  pid_HList->Add(H_ep_ctime_total_noCUT);
   pid_HList->Add(H_ep_ctime_total);
   pid_HList->Add(H_ep_ctime);
   pid_HList->Add(H_hCerNpeSum);
@@ -1666,6 +1685,9 @@ void baseAnalyzer::CreateHist()
   H_eYColl = new TH1F("H_eYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts ", e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax);        
 
   //2D Collimator Histos
+  H_hXColl_vs_hYColl_noCUT = new TH2F("H_hXColl_vs_hYColl_noCUT", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
+  H_eXColl_vs_eYColl_noCUT = new TH2F("H_eXColl_vs_eYColl_noCUT", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", e_arm_name.Data(), e_arm_name.Data(), e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax, eXColl_nbins, eXColl_xmin, eXColl_xmax); 
+  
   H_hXColl_vs_hYColl = new TH2F("H_hXColl_vs_hYColl", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
   H_eXColl_vs_eYColl = new TH2F("H_eXColl_vs_eYColl", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", e_arm_name.Data(), e_arm_name.Data(), e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax, eXColl_nbins, eXColl_xmin, eXColl_xmax); 
   
@@ -1707,6 +1729,9 @@ void baseAnalyzer::CreateHist()
   accp_HList->Add( H_hYColl      );
   accp_HList->Add( H_eXColl      );
   accp_HList->Add( H_eYColl      );
+  
+  accp_HList->Add( H_hXColl_vs_hYColl_noCUT  );
+  accp_HList->Add( H_eXColl_vs_eYColl_noCUT  );
 
   accp_HList->Add( H_hXColl_vs_hYColl  );
   accp_HList->Add( H_eXColl_vs_eYColl  );
@@ -2383,6 +2408,10 @@ void baseAnalyzer::EventLoop()
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
+	  if( (tgt_type!="LH2") || (tgt_type!="LD2")){
+	    MM_red = MM - ((tgt_mass - MH_amu)* amu2GeV);
+	    MM = MM_red;
+	  }
 	  
 	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis) Em = nu - Tp - T_n (for A>2 nuclei)	 
 	  Em_src = nu - Tx - (sqrt(MN*MN + Pm*Pm) - MN); // assume kinetic energy of recoil system is that of a spectator SRC nucleon 
@@ -2647,7 +2676,7 @@ void baseAnalyzer::EventLoop()
 	  else{c_SRC_Xbj=1;}
 	  
 	  // theta_rq
-	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq/dtr >= c_SRC_thrq_min && th_rq/dtr <= c_SRC_thrq_max;}
 	  else{c_SRC_thrq=1;}
 	  
 	  // Em ( require this cut ONLY for deuteron)
@@ -2757,6 +2786,13 @@ void baseAnalyzer::EventLoop()
 		    H_Em_src_vs_Pm ->Fill(Pm, Em_src);
 		  }
 		  
+		  
+		  // NO CUTS HISTOS (for checking)
+		  H_ep_ctime_total_noCUT->Fill(epCoinTime-ctime_offset);
+		  H_hXColl_vs_hYColl_noCUT  ->Fill(hYColl, hXColl);
+		  H_eXColl_vs_eYColl_noCUT  ->Fill(eYColl, eXColl);
+
+
 		  if(c_baseCuts){
 		    
 		    
@@ -2949,6 +2985,7 @@ void baseAnalyzer::EventLoop()
 		} //------END: REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS-----
 	      
 	    }  //-----END: BCM Current Cut------
+
 	  
 	  
 	  
@@ -3042,6 +3079,13 @@ void baseAnalyzer::EventLoop()
 	    Tr = Er - MB11;       // C12 (6p,6n) -> 1p + B11(5p, 6n) single proton knockout of C12 gives B11 recoil system
 	    MM2 = Er*Er - Pm*Pm;
 	    MM = sqrt(MM2);
+	    
+	    // MF for deuteron
+	    //Er = nu + MD - Ex;                                                                                                                                               
+            //Tr = Er - MN;       // d2 (1p,1n) -> 1p + 1n single proton knockout of d2 gives neutron recoil system                                                   
+            //MM2 = Er*Er - Pm*Pm;                                                                                                                                          
+            //MM = sqrt(MM2);
+
 	    
 	  }
 
@@ -3178,7 +3222,7 @@ void baseAnalyzer::EventLoop()
 	  else{c_SRC_Xbj=1;}
 	  
 	  // theta_rq
-	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq/dtr >= c_SRC_thrq_min && th_rq/dtr <= c_SRC_thrq_max;}
 	  else{c_SRC_thrq=1;}
 	  
 	  // Em ( require this cut ONLY for deuteron)

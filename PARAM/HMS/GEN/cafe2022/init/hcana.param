@@ -8,7 +8,12 @@ href_nsperchan = 0.09766
 href_offset = 0.0
 
 ;HMS Central Path Lenth from target to focal plane
-HMS_CentralPathLen = 22.*100   ; 22 m (or 2200 cm)
+;HMS_CentralPathLen = 22.*100   ; 22 m (or 2200 cm) C.Y. Sep 22 2022 | this is not correct
+
+; from M.K.Jones plots of beta vs. coin time for different path lengths, 
+; he finds an optimal path length of 24.3 m, where the correlation is gone
+; this change was made during relay of run 17048, so all runs before this have 22 m
+HMS_CentralPathLen = 24.3*100
 
 hcal_num_layers = 4
 

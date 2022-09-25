@@ -6,9 +6,9 @@
 # PID Histograms Bins
 #========================
 #---coincidence time [ns]---
-coin_nbins = 200
-coin_xmin = -45.
-coin_xmax = 45.
+coin_nbins = 400
+coin_xmin = -80.
+coin_xmax = 80.
 
 #----HMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 
@@ -61,17 +61,17 @@ pbeta_xmax = 1.5
 # electron arm central angle
 the_nbins = 70
 the_xmin = 5.0
-the_xmax = 10.0
+the_xmax = 15.0
 
 # final electron arm momentum [GeV/c]
 kf_nbins = 100
-kf_xmin = 6.
+kf_xmin = 8.
 kf_xmax = 11.
 
 # invariant mass (assuming proton target mass)
 W_nbins = 100
-W_xmin = 0.5
-W_xmax = 1.5
+W_xmin = 0.
+W_xmax = 3
 
 # invariant mass squared
 W2_nbins = 100
@@ -85,8 +85,8 @@ Q2_xmax = 3.
 
 # Bjorken-X
 X_nbins = 100
-X_xmin = 0.7
-X_xmax = 1.2
+X_xmin = 0.1
+X_xmax = 2.5
 
 # energy transfer
 nu_nbins = 100
@@ -95,8 +95,8 @@ nu_xmax = 2.
 
 # 3-momentum transfer
 q_nbins = 100
-q_xmin = 1.
-q_xmax = 3.
+q_xmin = 1.2
+q_xmax = 2.2
 
 # 3-momentum transfer (x-component)
 qx_nbins = 100
@@ -147,24 +147,24 @@ Em_nuc_xmin = -0.1
 Em_nuc_xmax = 0.25
 
 # Missing (Recoil) Momentum
-Pm_nbins = 100
+Pm_nbins = 60
 Pm_xmin = -0.05
-Pm_xmax = 0.5
+Pm_xmax = 0.75
 
 # Missing Momentum (X-component, lab)
 Pmx_lab_nbins = 80 
-Pmx_lab_xmin = -0.2
-Pmx_lab_xmax = 0.2
+Pmx_lab_xmin = -0.5
+Pmx_lab_xmax = 0.5
 
 # Missing Momentum (Y-component, lab)
 Pmy_lab_nbins = 80
-Pmy_lab_xmin = -0.2
-Pmy_lab_xmax = 0.2
+Pmy_lab_xmin = -0.5
+Pmy_lab_xmax = 0.5
 
 # Missing Momentum (Z-component, lab)
 Pmz_lab_nbins = 80
 Pmz_lab_xmin = -0.2
-Pmz_lab_xmax = 0.4
+Pmz_lab_xmax = 0.6
 
 # Missing Momentum (X-component, q-frame: +z_lab rotated to +q)
 Pmx_q_nbins = 80
@@ -203,18 +203,18 @@ MM2_xmax = 1.5
 
 # hadron arm central angle
 thx_nbins = 100  
-thx_xmin = 40.
-thx_xmax = 55.
+thx_xmin = 60.
+thx_xmax = 70.
 
 # In-plane angle between detected particle and q 
-thxq_nbins = 120
-thxq_xmin = -10.
+thxq_nbins = 100
+thxq_xmin = 0.
 thxq_xmax = 25.
 
 # In-plane angle between the recoil system and q 
 thrq_nbins = 120
-thrq_xmin = -20.
-thrq_xmax = 200.
+thrq_xmin = 0.
+thrq_xmax = 70.
 
 # Out-of-plane angle between detected particle and q
 phxq_nbins = 120
@@ -243,8 +243,8 @@ thxq_cm_xmax = 360.
 
 # final hadron arm momentum [GeV/c]
 Pf_nbins = 100
-Pf_xmin = 1.5
-Pf_xmax = 2.2
+Pf_xmin = 1.
+Pf_xmax = 1.8
 
 # In-plane angle between the recoil system and q in CM frame
 thrq_cm_nbins = 100

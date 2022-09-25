@@ -742,7 +742,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   c1->Clear();
   
   // ------ MISSING MASS ------
-  if(ana_cut!="heep_singles") {
+  if((ana_cut!="heep_singles") || (ana_cut!="MF") || (ana_cut!="SRC")) {
   c1->cd();
   gPad->SetLogy();
   nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
@@ -977,16 +977,23 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
    //Draw Normalized?
    if(draw_norm){
-     if(simc_exist) simc_Em->DrawNormalized("hist");
+     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+       if(simc_exist) simc_Em->DrawNormalized("hist");
+     }
      data_Em->DrawNormalized("sameshistE0");
+     
    }
    else{
-     if(simc_exist) simc_Em->Draw("hist");
+     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+       if(simc_exist) simc_Em->Draw("hist");
+     }
      data_Em->Draw("sameshistE0");
    }
    data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetBinContent(data_Em->GetMaximumBin())+300.);
    leg_Em->AddEntry(data_Em,"Data","f");
-   if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
+   if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+     if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
+   }
    leg_Em->Draw();
 
    c1->cd(9);
@@ -995,16 +1002,22 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   
    //Draw Normalized?
    if(draw_norm){
-     if(simc_exist) simc_MM->DrawNormalized("hist");
+     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+       if(simc_exist) simc_MM->DrawNormalized("hist");
+     }
      data_MM->DrawNormalized("sameshistE0");
    }
    else{
-     if(simc_exist) simc_MM->Draw("hist");
+     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+       if(simc_exist) simc_MM->Draw("hist");
+     }
      data_MM->Draw("sameshistE0");
    }
    data_MM->GetYaxis()->SetRangeUser(0., data_MM->GetBinContent(data_MM->GetMaximumBin())+300.);
    leg_MM->AddEntry(data_MM,"Data","f");
-   if(simc_exist) leg_MM->AddEntry(simc_MM,"SIMC");
+   if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+     if(simc_exist) leg_MM->AddEntry(simc_MM,"SIMC");
+   }
    leg_MM->Draw();
 
 

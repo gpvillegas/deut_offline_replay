@@ -147,7 +147,7 @@ c_hyptar_min = -0.035
 c_hyptar_max = 0.035
 
 # HMS colliamtor cut (can be used as alternative to xptar,yptar cuts)
-hmsCollCut_flag = 0
+hmsCollCut_flag = 1
 
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
@@ -165,7 +165,7 @@ c_eyptar_min = -0.024
 c_eyptar_max = 0.024
 
 # SHMS colliamtor cut (can be used as alternative to xptar,yptar cuts)
-shmsCollCut_flag = 0
+shmsCollCut_flag = 1
 
 # Z-Reaction Vertex Difference, [cm]
 ztarDiff_cut_flag = 0
@@ -226,7 +226,7 @@ c_MF_Q2_max = 100.
 
 # Missing Momentum [GeV]
 Pm_MF_cut_flag = 1
-c_MF_Pm_min = 0.
+c_MF_Pm_min = 0.050
 c_MF_Pm_max = 0.250
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)

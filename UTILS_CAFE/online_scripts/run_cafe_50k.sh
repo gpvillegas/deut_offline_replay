@@ -32,7 +32,7 @@ fi
 # How many events to analyze, else defaults to 50k
 numEvents=$2
 if [ -z "$numEvents" ]; then
- numEvents=50000 
+ numEvents=150000 
 fi
 
 # Set this run as the golden run  ?

@@ -730,7 +730,15 @@ protected:
   //----------------------------------------------------------------
   // Detector Histograms (DATA ONLY): PID / TRACKING EFFICIENCY 
   //----------------------------------------------------------------
-  
+
+  // no cuts
+  TH1F *H_ep_ctime_total_noCUT;
+
+  //Collimator Shape
+  TH2F *H_hXColl_vs_hYColl_noCUT;
+  TH2F *H_eXColl_vs_eYColl_noCUT;
+
+
   //Coin. Time
   TH1F *H_ep_ctime_total;
   TH1F *H_ep_ctime;
@@ -1423,6 +1431,7 @@ protected:
   //Additional Kinematics (User-defined)
   Double_t th_x;                   //hadron arm particle central angle
   Double_t MM2;                   //Missing Mass Squared
+  Double_t MM_red;               // reduced missing mass (MM - (MA - MP)), A: target nucleus A mass, MP: proton mass
 
   Double_t Ex;  // energy of detected particle
   Double_t Er;  // energy of recoil system
