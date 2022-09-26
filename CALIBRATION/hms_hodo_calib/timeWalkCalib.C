@@ -264,7 +264,7 @@ void drawParams(UInt_t iplane) {
 void WriteFitParam(int runNUM)
 {
 
-  TString outPar_Name = Form("../../PARAM/HMS/HODO/hhodo_TWcalib_%d.param", runNUM);
+  TString outPar_Name = Form("./hhodo_TWcalib_%d.param", runNUM);
   outParam.open(outPar_Name);
   outParam << Form(";HMS Hodoscopes Output Parameter File: Run %d", runNUM) << endl;
   outParam << " " << endl;

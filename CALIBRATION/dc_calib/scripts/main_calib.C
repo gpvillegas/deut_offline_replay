@@ -19,7 +19,7 @@ int main_calib()
   //template arguments
   //DC_calib obj("spec", "path/to/rootfile.root", runNUM, eventNUm, "pid_flag", "calib_mode"); pid_flag: "pid_elec" or "pid_kFALSE", calib_mode: "wire" or "card"
                
-  DC_calib obj("SHMS", "ROOTfiles/cafe_replay_dc_calib_16036_1000000_UnCalib.root", 16036, 1000000, "pid_elec", "card");
+  DC_calib obj("HMS", "ROOTfiles/dc_calib/cafe_replay_dc_UnCalib_16962_-1.root ", 16962, -1, "pid_kFALSE", "card");
   
   obj.setup_Directory();
   obj.SetPlaneNames();

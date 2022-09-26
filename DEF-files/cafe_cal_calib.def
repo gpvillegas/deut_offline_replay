@@ -1,5 +1,6 @@
 block CTime.*
 
+block P.dc.InsideDipoleExit
 block P.dc.ntrack
 block P.dc.*fp*
 block P.hod.beta
@@ -8,9 +9,10 @@ block P.cal.*
 block P.ngcer.*
 block P.hgcer.*
 
-#block H.dc.ntrack
-#block H.dc.*fp* 
-#block H.hod.beta 
-#block H.gtr.*
-#block H.cal.*
-#block H.cer.*
+block H.dc.InsideDipoleExit
+block H.dc.ntrack
+block H.dc.*fp* 
+block H.hod.beta 
+block H.gtr.*
+block H.cal.*
+block H.cer.*

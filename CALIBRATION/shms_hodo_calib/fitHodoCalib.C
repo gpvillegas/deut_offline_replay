@@ -1220,7 +1220,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
  /************WRITE FIT RESULTS TO PARAMETER FILE***************/
  
  ofstream outPARAM;
- outPARAM.open(Form("../../PARAM/SHMS/HODO/phodo_Vpcalib_%d.param", runNUM));
+ outPARAM.open(Form("./phodo_Vpcalib_%d.param", runNUM));
  
  outPARAM << "; SHMS Hodoscope Parameter File Containing propagation velocities per paddle " << endl;
  outPARAM << "; and signal cable time diff. offsets per paddle " << endl;
