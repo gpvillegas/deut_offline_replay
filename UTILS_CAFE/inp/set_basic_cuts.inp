@@ -226,7 +226,7 @@ c_MF_Q2_max = 100.
 
 # Missing Momentum [GeV]
 Pm_MF_cut_flag = 1
-c_MF_Pm_min = 0.050
+c_MF_Pm_min = 0.0
 c_MF_Pm_max = 0.250
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)

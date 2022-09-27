@@ -529,7 +529,7 @@ ppartmass = 0.000511
 
 
 #B10 SRC Kinematics
-17090 - 999999
+17090 - 17092
 gpbeam = 10.549355                                                                           
 gtargmass_amu = 10.0129370
 htheta_lab = -66.40                                                                      
@@ -538,3 +538,81 @@ hpcentral = 1.325
 ppcentral = 8.55                                                                             
 hpartmass = 0.93827231                                                                       
 ppartmass = 0.000511
+
+# Ca48 MF Kinematics (2nd round)                                                              
+17093 - 17096                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 47.95252276                                                                             
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# Ca40 MF Kinematics   (2nd round)                                                            
+17097                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 39.962590863                                                                              
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# C12 MF Kinematics (2nd round)                                                              
+17098                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 12.0107                                                                        
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# Beryllium MF Kinematics (2nd round)                                                              
+17099 - 17100                                                                       
+gpbeam = 10.549355                                      
+gtargmass_amu = 9.012182                                                                            
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# B4C10 MF Kinematics (2nd round)                                                              
+17101                                                                        
+gpbeam = 10.549355                                      
+gtargmass_amu = 10.0129370
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# B4C11 MF Kinematics (2nd round)                                                              
+17102                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 11.009306
+htheta_lab = -48.30                                                                                         
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# Be SRC Kinematics                                                              
+17103 - 9999999                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 9.012182
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.820                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
