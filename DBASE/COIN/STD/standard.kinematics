@@ -606,12 +606,78 @@ hpartmass = 0.93827231
 ppartmass = 0.000511
 
 # Be SRC Kinematics                                                              
-17103 - 9999999                                                                         
+17103 - 17111                                                                         
 gpbeam = 10.549355                                      
 gtargmass_amu = 9.012182
 htheta_lab = -66.40                                                                                        
 ptheta_lab = 8.3                                                                                               
-hpcentral = 1.820                                                                                   
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# B4C10 SRC Kinematics                                                              
+17112 - 17115                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 10.0129370
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# B4C11 SRC Kinematics                                                              
+17116 - 17123                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 11.009306
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# B4C10 SRC Kinematics                                                              
+17124 - 17128                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 10.0129370
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# Be SRC Kinematics                                                              
+17129 - 17132                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 9.012182
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# D2 SRC Kinematics                                                              
+17133 - 17134                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 2.014101
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
+ppcentral = 8.55                                                          
+hpartmass = 0.93827231                                                                  
+ppartmass = 0.000511
+
+# Fe54 SRC Kinematics                                                              
+17135 - 999999                                                                         
+gpbeam = 10.549355                                      
+gtargmass_amu = 53.9396147
+htheta_lab = -66.40                                                                                        
+ptheta_lab = 8.3                                                                                               
+hpcentral = 1.325                                                                                   
 ppcentral = 8.55                                                          
 hpartmass = 0.93827231                                                                  
 ppartmass = 0.000511
