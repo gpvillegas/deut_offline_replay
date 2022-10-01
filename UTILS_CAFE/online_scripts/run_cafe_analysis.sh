@@ -22,7 +22,7 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage:  ./run_cafe_${ana_type}.sh <run_number> <kin_type> <optional evt_number>"
+    echo "Usage:  ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number>"
     echo ""
     echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
     echo ""
@@ -33,12 +33,12 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 0    
     # fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC         
 elif [ "$kin_type" == "bcm_calib" ] || [ "$kin_type" == "lumi" ] || [ "$kin_type" == "optics" ] || [ "$kin_type" == "heep_singles" ] ||  [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then 
-    echo ""                                                                                                                                                                                
+    echo ""                                                                                                                                                                           
 else
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage: ./run_cafe_${ana_type}.sh <run_number> <kin_type> <optional evt_number>"
+    echo "Usage: ./run_cafe_${ana_type}.sh <run_number> <kin_type> <evt_number>"
     echo ""     
     echo "<kin_type> = \"bcm_calib\", \"lumi\", \"optics\", \"heep_singles\", \"heep_coin\", \"MF\" or \"SRC\" "
     echo ""
@@ -57,7 +57,7 @@ if [ -z "$3" ] && [ "${ana_type}" = "sample" ]; then
     echo "No number of events was specified. Defaulting to 100k event sample"
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"    
-    evtNum=500000
+    evtNum=100000
     echo "evtNum=$evtNum"
     echo "" 
 elif [ "${ana_type}" = "prod" ]; then
@@ -77,7 +77,8 @@ analyze_data=1   # 1: true (analyze data), 0: false (analyze simc)
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5           # beam current threhsold cut > bcm_thrs [uA]
-trig_type="trig5"    # trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps6_factor)  (only for coin triggers, if singles tirgger, then change manually inside baseAnalyzer.cpp)
+trig_single="trig2"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
+trig_coin="trig5"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
 combine_runs=0
 
 # hcana script
@@ -89,7 +90,7 @@ else
 fi
 
 # cafe serious analysis script
-prod_script="UTILS_CAFE/main_analysis.cpp"
+prod_script="UTILS_CAFE/main_data_analysis.cpp"
 #optics_script="UTILS_CAFE/online_scripts/plotOptics.C"
 optics_script="UTILS_CAFE/online_scripts/plotOptics_modified.C"   # modified by Dien Nguyen
 
@@ -106,7 +107,7 @@ runCafe="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
 				   ${analyze_data}, \\\"${kin_type}\\\", \\\"${ana_type}\\\",
           			    ${hel_flag},
                                    \\\"${bcm_type}\\\", ${bcm_thrs},
-                                   \\\"${trig_type}\\\", ${combine_runs}
+                                   \\\"${trig_single}\\\", \\\"${trig_coin}\\\", ${combine_runs}
                      )\""
 
 fill_RunList="python ${fill_list_script} ${ana_type} ${runNum} ${evtNum}"

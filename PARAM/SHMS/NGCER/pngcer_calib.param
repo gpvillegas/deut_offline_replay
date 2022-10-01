@@ -1,3 +1,1 @@
-; start fall 2022
-; calib from run 7120
-pngcer_adc_to_npe = 1./4.95, 1./4.13, 1./4.17, 1./4.29
+cafe2022/calib/pngcer_calib_init.param

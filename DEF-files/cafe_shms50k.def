@@ -1,6 +1,7 @@
 block g.*
 block T.coin.p*_tdcTimeRaw
 block T.coin.pDCREF*_tdcTimeRaw
+block CTime.epCoinTime_ROC1 
 block CTime.epCoinTime_ROC2
 
 #block RFTime.* 
@@ -426,7 +427,7 @@ TH1F hBPMT_Y 'Beam BPMT_Y ; BPM_Y projected to target  (CM); Counts' P.rb.raster
 #------------
 TH1F phod_beta             'SHMS Hodo Beta (track); Beta; Number of Entires' P.hod.beta 250 -0.5 1.5 pcut_CleanTrack
 TH1F pcal_etottracknorm    'SHMS Cal Etot/Ptrk; Total Energy Deposited / Track Momentum; Number of Entries' P.cal.etottracknorm 100, 0., 1.5 pcut_CleanTrack
-TH2F phod_beta_vs_delta    'SHMS Hodo Beta (track) vs. Delta; Delta (%); Beta; Number of Entires'  P.gtr.dp P.hod.beta 100 -12. 25. 300 -0.5 1.5 
+TH2F phod_beta_vs_delta    'SHMS Hodo Beta (track) vs. Delta; Delta (%); Beta'  P.gtr.dp P.hod.beta 100 -12. 25. 300 -0.5 1.5 
 TH2F pgtr_etottracknorm_vs_delta  'SHMS Cal Etot/Ptrk vs. Delta; Delta (%); Total Energy Deposited / Track Momentum'  P.gtr.dp P.cal.etottracknorm 100 -12. 25. 200 -0.5 1.5 
 
 
@@ -503,6 +504,13 @@ TH1F pdc2x1_wirenum_should 'SHMS DC 2X1 Wiremap; Wire Number; Number of Entries'
 TH1F pdc2u2_wirenum_should 'SHMS DC 2U2 Wiremap; Wire Number; Number of Entries' P.dc.wireHitShould[10] 107 0.5 107.5
 TH1F pdc2u1_wirenum_should 'SHMS DC 2U1 Wiremap; Wire Number; Number of Entries' P.dc.wireHitShould[11] 107 0.5 107.5 
 
+#------------------
+# Coincidence Time
+#------------------
+TH1F ep_ctime_roc1 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC1 400, 65, 105
+TH1F ep_ctime_roc2 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC2 400, 65, 105
+TH2F phod_beta_vs_ctime  'SHMS Hodo Beta vs. ep Coin. Time; ep Coin Time (ns); Beta'  CTime.epCoinTime_ROC2 P.hod.beta 400 65. 105. 300 -0.5 1.5
+
 #-----------------
 # SHMS KINEMATICS
 #-----------------
@@ -511,7 +519,7 @@ TH1F pkin_theta       'SHMS Scattering Angle Theta; SHMS Scattering Angle (deg);
 TH1F pkin_q2          '4-Momentum Transfer Q^{2}; Q^{2} (GeV^{2}); Number of Entries' P.kin.primary.Q2 100 0 8 pcut_CleanTrack
 TH1F pkin_q           '3-Momentum Transfer, |q|; |q| (GeV); Number of Entries' P.kin.primary.q3m 100 0 5 pcut_CleanTrack
 TH1F pkin_thq         '3-Momentum Transfer Angle w/ +z_{lab}, Theta_{q}; Theta_{q} (deg); Number of Entries' P.kin.primary.th_q*(180/3.14) 142 -1 70 pcut_CleanTrack
-TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries' P.kin.primary.W 200 0 10 pcut_CleanTrack
+TH1F pkin_w           'Invariant Mass W; W  (GeV); Number of Entries' P.kin.primary.W 200 0 2.5 pcut_CleanTrack
 TH1F pkin_omega       'Energy Transfer Omega; E_{beam} - E_{scat} (GeV); Number of Entries' P.kin.primary.omega 200 0 6 pcut_CleanTrack
 TH1F pkin_xbj         'x-Bjorken; Xbj; Number of Entries' P.kin.primary.x_bj 100 0.4 2 pcut_CleanTrack
 

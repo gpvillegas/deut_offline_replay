@@ -1,6 +1,6 @@
 #include <chrono>
 #include <iostream>
-#include "./UTILS_CAFE/UTILS/parse_utils.h" //useful C++ string parsing utilities
+#include "../../../UTILS_CAFE/UTILS/parse_utils.h" //useful C++ string parsing utilities
 
 using namespace std;
 using namespace std::chrono;
@@ -43,24 +43,27 @@ void replay_cafe_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype=
   vector<TString> pathList;
   pathList.push_back(".");
   pathList.push_back("./raw");
-  pathList.push_back("./cache");
   pathList.push_back("./raw.copiedtotape");
+  pathList.push_back("./CACHE_LINKS/cache_pionlt");
+  pathList.push_back("./CACHE_LINKS/cache_cafe"); 
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
   // Create dir. to store monitoring histos
   TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
   
+  if((ftype=="shms50k") || (ftype=="hms50k")){
+    cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  }
+
   const char* ROOTFileNamePattern = "ROOTfiles/%s/cafe_replay_%s_%d_%d.root";
 
   

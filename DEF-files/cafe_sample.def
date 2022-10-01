@@ -1,35 +1,35 @@
-# Make sure to uncomment the HMS / CTime leaf variables when we start CaFe on August 
-# CaFe heep check / optics ( ~July 2022) will only use SHMS quantities
+# Make sure to uncomment the HMS / CTime leaf variables when we start CaFe on September
+# CaFe heep check / optics ( ~Aug 2022) will only use SHMS quantities
 block g.*
-#block CTime.epCoinTime_ROC*
+block CTime.epCoinTime_ROC*
 block T.coin.pTRIG*
 block T.coin.pEDTM*
 #block RFTime.* 
 
-#block H.kin.*
-#block H.dc.*_fp*
-#block H.dc.ntrack
-#block H.dc.*.time
-#block H.dc.*.dist
-#block H.dc.*.wirenum
-#block H.dc.*.nhit
-#block H.dc.residual*
-#block H.gtr.beta
-#block H.gtr.p
-#block H.gtr.y
-#block H.gtr.x
-#block H.gtr.ph
-#block H.gtr.th
-#block H.gtr.dp
-#block H.react.*
-#block H.extcor.*sieve*
-#block H.cer.npe*
-#block H.cal.etot*norm*
-#block H.cal.etracknorm
-#block H.hod.beta
-#block H.hod.betanotrack
-#block H.hod.goodscinhit
-#block H.hod.*.*Track* 
+block H.kin.*
+block H.dc.*_fp*
+block H.dc.ntrack
+block H.dc.*.time
+block H.dc.*.dist
+block H.dc.*.wirenum
+block H.dc.*.nhit
+block H.dc.residual*
+block H.gtr.beta
+block H.gtr.p
+block H.gtr.y
+block H.gtr.x
+block H.gtr.ph
+block H.gtr.th
+block H.gtr.dp
+block H.react.*
+block H.extcor.*sieve*
+block H.cer.npe*
+block H.cal.etot*norm*
+block H.cal.etracknorm
+block H.hod.beta
+block H.hod.betanotrack
+block H.hod.goodscinhit
+block H.hod.*.*Track* 
 
 block P.kin.*
 block P.dc.*_fp*
@@ -49,6 +49,7 @@ block P.gtr.dp
 block P.react.*
 block P.extcor.*sieve*
 block P.ngcer.npe*
+block P.hgcer.npe*
 block P.cal.etot*norm*
 block P.cal.etracknorm
 block P.hod.beta

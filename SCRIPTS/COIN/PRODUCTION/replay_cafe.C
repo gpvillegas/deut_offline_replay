@@ -32,10 +32,6 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
       exit;
     }
   }
-
-
-  
-
   
   // Get starting timepoint
   auto start = high_resolution_clock::now();
@@ -47,9 +43,9 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   vector<TString> pathList;
   pathList.push_back(".");
   pathList.push_back("./raw");
-  pathList.push_back("./cache_pionlt");
-  pathList.push_back("./cache_cafe"); 
   pathList.push_back("./raw.copiedtotape");
+  pathList.push_back("./CACHE_LINKS/cache_pionlt");
+  pathList.push_back("./CACHE_LINKS/cache_cafe"); 
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
@@ -57,14 +53,17 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
 
-  cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
-
-  cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
-  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  if((ftype=="shms50k") || (ftype=="hms50k")){
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/PDF", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+    
+    cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
+    gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+  }
   
   const char* ROOTFileNamePattern = "ROOTfiles/%s/cafe_replay_%s_%d_%d.root";
 
@@ -317,8 +316,12 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
 
   
+  
   TString user_answer = "";
   
+  /*
+  if((ftype!="shms50k") || (ftype!="hms50k")){
+
   if(gSystem->AccessPathName(ROOTFileName.Data())){
     std::cout << Form("%s does NOT exist !",ROOTFileName.Data()) << std::endl;
   } else {
@@ -331,8 +334,10 @@ void replay_cafe(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   else if(user_answer=="n" || user_answer=="no" || user_answer=="N" || user_answer=="NO"){
     cout << Form("OK, ! Will NOT overwrite % s.", ROOTFileName.Data()) << endl;
   
+    }
   }
-  
+  */
+
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number

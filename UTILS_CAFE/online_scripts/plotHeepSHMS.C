@@ -2,16 +2,16 @@ void plotHeepSHMS(){
 
   //read the input file
   //TFile *f = new TFile(Form("mkROOTfiles/hms_replay_matrixopt_%i_-1.root",nrun));
-  TFile *f = new TFile("/home/cdaq/holly/hallc_replay_kaonlt/ROOTfiles/shms_coin_replay_production_all_6595_500000.root");
+  TFile *f = new TFile("/net/cdaq/cdaql1data/cdaq/hallc-online-cafe2022/ROOTfiles/prod/cafe_replay_prod_16965_-1.root");
   TTree *tt = (TTree*)f->Get("T");
 
-  TFile *f1 = new TFile("heep_simc/h1_shms_21p14_3p007.root");
+  TFile *f1 = new TFile("/home/cdaq/cafe-2022/simulation/heep/h1_cafe_heepcoin0.root");
   TTree *ts = (TTree*)f1->Get("h666");
 
   int nentries = ts->GetEntries();
 
   //here's the cut
-  TCut cut = "P.gtr.dp<30&&P.gtr.dp>-15&&P.kin.W>0.8&&P.kin.W<1.0";
+  TCut cut = "P.gtr.dp<30&&P.gtr.dp>-15&&P.kin.primary.W>0.8&&P.kin.primary.W<1.05";
 
   //make the output file
   TCanvas *canvas = new TCanvas("canvas","plots",800,800);
@@ -48,7 +48,7 @@ void plotHeepSHMS(){
   tt->Draw("P.gtr.th>>h_xptar",cut);
   tt->Draw("P.gtr.ph>>h_yptar",cut);
   tt->Draw("P.gtr.y>>h_ytar",cut);
-  tt->Draw("P.kin.W>>h_W",cut );
+  tt->Draw("P.kin.primary.W>>h_W",cut );
 
   for (int ii=0; ii<nentries; ii++){
     ts->GetEntry(ii);
@@ -66,13 +66,13 @@ void plotHeepSHMS(){
     double hsWV = hsWL->GetValue();
     double hWeightV = hWeight->GetValue();
 
-    if (hsWV>0.85 && hsWV<1.1){
+    //    if (hsWV>0.85 && hsWV<1.1){
       h_simc_delta->Fill(hsdeltaV,hWeightV);
       h_simc_xptar->Fill(hsxptarV,hWeightV);
       h_simc_yptar->Fill(hsyptarV,hWeightV);
       h_simc_ytar->Fill(hsytarV,hWeightV);
       h_simc_W->Fill(hsWV,hWeightV);
-    }
+      //}
   }
 
 

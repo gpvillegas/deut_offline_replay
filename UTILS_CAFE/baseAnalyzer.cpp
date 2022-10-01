@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0 )
-  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type(trig), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type_single(trig_single), trig_type_coin(trig_coin), combine_runs_flag(combine_flag)   //initialize member list 
 {
   
   cout << "Calling BaseConstructor " << endl;
@@ -44,8 +44,37 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     else {eArm = "P"; e_arm = "p", nroc = "2", daq = "shms"; scl_tree_name = "TSP";}
   }
 
-  
+}
 
+//_______________________________________________________________________________
+baseAnalyzer::baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="")
+  : e_arm_name(earm), analyze_data(ana_data), analysis_cut(ana_cuts), analysis_type(ana_type)
+{
+  
+  cout << "Calling BaseConstructor (SIMC) " << endl;
+
+  //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)                                                                                                         
+  if(e_arm_name=="SHMS"){
+    eArm = "P";
+    hArm = "H";
+    e_arm = "p";
+    h_arm = "h";
+    h_arm_name = "HMS";                                                                                                                                                                        
+  }                                                                                                                                                                                            
+  
+  else if(e_arm_name=="HMS"){
+    eArm = "H";
+    hArm = "P";
+    e_arm = "h";
+    h_arm = "p";
+    h_arm_name = "SHMS";
+  }  
+}
+
+//_______________________________________________________________________________
+void baseAnalyzer::Init(){
+
+  cout << "Initializing Pointers . . ." << endl;
   //Initialize TFile Pointers
   inROOT  = NULL;
   outROOT = NULL;
@@ -81,6 +110,7 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //---------------------------------------------------------------
   
   //Coincidence Time
+  H_ep_ctime_total_noCUT  = NULL;
   H_ep_ctime_total  = NULL;
   H_ep_ctime  = NULL;
   
@@ -238,8 +268,13 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
   //--2D Acceptance Histos--
 
   //Collimator Shape
+  H_hXColl_vs_hYColl_noCUT    = NULL;
+  H_eXColl_vs_eYColl_noCUT    = NULL;
+
   H_hXColl_vs_hYColl    = NULL;
   H_eXColl_vs_eYColl    = NULL;
+  
+
   //Hour-Glass Shape
   H_hxfp_vs_hyfp    = NULL;
   H_exfp_vs_eyfp    = NULL;
@@ -313,6 +348,7 @@ baseAnalyzer::~baseAnalyzer()
   //-----------------------------
 
   //-Coin. Time-
+  delete H_ep_ctime_total_noCUT; H_ep_ctime_total_noCUT   = NULL;
   delete H_ep_ctime_total; H_ep_ctime_total   = NULL;
   delete H_ep_ctime; H_ep_ctime   = NULL;
 
@@ -472,6 +508,9 @@ baseAnalyzer::~baseAnalyzer()
   //--2D Acceptance Histos--
 
   //Collimator Shape
+  delete H_hXColl_vs_hYColl_noCUT;    H_hXColl_vs_hYColl_noCUT    = NULL;
+  delete H_eXColl_vs_eYColl_noCUT;    H_eXColl_vs_eYColl_noCUT    = NULL;
+
   delete H_hXColl_vs_hYColl;    H_hXColl_vs_hYColl    = NULL;
   delete H_eXColl_vs_eYColl;    H_eXColl_vs_eYColl    = NULL;
   //Hour-Glass Shape
@@ -542,6 +581,12 @@ void baseAnalyzer::ReadInputFile()
   input_CutFileName     = "UTILS_CAFE/inp/set_basic_cuts.inp";
   input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos.inp";
   input_SIMCinfo_FileName = "UTILS_CAFE/inp/set_basic_simc_param.inp";
+  
+  if(analysis_cut=="SRC"){
+    input_HBinFileName    = "UTILS_CAFE/inp/set_basic_histos_SRC.inp";
+  }
+
+  cout << " input_HBinFileName"<<  input_HBinFileName << endl;
   //==========================================
   //     READ FILE NAME PATTERN
   //==========================================
@@ -549,59 +594,62 @@ void baseAnalyzer::ReadInputFile()
   TString temp; //temporary string placeholder
 
 
-  
-  //-------------------------------
-  //----INPUTS (USER READS IN)-----
-  //-------------------------------
-  
-  //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
-  temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputFileName = Form(temp.Data(),  analysis_type.Data(), analysis_type.Data(), run, evtNum);
+  if(analyze_data==true){
 
-  //Check if ROOTfile exists
-  in_file.open(data_InputFileName.Data());
-  cout << "in_file.fail() --> " << in_file.fail() << endl;
-  if(in_file.fail()){
-    cout << Form("ROOTFile: %s does NOT exist ! ! !", data_InputFileName.Data()) << endl;
-    cout << "Exiting NOW !" << endl;
-    gSystem->Exit(0);
-  }  
-  in_file.close();
-  
-  //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
-  temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
-  
-  //Check if REPORTFile exists
-  in_file.open(data_InputReport.Data());
-  cout << "in_file.fail() --> " << in_file.fail() << endl;
-  if(in_file.fail()){
-    cout << Form("REPORTFile: %s does NOT exist ! ! !", data_InputReport.Data()) << endl;
-    cout << "Exiting NOW !" << endl;
-    gSystem->Exit(0);
+    //-------------------------------
+    //----INPUTS (USER READS IN)-----
+    //-------------------------------
+    
+    //Define Input (.root) File Name Patterns (read principal ROOTfile from experiment)
+    temp = trim(split(FindString("input_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_InputFileName = Form(temp.Data(),  analysis_type.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Check if ROOTfile exists
+    in_file.open(data_InputFileName.Data());
+    cout << "in_file.fail() --> " << in_file.fail() << endl;
+    if(in_file.fail()){
+      cout << Form("ROOTFile: %s does NOT exist ! ! !", data_InputFileName.Data()) << endl;
+      cout << "Exiting NOW !" << endl;
+      gSystem->Exit(0);
+    }  
+    in_file.close();
+    
+    //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
+    temp = trim(split(FindString("input_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_InputReport = Form(temp.Data(), analysis_type.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Check if REPORTFile exists
+    in_file.open(data_InputReport.Data());
+    cout << "in_file.fail() --> " << in_file.fail() << endl;
+    if(in_file.fail()){
+      cout << Form("REPORTFile: %s does NOT exist ! ! !", data_InputReport.Data()) << endl;
+      cout << "Exiting NOW !" << endl;
+      gSystem->Exit(0);
+    }
+    in_file.close();
+    
+    
+    //----------------------------------
+    //----OUTPUTS (USER WRITES OUT)-----
+    //----------------------------------
+    //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
+    temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
+    data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
+    
+    //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
+    temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
+    data_OutputFileName_combined = Form(temp.Data(), analysis_type.Data());
+    
+    //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
+    temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    output_SummaryFileName = Form(temp.Data(), analysis_type.Data());
+    
+    //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
+    temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
+    output_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
+    
   }
-  in_file.close();
   
-  //----------------------------------
-  //----OUTPUTS (USER WRITES OUT)-----
-  //----------------------------------
-  //Define Output (.root) File Name Pattern (analyzed histos are written to this file)
-  temp = trim(split(FindString("output_ROOTfilePattern", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
-
-  //Define Output (.root) File Name Pattern (analyzed combined histos are written to this file)
-  temp = trim(split(FindString("output_ROOTfilePattern_final", input_FileNamePattern.Data())[0], '=')[1]);
-  data_OutputFileName_combined = Form(temp.Data(), analysis_type.Data());
-
-  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- append run numbers
-  temp = trim(split(FindString("output_SummaryPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  output_SummaryFileName = Form(temp.Data(), analysis_type.Data());
-
-  //Define Output (.txt) File Name Pattern (analysis report is written to this file) -- short report on a per-run basis
-  temp = trim(split(FindString("output_REPORTPattern", input_FileNamePattern.Data())[0], '=')[1]);
-  output_ReportFileName = Form(temp.Data(), analysis_type.Data(), run, evtNum);
-
-
   //==========================================
   //     READ TRACKING EFFICIENCY CUTS
   //==========================================
@@ -648,13 +696,12 @@ void baseAnalyzer::ReadInputFile()
   
   //==========================================
   
-  
 
-  
   //==========================================
   //     READ Data/SIMC ANALYSIS CUTS
   //==========================================
-  //------PID Cuts-----
+
+  //------PID Cuts (DATA ONLY)-----
   
   //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
   
@@ -771,6 +818,7 @@ void baseAnalyzer::ReadInputFile()
   c_SRC_thrq_min = stod(split(FindString("c_SRC_thrq_min", input_CutFileName.Data())[0], '=')[1]);
   c_SRC_thrq_max = stod(split(FindString("c_SRC_thrq_max", input_CutFileName.Data())[0], '=')[1]);
 
+
   // Missing Energy [GeV] --- ONLY for deuteron target
   Em_d2SRC_cut_flag = stoi(split(FindString("Em_d2SRC_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_d2SRC_Em_min = stod(split(FindString("c_d2SRC_Em_min", input_CutFileName.Data())[0], '=')[1]);
@@ -815,8 +863,64 @@ void baseAnalyzer::ReadInputFile()
   ztarDiff_cut_flag = stoi(split(FindString("ztarDiff_cut_flag", input_CutFileName.Data())[0], '=')[1]);
   c_ztarDiff_min = stod(split(FindString("c_ztarDiff_min", input_CutFileName.Data())[0], '=')[1]);
   c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
-  
+
+
+  // =====================
+  //  SIMC
+  //======================
  
+    
+    //Define Input/Output SIMC File Name Pattern (currently hard-coded filenames, maybe later can be re-implemented better)
+  if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
+
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_heep_scan_kin0_rad.root"; //shms 8.55 GeV, 8.3 deg
+    simc_ifile             = "../hallc_simulations/infiles/cafe_heep_scan_kin0_rad.data";
+    
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_heep_scan_kin0_rad_output.root"; //shms 8.55 GeV, 8.3 deg
+    
+  }
+  
+  if(analysis_cut=="MF"){
+
+    // default existing C12 MF SIMC file (other targets can be scaled from C12)
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_c12_MF_rad.root";
+    simc_ifile             = "../hallc_simulations/infiles/cafe_c12_MF_rad.data";
+
+    //simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_MF_rad.root";
+    //simc_ifile             = "../hallc_simulations/infiles/cafe_d2_MF_rad.data";
+
+    // define MF SIMC output root file
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_c12_MF_rad_output.root";
+    
+    //simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_MF_rad_output.root";
+
+      
+  }
+  
+  if(analysis_cut=="SRC"){
+
+    // default existing d2 SRC SIMC file (other targets can be scaled from d2)
+    simc_InputFileName_rad = "../hallc_simulations/worksim/cafe_d2_SRC_rad.root";
+    simc_ifile             = "../hallc_simulations/infiles/cafe_d2_SRC_rad.data";
+
+    // define SRC SIMC output root file
+    simc_OutputFileName_rad = "../hallc_simulations/cafe_output/cafe_d2_SRC_rad_output.root";
+    
+  }
+
+    if(analyze_data==false){
+      // Read SIMC input file central values during online analysis (to be used in calculations later,
+      // ultimately will only need to read from data report, since both data/simc will be equivalent kinematics)
+      
+      tgt_mass_simc    = stod(split(split(FindString("targ%A", simc_ifile.Data())[0], '=')[1], '!')[0]);   //amu
+      beam_energy_simc = stod(split(split(FindString("Ebeam", simc_ifile.Data())[0], '=')[1], '!')[0]);    //MeV
+      hms_p_simc       = stod(split(split(FindString("spec%p%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+      hms_angle_simc   = stod(split(split(FindString("spec%p%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+      shms_p_simc      = stod(split(split(FindString("spec%e%P", simc_ifile.Data())[0], '=')[1], '!')[0]); //MeV
+      shms_angle_simc  = stod(split(split(FindString("spec%e%theta", simc_ifile.Data())[0], '=')[1], '!')[0]); //deg
+      
+    }
+    
 }
   
 
@@ -824,7 +928,7 @@ void baseAnalyzer::ReadInputFile()
 void baseAnalyzer::ReadReport()
 {
 
-  //Brief: Read Necessary Quantities from Report File
+  //Brief: Read Necessary Quantities from Data Report File
     
   cout << "Calling Base ReadReport() " << endl;
   
@@ -1333,6 +1437,7 @@ void baseAnalyzer::CreateHist()
   H_ep_ctime->Sumw2(); //Apply sum of weight squared to this histogram ABOVE.
   H_ep_ctime->SetDefaultSumw2(kTRUE);  //Generalize sum weights squared to all histograms  (ROOT 6 has this by default. ROOT 5 does NOT)
   H_ep_ctime_total   = new TH1F("H_ep_ctime_total", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
+  H_ep_ctime_total_noCUT   = new TH1F("H_ep_ctime_total_noCUT", "ep Coincidence Time; ep Coincidence Time [ns]; Counts ", coin_nbins, coin_xmin, coin_xmax);
 
 
   //HMS DETECTORS HISTOS
@@ -1360,6 +1465,7 @@ void baseAnalyzer::CreateHist()
   
   
   //Add PID Histos to TList
+  pid_HList->Add(H_ep_ctime_total_noCUT);
   pid_HList->Add(H_ep_ctime_total);
   pid_HList->Add(H_ep_ctime);
   pid_HList->Add(H_hCerNpeSum);
@@ -1579,6 +1685,9 @@ void baseAnalyzer::CreateHist()
   H_eYColl = new TH1F("H_eYColl", Form("%s Y Collimator; Y-Collimator [cm]; Counts ", e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax);        
 
   //2D Collimator Histos
+  H_hXColl_vs_hYColl_noCUT = new TH2F("H_hXColl_vs_hYColl_noCUT", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
+  H_eXColl_vs_eYColl_noCUT = new TH2F("H_eXColl_vs_eYColl_noCUT", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", e_arm_name.Data(), e_arm_name.Data(), e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax, eXColl_nbins, eXColl_xmin, eXColl_xmax); 
+  
   H_hXColl_vs_hYColl = new TH2F("H_hXColl_vs_hYColl", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
   H_eXColl_vs_eYColl = new TH2F("H_eXColl_vs_eYColl", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", e_arm_name.Data(), e_arm_name.Data(), e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax, eXColl_nbins, eXColl_xmin, eXColl_xmax); 
   
@@ -1620,6 +1729,9 @@ void baseAnalyzer::CreateHist()
   accp_HList->Add( H_hYColl      );
   accp_HList->Add( H_eXColl      );
   accp_HList->Add( H_eYColl      );
+  
+  accp_HList->Add( H_hXColl_vs_hYColl_noCUT  );
+  accp_HList->Add( H_eXColl_vs_eYColl_noCUT  );
 
   accp_HList->Add( H_hXColl_vs_hYColl  );
   accp_HList->Add( H_eXColl_vs_eYColl  );
@@ -1853,9 +1965,10 @@ void baseAnalyzer::ReadTree()
   
   if(analyze_data==true)
     {
-      
-      cout << "Analyzing DATA . . . " << endl;
 
+      
+      cout << "Reading DATA Tree . . . " << endl;
+      
       //Read ROOTfile
       inROOT = new TFile(data_InputFileName.Data(), "READ");
       
@@ -2102,7 +2215,128 @@ void baseAnalyzer::ReadTree()
 
   else if(analyze_data==false)
     {
-      cout << "SIMC ANALYSIS C++ CODE HAS NOT BEEN DONE YET ! ! !" << endl;
+
+      cout << "Reading SIMC Tree . . . " << endl;
+
+      //Read ROOTfile
+      inROOT = new TFile(simc_InputFileName_rad, "READ");
+
+      //Get the tree
+      tree = (TTree*)inROOT->Get("SNT");
+      nentries = tree->GetEntries();
+
+
+      //--- Primary Kinematics (electron kinematics) ---
+      tree->SetBranchAddress("theta_e", &th_e);
+      tree->SetBranchAddress("W", &W);
+      // W2 can be calculated in event loop
+      tree->SetBranchAddress("Q2", &Q2);
+      //Xbj needs to be calculated in the event loop
+      tree->SetBranchAddress("nu", &nu);
+      tree->SetBranchAddress("q", &q); //[GeV]
+      // qx,qy,qz can be calculated in event loop
+      // th_q needs to be calculated in the event loop
+      // ph_q can be calculated in event loop
+
+      
+      //--- Secondary Kinematics (hadron kinematics) ---
+      tree->SetBranchAddress("Em", &Em);
+      tree->SetBranchAddress("Pm", &Pm);
+      tree->SetBranchAddress("Pmx", &Pmx_lab);
+      tree->SetBranchAddress("Pmy", &Pmy_lab);
+      tree->SetBranchAddress("Pmz", &Pmz_lab);
+      
+      tree->SetBranchAddress("PmPer", &Pmx_q);  //in-plane perpendicular component to +z
+      tree->SetBranchAddress("PmOop", &Pmy_q);  //out-of-plane component (Oop)
+      tree->SetBranchAddress("PmPar", &Pmz_q);  //parallel component to +z
+      
+      //Pmx_lab,Pmy_lab,Pmz_lab, Pmx_q, Pmy_q, Pmz_q can also
+      //calculated externally in the EventLoop (using auxiliary methods from hcana), but this is for later
+      
+      //Tx, Tr -> kinetic energy of detected (x) and recoil (r) are calculated in the event loop
+
+      // MM -> missing (recoil) mass calculated in event loop
+      tree->SetBranchAddress("theta_pq", &th_xq); // in-plane angle between detected (x) and q [rad]
+      tree->SetBranchAddress("theta_rq", &th_rq); // in-plane angle between recoil (r) and q [rad] | can also be calculated in the event loop (externally using hcana methods)
+      tree->SetBranchAddress("phi_pq", &ph_xq); // out-of-plane angle between detected (x) and q [rad] 
+      // ph_rq | out-of-plane angle between recoil (r) and q [rad] | can be calculated in the event loop (externally using hcana methods)
+      tree->SetBranchAddress("theta_p", &th_x); // proton angle [rad]
+
+
+      tree->SetBranchAddress("h_pf",    &Pf); // proton final momentum [MeV/c]
+      tree->SetBranchAddress("e_pf",    &kf); // electron final momentum [MeV/c]
+
+      //----Hadron Arm Focal Plane----- 
+      tree->SetBranchAddress("h_xfp",  &h_xfp);
+      tree->SetBranchAddress("h_xpfp", &h_xpfp);
+      tree->SetBranchAddress("h_yfp",  &h_yfp);
+      tree->SetBranchAddress("h_ypfp", &h_ypfp);
+
+      //----Hadron Arm Reconstructed-----
+      tree->SetBranchAddress("h_ytar",  &h_ytar);
+      tree->SetBranchAddress("h_yptar", &h_yptar);
+      tree->SetBranchAddress("h_xptar", &h_xptar);
+      tree->SetBranchAddress("h_delta", &h_delta);
+
+      //----Electron Arm Focal Plane---- 
+      tree->SetBranchAddress("e_xfp",  &e_xfp);
+      tree->SetBranchAddress("e_xpfp", &e_xpfp);
+      tree->SetBranchAddress("e_yfp",  &e_yfp);
+      tree->SetBranchAddress("e_ypfp", &e_ypfp);
+
+      //----Electron Arm Reconstructed----- 
+      tree->SetBranchAddress("e_ytar",  &e_ytar);
+      tree->SetBranchAddress("e_yptar", &e_yptar);
+      tree->SetBranchAddress("e_xptar", &e_xptar);
+      tree->SetBranchAddress("e_delta", &e_delta);
+
+      //----Target Quantities----
+      //(tarx, tary, tarz) in Hall Coord. System      
+      tree->SetBranchAddress("tar_x", &tar_x);
+      tree->SetBranchAddress("h_yv",  &htar_y);
+      tree->SetBranchAddress("h_zv",  &htar_z);
+      tree->SetBranchAddress("e_yv",  &etar_y);
+      tree->SetBranchAddress("e_zv",  &etar_z);
+ 
+      //--- Collimator Quantities ---
+      // is calculated in event loop, something like . . .
+      // htarx_corr = tar_x - h_xptar*htar_z*cos(th_x*dtr);  hXColl = htarx_corr + h_xptar*168.;   //in cm
+      // etarx_corr = tar_x - e_xptar*etar_z*cos(th_e*dtr);
+      // eYColl = e_ytar + e_yptar*253.-(0.019+40.*.01*0.052)*e_delta+(0.00019+40*.01*.00052)*e_delta*e_delta; 
+      
+      //SIMC-SPECIFIC LEAF VARIABLES (Not all may be used here)
+      // the 'i' represents thrown (not reconstructed) quantities, from the vertex to focal plane
+      tree->SetBranchAddress("Normfac",  &Normfac);
+      tree->SetBranchAddress("Weight",   &Weight);
+      
+      tree->SetBranchAddress("h_deltai", &h_deltai);
+      tree->SetBranchAddress("h_yptari", &h_yptari);
+      tree->SetBranchAddress("h_xptari", &h_xptari);
+      tree->SetBranchAddress("h_ytari",  &h_ytari);
+
+      tree->SetBranchAddress("e_deltai", &e_deltai);
+      tree->SetBranchAddress("e_yptari", &e_yptari);
+      tree->SetBranchAddress("e_xptari", &e_xptari);
+      tree->SetBranchAddress("e_ytari",  &e_ytari);
+      
+      tree->SetBranchAddress("epsilon",  &epsilon);
+      tree->SetBranchAddress("corrsing", &corrsing);
+      tree->SetBranchAddress("fry",      &fry);
+      tree->SetBranchAddress("radphot",  &radphot);
+      tree->SetBranchAddress("sigcc",    &sigcc);
+      tree->SetBranchAddress("Jacobian", &Jacobian);
+      tree->SetBranchAddress("Genweight",&Genweight);
+      tree->SetBranchAddress("SF_weight", &SF_weight);
+      tree->SetBranchAddress("Jacobian_corr", &Jacobian_corr);
+      tree->SetBranchAddress("sig", &sig);
+      tree->SetBranchAddress("sig_recon", &sig_recon);
+      tree->SetBranchAddress("sigcc_recon", &sigcc_recon);
+      tree->SetBranchAddress("coul_corr", &coul_corr);
+      tree->SetBranchAddress("Ein", &Ein);
+      tree->SetBranchAddress("SF_weight_recon", &SF_weight_recon);
+      tree->SetBranchAddress("probabs", &prob_abs);
+      
+      
     } //END SIMC SET BRANCH ADDRESS
 
 
@@ -2161,23 +2395,23 @@ void baseAnalyzer::EventLoop()
       // Get Coin. Time peak to apply as an offset to center the coin. time peak at 0 ns    
       Double_t ctime_offset = GetCoinTimePeak();
 	
-      cout << "Loop over Data Events | nentries -->  " << nentries << endl;
+      cout << "Analyzing DATA Events | nentries -->  " << nentries << endl;
 
       for(int ientry=0; ientry<nentries; ientry++)
 	{
 	  
 	  tree->GetEntry(ientry);
 
-	  
-  
-	  //cout << "ientry = " << ientry << endl;
-
 	  //--------------CALCULATED KINEMATICS VARIABLES (IF THEY ARE NOT ALREADY DONE IN HCANA)-----------
 
-	  th_x = xangle - th_e;  //hadron arm central angle for each particle
+	  th_x = xangle - th_e;  //detected hadron angle for each particle
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
 	  
+	  if( (tgt_type!="LH2") || (tgt_type!="LD2")){
+	    MM_red = MM - ((tgt_mass - MH_amu)* amu2GeV);
+	    MM = MM_red;
+	  }
 	  
 	  // Calculate special missing energy to cut on background @ SRC kinematics (only for online analysis) Em = nu - Tp - T_n (for A>2 nuclei)	 
 	  Em_src = nu - Tx - (sqrt(MN*MN + Pm*Pm) - MN); // assume kinetic energy of recoil system is that of a spectator SRC nucleon 
@@ -2283,7 +2517,7 @@ void baseAnalyzer::EventLoop()
 	  //=====END: CUTS USED IN TRACKING EFFICIENCY CALCULATION=====
 	  
 	  
-	  //====DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC, except PID CUTS on detectors)====
+	  //====DATA ANALYSIS CUTS (MUST BE EXACTLY SAME AS SIMC, except PID & COIN TIME CUTS on detectors)====
 
 	  // CUTS (SPECIFIC TO DATA)
 	 
@@ -2442,7 +2676,7 @@ void baseAnalyzer::EventLoop()
 	  else{c_SRC_Xbj=1;}
 	  
 	  // theta_rq
-	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq >= c_SRC_thrq_min && th_rq <= c_SRC_thrq_max;}
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq/dtr >= c_SRC_thrq_min && th_rq/dtr <= c_SRC_thrq_max;}
 	  else{c_SRC_thrq=1;}
 	  
 	  // Em ( require this cut ONLY for deuteron)
@@ -2508,15 +2742,18 @@ void baseAnalyzer::EventLoop()
 	    {
 	      
 	      //cout << "passed BCM Cut !" << endl;
-	      bool event_type_cut = false;
+	      //bool event_type_cut = false;
 	      
-	      if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
-		event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
-              }
-	      else if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
-		event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only                                                                          
+	      //if( (analysis_cut=="heep_singles") || (analysis_cut=="lumi") || (analysis_cut=="optics") || (analysis_cut=="bcm_calib") ){
+	      //event_type_cut = (gevtyp==1 || gevtyp==3);  // use this to calculate live time for shms singles events only                               
+              //}
+	      //if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC")){
+	      //event_type_cut = (gevtyp == 4);} //use this to calculate live time for coin. events only               
 	      //Count Accepted EDTM events (With bcm current cut: to be used in total edtm live time calculation)
-	      if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
+	      // if(c_edtm && event_type_cut){ total_edtm_accp_bcm_cut++;}
+	      //}
+	      
+	      if(c_edtm){ total_edtm_accp_bcm_cut++;}
 	      
 	      //Count Accepted TRIG1-6 events (without EDTM and with bcm current cut: to be used in the computer live time calculation)
 	      if(c_trig1 && c_noedtm) { total_trig1_accp_bcm_cut++; }
@@ -2549,6 +2786,13 @@ void baseAnalyzer::EventLoop()
 		    H_Em_src_vs_Pm ->Fill(Pm, Em_src);
 		  }
 		  
+		  
+		  // NO CUTS HISTOS (for checking)
+		  H_ep_ctime_total_noCUT->Fill(epCoinTime-ctime_offset);
+		  H_hXColl_vs_hYColl_noCUT  ->Fill(hYColl, hXColl);
+		  H_eXColl_vs_eYColl_noCUT  ->Fill(eYColl, eXColl);
+
+
 		  if(c_baseCuts){
 		    
 		    
@@ -2741,6 +2985,7 @@ void baseAnalyzer::EventLoop()
 		} //------END: REQUIRE "NO EDTM" CUT TO FILL DATA HISTOGRAMS-----
 	      
 	    }  //-----END: BCM Current Cut------
+
 	  
 	  
 	  
@@ -2765,9 +3010,336 @@ void baseAnalyzer::EventLoop()
           
     }//END DATA ANALYSIS
 
+
+  
   if(analyze_data==false)
     {
-      cout << "SIMC ANALYSIS needs to be done . . . " << endl;
+
+      cout << "Analyzing SIMC Events | nentries -->  " << nentries << endl;
+      for(int ientry=0; ientry<nentries; ientry++)
+	{
+	  
+	  tree->GetEntry(ientry);
+	  
+	  //SIMC FullWeight
+	  // transparency is already accounted for when simulation was done for c12 (d2 and h2, T=1) .
+	  //if targets other than hydrogen, deuterium or carbon are used, will need to scale by transparency and target density
+	  //( scale is done separately, outside this event loop)
+	  FullWeight = Normfac * Weight * prob_abs / nentries;
+	  
+	  /*
+	  cout << "---------" << endl;
+	  cout << "ientry: " << ientry << endl;
+	  cout << "---------" << endl;   
+	  cout << "FullWeight: " << FullWeight << endl;
+	  cout << "Normfac: " << Normfac << endl;
+	  cout << "Weight: " << Weight << endl;
+	  cout << "prob_abs:" << prob_abs << endl;
+	  cout << "nentries: " << nentries << endl;
+	  */
+
+	  //--------Calculated Kinematic Varibales----------------
+	  
+	  //Convert MeV to GeV
+	  Ein = Ein / 1000.;     //incident beam energy [GeV]
+	  kf = kf / 1000.;       //final electron momentum [GeV]
+	  Pf = Pf / 1000.;       //final proton momentum [GeV]
+
+	  ki = sqrt(Ein*Ein - me*me);        //initial electron momentum [GeV]
+
+	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
+
+	  
+	  W2 = W*W;
+	  X = Q2 / (2.*MP*nu);                           
+	  th_q = acos( (ki - kf*cos(th_e))/q );  // [rad]     
+
+	  // detected particle final energy (proton for A(e,e'p) reactions)
+	  Ex = sqrt(MP*MP + Pf*Pf);	  
+	  Tx = Ex - MP;  // detected (x) particle kinetic energy (assuming proton)
+
+	  
+	  // recoil particle kinematics (ONLY LH2, LD2 and C12 allowed in SIMC), then can be scaled accordingly
+	  if(analysis_cut=="heep_coin"){
+	    Er = nu + MH - Ex; // [GeV] supposed to be at zero, since there is no recoil particle for h(e,e'p)
+	    Tr = Er - 0;
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
+	  }
+	  else if(analysis_cut=="SRC"){
+	    Er = nu + MD - Ex; 
+	    Tr = Er - MN;
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
+	  }	  
+	  else if(analysis_cut=="MF"){
+	    Er = nu + MC12 - Ex;
+	    Tr = Er - MB11;       // C12 (6p,6n) -> 1p + B11(5p, 6n) single proton knockout of C12 gives B11 recoil system
+	    MM2 = Er*Er - Pm*Pm;
+	    MM = sqrt(MM2);
+	    
+	    // MF for deuteron
+	    //Er = nu + MD - Ex;                                                                                                                                               
+            //Tr = Er - MN;       // d2 (1p,1n) -> 1p + 1n single proton knockout of d2 gives neutron recoil system                                                   
+            //MM2 = Er*Er - Pm*Pm;                                                                                                                                          
+            //MM = sqrt(MM2);
+
+	    
+	  }
+
+	  
+	  //----------------------SIMC Collimator-------------------------
+	  
+	  htarx_corr = tar_x - h_xptar*htar_z*cos(hms_angle_simc*dtr);
+	  etarx_corr = tar_x - e_xptar*etar_z*cos(shms_angle_simc*dtr);  
+	  
+	  
+	  //Define Collimator (same as in HCANA)
+	  hXColl = htarx_corr + h_xptar*168.;   //in cm
+	  hYColl = h_ytar + h_yptar*168.;
+	  eXColl = etarx_corr + e_xptar*253.;
+	  eYColl = e_ytar + e_yptar*253.-(0.019+40.*.01*0.052)*e_delta+(0.00019+40*.01*.00052)*e_delta*e_delta; //correct for HB horizontal bend
+	  
+	  
+	  //--------------------------------------------------------------
+
+
+	  
+	  //----------------------------------------------------------
+	  //
+	  //===  SIMC ANALYSIS CUTS (MUST BE EXACTLY SAME AS DATA) ===
+	  //
+	  //----------------------------------------------------------
+
+
+	   //----Acceptance Cuts----
+
+	  // hadron arm
+	  if(hdelta_cut_flag){c_hdelta = h_delta>=c_hdelta_min && h_delta<=c_hdelta_max;} 
+	  else{c_hdelta=1;}
+
+	  if(hxptar_cut_flag){c_hxptar = h_xptar>=c_hxptar_min && h_xptar<=c_hxptar_max;} 
+	  else{c_hxptar=1;}
+
+	  if(hyptar_cut_flag){c_hyptar = h_yptar>=c_hyptar_min && h_yptar<=c_hyptar_max;} 
+	  else{c_hyptar=1;}
+
+	  //Collimator CUTS
+	  if(hmsCollCut_flag)  { hmsColl_Cut =  hms_Coll_gCut->IsInside(hYColl, hXColl);}
+	  else{hmsColl_Cut=1;}
+	  
+	  c_accpCuts_hms = c_hdelta && c_hxptar && c_hyptar && hmsColl_Cut;
+	  
+	  // electron arm
+	  if(edelta_cut_flag){c_edelta = e_delta>=c_edelta_min && e_delta<=c_edelta_max;} 
+	  else{c_edelta=1;} 
+
+	  if(exptar_cut_flag){c_exptar = e_xptar>=c_exptar_min && e_xptar<=c_exptar_max;} 
+	  else{c_exptar=1;}
+
+	  if(eyptar_cut_flag){c_eyptar = e_yptar>=c_eyptar_min && e_yptar<=c_eyptar_max;} 
+	  else{c_eyptar=1;}
+
+	  //Collimator Cuts
+	  if(shmsCollCut_flag) { shmsColl_Cut =  shms_Coll_gCut->IsInside(eYColl, eXColl);}
+	  else{shmsColl_Cut=1;}
+	  
+	  c_accpCuts_shms = c_edelta && c_exptar && c_eyptar && shmsColl_Cut;
+  
+	  // z-reaction vertex difference
+	  if(ztarDiff_cut_flag){c_ztarDiff = ztar_diff>=c_ztarDiff_min && ztar_diff<=c_ztarDiff_max;} 
+	  else{c_ztarDiff=1;}
+
+	  // combined hms/shms acceptance cuts 
+	  c_accpCuts = c_accpCuts_hms && c_accpCuts_shms && c_ztarDiff;
+	  
+	  //----Specialized Kinematics Cuts----
+
+	  // H(e,e'p) Kinematics
+	  
+	  //Q2
+	  if(Q2_heep_cut_flag){c_heep_Q2 = Q2>=c_heep_Q2_min && Q2<=c_heep_Q2_max;}
+	  else{c_heep_Q2=1;}
+
+	  //xbj
+	  if(xbj_heep_cut_flag){c_heep_xbj = X>=c_heep_xbj_min && X<=c_heep_xbj_max;}
+	  else{c_heep_xbj=1;}
+	  
+	  //Missing Energy, Em
+	  if(Em_heep_cut_flag){c_heep_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;}
+	  else{c_heep_Em=1;}
+
+	  //Invariant Mass, W
+	  if(W_heep_cut_flag){c_heep_W = W>=c_heep_W_min && W<=c_heep_W_max;}
+	  else{c_heep_W=1;}
+
+	  //Missing Mass, MM = sqrt( E_recoil^2 - P_miss ^2 )
+	  if(MM_heep_cut_flag){c_heep_MM = MM>=c_heep_MM_min && MM<=c_heep_MM_max;}
+	  else{c_heep_MM=1;}
+
+
+	  // H(e,e'p) singles ( e- trigger only)
+	  //c_kinHeepSing_Cuts = c_heep_Q2 && c_heep_W && c_heep_xbj;
+
+	  // H(e,e'p) coin ( e- + p coin. trigger )
+	  c_kinHeepCoin_Cuts = c_heep_Q2 && c_heep_xbj && c_heep_Em && c_heep_W && c_heep_MM;
+	  
+	  // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_MF_cut_flag){c_MF_Q2 = Q2>=c_MF_Q2_min && Q2<=c_MF_Q2_max;}
+	  else{c_MF_Q2=1;}
+
+	  // Pm
+	  if(Pm_MF_cut_flag){c_MF_Pm = Pm>=c_MF_Pm_min && Pm<=c_MF_Pm_max;}
+	  else{c_MF_Pm=1;}
+
+	  // Em ( require this cut ONLY for deuteron) -- for now, ignore this CUT, as we'll ONLY use C12 for mean-field (maybe we change it later), C.Y. Sep 09, 2022
+	  //if(Em_d2MF_cut_flag){c_d2MF_Em = Em>=c_d2MF_Em_min && Em <= c_d2MF_Em_max;}
+	  //else{c_d2MF_Em=1;}
+
+	  // Em ( require this cut ONLY for A>2 nuclei)
+	  if(Em_MF_cut_flag){c_MF_Em = Em >= c_MF_Em_min && Em <= c_MF_Em_max;}
+	  else{c_MF_Em=1;}
+	  
+	  //c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_d2MF_Em && c_MF_Em;
+	  c_kinMF_Cuts = c_MF_Q2 && c_MF_Pm && c_MF_Em;
+	    
+	  // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts
+
+	  // Q2
+	  if(Q2_SRC_cut_flag){c_SRC_Q2 = Q2>=c_SRC_Q2_min && Q2<=c_SRC_Q2_max;}
+	  else{c_SRC_Q2=1;}
+
+	  // Pm
+	  if(Pm_SRC_cut_flag){c_SRC_Pm = Pm>=c_SRC_Pm_min && Pm<=c_SRC_Pm_max;}
+	  else{c_SRC_Pm=1;}
+
+	  // Xbj
+	  if(Xbj_SRC_cut_flag){c_SRC_Xbj = X >= c_SRC_Xbj_min && X <= c_SRC_Xbj_max;}
+	  else{c_SRC_Xbj=1;}
+	  
+	  // theta_rq
+	  if(thrq_SRC_cut_flag){c_SRC_thrq = th_rq/dtr >= c_SRC_thrq_min && th_rq/dtr <= c_SRC_thrq_max;}
+	  else{c_SRC_thrq=1;}
+	  
+	  // Em ( require this cut ONLY for deuteron)
+	  if(Em_d2SRC_cut_flag){c_d2SRC_Em = Em>=c_d2SRC_Em_min && Em <= c_d2SRC_Em_max;}
+	  else{c_d2SRC_Em=1;}
+
+	  // Em ( require this cut ONLY for A>2 nuclei) -- ignore cut for now, since we only use d2 for SRC simulation
+	  //if(Em_SRC_cut_flag && tgt_type!="LD2"){c_SRC_Em = Em_src>0. && Em_nuc <= Em_src; // put lower bound on Em_src cut
+	  //cout << "c_SRC_Em = " << c_SRC_Em << endl;
+	  //  }
+	  //else{c_SRC_Em=1;}
+	  
+
+	  //c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em && c_SRC_Em;
+	  c_kinSRC_Cuts = c_SRC_Q2 && c_SRC_Pm && c_SRC_Xbj && c_SRC_thrq && c_d2SRC_Em;
+
+
+	 
+			  	 
+	  // ----- Combine All CUTS -----
+
+	  // user pre-determined analysis kinematics cuts
+
+	  if(analysis_cut=="heep_coin"){
+	    c_baseCuts =  c_accpCuts && c_kinHeepCoin_Cuts;
+	  }
+	  else if(analysis_cut=="MF"){
+	    c_baseCuts =  c_accpCuts && c_kinMF_Cuts;
+	  }
+	  else if(analysis_cut=="SRC"){
+	    c_baseCuts =  c_accpCuts && c_kinSRC_Cuts;
+	  }
+	  
+	  
+	  //====END: SIMC ANALYSIS CUTS (MUST BE EXACTLY SAME AS DATA)===
+
+
+	  //-------------------------------Fill SIMC Histograms--------------------------
+
+	  if(c_baseCuts){
+	    
+	    //Fill Primary Kin Histos
+	    H_the    ->Fill(th_e/dtr, FullWeight);
+	    H_kf     ->Fill(kf, FullWeight);
+	    H_W      ->Fill(W, FullWeight);
+	    H_W2     ->Fill(W2, FullWeight);
+	    H_Q2     ->Fill(Q2, FullWeight);
+	    H_xbj    ->Fill(X, FullWeight);
+	    H_nu     ->Fill(nu, FullWeight);
+	    H_q      ->Fill(q, FullWeight);	  
+	    H_thq    ->Fill(th_q/dtr, FullWeight);
+	    //H_phq    ->Fill(ph_q/dtr, FullWeight);
+	    
+	    //Fill Secondary Kin Histos
+	    H_Em       ->Fill(Em, FullWeight);
+	    H_Pm       ->Fill(Pm, FullWeight);
+	    H_Tx       ->Fill(Tx, FullWeight);
+	    H_Tr       ->Fill(Tr, FullWeight);
+	    H_MM       ->Fill(MM, FullWeight);
+	    H_MM2      ->Fill(MM2, FullWeight);
+	    H_thx      ->Fill(th_x/dtr, FullWeight);
+	    H_Pf       ->Fill(Pf, FullWeight);
+	    H_thxq     ->Fill(th_xq/dtr, FullWeight);
+	    H_thrq     ->Fill(th_rq/dtr, FullWeight);
+	    H_phxq     ->Fill(ph_xq/dtr, FullWeight);
+	    // H_phrq     ->Fill(ph_rq/dtr, FullWeight);
+
+	    	    
+	    //----------------------------------------------------------------------
+	    //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
+	    //----------------------------------------------------------------------
+	    //Fill SPECTROMETER  ACCEPTANCE
+	    H_exfp       ->Fill(e_xfp, FullWeight);
+	    H_eyfp       ->Fill(e_yfp, FullWeight);
+	    H_expfp      ->Fill(e_xpfp, FullWeight);
+	    H_eypfp      ->Fill(e_ypfp, FullWeight);
+	    
+	    H_eytar      ->Fill(e_ytar, FullWeight);
+	    H_exptar     ->Fill(e_xptar, FullWeight);
+	    H_eyptar     ->Fill(e_yptar, FullWeight);
+	    H_edelta     ->Fill(e_delta, FullWeight);
+	    
+	    H_hxfp       ->Fill(h_xfp, FullWeight);
+	    H_hyfp       ->Fill(h_yfp, FullWeight);
+	    H_hxpfp      ->Fill(h_xpfp, FullWeight);
+	    H_hypfp      ->Fill(h_ypfp, FullWeight);
+	    
+	    H_hytar       ->Fill(h_ytar, FullWeight);
+	    H_hxptar      ->Fill(h_xptar, FullWeight);
+	    H_hyptar      ->Fill(h_yptar, FullWeight);
+	    H_hdelta      ->Fill(h_delta, FullWeight);
+	    
+	    H_htar_x       ->Fill(htarx_corr, FullWeight);
+	    H_htar_y       ->Fill(htar_y, FullWeight);
+	    H_htar_z       ->Fill(htar_z, FullWeight);
+	    H_etar_x       ->Fill(etarx_corr, FullWeight);
+	    H_etar_y       ->Fill(etar_y, FullWeight);
+	    H_etar_z       ->Fill(etar_z, FullWeight);
+	    H_ztar_diff    ->Fill(ztar_diff, FullWeight);
+	    
+	    H_hXColl      ->Fill(hXColl, FullWeight);
+	    H_hYColl      ->Fill(hYColl, FullWeight);
+	    H_eXColl      ->Fill(eXColl, FullWeight);
+	    H_eYColl      ->Fill(eYColl, FullWeight);
+	    
+	    H_hXColl_vs_hYColl  ->Fill(hYColl, hXColl, FullWeight);
+	    H_eXColl_vs_eYColl  ->Fill(eYColl, eXColl, FullWeight);
+	    
+	    H_hxfp_vs_hyfp  ->Fill(h_yfp, h_xfp, FullWeight);
+	    H_exfp_vs_eyfp  ->Fill(e_yfp, e_xfp, FullWeight);
+	    
+	  }
+	  
+	  cout << "SIMCEventLoop: " << std::setprecision(2) << double(ientry) / nentries * 100. << "  % " << std::flush << "\r"; 
+	  
+	} // end event loop
+      
     }
   
 }
@@ -3018,13 +3590,28 @@ void baseAnalyzer::CalcEff()
   if(Ps6_factor==-1) { cpuLT_trig6 = -1.0, tLT_trig6 = -1.0; }
   
   //Choose what trigger type to use in correction factor (see set_basic_cuts.inp)
-  if(trig_type=="trig1") { trig_rate = TRIG1scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig1, cpuLT_trig_err_Bi = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig1_err_Bay, tLT_trig = tLT_trig1, tLT_trig_err_Bi = tLT_trig1_err_Bi, tLT_trig_err_Bay = tLT_trig1_err_Bay, Ps_factor = Ps1_factor, total_trig_scaler_bcm_cut = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig1_accp_bcm_cut; }
-  if(trig_type=="trig2") { trig_rate = TRIG2scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig2, cpuLT_trig_err_Bi = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig2_err_Bay, tLT_trig = tLT_trig2, tLT_trig_err_Bi = tLT_trig2_err_Bi, tLT_trig_err_Bay = tLT_trig2_err_Bay, Ps_factor = Ps2_factor, total_trig_scaler_bcm_cut = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig2_accp_bcm_cut; }
-  if(trig_type=="trig3") { trig_rate = TRIG3scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig3, cpuLT_trig_err_Bi = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig3_err_Bay, tLT_trig = tLT_trig3, tLT_trig_err_Bi = tLT_trig3_err_Bi, tLT_trig_err_Bay = tLT_trig3_err_Bay, Ps_factor = Ps3_factor, total_trig_scaler_bcm_cut = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig3_accp_bcm_cut; }
-  if(trig_type=="trig4") { trig_rate = TRIG4scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig4, cpuLT_trig_err_Bi = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig4_err_Bay, tLT_trig = tLT_trig4, tLT_trig_err_Bi = tLT_trig4_err_Bi, tLT_trig_err_Bay = tLT_trig4_err_Bay, Ps_factor = Ps4_factor, total_trig_scaler_bcm_cut = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig4_accp_bcm_cut; }
-  if(trig_type=="trig5") { trig_rate = TRIG5scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig5, cpuLT_trig_err_Bi = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig5_err_Bay, tLT_trig = tLT_trig5, tLT_trig_err_Bi = tLT_trig5_err_Bi, tLT_trig_err_Bay = tLT_trig5_err_Bay, Ps_factor = Ps5_factor, total_trig_scaler_bcm_cut = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig5_accp_bcm_cut; }
-  if(trig_type=="trig6") { trig_rate = TRIG6scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig6, cpuLT_trig_err_Bi = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig6_err_Bay, tLT_trig = tLT_trig6, tLT_trig_err_Bi = tLT_trig6_err_Bi, tLT_trig_err_Bay = tLT_trig6_err_Bay, Ps_factor = Ps6_factor, total_trig_scaler_bcm_cut = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig6_accp_bcm_cut; }
+  //---- will need to thing about removing the lines below, and just require a Ps_singles and Ps_coin factors, to be applied in the full weight, since every trigger info is already wirtten
+  // to a report file, there is no need to be selective, except on pre-scale factor that goes in weight
+  /*
+  if(trig_type_single=="trig1") { trig_rate = TRIG1scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig1, cpuLT_trig_err_Bi = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig1_err_Bay, tLT_trig = tLT_trig1, tLT_trig_err_Bi = tLT_trig1_err_Bi, tLT_trig_err_Bay = tLT_trig1_err_Bay, Ps_factor = Ps1_factor, total_trig_scaler_bcm_cut = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig1_accp_bcm_cut; }
+  if(trig_type_single=="trig2") { trig_rate = TRIG2scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig2, cpuLT_trig_err_Bi = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig2_err_Bay, tLT_trig = tLT_trig2, tLT_trig_err_Bi = tLT_trig2_err_Bi, tLT_trig_err_Bay = tLT_trig2_err_Bay, Ps_factor = Ps2_factor, total_trig_scaler_bcm_cut = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig2_accp_bcm_cut; }
+  if(trig_type_single=="trig3") { trig_rate = TRIG3scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig3, cpuLT_trig_err_Bi = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig3_err_Bay, tLT_trig = tLT_trig3, tLT_trig_err_Bi = tLT_trig3_err_Bi, tLT_trig_err_Bay = tLT_trig3_err_Bay, Ps_factor = Ps3_factor, total_trig_scaler_bcm_cut = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig3_accp_bcm_cut; }
+  if(trig_type_single=="trig4") { trig_rate = TRIG4scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig4, cpuLT_trig_err_Bi = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig4_err_Bay, tLT_trig = tLT_trig4, tLT_trig_err_Bi = tLT_trig4_err_Bi, tLT_trig_err_Bay = tLT_trig4_err_Bay, Ps_factor = Ps4_factor, total_trig_scaler_bcm_cut = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig4_accp_bcm_cut; }
 
+
+  if(trig_type_coin=="trig5") { trig_rate = TRIG5scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig5, cpuLT_trig_err_Bi = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig5_err_Bay, tLT_trig = tLT_trig5, tLT_trig_err_Bi = tLT_trig5_err_Bi, tLT_trig_err_Bay = tLT_trig5_err_Bay, Ps_factor = Ps5_factor, total_trig_scaler_bcm_cut = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig5_accp_bcm_cut; }
+  if(trig_type_coin=="trig6") { trig_rate = TRIG6scalerRate_bcm_cut, cpuLT_trig = cpuLT_trig6, cpuLT_trig_err_Bi = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay = cpuLT_trig6_err_Bay, tLT_trig = tLT_trig6, tLT_trig_err_Bi = tLT_trig6_err_Bi, tLT_trig_err_Bay = tLT_trig6_err_Bay, Ps_factor = Ps6_factor, total_trig_scaler_bcm_cut = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut = total_trig6_accp_bcm_cut; }
+  */
+
+  // select which pre-scale factors to apply in the weight (depend if looking at singles or coin)
+  if(trig_type_single=="trig1") { Ps_factor_single = Ps1_factor; }
+  if(trig_type_single=="trig2") { Ps_factor_single = Ps2_factor; }
+  if(trig_type_single=="trig3") { Ps_factor_single = Ps3_factor; }
+  if(trig_type_single=="trig4") { Ps_factor_single = Ps4_factor; }
+  
+
+  if(trig_type_coin=="trig5") { Ps_factor_coin = Ps5_factor; }
+  if(trig_type_coin=="trig6") { Ps_factor_coin = Ps6_factor; }
 
   //Calculate HMS Tracking Efficiency                                                                                                                 
   hTrkEff = h_did / h_should;                                                                                                                  
@@ -3124,8 +3711,8 @@ void baseAnalyzer::ApplyWeight()
   */
   
   //C. Yero proton absorption results for HMS during E12-20-003 Commissioning
-  hadAbs_corr     = 0.9534;
-  hadAbs_corr_err = 0.0047; 
+  //hadAbs_corr     = 0.9534;
+  //hadAbs_corr_err = 0.0047; 
 
   //For now, assume no hadron absorption
   hadAbs_corr     = 1.;
@@ -3140,14 +3727,19 @@ void baseAnalyzer::ApplyWeight()
 
   // assuming these options are used on SHMS singles with EL-REAL trigger
   if((analysis_cut=="heep_singles") || (analysis_cut=="optics") || (analysis_cut=="lumi") || (analysis_cut=="bcm_calib")){ // For CaFe, PS2_factor is pre-scale factor for SHMS EL-REAL
-    FullWeight = Ps2_factor; // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
-    cout << "FullWeight ----> Ps2_factor; = " << FullWeight  << endl; 
+
+    FullWeight = Ps_factor_single;    // if accepted trigger pre-scaled, scale by pre-scale factor to recover events
+    cout << "Ps_factor_single = " << Ps_factor_single << endl;
   }
+
   else{ // else use pre-scale factor determined from trig_type input parameter (pre-scale factor for coincidence trigger, determined from input param)
-    FullWeight = Ps_factor; 
-    cout << "FullWeight ----> Ps_factor; = " << FullWeight << endl; 
+
+    FullWeight = Ps_factor_coin; 
+    cout << "Ps_factor_coin = " << Ps_factor_coin << endl; 
   }
   //Scale Data Histograms by Full Weight (Each run for a particular kinematics can then be combined, once they are scaled by the FullWeight)
+
+
   
   //----SCALE HISTOGRAMS BY LOOPING OVER LISTS----
   
@@ -3249,6 +3841,154 @@ void baseAnalyzer::ApplyWeight()
 }
 
 //_______________________________________________________________________________
+void baseAnalyzer::ScaleSIMC(TString target="")
+{
+  /*
+    Brief: SIMC Histograms have already be weighted in their event loop. However, for targets other than d2 and C12,
+    a scaling must be done.
+
+    This method is used to scale SIMC yield by transparency (T), target areal density (g/cm^2), as follows:
+    
+    For Mean-Field (MF), since our starting simulation was C12, the yield for nucleus A becomes:
+    Yield_A_MF = Yield_C12_MF * ( T_A / T_C12 ) * (areal_density_A / areal_density_C12)
+    
+    For Short-Range Correlations (SRC), our starting simulation was deuterium; in addition, we scale by the factor "a2", which is the 
+    scaling of momentum distributions of nucleus A to that of deuterium (a2 = A / d), the yield for nucleus A becomes: 
+    Yield_A_SRC = Yield_d2_SRC * ( T_A / T_d2 ) * (areal_density_A / areal_density_d2) * a2
+    
+   */
+
+  Double_t scale_factor;
+
+  // determine scale factors for various targets (scale c12 MF simulation by other targets)
+  if(target=="Be9" && analysis_cut=="MF")  scale_factor = ( T("Be9") / T("C12") ) * ( sig_A("Be9") / sig_A("C12") ) ;
+  if(target=="B10" && analysis_cut=="MF")  scale_factor = ( T("B10") / T("C12") ) * ( sig_A("B10") / sig_A("C12") ) ;
+  if(target=="B11" && analysis_cut=="MF")  scale_factor = ( T("B11") / T("C12") ) * ( sig_A("B11") / sig_A("C12") ) ;
+
+  if(target=="Ca40" && analysis_cut=="MF")  scale_factor = ( T("Ca40") / T("C12") ) * ( sig_A("Ca40") / sig_A("C12") ) ;
+  if(target=="Ca48" && analysis_cut=="MF")  scale_factor = ( T("Ca48") / T("C12") ) * ( sig_A("Ca48") / sig_A("C12") ) ;
+  if(target=="Fe54" && analysis_cut=="MF")  scale_factor = ( T("Fe54") / T("C12") ) * ( sig_A("Fe54") / sig_A("C12") ) ;
+
+
+  // determine scale factors for various targets (scale deuteron SRC simulation by other targets)
+  if(target=="Be9" && analysis_cut=="SRC") scale_factor = ( T("Be9") / T("LD2") ) * ( sig_A("Be9") / sig_A("LD2") ) * a2("Be9") ;
+  if(target=="B10" && analysis_cut=="SRC") scale_factor = ( T("B10") / T("LD2") ) * ( sig_A("B10") / sig_A("LD2") ) * a2("B10") ;
+  if(target=="B11" && analysis_cut=="SRC") scale_factor = ( T("B11") / T("LD2") ) * ( sig_A("B11") / sig_A("LD2") ) * a2("B11") ;
+
+  if(target=="Ca40" && analysis_cut=="SRC") scale_factor = ( T("Ca40") / T("LD2") ) * ( sig_A("Ca40") / sig_A("LD2") ) * a2("Ca40") ;
+  if(target=="Ca48" && analysis_cut=="SRC") scale_factor = ( T("Ca48") / T("LD2") ) * ( sig_A("Ca48") / sig_A("LD2") ) * a2("Ca48") ;
+  if(target=="Fe54" && analysis_cut=="SRC") scale_factor = ( T("Fe54") / T("LD2") ) * ( sig_A("Fe54") / sig_A("LD2") ) * a2("Fe54") ;
+
+
+  
+  //==============================================
+  // SCALE SIMC HISTOGRAMS BY LOOPING OVER LISTS
+  //==============================================
+  
+  //determine what class types are in the list
+  TString class_name;
+  
+  
+  //-----------------------------------------------------
+  //Lopp over kin_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<kin_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = kin_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)kin_HList->At(i); h_i->Scale(scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)kin_HList->At(i); h2_i->Scale(scale_factor);
+    }   
+  }//end loop over kin_HList	
+  
+  //-----------------------------------------------------
+  //Lopp over accp_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<accp_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = accp_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)accp_HList->At(i); h_i->Scale(scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)accp_HList->At(i); h2_i->Scale(scale_factor);
+    }   
+  }//end loop over accp_HList
+
+
+  
+  //==============================================
+  // WRITE SCALED SIMC HISTOGRAMS TO FILE
+  //==============================================
+
+  TString simc_OutputFileName_rad_scaled = "";
+  //Create output ROOTfile
+  outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
+  
+  //Make directories to store histograms based on category
+  outROOT->mkdir("kin_plots");
+  outROOT->mkdir("accp_plots");
+  
+  //Write Kinematics histos to kin_plots directory
+  outROOT->cd("kin_plots");
+  kin_HList->Write();
+  
+  //Write Acceptance histos to accp_plots directory
+  outROOT->cd("accp_plots");
+  accp_HList->Write();
+  
+  //Close File
+  outROOT->Close();
+
+  //==============================================
+  // REVERT (UNDO) SCALING FACTOR FOR NEXT TARGET 
+  //==============================================
+
+  //-----------------------------------------------------
+  //Lopp over kin_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<kin_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = kin_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)kin_HList->At(i); h_i->Scale(1./scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)kin_HList->At(i); h2_i->Scale(1./scale_factor);
+    }   
+  }//end loop over kin_HList	
+  
+  //-----------------------------------------------------
+  //Lopp over accp_HList of histogram objects 
+  //----------------------------------------------------
+  for(int i=0; i<accp_HList->GetEntries(); i++) {
+    //Get the class name for each element on the list (either "TH1F" or TH2F")
+    class_name = accp_HList->At(i)->ClassName();
+    //Read ith histograms in the list from current run
+    if(class_name=="TH1F") {
+      //Get and scale histogram from the list
+      h_i = (TH1F *)accp_HList->At(i); h_i->Scale(1./scale_factor); 
+    }
+    if(class_name=="TH2F") {
+      //Get and scale histogram from the list
+      h2_i = (TH2F *)accp_HList->At(i); h2_i->Scale(1./scale_factor);
+    }   
+  }//end loop over accp_HList
+  
+  
+}
+//_______________________________________________________________________________
 void baseAnalyzer::WriteHist()
 {
   /*
@@ -3261,6 +4001,9 @@ void baseAnalyzer::WriteHist()
   //Write Data Histograms
   if(analyze_data==true)
     {
+
+      cout << "Write DATA Histos to File . . ." << endl;
+						   
       //Create Output ROOTfile
       outROOT = new TFile(data_OutputFileName, "RECREATE");
 
@@ -3291,12 +4034,35 @@ void baseAnalyzer::WriteHist()
       //Write selected Random-Subtracted histos to randSub_plots directory
       outROOT->cd("randSub_plots");
       randSub_HList->Write();
-
-
       
       //Close File
       outROOT->Close();
+
     }
+
+  else if(analyze_data==false){
+
+    cout << "Write SIMC Histos to: " << simc_OutputFileName_rad.Data() << endl;
+    
+    //Create output ROOTfile
+    outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
+
+    //Make directories to store histograms based on category
+    outROOT->mkdir("kin_plots");
+    outROOT->mkdir("accp_plots");
+
+
+    //Write Kinematics histos to kin_plots directory
+    outROOT->cd("kin_plots");
+    kin_HList->Write();
+    
+    //Write Acceptance histos to accp_plots directory
+    outROOT->cd("accp_plots");
+    accp_HList->Write();
+          
+    //Close File
+    outROOT->Close();
+  }
 
   
 }
@@ -3313,16 +4079,18 @@ void baseAnalyzer::WriteReport()
   if(analyze_data==true){
 
 
-    if( (analysis_cut=="MF") || (analysis_cut=="SRC")) {
+    if( (analysis_cut=="MF") || (analysis_cut=="SRC") ) {
 
       cafe_Ib_simc = stod(split(FindString("cafe_Ib_simc",    input_SIMCinfo_FileName.Data())[0], '=')[1]);
-
       total_simc_counts = stod(split(FindString(Form("%s_%s_counts", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [counts]
       total_simc_time = stod(split(FindString(Form("%s_%s_time", tgt_type.Data(), analysis_cut.Data()),    input_SIMCinfo_FileName.Data())[0], '=')[1]); // [hr]
       simc_cafe_rates = total_simc_counts / (total_simc_time * 3600.); //[Hz]
-      
+
       // [mC]                [uC / sec]        [hr]      [sec]/[hr]  0.001 mC / 1 uC
       total_simc_charge =  cafe_Ib_simc * total_simc_time * 3600. * 1e-3;  
+      
+
+
     }
     
     else if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ) {
@@ -3349,7 +4117,6 @@ void baseAnalyzer::WriteReport()
     }
     
     
-    
     //Check if file already exists
     in_file.open(output_ReportFileName.Data());
 
@@ -3359,10 +4126,35 @@ void baseAnalyzer::WriteReport()
     else if(in_file.fail()){
       cout << "Report File does NOT exist, will create one . . . " << endl;
     }
-    
+
     out_file.open(output_ReportFileName);
     out_file << Form("# Run %d Data Analysis Summary", run)<< endl;
     out_file << "                                     " << endl;
+    out_file << "#//////////////////////////////////////////" << endl; 
+    out_file << "                                         //" << endl;  
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //" << endl;
+    out_file << "# ! ! !   SHIFT WORKERS INFO   ! ! !     //" << endl;
+    out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:     //" << endl;
+    out_file << "                                         //" << endl;
+    out_file << Form("Current [uA]        : %.3f          ", avg_current_bcm_cut) << endl;
+    out_file << Form("Charge [mC]         : %.3f          ", total_charge_bcm_cut) << endl;
+    out_file << Form("Beam-on-Target [sec]: %.3f          ", total_time_bcm_cut) << endl;
+    out_file << "                                         " << endl;
+    if(analysis_cut=="heep_singles"){
+      out_file << Form("heep_counts : %.3f ", W_total) << endl;
+    }
+    if(analysis_cut=="heep_coin"){
+      out_file << Form("heep_counts : %.3f ", W_real) << endl;
+    }
+    if(analysis_cut=="MF"){
+      out_file << Form("MF_counts : %.3f", Pm_real )  << endl;
+    }
+    if(analysis_cut=="SRC"){
+      out_file << Form("SRC_counts : %.3f", Pm_real)  << endl;
+    }
+    out_file << "#                                        //" << endl;
+    out_file << "#//////////////////////////////////////////" << endl;
+    out_file << "                                     " << endl;    
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
     out_file << "# General Run Configuration                              " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -3374,7 +4166,12 @@ void baseAnalyzer::WriteReport()
     out_file << "" << endl;    
     out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
-    out_file << Form("events_replayed: %lld              ", nentries ) << endl;
+    if(analysis_cut!="bcm_calib"){
+      out_file << Form("events_replayed: %lld              ", nentries ) << endl;
+    }
+    else if(analysis_cut=="bcm_calib"){
+      out_file << Form("events_replayed: %.0f              ", Scal_evNum ) << endl;
+    }
     out_file << "" << endl;
     out_file << Form("beam_energy [GeV]: %.4f          ", beam_energy ) << endl;          
     out_file << Form("target_name: %s                       ", tgt_type.Data() ) << endl;
@@ -3410,6 +4207,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("data_integrated_luminosity [fb^-1]: %.3f", GetLuminosity("data_lumi")) << endl;
 	out_file << Form("data_lumiNorm_counts [fb]: %.3f", W_total/GetLuminosity("data_lumi") ) << endl;
 	out_file << "" << endl;
+	
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "# SIMC Statistical Goal  " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -3704,13 +4502,14 @@ void baseAnalyzer::WriteReport()
   
 }
 
+/*
 //_______________________________________________________________________________
 void baseAnalyzer::WriteReportSummary()
 {
   
-  /*Method to write charge, efficiencies, live time and other relevant quantities to a data file
-    on a run-by-run basis, and self-updating file, meaning, each run that is replayed will be appended into the file.    
-   */
+  //Method to write charge, efficiencies, live time and other relevant quantities to a data file
+  //  on a run-by-run basis, and self-updating file, meaning, each run that is replayed will be appended into the file.    
+   
   
   cout << "Calling WriteReportSummary() . . ." << endl;
 
@@ -3774,6 +4573,7 @@ void baseAnalyzer::WriteReportSummary()
   cout << "Ending WriteReportSummary() . . ." << endl;
   
 } //End WriteReport()
+*/
 
 //_______________________________________________________________________________
 void baseAnalyzer::CombineHistos()
@@ -4066,16 +4866,22 @@ Double_t baseAnalyzer::GetLuminosity(TString user_input="")
   
 }
 
+
+
 //______________________________________________________________________________
 void baseAnalyzer::MakePlots()
 {
   cout << "Calling MakePlots() . . . " << endl;
 
-  string cmd0 = Form("emacs -nw %s", output_ReportFileName.Data());
+  string cmd0 = Form("emacs %s", output_ReportFileName.Data());
   cout << cmd0.c_str() << endl;
   gSystem->Exec(cmd0.c_str());
+
   
-  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\")\" ", run, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data());
+  Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
+ 
+    
+  string cmd=Form("root -l -q -b \"UTILS_CAFE/online_scripts/make_online_plots.cpp(%d, %d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, evtNum, simc_exist, tgt_type.Data(), analysis_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){
@@ -4085,6 +4891,8 @@ void baseAnalyzer::MakePlots()
 }
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
+
+//______________________________________________________________________________
 void baseAnalyzer::run_data_analysis()
 {
   /*
@@ -4101,6 +4909,7 @@ void baseAnalyzer::run_data_analysis()
 
   */
   //------------------
+  Init();
   ReadInputFile();
   ReadReport();
   SetHistBins();
@@ -4126,11 +4935,12 @@ void baseAnalyzer::run_data_analysis()
   
 }
 
-//--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
+//______________________________________________________________________________
 void baseAnalyzer::run_cafe_scalers()
 {
  
   //------------------
+  Init();
   ReadInputFile();
   ReadReport();
   
@@ -4140,6 +4950,19 @@ void baseAnalyzer::run_cafe_scalers()
   WriteReport();
 
   //------------------
-
   
+}
+
+//______________________________________________________________________________
+void baseAnalyzer::run_simc_analysis()
+{
+
+  Init();
+  ReadInputFile();
+  SetHistBins();
+  CreateHist();
+  ReadTree();
+  EventLoop();
+  WriteHist();
+   
 }

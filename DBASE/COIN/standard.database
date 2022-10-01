@@ -16,6 +16,7 @@ g_ctp_cuts_filename       = "DBASE/COIN/GEN/archive/det_cuts_spring18.param"
 
 # Begin CaFe 2022 Run Period
 
-# this was a problematic run (load open cuts to check first)
-#16036-16037
+# this was a problematic run 16037 (load open cuts to check)
+#16037
 #g_ctp_cuts_filename       = "DBASE/COIN/GEN/det_cuts_init.param"
+

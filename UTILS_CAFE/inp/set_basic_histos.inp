@@ -7,8 +7,8 @@
 #========================
 #---coincidence time [ns]---
 coin_nbins = 200
-coin_xmin = -25.
-coin_xmax = 25.
+coin_xmin = -45.
+coin_xmax = 45.
 
 #----HMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 
@@ -61,7 +61,7 @@ pbeta_xmax = 1.5
 # electron arm central angle
 the_nbins = 70
 the_xmin = 5.0
-the_xmax = 15.0
+the_xmax = 10.0
 
 # final electron arm momentum [GeV/c]
 kf_nbins = 100
@@ -75,28 +75,28 @@ W_xmax = 1.5
 
 # invariant mass squared
 W2_nbins = 100
-W2_xmin = 0.1 
-W2_xmax = 3.0;
+W2_xmin = -0.1 
+W2_xmax = 1.5;
 
 # 4-momentum transfer
 Q2_nbins = 100
-Q2_xmin = 0.
-Q2_xmax = 6.
+Q2_xmin = 1.
+Q2_xmax = 3.
 
 # Bjorken-X
 X_nbins = 100
-X_xmin = 0.
-X_xmax = 2.
+X_xmin = 0.7
+X_xmax = 1.2
 
 # energy transfer
 nu_nbins = 100
-nu_xmin = 0.
-nu_xmax = 4.
+nu_xmin = 0.5
+nu_xmax = 2.
 
 # 3-momentum transfer
 q_nbins = 100
-q_xmin = 0.
-q_xmax = 7.
+q_xmin = 1.
+q_xmax = 3.
 
 # 3-momentum transfer (x-component)
 qx_nbins = 100
@@ -115,8 +115,8 @@ qz_xmax = 7.
 
 # in-plane angle between q-vector and +z (beam)
 thq_nbins = 100
-thq_xmin = 0.
-thq_xmax = 90.
+thq_xmin = 30.
+thq_xmax = 70.
 
 # out-of-plane angle between q-vector and +z (beam)
 phq_nbins = 100
@@ -138,33 +138,33 @@ epsilon_xmax = 100.
 
 # Missing Energy
 Em_nbins = 100
-Em_xmin = -0.05
-Em_xmax = 1.0
+Em_xmin = -0.1
+Em_xmax = 0.25
 
 # Nuclear Missing Energy
 Em_nuc_nbins = 100
-Em_nuc_xmin = -0.05
-Em_nuc_xmax = 0.35
+Em_nuc_xmin = -0.1
+Em_nuc_xmax = 0.25
 
 # Missing (Recoil) Momentum
 Pm_nbins = 100
-Pm_xmin = -0.1
-Pm_xmax = 1.
+Pm_xmin = -0.05
+Pm_xmax = 0.5
 
 # Missing Momentum (X-component, lab)
 Pmx_lab_nbins = 80 
-Pmx_lab_xmin = -0.5
-Pmx_lab_xmax = 0.5
+Pmx_lab_xmin = -0.2
+Pmx_lab_xmax = 0.2
 
 # Missing Momentum (Y-component, lab)
 Pmy_lab_nbins = 80
-Pmy_lab_xmin = -0.5
-Pmy_lab_xmax = 0.5
+Pmy_lab_xmin = -0.2
+Pmy_lab_xmax = 0.2
 
 # Missing Momentum (Z-component, lab)
 Pmz_lab_nbins = 80
-Pmz_lab_xmin = -0.5
-Pmz_lab_xmax = 1.
+Pmz_lab_xmin = -0.2
+Pmz_lab_xmax = 0.4
 
 # Missing Momentum (X-component, q-frame: +z_lab rotated to +q)
 Pmx_q_nbins = 80
@@ -192,9 +192,9 @@ Tr_xmin = -5.
 Tr_xmax = 5.
 
 # Missing Mass (Undetected Recoil System Mass)
-MM_nbins = 100
-MM_xmin = -1.0
-MM_xmax = 1.5
+MM_nbins = 200
+MM_xmin = -0.2
+MM_xmax = 1.2
 
 # Missing Mass Squared
 MM2_nbins = 100  
@@ -203,13 +203,13 @@ MM2_xmax = 1.5
 
 # hadron arm central angle
 thx_nbins = 100  
-thx_xmin = 25.
-thx_xmax = 70.
+thx_xmin = 40.
+thx_xmax = 55.
 
 # In-plane angle between detected particle and q 
 thxq_nbins = 120
 thxq_xmin = -10.
-thxq_xmax = 100.
+thxq_xmax = 25.
 
 # In-plane angle between the recoil system and q 
 thrq_nbins = 120
@@ -243,8 +243,8 @@ thxq_cm_xmax = 360.
 
 # final hadron arm momentum [GeV/c]
 Pf_nbins = 100
-Pf_xmin = 0.
-Pf_xmax = 9.
+Pf_xmin = 1.5
+Pf_xmax = 2.2
 
 # In-plane angle between the recoil system and q in CM frame
 thrq_cm_nbins = 100

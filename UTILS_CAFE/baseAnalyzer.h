@@ -16,14 +16,20 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
+
+  //2nd constructor (overload constructor, i.e., different arguments)
+  baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="");
+  
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
   void run_data_analysis();
+  void run_simc_analysis();
   void run_cafe_scalers(); // mainly for generating cafe output file (for bcm calib runs)
   
   //Function prototypes
+  void Init(); 
   void ReadInputFile();
   void ReadReport();
   void SetHistBins();
@@ -34,6 +40,7 @@ public:
   void EventLoop();
   void CalcEff();
   void ApplyWeight();
+  void ScaleSIMC(TString target="");
   void WriteHist();
   void WriteReport();
   void WriteReportSummary();
@@ -64,13 +71,13 @@ protected:
   const Double_t NA = 6.022*1e23;  // Avogadro's number ( # atoms / mol), 1 g/mol = 1amu
   const Double_t elementary_charge = 1.60217663*1e-19; // Coulombs 
   
-  // target mass (amu),  mass number
+  // target mass (amu),  mass number (# of nucleons)
   Int_t mass_number_A = 0;
   Double_t MH_amu     = 1.00794       , A_H   = 1;
   Double_t MD_amu     = 2.01410177812 , A_D   = 2;
   Double_t MBe9_amu   = 9.012182      , A_Be9 = 9;
-  Double_t MB10_amu   = 10.0129370    , A_B10 = 10;
-  Double_t MB11_amu   = 11.009306     , A_B11 = 11;
+  Double_t MB10_amu   = 10.0129370    , A_B10 = 10;   // target is actually 10B4C (Boron-Carbide)
+  Double_t MB11_amu   = 11.009306     , A_B11 = 11;  // target is actually 11B4C (Boron-Carbide)
   Double_t MC12_amu   = 12.0107       , A_C12 = 12;
   Double_t MAl27_amu  = 26.98153      , A_Al27 = 27;
   Double_t MCa40_amu  = 39.962590863  , A_Ca40 = 40;
@@ -131,6 +138,98 @@ protected:
   Double_t thick_Fe54 = 0.528;
   Double_t thick_Ti48 = 0.718;
 
+  //target areal density (g/cm^2)
+  Double_t sig_H    = rho_H   * thick_H;
+  Double_t sig_D    = rho_D   * thick_D;
+  Double_t sig_Be9  = rho_Be9 * thick_Be9;
+  Double_t sig_B10  = rho_B10 * thick_B10;
+  Double_t sig_B11  = rho_B11 * thick_B11;
+  Double_t sig_C12  = rho_C12 * thick_C12;
+  Double_t sig_Al27 = rho_Al27 * thick_Al27;
+  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40;
+  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48;
+  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54;
+  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48;
+
+  
+  Double_t T(TString target=""){
+
+    // helper function to return nuclear transparency of target
+    
+    // nuclear transparency factors (prob. that hit proton exits the nucleus)
+    Double_t T_H    = 1.;
+    Double_t T_D    = 1.; 
+    Double_t T_Be9  = 0.6;
+    Double_t T_B10  = 0.6;
+    Double_t T_B11  = 0.6;
+    Double_t T_C12  = 0.56;
+    Double_t T_Ca40 = 0.4;
+    Double_t T_Ca48 = 0.4;
+    Double_t T_Fe54 = 0.4;
+
+    if(target=="h")         return T_H;
+    else if(target=="d2")   return T_D;
+    else if(target=="Be9")  return T_Be9;
+    else if(target=="B10")  return T_B10;
+    else if(target=="B11")  return T_B11;
+    else if(target=="C12")  return T_C12;
+    else if(target=="Ca40") return T_Ca40;
+    else if(target=="Ca48") return T_Ca48;
+    else if(target=="Fe54") return T_Fe54;
+    else return 0.;
+
+  }
+
+  Double_t a2(TString target=""){
+    
+    // helper function to return A/deuterium ratios for a given target with A nucleons
+
+    // a2 scaling factors (A/d) ratios
+    Double_t a2_D    = 1.0; 
+    Double_t a2_Be9  = 3.9;
+    Double_t a2_B10  = 4.0;
+    Double_t a2_B11  = 4.0;
+    Double_t a2_C12  = 4.5;
+    Double_t a2_Ca40 = 4.5;
+    Double_t a2_Ca48 = 4.5;
+    Double_t a2_Fe54 = 5.2;
+
+    if(target=="d2")        return a2_D;
+    else if(target=="Be9")  return a2_Be9;
+    else if(target=="B10")  return a2_B10;
+    else if(target=="B11")  return a2_B11;
+    else if(target=="C12")  return a2_C12;
+    else if(target=="Ca40") return a2_Ca40;
+    else if(target=="Ca48") return a2_Ca48;
+    else if(target=="Fe54") return a2_Fe54;
+    else return 0.;
+    
+  }
+
+  Double_t sig_A(TString target=""){
+
+    // helper function to return target areal density (g/cm^2)
+
+    if(target=="h")         return sig_H;
+    else if(target=="d2")   return sig_D;
+    else if(target=="Be9")  return sig_Be9;
+    else if(target=="B10")  return sig_B10;
+    else if(target=="B11")  return sig_B11;
+    else if(target=="C12")  return sig_C12;
+    else if(target=="Al27") return sig_Al27;    
+    else if(target=="Ca40") return sig_Ca40;
+    else if(target=="Ca48") return sig_Ca48;
+    else if(target=="Fe54") return sig_Fe54;
+    else if(target=="Ti48") return sig_Ti48;
+    
+    else return 0.;
+    
+    
+  }
+
+
+
+  
   // variables to calculate the luminosity data
   Double_t targetfac;
   Double_t luminosity;
@@ -164,8 +263,8 @@ protected:
   Double_t heep_kin2_charge=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
 
   Double_t heep_kin0_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 8.3 deg)
-  Double_t heep_kin1_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 7.5 deg)
-  Double_t heep_kin2_lumi_simc=0;   // H(e,e'p) elastics kin0 (SHMS angle = 6.8 deg)
+  Double_t heep_kin1_lumi_simc=0;   // H(e,e'p) elastics kin1 (SHMS angle = 7.5 deg)
+  Double_t heep_kin2_lumi_simc=0;   // H(e,e'p) elastics kin2 (SHMS angle = 6.8 deg)
   
   
   Double_t simc_cafe_counts=0;    // MF/SRC event rate
@@ -183,7 +282,10 @@ protected:
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
-  TString trig_type;      // trigger type to actually use when calculating live tim
+
+  TString trig_type_single;      // trigger type to actually use when applying pre-scale factor to event weight (only if analyzing singles)
+  TString trig_type_coin;      // trigger type to actually use when applying pre-scale factor to event weight   (only if analyzing coincidence)
+  
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
 
   // Read in general info from REPORT file 
@@ -202,6 +304,14 @@ protected:
   TString start_of_run;
   TString end_of_run;
 
+  // Read general info from SIMC input file 
+  Double_t tgt_mass_simc;
+  Double_t beam_energy_simc;
+  Double_t hms_p_simc;
+  Double_t hms_angle_simc;
+  Double_t shms_p_simc;
+  Double_t shms_angle_simc;
+  
   //Spectrometer prefixes to be used in SetBranchAddress()
   TString eArm;
   TString hArm;
@@ -221,10 +331,14 @@ protected:
   //Input ROOTfile Name (to be read)
   TString data_InputFileName;
   TString data_InputReport;
-
+  TString simc_InputFileName_rad;
+  TString simc_InputFileName_norad;
+  TString simc_ifile;  // simc input file (to read central settings used in simulation)
   
   //Output ROOTfile Name
   TString data_OutputFileName;
+  TString simc_OutputFileName_rad;
+  TString simc_OutputFileName_norad;
   
   //ROOTfile to store combined hists from different runs
   TString data_OutputFileName_combined; 
@@ -616,7 +730,15 @@ protected:
   //----------------------------------------------------------------
   // Detector Histograms (DATA ONLY): PID / TRACKING EFFICIENCY 
   //----------------------------------------------------------------
-  
+
+  // no cuts
+  TH1F *H_ep_ctime_total_noCUT;
+
+  //Collimator Shape
+  TH2F *H_hXColl_vs_hYColl_noCUT;
+  TH2F *H_eXColl_vs_eYColl_noCUT;
+
+
   //Coin. Time
   TH1F *H_ep_ctime_total;
   TH1F *H_ep_ctime;
@@ -852,7 +974,6 @@ protected:
   TTree *tree;
   Long64_t nentries;
 
-
   //Set-Up Tdc Counters for accepted triggers
   Double_t total_trig1_accp = 0;
   Double_t total_trig2_accp = 0;
@@ -928,7 +1049,8 @@ protected:
   Bool_t c_trig6;
 
   //Pre-Scale factor for each pre-trigger (used in computer/total live time calculation, to account for pre-scaled triggers)
-  Float_t Ps_factor = 1;  //generic pre-scale factor
+  Float_t Ps_factor_single = 1;  //generic pre-scale factor for singles
+  Float_t Ps_factor_coin = 1;  //generic pre-scale factor for coin
   Float_t Ps1_factor = 1;  //default is 1
   Float_t Ps2_factor = 1;
   Float_t Ps3_factor = 1;
@@ -1302,13 +1424,20 @@ protected:
   Double_t MandelU;               //Mandelstam u for secondary vertex [GeV^2]
 
   //Kinematics Defined in HCANA (which are not in primary/secondary modules)
+  Double_t ki;
   Double_t kf;       // final electron arm momentum [GeV/c]
   Double_t Pf;       // final proton momentum [GeV/c]
   
   //Additional Kinematics (User-defined)
   Double_t th_x;                   //hadron arm particle central angle
   Double_t MM2;                   //Missing Mass Squared
+  Double_t MM_red;               // reduced missing mass (MM - (MA - MP)), A: target nucleus A mass, MP: proton mass
 
+  Double_t Ex;  // energy of detected particle
+  Double_t Er;  // energy of recoil system
+
+  
+  
   //------------------------------------
   //-----Acceptance Leaf Variables------
   //------------------------------------
@@ -1345,6 +1474,8 @@ protected:
   Double_t etar_y;  //[cm]
   Double_t etar_z;  //[cm]
 
+  Double_t tar_x;  // common tarx in simc
+  
   //Collimator Quantities (in spectrometer corrdinate system)
   Double_t hXColl;  //[cm]
   Double_t hYColl;  //[cm]
@@ -1355,6 +1486,45 @@ protected:
   Double_t ztar_diff; //[cm]
 
 
+  //----- SIMC Specific TTree Variable Names -----
+  Double_t Normfac;
+  Double_t Weight;               //This Weight has the cross section in it
+
+  //Thrown quantities (Used to determine spec. resolution)
+  Double_t h_deltai;
+  Double_t h_yptari;
+  Double_t h_xptari;
+  Double_t h_ytari;
+  
+  Double_t e_deltai;
+  Double_t e_yptari;
+  Double_t e_xptari;
+  Double_t e_ytari;
+  
+  Double_t corrsing;
+  Double_t fry;
+  Double_t radphot;
+  Double_t sigcc;
+  Double_t Jacobian;
+  Double_t Genweight;
+  Double_t SF_weight;
+  Double_t Jacobian_corr;
+  Double_t sig;
+  Double_t sig_recon;
+  Double_t sigcc_recon;
+  Double_t coul_corr;
+  Double_t Ein;                  //single beam energy value (SIMC Uses this energy. If not corr. for energy loss, it should be same as in input file)
+  Double_t SF_weight_recon;
+
+  Double_t prob_abs;  // Probability of absorption of particle in the HMS Collimator
+                      //(Must be multiplies by the weight. If particle interation is
+                      //NOT simulated, it is set to 1.)
+  
+  //SIMC x-target corrected (used for  X,Y Collimator position calc.) 
+  Double_t htarx_corr;
+  Double_t etarx_corr;
+
+  
   
   //----------END TTREE LEAF VARIABLE NAMES (DATA or SIMC)--------------
 
@@ -1451,6 +1621,7 @@ protected:
   //-----------------VARIABLES RELATED TO FullWeight APPLIED TO DATA-YIELD------------------
 
   Double_t FullWeight = 1;  //default
+  
   
   Double_t hadAbs_corr;           //correct for lost coincidences due to the hadron in HMS (or SHMS) NOT making it to the hodoscopes to form trigger
   Double_t hadAbs_corr_err;       //uncertainty in hadron absorption correction factor

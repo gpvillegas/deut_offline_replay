@@ -1,20 +1,20 @@
-# Make sure to uncomment the HMS / CTime leaf variables when we start CaFe on August
-# CaFe heep check / optics ( ~July 2022) will only use SHMS quantities
+# Make sure to uncomment the HMS / CTime leaf variables when we start CaFe on September
+# CaFe heep check / optics ( ~Aug 2022) will only use SHMS quantities
 block g.*
 block T.coin.*
-#block CTime*
+block CTime*
 #block RFTime.* 
 
-#block H.cer.*
-#block H.dc.*
-#block H.tr.*
-#block H.hod.*
-#block H.cal.*
-#block H.gtr.*
-#block H.kin.*
-#block H.rb.*
-#block H.react.*
-#block H.extcor.*
+block H.cer.*
+block H.dc.*
+block H.tr.*
+block H.hod.*
+block H.cal.*
+block H.gtr.*
+block H.kin.*
+block H.rb.*
+block H.react.*
+block H.extcor.*
 
 block P.ngcer.*
 block P.dc.*
