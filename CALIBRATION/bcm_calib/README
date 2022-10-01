@@ -1,0 +1,17 @@
+set_bcm_ranges.C : code to select zeros/non-zero bcm currents during bcm calibration
+(select non-zero range first, followed by zero-range, and so on . . .)
+the selection consist of an interactive plot, in which the user:
+
+1) selects a range to zoom into first by clicking initial/final location of range.
+initial location (1 -click),  final location (double-click), and it will zoom in
+
+2) select the minimum/maximum range of the non-zero bcm current range, followed by the
+zero current tange (consists 4 clicks total, with the final selection double-click to end 
+selection process)
+
+The selection process will print to screen the selected points which the used must put into
+a file to be read in by the actual calibration code;
+
+bcm_calib.C : code that reads in the selected points and does the fits of the data.
+Output consists of fit results, called a "Gain" (slope parameter) and "offset" (y-intercept parameter)
+for the selected BCM during the calibration which could be:( bcm1, bcm2, bcm4a bcm4b, bcm4c)
