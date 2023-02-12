@@ -1,0 +1,30 @@
+; CaFe Fall 2022 Detector Calibration Parameter Files
+
+; HMS default calibration parameter files 
+
+#include "PARAM/HMS/HODO/hhodo_calib.param"
+#include "PARAM/HMS/HODO/fall22/calib/hhodo_TWcalib_4407.param"
+#include "PARAM/HMS/HODO/fall22/calib/hhodo_Vpcalib_4407.param"
+
+#include "PARAM/HMS/DC/fall22/calib/hdc_calib_4407.param"
+#include "PARAM/HMS/DC/fall22/calib/hdc_tzero_per_wire_4407.param"
+
+#include "PARAM/HMS/CAL/fall22/calib/hcal_calib_14967.param"
+#include "PARAM/HMS/CER/fall22/calib/hcer_calib_init.param"
+#include "PARAM/HMS/AERO/haero_calib.param"
+
+; SHMS default calibration parameter files
+
+#include "PARAM/SHMS/HODO/phodo_calib.param"
+#include "PARAM/SHMS/HODO/fall22/calib/phodo_TWcalib_17243.param"
+#include "PARAM/SHMS/HODO/fall22/calib/phodo_Vpcalib_17243.param"
+
+#include "PARAM/SHMS/DC/fall22/calib/pdc_calib_17243.param"
+#include "PARAM/SHMS/DC/fall22/calib/pdc_tzero_per_wire_17243.param"
+
+#include "PARAM/SHMS/CAL/fall22/calib/pcal_calib_16962.param"
+#include "PARAM/SHMS/NGCER/fall22/calib/pngcer_calib_init.param"
+#include "PARAM/SHMS/HGCER/fall22/calib/phgcer_calib_init.param"
+#include "PARAM/SHMS/AERO/paero_calib.param"
+
+

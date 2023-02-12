@@ -1,0 +1,19 @@
+; CaFe Fall 2022 Detector Cuts Parameter Files
+
+; HMS default cut parameter files
+#include "PARAM/HMS/HODO/fall22/cuts/hhodo_cuts_cafe.param"
+#include "PARAM/HMS/DC/fall22/cuts/hdc_cuts_cafe.param"
+#include "PARAM/HMS/CAL/fall22/cuts/hcal_cuts_cafe.param"
+#include "PARAM/HMS/CER/fall22/cuts/hcer_cuts_cafe.param"
+#include "PARAM/HMS/AERO/haero_cuts.param"
+
+; SHMS default cut parameter files
+#include "PARAM/SHMS/HODO/fall22/cuts/phodo_cuts_cafe.param"
+#include "PARAM/SHMS/DC/fall22/cuts/pdc_cuts_cafe.param"
+#include "PARAM/SHMS/CAL/fall22/cuts/pcal_cuts_cafe.param"
+#include "PARAM/SHMS/NGCER/fall22/cuts/pngcer_cuts_cafe.param"
+#include "PARAM/SHMS/HGCER/fall22/cuts/phgcer_cuts_init.param"
+#include "PARAM/SHMS/AERO/paero_cuts.param"
+
+; TRIG default param
+#include "PARAM/TRIG/fall22/tcoin_fall22.param"
