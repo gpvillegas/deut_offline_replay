@@ -2,8 +2,13 @@
 
 hhodo_num_planes = 4
 hhodo_plane_names = "1x 1y 2x 2y"
-;
-      hpathlength_central = 2500
+
+; Parameters that were built into Fortran analyzer that we want  
+; to pass as parameters so that the resulting code can be more generic. 
+href_npaddles = 0  
+href_nsperchan = 0.09766
+href_offset = 0.0 
+
 ; Z positions of hodoscopes
       hscin_1x_zpos =  (89.14-11.31)
       hscin_1y_zpos =  (108.83-11.31)

@@ -3,6 +3,21 @@
 ; neglect extra tubes for now.
 hcal_num_neg_columns = 2
 
+; calorimeter layers
+hcal_num_layers = 4 
+
+; calorimeter layer names
+hcal_layer_names = "1pr 2ta 3ta 4ta"
+
+# Exclusion band width for the calorimeter's fiducial volume.                                                                                  
+hcal_fv_delta = 5.                                                                                                                                   
+                                                                                                                                        
+# Constants for the coordiante correction of the calorimeter energy depositions                                                                            
+hcal_a_cor = 200.                                                                                                                                 
+hcal_b_cor = 8000.                                                                                                                                        
+hcal_c_cor = 64.36, 64.36       # for positive and negative sides                                                    
+hcal_d_cor =  1.66,  1.66 
+
 ; Z position of front of shower counter layers
 ; guesses, based on the fact that the back scin plane is supposedly at 322.0
 ;  (add 25 to each from original value) - JRA

@@ -1,0 +1,19 @@
+; Utilize per wire tzero offsets, 1 means true
+p_using_tzero_per_wire = 1
+
+; spring 2023 TDC window limits for each plane. 
+pdc_tdc_min_win = -16000.0, -16000.0, -16000.0, -16000.0, -16000.0, -16000.0
+                  -16000.0, -16000.0, -16000.0, -16000.0, -16000.0, -16000.0
+pdc_tdc_max_win =  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0
+                   -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0
+
+; this is something to add (only add after DCs have been calibrated) -- make a reasonable cut (we dont want to risk too tight) C.Y. Jan 16, 2023
+pmin_drifttime = -100
+pmax_drifttime =  350
+
+pdc_fix_lr = 1
+pdc_fix_propcorr = 1
+
+; Zero time correction for each plane in ns that is added to TDC time.
+pdc_plane_time_zero = 1320.0, 1320.0, 1320.0, 1320.0, 1320.0, 1320.0
+                      1320.0, 1320.0, 1320.0, 1320.0, 1320.0, 1320.0

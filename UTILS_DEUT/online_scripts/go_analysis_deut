@@ -1,0 +1,38 @@
+#! /bin/bash
+
+# C.Y. |  NEED TO MODIFY ACCORDINGLY 
+
+
+# Limit RAM (virt) usage / process to 15GB to limit damage from
+# runaway processes.  Do NOT disable this!!
+# ******************************************************************
+# *** If your buggy analyzer nukes cdaql1 we will be very pissed ***
+# ******************************************************************
+# *** If your analyzer requires MORE than 15 GB virtual, then your analyzer
+# *** probably sucks.  Find out why and fix it.
+# *** If it is some java monstrosity that allocates 50GB but only touches
+# *** 2 GB, then we can talk.
+# ******************************************************************
+#ulimit -Sv 15000000
+
+# Ensure that analysis is being performed on either cdaql 1, 2 or 3
+
+userName=$(id -un)
+hostName=$(hostname -s)
+echo "user@host=${userName}@${hostName}"
+
+case "${userName}@${hostName}" in
+    cdaq@cdaql[123] )    # TAG
+    #deuteron@physics )
+        #export SOURCE_SCRIPT="/home/cdaq/bin/SOURCE_SCRIPTS/online_analysis_cafe.csh"
+	export SOURCE_SCRIPT="/home/cdaq/bin/SOURCE_SCRIPTS/online_analysis_deut.csh"
+
+        exec /bin/tcsh
+        ;;
+    * )
+        echo "Your login must match one of the following to run the analysis software!"
+        perl -ne 'if(/^\s+(\S+) \)[#\s]+TAG/) {print "  $1\n";}' "$0"
+	echo ""
+        ;;
+esac
+exit 0

@@ -1,1 +1,1 @@
-UTILS_CAFE/online_scripts/run_cafe_50k.sh
+UTILS_DEUT/online_scripts/run_deut_50k.sh

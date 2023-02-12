@@ -1,4 +1,4 @@
-# Standard Kinematics File for CaFe Fall-2022
+# Standard Kinematics File for Dueteron Spring-2023
 #
 # Loop 1: 10 cm Liquid Deuterium (LD2)
 # Loop 2: 10 cm Liquid Hydrogen (LH2)
@@ -692,4 +692,5 @@ hpcentral = 1.325
 ppcentral = 8.55                                                          
 hpartmass = 0.93827231                                                                  
 ppartmass = 0.000511
+
 
