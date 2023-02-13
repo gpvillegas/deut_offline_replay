@@ -3,7 +3,7 @@ raddeg=3.14159265/180
 #real cminch
 cminch=2.54
 
-#include "PARAM/TRIG/fall22/tcoin_fall22.param"
+#include "PARAM/TRIG/spring23/tcoin_init.param"
 
 ; General Hall-C parameter files
 ; Note: gscalers has the BCM parameters and threshold being used
@@ -12,17 +12,17 @@ cminch=2.54
 #include "PARAM/GEN/gdebug.param"
 #include "PARAM/GEN/gtarget.param"
 #include "PARAM/GEN/gbeam.param"
-#include "PARAM/GEN/gscalers_fall22.param"
+#include "PARAM/GEN/gscalers.param"
 
 ; General HMS parameter files
 ; Note: hmsflags.param includes spectrometer offsets and options.
 ; Note: hcana includes the spectrometer recon. optics file being used
-#include "PARAM/HMS/GEN/fall22/hcana_cafe.param"
-#include "PARAM/HMS/GEN/hdebug.param"
-#include "PARAM/HMS/GEN/h_fadc_debug.param"
-#include "PARAM/HMS/GEN/fall22/hmsflags_cafe.param"
-#include "PARAM/HMS/GEN/fall22/htracking_cafe.param"
-#include "PARAM/HMS/GEN/fall22/h_reftime_cut_cafe.param"
+#include "PARAM/HMS/GEN/spring23/hcana_init.param"
+#include "PARAM/HMS/GEN/spring23/hdebug.param"
+#include "PARAM/HMS/GEN/spring23/h_fadc_debug.param"
+#include "PARAM/HMS/GEN/spring23/hmsflags_init.param"
+#include "PARAM/HMS/GEN/spring23/htracking_init.param"
+#include "PARAM/HMS/GEN/spring23/h_reftime_cut_init.param"
 
 ; HMS default geometry parameter files 
 #include "PARAM/HMS/CER/hcer_geom.param"
@@ -35,14 +35,12 @@ cminch=2.54
 ; General SHMS parameter files
 ; Note: shmsflags.param includes spectrometer offsets and options.
 ; Note: pcana includes the spectrometer recon. optics file being used
-;#include "PARAM/SHMS/GEN/fall22/pcana_cafe.param"
-#include "PARAM/SHMS/GEN/fall22/pcana_cafe_optimized.param"
-#include "PARAM/SHMS/GEN/pdebug.param"
-#include "PARAM/SHMS/GEN/p_fadc_debug.param"
-;#include "PARAM/SHMS/GEN/fall22/shmsflags_cafe.param"
-#include "PARAM/SHMS/GEN/fall22/shmsflags_cafe_optimized.param" 
-#include "PARAM/SHMS/GEN/fall22/ptracking_cafe.param"
-#include "PARAM/SHMS/GEN/fall22/p_reftime_cut_cafe.param"
+#include "PARAM/SHMS/GEN/spring23/pcana_init.param"
+#include "PARAM/SHMS/GEN/spring23/pdebug.param"
+#include "PARAM/SHMS/GEN/spring23/p_fadc_debug.param"
+#include "PARAM/SHMS/GEN/spring23/shmsflags_init.param" 
+#include "PARAM/SHMS/GEN/spring23/ptracking_init.param"
+#include "PARAM/SHMS/GEN/spring23/p_reftime_cut_init.param"
 
 ; SHMS default geometry parameter files
 #include "PARAM/SHMS/NGCER/pngcer_geom.param"
