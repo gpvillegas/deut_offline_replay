@@ -498,6 +498,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
   if(tgt_type=="LH2"){
     data_file->GetObject("kin_plots/H_Em", data_Em);
+
   }
   else if (tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
@@ -684,153 +685,188 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   auto hPm_leg    = new TLegend(0.63,0.6,0.8,0.8);
   auto hEm_leg    = new TLegend(0.63,0.6,0.8,0.8);
   
-  
-  // ------- COINCIDENCE TIME -----
-  if(ana_cut!="heep_singles"){
-  c1->cd();
-  c1->SetLogy();
-  nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
-  data_ep_ctime_total->GetYaxis()->SetRangeUser(0.5, data_ep_ctime_total->GetMaximum()+1e5);
-  data_ep_ctime_total->Draw("histE0");   
-  data_ep_ctime_real->Draw("sameshistE0");   
-  data_ep_ctime_rand->Draw("sameshistE0");   
-  
-  total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
-  reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
-  rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
-  
-  hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   : %.3f", total),"f");
-  hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   : %.3f", reals),"f");
-  hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms : %.3f", rands),"f");
-
-  hctime_leg->SetBorderSize(0);
-  hctime_leg->SetTextSize(0.05);
-  hctime_leg->Draw();
-  
-  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
-  }
-  
-  // ------ INVARIANT MASS ------
-
-  c1->cd();
-  gPad->SetLogy();
-  nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-  data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
-  data_W_total->Draw("histE0");   
-  if(ana_cut!="heep_singles"){
-    data_W_real->Draw("sameshistE0");   
-    data_W_rand->Draw("sameshistE0");   
-  }
-
-  total = data_W_total->IntegralAndError(1, nbins, total_err);
-  reals = data_W_real->IntegralAndError(1, nbins, reals_err);
-  rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
-  
-  hW_leg->AddEntry(data_W_total, Form("Total   : %.3f", total),"f");
-  if(ana_cut!="heep_singles"){
-    hW_leg->AddEntry(data_W_real,  Form("Reals   : %.3f", reals),"f");
-    hW_leg->AddEntry(data_W_rand,  Form("Randoms : %.3f", rands),"f");
-  }
-  hW_leg->SetBorderSize(0);
-  hW_leg->SetTextSize(0.05);
-  hW_leg->Draw();
-
-  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
-  
-  // ------ MISSING MASS ------
-  if((ana_cut!="heep_singles") || (ana_cut!="MF") || (ana_cut!="SRC")) {
-  c1->cd();
-  gPad->SetLogy();
-  nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-  data_MM_total->GetYaxis()->SetRangeUser(0.5, data_MM_total->GetMaximum()+1.e5);
-  data_MM_total->Draw("histE0");   
-  data_MM_real->Draw("sameshistE0");   
-  data_MM_rand->Draw("sameshistE0");   
-  
-  total = data_MM_total->IntegralAndError(1, nbins, total_err);
-  reals = data_MM_real->IntegralAndError(1, nbins, reals_err);
-  rands = data_MM_rand->IntegralAndError(1, nbins, rands_err);
-  
-  hMM_leg->AddEntry(data_MM_total, Form("Total   : %.3f", total),"f");
-  hMM_leg->AddEntry(data_MM_real,  Form("Reals   : %.3f", reals),"f");
-  hMM_leg->AddEntry(data_MM_rand,  Form("Randoms : %.3f", rands),"f");
-
-  hMM_leg->SetBorderSize(0);
-  hMM_leg->SetTextSize(0.05);
-  hMM_leg->Draw();
-      
-  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
+  // heep singles
+  if(ana_cut=="heep_singles"){
     
-  // ------ MISSING MOMENTUM ------
-  c1->cd();
-  gPad->SetLogy();
-  nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    // ------ INVARIANT MASS ------
+    c1->cd();
+    nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
+    data_W_total->Draw("histE0");   
+    
+    total = data_W_total->IntegralAndError(1, nbins, total_err);
+    
+    hW_leg->AddEntry(data_W_total, Form("Total   : %.3f", total),"f");
 
-  data_Pm_total->GetYaxis()->SetRangeUser(0.5, data_Pm_total->GetMaximum()+1.e5);
-  data_Pm_total->Draw("histE0");   
-  data_Pm_real->Draw("sameshistE0");   
-  data_Pm_rand->Draw("sameshistE0");   
-  
-  total = data_Pm_total->IntegralAndError(1, nbins, total_err);
-  reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
-  rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
-  
-  hPm_leg->AddEntry(data_Pm_total, Form("Total   : %.3f", total),"f");
-  hPm_leg->AddEntry(data_Pm_real,  Form("Reals   : %.3f", reals),"f");
-  hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms : %.3f", rands),"f");
-
-  hPm_leg->SetBorderSize(0);  
-  hPm_leg->SetTextSize(0.05);
-  hPm_leg->Draw();
-
-  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
-  
-  // ------ MISSING ENERGY ------
-  c1->cd();
-  gPad->SetLogy();
-  nbins = data_Em_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
-
-  data_Em_total->GetYaxis()->SetRangeUser(0.5, data_Em_total->GetMaximum()+1.e5);
-  data_Em_total->Draw("histE0");   
-  data_Em_real->Draw("sameshistE0");   
-  data_Em_rand->Draw("sameshistE0");   
-  
-  total = data_Em_total->IntegralAndError(1, nbins, total_err);
-  reals = data_Em_real->IntegralAndError(1, nbins, reals_err);
-  rands = data_Em_rand->IntegralAndError(1, nbins, rands_err);
-  
-  hEm_leg->AddEntry(data_Em_total, Form("Total   : %.3f", total),"f");
-  hEm_leg->AddEntry(data_Em_real,  Form("Reals   : %.3f", reals),"f");
-  hEm_leg->AddEntry(data_Em_rand,  Form("Randoms : %.3f", rands),"f");
-
-  hEm_leg->SetBorderSize(0);
-  hEm_leg->SetTextSize(0.05);
-  hEm_leg->Draw();
-  
-  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
-  c1->Clear();
-  }
-
-  if(tgt_type!="LH2"){
-    // ------ 2D Nuclear Missing Energy vs. Pm ------------------------------------------
-    // NOTE: Em_nuc = nu - Tp -T_{A-1}  Em_src =  nu - Tp - T_{nucleon}
-    //       Em_src, is missing energy assuming kinetic energy of spectator SRC nucleon (it is used to determine a cut on to clean bkg)
-  
-    //gPad->SetLogz();
-    data_Em_nuc_vs_Pm->Draw("colz");
+    hW_leg->SetBorderSize(0);
+    hW_leg->SetTextSize(0.05);
+    hW_leg->Draw();
     
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
-   
-  //-----------------------------------------------------------------------------------
+    
   }
+
+  //  heep coin 
+  if(ana_cut=="heep_coin"){
+
+    c1->Divide(1,2);
+ 
+    // ------- COINCIDENCE TIME -----
+    c1->cd(1);
+    c1->SetLogy();
+    nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_ep_ctime_total->GetYaxis()->SetRangeUser(0.5, data_ep_ctime_total->GetMaximum()+1e5);
+    data_ep_ctime_total->Draw("histE0");   
+    data_ep_ctime_real->Draw("sameshistE0");   
+    data_ep_ctime_rand->Draw("sameshistE0");   
+    
+    total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
+    reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   : %.3f", total),"f");
+    hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   : %.3f", reals),"f");
+    hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms : %.3f", rands),"f");
+    
+    hctime_leg->SetBorderSize(0);
+    hctime_leg->SetTextSize(0.05);
+    hctime_leg->Draw();
+
+    // ------ INVARIANT MASS ------
+    c1->cd(1);
+    nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
+    data_W_total->Draw("histE0");   
+    data_W_real->Draw("sameshistE0");   
+    data_W_rand->Draw("sameshistE0");   
+    
+    total = data_W_total->IntegralAndError(1, nbins, total_err);
+    reals = data_W_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_W_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hW_leg->AddEntry(data_W_total, Form("Total   : %.3f", total),"f");
+    hW_leg->AddEntry(data_W_real,  Form("Reals   : %.3f", reals),"f");
+    hW_leg->AddEntry(data_W_rand,  Form("Randoms : %.3f", rands),"f");
+    
+    hW_leg->SetBorderSize(0);
+    hW_leg->SetTextSize(0.05);
+    hW_leg->Draw();
+    
+    //--------------
+    
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Clear();
+    
+  } // end heep coin
+    
+  
+  //  deep coin (or any other heavire nuclei, if available), considering this is general (e,e'p)
+  if(ana_cut=="deep_coin"){
+
+    c1->Divide(2,2);
+ 
+    // ------- COINCIDENCE TIME -----
+    c1->cd(1);
+    c1->SetLogy();
+    nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_ep_ctime_total->GetYaxis()->SetRangeUser(0.5, data_ep_ctime_total->GetMaximum()+1e5);
+    data_ep_ctime_total->Draw("histE0");   
+    data_ep_ctime_real->Draw("sameshistE0");   
+    data_ep_ctime_rand->Draw("sameshistE0");   
+    
+    total = data_ep_ctime_total->IntegralAndError(1, nbins, total_err);
+    reals = data_ep_ctime_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_ep_ctime_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hctime_leg->AddEntry(data_ep_ctime_total,Form("Total   : %.3f", total),"f");
+    hctime_leg->AddEntry(data_ep_ctime_real, Form("Reals   : %.3f", reals),"f");
+    hctime_leg->AddEntry(data_ep_ctime_rand, Form("Randoms : %.3f", rands),"f");
+    
+    hctime_leg->SetBorderSize(0);
+    hctime_leg->SetTextSize(0.05);
+    hctime_leg->Draw();
+
+    // ------ MISSING MOMENTUM ------
+    c1->cd(2);
+    gPad->SetLogy();
+    nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_Pm_total->GetYaxis()->SetRangeUser(0.5, data_Pm_total->GetMaximum()+1.e5);
+    data_Pm_total->Draw("histE0");   
+    data_Pm_real->Draw("sameshistE0");   
+    data_Pm_rand->Draw("sameshistE0");   
+    
+    total = data_Pm_total->IntegralAndError(1, nbins, total_err);
+    reals = data_Pm_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_Pm_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hPm_leg->AddEntry(data_Pm_total, Form("Total   : %.3f", total),"f");
+    hPm_leg->AddEntry(data_Pm_real,  Form("Reals   : %.3f", reals),"f");
+    hPm_leg->AddEntry(data_Pm_rand,  Form("Randoms : %.3f", rands),"f");
+    
+    hPm_leg->SetBorderSize(0);  
+    hPm_leg->SetTextSize(0.05);
+    hPm_leg->Draw();
+    
+
+    // ------ MISSING ENERGY ------
+    c1->cd(3);
+    gPad->SetLogy();
+    nbins = data_Em_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+    
+    data_Em_total->GetYaxis()->SetRangeUser(0.5, data_Em_total->GetMaximum()+1.e5);
+    data_Em_total->Draw("histE0");   
+    data_Em_real->Draw("sameshistE0");   
+    data_Em_rand->Draw("sameshistE0");   
+    
+    total = data_Em_total->IntegralAndError(1, nbins, total_err);
+    reals = data_Em_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_Em_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hEm_leg->AddEntry(data_Em_total, Form("Total   : %.3f", total),"f");
+    hEm_leg->AddEntry(data_Em_real,  Form("Reals   : %.3f", reals),"f");
+    hEm_leg->AddEntry(data_Em_rand,  Form("Randoms : %.3f", rands),"f");
+    
+    hEm_leg->SetBorderSize(0);
+    hEm_leg->SetTextSize(0.05);
+    hEm_leg->Draw();
+
+    // ------ MISSING MASS ------
+    c1->cd(4);
+    
+    nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
+
+    data_MM_total->GetYaxis()->SetRangeUser(0.5, data_MM_total->GetMaximum()+1.e5);
+    data_MM_total->Draw("histE0");   
+    data_MM_real->Draw("sameshistE0");   
+    data_MM_rand->Draw("sameshistE0");   
+    
+    total = data_MM_total->IntegralAndError(1, nbins, total_err);
+    reals = data_MM_real->IntegralAndError(1, nbins, reals_err);
+    rands = data_MM_rand->IntegralAndError(1, nbins, rands_err);
+    
+    hMM_leg->AddEntry(data_MM_total, Form("Total   : %.3f", total),"f");
+    hMM_leg->AddEntry(data_MM_real,  Form("Reals   : %.3f", reals),"f");
+    hMM_leg->AddEntry(data_MM_rand,  Form("Randoms : %.3f", rands),"f");
+    
+    hMM_leg->SetBorderSize(0);
+    hMM_leg->SetTextSize(0.05);
+    hMM_leg->Draw();
+
+    //-----------
+    
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Clear();
+    
+  } // end deep coin
+
+
 
   //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
