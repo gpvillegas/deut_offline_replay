@@ -20,7 +20,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d_%d.pdf", ana_type.Data(), run, evt);
+  TString outPDF=Form("DEUT_OUTPUT/PDF/deut_output_%s_%d_%d.pdf", ana_type.Data(), run, evt);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -666,8 +666,8 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   gStyle->SetOptStat(0);
     
   // Create canvas to store multi-page .pdf plots
-  TCanvas *c1 = new TCanvas("c1", "cafe_output", 2000, 1000); 
-  c1->Print(Form("cafe_output_%s_%d.pdf[", ana_type.Data(), run));
+  TCanvas *c1 = new TCanvas("c1", "deut_output", 2000, 1000); 
+  c1->Print(Form("deut_output_%s_%d.pdf[", ana_type.Data(), run));
   c1->Clear();
   
   //---------------- SELECTED DATA: TOTAL = SIGNAL + BACKGROUND PLOTS -----------------
@@ -708,7 +708,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   hctime_leg->SetTextSize(0.05);
   hctime_leg->Draw();
   
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   }
   
@@ -738,7 +738,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   hW_leg->SetTextSize(0.05);
   hW_leg->Draw();
 
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   
   // ------ MISSING MASS ------
@@ -764,7 +764,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   hMM_leg->SetTextSize(0.05);
   hMM_leg->Draw();
       
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
     
   // ------ MISSING MOMENTUM ------
@@ -789,7 +789,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   hPm_leg->SetTextSize(0.05);
   hPm_leg->Draw();
 
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   
   // ------ MISSING ENERGY ------
@@ -814,7 +814,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   hEm_leg->SetTextSize(0.05);
   hEm_leg->Draw();
   
-  c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+  c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
   c1->Clear();
   }
 
@@ -833,7 +833,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     //gPad->SetLogz();
     data_Em_src_vs_Pm->Draw("colz");
     
-    c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
    
   //-----------------------------------------------------------------------------------
@@ -1021,7 +1021,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    leg_MM->Draw();
 
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();                                                              
 
    //---------- PLOT ADDITIONAL KINEMATICS----------
@@ -1194,7 +1194,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    leg_Pmz->Draw();
                                                                     
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
   
    
@@ -1274,7 +1274,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    if(simc_exist) leg16->AddEntry(simc_eypfp,"SIMC");
    leg16->Draw();
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
                                                                              
 
@@ -1350,7 +1350,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    if(simc_exist) hfp_l4->AddEntry(simc_hypfp,"SIMC");
    hfp_l4->Draw();
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
                                                                                   
 
@@ -1427,7 +1427,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    if(simc_exist) leg8->AddEntry(simc_edelta,"SIMC");
    leg8->Draw();
    
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
 
 
@@ -1503,7 +1503,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    if(simc_exist) htr_l4->AddEntry(simc_hdelta,"SIMC");
    htr_l4->Draw();
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
    
 
@@ -1612,7 +1612,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    if(simc_exist) legpzt->AddEntry(simc_ztarP,"SIMC");
    legpzt->Draw();
 
-   c1->Print(Form("cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
    c1->Clear();
 
    //--------------------------------------------------------------------
@@ -1620,10 +1620,10 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   
 
    // Complete writing out multi-page .pdf
-   c1->Print(Form("cafe_output_%s_%d.pdf]", ana_type.Data(), run));
+   c1->Print(Form("deut_output_%s_%d.pdf]", ana_type.Data(), run));
    
-   gSystem->Exec(Form("mv cafe_output_%s_%d.pdf %s", ana_type.Data(), run, outPDF.Data()));
+   gSystem->Exec(Form("mv deut_output_%s_%d.pdf %s", ana_type.Data(), run, outPDF.Data()));
    gSystem->Exec(Form("evince %s", outPDF.Data()));
-   //gSystem->Exec(Form("open cafe_output_%s_%d.pdf", ana_type.Data(), run));
+   //gSystem->Exec(Form("open deut_output_%s_%d.pdf", ana_type.Data(), run));
       
 }

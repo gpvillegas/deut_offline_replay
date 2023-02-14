@@ -2648,7 +2648,7 @@ void baseAnalyzer::CreateHist()
   H_thrq_rand       = new TH1F("H_thrq_rand",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
 
   // 2d kinematics
-  H_Pm_vs_thrq_rand     = new TH2F("H_Pm_vs_thrq_rand",    "Pm vs. #theta_{rq} (yield)",       thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
+  H_Pm_vs_thrq_rand     = new TH2F("H_Pm_vs_thrq_rand",    "Pm vs. #theta_{rq}",       thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
   
   
   rand_HList->Add( H_ep_ctime_rand );

@@ -1343,8 +1343,8 @@ protected:
   TH1F *H_thrq_rand_sub;
 
   // 2d missing momentum vs. recoin angle (th_rq)
-  TH2F H_Pm_vs_thrq_rand;
-  TH2F H_Pm_vs_thrq_rand_sub;
+  TH2F *H_Pm_vs_thrq_rand;
+  TH2F *H_Pm_vs_thrq_rand_sub;
   
   //-----------END CREATE HISTOGRAMS-----------
 
