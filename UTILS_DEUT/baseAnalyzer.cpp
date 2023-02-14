@@ -1410,6 +1410,7 @@ void baseAnalyzer::ReadInputFile()
 
 
   if(analysis_type=="data" || analysis_type=="simc" ){
+
     //==========================================
     //     READ TRACKING EFFICIENCY CUTS
     //==========================================
@@ -1508,41 +1509,43 @@ void baseAnalyzer::ReadInputFile()
     hcer_pidCut_flag = stoi(split(FindString("hcer_pidCut_flag", input_CutFileName.Data())[0], '=')[1]);
     cpid_hcer_npeSum_min = stod(split(FindString("cpid_hcer_npeSum_min", input_CutFileName.Data())[0], '=')[1]);
     cpid_hcer_npeSum_max = stod(split(FindString("cpid_hcer_npeSum_max", input_CutFileName.Data())[0], '=')[1]);
+    
+    
+    if(analysis_cut=="heep_singles" || analysis_cut=="heep_coin"){
 
+      //-----Kinematics Cuts------
+      // H(e,e'p)
     
-    else if(analysis_cut=="heep_singles" || analysis_cut=="heep_coin"){
-    //-----Kinematics Cuts------
-    // H(e,e'p)
-    
-    //4-Momentum Transfers [GeV^2]
-    Q2_heep_cut_flag = stoi(split(FindString("Q2_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_Q2_min = stod(split(FindString("c_heep_Q2_min", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_Q2_max = stod(split(FindString("c_heep_Q2_max", input_CutFileName.Data())[0], '=')[1]);
-    
-    //bjorken-x
-    xbj_heep_cut_flag = stoi(split(FindString("xbj_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_xbj_min = stod(split(FindString("c_heep_xbj_min", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_xbj_max = stod(split(FindString("c_heep_xbj_max", input_CutFileName.Data())[0], '=')[1]);
-    
-    
-    //Missing Energy [GeV]
-    Em_heep_cut_flag = stoi(split(FindString("Em_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_Em_min = stod(split(FindString("c_heep_Em_min", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_Em_max = stod(split(FindString("c_heep_Em_max", input_CutFileName.Data())[0], '=')[1]);
-    
-    //Invariant Mass, W [GeV]
-    W_heep_cut_flag = stoi(split(FindString("W_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_W_min = stod(split(FindString("c_heep_W_min", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_W_max = stod(split(FindString("c_heep_W_max", input_CutFileName.Data())[0], '=')[1]);
-    
-    //Missing Mass Cut (Check which MM Cut is actually being applied: By default, it should be proton MM) 
-    //Protons
-    MM_heep_cut_flag = stoi(split(FindString("MM_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_MM_min = stod(split(FindString("c_heep_MM_min", input_CutFileName.Data())[0], '=')[1]);
-    c_heep_MM_max = stod(split(FindString("c_heep_MM_max", input_CutFileName.Data())[0], '=')[1]);
+      //4-Momentum Transfers [GeV^2]
+      Q2_heep_cut_flag = stoi(split(FindString("Q2_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_Q2_min = stod(split(FindString("c_heep_Q2_min", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_Q2_max = stod(split(FindString("c_heep_Q2_max", input_CutFileName.Data())[0], '=')[1]);
+      
+      //bjorken-x
+      xbj_heep_cut_flag = stoi(split(FindString("xbj_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_xbj_min = stod(split(FindString("c_heep_xbj_min", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_xbj_max = stod(split(FindString("c_heep_xbj_max", input_CutFileName.Data())[0], '=')[1]);
+      
+      
+      //Missing Energy [GeV]
+      Em_heep_cut_flag = stoi(split(FindString("Em_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_Em_min = stod(split(FindString("c_heep_Em_min", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_Em_max = stod(split(FindString("c_heep_Em_max", input_CutFileName.Data())[0], '=')[1]);
+      
+      //Invariant Mass, W [GeV]
+      W_heep_cut_flag = stoi(split(FindString("W_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_W_min = stod(split(FindString("c_heep_W_min", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_W_max = stod(split(FindString("c_heep_W_max", input_CutFileName.Data())[0], '=')[1]);
+      
+      //Missing Mass Cut (Check which MM Cut is actually being applied: By default, it should be proton MM) 
+      //Protons
+      MM_heep_cut_flag = stoi(split(FindString("MM_heep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_MM_min = stod(split(FindString("c_heep_MM_min", input_CutFileName.Data())[0], '=')[1]);
+      c_heep_MM_max = stod(split(FindString("c_heep_MM_max", input_CutFileName.Data())[0], '=')[1]);
+      
     }
-
-    else if(analysis_cut=="MF" || analysis_cut=="SRC"){
+      
+      else if(analysis_cut=="MF" || analysis_cut=="SRC"){
       
       // CaFe A(e,e'p) Mean-Field (MF) Kinematic Cuts
       // 4-Momentum Transfers [GeV^2]
@@ -7856,7 +7859,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
 	out_file << "#-----------------------------" << endl;
 	out_file << Form("# real_counts  : %.3f ", W_total) << endl;
-	out_file << Form("# real_yield   : %.3f ", W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single) << endl;
+	//out_file << Form("# real_yield   : %.3f ", W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single) << endl;
 																			      
       }
      if(analysis_cut=="heep_coin")
@@ -7876,7 +7879,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", W_total) << endl;
 	out_file << Form("random_counts   : %.3f", W_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", W_real)  << endl;
-	out_file << Form("real_yield      : %.3f", W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;	
+	//out_file << Form("real_yield      : %.3f", W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;	
 	out_file << "                                     " << endl;
       }
     
@@ -7936,7 +7939,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", Pm_total) << endl;
 	out_file << Form("random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", Pm_real)  << endl;
-	out_file << Form("real_yield      : %.3f", Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;
+	//out_file << Form("real_yield      : %.3f", Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;
 	out_file << "                                     " << endl;
 	out_file << "" << endl;
       }

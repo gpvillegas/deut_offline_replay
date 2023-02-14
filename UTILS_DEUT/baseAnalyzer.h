@@ -47,6 +47,7 @@ public:
   void ApplyWeight();
   void ScaleSIMC(TString target="");
   void WriteHist();
+  void WriteReport();
   void WriteOnlineReport();
   void WriteOfflineReport();
   void WriteReportSummary();
