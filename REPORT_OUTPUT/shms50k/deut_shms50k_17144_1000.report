@@ -1,0 +1,772 @@
+
+=====================================
+======= Shift Worker Section ========
+=====================================
+
+NOTE: The 'SW_' prefix stands for 'Shift Worker'
+
+-----------------
+General Run Info
+-----------------
+
+SW_Run_Number		:		17144
+SW_Beam_Energy		:		10.549355 
+SW_Target_Mass_amu	:		53.939615  
+
+SW_HMS_Particle_Mass	:		0.938272  
+SW_HMS_P_Central        :	        1.325000  
+SW_HMS_Angle		:		-66.400000 
+
+SW_SHMS_Particle_Mass	:		0.000511
+SW_SHMS_P_Central	: 	        8.550000
+SW_SHMS_Angle		:		8.300000
+
+SW_SHMS_Run_Length_sec	:		4.014 
+SW_HMS_Run_Length_sec	:	        0.000 
+
+---------------------------
+Beam Current Monitors (BCM)
+---------------------------
+
+BCM4 >3 uA 
+Beam over threshold for 4.014s,
+or 100.000% of total run time.
+
+SW_BCM4A_Current : 62.839 uA
+SW_BCM4A_Charge  : 0.252 mC
+
+
+NOTE: Will need to narrow down to specific triggers we will use, once
+we know which ones correspond to: SHMS EL-REAL, HMS 3/4,  and SHMS EL-REAL x HMS 3/4 coincidence
+
+------------------
+Pre-Scale Factors
+------------------
+
+SW_Ps1_factor	 :		  -1
+SW_Ps2_factor	 :		  1025
+SW_Ps3_factor	 :		  129
+SW_Ps4_factor	 :		  -1
+SW_Ps5_factor	 :		  1
+SW_Ps6_factor	 :		  -1
+
+----------------
+Physics Scalers
+----------------
+
+SW_T1_phy_scaler :   368811   [ 91.880 kHz ]
+SW_T2_phy_scaler :   281850   [ 70.216 kHz ]
+SW_T3_phy_scaler :   40405   [ 10.066 kHz ]
+SW_T4_phy_scaler :   196   [ 0.049 kHz ]
+SW_T5_phy_scaler :   144   [ 0.036 kHz ]
+SW_T6_phy_scaler :   277   [ 0.069 kHz ]
+
+----------------
+Physics Scalers
+(pre-scaled)
+----------------
+SW_T1_phy_scaler_ps :   -368811    [ -91.880 kHz ]
+SW_T2_phy_scaler_ps :   275    [ 0.069 kHz ]
+SW_T3_phy_scaler_ps :   313    [ 0.078 kHz ]
+SW_T4_phy_scaler_ps :   -196    [ -0.049 kHz ]
+SW_T5_phy_scaler_ps :   144    [ 0.036 kHz ]
+SW_T6_phy_scaler_ps :   -277    [ -0.069 kHz ]
+
+-------------------
+Accepted Triggers
+-------------------
+SW_T1_phy_accp : 582
+SW_T2_phy_accp : 578
+SW_T3_phy_accp : 596
+SW_T4_phy_accp : 1
+SW_T5_phy_accp : 206
+SW_T6_phy_accp : 187
+
+-----
+EDTM
+-----
+SW_EDMT_scaler :  40
+SW_EDTM_accp   :  46
+
+-------------------
+Computer Live Time
+(take with a grain of salt :) )
+-------------------
+SW_T5_cpuLT : 143.0556 %
+SW_T6_cpuLT : -67.5090 %
+
+----------------
+Total Live Time
+(take with a grain of salt :) )
+----------------
+SW_T5_totLT : 115.0000 %
+SW_T6_totLT : -115.0000 %
+
+
+----------------------
+Tracking Efficiencies
+----------------------
+SW_shms_elec_trk_eff          :     0.9435  +-   0.0213
+SW_hms_hadron_trk_eff         :     1.0000 +-   0.0000
+
+
+
+===============================
+======= Expert Section ========
+===============================
+
+************************
+General Run Information
+************************
+
+Run_Number		:		17144
+Beam_Energy		:		10.549355 
+Target_Mass_amu	        :		53.939615  
+
+HMS_Particle_Mass	:		0.938272  
+HMS_P_Central	        :	        1.325000  
+HMS_Angle		:		-66.400000 
+
+SHMS_Particle_Mass	:		0.000511
+SHMS_P_Central	        : 	        8.550000
+SHMS_Angle		:		8.300000
+
+SHMS_Run_Length_sec	        :		4.014 
+HMS_Run_Length_sec	        :	        0.000 
+
+***********
+* Beamline
+***********
+
+-------------------------------------
+BCM Information ( NO BCM4 CUT )
+-------------------------------------
+
+=:=:=:=:=:
+= HMS
+=:=:=:=:=:
+
+HMS BCM1  Current : 0.000 uA		  
+HMS BCM2  Current : 0.000 uA		 
+HMS BCM4A Current : 0.000 uA		  
+HMS BCM4B Current : 0.000 uA		 
+HMS BCM4C Current : 0.000 uA		 
+HMS Unser Current : 0.000 uA		  
+
+HMS BCM1  Charge  : 0.000 mC
+HMS BCM2  Charge  : 0.000 mC	
+HMS BCM4A Charge  : 0.000 mC		  
+HMS BCM4B Charge  : 0.000 mC		 
+HMS BCM4C Charge  : 0.000 mC		 
+HMS Unser Charge  : 0.000 mC
+
+=:=:=:=:=:
+= SHMS
+=:=:=:=:=:
+
+SHMS BCM1  Current : 62.761 uA		  
+SHMS BCM2  Current : 62.892 uA		 
+SHMS BCM4A Current : 62.839 uA		  
+SHMS BCM4B Current : 25.012 uA		 
+SHMS BCM4C Current : 63.139 uA		 
+SHMS Unser Current : 98.201 uA		  
+
+SHMS BCM1  Charge  : 0.252 mC
+SHMS BCM2  Charge  : 0.252 mC	
+SHMS BCM4A Charge  : 0.252 mC		  
+SHMS BCM4B Charge  : 0.100 mC		 
+SHMS BCM4C Charge  : 0.253 mC		 
+SHMS Unser Charge  : 0.394 mC
+
+-------------------------------------
+BCM Information ( BCM4 >3 uA )
+Beam over threshold for 4.014s,
+or 100.000% of total run time.
+-------------------------------------
+
+=:=:=:=:=:
+= HMS
+=:=:=:=:=:
+
+HMS BCM1  Beam Cut Current : 0.000 uA		  
+HMS BCM2  Beam Cut Current : 0.000 uA		 
+HMS BCM4A Beam Cut Current : 0.000 uA		  
+HMS BCM4B Beam Cut Current : 0.000 uA		 
+HMS BCM4C Beam Cut Current : 0.000 uA		 
+HMS Unser Beam Cut Current : 0.000 uA		  
+
+HMS BCM1  Beam Cut Charge : 0.000 mC
+HMS BCM2  Beam Cut Charge : 0.000 mC
+HMS BCM4A Beam Cut Charge : 0.000 mC		  
+HMS BCM4B Beam Cut Charge : 0.000 mC		 
+HMS BCM4C Beam Cut Charge : 0.000 mC		 
+HMS Unser Beam Cut Charge : 0.000 mC
+
+=:=:=:=:=:
+= SHMS
+=:=:=:=:=:
+
+SHMS BCM1  Beam Cut Current : 62.761 uA		  
+SHMS BCM2  Beam Cut Current : 62.892 uA		 
+SHMS BCM4A Beam Cut Current : 62.839 uA		  
+SHMS BCM4B Beam Cut Current : 25.012 uA		 
+SHMS BCM4C Beam Cut Current : 63.139 uA		 
+SHMS Unser Beam Cut Current : 98.201 uA		  
+
+SHMS BCM1  Beam Cut Charge : 0.252 mC
+SHMS BCM2  Beam Cut Charge : 0.252 mC
+SHMS BCM4A Beam Cut Charge : 0.252 mC		  
+SHMS BCM4B Beam Cut Charge : 0.100 mC		 
+SHMS BCM4C Beam Cut Charge : 0.253 mC		 
+SHMS Unser Beam Cut Charge : 0.394 mC
+
+**************
+* DAQ Trigger
+**************
+
+NOTE: All Scaler Info has a Beam Current Cut.
+Unless explicitly stated otherwise in its name.
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+Scaler Triggers
+(technically, pre-triggers)
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+------------------
+Pre-Scale Factors
+------------------
+Ps1_factor	 :		  -1
+Ps2_factor	 :		  1025
+Ps3_factor	 :		  129
+Ps4_factor	 :		  -1
+Ps5_factor	 :		  1
+Ps6_factor	 :		  -1
+
+----------------------
+EDTM Scaler Triggers
+----------------------
+shms_EDTM_scaler_noBCM_Cut     :      40
+hms_EDTM_scaler_noBCM_Cut      :      0
+
+shms_EDTM_scaler    :      40
+hms_EDTM_scaler     :      0
+
+-----------------------
+Total Scaler Triggers
+Total: Physics + EDTM
+-----------------------
+T1_scaler     :	368851 [ 91.890 kHz ]
+T2_scaler     :	281890 [ 70.226 kHz ]
+T3_scaler     :	40445 [ 10.076 kHz ]
+T4_scaler     :	236 [ 0.059 kHz ]
+T5_scaler     :	184 [ 0.046 kHz ]
+T6_scaler     :	317 [ 0.079 kHz ]
+
+-----------------------------------
+Total Pre-Scaled Scaler Triggers
+Total: Physics + EDTM
+-----------------------------------
+T1_scaler_ps      : -368851 [ -91.890 kHz ]
+T2_scaler_ps      : 275 [ 0.069 kHz ]
+T3_scaler_ps      : 314 [ 0.078 kHz ]
+T4_scaler_ps      : -236 [ -0.059 kHz ]
+T5_scaler_ps      : 184 [ 0.046 kHz ] 
+T6_scaler_ps      : -317 [ -0.079 kHz ]
+
+-------------------------
+Physics Scaler Triggers
+(EDTM Scaler Subtracted)
+-------------------------
+T1_phy_scaler :   368811   [ 91.880 kHz ]
+T2_phy_scaler :   281850   [ 70.216 kHz ]
+T3_phy_scaler :   40405   [ 10.066 kHz ]
+T4_phy_scaler :   196   [ 0.049 kHz ]
+T5_phy_scaler :   144   [ 0.036 kHz ]
+T6_phy_scaler :   277   [ 0.069 kHz ]
+
+------------------------------------
+Physics Pre-Scaled Scaler Triggers
+(EDTM Scaler Subtracted)
+------------------------------------
+T1_phy_scaler_ps :   -368811    [ -91.880 kHz ]
+T2_phy_scaler_ps :   275    [ 0.069 kHz ]
+T3_phy_scaler_ps :   313    [ 0.078 kHz ]
+T4_phy_scaler_ps :   -196    [ -0.049 kHz ]
+T5_phy_scaler_ps :   144    [ 0.036 kHz ]
+T6_phy_scaler_ps :   -277    [ -0.069 kHz ]
+
+
+=:=:=:=:=:=:=:=:=:=:
+Accepted  Triggers
+=:=:=:=:=:=:=:=:=:=:
+
+-----------------------
+EDTM Accepted Triggers
+-----------------------
+shms_EDTM_accp          : 46
+hms_EDTM_acpp           : 46
+
+-------------------------
+Total Accepted Triggers
+Total: Physics + EDTM
+-------------------------
+T1_accp                                   :  628
+T2_accp                                   :  624
+T3_accp                                   :  642
+T4_accp                                   :  47
+T5_accp                                   :  252
+T6_accp                                   :  233
+
+--------------------------
+Physics Accepted Triggers
+(EDTM TDC Subtracted)
+--------------------------
+T1_phy_accp : 582
+T2_phy_accp : 578
+T3_phy_accp : 596
+T4_phy_accp : 1
+T5_phy_accp : 206
+T6_phy_accp : 187
+
+
+---------------------
+Total Trigger Counts
+---------------------
+HMS_Singles_Triggers	  	     : 		397
+SHMS_Singles_Triggers		     :		351
+Coincidence_Triggers	             :		252
+All_Triggers			     :		1000
+
+
+
+**************************
+* Live Time Calculations
+**************************
+In the live time calculations, where the TDC is numerator and scaler is denominator, the accepted TDC counts don't have a beam current cut whereas
+the scaler counts do. This is a problem, therefore don't take the live time too seriously is it is above 100 %.  A beam current cut in BOTH the
+numerator and denominator WILL be made in the analysis script. Below, for comparisons, the live time calculations with/without a BCM cut is made. The minor
+problem with no bcm cuts, is that during beam-off, EDTM is still counted, creating a bias in the calculation. The numerator and denominator should be
+treated under the exact same conditions (i.e., same BCM cut)
+
+
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+= Pre-Scaled Computer Live Time Calculations
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+NOTE: cputLT = T_accp * ps / T_scaler_corr,  T_accp= accepted TDC > 0 && EDTM_TDC==0,  T_scaler_corr = T_scaler - EDTM_scaler, ps: pre-scale factor
+
+
+T1_cpuLT : -0.1578 %
+T2_cpuLT : 210.2005 %
+T3_cpuLT : 190.2834 %
+T4_cpuLT : -0.5102 %
+T5_cpuLT : 143.0556 %
+T6_cpuLT : -67.5090 %
+
+T1_cpuLT_noBCM : -0.1578 %
+T2_cpuLT_noBCM : 210.2005 %
+T3_cpuLT_noBCM : 190.2834 %
+T4_cpuLT_noBCM : -0.5102 %
+T5_cpuLT_noBCM : 143.0556 %
+T6_cpuLT_noBCM : -67.5090 %
+
+
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+= Pre-Scaled Total (EDTM) Live Time Calculations
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+NOTE: totLT = EDTM_accp * ps / EDTM_scaler,  EDTM_accp= accepted EDTM TDC > 0,  EDTM_scaler = EDTM scaler counts, ps: pre-scale factor
+
+
+T1_totLT : -115.0000 %
+T2_totLT : 117875.0000 %
+T3_totLT : 14835.0000 %
+T4_totLT : -115.0000 %
+T5_totLT : 115.0000 %
+T6_totLT : -115.0000 %
+
+T1_totLT_noBCM : -115.0000 %
+T2_totLT_noBCM : 117875.0000 %
+T3_totLT_noBCM : 14835.0000 %
+T4_totLT_noBCM : -115.0000 %
+T5_totLT_noBCM : 115.0000 %
+T6_totLT_noBCM : -115.0000 %
+
+*************************
+* TRACKING EFFICIENCIES *
+*************************
+
+=:=:=:=:=:
+= SHMS
+=:=:=:=:=:
+
+shmsDid                   :   131
+shmsDide                  :   117
+shmsDidh                  :   0
+
+shmsShould                :   162
+shmsShoulde               :   124
+shmsShouldh               :   1
+
+SHMS Singles FID TRACK EFF           :     0.8086   +-   0.0344
+SHMS Electron Singles TRACK EFF      :     0.9435  +-   0.0213
+SHMS Hadron Singles TRACK EFF        :     0.0000  +-   0.9999
+
+=:=:=:=:=:
+=  HMS
+=:=:=:=:=:
+
+hmsDid                   :   324
+hmsDide                  :   0
+hmsDidh                  :   12
+
+hmsShould                :   324
+hmsShoulde               :   0
+hmsShouldh               :   12
+
+HMS Singles FID TRACK EFF            :     1.0000  +-   0.0000
+HMS Electron Singles TRACK EFF       :     0.0000 +-   0.0000
+HMS Hadron Singles TRACK EFF         :     1.0000 +-   0.0000
+
+
+****************************
+* Cherenkov Efficiencies   *
+****************************
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+=  SHMS Noble Gas Cerenkov    
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+shmsNGC_did_e	    		    :   212
+shmsNGC_should_e		    :	221
+SHMS NGC Elec Eff		    :     0.9593 +-   0.0136
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+=  HMS Heavy GasCerenkov     
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+hmsCER_did_h		    :   17
+hmsCER_should_h		    :	19
+HMS Cer Electron Eff 	    :     0.8947 +-   0.0744
+
+****************************
+* Calorimeter Efficiencies *
+****************************
+
+=:=:=:=:=
+= SHMS  =
+=:=:=:=:=
+
+shmsPreShower        Counts: 81 eff : 0.851852
+shmsShowerArray      Counts: 76 eff : 0.828947
+
+=:=:=:=:=
+=  HMS  =
+=:=:=:=:=
+
+hA       Counts: 1 eff : 0
+hB       Counts: 1 eff : 0
+hC       Counts: 1 eff : 0
+hD       Counts: 1 eff : 0
+
+**************************
+* Hodoscope Efficiencies *
+**************************
+
+=:=:=:=:=
+= SHMS  =
+=:=:=:=:=
+
+Plane 1: 0.606557
+Plane 2: 0.929078
+Plane 3: 0.850575
+Plane 4: 0.962963
+
+S1XY : 0.972096
+S2XY : 0.994466
+
+3_of_4 EFF : 0.895058
+4_of_4 EFF : 0.461579
+
+=:=:=:=:=
+=  HMS  =
+=:=:=:=:=
+
+Plane 1: 1
+Plane 2: 1
+Plane 3: 0.857143
+Plane 4: 1
+
+S1XY : 1
+S2XY : 1
+
+3_of_4 EFF : 1
+4_of_4 EFF : 0.857143
+
+
+
+*******************
+* Hardware Scalers
+*******************
+
+NOTE: Beam Current Cut Applied
+
+=:=:=:=:=:=:=:=:=:=
+=    HODOSCOPES   =
+=:=:=:=:=:=:=:=:=:=
+
+=:=:=:=:=
+= SHMS  =
+=:=:=:=:=
+Scint   Counts      Rate
+P1X1+:  40 [ 0.010 kHz ]
+P1X2+:  40 [ 0.010 kHz ]
+P1X3+:  40 [ 0.010 kHz ]
+P1X4+:  40 [ 0.010 kHz ]
+P1X5+:  40 [ 0.010 kHz ]
+P1X6+:  40 [ 0.010 kHz ]
+P1X7+:  40 [ 0.010 kHz ]
+P1X8+:  324529 [ 80.848 kHz ]
+P1X9+:  272162 [ 67.802 kHz ]
+P1X10+: 266827 [ 66.473 kHz ]
+P1X11+: 265929 [ 66.250 kHz ] 
+P1X12+: 252640 [ 62.939 kHz ]
+P1X13+: 177120 [ 44.125 kHz ]
+
+P1X1-:  40 [ 0.010 kHz ]
+P1X2-:  40 [ 0.010 kHz ]
+P1X3-:  40 [ 0.010 kHz ]
+P1X4-:  40 [ 0.010 kHz ]
+P1X5-:  40 [ 0.010 kHz ]
+P1X6-:  40 [ 0.010 kHz ]
+P1X7-:  40 [ 0.010 kHz ]
+P1X8-:  326397 [ 81.314 kHz ]
+P1X9-:  294085 [ 73.264 kHz ]
+P1X10-: 268699 [ 66.940 kHz ]
+P1X11-: 259495 [ 64.647 kHz ]
+P1X12-: 201250 [ 50.136 kHz ]
+P1X13-: 198012 [ 49.330 kHz ]
+ 
+P1Y1+:  182962 [ 45.580 kHz ]
+P1Y2+:  264726 [ 65.950 kHz ]
+P1Y3+:  334676 [ 83.376 kHz ]
+P1Y4+:  272142 [ 67.797 kHz ]
+P1Y5+:  452985 [ 112.850 kHz ]
+P1Y6+:  409322 [ 101.972 kHz ]
+P1Y7+:  427509 [ 106.503 kHz ]
+P1Y8+:  351536 [ 87.576 kHz ]
+P1Y9+:  281910 [ 70.231 kHz ]
+P1Y10+: 309383 [ 77.075 kHz ]
+P1Y11+: 250695 [ 62.454 kHz ]
+P1Y12+: 252741 [ 62.964 kHz ]
+P1Y13+: 159865 [ 39.826 kHz ]
+
+P1Y1-:  188920 [ 47.065 kHz ]
+P1Y2-:  281749 [ 70.191 kHz ]
+P1Y3-:  302339 [ 75.320 kHz ]
+P1Y4-:  319356 [ 79.560 kHz ]
+P1Y5-:  384352 [ 95.752 kHz ]
+P1Y6-:  375322 [ 93.502 kHz ]
+P1Y7-:  427066 [ 106.393 kHz ]
+P1Y8-:  342260 [ 85.265 kHz ]
+P1Y9-:  282092 [ 70.276 kHz ]
+P1Y10-: 388334 [ 96.744 kHz ]
+P1Y11-: 260465 [ 64.888 kHz ]
+P1Y12-: 311743 [ 77.663 kHz ]
+P1Y13-: 147652 [ 36.784 kHz ]
+
+P2X1+:  40 [ 0.010 kHz ]
+P2X2+:  40 [ 0.010 kHz ]
+P2X3+:  40 [ 0.010 kHz ]
+P2X4+:  40 [ 0.010 kHz ]
+P2X5+:  40 [ 0.010 kHz ]
+P2X6+:  40 [ 0.010 kHz ]
+P2X7+:  40 [ 0.010 kHz ]
+P2X8+:  254644 [ 63.438 kHz ]
+P2X9+:  208222 [ 51.873 kHz ]
+P2X10+: 223931 [ 55.787 kHz ]
+P2X11+: 179413 [ 44.696 kHz ]
+P2X12+: 151371 [ 37.710 kHz ]
+P2X13+: 154592 [ 38.513 kHz ]
+P2X14+: 85549 [ 21.312 kHz ]
+
+P2X1-:  40 [ 0.010 kHz ]
+P2X2-:  40 [ 0.010 kHz ]
+P2X3-:  40 [ 0.010 kHz ]
+P2X4-:  40 [ 0.010 kHz ]
+P2X5-:  40 [ 0.010 kHz ]
+P2X6-:  40 [ 0.010 kHz ]
+P2X7-:  46 [ 0.011 kHz ]
+P2X8-:  261812 [ 65.224 kHz ]
+P2X9-:  234508 [ 58.422 kHz ]
+P2X10-: 232001 [ 57.797 kHz ]
+P2X11-: 186756 [ 46.526 kHz ]
+P2X12-: 165964 [ 41.346 kHz ]
+P2X13-: 168036 [ 41.862 kHz ]
+P2X14-: 99703 [ 24.838 kHz ]
+
+P2Y1+:  40 [ 0.010 kHz ]
+P2Y2+:  40 [ 0.010 kHz ]
+P2Y3+:  239120 [ 59.571 kHz ] 
+P2Y4+:  226758 [ 56.491 kHz ]
+P2Y5+:  277807 [ 69.209 kHz ]
+P2Y6+:  259305 [ 64.599 kHz ]
+P2Y7+:  253168 [ 63.070 kHz ]
+P2Y8+:  244213 [ 60.840 kHz ]
+P2Y9+:  241829 [ 60.246 kHz ]
+P2Y10+: 264666 [ 65.935 kHz ]
+P2Y11+: 280307 [ 69.831 kHz ]
+P2Y12+: 232858 [ 58.011 kHz ]
+P2Y13+: 237123 [ 59.073 kHz ]
+P2Y14+: 193882 [ 48.301 kHz ]
+P2Y15+: 206438 [ 51.429 kHz ]
+P2Y16+: 211106 [ 52.592 kHz ]
+P2Y17+: 205867 [ 51.287 kHz ]
+P2Y18+: 186592 [ 46.485 kHz ]
+P2Y19+: 40 [ 0.010 kHz ]
+P2Y20+: 40 [ 0.010 kHz ]
+P2Y21+: 40 [ 0.010 kHz ]
+
+P2Y1-:  40 [ 0.010 kHz ]
+P2Y2-:  0 [ 0.000 kHz ]
+P2Y3-:  0 [ 0.000 kHz ]
+P2Y4-:  0 [ 0.000 kHz ]
+P2Y5-:  0 [ 0.000 kHz ]
+P2Y6-:  0 [ 0.000 kHz ]
+P2Y7-:  8 [ 0.002 kHz ]
+P2Y8-:  0 [ 0.000 kHz ]
+P2Y9-:  0 [ 0.000 kHz ]
+P2Y10-: 0 [ 0.000 kHz ]
+P2Y11-: 0 [ 0.000 kHz ]
+P2Y12-: 0 [ 0.000 kHz ]
+P2Y13-: 0 [ 0.000 kHz ]
+P2Y14-: 0 [ 0.000 kHz ]
+P2Y15-: 0 [ 0.000 kHz ]
+P2Y16-: 0 [ 0.000 kHz ]
+P2Y17-: 155301 [ 38.689 kHz ]
+P2Y18-: 144146 [ 35.910 kHz ]
+P2Y19-: 40 [ 0.010 kHz ]
+P2Y20-: 40 [ 0.010 kHz ]
+P2Y21-: 40 [ 0.010 kHz ]
+
+
+=:=:=:=:=
+=  HMS  =
+=:=:=:=:=
+Scint   Counts      Rate
+H1X1+:  0 [ 0.000 kHz ]
+H1X2+:  0 [ 0.000 kHz ]
+H1X3+:  0 [ 0.000 kHz ]
+H1X4+:  0 [ 0.000 kHz ]
+H1X5+:  0 [ 0.000 kHz ]
+H1X6+:  0 [ 0.000 kHz ]
+H1X7+:  0 [ 0.000 kHz ]
+H1X8+:  0 [ 0.000 kHz ]
+H1X9+:  0 [ 0.000 kHz ]
+H1X10+: 0 [ 0.000 kHz ]
+H1X11+: 0 [ 0.000 kHz ] 
+H1X12+: 0 [ 0.000 kHz ]
+H1X13+: 0 [ 0.000 kHz ]
+H1X14+: 0 [ 0.000 kHz ]
+H1X15+: 0 [ 0.000 kHz ]
+H1X16+: 0 [ 0.000 kHz ]
+
+H1X1-:  0 [ 0.000 kHz ]
+H1X2-:  0 [ 0.000 kHz ]
+H1X3-:  0 [ 0.000 kHz ]
+H1X4-:  0 [ 0.000 kHz ]
+H1X5-:  0 [ 0.000 kHz ]
+H1X6-:  0 [ 0.000 kHz ]
+H1X7-:  0 [ 0.000 kHz ]
+H1X8-:  0 [ 0.000 kHz ]
+H1X9-:  0 [ 0.000 kHz ]
+H1X10-: 0 [ 0.000 kHz ]
+H1X11-: 0 [ 0.000 kHz ]
+H1X12-: 0 [ 0.000 kHz ]
+H1X13-: 0 [ 0.000 kHz ]
+H1X14-: 0 [ 0.000 kHz ]
+H1X15-: 0 [ 0.000 kHz ]
+H1X16-: 0 [ 0.000 kHz ]
+ 
+H1Y1+:  0 [ 0.000 kHz ]
+H1Y2+:  0 [ 0.000 kHz ]
+H1Y3+:  0 [ 0.000 kHz ]
+H1Y4+:  0 [ 0.000 kHz ]
+H1Y5+:  0 [ 0.000 kHz ]
+H1Y6+:  0 [ 0.000 kHz ]
+H1Y7+:  0 [ 0.000 kHz ]
+H1Y8+:  0 [ 0.000 kHz ]
+H1Y9+:  0 [ 0.000 kHz ]
+H1Y10+: 0 [ 0.000 kHz ]
+
+H1Y1-:  0 [ 0.000 kHz ]
+H1Y2-:  0 [ 0.000 kHz ]
+H1Y3-:  0 [ 0.000 kHz ]
+H1Y4-:  0 [ 0.000 kHz ]
+H1Y5-:  0 [ 0.000 kHz ]
+H1Y6-:  0 [ 0.000 kHz ]
+H1Y7-:  0 [ 0.000 kHz ]
+H1Y8-:  0 [ 0.000 kHz ]
+H1Y9-:  0 [ 0.000 kHz ]
+H1Y10-: 0 [ 0.000 kHz ]
+
+H2X1+:  0 [ 0.000 kHz ]
+H2X2+:  0 [ 0.000 kHz ]
+H2X3+:  0 [ 0.000 kHz ]
+H2X4+:  0 [ 0.000 kHz ]
+H2X5+:  0 [ 0.000 kHz ]
+H2X6+:  0 [ 0.000 kHz ]
+H2X7+:  0 [ 0.000 kHz ]
+H2X8+:  0 [ 0.000 kHz ]
+H2X9+:  0 [ 0.000 kHz ]
+H2X10+: 0 [ 0.000 kHz ]
+H2X11+: 0 [ 0.000 kHz ]
+H2X12+: 0 [ 0.000 kHz ]
+H2X13+: 0 [ 0.000 kHz ]
+H2X14+: 0 [ 0.000 kHz ]
+H2X15+: 0 [ 0.000 kHz ]
+H2X16+: 0 [ 0.000 kHz ]
+
+H2X1-:  0 [ 0.000 kHz ]
+H2X2-:  0 [ 0.000 kHz ]
+H2X3-:  0 [ 0.000 kHz ]
+H2X4-:  0 [ 0.000 kHz ]
+H2X5-:  0 [ 0.000 kHz ]
+H2X6-:  0 [ 0.000 kHz ]
+H2X7-:  0 [ 0.000 kHz ]
+H2X8-:  0 [ 0.000 kHz ]
+H2X9-:  0 [ 0.000 kHz ]
+H2X10-: 0 [ 0.000 kHz ]
+H2X11-: 0 [ 0.000 kHz ]
+H2X12-: 0 [ 0.000 kHz ]
+H2X13-: 0 [ 0.000 kHz ]
+H2X14-: 0 [ 0.000 kHz ]
+H2X15-: 0 [ 0.000 kHz ]
+H2X16-: 0 [ 0.000 kHz ]
+
+H2Y1+:  0 [ 0.000 kHz ]
+H2Y2+:  0 [ 0.000 kHz ]
+H2Y3+:  0 [ 0.000 kHz ] 
+H2Y4+:  0 [ 0.000 kHz ]
+H2Y5+:  0 [ 0.000 kHz ]
+H2Y6+:  0 [ 0.000 kHz ]
+H2Y7+:  0 [ 0.000 kHz ]
+H2Y8+:  0 [ 0.000 kHz ]
+H2Y9+:  0 [ 0.000 kHz ]
+H2Y10+: 0 [ 0.000 kHz ]
+
+H2Y1-:  0 [ 0.000 kHz ]
+H2Y2-:  0 [ 0.000 kHz ]
+H2Y3-:  0 [ 0.000 kHz ]
+H2Y4-:  0 [ 0.000 kHz ]
+H2Y5-:  0 [ 0.000 kHz ]
+H2Y6-:  0 [ 0.000 kHz ]
+H2Y7-:  0 [ 0.000 kHz ]
+H2Y8-:  0 [ 0.000 kHz ]
+H2Y9-:  0 [ 0.000 kHz ]
+H2Y10-: 0 [ 0.000 kHz ]
+
+start_of_run = 2022-09-29 05:24:40
+end_of_run = 2022-09-29 05:24:44

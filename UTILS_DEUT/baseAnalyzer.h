@@ -18,7 +18,7 @@ class baseAnalyzer
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t create_skim=0); //initialize member variables
 
   //2nd constructor (overload constructor, i.e., different arguments)
   baseAnalyzer(string earm="", string ana_type="", string ana_cuts="");
@@ -308,8 +308,8 @@ protected:
   TString trig_type_single;      // trigger type to actually use when applying pre-scale factor to event weight (only if analyzing singles)
   TString trig_type_coin;      // trigger type to actually use when applying pre-scale factor to event weight   (only if analyzing coincidence)
   
-  Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
-
+  Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment) -- not in use
+  Bool_t skim_flag; 
   
   // Read in general info from REPORT file 
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )

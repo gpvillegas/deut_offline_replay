@@ -20,7 +20,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   //TString simc_filename =  Form("../heep_simc_histos_%d_rad.root", run);                      
   //TString data_filename = Form("../heep_data_histos_%d_combined.root",run); 
 
-  TString outPDF=Form("DEUT_OUTPUT/PDF/deut_output_%s_%d_%d.pdf", ana_type.Data(), run, evt);
+  TString outPDF=Form("CAFE_OUTPUT/PDF/cafe_output_%s_%d_%d.pdf", ana_type.Data(), run, evt);
   
   Bool_t data_exist = !gSystem->AccessPathName( data_file_path.Data() );
   if(!data_exist){
@@ -502,8 +502,8 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   else if (tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
 
-    data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_nuc_vs_Pm_ACCP_PID_CTIME_CUTS", data_Em_nuc_vs_Pm);
-    //data_file->GetObject("kin_plots/H_Em_src_vs_Pm", data_Em_src_vs_Pm);
+    data_file->GetObject("kin_plots/H_Em_nuc_vs_Pm", data_Em_nuc_vs_Pm);
+    data_file->GetObject("kin_plots/H_Em_src_vs_Pm", data_Em_src_vs_Pm);
     
   }
   
@@ -568,7 +568,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   
   //Get Histogram objects from data rootfile
   data_file->GetObject("pid_plots/H_ep_ctime_total", data_ep_ctime_total);
-  data_file->GetObject("pid_plots/H_ep_ctime_real", data_ep_ctime_real);
+  data_file->GetObject("pid_plots/H_ep_ctime", data_ep_ctime_real);
   data_file->GetObject("rand_plots/H_ep_ctime_rand", data_ep_ctime_rand);
 
   data_file->GetObject("kin_plots/H_W", data_W_total);
@@ -822,9 +822,16 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     // ------ 2D Nuclear Missing Energy vs. Pm ------------------------------------------
     // NOTE: Em_nuc = nu - Tp -T_{A-1}  Em_src =  nu - Tp - T_{nucleon}
     //       Em_src, is missing energy assuming kinetic energy of spectator SRC nucleon (it is used to determine a cut on to clean bkg)
-  
+    
+    c1->Divide(1,2);
+    
+    c1->cd(1);
     //gPad->SetLogz();
     data_Em_nuc_vs_Pm->Draw("colz");
+    
+    c1->cd(2);
+    //gPad->SetLogz();
+    data_Em_src_vs_Pm->Draw("colz");
     
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();

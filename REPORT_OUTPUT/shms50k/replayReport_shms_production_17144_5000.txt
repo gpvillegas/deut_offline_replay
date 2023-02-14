@@ -1,0 +1,930 @@
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+Tue Feb 14 10:26:06 EST 2023
+
+Running SHMS COIN analysis on the run 17144:
+ -> SCRIPT:  SCRIPTS/COIN/PRODUCTION/replay_deut.C
+ -> RUN:     17144
+ -> NEVENTS: 5000
+ -> COMMAND: ./hcana -q "SCRIPTS/COIN/PRODUCTION/replay_deut.C(17144, 5000, \"shms50k\")"
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+DB_DIR set to DBASE
+Error in <TGClient::TGClient>: can't open display "localhost:67.0", switching to batch mode...
+ In case you run from a remote ssh session, reconnect with ssh -Y
+  ************************************************
+  *                                              *
+  *            W E L C O M E  to  the            *
+  *          H A L L C ++  A N A L Y Z E R       *
+  *                                              *
+  *  hcana release       0.95.0  Wed Feb 08 2023 *
+  *  PODD release         1.7.3       8 Sep 2022 *
+  *  ROOT               6.22/06      Nov 27 2020 *
+  *                                              *
+  *            For information visit             *
+  *      http://hallcweb.jlab.org/hcana/docs/    *
+  *                                              *
+  ************************************************
+
+Processing SCRIPTS/COIN/PRODUCTION/replay_deut.C(17144, 5000, "shms50k")...
+Opening parameter file: [0] DBASE/COIN/standard.database
+Reading Parameters for run 17144
+Opening parameter file: [0] DBASE/COIN/GEN/general_deut_spring23.param
+Opening parameter file: [1] PARAM/TRIG/spring23/tcoin_init.param
+Opening parameter file: [1] PARAM/GEN/genflags.param
+Opening parameter file: [1] PARAM/GEN/gdebug.param
+Opening parameter file: [1] PARAM/GEN/gtarget.param
+Opening parameter file: [1] PARAM/GEN/gbeam.param
+Opening parameter file: [1] PARAM/GEN/gscalers.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/hcana_init.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/hdebug.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/h_fadc_debug.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/hmsflags_init.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/htracking_init.param
+Opening parameter file: [1] PARAM/HMS/GEN/spring23/h_reftime_cut_init.param
+Opening parameter file: [1] PARAM/HMS/CER/hcer_geom.param
+Opening parameter file: [1] PARAM/HMS/DC/hdc_geom.param
+Opening parameter file: [1] PARAM/HMS/HODO/hhodo_geom.param
+Opening parameter file: [1] PARAM/HMS/AERO/haero_geom.param
+Opening parameter file: [1] PARAM/HMS/CAL/hcal_geom.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/pcana_init.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/pdebug.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/p_fadc_debug.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/shmsflags_init.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/ptracking_init.param
+Opening parameter file: [1] PARAM/SHMS/GEN/spring23/p_reftime_cut_init.param
+Opening parameter file: [1] PARAM/SHMS/NGCER/pngcer_geom.param
+Opening parameter file: [1] PARAM/SHMS/DC/pdc_geom.param
+Opening parameter file: [1] PARAM/SHMS/HODO/phodo_geom.param
+Opening parameter file: [1] PARAM/SHMS/HGCER/phgcer_geom.param
+Opening parameter file: [1] PARAM/SHMS/AERO/paero_geom.param
+Opening parameter file: [1] PARAM/SHMS/CAL/pcal_geom.param
+Opening parameter file: [0] DBASE/COIN/GEN/det_calib_deut_spring23.param
+Opening parameter file: [1] PARAM/HMS/HODO/hhodo_calib.param
+Opening parameter file: [1] PARAM/HMS/HODO/spring23/calib/hhodo_TWcalib_init.param
+Opening parameter file: [1] PARAM/HMS/HODO/spring23/calib/hhodo_Vpcalib_init.param
+Opening parameter file: [1] PARAM/HMS/DC/spring23/calib/hdc_calib_init.param
+Opening parameter file: [1] PARAM/HMS/DC/spring23/calib/hdc_tzero_per_wire_init.param
+Opening parameter file: [1] PARAM/HMS/CAL/spring23/calib/hcal_calib_init.param
+Opening parameter file: [1] PARAM/HMS/CER/spring23/calib/hcer_calib_init.param
+Opening parameter file: [1] PARAM/HMS/AERO/haero_calib.param
+Opening parameter file: [1] PARAM/SHMS/HODO/phodo_calib.param
+Opening parameter file: [1] PARAM/SHMS/HODO/spring23/calib/phodo_TWcalib_init.param
+Opening parameter file: [1] PARAM/SHMS/HODO/spring23/calib/phodo_Vpcalib_init.param
+Opening parameter file: [1] PARAM/SHMS/DC/spring23/calib/pdc_calib_init.param
+Opening parameter file: [1] PARAM/SHMS/DC/spring23/calib/pdc_tzero_per_wire_init.param
+Opening parameter file: [1] PARAM/SHMS/CAL/spring23/calib/pcal_calib_init.param
+Opening parameter file: [1] PARAM/SHMS/NGCER/spring23/calib/pngcer_calib_init.param
+Opening parameter file: [1] PARAM/SHMS/HGCER/spring23/calib/phgcer_calib_init.param
+Opening parameter file: [1] PARAM/SHMS/AERO/paero_calib.param
+Opening parameter file: [0] DBASE/COIN/GEN/det_cuts_deut_spring23.param
+Opening parameter file: [1] PARAM/HMS/HODO/spring23/cuts/hhodo_cuts_init.param
+Opening parameter file: [1] PARAM/HMS/DC/spring23/cuts/hdc_cuts_init.param
+Opening parameter file: [1] PARAM/HMS/CAL/spring23/cuts/hcal_cuts_init.param
+Opening parameter file: [1] PARAM/HMS/CER/spring23/cuts/hcer_cuts_init.param
+Opening parameter file: [1] PARAM/HMS/AERO/haero_cuts.param
+Opening parameter file: [1] PARAM/SHMS/HODO/spring23/cuts/phodo_cuts_init.param
+Opening parameter file: [1] PARAM/SHMS/DC/spring23/cuts/pdc_cuts_init.param
+Opening parameter file: [1] PARAM/SHMS/CAL/spring23/cuts/pcal_cuts_init.param
+Opening parameter file: [1] PARAM/SHMS/NGCER/spring23/cuts/pngcer_cuts_init.param
+Opening parameter file: [1] PARAM/SHMS/HGCER/spring23/cuts/phgcer_cuts_init.param
+Opening parameter file: [1] PARAM/SHMS/AERO/paero_cuts.param
+Opening parameter file: [1] PARAM/TRIG/spring23/tcoin_init.param
+Opening parameter file: [0] DBASE/COIN/STD/standard.kinematics
+Reading Parameters for run 17144
+
+ Detector ID Map
+
+   HDC 11
+   HSCIN 13
+   HCER 14
+   HCAL 15
+   HRASTER 18
+   PNGCER 21
+   PDC 22
+   PSCIN 23
+   PHGCER 24
+   PAERO 25
+   PCAL 26
+   PRASTER 28
+   TCOIN 30
+
+Evio file EvioVersion = 2
+in THaRun::Open:  coda version 2
+Prestart at 1
+Error in <THcRun::THaRunBase::Init>: Missing run parameters: prescale factors. Run not initialized.
+OBJ: THcRun	RUN_17144	
+Run number: 17144
+Run date:   Thu Sep 29 05:24:40 2022
+Requested event range: 1-5000
+Analyzed events:       0
+Assume Date:           0
+Database read:         0
+Initialized  :         0
+Opened       :         0
+Date set/read/req:     1 1 1
+Run num set/read/req:  1 1 1
+Run type set/read/req: 1 1 1
+Prescales set/rd/req:  0 0 0
+DAQInfo set/rd/req:    0 0 0
+Run parameters: 
+ Beam: 
+  Energy      = 0 +/- 0 GeV
+  Momentum    = 0 GeV/c
+  Mass/Charge = 0/0 GeV/c^2
+ Target: 
+  Mass:       = 0 GeV/c^2
+ DAQ:
+  Prescale factors: (1-12)
+   0/0/0/0/0/0/0/0/0/0/0/0
+Max # scan:     1
+CODA file:      ./CACHE_LINKS/cache_cafe/shms_all_17144.dat
+Segment number: -1
+Stream number:  -1
+Initializing run object
+in THaRun::Open:  coda version 2
+Prestart at 1
+Overwriting existing output file: ROOTfiles/shms50k/deut_replay_shms50k_17144_5000.root
+OBJ: THcRun	RUN_17144	
+Run number: 17144
+Run date:   Thu Sep 29 05:24:40 2022
+Requested event range: 1-5000
+Max # scan:     1
+CODA file:      ./CACHE_LINKS/cache_cafe/shms_all_17144.dat
+Segment number: -1
+Stream number:  -1
+Initializing analysis objects
+Initializing D
+Initializing P
+In THcHallCSpectrometer::ReadDatabase()
+ GetName() P
+p From Formula Mispointing_y = -0.06
+p From Formula Mispointing_x = -0.126
+
+
+
+hodo planes = 4
+sel using scin = 0
+fPruneXp = 0.3
+fPruneYp = 0.3
+fPruneYtar = 6
+fPruneDelta = 30
+fPruneBeta = 0.8
+fPruneDf = 1
+fPruneChiBeta = 100
+fPruneFpTime = 1000
+fPruneNPMT = 6
+sel using prune = 1
+fPartMass = 0.000511
+fPcentral = 8.55 -0.25
+fThetalab = 8.3 0
+Read 215 matrix element terms
+Defining pngcer_tdcref_miss and pngcer_adcref_miss
+Created Cherenkov detector P.ngcer with 4 PMTs
+ fSampThreshold 1 = 5
+*** WARNING!!!  Rounded pngcer_adcrefcut to nearest integer 
+ fSampThreshold = 5
+InitHitList: THcCherenkovHit RefTimeCuts: 0 -1000
+*** WARNING!!!  Rounded pdc_tdcrefcut to nearest integer 
+Plane Name List: 1u1 1u2 1x1 1x2 1v1 1v2 2v2 2v1 2x2 2x1 2u2 2u1
+Drift Chambers: 12 planes in 2 chambers
+Created Drift Chamber 1, Ch1
+Created Drift Chamber 2, Ch2
+ DC tdc ref time cut = -10000
+InitHitList: THcRawDCHit RefTimeCuts: -10000 0
+Defining pdc_tdcref_miss and pdc_adcref_miss
+*** WARNING!!!  Rounded pdc_tdc_min_win elements to nearest integer 
+*** WARNING!!!  Rounded pdc_tdc_max_win elements to nearest integer 
+Plane counts: 107 107 79 79 107 107 107 107 79 79 107 107
+*** WARNING!!!  Rounded phodo_tdcrefcut to nearest integer 
+*** WARNING!!!  Rounded phodo_adcrefcut to nearest integer 
+Plane Name List : 1x 1y 2x 2y
+Created Scintillator Plane 1x, Hodoscope Plane 1x
+Created Scintillator Plane 1y, Hodoscope Plane 1y
+Created Scintillator Plane 2x, Hodoscope Plane 2x
+Created Scintillator Plane 2y, Hodoscope Plane 2y
+ Hodo tdc ref time cut = -1000 -1000
+InitHitList: THcRawHodoHit RefTimeCuts: -1000 -1000
+Defining pscin_tdcref_miss and pscin_adcref_miss
+USING 2 NSEC WINDOW FOR FP NO_TRACK CALCULATIONS.
+ fRatio_xpfp_to_xfp= 0.0018
+Defining phgcer_tdcref_miss and phgcer_adcref_miss
+Created Cherenkov detector P.hgcer with 4 PMTs
+ fSampThreshold 1 = 5
+*** WARNING!!!  Rounded phgcer_adcrefcut to nearest integer 
+ fSampThreshold = 5
+InitHitList: THcCherenkovHit RefTimeCuts: 0 -1000
+Defining paero_tdcref_miss and paero_adcref_miss
+Created aerogel detector P.aero with 7 PMT pairs
+*** WARNING!!!  Rounded paero_adcrefcut to nearest integer 
+InitHitList: THcAerogelHit RefTimeCuts: 0 -1000
+*** WARNING!!!  Rounded pcal_adcrefcut to nearest integer 
+From THcShower::Setup: created Shower planes for P: pr, fly.
+InitHitList: THcRawShowerHit RefTimeCuts: 0 -1000
+Defining pcal_tdcref_miss and pcal_adcref_miss
+THcShowerPlane::DefineVariables: registered counters P.cal.stat_trksum1 and P.cal.stat_hitsum1
+ fSampThreshold 1 = 5
+Initializing P.rb
+InitHitList: THcRasterRawHit RefTimeCuts: 0 0
+ THcRaster is using EPICS bpm for beam position
+Initializing H
+In THcHallCSpectrometer::ReadDatabase()
+ GetName() H
+h From Formula Mispointing_x = 0.107
+
+
+
+hodo planes = 4
+sel using scin = 0
+fPruneXp = 0.2
+fPruneYp = 0.2
+fPruneYtar = 20
+fPruneDelta = 30
+fPruneBeta = 30
+fPruneDf = 1
+fPruneChiBeta = 100
+fPruneFpTime = 1000
+fPruneNPMT = 6
+sel using prune = 1
+fPartMass = 0.938272
+fPcentral = 1.325 -0.00188
+fThetalab = -66.4 0
+Read 461 matrix element terms
+*** WARNING!!!  Rounded hdc_tdcrefcut to nearest integer 
+Plane Name List: 1u1 1u2 1x1 1x2 1v2 1v1 2v1 2v2 2x2 2x1 2u2 2u1
+Drift Chambers: 12 planes in 2 chambers
+Created Drift Chamber 1, Ch1
+Created Drift Chamber 2, Ch2
+ DC tdc ref time cut = -10000
+InitHitList: THcRawDCHit RefTimeCuts: -10000 0
+Defining hdc_tdcref_miss and hdc_adcref_miss
+*** WARNING!!!  Rounded hdc_tdc_min_win elements to nearest integer 
+*** WARNING!!!  Rounded hdc_tdc_max_win elements to nearest integer 
+Plane counts: 96 96 102 102 96 96 96 96 102 102 96 96
+*** WARNING!!!  Rounded hhodo_tdcrefcut to nearest integer 
+*** WARNING!!!  Rounded hhodo_adcrefcut to nearest integer 
+Plane Name List : 1x 1y 2x 2y
+Created Scintillator Plane 1x, Hodoscope Plane 1x
+Created Scintillator Plane 1y, Hodoscope Plane 1y
+Created Scintillator Plane 2x, Hodoscope Plane 2x
+Created Scintillator Plane 2y, Hodoscope Plane 2y
+ Hodo tdc ref time cut = -1000 -1000
+InitHitList: THcRawHodoHit RefTimeCuts: -1000 -1000
+Defining hscin_tdcref_miss and hscin_adcref_miss
+USING 10 NSEC WINDOW FOR FP NO_TRACK CALCULATIONS.
+ fRatio_xpfp_to_xfp= 0.0011
+Defining hcer_tdcref_miss and hcer_adcref_miss
+Created Cherenkov detector H.cer with 2 PMTs
+ fSampThreshold 1 = 5
+*** WARNING!!!  Rounded hcer_PedDefault elements to nearest integer 
+*** WARNING!!!  Rounded hcer_adcrefcut to nearest integer 
+ fSampThreshold = 5
+InitHitList: THcCherenkovHit RefTimeCuts: 0 -1000
+*** WARNING!!!  Rounded hcal_adcrefcut to nearest integer 
+From THcShower::Setup: created Shower planes for H: 1pr, 2ta, 3ta, 4ta.
+InitHitList: THcRawShowerHit RefTimeCuts: 0 -1000
+Defining hcal_tdcref_miss and hcal_adcref_miss
+THcShowerPlane::DefineVariables: registered counters H.cal.stat_trksum1 and H.cal.stat_hitsum1
+THcShowerPlane::DefineVariables: registered counters H.cal.stat_trksum2 and H.cal.stat_hitsum2
+THcShowerPlane::DefineVariables: registered counters H.cal.stat_trksum3 and H.cal.stat_hitsum3
+THcShowerPlane::DefineVariables: registered counters H.cal.stat_trksum4 and H.cal.stat_hitsum4
+Initializing H.rb
+InitHitList: THcRasterRawHit RefTimeCuts: 0 0
+ THcRaster is using EPICS bpm for beam position
+Initializing T
+ Trig = 4
+pTRIG1_ROC1 27
+pTRIG3_ROC1 29
+pTRIG1_ROC2 58
+pTRIG3_ROC2 60
+pRF 112
+hRF 111
+*** WARNING!!!  Rounded t_coin_trig_tdcrefcut to nearest integer 
+*** WARNING!!!  Rounded t_coin_trig_adcrefcut to nearest integer 
+InitHitList: THcTrigRawHit RefTimeCuts: -3200 -4000
+Defining t_coin_tdcref_miss and t_coin_adcref_miss
+Initializing P.react
+Initializing P.extcor
+In THcExtTarCor::ReadDatabase()
+Initializing P.gtr
+Initializing phodeff
+
+
+THcHodoEff::ReadDatabase nplanes=4
+Plane = 1    counters = 13
+Plane = 2    counters = 13
+Plane = 3    counters = 14
+Plane = 4    counters = 21
+THcHodoEff::Init nplanes=4
+THcHodoEff::Init Apparatus = hod P
+Initializing H.react
+Initializing H.extcor
+In THcExtTarCor::ReadDatabase()
+Initializing H.gtr
+Initializing hhodeff
+
+
+THcHodoEff::ReadDatabase nplanes=4
+Plane = 1    counters = 16
+Plane = 2    counters = 10
+Plane = 3    counters = 16
+Plane = 4    counters = 10
+THcHodoEff::Init nplanes=4
+THcHodoEff::Init Apparatus = hod H
+Initializing P.kin.primary
+In THcPrimaryKine::ReadDatabase()
+Initializing H.kin.secondary
+THcSecondaryKine particleMASS: 0.938272
+Initializing CTime
+*************************************************
+Initializing THcCointTime Physics Modue
+Hadron Arm   -------> H
+Electron Arm -------> P
+TrigDet  -------> T.coin
+**************************************************
+Initializing RFTime
+*************************************************
+Initializing THcRFTime Physics Modue
+Hadron Arm   -------> P
+Electron Arm -------> H
+TrigDet  -------> T.coin
+Initializing epics
+Initializing P
+Howdy !  We are initializing THcScalerEvtHandler !!   name =   P
+Setting scaler clock ... channel = 31 ... freq = 1e+06
+Initializing H
+Howdy !  We are initializing THcScalerEvtHandler !!   name =   H
+Setting scaler clock ... channel = 31 ... freq = 1e+06
+Initializing HC
+Howdy !  We are initializing THcConfigEvtHandler !!   name =   HC
+Initializing epics
+Loading cuts from DEF-files/CUTS/deut_cuts.def
+Initializing output
+
+THaOutput definitions: 
+=== Number of variables 303
+=== Number of formulas 4
+=== Number of histograms 253
+
+in THaRun::Open:  coda version 2
+Decoder: helicity disabled
+
+Starting analysis
+------------------
+  Event type 125
+THcConfigEvtHandler: 1
+ADC information: Block level 1
+ADC thresholds for slots  3 4 5 6 7 8 9 10 13 14 15 16 17 18
+TDC information
+Making Parms for ROC 1  Event type 125
+------------------
+  Event type 125
+THcConfigEvtHandler: 4
+ADC information: Block level 1
+ADC thresholds for slots  3 4 5 6 7 8 9 10 13 14 15 16 17 18 19 20
+Making Parms for ROC 4  Event type 125
+------------------
+  Event type 125
+THcConfigEvtHandler: 3
+TDC information
+Making Parms for ROC 3  Event type 125
+------------------
+  Event type 125
+THcConfigEvtHandler: 6
+TDC information
+Making Parms for ROC 6  Event type 125
+------------------
+  Event type 125
+THcConfigEvtHandler: 2
+ADC information: Block level 1
+ADC thresholds for slots  3 4 5 6 7 8 9 10 13 14
+TDC information
+Making Parms for ROC 2  Event type 125
+<THaCrateMap::init(tloc)>: Opened database file MAPS/db_cratemap.dat
+THaCrateMap::WARNING:  Did not find TSROC.  Using default 21
+1000
+2000
+3000
+4000
+5000
+Missing Ref times:             P.ngcer         0         0
+Missing Ref times:                P.dc         0         0
+Missing Ref times:               P.hod         0         0
+Missing Ref times:             P.hgcer         0         0
+Missing Ref times:              P.aero         0         0
+Missing Ref times:               P.cal         0         0
+Missing Ref times:                H.dc         0         0
+Missing Ref times:               H.hod         0         0
+Missing Ref times:               H.cer         0         0
+Missing Ref times:               H.cal         0         0
+Missing Ref times:              T.coin         0         0
+THcScalerEvtHandler::End Analyzing 0 delayed scaler events
+THcScalerEvtHandler::End Analyzing 0 delayed scaler events
+Event limit reached.
+==== Tue Feb 14 10:26:31 2023 Summary for run 17144
+Counter summary:
+5051  events read
+5051  events decoded
+5000  physics events
+  51  other event types
+5000  physics events analyzed
+5000  events accepted
+  51  skipped after raw decoding
+
+Cut summary:
+Name                      Def                                                                                        Called     Passed
+---------------------------------------------------------------------------------------------------------------------------------------------
+BLOCK: RawDecode
+Pedestal_event            g.evtyp==99                                                                                5051       0    (0%)
+SHMS_event                g.evtyp==1                                                                                 5051       1759 (34.8%)
+HMS_event                 g.evtyp==2                                                                                 5051       1993 (39.5%)
+BOTH_SINGLES_event        g.evtyp==3                                                                                 5051       0    (0%)
+COIN_ONLY_event           g.evtyp==4                                                                                 5051       1238 (24.5%)
+SHMS_COIN_event           g.evtyp==5                                                                                 5051       1    (0.0198%)
+HMS_COIN_event            g.evtyp==6                                                                                 5051       9    (0.178%)
+COIN_ALL_event            g.evtyp==7                                                                                 5051       0    (0%)
+ALL_COIN_events           g.evtyp>=4&&g.evtyp<=7                                                                     5051       1248 (24.7%)
+ALL_events                g.evtyp>=1&&g.evtyp<=7                                                                     5051       5000 (99%)
+ALL_HMS_events            HMS_event||COIN_ONLY_event||HMS_COIN_event||COIN_ALL_event                                 5051       3240 (64.1%)
+ALL_SHMS_events           SHMS_event||COIN_ONLY_event||SHMS_COIN_event||COIN_ALL_event                               5051       2998 (59.4%)
+RawDecode_master          ALL_events                                                                                 5051       5000 (99%)
+
+BLOCK: Decode
+pTRIG1_ROC2               T.coin.pTRIG1_ROC2_tdcTime>0                                                               5000       3164 (63.3%)
+pTRIG2_ROC2               T.coin.pTRIG2_ROC2_tdcTime>0                                                               5000       3124 (62.5%)
+pTRIG3_ROC2               T.coin.pTRIG3_ROC2_tdcTime>0                                                               5000       3216 (64.3%)
+pTRIG4_ROC2               T.coin.pTRIG4_ROC2_tdcTime>0                                                               5000       242  (4.84%)
+pTRIG5_ROC2               T.coin.pTRIG5_ROC2_tdcTime>0                                                               5000       1248 (25%)
+pTRIG6_ROC2               T.coin.pTRIG6_ROC2_tdcTime>0                                                               5000       1143 (22.9%)
+pTRIG1_ROC2_noEDTM        T.coin.pTRIG1_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       2933 (58.7%)
+pTRIG2_ROC2_noEDTM        T.coin.pTRIG2_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       2892 (57.8%)
+pTRIG3_ROC2_noEDTM        T.coin.pTRIG3_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       2983 (59.7%)
+pTRIG4_ROC2_noEDTM        T.coin.pTRIG4_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       9    (0.18%)
+pTRIG5_ROC2_noEDTM        T.coin.pTRIG5_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       1015 (20.3%)
+pTRIG6_ROC2_noEDTM        T.coin.pTRIG6_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    5000       910  (18.2%)
+shms_edtm_accepted        T.coin.pEDTM_tdcTime>0                                                                     5000       233  (4.66%)
+hms_edtm_accepted         T.coin.hEDTM_tdcTime>0                                                                     5000       233  (4.66%)
+ALL_HMS_events_NOEDTM     T.coin.hEDTM_tdcTime==0.0&&ALL_HMS_events                                                  5000       3007 (60.1%)
+ALL_SHMS_events_NOEDTM    T.coin.pEDTM_tdcTime==0.0&&ALL_SHMS_events                                                 5000       2766 (55.3%)
+ALL_COIN_events_NO_EDTM   T.coin.hEDTM_tdcTime==0.0&&T.coin.pEDTM_tdcTime==0.0&&ALL_COIN_events                      5000       1015 (20.3%)
+ALL_events_NO_EDTM        T.coin.hEDTM_tdcTime==0.0&&T.coin.pEDTM_tdcTime==0.0&&ALL_events                           5000       4767 (95.3%)
+Decode_master             ALL_events                                                                                 5000       5000 (100%)
+
+BLOCK: CoarseTracking
+CoarseTracking_master     ALL_events                                                                                 5000       5000 (100%)
+
+BLOCK: CoarseReconstruct
+CoarseReconstruct_master  ALL_events                                                                                 5000       5000 (100%)
+
+BLOCK: Tracking
+pcut_cer_ng_elec          P.ngcer.npeSum>1.5                                                                         5000       2684 (53.7%)
+pcut_cal_elec             P.cal.etotnorm>0.6&&P.cal.etotnorm<1.5                                                     5000       1468 (29.4%)
+pcut_elec_all             pcut_cer_ng_elec&&pcut_cal_elec                                                            5000       1419 (28.4%)
+pcut_cer_ng_had           P.ngcer.npeSum<=1.5                                                                        5000       2316 (46.3%)
+pcut_cal_had              P.cal.etotnorm>0.&&P.cal.etotnorm<=0.6                                                     5000       1115 (22.3%)
+pcut_had_all              pcut_cer_ng_had&&pcut_cal_had                                                              5000       159  (3.18%)
+shmsScinGood              P.hod.goodscinhit==1                                                                       5000       849  (17%)
+shmsGoodBetanotrk         P.hod.betanotrack>0.5&&P.hod.betanotrack<1.5                                               5000       2600 (52%)
+shmshodstarttime          P.hod.goodstarttime==1                                                                     5000       2610 (52.2%)
+shmsScinShould            shmsScinGood&&shmsGoodBetanotrk&&shmshodstarttime                                          5000       848  (17%)
+shmsScinShoulde           shmsScinShould&&pcut_elec_all                                                              5000       675  (13.5%)
+shmsScinShouldh           shmsScinShould&&pcut_had_all                                                               5000       12   (0.24%)
+shmsScinDid               shmsScinShould&&P.dc.ntrack>0                                                              5000       737  (14.7%)
+shmsScinDide              shmsScinShoulde&&P.dc.ntrack>0                                                             5000       647  (12.9%)
+shmsScinDidh              shmsScinShouldh&&P.dc.ntrack>0                                                             5000       7    (0.14%)
+hcut_cer_elec             H.cer.npeSum>0.5                                                                           5000       124  (2.48%)
+hcut_cal_elec             H.cal.etotnorm>0.6&&H.cal.etotnorm<1.5                                                     5000       2    (0.04%)
+hcut_elec_all             hcut_cer_elec&&hcut_cal_elec                                                               5000       0    (0%)
+hcut_cer_had              H.cer.npeSum<0.5                                                                           5000       4876 (97.5%)
+hcut_cal_had              H.cal.etotnorm>0.&&H.cal.etotnorm<0.6                                                      5000       132  (2.64%)
+hcut_had_all              hcut_cer_had&&hcut_cal_had                                                                 5000       125  (2.5%)
+hmsScinGood               H.hod.goodscinhit==1                                                                       5000       1587 (31.7%)
+hmsGoodBetanotrk          H.hod.betanotrack>0.5&&H.hod.betanotrack<1.5                                               5000       2846 (56.9%)
+hmshodstarttime           H.hod.goodstarttime==1                                                                     5000       2983 (59.7%)
+hmsScinShould             hmsScinGood&&hmsGoodBetanotrk&&hmshodstarttime                                             5000       1532 (30.6%)
+hmsScinShouldh            hmsScinShould&&hcut_had_all                                                                5000       63   (1.26%)
+hmsScinShoulde            hmsScinShould&&hcut_elec_all                                                               5000       0    (0%)
+hmsScinDid                hmsScinShould&&H.dc.ntrack>0                                                               5000       1528 (30.6%)
+hmsScinDidh               hmsScinShouldh&&H.dc.ntrack>0                                                              5000       62   (1.24%)
+hmsScinDide               hmsScinShoulde&&H.dc.ntrack>0                                                              5000       0    (0%)
+Tracking_master           ALL_events                                                                                 5000       5000 (100%)
+
+BLOCK: Reconstruct
+Reconstruct_master        ALL_events                                                                                 5000       5000 (100%)
+
+BLOCK: Physics
+shms_accp_cut             P.gtr.th>-0.06&&P.gtr.th<0.06&&P.gtr.ph>-0.04&&P.gtr.ph<0.04&&P.gtr.dp>-10&&P.gtr.dp<20    5000       1369 (27.4%)
+shmsInDipoleExit          P.dc.InsideDipoleExit==1                                                                   5000       4665 (93.3%)
+shmsGen                   shmshodstarttime&&shmsInDipoleExit&&shms_accp_cut                                          5000       1265 (25.3%)
+shmsCal_el                P.cal.etottracknorm>0.7&&P.cal.etottracknorm<1.4                                           5000       1344 (26.9%)
+shmsNGC_should_e          shmsGen&&shmsCal_el                                                                        5000       1203 (24.1%)
+shmsNGC_did_e             shmsNGC_should_e&&P.ngcer.npeSum>0.5                                                       5000       1164 (23.3%)
+hms_accp_cut              H.gtr.th>-0.08&&H.gtr.th<0.08&&H.gtr.ph>-0.045&&H.gtr.ph<0.045&&H.gtr.dp>-10&&H.gtr.dp<10  5000       2404 (48.1%)
+hmsInDipoleExit           H.dc.InsideDipoleExit==1                                                                   5000       4983 (99.7%)
+hmsGen                    hmshodstarttime&&hmsInDipoleExit&&hms_accp_cut                                             5000       2379 (47.6%)
+hmsCal_h                  H.cal.etottracknorm>0.&&H.cal.etottracknorm<=0.7                                           5000       126  (2.52%)
+hmsHGC_should_h           hmsGen&&hmsCal_h                                                                           5000       99   (1.98%)
+hmsHGC_did_h              hmsHGC_should_h&&H.cer.npeSum<1.                                                           5000       95   (1.9%)
+hcut_CleanTrack           H.gtr.index>-1&&H.gtr.dp>-10.0&&H.gtr.dp<10.0                                              5000       2460 (49.2%)
+pcut_CleanTrack           P.gtr.index>-1&&P.gtr.dp>-10.0&&P.gtr.dp<22.0                                              5000       1412 (28.2%)
+Physics_master            ALL_events                                                                                 5000       5000 (100%)
+
+Total     : Real Time =  20.27 seconds Cpu Time =  20.12 seconds
+Time taken by replay_deut: 20 sec.
+Exiting Now . . .
+--------------------------------------------
+ 
+Setting SHMS COIN run 17144 as GOLDEN RUN ! ! !
+ 
+--------------------------------------------
+
+
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+Running onlineGUI for analyzed SHMS COIN run 17144:
+ -> CONFIG:  CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+ -> RUN:     17144
+ -> COMMAND: ./online -f CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg -r 17144
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+Error in <TCling::LoadPCM>: ROOT PCM /w/hallc-scshelf2102/E12-10-003/cyero/deut_online_replay/onlineGUI/onlineDict_rdict.pcm file does not exist
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libASImageGui_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libASImage_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libEG_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libEve_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFFTW_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFitPanel_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFoam_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFumili_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGX11TTF_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGX11_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGdml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGed_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenVector_G__GenVector32_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenVector_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenetic_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeomBuilder_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeomPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeom_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGuiBld_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGuiHtml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGviz3d_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHistFactory_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHistPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHtml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMLP_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMathMore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMinuit2_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMinuit_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libNetxNG_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libNetx_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libPgSQL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofBench_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofDraw_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofPlayer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProof_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libPyMVA_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libQuadp_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRCsg_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRGL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRHTTPSniff_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRHTTP_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRMySQL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libROOTTPython_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRecorder_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFitCore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFitMore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFit_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooStats_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRootAuth_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSPlot_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSQLIO_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSessionViewer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSmatrix_G__Smatrix32_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSmatrix_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSpectrumPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSpectrum_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTMVAGui_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTMVA_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTreeViewer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libUnfold_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libUnuran_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libX3d_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libXMLIO_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libXMLParser_rdict.pcm
+
+Error in <TGClient::TGClient>: can't open display "localhost:67.0", switching to batch mode...
+ In case you run from a remote ssh session, reconnect with ssh -Y
+ File specifier: CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+ Runnumber: 17144
+GUI Configuration loading from CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+     200 lines read from CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+Number of pages defined = 27
+Number of cuts defined = 0
+Overridden File name: ../ROOTfiles/shms50k/deut_replay_shms50k_17144_latest.root
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00007fb3cc20c60c in waitpid () from /lib64/libc.so.6
+#1  0x00007fb3cc189f62 in do_system () from /lib64/libc.so.6
+#2  0x00007fb3d11bab54 in TUnixSystem::StackTrace() () from /u/apps/root/6.22.06/root/lib/libCore.so.6.22
+#3  0x00007fb3d11bd34a in TUnixSystem::DispatchSignals(ESignals) () from /u/apps/root/6.22.06/root/lib/libCore.so.6.22
+#4  <signal handler called>
+#5  0x00007fb3d17d8450 in TGClient::GetRoot() const () from /u/apps/root/6.22.06/root/lib/libGui.so.6.22
+#6  0x000000000041b6ef in OnlineGUI::OnlineGUI(OnlineConfig&, bool, bool, unsigned int) ()
+#7  0x0000000000423199 in online(TString, unsigned int, bool, bool) ()
+#8  0x00000000004235e0 in main ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00007fb3d17d8450 in TGClient::GetRoot() const () from /u/apps/root/6.22.06/root/lib/libGui.so.6.22
+#6  0x000000000041b6ef in OnlineGUI::OnlineGUI(OnlineConfig&, bool, bool, unsigned int) ()
+#7  0x0000000000423199 in online(TString, unsigned int, bool, bool) ()
+#8  0x00000000004235e0 in main ()
+===========================================================
+
+
+Error in <TCling::LoadPCM>: ROOT PCM /w/hallc-scshelf2102/E12-10-003/cyero/deut_online_replay/onlineGUI/onlineDict_rdict.pcm file does not exist
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libASImageGui_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libASImage_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libEG_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libEve_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFFTW_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFitPanel_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFoam_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libFumili_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGX11TTF_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGX11_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGdml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGed_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenVector_G__GenVector32_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenVector_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGenetic_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeomBuilder_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeomPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGeom_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGuiBld_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGuiHtml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libGviz3d_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHistFactory_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHistPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libHtml_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMLP_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMathMore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMinuit2_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libMinuit_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libNetxNG_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libNetx_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libPgSQL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofBench_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofDraw_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProofPlayer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libProof_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libPyMVA_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libQuadp_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRCsg_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRGL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRHTTPSniff_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRHTTP_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRMySQL_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libROOTTPython_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRecorder_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFitCore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFitMore_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooFit_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRooStats_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libRootAuth_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSPlot_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSQLIO_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSessionViewer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSmatrix_G__Smatrix32_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSmatrix_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSpectrumPainter_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libSpectrum_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTMVAGui_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTMVA_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libTreeViewer_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libUnfold_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libUnuran_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libX3d_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libXMLIO_rdict.pcm
+
+Info in <TCling::LoadPCM>: In-memory ROOT PCM candidate /u/apps/root/6.22.06/root/lib/libXMLParser_rdict.pcm
+
+Error in <TGClient::TGClient>: can't open display "localhost:67.0", switching to batch mode...
+ In case you run from a remote ssh session, reconnect with ssh -Y
+ File specifier: CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+ Runnumber: 17144
+ PrintOnly
+GUI Configuration loading from CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+     200 lines read from CONFIG/SHMS/PRODUCTION/shms_coin_production.cfg
+Number of pages defined = 27
+Number of cuts defined = 0
+Overridden File name: ../ROOTfiles/shms50k/deut_replay_shms50k_17144_latest.root
+Warning in <TClass::Init>: no dictionary for class THaEvent is available
+Warning in <TClass::Init>: no dictionary for class THaEventHeader is available
+Warning in <TClass::Init>: no dictionary for class THcRun is available
+Warning in <TClass::Init>: no dictionary for class THaRun is available
+Warning in <TClass::Init>: no dictionary for class THaCodaRun is available
+Warning in <TClass::Init>: no dictionary for class THaRunBase is available
+Warning in <TClass::Init>: no dictionary for class THcRunParameters is available
+Warning in <TClass::Init>: no dictionary for class THaRunParameters is available
+Warning in <TClass::Init>: no dictionary for class DAQInfoExtra is available
+Warning in <TClass::Init>: no dictionary for class DAQconfig is available
+shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: pdf file shms_coin_production_17144.pdf has been created
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: Current canvas added to pdf file shms_coin_production_17144.pdf
+Info in <TCanvas::Print>: pdf file shms_coin_production_17144.pdf has been closed
+
+
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+Done analyzing SHMS run 17144.
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+Generating report file monitoring data file SHMS run 17144.
+
+:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+
+
+-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+
+So long and thanks for all the fish!
+
+-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+
+
+

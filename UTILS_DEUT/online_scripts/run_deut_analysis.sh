@@ -76,9 +76,9 @@ ana_type="data"   # "data" or "simc"
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5             # beam current threhsold cut > bcm_thrs [uA]
-trig_single="trig1"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
-trig_coin="trig6"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
-combine_runs=0
+trig_single="T2"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
+trig_coin="T5"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
+skim_flag=0            # create skimmed tree ? (mostly to reduce file size)
 
 # hcana script
 if [ "${ana_cut}" = "bcm_calib" ]; then
@@ -102,7 +102,7 @@ runDeut="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
 				   \\\"${ana_type}\\\", \\\"${ana_cut}\\\",
           			    ${hel_flag},
                                    \\\"${bcm_type}\\\", ${bcm_thrs},
-                                   \\\"${trig_single}\\\", \\\"${trig_coin}\\\", ${combine_runs}
+                                   \\\"${trig_single}\\\", \\\"${trig_coin}\\\", ${skim_flag}
                      )\""
 
 fill_RunList="python ${fill_list_script} ${replay_type} ${runNum} ${evtNum}"

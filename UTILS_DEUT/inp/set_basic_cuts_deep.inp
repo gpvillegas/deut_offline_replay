@@ -225,11 +225,11 @@ c_heep_MM_max = 0.15
 
 # 4-Momentum Transfers [GeV^2]
 Q2_deep_cut_flag = 1
-c_deep_Q2_min = 4.0
+c_deep_Q2_min = 1.8
 c_deep_Q2_max = 5.0
 
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
-Em_d2MF_cut_flag = 1
+Em_deep_cut_flag = 1
 c_deep_Em_min = -0.02
 c_deep_Em_max = 0.06

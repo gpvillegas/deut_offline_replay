@@ -14,8 +14,8 @@ g_ctp_calib_filename      = "DBASE/COIN/GEN/archive/spring18/det_calib_spring18.
 g_ctp_cuts_filename       = "DBASE/COIN/GEN/archive/spring18/det_cuts_spring18.param"
 
 
-; deuteron start date (feb 2023)
-17144-999999
+; deuteron start date (feb 2023) (includes cafe runs used for testing purposes)
+16968-999999
 g_ctp_parm_filename       = "DBASE/COIN/GEN/general_deut_spring23.param"
 g_ctp_calib_filename      = "DBASE/COIN/GEN/det_calib_deut_spring23.param"
 g_ctp_cuts_filename       = "DBASE/COIN/GEN/det_cuts_deut_spring23.param"

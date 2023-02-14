@@ -1,0 +1,112 @@
+==== Tue Feb 14 10:32:27 2023 Started analysis, run 17144
+Reading from "file://./CACHE_LINKS/cache_cafe/shms_all_17144.dat"
+Event limit reached.
+==== Tue Feb 14 10:32:34 2023 Summary for run 17144
+Counter summary:
+1042  events read
+1042  events decoded
+1000  physics events
+42    other event types
+1000  physics events analyzed
+1000  events accepted
+42    skipped after raw decoding
+
+Cut summary:
+Name                      Def                                                                                        Called     Passed
+---------------------------------------------------------------------------------------------------------------------------------------------
+BLOCK: RawDecode
+Pedestal_event            g.evtyp==99                                                                                1042       0    (0%)
+SHMS_event                g.evtyp==1                                                                                 1042       351  (33.7%)
+HMS_event                 g.evtyp==2                                                                                 1042       397  (38.1%)
+BOTH_SINGLES_event        g.evtyp==3                                                                                 1042       0    (0%)
+COIN_ONLY_event           g.evtyp==4                                                                                 1042       251  (24.1%)
+SHMS_COIN_event           g.evtyp==5                                                                                 1042       0    (0%)
+HMS_COIN_event            g.evtyp==6                                                                                 1042       1    (0.096%)
+COIN_ALL_event            g.evtyp==7                                                                                 1042       0    (0%)
+ALL_COIN_events           g.evtyp>=4&&g.evtyp<=7                                                                     1042       252  (24.2%)
+ALL_events                g.evtyp>=1&&g.evtyp<=7                                                                     1042       1000 (96%)
+ALL_HMS_events            HMS_event||COIN_ONLY_event||HMS_COIN_event||COIN_ALL_event                                 1042       649  (62.3%)
+ALL_SHMS_events           SHMS_event||COIN_ONLY_event||SHMS_COIN_event||COIN_ALL_event                               1042       602  (57.8%)
+RawDecode_master          ALL_events                                                                                 1042       1000 (96%)
+
+BLOCK: Decode
+pTRIG1_ROC2               T.coin.pTRIG1_ROC2_tdcTime>0                                                               1000       628  (62.8%)
+pTRIG2_ROC2               T.coin.pTRIG2_ROC2_tdcTime>0                                                               1000       624  (62.4%)
+pTRIG3_ROC2               T.coin.pTRIG3_ROC2_tdcTime>0                                                               1000       642  (64.2%)
+pTRIG4_ROC2               T.coin.pTRIG4_ROC2_tdcTime>0                                                               1000       47   (4.7%)
+pTRIG5_ROC2               T.coin.pTRIG5_ROC2_tdcTime>0                                                               1000       252  (25.2%)
+pTRIG6_ROC2               T.coin.pTRIG6_ROC2_tdcTime>0                                                               1000       233  (23.3%)
+pTRIG1_ROC2_noEDTM        T.coin.pTRIG1_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       582  (58.2%)
+pTRIG2_ROC2_noEDTM        T.coin.pTRIG2_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       578  (57.8%)
+pTRIG3_ROC2_noEDTM        T.coin.pTRIG3_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       596  (59.6%)
+pTRIG4_ROC2_noEDTM        T.coin.pTRIG4_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       1    (0.1%)
+pTRIG5_ROC2_noEDTM        T.coin.pTRIG5_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       206  (20.6%)
+pTRIG6_ROC2_noEDTM        T.coin.pTRIG6_ROC2_tdcTime>0&&T.coin.pEDTM_tdcTime==0.0                                    1000       187  (18.7%)
+shms_edtm_accepted        T.coin.pEDTM_tdcTime>0                                                                     1000       46   (4.6%)
+hms_edtm_accepted         T.coin.hEDTM_tdcTime>0                                                                     1000       46   (4.6%)
+ALL_HMS_events_NOEDTM     T.coin.hEDTM_tdcTime==0.0&&ALL_HMS_events                                                  1000       603  (60.3%)
+ALL_SHMS_events_NOEDTM    T.coin.pEDTM_tdcTime==0.0&&ALL_SHMS_events                                                 1000       557  (55.7%)
+ALL_COIN_events_NO_EDTM   T.coin.hEDTM_tdcTime==0.0&&T.coin.pEDTM_tdcTime==0.0&&ALL_COIN_events                      1000       206  (20.6%)
+ALL_events_NO_EDTM        T.coin.hEDTM_tdcTime==0.0&&T.coin.pEDTM_tdcTime==0.0&&ALL_events                           1000       954  (95.4%)
+Decode_master             ALL_events                                                                                 1000       1000 (100%)
+
+BLOCK: CoarseTracking
+CoarseTracking_master     ALL_events                                                                                 1000       1000 (100%)
+
+BLOCK: CoarseReconstruct
+CoarseReconstruct_master  ALL_events                                                                                 1000       1000 (100%)
+
+BLOCK: Tracking
+pcut_cer_ng_elec          P.ngcer.npeSum>1.5                                                                         1000       530  (53%)
+pcut_cal_elec             P.cal.etotnorm>0.6&&P.cal.etotnorm<1.5                                                     1000       282  (28.2%)
+pcut_elec_all             pcut_cer_ng_elec&&pcut_cal_elec                                                            1000       271  (27.1%)
+pcut_cer_ng_had           P.ngcer.npeSum<=1.5                                                                        1000       470  (47%)
+pcut_cal_had              P.cal.etotnorm>0.&&P.cal.etotnorm<=0.6                                                     1000       241  (24.1%)
+pcut_had_all              pcut_cer_ng_had&&pcut_cal_had                                                              1000       38   (3.8%)
+shmsScinGood              P.hod.goodscinhit==1                                                                       1000       163  (16.3%)
+shmsGoodBetanotrk         P.hod.betanotrack>0.5&&P.hod.betanotrack<1.5                                               1000       520  (52%)
+shmshodstarttime          P.hod.goodstarttime==1                                                                     1000       521  (52.1%)
+shmsScinShould            shmsScinGood&&shmsGoodBetanotrk&&shmshodstarttime                                          1000       162  (16.2%)
+shmsScinShoulde           shmsScinShould&&pcut_elec_all                                                              1000       124  (12.4%)
+shmsScinShouldh           shmsScinShould&&pcut_had_all                                                               1000       1    (0.1%)
+shmsScinDid               shmsScinShould&&P.dc.ntrack>0                                                              1000       131  (13.1%)
+shmsScinDide              shmsScinShoulde&&P.dc.ntrack>0                                                             1000       117  (11.7%)
+shmsScinDidh              shmsScinShouldh&&P.dc.ntrack>0                                                             1000       0    (0%)
+hcut_cer_elec             H.cer.npeSum>0.5                                                                           1000       22   (2.2%)
+hcut_cal_elec             H.cal.etotnorm>0.6&&H.cal.etotnorm<1.5                                                     1000       0    (0%)
+hcut_elec_all             hcut_cer_elec&&hcut_cal_elec                                                               1000       0    (0%)
+hcut_cer_had              H.cer.npeSum<0.5                                                                           1000       978  (97.8%)
+hcut_cal_had              H.cal.etotnorm>0.&&H.cal.etotnorm<0.6                                                      1000       25   (2.5%)
+hcut_had_all              hcut_cer_had&&hcut_cal_had                                                                 1000       23   (2.3%)
+hmsScinGood               H.hod.goodscinhit==1                                                                       1000       335  (33.5%)
+hmsGoodBetanotrk          H.hod.betanotrack>0.5&&H.hod.betanotrack<1.5                                               1000       575  (57.5%)
+hmshodstarttime           H.hod.goodstarttime==1                                                                     1000       601  (60.1%)
+hmsScinShould             hmsScinGood&&hmsGoodBetanotrk&&hmshodstarttime                                             1000       324  (32.4%)
+hmsScinShouldh            hmsScinShould&&hcut_had_all                                                                1000       12   (1.2%)
+hmsScinShoulde            hmsScinShould&&hcut_elec_all                                                               1000       0    (0%)
+hmsScinDid                hmsScinShould&&H.dc.ntrack>0                                                               1000       324  (32.4%)
+hmsScinDidh               hmsScinShouldh&&H.dc.ntrack>0                                                              1000       12   (1.2%)
+hmsScinDide               hmsScinShoulde&&H.dc.ntrack>0                                                              1000       0    (0%)
+Tracking_master           ALL_events                                                                                 1000       1000 (100%)
+
+BLOCK: Reconstruct
+Reconstruct_master        ALL_events                                                                                 1000       1000 (100%)
+
+BLOCK: Physics
+shms_accp_cut             P.gtr.th>-0.06&&P.gtr.th<0.06&&P.gtr.ph>-0.04&&P.gtr.ph<0.04&&P.gtr.dp>-10&&P.gtr.dp<20    1000       263  (26.3%)
+shmsInDipoleExit          P.dc.InsideDipoleExit==1                                                                   1000       937  (93.7%)
+shmsGen                   shmshodstarttime&&shmsInDipoleExit&&shms_accp_cut                                          1000       232  (23.2%)
+shmsCal_el                P.cal.etottracknorm>0.7&&P.cal.etottracknorm<1.4                                           1000       252  (25.2%)
+shmsNGC_should_e          shmsGen&&shmsCal_el                                                                        1000       221  (22.1%)
+shmsNGC_did_e             shmsNGC_should_e&&P.ngcer.npeSum>0.5                                                       1000       212  (21.2%)
+hms_accp_cut              H.gtr.th>-0.08&&H.gtr.th<0.08&&H.gtr.ph>-0.045&&H.gtr.ph<0.045&&H.gtr.dp>-10&&H.gtr.dp<10  1000       484  (48.4%)
+hmsInDipoleExit           H.dc.InsideDipoleExit==1                                                                   1000       994  (99.4%)
+hmsGen                    hmshodstarttime&&hmsInDipoleExit&&hms_accp_cut                                             1000       481  (48.1%)
+hmsCal_h                  H.cal.etottracknorm>0.&&H.cal.etottracknorm<=0.7                                           1000       24   (2.4%)
+hmsHGC_should_h           hmsGen&&hmsCal_h                                                                           1000       19   (1.9%)
+hmsHGC_did_h              hmsHGC_should_h&&H.cer.npeSum<1.                                                           1000       17   (1.7%)
+hcut_CleanTrack           H.gtr.index>-1&&H.gtr.dp>-10.0&&H.gtr.dp<10.0                                              1000       491  (49.1%)
+pcut_CleanTrack           P.gtr.index>-1&&P.gtr.dp>-10.0&&P.gtr.dp<22.0                                              1000       273  (27.3%)
+Physics_master            ALL_events                                                                                 1000       1000 (100%)
+
+Total     : Real Time =   7.42 seconds Cpu Time =   7.19 seconds

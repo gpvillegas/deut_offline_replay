@@ -10,8 +10,8 @@ Date Created: August 22, 2020
 using namespace std;
 
 //_______________________________________________________________________________
-baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0 )
-  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis_type(ana_type), analysis_cut(ana_cuts), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type_single(trig_single), trig_type_coin(trig_coin), combine_runs_flag(combine_flag)   //initialize member list 
+baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t create_skim=0 )
+  : run(irun), evtNum(ievt), daq_mode(mode), e_arm_name(earm), analysis_type(ana_type), analysis_cut(ana_cuts), helicity_flag(hel_flag), bcm_type(bcm_name), bcm_thrs(thrs), trig_type_single(trig_single), trig_type_coin(trig_coin), skim_flag(create_skim)   //initialize member list 
 {
   
   cout << "Calling BaseConstructor " << endl;
@@ -1398,6 +1398,7 @@ void baseAnalyzer::ReadInputFile()
       cout << "Exiting NOW !" << endl;
       gSystem->Exit(0);
     }  
+    cout << "Input ROOTfile --> " << data_InputFileName.Data() << endl;
     in_file.close();
     
     //Define Input (.report) File Name Pattern (read principal REPORTfile from experiment)
@@ -1413,6 +1414,7 @@ void baseAnalyzer::ReadInputFile()
       cout << "Exiting NOW !" << endl;
       gSystem->Exit(0);
     }
+    cout << "Input REPORTFile --> " << data_InputReport.Data() << endl;
     in_file.close();
     
   }
@@ -1423,7 +1425,9 @@ void baseAnalyzer::ReadInputFile()
     //==========================================
     //     READ TRACKING EFFICIENCY CUTS
     //==========================================
-    
+
+    cout << "Reading tracking efficiency cuts . . . " << endl;
+
     //HMS Tracking Efficiency Cut Flags / Limits
     hdc_ntrk_cut_flag = stoi(split(FindString("hdc_ntrk_cut_flag", input_CutFileName.Data())[0], '=')[1]);
     c_hdc_ntrk_min = stod(split(FindString("c_hdc_ntrk_min", input_CutFileName.Data())[0], '=')[1]);
@@ -1473,7 +1477,7 @@ void baseAnalyzer::ReadInputFile()
     //==========================================
     
     //------PID Cuts (DATA ONLY)-----
-    
+    cout << "Reading data analysis pid cuts . . . " << endl;  
     //Coincidence time cuts (check which coin. time cut is actually being applied. By default: electron-proton cut is being applied)
     
     ePctime_cut_flag = stoi(split(FindString("ePctime_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -1618,7 +1622,7 @@ void baseAnalyzer::ReadInputFile()
     else if(analysis_cut=="deep"){
 
       // e12-10-003: deuteron d(e,e'p) Kinematic Cuts 
-
+      cout << "Reading d(e,e'p) kinematic  cuts . . . " << endl;  
       // C.Y. need to create these cut variables  . . .  (remove this comment once this is done)
       // 4-Momentum Transfers [GeV^2]
       Q2_deep_cut_flag = stoi(split(FindString("Q2_deep_cut_flag", input_CutFileName.Data())[0], '=')[1]);
@@ -1634,10 +1638,9 @@ void baseAnalyzer::ReadInputFile()
 
     }
 
-
     
     //------Acceptance Cuts-------
-    
+    cout << "Reading acceptance  cuts . . . " << endl;      
     //Hadron Arm
     hdelta_cut_flag = stoi(split(FindString("hdelta_cut_flag", input_CutFileName.Data())[0], '=')[1]);
     c_hdelta_min = stod(split(FindString("c_hdelta_min", input_CutFileName.Data())[0], '=')[1]);
@@ -1696,7 +1699,7 @@ void baseAnalyzer::ReadInputFile()
     // ====== READ REPORT ========= 
     // NOTE* : necessary to read in order to define tgt_type,
     // to be used in the output file name
-
+  
     ReadReport();
     
     //=============================
@@ -4306,12 +4309,15 @@ void baseAnalyzer::ReadTree()
 	  
 	}
       
-      // Call function to create skimmed version of data tree
-      CreateSkimTree();
+      // crete skime root tree?
+      if(skim_flag){
       
-      // Call function to create singles skimmed version of data tree
-      CreateSinglesSkimTree();
-      
+	// Call function to create skimmed version of data tree
+	CreateSkimTree();
+	
+	// Call function to create singles skimmed version of data tree
+	CreateSinglesSkimTree();
+      }
       
     } //END DATA SET BRANCH ADDRESS
 
@@ -4668,13 +4674,14 @@ void baseAnalyzer::GetPeak()
 	pdc_res_sigma[npl]     = pdc_res_fit->GetParameter(2)*1e4;
 	pdc_res_sigma_err[npl] = pdc_res_fit->GetParError(2)*1e4;
 
-	
+	/*
 	cout << Form("hdc_res_sigma[%i] = %.3f", npl,  hdc_res_sigma[npl]) << endl;
 	cout << Form("hdc_res_sigma_err[%i] = %.3f", npl,  hdc_res_sigma_err[npl]) << endl;
        
 	cout << Form("pdc_res_sigma[%i] = %.3f", npl,  pdc_res_sigma[npl]) << endl;
 	cout << Form("pdc_res_sigma_err[%i] = %.3f", npl,  pdc_res_sigma_err[npl]) << endl;
-	
+	*/
+
       } // end loop over planes
 
     
@@ -4734,8 +4741,10 @@ void baseAnalyzer::EventLoop()
 	  th_x = xangle - th_e;  //detected hadron angle for each particle
 	  MM2 = MM*MM;           //Missing Mass Squared
  	  ztar_diff = htar_z - etar_z;  //reaction vertex z difference
+						         
 	  
-	  if( (tgt_type!="LH2") || (tgt_type!="LD2")){
+	  if( tgt_type.CompareTo("LH2")!=0 && tgt_type.CompareTo("LD2")!=0 ){
+	    
 	    MM_red = MM - ((tgt_mass - MH_amu)* amu2GeV);
 	    MM = MM_red;
 	  }
@@ -4852,7 +4861,8 @@ void baseAnalyzer::EventLoop()
 	  good_shms_should = c_pScinGood && c_pngcer_NPE_Sum && c_phgcer_NPE_Sum && c_petotnorm && c_pBeta_notrk;
 
 	  //electrons (or hadrons) that 'DID' passed the cuts to form a track
-	  good_shms_did = c_pdc_ntrk && good_shms_should && (pdc_TheRealGolden==1); //C.Y. Jan 17, 2023 | added additional constraint on the track
+	  //good_shms_did = c_pdc_ntrk && good_shms_should && (pdc_TheRealGolden==1); //C.Y. Jan 17, 2023 | added additional constraint on the track (for cafe)
+	  good_shms_did = c_pdc_ntrk && good_shms_should; //C.Y. Feb 14, 2023 | standard definition (for deuteron)
 	  //cout << "pdc_TheRealGolden = " << pdc_TheRealGolden << endl;
 	  //=====END: CUTS USED IN TRACKING EFFICIENCY CALCULATION=====
 	  
@@ -5115,6 +5125,8 @@ void baseAnalyzer::EventLoop()
 	      if(c_trig5 && c_noedtm) { total_trig5_accp_bcm_cut++; }
 	      if(c_trig6 && c_noedtm) { total_trig6_accp_bcm_cut++; }
 	      
+
+	     
 	      // --- Count SHMS Singles ONLY (particularly, only count T1 and T2) ---
 
 	      //strictly select trig1 > 0 (and no other triggers) -- most CaFe runs did not have T1 enabled, but the some heep did
@@ -5142,9 +5154,10 @@ void baseAnalyzer::EventLoop()
 		shms_coll_cut_bool = false;
 		if( shms_Coll_gCut->IsInside(eYColl, eXColl) ) { shms_coll_cut_bool=true; }
 
-		
-		// Fill singles tree skim
-		tree_skim_singles->Fill();
+		if(skim_flag){
+		  // Fill singles tree skim
+		  tree_skim_singles->Fill();
+		}
 
 		//calculate shms T2 singles track efficiency
 		if(good_shms_did){ p_did_singles++;}
@@ -5178,12 +5191,15 @@ void baseAnalyzer::EventLoop()
 		  // apply the following to the skimmed ttree:
 		  // loose cut on coin time window
 
-		  if ( abs(epCoinTime-ctime_offset_peak_val) < 50. ) {
+		  if(skim_flag) {
 
-		    tree_skim->Fill();
-
+		    if ( abs(epCoinTime-ctime_offset_peak_val) < 50. ) {
+		      
+		      tree_skim->Fill();
+		      
+		    }
 		  }
-		  
+
 		  //==========================================================================
 
 		  //-------------------------------------
@@ -5806,14 +5822,17 @@ void baseAnalyzer::EventLoop()
       multi_track_eff_err     = sqrt( pow(multi_track_eff,2) * ( pow(single_peak_counts_err/single_peak_counts,2) + pow(multi_peak_counts_err/multi_peak_counts,2) ) );
 
 
-      //Save Singles Skimmed Tree
-      tree_skim_singles->SaveAs( data_OutputFileName_skim_singles.Data() );
-      delete tree_skim_singles;
+      if(skim_flag){
+	
+	//Save Singles Skimmed Tree
+	tree_skim_singles->SaveAs( data_OutputFileName_skim_singles.Data() );
+	delete tree_skim_singles;
+	
+	//Save Skimmed Tree
+	tree_skim->SaveAs( data_OutputFileName_skim.Data() );
+	delete tree_skim;
+      }
       
-      //Save Skimmed Tree
-      tree_skim->SaveAs( data_OutputFileName_skim.Data() );
-      delete tree_skim;
-
     }//END DATA ANALYSIS
 
 
@@ -5897,7 +5916,7 @@ void baseAnalyzer::EventLoop()
 	  
 	  else if(analysis_cut=="deep"){
 	    
-	   
+	    cout << "analysis_cut is deep " << endl;
 	    //MF for deuteron
 	    Er = nu + MD - Ex;                                                                                                                                               
             Tr = Er - MN;       //  single proton knockout of d2 gives neutron recoil system                                                   
@@ -6208,10 +6227,12 @@ void baseAnalyzer::RandSub()
   
   P_scale_factor = dt_coin_peak /  (dt_acc_L + dt_acc_R);
 
+  /*
   cout << "coin_peak_window_width [ns] = "         << dt_coin_peak << endl;
   cout << "accidental_width_LEFT [ns] = " << dt_acc_L << endl;
   cout << "accidental_width_RIGHT [ns] = " << dt_acc_R << endl;  
   cout << "P_scale_factor = "         << P_scale_factor << endl;
+  */
 
   // if doing heep singles, scale randoms to zero (even though we take singles, there may still be events that sneak into the coin histograms)
   if(analysis_cut=="heep_singles") {P_scale_factor = 0;}
@@ -6406,7 +6427,7 @@ void baseAnalyzer::CalcEff()
   
   // why error is nan? --> total_trig5_accp_bcm_cut ~ total_trig5_scaler_bcm_cut 
   //cout << "total_trig5_accp_bcm_cut * (1. - (total_trig5_accp_bcm_cut )/total_trig5_scaler_bcm_cut ) = " << total_trig5_accp_bcm_cut * (1. - (total_trig5_accp_bcm_cut )/total_trig5_scaler_bcm_cut ) << endl;
-  cout << Form("total_trig5_accp_bcm_cut  = %.6f, total_trig5_scaler_bcm_cut  = %.6f ", total_trig5_accp_bcm_cut, total_trig5_scaler_bcm_cut) << endl; 
+  //cout << Form("total_trig5_accp_bcm_cut  = %.6f, total_trig5_scaler_bcm_cut  = %.6f ", total_trig5_accp_bcm_cut, total_trig5_scaler_bcm_cut) << endl; 
   
   //Calculate Computer Live Time Error (Use Bayesian Statistics Error formula)
   cpuLT_trig1_err_Bay = sqrt( (total_trig1_accp_bcm_cut * Ps1_factor + 1)*(total_trig1_accp_bcm_cut * Ps1_factor + 2)/((total_trig1_scaler_bcm_cut + 2)*(total_trig1_scaler_bcm_cut + 3)) - pow((total_trig1_accp_bcm_cut * Ps1_factor + 1),2)/pow((total_trig1_scaler_bcm_cut + 2),2) );
@@ -6450,14 +6471,14 @@ void baseAnalyzer::CalcEff()
   
 
   // select which pre-scale factors to apply in the weight (depend if looking at singles or coin)
-  if(trig_type_single=="trig1") { trig_rate_single = TRIG1scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig1, cpuLT_trig_err_Bi_single = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig1_err_Bay, tLT_trig_single = tLT_trig1, tLT_trig_err_Bi_single = tLT_trig1_err_Bi, tLT_trig_err_Bay_single = tLT_trig1_err_Bay, Ps_factor_single = Ps1_factor, total_trig_scaler_bcm_cut_single = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig1_accp_bcm_cut; }
-  if(trig_type_single=="trig2") { trig_rate_single = TRIG2scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig2, cpuLT_trig_err_Bi_single = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig2_err_Bay, tLT_trig_single = tLT_trig2, tLT_trig_err_Bi_single = tLT_trig2_err_Bi, tLT_trig_err_Bay_single = tLT_trig2_err_Bay, Ps_factor_single = Ps2_factor, total_trig_scaler_bcm_cut_single = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig2_accp_bcm_cut; }
-  if(trig_type_single=="trig3") { trig_rate_single = TRIG3scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig3, cpuLT_trig_err_Bi_single = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig3_err_Bay, tLT_trig_single = tLT_trig3, tLT_trig_err_Bi_single = tLT_trig3_err_Bi, tLT_trig_err_Bay_single = tLT_trig3_err_Bay, Ps_factor_single = Ps3_factor, total_trig_scaler_bcm_cut_single = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig3_accp_bcm_cut; }
-  if(trig_type_single=="trig4") { trig_rate_single = TRIG4scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig4, cpuLT_trig_err_Bi_single = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig4_err_Bay, tLT_trig_single = tLT_trig4, tLT_trig_err_Bi_single = tLT_trig4_err_Bi, tLT_trig_err_Bay_single = tLT_trig4_err_Bay, Ps_factor_single = Ps4_factor, total_trig_scaler_bcm_cut_single = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig4_accp_bcm_cut; }
+  if(trig_type_single=="T1") { trig_rate_single = TRIG1scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig1, cpuLT_trig_err_Bi_single = cpuLT_trig1_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig1_err_Bay, tLT_trig_single = tLT_trig1, tLT_trig_err_Bi_single = tLT_trig1_err_Bi, tLT_trig_err_Bay_single = tLT_trig1_err_Bay, Ps_factor_single = Ps1_factor, total_trig_scaler_bcm_cut_single = total_trig1_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig1_accp_bcm_cut; }
+  if(trig_type_single=="T2") { trig_rate_single = TRIG2scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig2, cpuLT_trig_err_Bi_single = cpuLT_trig2_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig2_err_Bay, tLT_trig_single = tLT_trig2, tLT_trig_err_Bi_single = tLT_trig2_err_Bi, tLT_trig_err_Bay_single = tLT_trig2_err_Bay, Ps_factor_single = Ps2_factor, total_trig_scaler_bcm_cut_single = total_trig2_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig2_accp_bcm_cut; }
+  if(trig_type_single=="T3") { trig_rate_single = TRIG3scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig3, cpuLT_trig_err_Bi_single = cpuLT_trig3_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig3_err_Bay, tLT_trig_single = tLT_trig3, tLT_trig_err_Bi_single = tLT_trig3_err_Bi, tLT_trig_err_Bay_single = tLT_trig3_err_Bay, Ps_factor_single = Ps3_factor, total_trig_scaler_bcm_cut_single = total_trig3_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig3_accp_bcm_cut; }
+  if(trig_type_single=="T4") { trig_rate_single = TRIG4scalerRate_bcm_cut, cpuLT_trig_single = cpuLT_trig4, cpuLT_trig_err_Bi_single = cpuLT_trig4_err_Bi, cpuLT_trig_err_Bay_single = cpuLT_trig4_err_Bay, tLT_trig_single = tLT_trig4, tLT_trig_err_Bi_single = tLT_trig4_err_Bi, tLT_trig_err_Bay_single = tLT_trig4_err_Bay, Ps_factor_single = Ps4_factor, total_trig_scaler_bcm_cut_single = total_trig4_scaler_bcm_cut, total_trig_accp_bcm_cut_single = total_trig4_accp_bcm_cut; }
 
 
-  if(trig_type_coin=="trig5") { trig_rate_coin = TRIG5scalerRate_bcm_cut, cpuLT_trig_coin = cpuLT_trig5, cpuLT_trig_err_Bi_coin = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay_coin = cpuLT_trig5_err_Bay, tLT_trig_coin = tLT_trig5, tLT_trig_err_Bi_coin = tLT_trig5_err_Bi, tLT_trig_err_Bay_coin = tLT_trig5_err_Bay, Ps_factor_coin = Ps5_factor, total_trig_scaler_bcm_cut_coin = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut_coin = total_trig5_accp_bcm_cut; }
-  if(trig_type_coin=="trig6") { trig_rate_coin = TRIG6scalerRate_bcm_cut, cpuLT_trig_coin = cpuLT_trig6, cpuLT_trig_err_Bi_coin = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay_coin = cpuLT_trig6_err_Bay, tLT_trig_coin = tLT_trig6, tLT_trig_err_Bi_coin = tLT_trig6_err_Bi, tLT_trig_err_Bay_coin = tLT_trig6_err_Bay, Ps_factor_coin = Ps6_factor, total_trig_scaler_bcm_cut_coin = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut_coin = total_trig6_accp_bcm_cut; }
+  if(trig_type_coin=="T5") { trig_rate_coin = TRIG5scalerRate_bcm_cut, cpuLT_trig_coin = cpuLT_trig5, cpuLT_trig_err_Bi_coin = cpuLT_trig5_err_Bi, cpuLT_trig_err_Bay_coin = cpuLT_trig5_err_Bay, tLT_trig_coin = tLT_trig5, tLT_trig_err_Bi_coin = tLT_trig5_err_Bi, tLT_trig_err_Bay_coin = tLT_trig5_err_Bay, Ps_factor_coin = Ps5_factor, total_trig_scaler_bcm_cut_coin = total_trig5_scaler_bcm_cut, total_trig_accp_bcm_cut_coin = total_trig5_accp_bcm_cut; }
+  if(trig_type_coin=="T6") { trig_rate_coin = TRIG6scalerRate_bcm_cut, cpuLT_trig_coin = cpuLT_trig6, cpuLT_trig_err_Bi_coin = cpuLT_trig6_err_Bi, cpuLT_trig_err_Bay_coin = cpuLT_trig6_err_Bay, tLT_trig_coin = tLT_trig6, tLT_trig_err_Bi_coin = tLT_trig6_err_Bi, tLT_trig_err_Bay_coin = tLT_trig6_err_Bay, Ps_factor_coin = Ps6_factor, total_trig_scaler_bcm_cut_coin = total_trig6_scaler_bcm_cut, total_trig_accp_bcm_cut_coin = total_trig6_accp_bcm_cut; }
   
   
   
@@ -6491,166 +6512,169 @@ void baseAnalyzer::CalcEff()
     double charge = (*charge_bcm1)[0];
   */
  
-  outROOT = new TFile( data_OutputFileName_skim.Data(), "UPDATE");
+  if(skim_flag){
+
+    outROOT = new TFile( data_OutputFileName_skim.Data(), "UPDATE");
   
-  outROOT->mkdir("beam_charge");
-  outROOT->mkdir("prescale_factors_and_triggers");
-  outROOT->mkdir("live_time");
-  outROOT->mkdir("track_efficiency");
+    outROOT->mkdir("beam_charge");
+    outROOT->mkdir("prescale_factors_and_triggers");
+    outROOT->mkdir("live_time");
+    outROOT->mkdir("track_efficiency");
+    
+    
+    outROOT->cd("beam_charge");
+    // Write Beam Charge / Current Objects
+    TVectorT<double> charge_bcm1(1);
+    charge_bcm1 = total_charge_bcm1_cut;
+    charge_bcm1.Write("total_charge_bcm1_mC");
+    
+    TVectorT<double> charge_bcm2(1);
+    charge_bcm2 = total_charge_bcm2_cut;
+    charge_bcm2.Write("total_charge_bcm2_mC");
+    
+    TVectorT<double> charge_bcm4a(1);
+    charge_bcm4a = total_charge_bcm4a_cut;
+    charge_bcm4a.Write("total_charge_bcm4a_mC");
+    
+    TVectorT<double> charge_bcm4b(1);
+    charge_bcm4b = total_charge_bcm4b_cut;
+    charge_bcm4b.Write("total_charge_bcm4b_mC");
+    
+    TVectorT<double> charge_bcm4c(1);
+    charge_bcm4c = total_charge_bcm4c_cut;
+    charge_bcm4c.Write("total_charge_bcm4c_mC");
+    
+    TVectorT<double> current(1);
+    current = avg_current_bcm_cut;
+    current.Write( Form("avg_beam_current_%s_uA", bcm_type.Data()) );
+    
+    outROOT->cd("track_efficiency");
+    // Write HMS/SHMS Tracking Efficiency Objects
+    TVectorT<double> hms_did(1);
+    hms_did = h_did;
+    hms_did.Write("hms_did");
+    
+    TVectorT<double> hms_should(1);
+    hms_should = h_should;
+    hms_should.Write("hms_should");
+    
+    TVectorT<double> hms_track_eff(2);
+    hms_track_eff[0] = hTrkEff;
+    hms_track_eff[1] = hTrkEff_err;
+    hms_track_eff.Write("hms_track_eff");
+    
+    TVectorT<double> shms_did(1);
+    shms_did = p_did;
+    shms_did.Write("shms_did");
+    
+    TVectorT<double> shms_should(1);
+    shms_should = p_should;
+    shms_should.Write("shms_should");
+    
+    TVectorT<double> shms_track_eff(2);
+    shms_track_eff[0] = pTrkEff;
+    shms_track_eff[1] = pTrkEff_err;
+    shms_track_eff.Write("shms_track_eff");
+    
+    outROOT->cd("prescale_factors_and_triggers");
+    // pre-scale factors
+    TVectorT<double> prescale_factor_T1(1);
+    TVectorT<double> prescale_factor_T2(1);
+    TVectorT<double> prescale_factor_T3(1);
+    TVectorT<double> prescale_factor_T4(1);
+    TVectorT<double> prescale_factor_T5(1);
+    TVectorT<double> prescale_factor_T6(1);
+    
+    prescale_factor_T1 = Ps1_factor;
+    prescale_factor_T2 = Ps2_factor;
+    prescale_factor_T3 = Ps3_factor;
+    prescale_factor_T4 = Ps4_factor;
+    prescale_factor_T5 = Ps5_factor;
+    prescale_factor_T6 = Ps6_factor;
+    prescale_factor_T1.Write("prescale_factor_T1");
+    prescale_factor_T2.Write("prescale_factor_T2");
+    prescale_factor_T3.Write("prescale_factor_T3");
+    prescale_factor_T4.Write("prescale_factor_T4");
+    prescale_factor_T5.Write("prescale_factor_T5");
+    prescale_factor_T6.Write("prescale_factor_T6");
+    
+    //Write Trigger Scalers (already have EDTM subtracted)
+    TVectorT<double> T1_scalers(1);
+    TVectorT<double> T2_scalers(1);
+    TVectorT<double> T3_scalers(1);
+    TVectorT<double> T4_scalers(1);
+    TVectorT<double> T5_scalers(1);
+    TVectorT<double> T6_scalers(1);
+    T1_scalers = total_trig1_scaler_bcm_cut;
+    T2_scalers = total_trig2_scaler_bcm_cut;
+    T3_scalers = total_trig3_scaler_bcm_cut;
+    T4_scalers = total_trig4_scaler_bcm_cut;
+    T5_scalers = total_trig5_scaler_bcm_cut;
+    T6_scalers = total_trig6_scaler_bcm_cut;
+    T1_scalers.Write("T1_scalers");
+    T2_scalers.Write("T2_scalers");
+    T3_scalers.Write("T3_scalers");
+    T4_scalers.Write("T4_scalers");
+    T5_scalers.Write("T5_scalers");
+    T6_scalers.Write("T6_scalers");
+    
+    //Write Accepted Triggers
+    TVectorT<double> T1_accepted(1);
+    TVectorT<double> T2_accepted(1);
+    TVectorT<double> T3_accepted(1);
+    TVectorT<double> T4_accepted(1);
+    TVectorT<double> T5_accepted(1);
+    TVectorT<double> T6_accepted(1);
+    T1_accepted = total_trig1_accp_bcm_cut;
+    T2_accepted = total_trig2_accp_bcm_cut;
+    T3_accepted = total_trig3_accp_bcm_cut;
+    T4_accepted = total_trig4_accp_bcm_cut;
+    T5_accepted = total_trig5_accp_bcm_cut;
+    T6_accepted = total_trig6_accp_bcm_cut;
+    T1_accepted.Write("T1_accepted");
+    T2_accepted.Write("T2_accepted");
+    T3_accepted.Write("T3_accepted");
+    T4_accepted.Write("T4_accepted");
+    T5_accepted.Write("T5_accepted");
+    T6_accepted.Write("T6_accepted");
+    
+    
+    TVectorT<double> edtm_scalers;
+    edtm_scalers = total_edtm_scaler_bcm_cut;
+    edtm_scalers.Write("edtm_scalers");
+    
+    TVectorT<double> edtm_accepted;
+    edtm_accepted = total_edtm_accp_bcm_cut;
+    edtm_accepted.Write("edtm_accepted");
+    
+    //Write Total EDTM Live Time
+    outROOT->cd("live_time");
+    TVectorT<double> tLT_singles(2);
+    tLT_singles[0] = tLT_trig_single;
+    tLT_singles[1] = tLT_trig_err_Bi_single;
+    tLT_singles.Write("total_live_time_singles");
+    
+    TVectorT<double> tLT_coin(2);
+    tLT_coin[0] = tLT_trig_coin;
+    tLT_coin[1] = tLT_trig_err_Bi_coin;
+    tLT_coin.Write("total_live_time_coin");
+    
+    //Write Computer Live Time
+    TVectorT<double> cpuLT_singles(2);
+    cpuLT_singles[0] = cpuLT_trig_single;
+    cpuLT_singles[1] = cpuLT_trig_err_Bi_single;
+    cpuLT_singles.Write("computer_live_time_singles");
+    
+    TVectorT<double> cpuLT_coin(2);
+    cpuLT_coin[0] = cpuLT_trig_coin;
+    cpuLT_coin[1] = cpuLT_trig_err_Bi_coin;
+    cpuLT_coin.Write("computer_live_time_coin");
+    
+    
+    outROOT->Close();
+  } // end skim flag
 
-  
-  outROOT->cd("beam_charge");
-  // Write Beam Charge / Current Objects
-  TVectorT<double> charge_bcm1(1);
-  charge_bcm1 = total_charge_bcm1_cut;
-  charge_bcm1.Write("total_charge_bcm1_mC");
-
-  TVectorT<double> charge_bcm2(1);
-  charge_bcm2 = total_charge_bcm2_cut;
-  charge_bcm2.Write("total_charge_bcm2_mC");
-  
-  TVectorT<double> charge_bcm4a(1);
-  charge_bcm4a = total_charge_bcm4a_cut;
-  charge_bcm4a.Write("total_charge_bcm4a_mC");
-  
-  TVectorT<double> charge_bcm4b(1);
-  charge_bcm4b = total_charge_bcm4b_cut;
-  charge_bcm4b.Write("total_charge_bcm4b_mC");
-
-  TVectorT<double> charge_bcm4c(1);
-  charge_bcm4c = total_charge_bcm4c_cut;
-  charge_bcm4c.Write("total_charge_bcm4c_mC");
-  
-  TVectorT<double> current(1);
-  current = avg_current_bcm_cut;
-  current.Write( Form("avg_beam_current_%s_uA", bcm_type.Data()) );
-
-  outROOT->cd("track_efficiency");
-  // Write HMS/SHMS Tracking Efficiency Objects
-  TVectorT<double> hms_did(1);
-  hms_did = h_did;
-  hms_did.Write("hms_did");
-
-  TVectorT<double> hms_should(1);
-  hms_should = h_should;
-  hms_should.Write("hms_should");
-
-  TVectorT<double> hms_track_eff(2);
-  hms_track_eff[0] = hTrkEff;
-  hms_track_eff[1] = hTrkEff_err;
-  hms_track_eff.Write("hms_track_eff");
-
-  TVectorT<double> shms_did(1);
-  shms_did = p_did;
-  shms_did.Write("shms_did");
-
-  TVectorT<double> shms_should(1);
-  shms_should = p_should;
-  shms_should.Write("shms_should");
-
-  TVectorT<double> shms_track_eff(2);
-  shms_track_eff[0] = pTrkEff;
-  shms_track_eff[1] = pTrkEff_err;
-  shms_track_eff.Write("shms_track_eff");
-  
-  outROOT->cd("prescale_factors_and_triggers");
-  // pre-scale factors
-  TVectorT<double> prescale_factor_T1(1);
-  TVectorT<double> prescale_factor_T2(1);
-  TVectorT<double> prescale_factor_T3(1);
-  TVectorT<double> prescale_factor_T4(1);
-  TVectorT<double> prescale_factor_T5(1);
-  TVectorT<double> prescale_factor_T6(1);
-
-  prescale_factor_T1 = Ps1_factor;
-  prescale_factor_T2 = Ps2_factor;
-  prescale_factor_T3 = Ps3_factor;
-  prescale_factor_T4 = Ps4_factor;
-  prescale_factor_T5 = Ps5_factor;
-  prescale_factor_T6 = Ps6_factor;
-  prescale_factor_T1.Write("prescale_factor_T1");
-  prescale_factor_T2.Write("prescale_factor_T2");
-  prescale_factor_T3.Write("prescale_factor_T3");
-  prescale_factor_T4.Write("prescale_factor_T4");
-  prescale_factor_T5.Write("prescale_factor_T5");
-  prescale_factor_T6.Write("prescale_factor_T6");
-  
-  //Write Trigger Scalers (already have EDTM subtracted)
-  TVectorT<double> T1_scalers(1);
-  TVectorT<double> T2_scalers(1);
-  TVectorT<double> T3_scalers(1);
-  TVectorT<double> T4_scalers(1);
-  TVectorT<double> T5_scalers(1);
-  TVectorT<double> T6_scalers(1);
-  T1_scalers = total_trig1_scaler_bcm_cut;
-  T2_scalers = total_trig2_scaler_bcm_cut;
-  T3_scalers = total_trig3_scaler_bcm_cut;
-  T4_scalers = total_trig4_scaler_bcm_cut;
-  T5_scalers = total_trig5_scaler_bcm_cut;
-  T6_scalers = total_trig6_scaler_bcm_cut;
-  T1_scalers.Write("T1_scalers");
-  T2_scalers.Write("T2_scalers");
-  T3_scalers.Write("T3_scalers");
-  T4_scalers.Write("T4_scalers");
-  T5_scalers.Write("T5_scalers");
-  T6_scalers.Write("T6_scalers");
-
-  //Write Accepted Triggers
-  TVectorT<double> T1_accepted(1);
-  TVectorT<double> T2_accepted(1);
-  TVectorT<double> T3_accepted(1);
-  TVectorT<double> T4_accepted(1);
-  TVectorT<double> T5_accepted(1);
-  TVectorT<double> T6_accepted(1);
-  T1_accepted = total_trig1_accp_bcm_cut;
-  T2_accepted = total_trig2_accp_bcm_cut;
-  T3_accepted = total_trig3_accp_bcm_cut;
-  T4_accepted = total_trig4_accp_bcm_cut;
-  T5_accepted = total_trig5_accp_bcm_cut;
-  T6_accepted = total_trig6_accp_bcm_cut;
-  T1_accepted.Write("T1_accepted");
-  T2_accepted.Write("T2_accepted");
-  T3_accepted.Write("T3_accepted");
-  T4_accepted.Write("T4_accepted");
-  T5_accepted.Write("T5_accepted");
-  T6_accepted.Write("T6_accepted");
-
-  
-  TVectorT<double> edtm_scalers;
-  edtm_scalers = total_edtm_scaler_bcm_cut;
-  edtm_scalers.Write("edtm_scalers");
-
-  TVectorT<double> edtm_accepted;
-  edtm_accepted = total_edtm_accp_bcm_cut;
-  edtm_accepted.Write("edtm_accepted");
-
-  //Write Total EDTM Live Time
-  outROOT->cd("live_time");
-  TVectorT<double> tLT_singles(2);
-  tLT_singles[0] = tLT_trig_single;
-  tLT_singles[1] = tLT_trig_err_Bi_single;
-  tLT_singles.Write("total_live_time_singles");
-
-  TVectorT<double> tLT_coin(2);
-  tLT_coin[0] = tLT_trig_coin;
-  tLT_coin[1] = tLT_trig_err_Bi_coin;
-  tLT_coin.Write("total_live_time_coin");
-  
-  //Write Computer Live Time
-  TVectorT<double> cpuLT_singles(2);
-  cpuLT_singles[0] = cpuLT_trig_single;
-  cpuLT_singles[1] = cpuLT_trig_err_Bi_single;
-  cpuLT_singles.Write("computer_live_time_singles");
-
-  TVectorT<double> cpuLT_coin(2);
-  cpuLT_coin[0] = cpuLT_trig_coin;
-  cpuLT_coin[1] = cpuLT_trig_err_Bi_coin;
-  cpuLT_coin.Write("computer_live_time_coin");
-
-
-  outROOT->Close();
-  
-}
+} 
 
 //_______________________________________________________________________________
 void baseAnalyzer::ApplyWeight()
@@ -7903,7 +7927,8 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
 	out_file << "#-----------------------------" << endl;
 	out_file << Form("# real_counts  : %.3f ", W_total) << endl;
-	//out_file << Form("# real_yield   : %.3f ", W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single) << endl;
+	float real_yield = W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single);  
+	out_file << Form("# real_yield   : %.3f ", real_yield) << endl;
 																			      
       }
      if(analysis_cut=="heep_coin")
@@ -7923,7 +7948,8 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", W_total) << endl;
 	out_file << Form("random_counts   : %.3f", W_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", W_real)  << endl;
-	//out_file << Form("real_yield      : %.3f", W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;	
+	float real_yield = W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);  
+	out_file << Form("real_yield      : %.3f", real_yield) << endl;	
 	out_file << "                                     " << endl;
       }
     
@@ -7983,7 +8009,8 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", Pm_total) << endl;
 	out_file << Form("random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", Pm_real)  << endl;
-	//out_file << Form("real_yield      : %.3f", Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin) )  << endl;
+	float real_yield = Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);
+	out_file << Form("real_yield      : %.3f", real_yield )  << endl;
 	out_file << "                                     " << endl;
 	out_file << "" << endl;
       }
@@ -8079,7 +8106,7 @@ void baseAnalyzer::WriteReport()
     out_file << "#--- Tracking Efficiency Definition --- " << endl;
     out_file << "# single tracking efficiency = (did && should) / should" << endl;
     out_file << "" << endl;
-    if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") )
+    if((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") )
       {
 	if(hdc_ntrk_cut_flag)    {out_file << Form("# (did) HMS min. number of tracks (H.dc.ntrack): >= %.1f", c_hdc_ntrk_min) << endl;}
 	if(hScinGood_cut_flag)   {out_file <<      "# (should) HMS good (fiducial) scintillator hit (H.hod.goodscinhit): true"  << endl;}
@@ -8090,7 +8117,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("# HMS should: %.1f",  h_should) << endl;
 	
       }
-    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") )
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") )
       {
 	out_file << "                                   " << endl;
 	if(pdc_ntrk_cut_flag)    {out_file << Form("# (did) SHMS min. number of tracks (P.dc.ntrack): >= %.1f", c_pdc_ntrk_min) << endl;}
@@ -8125,7 +8152,7 @@ void baseAnalyzer::WriteReport()
       }
     
     out_file << "                                   " << endl;
-      if(ePctime_cut_flag && ((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") ))     {
+    if(ePctime_cut_flag && ((analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") ))     {
       out_file << "#---Coincidence Time Cut--- " << endl;
       out_file << Form("# electron (SHMS)-proton(HMS) (prompt) coincidence time (CTime.epCoinTime_ROC2):   (%.3f, %.3f) [ns]", ePctime_cut_min, ePctime_cut_max) << endl;
       out_file << Form("# electron (SHMS)-proton(HMS) (left)   accidentals sample: (%.3f, %.3f) [ns]", ePctime_cut_max_L, ePctime_cut_min_L) << endl;
@@ -8133,7 +8160,7 @@ void baseAnalyzer::WriteReport()
     }
     out_file << "                                   " << endl;
     out_file << "#---Acceptance Cuts--- " << endl;
-    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep"))
        {    
 	 if(hdelta_cut_flag)        {out_file << Form("# HMS Momentum Acceptance (H.gtr.dp): (%.3f, %.3f) [%%]",  c_hdelta_min, c_hdelta_max ) << endl;}
 	 if(hxptar_cut_flag)        {out_file << Form("# HMS Out-of-Plane (xptar) Angular Acceptance (H.gtr.th): (%.3f, %.3f) [radians]",  c_hxptar_min, c_hxptar_max ) << endl;}
@@ -8159,12 +8186,12 @@ void baseAnalyzer::WriteReport()
       }
     out_file << "#                       " << endl;
     out_file << "#---Particle Identification (PID) Cuts--- " << endl;
-    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+    if((analysis_cut=="heep_coin")  ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep"))
       {    
 	if(hetot_trkNorm_pidCut_flag) {out_file << Form("# HMS calorimeter total energy / track momentum (H.cal.etottracknorm): (%.3f, %.3f)", cpid_hetot_trkNorm_min, cpid_hetot_trkNorm_max) << endl;}
 	if(hcer_pidCut_flag)          {out_file << Form("# HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.3f, %.3f)", cpid_hcer_npeSum_min, cpid_hcer_npeSum_max) << endl;}
       }
-      if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep"))
       {
 	if(petot_trkNorm_pidCut_flag)  {out_file << Form("# SHMS calorimeter total energy / track momentum (P.cal.etottracknorm): (%.3f, %.3f)",cpid_petot_trkNorm_min, cpid_petot_trkNorm_max) << endl;}
 	if(pngcer_pidCut_flag)        {out_file << Form("# SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.3f, %.3f)",cpid_pngcer_npeSum_min,cpid_pngcer_npeSum_max) << endl;}
@@ -9263,8 +9290,8 @@ void baseAnalyzer::run_scalers()
   ReadScalerTree();   
   ScalerEventLoop();       
   CalcEff();
-  WriteOfflineReport();
-
+  //WriteOfflineReport();
+  WriteReport(); 
   //------------------
   
 }
