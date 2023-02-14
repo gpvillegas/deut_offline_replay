@@ -931,6 +931,7 @@ protected:
   TH2F *H_Em_src_vs_Pm_ACCP_PID;
   TH2F *H_Q2_vs_xbj_ACCP_PID;
   TH2F *H_cthrq_vs_Pm_ACCP_PID;
+  TH2F *H_ebeta_vs_ctime_ACCP_PID; // C.Y. newly added (feb 14)
 
   // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME ONLY --
   // kin
@@ -976,9 +977,11 @@ protected:
   TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME;  
   TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME;
   TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME;
+  TH2F *H_Em_vs_Pm_ACCP_PID_CTIME;      // newly added (feb 14)
   TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME;
   TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME;
   TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME;
+  TH2F *H_Pm_vs_thrq_ACCP_PID_CTIME;  // newly added (feb14)
   TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME;
 
   // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 CUT ONLY --

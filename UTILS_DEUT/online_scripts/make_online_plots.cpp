@@ -8,6 +8,7 @@
 3) Kinematics-1,2  
 4) Target Vertex
 */
+#include "UTILS/parse_utils.h"
 
 void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
 {
@@ -27,6 +28,34 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     cout << Form("data file: %s does NOT exist. Exit. ", data_file_path.Data() ) << endl;
     gSystem->Exit(0);
   }
+
+
+  TString input_CutFileName = "UTILS_DEUT/inp/set_basic_cuts.inp";
+
+  // Read cut parameters from cut file for plotting
+  // main coincidence time peak min/max window cut
+  double ePctime_cut_min = stod(split(FindString("ePctime_cut_min", input_CutFileName.Data())[0], '=')[1]);
+  double ePctime_cut_max = stod(split(FindString("ePctime_cut_max", input_CutFileName.Data())[0], '=')[1]);
+  
+  // accidentals to the right of main coin. peak
+  double ePctime_cut_min_R = stod(split(FindString("ePctime_cut_min_R", input_CutFileName.Data())[0], '=')[1]);
+  double ePctime_cut_max_R = stod(split(FindString("ePctime_cut_max_R", input_CutFileName.Data())[0], '=')[1]);
+  
+    // accidentals to the left of main coin. peak
+  double ePctime_cut_min_L = stod(split(FindString("ePctime_cut_min_L", input_CutFileName.Data())[0], '=')[1]);
+  double ePctime_cut_max_L = stod(split(FindString("ePctime_cut_max_L", input_CutFileName.Data())[0], '=')[1]);
+
+  //create tlines
+  TLine *line_ctime_min;      
+  TLine *line_ctime_max;
+  
+  // accidentals (left of main peak)
+  TLine *line_accL_min;      
+  TLine *line_accL_max;
+  
+  // accidentals (right of main peak)
+  TLine *line_accR_min;      
+  TLine *line_accR_max;  
   
   cout << "simc_exist ? " << simc_exist << endl;
   //Where to store plots
@@ -160,9 +189,14 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   TH1F *data_Pmx = 0;
   TH1F *data_Pmy = 0;
   TH1F *data_Pmz = 0;
-  // 2d kinematics
-  TH2F * data_Em_nuc_vs_Pm = 0;
-  TH2F * data_Em_src_vs_Pm = 0;
+
+  // 2d kinematics (for data quality checks)
+  TH2F * data_Em_vs_Pm = 0; // h(e,e'p) def. of missing energy (nu - Tp)
+  TH2F * data_Em_nuc_vs_Pm = 0; // A(e,e'p) def. of missing enrgy (nu - Tp - Tr)
+  TH2F * data_Em_src_vs_Pm = 0; // not be used in heep or deep
+  TH2F * data_Q2_vs_xbj    = 0;
+  TH2F * data_Pm_vs_thrq   = 0;
+  TH2F * data_ebeta_vs_ctime = 0;
   
   //---------------------------------------------------------------
 
@@ -496,17 +530,19 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->GetObject("kin_plots/H_the", data_the);
   data_file->GetObject("kin_plots/H_kf", data_kf);
 
-  if(tgt_type=="LH2"){
-    data_file->GetObject("kin_plots/H_Em", data_Em);
+  // read  kinematics for missing energy (different definitions)
+  if(tgt_type=="LH2")       {  data_file->GetObject("kin_plots/H_Em", data_Em);     }
+  else if (tgt_type!="LH2") {  data_file->GetObject("kin_plots/H_Em_nuc", data_Em); }
+   
+  // --- data quality 2d histos ---
+  // NOTE: only have acceptance, PID and coin. time cuts (except coin time cut itself)
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_vs_Pm_ACCP_PID_CTIME_CUTS",       data_Em_vs_Pm);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_nuc_vs_Pm_ACCP_PID_CTIME_CUTS",   data_Em_nuc_vs_Pm);
 
-  }
-  else if (tgt_type!="LH2"){
-    data_file->GetObject("kin_plots/H_Em_nuc", data_Em);
-
-    data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_nuc_vs_Pm_ACCP_PID_CTIME_CUTS", data_Em_nuc_vs_Pm);
-    //data_file->GetObject("kin_plots/H_Em_src_vs_Pm", data_Em_src_vs_Pm);
-    
-  }
+  data_file->GetObject("quality_plots/ACCP+PID_CUTS/H_ebeta_vs_ctime_ACCP_PID_CUTS",             data_ebeta_vs_ctime);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Q2_vs_xbj_ACCP_PID_CTIME_CUTS",      data_Q2_vs_xbj);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Pm_vs_thrq_ACCP_PID_CTIME_CUTS",     data_Pm_vs_thrq);
+  // -----------------------------
   
   data_file->GetObject("kin_plots/H_MM", data_MM);
   data_file->GetObject("kin_plots/H_Pm", data_Pm);
@@ -737,7 +773,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     hctime_leg->Draw();
 
     // ------ INVARIANT MASS ------
-    c1->cd(1);
+    c1->cd(2);
     nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
@@ -866,8 +902,69 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
   } // end deep 
 
+  //-------------- PLOT 2D QUALITY CHECK PLOTS ----------------------
+  
+  //  heep coin 
+  if(ana_cut=="heep_coin"){
+   
+    c1->Divide(1,3);
+ 
+    c1->cd(1);
+    data_ebeta_vs_ctime->Draw("colz");
+
+    c1->cd(2);
+    data_Em_vs_Pm->Draw("colz");
+
+    c1->cd(3);
+    data_Q2_vs_xbj->Draw("colz");
+       
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Clear();
+    
+  }// end heep_coin
+
+  //  deep coin 
+  if(ana_cut=="deep_coin"){
 
 
+    c1->Divide(2,2);
+
+    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+
+    
+    c1->cd(1);
+    data_ebeta_vs_ctime->Draw("colz");
+
+    line_ctime_min->SetLineColor(kRed);
+    line_ctime_min->SetLineStyle(2);
+    line_ctime_min->SetLineWidth(3);
+    line_ctime_min->Draw();
+
+    line_ctime_max->SetLineColor(kRed);
+    line_ctime_max->SetLineStyle(2);
+    line_ctime_max->SetLineWidth(3);
+    line_ctime_max->Draw();
+
+    
+    c1->cd(2);
+    data_Em_nuc_vs_Pm->Draw("colz");
+
+    c1->cd(3);
+    data_Q2_vs_xbj->Draw("colz");
+
+    c1->cd(4);
+    Pm_vs_thrq->Draw("colz");
+        
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
+    c1->Clear();
+    
+  }// end heep_coin
+  
+
+  //--------------- END 2D QUALITY CHECK PLOTS ----------------------
+
+  
   //-----------------PLOT KINEMATICS SIMC/Data comparison---------------
 
    //Set Legend
