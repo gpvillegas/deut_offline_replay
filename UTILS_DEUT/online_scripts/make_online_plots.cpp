@@ -766,13 +766,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
   
   //  deep coin (or any other heavire nuclei, if available), considering this is general (e,e'p)
-  if(ana_cut=="deep_coin"){
+  if(ana_cut=="deep"){
 
     c1->Divide(2,2);
  
     // ------- COINCIDENCE TIME -----
     c1->cd(1);
-    c1->SetLogy();
+    gPad->SetLogy();
     nbins = data_ep_ctime_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_ep_ctime_total->GetYaxis()->SetRangeUser(0.5, data_ep_ctime_total->GetMaximum()+1e5);
@@ -794,10 +794,10 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ MISSING MOMENTUM ------
     c1->cd(2);
-    gPad->SetLogy();
+    //gPad->SetLogy();
     nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
-    data_Pm_total->GetYaxis()->SetRangeUser(0.5, data_Pm_total->GetMaximum()+1.e5);
+    data_Pm_total->GetYaxis()->SetRangeUser(0.5, data_Pm_total->GetMaximum()+100);
     data_Pm_total->Draw("histE0");   
     data_Pm_real->Draw("sameshistE0");   
     data_Pm_rand->Draw("sameshistE0");   
@@ -817,10 +817,10 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ MISSING ENERGY ------
     c1->cd(3);
-    gPad->SetLogy();
+    //gPad->SetLogy();
     nbins = data_Em_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
-    data_Em_total->GetYaxis()->SetRangeUser(0.5, data_Em_total->GetMaximum()+1.e5);
+    data_Em_total->GetYaxis()->SetRangeUser(0.5, data_Em_total->GetMaximum()+100);
     data_Em_total->Draw("histE0");   
     data_Em_real->Draw("sameshistE0");   
     data_Em_rand->Draw("sameshistE0");   
@@ -842,7 +842,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
     nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
-    data_MM_total->GetYaxis()->SetRangeUser(0.5, data_MM_total->GetMaximum()+1.e5);
+    data_MM_total->GetYaxis()->SetRangeUser(0.5, data_MM_total->GetMaximum()+500);
     data_MM_total->Draw("histE0");   
     data_MM_real->Draw("sameshistE0");   
     data_MM_rand->Draw("sameshistE0");   
@@ -864,7 +864,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
     
-  } // end deep coin
+  } // end deep 
 
 
 
