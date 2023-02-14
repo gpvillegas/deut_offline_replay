@@ -236,6 +236,8 @@ void baseAnalyzer::Init(){
   H_sphi_xq_cm  = NULL;	 
   H_sphi_rq_cm  = NULL;  
 
+  H_Pm_vs_thrq    = NULL;
+  H_Pm_vs_thrq_ps = NULL;
 
   //-------------------------
   //  Acceptance Histograms
@@ -334,6 +336,9 @@ void baseAnalyzer::Init(){
   H_thrq_rand  =  NULL;	       	
   H_thrq_rand_sub = NULL;     	
 
+  H_Pm_vs_thrq_rand = NULL;
+  H_Pm_vs_thrq_rand_sub = NULL;
+  
   //----------------------------------------------------------------
   // DATA QUALITY CHECK / CUTS STUDY Histograms
   //----------------------------------------------------------------
@@ -841,6 +846,8 @@ baseAnalyzer::~baseAnalyzer()
   delete H_sphi_xq_cm;	    H_sphi_xq_cm  = NULL;	 
   delete H_sphi_rq_cm;	    H_sphi_rq_cm  = NULL;  
 
+  delete H_Pm_vs_thrq;      H_Pm_vs_thrq    = NULL;
+  delete H_Pm_vs_thrq_ps;   H_Pm_vs_thrq_ps = NULL;
 
   //------------------------------------------------
   
@@ -939,6 +946,8 @@ baseAnalyzer::~baseAnalyzer()
   delete H_thrq_rand;	       	  H_thrq_rand  =  NULL;	       	
   delete H_thrq_rand_sub;     	  H_thrq_rand_sub = NULL;     	
 
+  delete H_Pm_vs_thrq_rand;       H_Pm_vs_thrq_rand = NULL;
+  delete H_Pm_vs_thrq_rand_sub;   H_Pm_vs_thrq_rand_sub = NULL;
   
   //----------------------------------------------------------------
   // DATA QUALITY CHECK / CUTS STUDY Histograms
@@ -2444,6 +2453,10 @@ void baseAnalyzer::CreateHist()
   H_sphi_xq_cm = new TH1F("H_sphi_xq_cm", "sin(#phi_{pq,cm})", phxq_cm_nbins, -1.5, 1.5);
   H_sphi_rq_cm = new TH1F("H_sphi_rq_cm", "sin(#phi_{rq,cm})", phrq_cm_nbins, -1.5, 1.5);
 
+  // 2d kinematics
+  H_Pm_vs_thrq     = new TH2F("H_Pm_vs_thrq",    "Pm vs. #theta_{rq} (yield)",       thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
+  H_Pm_vs_thrq_ps  = new TH2F("H_Pm_vs_thrq_ps", "Pm vs. #theta_{rq} (phase space)", thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
+  
   //Add Kin Histos to TList
 
   //Add Primary Kin Histos
@@ -2515,6 +2528,9 @@ void baseAnalyzer::CreateHist()
   kin_HList->Add( H_sphi_xq_cm );
   kin_HList->Add( H_sphi_rq_cm );
 
+  //2d kinematics
+  kin_HList->Add( H_Pm_vs_thrq );
+  kin_HList->Add( H_Pm_vs_thrq_ps );
 
   //----------------------------------------------------------------------
   //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -2630,6 +2646,10 @@ void baseAnalyzer::CreateHist()
   H_MM_rand         = new TH1F("H_MM_rand",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_thxq_rand       = new TH1F("H_thxq_rand",   "In-Plane Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
   H_thrq_rand       = new TH1F("H_thrq_rand",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
+
+  // 2d kinematics
+  H_Pm_vs_thrq_rand     = new TH2F("H_Pm_vs_thrq_rand",    "Pm vs. #theta_{rq} (yield)",       thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
+  
   
   rand_HList->Add( H_ep_ctime_rand );
   rand_HList->Add( H_W_rand        );
@@ -2643,6 +2663,9 @@ void baseAnalyzer::CreateHist()
   rand_HList->Add( H_MM_rand       );
   rand_HList->Add( H_thxq_rand     );
   rand_HList->Add( H_thrq_rand     );
+
+  //2d kinematics
+  rand_HList->Add( H_Pm_vs_thrq_rand );
 
   //--------------------------------------------------------------------------------
   //---------HISTOGRAM CATEGORY: RANDOM-SUBTRACTED COIN. BACKGROUND-----------------
@@ -2660,6 +2683,10 @@ void baseAnalyzer::CreateHist()
   H_MM_rand_sub         = new TH1F("H_MM_rand_sub",     "Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_thxq_rand_sub       = new TH1F("H_thxq_rand_sub",   "In-Plane Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
   H_thrq_rand_sub       = new TH1F("H_thrq_rand_sub",   "In-Plane Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
+
+  // 2d kinematics
+  H_Pm_vs_thrq_rand_sub     = new TH2F("H_Pm_vs_thrq_rand_sub",    "Pm vs. #theta_{rq} (yield)",       thrq_nbins, thrq_xmin, thrq_xmax, Pm_nbins, Pm_xmin, Pm_xmax);
+  
   
   randSub_HList->Add( H_ep_ctime_rand_sub );
   randSub_HList->Add( H_W_rand_sub        );
@@ -2673,6 +2700,9 @@ void baseAnalyzer::CreateHist()
   randSub_HList->Add( H_MM_rand_sub       );
   randSub_HList->Add( H_thxq_rand_sub     );
   randSub_HList->Add( H_thrq_rand_sub     );
+
+  //2d kinematics
+  randSub_HList->Add( H_Pm_vs_thrq_rand_sub );
 
 
   //-----------------------------------------------------
@@ -5654,8 +5684,11 @@ void baseAnalyzer::EventLoop()
 			H_cphi_rq_cm ->Fill(cos(ph_rq_cm));
 			H_sphi_xq_cm ->Fill(sin(ph_xq_cm));
 			H_sphi_rq_cm ->Fill(sin(ph_rq_cm));
-			
 
+			      
+			// 2d kinematics: This is for the 2D cross section Pm vs. thrq binned in thrq 
+			H_Pm_vs_thrq->Fill(th_rq/dtr, Pm);
+			
 			
 			//----------------------------------------------------------------------
 			//---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
@@ -5724,7 +5757,10 @@ void baseAnalyzer::EventLoop()
 			H_Pm_rand      ->  Fill (Pm);      
 			H_MM_rand      ->  Fill (MM);      
 			H_thxq_rand    ->  Fill (th_xq/dtr);    
-			H_thrq_rand    ->  Fill (ph_xq/dtr);    
+			H_thrq_rand    ->  Fill (ph_xq/dtr);
+			
+			// 2d kinematics: This is for the 2D cross section Pm vs. thrq binned in thrq 
+			H_Pm_vs_thrq_rand -> Fill(th_rq/dtr, Pm);
 				       	
 		      }  		    		   
 		    
@@ -5796,6 +5832,7 @@ void baseAnalyzer::EventLoop()
 	  //if targets other than hydrogen, deuterium or carbon are used, will need to scale by transparency and target density
 	  //( scale is done separately, outside this event loop)
 	  FullWeight = Normfac * Weight * prob_abs / nentries;
+	  PhaseSpace = Normfac * Jacobian_corr  / nentries;    //Phase Space with jacobian corr. factor
 	  
 	  /*
 	  cout << "---------" << endl;
@@ -6091,7 +6128,9 @@ void baseAnalyzer::EventLoop()
 	    H_phxq     ->Fill(ph_xq/dtr, FullWeight);
 	    H_phrq     ->Fill(ph_rq/dtr, FullWeight);
 
-	    	    
+	    H_Pm_vs_thrq    ->Fill(th_rq/dtr, Pm, FullWeight);
+	    H_Pm_vs_thrq_ps ->Fill(th_rq/dtr, Pm, PhaseSpace);
+	    
 	    //----------------------------------------------------------------------
 	    //---------HISTOGRAM CATEGORY: Spectrometer Acceptance  (ACCP)----------
 	    //----------------------------------------------------------------------
@@ -6191,6 +6230,8 @@ void baseAnalyzer::RandSub()
   H_thxq_rand     ->  Scale( P_scale_factor );
   H_thrq_rand     ->  Scale( P_scale_factor );
 
+  // 2d kinematics 
+  H_Pm_vs_thrq_rand -> Scale( P_scale_factor );
   
   // -----Carry out the randoms subtraction------
   H_ep_ctime_rand_sub ->Add(H_ep_ctime_real  ,H_ep_ctime_rand , 1, -1);
@@ -6205,7 +6246,10 @@ void baseAnalyzer::RandSub()
   H_MM_rand_sub      -> Add(H_MM        ,H_MM_rand       , 1, -1);
   H_thxq_rand_sub    -> Add(H_thxq      ,H_thxq_rand     , 1, -1);
   H_thrq_rand_sub    -> Add(H_thrq      ,H_thrq_rand     , 1, -1);  
-
+		
+  // 2d kinematics: This is for the 2D cross section Pm vs. thrq binned in thrq 
+  H_Pm_vs_thrq_rand_sub -> Add(H_Pm_vs_thrq  ,H_Pm_vs_thrq_rand   , 1, -1);
+  
       
   // Get Counts of "good events for saving to deuteron Report File"
   total_bins = H_W->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms, provied same histo range)

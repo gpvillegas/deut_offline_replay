@@ -1224,6 +1224,10 @@ protected:
   TH1F *H_sphi_xq_cm;
   TH1F *H_sphi_rq_cm;
 
+
+  //-- 2D Kinematics Histos --
+  TH2F *H_Pm_vs_thrq;
+  TH2F *H_Pm_vs_thrq_ps;
   
   //------------------------------------------------
   
@@ -1338,6 +1342,9 @@ protected:
   TH1F *H_thrq_rand;
   TH1F *H_thrq_rand_sub;
 
+  // 2d missing momentum vs. recoin angle (th_rq)
+  TH2F H_Pm_vs_thrq_rand;
+  TH2F H_Pm_vs_thrq_rand_sub;
   
   //-----------END CREATE HISTOGRAMS-----------
 
@@ -2174,6 +2181,7 @@ protected:
   //-----------------VARIABLES RELATED TO FullWeight APPLIED TO DATA-YIELD------------------
 
   Double_t FullWeight = 1;  //default
+  Double_t PhaseSpace = 1;  //default
   
   
   Double_t hadAbs_corr;           //correct for lost coincidences due to the hadron in HMS (or SHMS) NOT making it to the hodoscopes to form trigger
