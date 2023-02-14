@@ -1,12 +1,34 @@
-# Set Input File Name Pattern from replayed data (same file pattern as set in replay_cafe.C script)
+# NOTE: Need to figure out whether to only define generic file paths here, and have the user
+# modify their own file name structure within the code
 
-# cafe data  | %s %s %d %d -> <analysis_type>, <analysis_type>, <runNum>, <evtNum>
-input_ROOTfilePattern        = ROOTfiles/%s/cafe_replay_%s_%d_%d.root
-input_REPORTPattern          = REPORT_OUTPUT/%s/cafe_%s_%d_%d.report
+# NOTE to User: filename structure set in baseAnalyzer.cpp, method: baseAnalyzer:ReadInputFile()
 
+#---------------------------------
+# Set Input DataFile Name Pattern
+#---------------------------------
+input_ROOTfilePattern        = ROOTfiles/%s/deut_replay_%s_%d_%d.root
+input_REPORTPattern          = REPORT_OUTPUT/%s/deut_%s_%d_%d.report
 
-#Set User Analyzed Output File Name Pattern
-output_ROOTfilePattern        = CAFE_OUTPUT/ROOT/cafe_%s_histos_%d_%d.root
-output_ROOTfilePattern_final  = CAFE_OUTPUT/ROOT/cafe_%s_histos_final.root
-output_SummaryPattern         = CAFE_OUTPUT/REPORT/cafe_%s_report_summary.txt
-output_REPORTPattern          = CAFE_OUTPUT/REPORT/cafe_%s_report_%d_%d.txt
+#------------------------------
+# Set Ouput Data File Pattern
+#------------------------------
+output_skimSinglesROOTfilePattern = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_skimmed_singles.root
+output_skimROOTfilePattern    = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_skimmed.root
+output_ROOTfilePattern        = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_histos.root
+output_ROOTfilePattern_comb   = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_combined.root
+output_SummaryPattern         = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_summary.csv
+output_REPORTPattern          = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_%d_%d.txt
+
+#----------------------------------
+# Set Input SIMC File Name Path
+# input_file can be "rad" or "norad" since same kinematics is assumed
+#----------------------------------
+input_file_simc                   = ../hallc_simulations/infiles/deut_heep_coin_rad.data
+input_ROOTfilePattern_simc_rad    = ../hallc_simulations/worksim/deut_heep_coin_rad.root
+input_ROOTfilePattern_simc_norad  = ../hallc_simulations/worksim/deut_heep_coin_norad.root
+
+#-----------------------------------
+# Set Output SIMC File Name Path
+#-----------------------------------
+output_ROOTfilePattern_simc_rad = ../hallc_simulations/worksim/analyzed/deut_heep_coin_rad_analyzed.root
+output_ROOTfilePattern_simc_norad = ../hallc_simulations/worksim/analyzed/deut_heep_coin_norad_analyzed.root

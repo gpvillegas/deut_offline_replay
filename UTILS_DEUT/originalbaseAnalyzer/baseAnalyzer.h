@@ -7,29 +7,26 @@ Date Created: August 22, 2020
 #ifndef BASE_ANALYZER_H
 #define BASE_ANALYZER_H
 
-#include "../UTILS/parse_utils.h" //useful C++ string parsing utilities
-#include "../UTILS/hist_utils.h" //useful C++ histogram bin extraction utility
-#include <string>
+#include "./UTILS/parse_utils.h" //useful C++ string parsing utilities
+#include "./UTILS/hist_utils.h" //useful C++ histogram bin extraction utility
 
 class baseAnalyzer
 {
-
   
 public:
   
   //Constructor / Destructor
-  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", string ana_type="", string ana_cuts="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
+  baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="", Bool_t hel_flag=0, string bcm_name="", double thrs=-1, string trig_single="", string trig_coin="", Bool_t combine_flag=0); //initialize member variables
 
   //2nd constructor (overload constructor, i.e., different arguments)
-  baseAnalyzer(string earm="", string ana_type="", string ana_cuts="");
+  baseAnalyzer(string earm="", Bool_t ana_data=0, string ana_cuts="", string ana_type="");
   
   ~baseAnalyzer();
   
   //MAIN ANALYSIS FUNCTIONS
-  void run_online_data_analysis();
-  void run_offline_data_analysis();
+  void run_data_analysis();
   void run_simc_analysis();
-  void run_scalers(); // mainly for generating cafe output file (for bcm calib runs)
+  void run_cafe_scalers(); // mainly for generating cafe output file (for bcm calib runs)
   
   //Function prototypes
   void Init(); 
@@ -40,15 +37,12 @@ public:
   void ReadScalerTree();  
   void ScalerEventLoop(); //bcm current cut threshold in uA units
   void ReadTree();
-  void CreateSkimTree();
-  void CreateSinglesSkimTree();
   void EventLoop();
   void CalcEff();
   void ApplyWeight();
   void ScaleSIMC(TString target="");
   void WriteHist();
-  void WriteOnlineReport();
-  void WriteOfflineReport();
+  void WriteReport();
   void WriteReportSummary();
   void CombineHistos();
   
@@ -59,17 +53,12 @@ public:
   //void GetAsymmetry();
   
   // Helper Functions
-  void GetPeak();
+  Double_t GetCoinTimePeak();
   void CollimatorStudy();
   void MakePlots();
   Double_t GetLuminosity(TString user_input="");
 
-    
-  //hms/shms dc calibration quality monitoring constanta
-  static const Int_t dc_PLANES = 12;
-  const string hdc_pl_names[dc_PLANES] = {"1u1", "1u2", "1x1", "1x2", "1v2", "1v1", "2v1", "2v2", "2x2", "2x1", "2u2", "2u1"};
-  const string pdc_pl_names[dc_PLANES] = {"1u1", "1u2", "1x1", "1x2", "1v1", "1v2", "2v2", "2v1", "2x2", "2x1", "2u2", "2u1"};
-
+  
 protected:
 
   //Set Constants
@@ -120,23 +109,18 @@ protected:
   //target length (thickness) (cm) obtained from D. Meekins table on Hall C 2022 targets
   //https://docs.google.com/spreadsheets/d/1GoHMHbCv3v6CbVybqTQws-4VhQeSifFP/edit#gid=140150071
 
-  // # of nucleons
-  Int_t N;  // neutrons
-  Int_t Z;  // protons
-  Int_t A;  // A = N+Z nucleons
-  Double_t T = 0.0 ; //transparency placeholder
-  
+
   //target density (g/cm^3)
   Double_t tgt_density = 0.0;  // generic variable to hold target density
   Double_t rho_H    = 0.07231;   
   Double_t rho_D    = 0.167;   
-  Double_t rho_Be9  = 1.848; //
-  Double_t rho_B10  = 2.352; // 
-  Double_t rho_B11  = 2.434; // 
-  Double_t rho_C12  = 1.8;  //
-  Double_t rho_Al27 = 2.699; //
-  Double_t rho_Ca40 = 1.55; //
-  Double_t rho_Ca48 = 1.86; //
+  Double_t rho_Be9  = 1.848; 
+  Double_t rho_B10  = 2.29; 
+  Double_t rho_B11  = 2.52; 
+  Double_t rho_C12  = 1.8; 
+  Double_t rho_Al27 = 2.699;
+  Double_t rho_Ca40 = 1.55;
+  Double_t rho_Ca48 = 1.86;
   Double_t rho_Fe54 = 7.87;
   Double_t rho_Ti48 = 4.5;
 
@@ -144,45 +128,44 @@ protected:
   Double_t tgt_thickness = 0.0;  // generic variable to hold target thickness
   Double_t thick_H    = 10.;   
   Double_t thick_D    = 10.;
-  Double_t thick_Be9  = 0.5335; //
-  Double_t thick_B10  = 0.245; //
-  Double_t thick_B11  = 0.26; //
-  Double_t thick_C12  = 0.3188; //
-  Double_t thick_Al27 = 0.0889; // 0.0889 (uptream), 0.0874 (downstream) 
-  Double_t thick_Ca40 = 0.5065; //
-  Double_t thick_Ca48 = 0.565; //
-  Double_t thick_Fe54 = 0.04663; // 
+  Double_t thick_Be9  = 0.5292;
+  Double_t thick_B10  = 0.2498;
+  Double_t thick_B11  = 0.2516;
+  Double_t thick_C12  = 0.2911;
+  Double_t thick_Al27 = 0.1541;
+  Double_t thick_Ca40 = 0.5161;
+  Double_t thick_Ca48 = 0.4301;
+  Double_t thick_Fe54 = 0.528;
   Double_t thick_Ti48 = 0.718;
 
   //target areal density (g/cm^2)
-  Double_t sig_H    = rho_H   * thick_H; 
+  Double_t sig_H    = rho_H   * thick_H;
   Double_t sig_D    = rho_D   * thick_D;
-  Double_t sig_Be9  = rho_Be9 * thick_Be9;   // 0.986
-  Double_t sig_B10  = rho_B10 * thick_B10;   // 0.576
-  Double_t sig_B11  = rho_B11 * thick_B11;   // 0.633
-  Double_t sig_C12  = rho_C12 * thick_C12;   // 0.574
-  Double_t sig_Al27 = rho_Al27 * thick_Al27; // 0.240 (upstream), 0.236 (downstream)
-  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40; // 0.785
-  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48; // 1.051
-  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54; // 0.367
-  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48; // 0.294
+  Double_t sig_Be9  = rho_Be9 * thick_Be9;
+  Double_t sig_B10  = rho_B10 * thick_B10;
+  Double_t sig_B11  = rho_B11 * thick_B11;
+  Double_t sig_C12  = rho_C12 * thick_C12;
+  Double_t sig_Al27 = rho_Al27 * thick_Al27;
+  Double_t sig_Ca40 = rho_Ca40 * thick_Ca40;
+  Double_t sig_Ca48 = rho_Ca48 * thick_Ca48;
+  Double_t sig_Fe54 = rho_Fe54 * thick_Fe54;
+  Double_t sig_Ti48 = rho_Ti48 * thick_Ti48;
 
-  // nuclear transparency factors (prob. that hit proton exits the nucleus)
-  Double_t T_H    = 1.;
-  Double_t T_D    = 1.; 
-  Double_t T_Be9  = 0.6;
-  Double_t T_B10  = 0.6;
-  Double_t T_B11  = 0.6;
-  Double_t T_C12  = 0.6;
-  Double_t T_Ca40 = 0.43;
-  Double_t T_Ca48 = 0.37;
-  Double_t T_Fe54 = 0.36;
-
-  Double_t Transparency(TString target=""){
+  
+  Double_t T(TString target=""){
 
     // helper function to return nuclear transparency of target
     
-
+    // nuclear transparency factors (prob. that hit proton exits the nucleus)
+    Double_t T_H    = 1.;
+    Double_t T_D    = 1.; 
+    Double_t T_Be9  = 0.6;
+    Double_t T_B10  = 0.6;
+    Double_t T_B11  = 0.6;
+    Double_t T_C12  = 0.56;
+    Double_t T_Ca40 = 0.4;
+    Double_t T_Ca48 = 0.4;
+    Double_t T_Fe54 = 0.4;
 
     if(target=="h")         return T_H;
     else if(target=="d2")   return T_D;
@@ -286,11 +269,6 @@ protected:
   
   Double_t simc_cafe_counts=0;    // MF/SRC event rate
   Double_t simc_cafe_rates=0;    // MF/SRC event rate
-
-
-  //this variable can be for either "prod" or "sample" data replay
-  TString replay_type;    // either "prod" (for production) or "sample" for sample replay of 100k events (or any other sample evts)
-
   
   //Initialization parameters (variables actually used in baseAnalyzer.cpp)
   int run;          // run number
@@ -298,8 +276,9 @@ protected:
   TString daq_mode;   //"coin" or "singles"
   TString e_arm_name;   // electron arm: "HMS" or "SHMS"
   TString h_arm_name;   //hadron arm
+  Bool_t analyze_data;    // analyze data ? if true (analyze data), if false, (analyze_simc)
   TString analysis_cut;    // analysis cuts: either "bcm_calib", "lumi", "optics", "heep_singles", "heep_coin", "MF" or "SRC" 
-  TString analysis_type;   // analysis prefix for "data" or "simc"  
+  TString analysis_type;   // online analysis prefix: either "prod" (for production) or "sample" for sample replay of 100k events (or any other sample evts)
   Bool_t helicity_flag;     //helicity flag
   TString bcm_type;       // BCM type : "BCM1, BCM2, BCM4A, BCM4B, BCM4C"
   Double_t bcm_thrs;      // BCM current threshold cut (analyze data and scalers ONLY above a certain bcm_thrs, e.g. > 5 uA)
@@ -309,8 +288,8 @@ protected:
   
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment)
 
-  
   // Read in general info from REPORT file 
+
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )
   TString tgt_type;
   Double_t tgt_mass;
@@ -357,8 +336,6 @@ protected:
   TString simc_ifile;  // simc input file (to read central settings used in simulation)
   
   //Output ROOTfile Name
-  TString data_OutputFileName_skim_singles; // only for saving singles skimmed leaf variables (with minimal cuts, like bcm cut and edtm cut) 
-  TString data_OutputFileName_skim; // only for saving skimmed leaf variables (with minimal cuts, like bcm cut and edtm cut) 
   TString data_OutputFileName;
   TString simc_OutputFileName_rad;
   TString simc_OutputFileName_norad;
@@ -399,11 +376,7 @@ protected:
 
   Double_t MM_total, MM_rand, MM_real;
   Double_t MM_total_err, MM_rand_err, MM_real_err;
-
-  // counting the events underneath the SHMS Cal E/p (for multi-track eff. correction)
-  Double_t single_peak_counts, single_peak_counts_err;
-  Double_t multi_peak_counts,  multi_peak_counts_err;
-  Double_t multi_track_eff,  multi_track_eff_err;
+  
   
   //------------DECLARE HISTOGRAM BINNING VARIABLES-------------
   Double_t nbins;
@@ -428,12 +401,7 @@ protected:
 	                  
   Double_t hbeta_nbins;	  
   Double_t hbeta_xmin;	  
-  Double_t hbeta_xmax;
-
-  Double_t hdcRes_nbins;
-  Double_t hdcRes_xmin;
-  Double_t hdcRes_xmax;
-
+  Double_t hbeta_xmax;	  
   	                  
   //-SHMS-                
   Double_t pngcer_nbins;  
@@ -451,10 +419,7 @@ protected:
   Double_t pbeta_nbins;	  
   Double_t pbeta_xmin;	  
   Double_t pbeta_xmax;	  
-
-  Double_t pdcRes_nbins;
-  Double_t pdcRes_xmin;
-  Double_t pdcRes_xmax;	                      
+	                      
 
   //-----------------------------
   //Kinematics Histograms Bins
@@ -763,354 +728,28 @@ protected:
   TH2F* h2_i = 0;       //dummy histo to store ith histogram from list
 
   //----------------------------------------------------------------
-  // DATA QUALITY CHECK / CUTS STUDY Histograms
-  //----------------------------------------------------------------
-
-  // keep track of total charge
-  TH1F *H_total_charge;
-
-
-  //HMS quality check histos
-  TH1F *H_hdcRes_fit[dc_PLANES];
-  TH1F *H_hbeta_fit;
-
-  //SHMS quality check histos
-  TH1F *H_pdcRes_fit[dc_PLANES];
-  TH1F *H_pbeta_fit;
-  TH1F *H_pcal_fit;
-
-  // coin time quality check
-  TH1F *H_ctime_fit;
-  
-  // ------ Cuts Quality Check Histos ----
-  
-  // -- NO CUTS HISTOS --
-  // kin
-  TH1F *H_ep_ctime_noCUT;
-  TH1F *H_the_noCUT;
-  TH1F *H_W_noCUT;
-  TH1F *H_Q2_noCUT;
-  TH1F *H_xbj_noCUT;
-  TH1F *H_nu_noCUT;
-  TH1F *H_q_noCUT;
-  TH1F *H_thq_noCUT;
-  TH1F *H_Em_nuc_noCUT;
-  TH1F *H_Em_src_noCUT;
-  TH1F *H_MM_noCUT;
-  TH1F *H_Pm_noCUT;
-  TH1F *H_thxq_noCUT;
-  TH1F *H_thrq_noCUT;
-  TH1F *H_cthrq_noCUT;
-  TH1F *H_kf_noCUT;
-  TH1F *H_Pf_noCUT;
-  TH1F *H_thx_noCUT;
-
-  // recon.
-  TH1F *H_eytar_noCUT;  
-  TH1F *H_eyptar_noCUT; 
-  TH1F *H_exptar_noCUT; 
-  TH1F *H_edelta_noCUT;
-  TH1F *H_hytar_noCUT;  
-  TH1F *H_hyptar_noCUT; 
-  TH1F *H_hxptar_noCUT; 
-  TH1F *H_hdelta_noCUT;
-
-  // detector
-  TH1F *H_pCalEtotTrkNorm_noCUT;
-  TH1F *H_pHodBetaTrk_noCUT;
-  TH1F *H_pNGCerNpeSum_noCUT;
-  TH1F *H_hCalEtotTrkNorm_noCUT;
-  TH1F *H_hHodBetaTrk_noCUT;
-  TH1F *H_hCerNpeSum_noCUT;  
-
-  // 2d histos
-  TH2F *H_hxfp_vs_hyfp_noCUT;
-  TH2F *H_exfp_vs_eyfp_noCUT;  
-  TH2F *H_hXColl_vs_hYColl_noCUT;
-  TH2F *H_eXColl_vs_eYColl_noCUT;
-  TH2F *H_Em_nuc_vs_Pm_noCUT;
-  TH2F *H_Em_src_vs_Pm_noCUT;
-  TH2F *H_Q2_vs_xbj_noCUT;
-  TH2F *H_cthrq_vs_Pm_noCUT;
-  
-  // -- CUTS: ACCEPTANCE CUTS ONLY --
-  // kin
-  TH1F *H_ep_ctime_ACCP;
-  TH1F *H_the_ACCP;
-  TH1F *H_W_ACCP;
-  TH1F *H_Q2_ACCP;
-  TH1F *H_xbj_ACCP;
-  TH1F *H_nu_ACCP;
-  TH1F *H_q_ACCP;
-  TH1F *H_thq_ACCP;
-  TH1F *H_Em_nuc_ACCP;
-  TH1F *H_Em_src_ACCP;
-  TH1F *H_MM_ACCP;
-  TH1F *H_Pm_ACCP;
-  TH1F *H_thxq_ACCP;
-  TH1F *H_thrq_ACCP;
-  TH1F *H_cthrq_ACCP; 
-  TH1F *H_kf_ACCP;
-  TH1F *H_Pf_ACCP;
-  TH1F *H_thx_ACCP;
-
-  // recon.
-  TH1F *H_eytar_ACCP;  
-  TH1F *H_eyptar_ACCP; 
-  TH1F *H_exptar_ACCP; 
-  TH1F *H_edelta_ACCP;
-  TH1F *H_hytar_ACCP;  
-  TH1F *H_hyptar_ACCP; 
-  TH1F *H_hxptar_ACCP; 
-  TH1F *H_hdelta_ACCP;
-
-  // detector
-  TH1F *H_pCalEtotTrkNorm_ACCP;
-  TH1F *H_pHodBetaTrk_ACCP;
-  TH1F *H_pNGCerNpeSum_ACCP;
-  TH1F *H_hCalEtotTrkNorm_ACCP;
-  TH1F *H_hHodBetaTrk_ACCP;
-  TH1F *H_hCerNpeSum_ACCP;  
-
-  // 2d histos
-  TH2F *H_hxfp_vs_hyfp_ACCP;
-  TH2F *H_exfp_vs_eyfp_ACCP;  
-  TH2F *H_hXColl_vs_hYColl_ACCP;
-  TH2F *H_eXColl_vs_eYColl_ACCP;
-  TH2F *H_Em_nuc_vs_Pm_ACCP;
-  TH2F *H_Em_src_vs_Pm_ACCP;
-  TH2F *H_Q2_vs_xbj_ACCP;
-  TH2F *H_cthrq_vs_Pm_ACCP;
- 
-    // -- CUTS: ACCEPTANCE + PID CUTS ONLY --
-  // kin
-  TH1F *H_ep_ctime_ACCP_PID;
-  TH1F *H_the_ACCP_PID;
-  TH1F *H_W_ACCP_PID;
-  TH1F *H_Q2_ACCP_PID;
-  TH1F *H_xbj_ACCP_PID;
-  TH1F *H_nu_ACCP_PID;
-  TH1F *H_q_ACCP_PID;
-  TH1F *H_thq_ACCP_PID;
-  TH1F *H_Em_nuc_ACCP_PID;
-  TH1F *H_Em_src_ACCP_PID;
-  TH1F *H_MM_ACCP_PID;
-  TH1F *H_Pm_ACCP_PID;
-  TH1F *H_thxq_ACCP_PID;
-  TH1F *H_thrq_ACCP_PID;
-  TH1F *H_cthrq_ACCP_PID; 
-  TH1F *H_kf_ACCP_PID;
-  TH1F *H_Pf_ACCP_PID;
-  TH1F *H_thx_ACCP_PID;
-
-  // recon.
-  TH1F *H_eytar_ACCP_PID;  
-  TH1F *H_eyptar_ACCP_PID; 
-  TH1F *H_exptar_ACCP_PID; 
-  TH1F *H_edelta_ACCP_PID;
-  TH1F *H_hytar_ACCP_PID;  
-  TH1F *H_hyptar_ACCP_PID; 
-  TH1F *H_hxptar_ACCP_PID; 
-  TH1F *H_hdelta_ACCP_PID;
-
-  // detector
-  TH1F *H_pCalEtotTrkNorm_ACCP_PID;
-  TH1F *H_pHodBetaTrk_ACCP_PID;
-  TH1F *H_pNGCerNpeSum_ACCP_PID;
-  TH1F *H_hCalEtotTrkNorm_ACCP_PID;
-  TH1F *H_hHodBetaTrk_ACCP_PID;
-  TH1F *H_hCerNpeSum_ACCP_PID;  
-
-  // 2d histos
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID;
-  TH2F *H_Q2_vs_xbj_ACCP_PID;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID;
-
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME ONLY --
-  // kin
-  TH1F *H_ep_ctime_ACCP_PID_CTIME;
-  TH1F *H_the_ACCP_PID_CTIME;
-  TH1F *H_W_ACCP_PID_CTIME;
-  TH1F *H_Q2_ACCP_PID_CTIME;
-  TH1F *H_xbj_ACCP_PID_CTIME;
-  TH1F *H_nu_ACCP_PID_CTIME;
-  TH1F *H_q_ACCP_PID_CTIME;
-  TH1F *H_thq_ACCP_PID_CTIME;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME;
-  TH1F *H_Em_src_ACCP_PID_CTIME;
-  TH1F *H_MM_ACCP_PID_CTIME;
-  TH1F *H_Pm_ACCP_PID_CTIME;
-  TH1F *H_thxq_ACCP_PID_CTIME;
-  TH1F *H_thrq_ACCP_PID_CTIME;
-  TH1F *H_cthrq_ACCP_PID_CTIME;  
-  TH1F *H_kf_ACCP_PID_CTIME;
-  TH1F *H_Pf_ACCP_PID_CTIME;
-  TH1F *H_thx_ACCP_PID_CTIME;
-
-  // recon.
-  TH1F *H_eytar_ACCP_PID_CTIME;  
-  TH1F *H_eyptar_ACCP_PID_CTIME; 
-  TH1F *H_exptar_ACCP_PID_CTIME; 
-  TH1F *H_edelta_ACCP_PID_CTIME;
-  TH1F *H_hytar_ACCP_PID_CTIME;  
-  TH1F *H_hyptar_ACCP_PID_CTIME; 
-  TH1F *H_hxptar_ACCP_PID_CTIME; 
-  TH1F *H_hdelta_ACCP_PID_CTIME;
-
-  // detector
-  TH1F *H_pCalEtotTrkNorm_ACCP_PID_CTIME;
-  TH1F *H_pHodBetaTrk_ACCP_PID_CTIME;
-  TH1F *H_pNGCerNpeSum_ACCP_PID_CTIME;
-  TH1F *H_hCalEtotTrkNorm_ACCP_PID_CTIME;
-  TH1F *H_hHodBetaTrk_ACCP_PID_CTIME;
-  TH1F *H_hCerNpeSum_ACCP_PID_CTIME;  
-
-  // 2d histos
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME;
-
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 CUT ONLY --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2;
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2;
-
-  //  require MF flag
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 + Em CUT ONLY (MF) --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2_Em;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2_Em;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2_Em;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2_Em;
- 
-  //  require MF flag
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 + Em + Pm CUT ONLY (MF) --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2_Em_Pm; 
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2_Em_Pm;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2_Em_Pm;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2_Em_Pm;
-  
-  //  require SRC flag
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 + Xbj CUT ONLY (SRC) --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2_Xbj;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2_Xbj;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2_Xbj;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2_Xbj;
- 
-  //  require SRC flag
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 + Xbj + th_rq CUT ONLY (SRC) --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2_Xbj_thrq;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2_Xbj_thrq;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq;
- 
-   //  require SRC flag
-  // -- CUTS: ACCEPTANCE + PID CUTS + COIN.TIME + Q2 + Xbj + th_rq + Pm CUT ONLY (SRC) --
-  TH1F *H_ep_ctime_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_Q2_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_xbj_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_Em_nuc_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_Em_src_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_thrq_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH1F *H_cthrq_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm; 
-  TH2F *H_hxfp_vs_hyfp_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_exfp_vs_eyfp_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;  
-  TH2F *H_hXColl_vs_hYColl_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_eXColl_vs_eYColl_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_Em_nuc_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_Em_src_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_Q2_vs_xbj_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-  TH2F *H_cthrq_vs_Pm_ACCP_PID_CTIME_Q2_Xbj_thrq_Pm;
-
-  //------------------------------------
-
-  //----------------------------------------------------------------
   // Detector Histograms (DATA ONLY): PID / TRACKING EFFICIENCY 
   //----------------------------------------------------------------
 
+  // no cuts
+  TH1F *H_ep_ctime_total_noCUT;
+
+  //Collimator Shape
+  TH2F *H_hXColl_vs_hYColl_noCUT;
+  TH2F *H_eXColl_vs_eYColl_noCUT;
+
+
   //Coin. Time
   TH1F *H_ep_ctime_total;
-  TH1F *H_ep_ctime_real;
+  TH1F *H_ep_ctime;
 
   //HMS
   TH1F *H_hCerNpeSum;  
   TH1F *H_hCalEtotNorm;
   TH1F *H_hCalEtotTrkNorm;
   TH1F *H_hHodBetaNtrk;   
-  TH1F *H_hHodBetaTrk;
+  TH1F *H_hHodBetaTrk;   
   
-
   //SHMS	       
   TH1F *H_pNGCerNpeSum;
   TH1F *H_pHGCerNpeSum;
@@ -1119,19 +758,6 @@ protected:
   TH1F *H_pHodBetaNtrk;   
   TH1F *H_pHodBetaTrk;   
 
-  //--------------------
-  // SHMS specific histos
-  // for multiple-track corrections 
-  //---------------------
-  TH1F *H_multitrack_ep_ctime_notrk_ncut;
-  TH1F *H_multitrack_ep_ctime_notrk;      // raw coin time spectrum (no track info)
-  // SHMS e/p spectra (with only a cut on the raw coin time w/o track info)
-  TH1F *H_multitrack_pCalEtotNorm_full_ncut;     // full E/p spectrum (with only cut on ctime notrk)
-  TH1F *H_multitrack_pCalEtotNorm_full;     // full E/p spectrum (with only cut on ctime notrk)
-  TH1F *H_multitrack_pCalEtotNorm_peak1;    //  E/p single e- peak selected (with only cut on ctime notrk)
-  TH1F *H_multitrack_pCalEtotNorm_multipeaks; //  E/p e- multipeaks(>1) selected (with only cut on ctime notrk)
-  
-  
   //-------Define 2D PID Histograms (correlations between pid detectors)-------
   //All possible combinations of correlations serves for general PID purposes
 
@@ -1180,7 +806,6 @@ protected:
   TH1F *H_MM;
   TH1F *H_thxq;
   TH1F *H_thrq;
-  TH1F *H_cthrq;
   TH1F *H_phxq;
   TH1F *H_phrq;
   TH1F *H_Tx_cm;
@@ -1223,6 +848,9 @@ protected:
   TH1F *H_sphi_xq_cm;
   TH1F *H_sphi_rq_cm;
 
+  // 2D Kinematics Histos
+  TH2F *H_Em_nuc_vs_Pm;
+  TH2F *H_Em_src_vs_Pm;
   
   //------------------------------------------------
   
@@ -1344,14 +972,8 @@ protected:
 
   //----------DATA-RELATED VARIABLES-----------
   TTree *tree;
-  TTree *tree_skim;
-  TTree *tree_skim_singles;
   Long64_t nentries;
-  
-  //Set-Up counters for accepted singles triggers
-  Double_t total_trig1_singles_accp = 0;
-  Double_t total_trig2_singles_accp = 0;
-  
+
   //Set-Up Tdc Counters for accepted triggers
   Double_t total_trig1_accp = 0;
   Double_t total_trig2_accp = 0;
@@ -1370,9 +992,7 @@ protected:
   Double_t total_trig5_accp_bcm_cut = 0;
   Double_t total_trig6_accp_bcm_cut = 0;
   Double_t total_edtm_accp_bcm_cut = 0;
-  Double_t total_edtm_accp_bcm_cut_single = 0;
-  Double_t total_trig_accp_bcm_cut_single; //generic acc. trig
-  Double_t total_trig_accp_bcm_cut_coin; //generic acc. trig
+  Double_t total_trig_accp_bcm_cut; //generic acc. trig
 
   //Tracking Efficiency Counter / Live Time (passed bcm cuts)
   //HMS
@@ -1387,25 +1007,11 @@ protected:
   Double_t pTrkEff;
   Double_t pTrkEff_err;
 
-  
-  //SHMS singles track eff.
-  Double_t p_did_singles = 0;
-  Double_t p_should_singles = 0;
-  Double_t pTrkEff_singles;
-  Double_t pTrkEff_singles_err;
-  
   //Computer Live Time 
-  Double_t cpuLT_trig_single;       //generic computer live time
-  Double_t cpuLT_trig_coin;       //generic computer live time
-
-  Double_t cpuLT_trig_err_Bi_single;  //generic cpu live time error (using binomial statistics)
-  Double_t cpuLT_trig_err_Bi_coin;  //generic cpu live time error (using binomial statistics)
-
-  Double_t cpuLT_trig_err_Bay_single;  //generic cpu live time error (using bayesian statistics)
-  Double_t cpuLT_trig_err_Bay_coin;  //generic cpu live time error (using bayesian statistics)
-
-
-  
+  Double_t cpuLT_trig;       //generic computer live time
+  Double_t cpuLT_trig_err_Bi;  //generic cpu live time error (using binomial statistics)
+  Double_t cpuLT_trig_err_Bay;  //generic cpu live time error (using bayesian statistics)
+   
   Double_t cpuLT_trig1, cpuLT_trig1_err_Bi, cpuLT_trig1_err_Bay;
   Double_t cpuLT_trig2, cpuLT_trig2_err_Bi, cpuLT_trig2_err_Bay;
   Double_t cpuLT_trig3, cpuLT_trig3_err_Bi, cpuLT_trig3_err_Bay;
@@ -1416,15 +1022,9 @@ protected:
   //Total Live Time (EDTM)
   Double_t tLT_corr_factor;
 
-  Double_t tLT_trig_single; //generic total live time 
-  Double_t tLT_trig_coin; //generic total live time 
-
-  
-  Double_t tLT_trig_err_Bi_single;  //generic total live time error (using binomial statistics)
-  Double_t tLT_trig_err_Bi_coin;  //generic total live time error (using binomial statistics)
-
-  Double_t tLT_trig_err_Bay_single;  //generic total live time error (using bayesian statistics)
-  Double_t tLT_trig_err_Bay_coin;  //generic total live time error (using bayesian statistics)
+  Double_t tLT_trig; //generic total live time 
+  Double_t tLT_trig_err_Bi;  //generic total live time error (using binomial statistics)
+  Double_t tLT_trig_err_Bay;  //generic total live time error (using bayesian statistics)
 
   Double_t tLT_trig1, tLT_trig1_err_Bi, tLT_trig1_err_Bay;
   Double_t tLT_trig2, tLT_trig2_err_Bi, tLT_trig2_err_Bay;
@@ -1440,7 +1040,7 @@ protected:
   Bool_t c_noedtm;
   Bool_t c_edtm;
 
-  //generic cuts to enable/disable triggers 1-6 (HMS singles -> htrig, SHMS singles -> ptrig, coin -> ptrig)
+  //generic cpu live time cuts (HMS singles -> htrig, SHMS singles -> ptrig, coin -> ptrig)
   Bool_t c_trig1;    
   Bool_t c_trig2;   
   Bool_t c_trig3;   
@@ -1448,13 +1048,6 @@ protected:
   Bool_t c_trig5;   
   Bool_t c_trig6;
 
-  Bool_t c_notrig1;    
-  Bool_t c_notrig2;   
-  Bool_t c_notrig3;   
-  Bool_t c_notrig4;   
-  Bool_t c_notrig5;   
-  Bool_t c_notrig6;
-  
   //Pre-Scale factor for each pre-trigger (used in computer/total live time calculation, to account for pre-scaled triggers)
   Float_t Ps_factor_single = 1;  //generic pre-scale factor for singles
   Float_t Ps_factor_coin = 1;  //generic pre-scale factor for coin
@@ -1492,7 +1085,7 @@ protected:
   Bool_t good_shms_should;
   Bool_t good_shms_did;
   
-
+  
   //-----------DEFINE DATA/SIMC CUTS (CUTS MUST BE EXACT SAME. Which is why only a variable is used for both)------
   //(See set_basic_cuts.inp file to modify the cuts),  the 'c_' denotes it is a cut
 
@@ -1545,12 +1138,6 @@ protected:
   Double_t cpid_phgcer_npeSum_min;
   Double_t cpid_phgcer_npeSum_max;
 
-  //SHMS Heavy Gas Cherenkov (Pi /K separation)
-  Bool_t pntrack_cut_flag;
-  Bool_t c_pntrack;
-  Double_t pntracks;
-  
-  
   //HMS Calorimeter EtotTrackNorm (e- selection)
   Bool_t hetot_trkNorm_pidCut_flag;
   Bool_t cpid_hetot_trkNorm;
@@ -1620,13 +1207,6 @@ protected:
   Bool_t   c_MF_Em;
   Double_t c_MF_Em_min;
   Double_t c_MF_Em_max;
-
-  // in-plane recoil (undetected) angle, theta_rq [deg]
-  Bool_t   thrq_MF_cut_flag;
-  Bool_t   c_MF_thrq;
-  Double_t c_MF_thrq_min;
-  Double_t c_MF_thrq_max;
-  
   
   // CaFe A(e,e'p) Short-Range Correlations (SRC) Kinematic Cuts -----
   Bool_t   Q2_SRC_cut_flag;
@@ -1658,19 +1238,6 @@ protected:
   // is itslef a square-root function of Pm, Em_src (Pm) = nu - Tp - (sqrt(Pm*Pm + MN*MN) - MN)
   Bool_t   Em_SRC_cut_flag;
   Bool_t   c_SRC_Em;
-
-
-  // e12-10-003: deuteron d(e,e'p) Kinematic Cuts -----
-  Bool_t   Q2_deep_cut_flag;
-  Bool_t   c_deep_Q2;
-  Double_t c_deep_Q2_min;
-  Double_t c_deep_Q2_max;
-
-  Bool_t   Em_deep_cut_flag;
-  Bool_t   c_deep_Em;
-  Double_t c_deep_Em_min;
-  Double_t c_deep_Em_max;
-  
   
   //----------Acceptance Cuts------------  
 
@@ -1729,9 +1296,6 @@ protected:
   TCutG *hms_Coll_gCut;   //HMS Collimator Graphical Cut
   TCutG *shms_Coll_gCut;  //SHMS Collimator Graphical Cut
 
-  Bool_t hms_coll_cut_bool=0;  //boolean to be saved to skimmed rootfile,so that users may be able to make cut 
-  Bool_t shms_coll_cut_bool=0;
-
   //HMS Octagonal Collimator Size (Each of the octagonal points is a multiple of 1 or 1/2 of these values)
   Double_t hms_hsize = 4.575;  //cm
   Double_t hms_vsize = 11.646;
@@ -1762,17 +1326,11 @@ protected:
   Bool_t c_kinHeepCoin_Cuts;     //kinematics cuts (Heep Coin Cuts)
   Bool_t c_kinMF_Cuts;  //kinematics cuts (CaFe MF Cuts)
   Bool_t c_kinSRC_Cuts; //kinematics cuts (CaFe SRC Cuts)
-  Bool_t c_kin_deep_Cuts; //kinematics cuts ( e12-10-003 d(e,e'p) kinematic Cuts )
-
   
   //------------------END DATA-RELATED VARIABLES DEFINED CUTS-------------------
   
   //-------------TTREE LEAF VARIABLE NAMES (DATA or SIMC)--------------
 
-  //hadron / electron 4-vector components (px,py,pz,E)
-  Double_t Pfx, Pfy, Pfz, Ef_p; // hadron
-  Double_t kfx, kfy, kfz, Ef_k; // e-
-  
   //Trigger Detector / Global Variables
   Double_t gevtyp;  //global event type
   Double_t gevnum;
@@ -1789,40 +1347,29 @@ protected:
   //--------------------------------
   //Coincidence Time (ONLY DATA)
   Double_t epCoinTime;
-  Double_t epCoinTime_notrk;
   Double_t eKCoinTime;
   Double_t ePiCoinTime;
 
-  Double_t epCoinTime_center;
-  Double_t epCoinTime_center_notrk;
-
   //HMS DETECTORS
   Double_t hcer_npesum;
-  Double_t hcal_etot;
   Double_t hcal_etotnorm;
   Double_t hcal_etottracknorm;
   Double_t hhod_beta_ntrk;
   Double_t hhod_beta;
+  Double_t hhod_gtr_beta;
   Double_t hhod_GoodScinHit;
-  Double_t hdc_ntrack;
-  Double_t   hdc_TheRealGolden; 
-  Double_t hdc_res[dc_PLANES]; 		      		   
-  Double_t hdc_nhit[dc_PLANES];		     
+  Double_t hdc_ntrack;    
  
   //SHMS DETECTORS
   Double_t phgcer_npesum;
   Double_t pngcer_npesum;
-  Double_t pcal_etot;
   Double_t pcal_etotnorm;
   Double_t pcal_etottracknorm;
   Double_t phod_beta_ntrk;
   Double_t phod_beta;
+  Double_t phod_gtr_beta;
   Double_t phod_GoodScinHit;
-  Double_t pdc_ntrack;
-  Double_t   pdc_TheRealGolden; 
-  Double_t pdc_res[dc_PLANES]; 
-  Double_t pdc_nhit[dc_PLANES];
- 
+  Double_t pdc_ntrack;    
 
   //-----------------------------------
   //-----Kinematics Leaf Variables-----
@@ -1938,59 +1485,6 @@ protected:
   //Additional Acceptance Quantities (User-defined)
   Double_t ztar_diff; //[cm]
 
-  //-----------------------------------------------------------------------
-  // LOW-LEVEL DRIFT CHAMBER LEAF VARIABLES FOR TRACKING ALGORITHM STUDIES
-  //-----------------------------------------------------------------------
-  
-  Double_t pdc_stubtest;	   
-  Double_t pdc_nhits;		   
-  Double_t pdc_tnhits;	   
-  
-  Double_t pdc_chi2dof;
-  Int_t    ndata_pdc_track_chisq;
-  Double_t pdc_track_chisq[1000];
-  Int_t    ndata_pdc_track_nhits;
-  Double_t pdc_track_nhits[1000];	   
-  Double_t pdc_InsideDipoleExit;
-  
-  
-  Double_t pdc_Ch1_maxhits;	   
-  Double_t pdc_Ch1_spacepoints; 
-  Double_t pdc_Ch1_nhit;
-  Int_t    ndata_pdc_Ch1_ncombos;	   
-  Double_t pdc_Ch1_ncombos[1000]; // this has P.dc.Ch1.ncombos[Ndata.P.dc.Ch1.ncombos]	   
-  Int_t    ndata_pdc_Ch1_stub_x;
-  Double_t pdc_Ch1_stub_x[1000];
-  Int_t    ndata_pdc_Ch1_stub_xp; 
-  Double_t pdc_Ch1_stub_xp[1000];
-  Int_t    ndata_pdc_Ch1_stub_y; 
-  Double_t pdc_Ch1_stub_y[1000];
-  Int_t    ndata_pdc_Ch1_stub_yp; 
-  Double_t pdc_Ch1_stub_yp[1000];	   
-  
-  Double_t pdc_Ch2_maxhits;	   
-  Double_t pdc_Ch2_spacepoints; 
-  Double_t pdc_Ch2_nhit;
-  Int_t    ndata_pdc_Ch2_ncombos;	   
-  Double_t pdc_Ch2_ncombos[1000];
-  Int_t    ndata_pdc_Ch2_stub_x; 	   
-  Double_t pdc_Ch2_stub_x[1000];
-  Int_t    ndata_pdc_Ch2_stub_xp;
-  Double_t pdc_Ch2_stub_xp[1000];
-  Int_t    ndata_pdc_Ch2_stub_y;	   
-  Double_t pdc_Ch2_stub_y[1000];
-  Int_t    ndata_pdc_Ch2_stub_yp;
-  Double_t pdc_Ch2_stub_yp[1000];	   
-  
-
-
-  
-  //static Double_t pdc_rawTDC[dc_PLANES][1000];
-
-  //static Int_t hndata_rawTDC[dc_PLANES];
-
-
- 
 
   //----- SIMC Specific TTree Variable Names -----
   Double_t Normfac;
@@ -2045,15 +1539,8 @@ protected:
 
   //Define Counter Quantities To Store Previous Reads
   Double_t prev_time = 0.;
-  Double_t prev_charge_bcm1 = 0.;
-  Double_t prev_charge_bcm2 = 0.;
-  Double_t prev_charge_bcm4a = 0.;
-  Double_t prev_charge_bcm4b = 0.;
-  Double_t prev_charge_bcm4c = 0.;
+  Double_t prev_charge_bcm = 0.;
   Double_t prev_s1x_scaler = 0;
-  Double_t prev_s1y_scaler = 0;
-  Double_t prev_s2x_scaler = 0;
-  Double_t prev_s2y_scaler = 0;
   Double_t prev_trig1_scaler = 0;
   Double_t prev_trig2_scaler = 0;
   Double_t prev_trig3_scaler = 0;
@@ -2064,16 +1551,8 @@ protected:
 
   //Define Counter Quantities To Store Accumulated Reads
   Double_t total_time = 0.;
-  Double_t total_charge_bcm = 0.; // placeholder for arbitrary BCM type (determined by user)
-  Double_t total_charge_bcm1 = 0.;
-  Double_t total_charge_bcm2 = 0.;
-  Double_t total_charge_bcm4a = 0.;
-  Double_t total_charge_bcm4b = 0.;
-  Double_t total_charge_bcm4c = 0.;
+  Double_t total_charge_bcm = 0.;
   Double_t total_s1x_scaler = 0;
-  Double_t total_s1y_scaler = 0;
-  Double_t total_s2x_scaler = 0;
-  Double_t total_s2y_scaler = 0;
   Double_t total_trig1_scaler = 0;
   Double_t total_trig2_scaler = 0;
   Double_t total_trig3_scaler = 0;
@@ -2084,16 +1563,8 @@ protected:
 
   //Store Accumulated Reads if they passed BCM Current Cut
   Double_t total_time_bcm_cut = 0.;
-  Double_t total_charge_bcm_cut = 0.;  // placeholder for arbitrary BCM type (determined by user)
-  Double_t total_charge_bcm1_cut = 0.;
-  Double_t total_charge_bcm2_cut = 0.;
-  Double_t total_charge_bcm4a_cut = 0.;
-  Double_t total_charge_bcm4b_cut = 0.;
-  Double_t total_charge_bcm4c_cut = 0.;
+  Double_t total_charge_bcm_cut = 0.;
   Double_t total_s1x_scaler_bcm_cut = 0;
-  Double_t total_s1y_scaler_bcm_cut = 0;
-  Double_t total_s2x_scaler_bcm_cut = 0;
-  Double_t total_s2y_scaler_bcm_cut = 0;
   Double_t total_trig1_scaler_bcm_cut = 0;
   Double_t total_trig2_scaler_bcm_cut = 0;
   Double_t total_trig3_scaler_bcm_cut = 0;
@@ -2101,15 +1572,10 @@ protected:
   Double_t total_trig5_scaler_bcm_cut = 0;
   Double_t total_trig6_scaler_bcm_cut = 0;
   Double_t total_edtm_scaler_bcm_cut = 0;
-  Double_t total_trig_scaler_bcm_cut_single; //generic trig scaler count
-  Double_t total_trig_scaler_bcm_cut_coin; //generic trig scaler count
+  Double_t total_trig_scaler_bcm_cut; //generic trig scaler count
 
   //Store Scaler Rates if current cut passed
   Double_t S1XscalerRate_bcm_cut;
-  Double_t S1YscalerRate_bcm_cut;
-  Double_t S2XscalerRate_bcm_cut;
-  Double_t S2YscalerRate_bcm_cut;
-
   Double_t TRIG1scalerRate_bcm_cut;
   Double_t TRIG2scalerRate_bcm_cut;
   Double_t TRIG3scalerRate_bcm_cut;
@@ -2127,8 +1593,7 @@ protected:
   Double_t TRIG6accpRate_bcm_cut;
   Double_t EDTMaccpRate_bcm_cut;
   
-  Double_t trig_rate_single; //generic single trigger rate 
-  Double_t trig_rate_coin; //generic coin trigger rate
+  Double_t trig_rate; //generic trigger rate
   
   //Store Average BCM Current
   Double_t  avg_current_bcm_cut;
@@ -2139,27 +1604,10 @@ protected:
   //--------SCALER TTREE VARIABLE NAMES (DATA)---------
 
   Double_t Scal_evNum;
-  Double_t Scal_BCM_charge;  // generic placeholder for BCM charge (depend on user input)
-  Double_t Scal_BCM_current; // generic placeholder for BCM current
-  
-  // C.Y. Oct 3 : added additional bcm info (to write to report as well)
-  Double_t Scal_BCM1_charge; 
-  Double_t Scal_BCM1_current;
-  Double_t Scal_BCM2_charge; 
-  Double_t Scal_BCM2_current;
-  Double_t Scal_BCM4A_charge; 
-  Double_t Scal_BCM4A_current;
-  Double_t Scal_BCM4B_charge; 
-  Double_t Scal_BCM4B_current;
-  Double_t Scal_BCM4C_charge; 
-  Double_t Scal_BCM4C_current;
-  
+  Double_t Scal_BCM_charge;
+  Double_t Scal_BCM_current;
   Double_t Scal_time;
   Double_t S1X_scaler;
-  Double_t S1Y_scaler;
-  Double_t S2X_scaler;
-  Double_t S2Y_scaler;
-
   Double_t TRIG1_scaler;   
   Double_t TRIG2_scaler;   
   Double_t TRIG3_scaler;   
@@ -2194,53 +1642,7 @@ protected:
 
   //-----------------------------------------------------------------------------------------
 
-  // Quality Check Parameter Values (to be used for storing fit results/write to.csv file)
-  
-  
-  // define peak values (max bin content x-value)
-  Double_t ctime_offset_peak_val = 0.0;
-  Double_t ctime_offset_peak_notrk_val = 0.0;
-  Double_t hms_beta_peak_val = 0.0;
-  Double_t shms_beta_peak_val = 0.0;
-  Double_t shms_ecal_peak_val = 0.0;
-    
-  // coin time [ns]
-  Double_t ctime_offset;                                                                                                                          
-  Double_t ctime_offset_err;
-  Double_t ctime_sigma;   
-  Double_t ctime_sigma_err;
 
-  // HMS Hodo Beta (track)
-  Double_t hbeta_mean;                                                                                                                          
-  Double_t hbeta_mean_err;
-  Double_t hbeta_sigma;   
-  Double_t hbeta_sigma_err;
-
-  // SHMS Hodo Beta (track)
-  Double_t pbeta_mean;                                                                                                                          
-  Double_t pbeta_mean_err;
-  Double_t pbeta_sigma;   
-  Double_t pbeta_sigma_err;
-
-  // SHMS cal E_dep / p_track
-  Double_t pcal_mean;                                                                                                                          
-  Double_t pcal_mean_err;
-  Double_t pcal_sigma;   
-  Double_t pcal_sigma_err;
-
-  // HMS DC Residuals
-  Double_t hdc_res_mean[dc_PLANES];                                                                                                                          
-  Double_t hdc_res_mean_err[dc_PLANES];
-  Double_t hdc_res_sigma[dc_PLANES];   
-  Double_t hdc_res_sigma_err[dc_PLANES];
-
-   // SHMS DC Residuals
-  Double_t pdc_res_mean[dc_PLANES];                                                                                                                          
-  Double_t pdc_res_mean_err[dc_PLANES];
-  Double_t pdc_res_sigma[dc_PLANES];   
-  Double_t pdc_res_sigma_err[dc_PLANES];
-  
-  
   //------VARIABLES USED TO WRITE HISTOGRAMS TO ROOT FILE-------
 
   //Create Categorical TLists to store histograms based on caterogy
@@ -2250,9 +1652,7 @@ protected:
 
   TList * rand_HList;  // store random coin. background of selected histograms
   TList * randSub_HList;  // store random-subtracted variables of selected histograms
-
-  TList * quality_HList; // store quality-check histos (will NOT be weighted or summed over all runs)
-  TList * charge_HList;
+  
   //---------------------------------------------
 
 

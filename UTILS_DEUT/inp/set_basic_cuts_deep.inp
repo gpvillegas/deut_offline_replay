@@ -94,11 +94,11 @@ ePctime_cut_max = 2.5
 
 # accidental window selection (right of main coin. peak) choose additional events to the right of accidentals for MF,SRC to lower random stats
 ePctime_cut_min_R = 2.6
-ePctime_cut_max_R = 15.3
+ePctime_cut_max_R = 10.1
 
 # accidental window selection (left of main coin. peak)
 ePctime_cut_min_L = -2.6
-ePctime_cut_max_L = -5.1
+ePctime_cut_max_L = -10.1
 
 
 #------PID Cuts------
@@ -155,7 +155,7 @@ hmsCollCut_flag = 1
 
 # electron arm momentum acceptance, Delta [%] 
 edelta_cut_flag = 1
-c_edelta_min = 0.
+c_edelta_min = -10.
 c_edelta_max = 22.
 
 # electron out-of-plane angular range, xptar [rad]
@@ -179,13 +179,13 @@ c_ztarDiff_max = 2.
 
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 #
-#  CaFe-SPECIFIC KINEMATIC CUTS for A(e,e'p) e: SHMS, p: HMS
+#  DEUTERON EXP. - SPECIFIC KINEMATIC CUTS d(e,e'p): SHMS, p: HMS
 #
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 
 #-----Kinematics Cuts-----
 
-# CaFe H(e,e'p) Elastics Kinematics Cuts
+# H(e,e'p) Elastics Kinematics Cuts
 
 # NOTE: Provided the '*_flag = 1', the cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="heep_coin" (see run_cafe_prod.sh)
 # not all of these cuts may necessarily be turned ON. Leave to the user discretion.
@@ -218,68 +218,18 @@ c_heep_MM_min = -0.15
 c_heep_MM_max = 0.15
 
 
-#---- CaFe-Specific A(e,e'p) Mean-Field (MF) Kinematic Cuts -----
+#---- Deuteron-Specific d(e,e'p) Kinematic Cuts -----
 
 # NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="MF" (see run_cafe_prod.sh)
 # not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_MF_cut_flag = 1
-c_MF_Q2_min = 1.8
-c_MF_Q2_max = 100.
-
-# Missing Momentum [GeV]
-Pm_MF_cut_flag = 1
-c_MF_Pm_min = 0.0
-c_MF_Pm_max = 0.250
-
-# in-plane recoil (undetected) angle, theta_rq [deg]
-thrq_MF_cut_flag = 0
-c_MF_thrq_min = 0.
-c_MF_thrq_max = 60.
+Q2_deep_cut_flag = 1
+c_deep_Q2_min = 4.0
+c_deep_Q2_max = 5.0
 
 
 # Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
 Em_d2MF_cut_flag = 1
-c_d2MF_Em_min = -0.02
-c_d2MF_Em_max = 0.1
-
-# Missing Energy [GeV] (provided *flag*=1, this cut will be applied ONLY for A>2 nuclei)
-Em_MF_cut_flag = 1
-c_MF_Em_min = -0.02
-c_MF_Em_max = 0.1
-
-#---- CaFe-Specific A(e,e'p) SRC Kinematics Cuts -----
-
-# NOTE: Cuts below are applied IF-AND-ONLY-IF user sets analysis_cut=="SRC" (see run_cafe_prod.sh)
-# not all of these cuts may necessaryly be turned ON. Leave to the user discretion.
-
-# 4-Momentum Transfers [GeV^2]
-Q2_SRC_cut_flag = 1
-c_SRC_Q2_min = 1.8
-c_SRC_Q2_max = 100.
-
-# Missing Momentum [GeV]
-Pm_SRC_cut_flag = 1
-c_SRC_Pm_min = 0.350
-c_SRC_Pm_max = 0.7
-
-# x-Bjorken
-Xbj_SRC_cut_flag = 1
-c_SRC_Xbj_min = 1.2
-c_SRC_Xbj_max = 100.
-
-# in-plane recoil (undetected) angle, theta_rq [deg]
-thrq_SRC_cut_flag = 1
-c_SRC_thrq_min = 0.
-c_SRC_thrq_max = 40.
-
-# Missing Energy [GeV] (provided *flag*=1, this cut will be applied IF-AND-ONLY-IF the deuterium target is used)
-Em_d2SRC_cut_flag = 1
-c_d2SRC_Em_min = -0.02
-c_d2SRC_Em_max = 0.1
-
-# Missing Energy [GeV] (provided *flag*=1, this cut will be applied for A>2 nuclei)
-# this is a dynamic cut on missing energy:  Em_nuc < Em_src, to reduce background.
-# Look at Em_nuc vs. Pm and Em_src vs. Pm histos as a check  before applying this cut.
-Em_SRC_cut_flag = 0
+c_deep_Em_min = -0.02
+c_deep_Em_max = 0.06

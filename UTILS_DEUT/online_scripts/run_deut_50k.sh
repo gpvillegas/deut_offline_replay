@@ -46,7 +46,7 @@ if [ -z "$goldenRun" ]; then
 fi
 
 # Which scripts to run.
-script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C"
+script="SCRIPTS/COIN/PRODUCTION/replay_deut.C"
 config="CONFIG/${SPEC}/PRODUCTION/${spec}_coin_production.cfg"
 expertConfig="CONFIG/${SPEC}/PRODUCTION/${spec}_coin_production_expert.cfg"
 
@@ -74,13 +74,13 @@ openReportMon="emacs ${reportMonOutDir}/${reportMonFile}"
 outGUI="${spec}_coin_production_${runNum}"
 outGUIexpert="${spec}_coin_production_expert_${runNum}" 
 
-outFileBase="cafe_replay_${spec}50k_monitoring_${runNum}"
-outExpertFileBase="cafe_replay_${spec}50k_monitoring_expert_${runNum}"
+outFileBase="deut_replay_${spec}50k_monitoring_${runNum}"
+outExpertFileBase="deut_replay_${spec}50k_monitoring_expert_${runNum}"
 outFileMonitor="output.txt" 
 
 # Name of the replay ROOT file
-replayFile="cafe_replay_${spec}50k_${runNum}"
-replayFile_latest="cafe_replay_${spec}50k"
+replayFile="deut_replay_${spec}50k_${runNum}"
+replayFile_latest="deut_replay_${spec}50k"
 rootFile="${replayFile}_${numEvents}.root"
 latestRootFile="${rootFileDir}/${spec}50k/${replayFile}_latest.root"
 goldenRootFile="${rootFileDir}/${spec}50k/${spec}_coin_replay_production_golden.root"
@@ -93,12 +93,12 @@ monExpertRootFile=${outExpertFileBase}".root"
 monPdfFile=${outFileBase}".pdf"
 monExpertPdfFile=${outExpertFileBase}".pdf"
 
-latestMonRootFile="cafe_replay_${spec}50k_monitoring_latest.root"
-latestMonPdfFile="cafe_replay_${spec}50k_monitoring_latest.pdf" 
+latestMonRootFile="deut_replay_${spec}50k_monitoring_latest.root"
+latestMonPdfFile="deut_replay_${spec}50k_monitoring_latest.pdf" 
 
 # Where to put log.
 #reportFile="${reportFileDir}/replay_${spec}_coin_production_${runNum}_${numEvents}.txt"
-reportFile="${reportFileDir}cafe_${spec}50k_${runNum}_${numEvents}.report"
+reportFile="${reportFileDir}deut_${spec}50k_${runNum}_${numEvents}.report"
 #summaryFile="${reportFileDir}/summary_production_${runNum}_${numEvents}.txt"
 
 # Replay out files

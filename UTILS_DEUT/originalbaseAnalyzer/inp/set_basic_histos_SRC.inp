@@ -6,9 +6,9 @@
 # PID Histograms Bins
 #========================
 #---coincidence time [ns]---
-coin_nbins = 200
-coin_xmin = -20.
-coin_xmax = 20.
+coin_nbins = 400
+coin_xmin = -80.
+coin_xmax = 80.
 
 #----HMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 
@@ -20,18 +20,13 @@ hcer_xmax = 15.
 #calorimeter etotnorm / etottracknorm
 hcal_nbins = 100	  
 hcal_xmin = 0.001	  
-hcal_xmax = 3.5
+hcal_xmax = 1.5
 
 #calculated beta
 hbeta_nbins = 100	  
 hbeta_xmin = 0.5	  
 hbeta_xmax = 1.5	  
-
-#dc residuals
-hdcRes_nbins = 100
-hdcRes_xmin  = -0.2
-hdcRes_xmax  = 0.2
-
+  	                  
 #----SHMS DETECTORS (FOR PID / TRACKING EFF. CHECKS)-----
 #noble gas cherenkov npe sum
 pngcer_nbins = 100  
@@ -46,17 +41,13 @@ phgcer_xmax = 25.
 #calorimeter etotnorm / etottracknorm
 pcal_nbins = 100	  
 pcal_xmin = 0.001  
-pcal_xmax = 3.5	  
+pcal_xmax = 1.5	  
 
 #calculated beta
 pbeta_nbins = 100	  
 pbeta_xmin = 0.5	  
 pbeta_xmax = 1.5	  
-
-#dc residuals
-pdcRes_nbins = 100
-pdcRes_xmin  = -0.2
-pdcRes_xmax  = 0.2
+   
 
 #=============================
 # Kinematics Histograms Bins
@@ -70,11 +61,11 @@ pdcRes_xmax  = 0.2
 # electron arm central angle
 the_nbins = 70
 the_xmin = 5.0
-the_xmax = 10.0
+the_xmax = 15.0
 
 # final electron arm momentum [GeV/c]
 kf_nbins = 100
-kf_xmin = 7.
+kf_xmin = 8.
 kf_xmax = 11.
 
 # invariant mass (assuming proton target mass)
@@ -89,18 +80,18 @@ W2_xmax = 1.5;
 
 # 4-momentum transfer
 Q2_nbins = 100
-Q2_xmin = 0.
-Q2_xmax = 4.
+Q2_xmin = 1.
+Q2_xmax = 3.
 
 # Bjorken-X
 X_nbins = 100
-X_xmin = 0.05
+X_xmin = 0.1
 X_xmax = 2.5
 
 # energy transfer
 nu_nbins = 100
-nu_xmin = 0.
-nu_xmax = 4.
+nu_xmin = 0.5
+nu_xmax = 2.
 
 # 3-momentum transfer
 q_nbins = 100
@@ -156,9 +147,9 @@ Em_nuc_xmin = -0.1
 Em_nuc_xmax = 0.25
 
 # Missing (Recoil) Momentum
-Pm_nbins = 25
+Pm_nbins = 60
 Pm_xmin = -0.05
-Pm_xmax = 0.95
+Pm_xmax = 0.75
 
 # Missing Momentum (X-component, lab)
 Pmx_lab_nbins = 80 
@@ -253,7 +244,7 @@ thxq_cm_xmax = 360.
 # final hadron arm momentum [GeV/c]
 Pf_nbins = 100
 Pf_xmin = 1.
-Pf_xmax = 2.2
+Pf_xmax = 1.8
 
 # In-plane angle between the recoil system and q in CM frame
 thrq_cm_nbins = 100

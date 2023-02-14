@@ -88,7 +88,7 @@ vector <string> split(string str, char del=':')
 }
 
 //_______________________________________________________________________________
-vector <string> FindString(string keyword, string fname, bool multi_line=false, int line_max=-1)
+vector <string> FindString(string keyword, string fname, bool multi_line=false, int line_max=-1, bool ignore_comments=false)
 {
   
   //Method: Finds string keyword in a given txt file. 
@@ -102,7 +102,9 @@ vector <string> FindString(string keyword, string fname, bool multi_line=false, 
     but also the subsequent lines below the keyword line.
     'line_max' : maximum number of lines to be read, including the line where the keyword is found. 
     For example, if line_max = 10, the first 10 lines (including the keyword line) will be stored into the line_found vector
-    
+    'ignore_comments : ignore characters defined as comments (below) when finding a string, as these lined might be parameters 
+    to be read in a .csv file, for example 
+
     Example of usage for:
 
     ---multi-line parameters---
@@ -134,8 +136,20 @@ vector <string> FindString(string keyword, string fname, bool multi_line=false, 
       found = line.find(keyword);
       
       if(found<0||found>1000){found=-1;} //not found
-      if(cmt==";" || cmt=="#" || cmt=="!") {found=-1;}  //Found commented line. So Skip (You can add more definition of comments)
 
+      
+      if( !ignore_comments ){
+
+	if(cmt==";" || cmt=="#" || cmt=="!") {
+	  
+	  //Found commented line. So Skip (You can add more definition of comments)
+	  found=-1;
+
+      } 
+      }
+      
+
+      
       if(found!=-1){
 	//cout << "position of line found = " << line_cnt <<  endl;
 	line_fnd = line_cnt;  //store line number where the keyword was found
