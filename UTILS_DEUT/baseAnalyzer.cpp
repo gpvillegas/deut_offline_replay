@@ -3003,7 +3003,7 @@ void baseAnalyzer::CreateHist()
   H_Em_src_vs_Pm_ACCP_PID     = new TH2F("H_Em_src_vs_Pm_ACCP_PID_CUTS", "Em_src vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   H_Q2_vs_xbj_ACCP_PID        = new TH2F("H_Q2_vs_xbj_ACCP_PID_CUTS",    "Q2 vs. xbj",    X_nbins,  X_xmin,  X_xmax,  Q2_nbins,     Q2_xmin,     Q2_xmax ); 
   H_cthrq_vs_Pm_ACCP_PID      = new TH2F("H_cthrq_vs_Pm_ACCP_PID_CUTS",    "cos(#theta_{rq}) vs. P_{m}",    Pm_nbins,  Pm_xmin,  Pm_xmax,  100, -1.5, 1.5 ); 
-  H_ebeta_vs_ctime_ACCP_PID   = new TH1F("H_ebeta_vs_ctime_ACCP_PID_CUTS", "SHMS Hodo #beta (golden track); ep Coin. Time [ns]; #beta (golden track) ", coin_nbins, coin_xmin, coin_xmax, pbeta_nbins, pbeta_xmin, pbeta_xmax);
+  H_ebeta_vs_ctime_ACCP_PID   = new TH2F("H_ebeta_vs_ctime_ACCP_PID_CUTS", "SHMS Hodo #beta (golden track); ep Coin. Time [ns]; #beta (golden track) ", coin_nbins, coin_xmin, coin_xmax, pbeta_nbins, pbeta_xmin, pbeta_xmax);
 
 
   quality_HList->Add( H_ep_ctime_ACCP_PID  );

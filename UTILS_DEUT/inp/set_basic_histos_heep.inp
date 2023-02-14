@@ -24,7 +24,7 @@ hcal_xmax = 3.5
 
 #calculated beta
 hbeta_nbins = 100	  
-hbeta_xmin = 0.5	  
+hbeta_xmin = 0.01	  
 hbeta_xmax = 1.5	  
 
 #dc residuals
@@ -50,7 +50,7 @@ pcal_xmax = 3.5
 
 #calculated beta
 pbeta_nbins = 100	  
-pbeta_xmin = 0.5	  
+pbeta_xmin = 0.01	  
 pbeta_xmax = 1.5	  
    
 #dc residuals

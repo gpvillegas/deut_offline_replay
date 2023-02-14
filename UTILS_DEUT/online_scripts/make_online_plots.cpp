@@ -8,7 +8,7 @@
 3) Kinematics-1,2  
 4) Target Vertex
 */
-#include "UTILS/parse_utils.h"
+#include "../../UTILS/parse_utils.h"
 
 void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
 {
@@ -924,15 +924,20 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   }// end heep_coin
 
   //  deep coin 
-  if(ana_cut=="deep_coin"){
+  if(ana_cut=="deep"){
 
 
     c1->Divide(2,2);
 
     line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
     line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
-
     
+    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+ 
+    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax());    
+    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+
     c1->cd(1);
     data_ebeta_vs_ctime->Draw("colz");
 
@@ -945,6 +950,17 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     line_ctime_max->SetLineStyle(2);
     line_ctime_max->SetLineWidth(3);
     line_ctime_max->Draw();
+    
+    // accidentals left line
+    line_accL_min->SetLineColor(kBlue);                                                                                   
+    line_accL_min->SetLineStyle(1);                                                                                          
+    line_accL_min->SetLineWidth(3);                                                                                               
+    line_accL_min->Draw();                                                                                                                
+                                                                                                                                    
+    line_accL_max->SetLineColor(kBlue);                                                                                          
+    line_accL_max->SetLineStyle(1);                                                                                                
+    line_accL_max->SetLineWidth(3);                                                                                              
+    line_accL_max->Draw();  
 
     
     c1->cd(2);
@@ -954,7 +970,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     data_Q2_vs_xbj->Draw("colz");
 
     c1->cd(4);
-    Pm_vs_thrq->Draw("colz");
+    data_Pm_vs_thrq->Draw("colz");
         
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
