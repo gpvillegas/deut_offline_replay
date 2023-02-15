@@ -8,7 +8,8 @@
 3) Kinematics-1,2  
 4) Target Vertex
 */
-#include "../../UTILS/parse_utils.h"
+#include "../../UTILS/parse_utils.h"  // used for reading parametes from txt file 
+#include "../../UTILS/hist_utils.h"  // used for extracting histofram info from binning
 
 void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_type="", TString ana_type="", TString ana_cut="", TString data_file_path="", TString simc_file_path="", Bool_t draw_norm=1)
 {
@@ -190,13 +191,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   TH1F *data_Pmy = 0;
   TH1F *data_Pmz = 0;
 
-  // 2d kinematics (for data quality checks)
-  TH2F * data_Em_vs_Pm = 0; // h(e,e'p) def. of missing energy (nu - Tp)
-  TH2F * data_Em_nuc_vs_Pm = 0; // A(e,e'p) def. of missing enrgy (nu - Tp - Tr)
-  TH2F * data_Em_src_vs_Pm = 0; // not be used in heep or deep
-  TH2F * data_Q2_vs_xbj    = 0;
-  TH2F * data_Pm_vs_thrq   = 0;
-  TH2F * data_ebeta_vs_ctime = 0;
+  // 2d kinematics (for data quality checks) -- these onlt have ACCP + PID + CTIME CUTS
+  TH2F * data_Em_vs_Pm_qual = 0; // h(e,e'p) def. of missing energy (nu - Tp)
+  TH2F * data_Em_nuc_vs_Pm_qual = 0; // A(e,e'p) def. of missing enrgy (nu - Tp - Tr)
+  TH2F * data_Em_src_vs_Pm_qual = 0; // not be used in heep or deep
+  TH2F * data_Q2_vs_xbj_qual    = 0;
+  TH2F * data_Pm_vs_thrq_qual   = 0;
+  TH2F * data_ebeta_vs_ctime_qual = 0;
   
   //---------------------------------------------------------------
 
@@ -536,12 +537,12 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    
   // --- data quality 2d histos ---
   // NOTE: only have acceptance, PID and coin. time cuts (except coin time cut itself)
-  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_vs_Pm_ACCP_PID_CTIME_CUTS",       data_Em_vs_Pm);
-  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_nuc_vs_Pm_ACCP_PID_CTIME_CUTS",   data_Em_nuc_vs_Pm);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_vs_Pm_ACCP_PID_CTIME_CUTS",       data_Em_vs_Pm_qual);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Em_nuc_vs_Pm_ACCP_PID_CTIME_CUTS",   data_Em_nuc_vs_Pm_qual);
 
-  data_file->GetObject("quality_plots/ACCP+PID_CUTS/H_ebeta_vs_ctime_ACCP_PID_CUTS",             data_ebeta_vs_ctime);
-  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Q2_vs_xbj_ACCP_PID_CTIME_CUTS",      data_Q2_vs_xbj);
-  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Pm_vs_thrq_ACCP_PID_CTIME_CUTS",     data_Pm_vs_thrq);
+  data_file->GetObject("quality_plots/ACCP+PID_CUTS/H_ebeta_vs_ctime_ACCP_PID_CUTS",             data_ebeta_vs_ctime_qual);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Q2_vs_xbj_ACCP_PID_CTIME_CUTS",      data_Q2_vs_xbj_qual);
+  data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Pm_vs_thrq_ACCP_PID_CTIME_CUTS",     data_Pm_vs_thrq_qual);
   // -----------------------------
   
   data_file->GetObject("kin_plots/H_MM", data_MM);
@@ -908,15 +909,58 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   if(ana_cut=="heep_coin"){
    
     c1->Divide(1,3);
- 
-    c1->cd(1);
-    data_ebeta_vs_ctime->Draw("colz");
 
+    // get line values for plotting coin time 
+    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    
+    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+ 
+    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax());    
+    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+
+    c1->cd(1);
+    data_ebeta_vs_ctime_qual->Draw("colz");
+
+    // draw main coin time line
+    line_ctime_min->SetLineColor(kRed);
+    line_ctime_min->SetLineStyle(2);
+    line_ctime_min->SetLineWidth(3);
+    line_ctime_min->Draw();
+
+    line_ctime_max->SetLineColor(kRed);
+    line_ctime_max->SetLineStyle(2);
+    line_ctime_max->SetLineWidth(3);
+    line_ctime_max->Draw();
+    
+    // draw accidentals left line
+    line_accL_min->SetLineColor(kBlue);                         
+    line_accL_min->SetLineStyle(1);                                
+    line_accL_min->SetLineWidth(3);                                     
+    line_accL_min->Draw();                                                      
+                                                                          
+    line_accL_max->SetLineColor(kBlue);                                
+    line_accL_max->SetLineStyle(1);                                      
+    line_accL_max->SetLineWidth(3);                                    
+    line_accL_max->Draw();
+
+    // draw accidentals right line
+    line_accR_min->SetLineColor(kBlue);                         
+    line_accR_min->SetLineStyle(1);                                
+    line_accR_min->SetLineWidth(3);                                     
+    line_accR_min->Draw();                                                      
+                                                                          
+    line_accR_max->SetLineColor(kBlue);                                
+    line_accR_max->SetLineStyle(1);                                      
+    line_accR_max->SetLineWidth(3);                                    
+    line_accR_max->Draw();
+    
     c1->cd(2);
-    data_Em_vs_Pm->Draw("colz");
+    data_Em_vs_Pm_qual->Draw("colz");
 
     c1->cd(3);
-    data_Q2_vs_xbj->Draw("colz");
+    data_Q2_vs_xbj_qual->Draw("colz");
        
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
@@ -929,6 +973,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     c1->Divide(2,2);
 
+    // get line values for plotting coin time 
     line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
     line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
     
@@ -938,9 +983,11 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax());    
     line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
 
+    
     c1->cd(1);
-    data_ebeta_vs_ctime->Draw("colz");
+    data_ebeta_vs_ctime_qual->Draw("colz");
 
+    // draw main coin time line
     line_ctime_min->SetLineColor(kRed);
     line_ctime_min->SetLineStyle(2);
     line_ctime_min->SetLineWidth(3);
@@ -951,26 +998,37 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     line_ctime_max->SetLineWidth(3);
     line_ctime_max->Draw();
     
-    // accidentals left line
-    line_accL_min->SetLineColor(kBlue);                                                                                   
-    line_accL_min->SetLineStyle(1);                                                                                          
-    line_accL_min->SetLineWidth(3);                                                                                               
-    line_accL_min->Draw();                                                                                                                
-                                                                                                                                    
-    line_accL_max->SetLineColor(kBlue);                                                                                          
-    line_accL_max->SetLineStyle(1);                                                                                                
-    line_accL_max->SetLineWidth(3);                                                                                              
-    line_accL_max->Draw();  
+    // draw accidentals left line
+    line_accL_min->SetLineColor(kBlue);                         
+    line_accL_min->SetLineStyle(1);                                
+    line_accL_min->SetLineWidth(3);                                     
+    line_accL_min->Draw();                                                      
+                                                                          
+    line_accL_max->SetLineColor(kBlue);                                
+    line_accL_max->SetLineStyle(1);                                      
+    line_accL_max->SetLineWidth(3);                                    
+    line_accL_max->Draw();
+
+    // draw accidentals right line
+    line_accR_min->SetLineColor(kBlue);                         
+    line_accR_min->SetLineStyle(1);                                
+    line_accR_min->SetLineWidth(3);                                     
+    line_accR_min->Draw();                                                      
+                                                                          
+    line_accR_max->SetLineColor(kBlue);                                
+    line_accR_max->SetLineStyle(1);                                      
+    line_accR_max->SetLineWidth(3);                                    
+    line_accR_max->Draw();  
 
     
     c1->cd(2);
-    data_Em_nuc_vs_Pm->Draw("colz");
+    data_Em_nuc_vs_Pm_qual->Draw("colz");
 
     c1->cd(3);
-    data_Q2_vs_xbj->Draw("colz");
+    data_Q2_vs_xbj_qual->Draw("colz");
 
     c1->cd(4);
-    data_Pm_vs_thrq->Draw("colz");
+    data_Pm_vs_thrq_qual->Draw("colz");
         
     c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run));
     c1->Clear();
@@ -1760,12 +1818,12 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
    //--------------------------------------------------------------------
    
   
-
    // Complete writing out multi-page .pdf
    c1->Print(Form("deut_output_%s_%d.pdf]", ana_type.Data(), run));
    
    gSystem->Exec(Form("mv deut_output_%s_%d.pdf %s", ana_type.Data(), run, outPDF.Data()));
    gSystem->Exec(Form("evince %s", outPDF.Data()));
    //gSystem->Exec(Form("open deut_output_%s_%d.pdf", ana_type.Data(), run));
-      
+   
+   
 }
