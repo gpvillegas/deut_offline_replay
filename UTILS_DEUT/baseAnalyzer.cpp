@@ -1955,7 +1955,7 @@ void baseAnalyzer::ReadReport()
 
   // Based on HMS kinematics, set pm_set (missing momentum setting for deuteron exp.)
   // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
-  pm = 120; // testing
+  pm_set = 120; // testing
   
 }
 
@@ -9230,7 +9230,7 @@ void baseAnalyzer::TrackOnlineStats()
   // if .root file does not exist, create it and write initial 2d histogram
   if(file_not_exist){
 
-    cout << Form("file: %d does NOT exist, will create it . . .", fname.Data() ) << endl;
+    cout << Form("file: %s does NOT exist, will create it . . .", fname.Data() ) << endl;
 
     // create .root file
     fout = new TFile(fname.Data(),"RECREATE");
@@ -9246,24 +9246,24 @@ void baseAnalyzer::TrackOnlineStats()
 
   else{
 
-    cout << Form("file: %d DOES exist, will update/append to it . . .", fname.Data() ) << endl;
+    cout << Form("file: %s DOES exist, will update/append to it . . .", fname.Data() ) << endl;
 
     // open existing .root file
     fout = new TFile(fname.Data(),"UPDATE");
     
     // retrieve histo object
-    TH2F *hist_total = (TH2F *)file->Get("H_Pm_vs_thrq_rand_sub");
+    TH2F *hist_total = (TH2F *)fout->Get("H_Pm_vs_thrq_rand_sub");
 
     // add current histo to combined histo
-    histo_total->Add( H_Pm_vs_thrq_rand_sub );
+    hist_total->Add( H_Pm_vs_thrq_rand_sub );
 
     // overwrite to file
-    histo_total->Write("", TObject::kOverwrite);
+    hist_total->Write("", TObject::kOverwrite);
     
     //call function to make projections
     project2d( H_Pm_vs_thrq_rand_sub, pm_set, false );
   
-    file->Close();
+    fout->Close();
     
   }
   
