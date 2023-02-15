@@ -1,14 +1,34 @@
 #include <vector>
 
+/*
+  Author: C. Yero
+  Date: Feb 15, 2023 
+ */
 
-void project2d( TH2F *hist2d=0 ){
-//void project2d( ){
+void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
+//void project2d(){
 
+  //avoid display
+  gROOT->SetBatch(kTRUE);
+  
   /*
     Brief: Projects 2d histograms onto 1d slices in X or Y
     and plots it on a canvas subplot, and also plots relative
     errors on a separate canvas subplot
+
+    For now is specific for deuteron, but can easily be modified for other use
    */
+
+  TString basename=Form("deut_stats_monitoring_pm%d_", pm_set);
+  
+  // Set basefilename to save projections to root file
+  TString ofile=basename + "output.root";
+  TFile *fout = new TFile(ofile.Data(), "RECREATE");
+
+  //set output names of projections to be saved to divided canvas
+  TString fout_2dHist      = basename + "2Dhisto.pdf";
+  TString fout_projHist    = basename + "projY.pdf";
+  TString fout_projHistErr = basename + "projY_relError.pdf";
   
   // set global title/label sizes
   gStyle->SetTitleFontSize(0.1);
@@ -27,20 +47,11 @@ void project2d( TH2F *hist2d=0 ){
   //TF2 *xyg = new TF2("xyg","xygaus",-10,10,-10,10); xyg->SetParameters(1,5,2,5,2);
   //hist2d->FillRandom("xyg");
 
-  // plot 2d histogram
+  // plot 2d histogra
   TCanvas *c0 = new TCanvas("c0", "", 1200,800);
   c0->cd();
-  /*
-  hist2d->SetTitle("P_{miss} vs. #theta_{rq}");
-  hist2d->SetTitleSize(0.03);
-  hist2d->GetYaxis()->SetLabelSize(0.05);
-  hist2d->GetXaxis()->SetLabelSize(0.05);
-  hist2d->GetYaxis()->SetTitle("P_{m} [GeV/c]");
-  hist2d->GetXaxis()->SetTitle("#theta_{rq} [deg]");
-  */
-  
   hist2d->Draw("colz");
-
+  hist2d->Write();
   
   // --- define variables for calculative/plotting of relative stats. error on Pmiss (need to reset vector per projection bin) ---
   vector<double> y_val;       // this will be set to 0 (as reference)
@@ -59,9 +70,19 @@ void project2d( TH2F *hist2d=0 ){
   
   // --- define canvas subplots (x,y) based on number of bins in hist2d ---
   int yc, xc;
-  yc = round(sqrt(nxbins));
-  xc = yc+1;
+  // if projection is along y, should make a canvas square out of nxbins
+  float remainder = sqrt(nxbins) - int(sqrt(nxbins));
 
+  if(remainder>0 && remainder<0.5){
+    yc = round(sqrt(nxbins));
+    xc = round(sqrt(nxbins))+1;
+  }
+  else{
+    yc = round(sqrt(nxbins));
+    xc = round(sqrt(nxbins));
+  }
+  
+  cout << Form("rounded area = (%d, %d) ", yc, xc) << endl;
   TCanvas *c1 = new TCanvas("c1", "", 1400,1100);
   TCanvas *c2 = new TCanvas("c2", "", 1400,1100);
   
@@ -69,7 +90,7 @@ void project2d( TH2F *hist2d=0 ){
   c2->Divide(yc, xc);
   //----------------------------
 
-  
+  TH1D *h1 = 0;
   //loop over xbins of hist2d 
   for(int i=1; i<=nxbins; i++){
 
@@ -80,27 +101,22 @@ void project2d( TH2F *hist2d=0 ){
     //cout << "bin: " << i << ", x-val: " << thrq_center << endl;
 
     // project hist2d along y-axis (different bins in x)
-    TH1D *h1 = hist2d->ProjectionY("projy", i, i);
+    h1 = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
 
     // define integrated counts on projected bin
     float counts = h1->Integral();
 
-    // change to canvas subplot of ith bin projection
-    c1->cd(i);
-
     // reduce divisions of histos (for de-cluttering)
     h1->GetYaxis()->SetNdivisions(5);
     h1->GetXaxis()->SetNdivisions(10);
-    h1->Draw("histE0");
     //cout << "thrq_center, counts (v1) = " << thrq_center << ", " << counts << endl;
     h1->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     h1->SetTitleSize(10);
+
    
-    c1->Update();
+    //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, thrq_center, counts) << endl;
+
     
-    //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, xbin_center, counts) << endl;
-
-
     //-----------------------------------
     // Compute Relative Error on Counts
     //-----------------------------------
@@ -139,44 +155,60 @@ void project2d( TH2F *hist2d=0 ){
     int n=h1->GetNbinsX();
     
     TGraphErrors *gr = new TGraphErrors(n, &x_val[0], &y_val[0], &x_err[0], &y_err[0]);
- 
+    gr->SetTitle(Form("proj_Pm_thrq%.1f_relErr", thrq_center));
     gr->SetMarkerColor(kBlack);
     gr->SetMarkerSize(0.);
     gr->SetMarkerStyle(21);
 
-    c2->cd(i);
+    
 
     TLine *lo_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), -15., *(max_element(x_val.begin(), x_val.end())) , -15.);
     TLine *up_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), 15., *(max_element(x_val.begin(), x_val.end())) , 15.);
 
-    lo_limit->SetLineColor(kBlack);
+    lo_limit->SetLineColor(kRed);
     lo_limit->SetLineStyle(1);
     lo_limit->SetLineWidth(1);
 
-    up_limit->SetLineColor(kBlack);
+    up_limit->SetLineColor(kRed);
     up_limit->SetLineStyle(1);
     up_limit->SetLineWidth(1);
     
   
     
-    cout << "thrq_center, counts (v2) = " << thrq_center << ", " << counts << endl;
+    //cout << "thrq_center, counts (v2) = " << thrq_center << ", " << counts << endl;
     gr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     
     // reduce divisions of histos (for de-cluttering)
     gr->GetYaxis()->SetNdivisions(5);
     gr->GetXaxis()->SetNdivisions(10);
+
+
+    //---------------------------------------------------
     
+    // change to canvas subplot of ith bin projection
+    c1->cd(i);
+    gPad->Modified(); gPad->Update();
+    h1->DrawClone("histE0");
+    h1->Write();
+      
+    c2->cd(i);
+    gPad->Modified(); gPad->Update();
     // draw to graph
     gr->Draw("AP");
     lo_limit->Draw();
-    up_limit->Draw("same");
-    c2->Update();
+    up_limit->Draw();
+    gr->Write();
 
-    
-      
   } // end loop over 2D xbins [th_rq]
+
+  // save canvas
+  gStyle->SetOptStat(0);
+  c0->SaveAs( fout_2dHist.Data()      );
+  c1->SaveAs( fout_projHist.Data()    );
+  c2->SaveAs( fout_projHistErr.Data() );
+
+  if(display_plots){
+    //open plots with evince or any other viewer
+  }
   
-  
-    
-    
 }
