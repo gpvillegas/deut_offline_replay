@@ -1365,13 +1365,13 @@ void baseAnalyzer::ReadInputFile()
 
   else if(analysis_cut=="heep_singles" || analysis_cut=="heep_coin"){ // hydrogen elastics
     input_HBinFileName    = "UTILS_DEUT/inp/set_basic_histos_heep.inp";
-    input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deep.inp"; // deep -> deuteron exp. ( e12-10-003 )
+    input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut.inp"; // deut -> deuteron exp. ( e12-10-003 )
 
   }
 
   else if(analysis_cut=="deep"){ // d(e,e'p) e12-10-003 experiment 
     input_HBinFileName    = "UTILS_DEUT/inp/set_basic_histos_deep.inp";
-    input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deep.inp"; // deep -> deuteron exp. ( e12-10-003 )
+    input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut.inp"; // deut -> deuteron exp. ( e12-10-003 )
 
   }  
   
@@ -1951,6 +1951,12 @@ void baseAnalyzer::ReadReport()
   // run end_time (format: yyyy-mm-dd HH:MM:SS)
   temp = FindString("end_of_run", data_InputReport.Data())[0];
   end_of_run =  split(temp, '=')[1];
+
+
+  // Based on HMS kinematics, set pm_set (missing momentum setting for deuteron exp.)
+  // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
+  pm = 120; // testing
+  
 }
 
 //_______________________________________________________________________________
@@ -9206,6 +9212,64 @@ void baseAnalyzer::MakePlots()
   }
   
 }
+
+//______________________________________________________________________________
+void baseAnalyzer::TrackOnlineStats()
+{
+  cout << "Calling TrackOnlineStats() . . ." << endl;
+
+  // set filename of .root file to store  2D histogram (which we will self update)
+  TString fname=Form("deut_stats_monitoring_latest_pm%d.root", pm_set);
+  
+  TFile *fout = NULL;
+    
+  // check if .root file exists
+  Bool_t file_not_exist = gSystem->AccessPathName(fname.Data());
+
+  
+  // if .root file does not exist, create it and write initial 2d histogram
+  if(file_not_exist){
+
+    cout << Form("file: %d does NOT exist, will create it . . .", fname.Data() ) << endl;
+
+    // create .root file
+    fout = new TFile(fname.Data(),"RECREATE");
+    
+    H_Pm_vs_thrq_rand_sub->Write();
+
+    //call function to make projections
+    project2d( H_Pm_vs_thrq_rand_sub, pm_set, false );
+
+    
+    fout->Close();
+  }
+
+  else{
+
+    cout << Form("file: %d DOES exist, will update/append to it . . .", fname.Data() ) << endl;
+
+    // open existing .root file
+    fout = new TFile(fname.Data(),"UPDATE");
+    
+    // retrieve histo object
+    TH2F *hist_total = (TH2F *)file->Get("H_Pm_vs_thrq_rand_sub");
+
+    // add current histo to combined histo
+    histo_total->Add( H_Pm_vs_thrq_rand_sub );
+
+    // overwrite to file
+    histo_total->Write("", TObject::kOverwrite);
+    
+    //call function to make projections
+    project2d( H_Pm_vs_thrq_rand_sub, pm_set, false );
+  
+    file->Close();
+    
+  }
+  
+
+}
+
 
 //--------------------------MAIN ANALYSIS FUNCTIONS-----------------------------
 

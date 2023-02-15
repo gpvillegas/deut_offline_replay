@@ -9,6 +9,8 @@ Date Created: August 22, 2020
 
 #include "../UTILS/parse_utils.h" //useful C++ string parsing utilities
 #include "../UTILS/hist_utils.h" //useful C++ histogram bin extraction utility
+#include "../UTILS/project2d.h" //useful C++ 2d histogram projection utility
+
 #include <string>
 
 class baseAnalyzer
@@ -52,6 +54,7 @@ public:
   void WriteOfflineReport();
   void WriteReportSummary();
   void CombineHistos();
+  void TrackOnlineStats();
   
   //void CalcRadCorr(); 
   //void ApplyRadCorr();
@@ -308,8 +311,9 @@ protected:
   TString trig_type_single;      // trigger type to actually use when applying pre-scale factor to event weight (only if analyzing singles)
   TString trig_type_coin;      // trigger type to actually use when applying pre-scale factor to event weight   (only if analyzing coincidence)
   
-  Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment) -- not in use
+  Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment) -- not in use currently (but can be added)
   Bool_t skim_flag; 
+  Int_t pm_set; // this will be an indirect argument (no input by user, but determined by kinematics read from report)
   
   // Read in general info from REPORT file 
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )

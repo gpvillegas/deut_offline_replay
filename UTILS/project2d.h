@@ -1,9 +1,14 @@
-#include <vector>
+#ifndef PROJECT_2D_H
+#define PROJECT_2D_H
 
 /*
   Author: C. Yero
   Date: Feb 15, 2023 
  */
+
+#include <vector>
+using namespace std;
+
 
 void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
 //void project2d(){
@@ -212,3 +217,5 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
   }
   
 }
+
+#endif

@@ -15,7 +15,7 @@ replay_type=${replay_type%%.sh}
 
 #user input
 runNum=$1     # run number
-ana_cut=$2   # Deut kinematics type, set by user:  "heep_singles", "heep_coin",  "MF", "SRC", "deep",  depending on the production type
+ana_cut=$2   # Deut kinematics type, set by user:  "heep_singles", "heep_coin",  "MF", "SRC", "deep_pm",  depending on the production type
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
 if [ -z "$1" ] || [ -z "$2" ]; then
