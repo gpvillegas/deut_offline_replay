@@ -911,14 +911,14 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     c1->Divide(1,3);
 
     // get line values for plotting coin time 
-    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
-    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
+    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
     
-    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
-    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax()); 
+    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
  
-    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax());    
-    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());    
+    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax()); 
 
     c1->cd(1);
     data_ebeta_vs_ctime_qual->Draw("colz");
@@ -974,14 +974,14 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     c1->Divide(2,2);
 
     // get line values for plotting coin time 
-    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
-    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_ctime_min = new TLine(ePctime_cut_min, 0,  ePctime_cut_min, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
+    line_ctime_max = new TLine(ePctime_cut_max, 0,  ePctime_cut_max, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
     
-    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
-    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime->GetYaxis()->GetXmax());
+    line_accL_min = new TLine(ePctime_cut_min_L, 0,  ePctime_cut_min_L, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax()); 
+    line_accL_max = new TLine(ePctime_cut_max_L, 0,  ePctime_cut_max_L, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());
  
-    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax());    
-    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime->GetYaxis()->GetXmax()); 
+    line_accR_min = new TLine(ePctime_cut_min_R, 0,  ePctime_cut_min_R, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax());    
+    line_accR_max = new TLine(ePctime_cut_max_R, 0,  ePctime_cut_max_R, data_ebeta_vs_ctime_qual->GetYaxis()->GetXmax()); 
 
     
     c1->cd(1);

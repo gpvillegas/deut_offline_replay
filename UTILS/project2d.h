@@ -87,7 +87,7 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
     xc = round(sqrt(nxbins));
   }
   
-  cout << Form("rounded area = (%d, %d) ", yc, xc) << endl;
+  //cout << Form("rounded area = (%d, %d) ", yc, xc) << endl;
   TCanvas *c1 = new TCanvas("c1", "", 1400,1100);
   TCanvas *c2 = new TCanvas("c2", "", 1400,1100);
   
@@ -135,6 +135,9 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
     pm_counts = 0;
     relative_err = 0;
     
+    // set statistical lower (inner) limit for guidance during online data-taking
+    int inner_stats = 15;  // +/- 15 %
+  
     // loop over all bins of Pmiss (h1 histogram) 
     for(int i =1; i<=h1->GetNbinsX(); i++){
 
@@ -167,8 +170,8 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
 
     
 
-    TLine *lo_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), -15., *(max_element(x_val.begin(), x_val.end())) , -15.);
-    TLine *up_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), 15., *(max_element(x_val.begin(), x_val.end())) , 15.);
+    TLine *lo_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), -inner_stats, *(max_element(x_val.begin(), x_val.end())) , -inner_stats);
+    TLine *up_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), inner_stats, *(max_element(x_val.begin(), x_val.end())) , inner_stats);
 
     lo_limit->SetLineColor(kRed);
     lo_limit->SetLineStyle(1);
@@ -196,12 +199,30 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
     h1->DrawClone("histE0");
     h1->Write();
       
-    c2->cd(i);
+    c2->cd(i);                                                                                                                                           
     gPad->Modified(); gPad->Update();
     // draw to graph
     gr->Draw("AP");
     lo_limit->Draw();
     up_limit->Draw();
+     
+    // add legend
+    if(i==1){
+      auto legend = new TLegend(0.5,0.6,0.9,0.8);
+      legend->AddEntry("gr","#pm 15 %","%d");
+      legend->SetBorderSize(0);
+      legend->SetTextSize(0.15);
+      legend->SetTextColor(kRed);
+      legend->Draw();
+      /*
+      auto txt = new TPaveLabel(0.3, 0.3, 0.95, 0.95, "#pm 15 %", "br");
+      txt -> SetFillColor(0);
+      txt -> SetTextColor(kRed);
+      txt -> Draw();
+      */
+    }
+    
+
     gr->Write();
 
   } // end loop over 2D xbins [th_rq]
@@ -213,7 +234,10 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
   c2->SaveAs( fout_projHistErr.Data() );
 
   if(display_plots){
+    
     //open plots with evince or any other viewer
+    gSystem->Exec(Form("evince %s", fout_projHistErr.Data() )); 
+
   }
   
 }

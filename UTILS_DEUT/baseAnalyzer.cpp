@@ -9238,7 +9238,7 @@ void baseAnalyzer::TrackOnlineStats()
     H_Pm_vs_thrq_rand_sub->Write();
 
     //call function to make projections
-    project2d( H_Pm_vs_thrq_rand_sub, pm_set, false );
+    project2d( H_Pm_vs_thrq_rand_sub, pm_set, true );
 
     
     fout->Close();
@@ -9261,7 +9261,7 @@ void baseAnalyzer::TrackOnlineStats()
     hist_total->Write("", TObject::kOverwrite);
     
     //call function to make projections
-    project2d( H_Pm_vs_thrq_rand_sub, pm_set, false );
+    project2d( hist_total, pm_set, true );
   
     fout->Close();
     
@@ -9307,7 +9307,8 @@ void baseAnalyzer::run_online_data_analysis()
 
   WriteHist();
   WriteReport();
-  MakePlots();
+  //MakePlots();
+  TrackOnlineStats();
   
 }
 
