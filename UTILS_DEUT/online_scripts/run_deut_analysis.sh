@@ -58,17 +58,17 @@ if [ "${replay_type}" == "prod" ]; then
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 
     if [ -z "$3" ]; then 
-	evtNum=-1
+	evtNum=5000
     fi
 fi
 
 
 # check if full replay or sample events
-if [[ "$evtNum" -eq -1 ]]; then
-    replay_type="prod"
-else
-    replay_type="sample"
-fi
+#if [[ "$evtNum" -eq -1 ]]; then
+#    replay_type="prod"
+#else
+#    replay_type="sample"
+#fi
 
 
 if [ "${ana_cut}" == "heep_singles" ] || [ "${ana_cut}" == "heep_coin" ]; then

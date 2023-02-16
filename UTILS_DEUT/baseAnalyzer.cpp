@@ -21,7 +21,8 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     replay_type="prod";
   }
   else if(evtNum!=-1){
-    replay_type="sample";
+    //replay_type="sample";
+    replay_type="prod"; 
   }
   
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)
