@@ -257,9 +257,15 @@ protected:
   Double_t tgt_areal_density;
   
   // calculate simc cafe production luminosity
+  Double_t simc_Ib=0;
+  Double_t N_hrs;
+  Double_t base_time =0;
+  Double_t base_counts =0;
   Double_t total_simc_time=0;
   Double_t total_simc_charge=0;
   Double_t total_simc_counts=0;
+  Double_t total_simc_rate=0;
+  
   Double_t luminosity_simc=0;   
 
   //SIMC CaFe Rate Estimation for 10.6 GeV beam energy

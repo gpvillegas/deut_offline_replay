@@ -1957,15 +1957,128 @@ void baseAnalyzer::ReadReport()
 
   setting = "NA";// default is undefined
 
+
   // Based on SHMS kinematics, set setting (delta scan)
   if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
 
-    if( abs(shms_angle - 14.15)<0.5 ) { setting = "delta_scan_-8"; }
-    else if( abs(shms_angle - 12.94)<0.5 ) { setting = "delta_scan_-4"; }
-    else if( abs(shms_angle - 11.71)<0.5 ) { setting = "delta_scan_0"; }
-    else if( abs(shms_angle - 10.44)<0.5 ) { setting = "delta_scan_+4"; }
-    else if( abs(shms_angle - 9.13) <0.5 ) { setting = "delta_scan_+8"; }
-    else if( abs(shms_angle - 7.7)  <0.5 ) { setting = "delta_scan_+12"; }
+    if( abs(shms_angle - 14.15)<0.5 ) {
+      setting = "delta_scan_-8";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
+    
+    else if( abs(shms_angle - 12.94)<0.5 ) {
+      setting = "delta_scan_-4";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
+    
+    else if( abs(shms_angle - 11.71)<0.5 ) {
+      setting = "delta_scan_0";
+
+            // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+
+    }
+    else if( abs(shms_angle - 10.44)<0.5 ) {
+      setting = "delta_scan_+4";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
+    else if( abs(shms_angle - 9.13) <0.5 ) {
+      setting = "delta_scan_+8";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
+    else if( abs(shms_angle - 7.7)  <0.5 ) {
+
+      setting = "delta_scan_+12";
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+
+      
+    }
 
     else{
 
@@ -1990,16 +2103,93 @@ void baseAnalyzer::ReadReport()
   else if ((analysis_cut=="deep") ){
 
     // Pm = 120 MeV requires:  3.0523 GeV, 38.63 deg
-    if( abs(hms_p-3.0523)<0.05 && abs(hms_angle - 38.63)<0.5 ) { setting="pm_120"; }
+    if( abs(hms_p-3.0523)<0.05 && abs(hms_angle - 38.63)<0.5 ) {
+
+      setting="pm_120";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
 
     // Pm = 580  MeV requires:  2.2622 GeV, 54.96 deg
-    else if( abs(hms_p-2.2622)<0.05 && abs(hms_angle - 54.96)<0.5 ) { setting="pm_580"; }
+    else if( abs(hms_p-2.2622)<0.05 && abs(hms_angle - 54.96)<0.5 ) {
+
+      setting="pm_580";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
 
     // Pm = 800  MeV requires:  2.121 GeV, 59.39 deg
-    else if( abs(hms_p-2.121)<0.05 && abs(hms_angle - 59.39)<0.5 )  { setting="pm_800"; }
+    else if( abs(hms_p-2.121)<0.05 && abs(hms_angle - 59.39)<0.5 )  {
+
+      setting="pm_800";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+      
+    }
 
     // Pm = 900  MeV requires:  2.0474 GeV, 61.34 deg
-    else if( abs(hms_p-2.0474)<0.05 && abs(hms_angle - 61.34)<0.5 )  { setting="pm_900"; }
+    else if( abs(hms_p-2.0474)<0.05 && abs(hms_angle - 61.34)<0.5 )  {
+
+      setting="pm_900";
+
+      // ----- simulation expectations (for use in stats monitoring later on) ----
+
+      // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
+      simc_Ib=40; // [uA]
+      base_time = 1; // [hr]
+      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      
+      // scale time to calculate real counts
+      N_hrs = 1.;  // by how many hours to scale ?
+      total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
+      total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
+      total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
+      total_simc_rate   = total_simc_counts/ total_simc_time; // rates [Hz]
+      //-----------------------------------------------------------------------------
+
+      
+    }
 
     else{
 
@@ -7939,7 +8129,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("end_of_run = %s", end_of_run.Data())<< endl;
     out_file << "" << endl;    
     out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
-    out_file << Form("setting:  %s                     ", setting) << endl;    
+    out_file << Form("setting:  %s                     ", setting.Data()) << endl;    
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
     if(analysis_cut!="bcm_calib"){
       out_file << Form("events_replayed: %lld              ", nentries ) << endl;
@@ -8001,6 +8191,11 @@ void baseAnalyzer::WriteReport()
 	out_file << "# H(e,e')p Singles Counts "  << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "" << endl;
+	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
+	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("# simc_rate [Hz]         : %.3f ", total_simc_rate) << endl;	
+	out_file << "" << endl;
 	out_file << "# --> Yield = Counts * pre-scale_factor / (Q * e-_track_eff * total_live_time)" << endl;
 	out_file << Form("# --> Counts are Inegrated over Invariant Mass (W peak) : %.3f -> %.3f [GeV]", c_heep_W_min, c_heep_W_max) << endl;
 	out_file << Form("# pre-scale_factor: %f", Ps_factor_single)   << endl;
@@ -8019,7 +8214,12 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
         out_file << "# H(e,e')p Coincidence Counts " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
-    	out_file << "                                     " << endl;
+	out_file << "" << endl;
+	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
+	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("# simc_rate [Hz]         : %.3f ", total_simc_rate) << endl;	
+	out_file << "" << endl;
 	out_file << "# --> Yield = Counts * pre-scale_factor / (Q * h_track_eff * e-_track_eff * total_live_time)" << endl;
 	out_file << Form("# --> Counts are Inegrated Invariant Mass (W peak) : %.3f -> %.3f [GeV]", c_heep_W_min, c_heep_W_max) << endl;
 	out_file << Form("# pre-scale_factor: %f", Ps_factor_coin)   << endl;
@@ -8081,7 +8281,12 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "#  d(e,e'p) Counts    " << endl;
 	out_file << "# =:=:=:=:=:=:=:=:=:=:" << endl;
-	out_file << "                                     " << endl;
+	out_file << "" << endl;
+	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
+	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("# simc_rate [Hz]         : %.3f ", total_simc_rate) << endl;	
+	out_file << "" << endl;
 	out_file << "# Yield = Counts * pre-scale_factor / (Q * h_track_eff * e-_track_eff * total_live_time)" << endl;
 	out_file << "# Counts are Inegrated over all Missing Momenta (Pm) + Recoil Angles (th_rq) " << endl;  
 	out_file << Form("# pre-scale_factor: %f", Ps_factor_coin)   << endl;
@@ -9282,13 +9487,13 @@ void baseAnalyzer::MakePlots()
 void baseAnalyzer::TrackOnlineStats()
 {
 
-  if(analysis_cut!="deep") continue;
+  if(analysis_cut!="deep") { return; }
 
   cout << "Calling TrackOnlineStats() . . ." << endl;
 
     
   // set filename of .root file to store  2D histogram (which we will self update)
-  TString fname=Form("DEUT_OUTPUT/ROOT/deut_stats_monitoring_latest_pm%d.root", setting);
+  TString fname=Form("DEUT_OUTPUT/ROOT/deut_stats_monitoring_latest_pm%s.root", setting.Data());
   
   TFile *fout = NULL;
     
@@ -9307,7 +9512,7 @@ void baseAnalyzer::TrackOnlineStats()
     H_Pm_vs_thrq_rand_sub->Write();
 
     //call function to make projections
-    project2d( H_Pm_vs_thrq_rand_sub, setting, true );
+    project2d( H_Pm_vs_thrq_rand_sub, setting.Data(), true );
 
     
     fout->Close();
@@ -9330,7 +9535,7 @@ void baseAnalyzer::TrackOnlineStats()
     hist_total->Write("", TObject::kOverwrite);
     
     //call function to make projections
-    project2d( hist_total, setting, true );
+    project2d( hist_total, setting.Data(), true );
   
     fout->Close();
     

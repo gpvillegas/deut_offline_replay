@@ -25,7 +25,7 @@ void project2d( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 ){
    */
 
   
-  TString basename=Form("deut_stats_monitoring_setting_%s_", setting);
+  TString basename=Form("deut_stats_monitoring_setting_%s_", setting.Data());
   
   // Set basefilename to save projections to root file
   TString ofile="DEUT_OUTPUT/ROOT/" + basename + "output.root";
