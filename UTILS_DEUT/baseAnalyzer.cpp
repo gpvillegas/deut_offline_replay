@@ -1952,11 +1952,44 @@ void baseAnalyzer::ReadReport()
   temp = FindString("end_of_run", data_InputReport.Data())[0];
   end_of_run =  split(temp, '=')[1];
 
-
   // Based on HMS kinematics, set pm_set (missing momentum setting for deuteron exp.)
   // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
-  pm_set = 120; // testing
+
+  pm_set = -1;// default is undefined
   
+  if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || () ){  pm_set = 0; } // elastics has no missing momenta
+
+  else if ((analysis_cut=="deep") ){
+
+    // Pm = 120 MeV requires:  3.0523 GeV, 38.63 deg
+    if( abs(hms_p-3.0523)<0.05 && abs(hms_angle - 38.63)<0.5 ) { pm_set=120; }
+
+    // Pm = 580  MeV requires:  2.2622 GeV, 54.96 deg
+    else if( abs(hms_p-2.2622)<0.05 && abs(hms_angle - 54.96)<0.5 ) { pm_set=580; }
+
+    // Pm = 800  MeV requires:  2.121 GeV, 59.39 deg
+    else if( abs(hms_p-2.121)<0.05 && abs(hms_angle - 59.39)<0.5 )  { pm_set=800; }
+
+    // Pm = 900  MeV requires:  2.0474 GeV, 61.34 deg
+    else if( abs(hms_p-2.0474)<0.05 && abs(hms_angle - 61.34)<0.5 )  { pm_set=900; }
+
+    else{
+
+      Int_t exit_macro=-1;
+      cout << "deuteron exp. |HMS Momentum - P| >=0.05 GeV/c or |HMS Angle - theta_p| > 0.5 deg  mis-match " << endl;
+      cout << "between this script and standard.kinematics . . . Check HMS Momentum/Angle is set CORRECTLY in standard.kinematics file !" << endl;
+      cout << "" << endl;
+      cout << "Continue replay anyways . . .? ( 0: continue, 1: abort )" << endl;      
+      cin>>exit_macro;
+
+      if(exit_macro){
+	cout << "Aborting . . ." << endl;
+	gSystem->Exit(0);
+      }
+      
+    }
+    
+  } // end "deep"
 }
 
 //_______________________________________________________________________________
@@ -7850,10 +7883,10 @@ void baseAnalyzer::WriteReport()
     out_file << Form("Beam-on-Target [sec]: %.3f          ", total_time_bcm_cut) << endl;
     out_file << "                                         " << endl;
     if(analysis_cut=="heep_singles"){
-      out_file << Form("heep_counts : %.3f ", W_total) << endl;
+      out_file << Form("Real Counts : %.3f ", W_total) << endl;
     }
     if(analysis_cut=="heep_coin"){
-      out_file << Form("heep_counts : %.3f ", W_real) << endl;
+      out_file << Form("Real Counts : %.3f ", W_real) << endl;
     }
     if(analysis_cut=="MF"){
       out_file << Form("MF_counts : %.3f", Pm_real )  << endl;
@@ -7862,7 +7895,7 @@ void baseAnalyzer::WriteReport()
       out_file << Form("SRC_counts : %.3f", Pm_real)  << endl;
     }
     if(analysis_cut=="deep"){ // only for deuteron experiment (e12-10-003)
-      out_file << Form("deep_counts : %.3f", Pm_real)  << endl;
+      out_file << Form("Real Counts : %.3f", Pm_real)  << endl;
     }
     
     out_file << "#                                        //" << endl;
@@ -7878,6 +7911,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("end_of_run = %s", end_of_run.Data())<< endl;
     out_file << "" << endl;    
     out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
+    out_file << Form("pm_set [MeV]:  %d                     ", pm_set) << endl;    
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
     if(analysis_cut!="bcm_calib"){
       out_file << Form("events_replayed: %lld              ", nentries ) << endl;
@@ -7947,6 +7981,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
 	out_file << "#-----------------------------" << endl;
 	out_file << Form("# real_counts  : %.3f ", W_total) << endl;
+	out_file << Form("# real_rate [Hz]  : %.3f ", W_total_rate) << endl;
 	float real_yield = W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single);  
 	out_file << Form("# real_yield   : %.3f ", real_yield) << endl;
 																			      
@@ -7968,6 +8003,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", W_total) << endl;
 	out_file << Form("random_counts   : %.3f", W_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", W_real)  << endl;
+	out_file << Form("real_rate [Hz]  : %.3f", W_real_rate)  << endl;
 	float real_yield = W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);  
 	out_file << Form("real_yield      : %.3f", real_yield) << endl;	
 	out_file << "                                     " << endl;
@@ -8029,6 +8065,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", Pm_total) << endl;
 	out_file << Form("random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", Pm_real)  << endl;
+	out_file << Form("real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
 	float real_yield = Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);
 	out_file << Form("real_yield      : %.3f", real_yield )  << endl;
 	out_file << "                                     " << endl;

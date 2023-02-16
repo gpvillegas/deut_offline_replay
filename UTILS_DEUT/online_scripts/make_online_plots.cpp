@@ -31,7 +31,8 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   }
 
 
-  TString input_CutFileName = "UTILS_DEUT/inp/set_basic_cuts.inp";
+  // make sure to point cuts file to current experiment
+  TString input_CutFileName = "UTILS_DEUT/inp/set_basic_cuts_deut.inp";
 
   // Read cut parameters from cut file for plotting
   // main coincidence time peak min/max window cut

@@ -48,7 +48,7 @@ else
     exit 0
 fi
 
-if [ "${replay_type}" = "prod" ]; then
+if [ "${replay_type}" == "prod" ]; then
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
@@ -68,6 +68,14 @@ if [[ "$evtNum" -eq -1 ]]; then
     replay_type="prod"
 else
     replay_type="sample"
+fi
+
+
+if [ "${ana_cut}" == "heep_singles" ] || [ "${ana_cut}" == "heep_coin" ]; then
+    tgt_type="LH2"
+elif [ "${ana_cut}" == "deep" ]; then
+    tgt_type="LD2"
+     
 fi
 
 daq_mode="coin"
@@ -105,10 +113,7 @@ runDeut="root -l -q -b \"${prod_script}( ${runNum},    ${evtNum},
                                    \\\"${trig_single}\\\", \\\"${trig_coin}\\\", ${skim_flag}
                      )\""
 
-fill_RunList="python ${fill_list_script} ${replay_type} ${runNum} ${evtNum}"
-
-
-
+fill_RunList="python ${fill_list_script} ${replay_type} ${tgt_type} ${ana_cut} ${runNum} ${evtNum}"
 
 
 
