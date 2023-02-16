@@ -258,7 +258,7 @@ protected:
   
   // calculate simc cafe production luminosity
   Double_t simc_Ib=0;
-  Double_t N_hrs;
+  Double_t N_hrs=0;
   Double_t base_time =0;
   Double_t base_counts =0;
   Double_t total_simc_time=0;

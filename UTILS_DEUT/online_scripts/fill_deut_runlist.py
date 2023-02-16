@@ -39,7 +39,7 @@ deut_report = open(deut_report_path)
 
 
 # define filenames
-fname_path='UTILS_DEUT/runlist/deut-2022_runlist.csv'                                                                                                                                         
+fname_path='UTILS_DEUT/runlist/deut-2023_runlist.csv'                                                                                                                                         
 temp_fname_path='UTILS_DEUT/runlist/temp.csv' # temporary file (for overwriting entry, if the user desires)                                                                                    
     
 

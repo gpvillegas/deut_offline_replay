@@ -635,18 +635,20 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
   //Set data Histo Aesthetics
 
-  // coincidence time
-  data_ep_ctime_total->SetFillColorAlpha(kBlue, 0.35);
-  data_ep_ctime_total->SetFillStyle(3004);
-  data_ep_ctime_total->SetLineColor(kBlue+2);
-
-  data_ep_ctime_rand->SetFillColorAlpha(kGreen, 0.35);
-  data_ep_ctime_rand->SetFillStyle(3005);
-  data_ep_ctime_rand->SetLineColor(kGreen);
-  
-  data_ep_ctime_real->SetFillColorAlpha(kMagenta, 0.35);
-  data_ep_ctime_real->SetFillStyle(3006);
-  data_ep_ctime_real->SetLineColor(kMagenta);
+  if(ana_cut!="heep_singles"){ 
+    // coincidence time
+    data_ep_ctime_total->SetFillColorAlpha(kBlue, 0.35);
+    data_ep_ctime_total->SetFillStyle(3004);
+    data_ep_ctime_total->SetLineColor(kBlue+2);
+    
+    data_ep_ctime_rand->SetFillColorAlpha(kGreen, 0.35);
+    data_ep_ctime_rand->SetFillStyle(3005);
+    data_ep_ctime_rand->SetLineColor(kGreen);
+    
+    data_ep_ctime_real->SetFillColorAlpha(kMagenta, 0.35);
+    data_ep_ctime_real->SetFillStyle(3006);
+    data_ep_ctime_real->SetLineColor(kMagenta);
+  }
 
   // invariant mass, W
   data_W_total->SetFillColorAlpha(kBlue, 0.35);
