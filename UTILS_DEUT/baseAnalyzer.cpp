@@ -1957,7 +1957,7 @@ void baseAnalyzer::ReadReport()
 
   pm_set = -1;// default is undefined
   
-  if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || () ){  pm_set = 0; } // elastics has no missing momenta
+  if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){  pm_set = 0; } // elastics has no missing momenta
 
   else if ((analysis_cut=="deep") ){
 
