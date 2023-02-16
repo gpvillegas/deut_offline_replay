@@ -313,7 +313,7 @@ protected:
   
   Bool_t combine_runs_flag;     //flag to combine multiple runs (usually sequential runs @ same kinematics in an experiment) -- not in use currently (but can be added)
   Bool_t skim_flag; 
-  Int_t pm_set; // this will be an indirect argument (no input by user, but determined by kinematics read from report)
+  TString setting; // this will be an indirect argument (no input by user, but determined by kinematics read from report)
   
   // Read in general info from REPORT file 
   // target type (will be read from report file, rather than user input -- SAFER THIS WAY! :) )

@@ -98,7 +98,7 @@ run_num=0
 start_of_run=0
 end_of_run=0
 kin_type=0
-pm_set=0  # reminder: need to add this in baseAnalyzer report
+setting=0  # reminder: need to add this in baseAnalyzer report
 evt_num=0
 beam_e=0
 tgt_name=0
@@ -199,8 +199,8 @@ for line in deut_report:
     if "kin_type" in line :
         kin_type = (line.split(":")[1]).strip()
         TestVar+=1
-    if "pm_set" in line :
-        pm_set = int((line.split(":")[1]).strip())
+    if "setting" in line :
+        setting = (line.split(":")[1]).strip()
         TestVar+=1
         # print(kin_type)
     if "start_of_run" in line :
@@ -437,11 +437,9 @@ for line in deut_report:
 
 
 # general run entry list
-header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'pm_set',  'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]',  'BCM4A\ncharge\n[mC]',  'real_counts', 'real_rate',  'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', ]
-gen_run_info = "%i,            %s,           %s,         %s,          %i,        %s,                  %.3f,                    %.3f,                   %.3f,          %.3f,         %.3f,                     %i,         %.4f,    %s,         %.6f,       %.4f,   %.3f,       %.4f,    %.3f" % \
-               (run_num,  start_of_run,  end_of_run,    kin_type,     pm_set,    bcm_thrs,            bcm_current,             bcm_charge,             real_counts,   real_rate,    beam_on_target,           evt_num,    beam_e,  tgt_name,   tgt_mass,   hms_p,  hms_angle,  shms_p, shms_angle)
-print('data_types: ',type(run_num),type(start_of_run),type(end_of_run),type(kin_type),type(pm_set),type(bcm_thrs),type(bcm_current),type(bcm_charge),    
-      type(real_counts),type(real_rate),type(beam_on_target),type(evt_num),type(beam_e),type(tgt_name),type(tgt_mass),type(hms_p),type(hms_angle),type(shms_p),type(shms_angle))
+header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'setting',  'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]',  'BCM4A\ncharge\n[mC]',  'real_counts', 'real_rate',  'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', ]
+gen_run_info = "%i,            %s,           %s,         %s,          %s,        %s,                  %.3f,                    %.3f,                   %.3f,          %.3f,         %.3f,                     %i,         %.4f,    %s,         %.6f,       %.4f,   %.3f,       %.4f,    %.3f" % \
+               (run_num,  start_of_run,  end_of_run,    kin_type,     setting,    bcm_thrs,            bcm_current,             bcm_charge,             real_counts,   real_rate,    beam_on_target,           evt_num,    beam_e,  tgt_name,   tgt_mass,   hms_p,  hms_angle,  shms_p, shms_angle)
 
 # trigger info
 # should probably define what these are more specifically later on . . . e.g., PS1 : SHMS 3/4 . . .

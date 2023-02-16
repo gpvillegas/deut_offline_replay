@@ -10,7 +10,7 @@
 using namespace std;
 
 
-void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
+void project2d( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 ){
 //void project2d(){
 
   //avoid display
@@ -24,16 +24,18 @@ void project2d( TH2F *hist2d=0, int pm_set=0, Bool_t display_plots=0 ){
     For now is specific for deuteron, but can easily be modified for other use
    */
 
-  TString basename=Form("deut_stats_monitoring_pm%d_", pm_set);
+  
+  TString basename=Form("deut_stats_monitoring_setting_%s_", setting);
   
   // Set basefilename to save projections to root file
-  TString ofile=basename + "output.root";
+  TString ofile="DEUT_OUTPUT/ROOT/" + basename + "output.root";
+  
   TFile *fout = new TFile(ofile.Data(), "RECREATE");
 
   //set output names of projections to be saved to divided canvas
-  TString fout_2dHist      = basename + "2Dhisto.pdf";
-  TString fout_projHist    = basename + "projY.pdf";
-  TString fout_projHistErr = basename + "projY_relError.pdf";
+  TString fout_2dHist      = "DEUT_OUTPUT/PDF/" + basename + "2Dhisto.pdf";
+  TString fout_projHist    = "DEUT_OUTPUT/PDF/" + basename + "projY.pdf";
+  TString fout_projHistErr = "DEUT_OUTPUT/PDF/" + basename + "projY_relError.pdf";
   
   // set global title/label sizes
   gStyle->SetTitleFontSize(0.1);

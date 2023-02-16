@@ -21,7 +21,7 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     replay_type="prod";
   }
   else if(evtNum!=-1){
-    //replay_type="sample";
+    //replay_type="sample"; // C.Y. TAG: remember to change back
     replay_type="prod"; 
   }
   
@@ -1953,26 +1953,53 @@ void baseAnalyzer::ReadReport()
   temp = FindString("end_of_run", data_InputReport.Data())[0];
   end_of_run =  split(temp, '=')[1];
 
-  // Based on HMS kinematics, set pm_set (missing momentum setting for deuteron exp.)
   // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
 
-  pm_set = -1;// default is undefined
-  
-  if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){  pm_set = 0; } // elastics has no missing momenta
+  setting = "NA";// default is undefined
 
+  // Based on SHMS kinematics, set setting (delta scan)
+  if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
+
+    if( abs(shms_angle - 14.15)<0.5 ) { setting = "delta_scan_-8"; }
+    else if( abs(shms_angle - 12.94)<0.5 ) { setting = "delta_scan_-4"; }
+    else if( abs(shms_angle - 11.71)<0.5 ) { setting = "delta_scan_0"; }
+    else if( abs(shms_angle - 10.44)<0.5 ) { setting = "delta_scan_+4"; }
+    else if( abs(shms_angle - 9.13) <0.5 ) { setting = "delta_scan_+8"; }
+    else if( abs(shms_angle - 7.7)  <0.5 ) { setting = "delta_scan_+12"; }
+
+    else{
+
+      Int_t exit_macro=-1;
+      cout << "deuteron exp. |sHMS Angle - theta_e| > 0.5 deg  mis-match " << endl;
+      cout << "between this script and standard.kinematics . . . Check SHMS Angle is set CORRECTLY in standard.kinematics file !" << endl;
+      cout << "" << endl;
+      cout << "Continue replay anyways . . .? ( 0: continue, 1: abort )" << endl;      
+      cin>>exit_macro;
+
+      if(exit_macro){
+	cout << "Aborting . . ." << endl;
+	gSystem->Exit(0);
+      }
+      
+    }
+
+
+  } // name central delta on SHMS
+
+    // Based on HMS kinematics, set setting (missing momentum setting for deuteron exp.)
   else if ((analysis_cut=="deep") ){
 
     // Pm = 120 MeV requires:  3.0523 GeV, 38.63 deg
-    if( abs(hms_p-3.0523)<0.05 && abs(hms_angle - 38.63)<0.5 ) { pm_set=120; }
+    if( abs(hms_p-3.0523)<0.05 && abs(hms_angle - 38.63)<0.5 ) { setting="pm_120"; }
 
     // Pm = 580  MeV requires:  2.2622 GeV, 54.96 deg
-    else if( abs(hms_p-2.2622)<0.05 && abs(hms_angle - 54.96)<0.5 ) { pm_set=580; }
+    else if( abs(hms_p-2.2622)<0.05 && abs(hms_angle - 54.96)<0.5 ) { setting="pm_580"; }
 
     // Pm = 800  MeV requires:  2.121 GeV, 59.39 deg
-    else if( abs(hms_p-2.121)<0.05 && abs(hms_angle - 59.39)<0.5 )  { pm_set=800; }
+    else if( abs(hms_p-2.121)<0.05 && abs(hms_angle - 59.39)<0.5 )  { setting="pm_800"; }
 
     // Pm = 900  MeV requires:  2.0474 GeV, 61.34 deg
-    else if( abs(hms_p-2.0474)<0.05 && abs(hms_angle - 61.34)<0.5 )  { pm_set=900; }
+    else if( abs(hms_p-2.0474)<0.05 && abs(hms_angle - 61.34)<0.5 )  { setting="pm_900"; }
 
     else{
 
@@ -7912,7 +7939,7 @@ void baseAnalyzer::WriteReport()
     out_file << Form("end_of_run = %s", end_of_run.Data())<< endl;
     out_file << "" << endl;    
     out_file << Form("kin_type: %s                     ", analysis_cut.Data()) << endl;
-    out_file << Form("pm_set [MeV]:  %d                     ", pm_set) << endl;    
+    out_file << Form("setting:  %s                     ", setting) << endl;    
     out_file << Form("daq_mode: %s                     ", daq_mode.Data()) << endl;
     if(analysis_cut!="bcm_calib"){
       out_file << Form("events_replayed: %lld              ", nentries ) << endl;
@@ -9254,10 +9281,14 @@ void baseAnalyzer::MakePlots()
 //______________________________________________________________________________
 void baseAnalyzer::TrackOnlineStats()
 {
+
+  if(analysis_cut!="deep") continue;
+
   cout << "Calling TrackOnlineStats() . . ." << endl;
 
+    
   // set filename of .root file to store  2D histogram (which we will self update)
-  TString fname=Form("deut_stats_monitoring_latest_pm%d.root", pm_set);
+  TString fname=Form("DEUT_OUTPUT/ROOT/deut_stats_monitoring_latest_pm%d.root", setting);
   
   TFile *fout = NULL;
     
@@ -9276,7 +9307,7 @@ void baseAnalyzer::TrackOnlineStats()
     H_Pm_vs_thrq_rand_sub->Write();
 
     //call function to make projections
-    project2d( H_Pm_vs_thrq_rand_sub, pm_set, true );
+    project2d( H_Pm_vs_thrq_rand_sub, setting, true );
 
     
     fout->Close();
@@ -9299,7 +9330,7 @@ void baseAnalyzer::TrackOnlineStats()
     hist_total->Write("", TObject::kOverwrite);
     
     //call function to make projections
-    project2d( hist_total, pm_set, true );
+    project2d( hist_total, setting, true );
   
     fout->Close();
     
@@ -9345,7 +9376,7 @@ void baseAnalyzer::run_online_data_analysis()
 
   WriteHist();
   WriteReport();
-  //MakePlots();
+  MakePlots();
   TrackOnlineStats();
   
 }
