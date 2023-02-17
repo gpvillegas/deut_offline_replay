@@ -1953,6 +1953,7 @@ void baseAnalyzer::ReadReport()
   temp = FindString("end_of_run", data_InputReport.Data())[0];
   end_of_run =  split(temp, '=')[1];
 
+
   // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
 
   setting = "NA";// default is undefined
@@ -1969,10 +1970,10 @@ void baseAnalyzer::ReadReport()
       // base simualtion counts are based on (1 hr @ 40 uA)  (obtained from simc)
       simc_Ib=40; // [uA]
       base_time = 1; // [hr]
-      base_counts = 500000.;   // [counts] / 1hr (how many counts we got from simulation)
+      base_counts = 55430.09;   // [counts] / 1hr (how many counts we got from simulation)
       
       // scale time to calculate real counts
-      N_hrs = 1.;  // by how many hours to scale ?
+      N_hrs = 1.85;  // by how many hours to scale ?
       total_simc_time   = base_time * (N_hrs/base_time) * 3600  ;     // total beam-on-target time [sec]
       total_simc_charge = simc_Ib * (N_hrs/base_time) * 3600. / 1000.;       // [mc]
       total_simc_counts = base_counts * (N_hrs/base_time);   // scaled simc counts
