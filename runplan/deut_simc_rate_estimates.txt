@@ -1,0 +1,138 @@
+-----------------------------   
+   H(e,e'p) Rate Estimates    
+-----------------------------
+
+**** definitions ****
+
+CUTS to select (e,e'p)
+Emiss: [-60,60] MeV
+W : [0.85, 1.05]
+|HMS Delta| < 10 %
+-10 < SHMS Delta < 22 %
+HMS Collimator CUT
+SHMS Collimator CUT
+
+For DAQ rates, the weighted events were integrated
+over full W range, and no cuts were applied.
+
+SHMS delta = -8%
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 55430.090
+H(e,e'p) Rates [Hz] = 15.397 
+DAQ Rates [Hz] = 27.284
+-----------------------------
+
+
+SHMS delta = -4 %
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 106070.078
+H(e,e'p) Rates [Hz] = 29.464 
+DAQ Rates [Hz] = 47.720
+----------------------------- 
+
+
+SHMS delta = 0 %
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 198326.266
+H(e,e'p) Rates [Hz] = 55.091 
+DAQ Rates [Hz] = 89.190
+----------------------------- 
+
+
+SHMS delta = +4 %
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 411464.375
+H(e,e'p) Rates [Hz] = 114.296 
+DAQ Rates [Hz] = 182.947
+----------------------------- 
+
+SHMS delta = +8 %
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 965616.062
+H(e,e'p) Rates [Hz] = 268.227 
+DAQ Rates [Hz] = 422.326
+----------------------------- 
+
+SHMS delta = +12 %
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+W counts [0.850, 1.050] GeV = 2802168.750
+H(e,e'p) Rates [Hz] = 778.380 
+DAQ Rates [Hz] = 1191.230
+-----------------------------
+
+
+==============================================================
+
+
+**** definitions ****
+
+CUTS to select d(e,e'p)
+Emiss: [-20,60] MeV
+Q2 : [4, 5] GeV^2
+|HMS Delta| < 10 %
+-10 < SHMS Delta < 22 %
+HMS Collimator CUT
+SHMS Collimator CUT
+
+For DAQ rates, the weighted events were integrated
+over full Pmiss range, and no cuts were applied.
+(note increasr in rates, this is due primarily to
+removal of Q2 cut)
+
+-----------------------------    
+    d(e,e'p) Rate Estimates    
+----------------------------- 
+
+Pm Setting: 120 MeV/c
+Model: Laget fsi
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+Pm counts  = 22839.529
+d(e,e'p) Rates [Hz] = 6.344E+00 
+DAQ Rates [Hz] = 43.709
+----------------------------- 
+
+
+Pm Setting: 580
+Model: Laget fsi
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+Pm counts  = 35.178
+d(e,e'p) Rates [Hz] = 9.772E-03 
+DAQ Rates [Hz] = 0.100
+-----------------------------
+
+
+Pm Setting: 800
+Model: Laget fsi
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+Pm counts  = 6.765
+d(e,e'p) Rates [Hz] = 1.879E-03 
+DAQ Rates [Hz] = 0.024
+----------------------------- 
+
+Pm Setting: 900
+Model: Laget fsi
+Ib [uA]     = 40.000 
+time [hr]   = 1.000 
+charge [mC] = 144.000 
+Pm counts  = 2.773
+d(e,e'p) Rates [Hz] = 7.702E-04 
+DAQ Rates [Hz] = 0.012
+----------------------------- 
