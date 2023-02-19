@@ -435,26 +435,48 @@ for line in deut_report:
         
 #  run list was separated into sub-categories for ease of use and more flexibility if things need to be changed
 
+header_0="""
+# E12-10-003: Deuteron Electro-Disintegration Experiment Runlist (Online)
+# Feb 24 - March 20, 2023
+#
+# (Not-so-obvious) Header Definitions:
+# BCM4A_thrs,current [uA] : threshold, avg. beam current
+# BCM4A_charge [mC]       : total accumulated charge
+# real_counts             : integrated counts (W or Pmiss) after all cuts
+# real_rate [Hz]          : real_counts / beam_on_target [sec] 
+# beam_energy [GeV]       : measured Hall C beam energy
+# target_mass [amu]       : mass in atomic mass units [a.m.u.]
+# (S)HMS_P [GeV/c]        : spectrometer central momentum
+# (S)HMS_Angle [deg]      : spectrometer central angle
+# PS1-PS6                 : pre-scale factor for triggers T1-T6
+# T1-T6_scl_rates [kHz]   : scaler trigger rates
+# T1-T6_accp_rates [kHz]  : accepted trigger rates
+# T1-T6_tLT               : total EDTM live time
+# (S)HMS_TrkEff           : tracking efficiencies
+# simc_counts_goal        : SIMC-based statistical goal
+# simc_charge_goal [mC]   : SIMC-based charge goal 
+#
+"""
 
 # general run entry list
-header_1     = ['run\nnumber', 'start_run', 'end_run', 'kin\nstudy', 'setting',  'BCM4A\nthrs\n[uA]', 'BCM4A\ncurrent\n[uA]',  'BCM4A\ncharge\n[mC]',  'real_counts', 'real_rate',  'beam_on_target\n[sec]', 'evts\nreplayed', 'beam\nenergy\n[GeV]', 'target', 'target\nmass\n[amu]', 'HMS_P\n[GeV/c]', 'HMS_Angle\n[deg]', 'SHMS_P\n[GeV/c]', 'SHMS_Angle\n[deg]', ]
+header_1     = ['run', 'start_run', 'end_run', 'kin_study', 'setting',  'BCM4A_thrs', 'BCM4A_current',  'BCM4A_charge',  'real_counts', 'real_rate',  'beam_on_target', 'evts_replayed', 'beam_energy', 'target', 'target_mass', 'HMS_P', 'HMS_Angle', 'SHMS_P', 'SHMS_Angle' ]
 gen_run_info = "%i,            %s,           %s,         %s,          %s,        %s,                  %.3f,                    %.3f,                   %.3f,          %.3f,         %.3f,                     %i,         %.4f,    %s,         %.6f,       %.4f,   %.3f,       %.4f,    %.3f" % \
                (run_num,  start_of_run,  end_of_run,    kin_type,     setting,    bcm_thrs,            bcm_current,             bcm_charge,             real_counts,   real_rate,    beam_on_target,           evt_num,    beam_e,  tgt_name,   tgt_mass,   hms_p,  hms_angle,  shms_p, shms_angle)
 
 # trigger info
 # should probably define what these are more specifically later on . . . e.g., PS1 : SHMS 3/4 . . .
-header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1\nscaler_rates\n[kHz]', 'T2\nscaler_rates\n[kHz]','T3\nscaler_rates\n[kHz]','T5\nscaler_rates\n[kHz]','T6\nscaler_rates\n[kHz]', 'T1\naccp_rates\n[kHz]','T2\naccp_rates\n[kHz]','T3\naccp_rates\n[kHz]','T5\naccp_rates\n[kHz]','T6\naccp_rates\n[kHz]' ]
+header_2   = ['PS1', 'PS2', 'PS3', 'PS5', 'PS6', 'T1_scl_rates', 'T2_scl_rates','T3_scl_rates','T5_scl_rates','T6_scl_rates', 'T1_ccp_rates','T2_accp_rates','T3_accp_rates','T5_accp_rates','T6_accp_rates' ]
 trig_info = "%i   %i   %i   %i   %i   %.3f            %.3f            %.3f            %.3f            %.3f            %.3f          %.3f          %.3f           %.3f           %.3f                        "  % \
             (PS1, PS2, PS3, PS5, PS6, T1_scaler_rate, T2_scaler_rate, T3_scaler_rate, T5_scaler_rate, T6_scaler_rate, T1_accp_rate, T2_accp_rate, T3_accp_rate,  T5_accp_rate,  T6_accp_rate                          )
 
 # live time and trk_eff info
-header_3   = ['T1_tLT', 'T2_tLT','T3_tLT','T5_tLT','T6_tLT','HMS\nTrkEff', 'SHMS\nTrkEff']
+header_3   = ['T1_tLT', 'T2_tLT','T3_tLT','T5_tLT','T6_tLT','HMS_TrkEff', 'SHMS_TrkEff']
 efficiency_info = "%.3f    %.3f    %.3f    %.3f    %.3f    %.3f         %.3f        " % \
            (T1_tLT, T2_tLT, T3_tLT, T5_tLT, T6_tLT, hms_trk_eff, shms_trk_eff )
 
 
-# SIMC deut statistical goals (full stats goal for each (target, kin_type) combo, e.g. (Be9, MF)
-header_4             = ['simc_counts_goal', 'simc_charge_goal\n[mC]', 'Comments']
+# SIMC deut statistical goals (full stats goal)
+header_4             = ['simc_counts_goal', 'simc_charge_goal', 'Comments']
 simc_stats_goal_info = "%.3f                        %.3f                " % \
                        (simc_counts_goal,     simc_charge_goal )
 
@@ -525,6 +547,7 @@ else:
     
     with open(fname_path, "a") as f:
         writer = csv.writer(f,delimiter=",")
+        f.write(header)
         writer.writerow(total_header)
         writer.writerow(total_list)
         

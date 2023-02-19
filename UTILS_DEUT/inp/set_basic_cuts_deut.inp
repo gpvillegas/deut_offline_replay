@@ -203,8 +203,8 @@ c_heep_xbj_max = 1.2
 # Missing Energy [GeV]
 # this cut will NOT be activated with analysis_cut=="heep_singles"
 Em_heep_cut_flag = 1
-c_heep_Em_min = -0.05
-c_heep_Em_max = 0.05
+c_heep_Em_min = -0.06
+c_heep_Em_max = 0.06
 
 # Invariant Mass, W [GeV]
 W_heep_cut_flag = 1
