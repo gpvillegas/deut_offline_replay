@@ -69,41 +69,41 @@ pdcRes_xmax  = 0.2
 
 # electron arm central angle
 the_nbins = 70
-the_xmin = 10.
-the_xmax = 15.
+the_xmin = 6.
+the_xmax = 18.
 
 # final electron arm momentum [GeV/c]
-kf_nbins = 100
-kf_xmin = 9.
+kf_nbins = 80
+kf_xmin = 7.
 kf_xmax = 10.
 
 # invariant mass (assuming proton target mass)
 W_nbins = 100
-W_xmin = 0.8
-W_xmax = 1.1
+W_xmin = 0.5
+W_xmax = 1.2
 
 # invariant mass squared
 W2_nbins = 100
 W2_xmin = -0.1 
-W2_xmax = 1.5;
+W2_xmax = 1.5
 
 # 4-momentum transfer
 Q2_nbins = 70
-Q2_xmin = 0.
+Q2_xmin = 1.
 Q2_xmax = 6.
 
 # Bjorken-X
-X_nbins = 70
+X_nbins = 90
 X_xmin = 0.3
 X_xmax = 1.7
 
 # energy transfer
-nu_nbins = 70
+nu_nbins = 80
 nu_xmin = 0.
 nu_xmax = 6.
 
 # 3-momentum transfer
-q_nbins = 70
+q_nbins = 80
 q_xmin = 0.
 q_xmax = 6.
 
@@ -124,8 +124,8 @@ qz_xmax = 7.
 
 # in-plane angle between q-vector and +z (beam)
 thq_nbins = 100
-thq_xmin = 40.
-thq_xmax = 55.
+thq_xmin = 20.
+thq_xmax = 90.
 
 # out-of-plane angle between q-vector and +z (beam)
 phq_nbins = 100
@@ -147,8 +147,8 @@ epsilon_xmax = 100.
 
 # Missing Energy
 Em_nbins = 70
-Em_xmin = -0.3
-Em_xmax = 0.3
+Em_xmin = -0.1
+Em_xmax = 0.250
 
 # Nuclear Missing Energy
 Em_nuc_nbins = 70
@@ -177,41 +177,41 @@ Pmz_lab_xmax = 0.3
 
 # Missing Momentum (X-component, q-frame: +z_lab rotated to +q)
 Pmx_q_nbins = 80
-Pmx_q_xmin = -4.
-Pmx_q_xmax = 4.
+Pmx_q_xmin = -3.
+Pmx_q_xmax = 3.
 
 # Missing Momentum (Y-component, q-frame: +z_lab rotated to +q)
 Pmy_q_nbins = 80
-Pmy_q_xmin = -4.
-Pmy_q_xmax = 4.
+Pmy_q_xmin = -3.
+Pmy_q_xmax = 3.
 
 # Missing Momentum (Z-component, q-frame: +z_lab rotated to +q)
 Pmz_q_nbins = 80
-Pmz_q_xmin = -4.
-Pmz_q_xmax = 4.
+Pmz_q_xmin = -3.
+Pmz_q_xmax = 3.
 
 # Kinetic Energy (Detected Hadron, X)
-Tx_nbins = 100
+Tx_nbins = 80
 Tx_xmin = 0.
 Tx_xmax = 5.
 
 # Kinetic Energy (Undetected Recoil System, R)
-Tr_nbins = 100 
+Tr_nbins = 80 
 Tr_xmin = -5.
 Tr_xmax = 5.
 
 # Missing Mass (Undetected Recoil System Mass)
-MM_nbins = 100
-MM_xmin = -0.2
+MM_nbins = 80
+MM_xmin = 0.
 MM_xmax = 1.3
 
 # Missing Mass Squared
 MM2_nbins = 100  
-MM2_xmin = -1.
-MM2_xmax = 1.
+MM2_xmin = -1.5
+MM2_xmax = 1.5
 
 # hadron arm central angle
-thx_nbins = 100  
+thx_nbins = 90  
 thx_xmin = 30.
 thx_xmax = 70.
 
@@ -251,9 +251,9 @@ thxq_cm_xmin = 0.
 thxq_cm_xmax = 360.
 
 # final hadron arm momentum [GeV/c]
-Pf_nbins = 100
-Pf_xmin = 1.5
-Pf_xmax = 3.5
+Pf_nbins = 80
+Pf_xmin = 1.4
+Pf_xmax = 3.6
 
 # In-plane angle between the recoil system and q in CM frame
 thrq_cm_nbins = 100
@@ -301,39 +301,39 @@ MandelU_xmax = 10.
 #----Electron Arm Focal Plane-----
 #---------------------------------
 exfp_nbins = 100
-exfp_xmin = 5.
-exfp_xmax = 25.
+exfp_xmin = -30.
+exfp_xmax = 30.
 
-expfp_nbins = 100
-expfp_xmin = 0.
+expfp_nbins = 80
+expfp_xmin = -0.07
 expfp_xmax = 0.07
   
 eyfp_nbins = 100
-eyfp_xmin = -10.
-eyfp_xmax = 5.
+eyfp_xmin = -20.
+eyfp_xmax = 20.
 
-eypfp_nbins = 100
-eypfp_xmin = -0.01
-eypfp_xmax = 0.01
+eypfp_nbins = 80
+eypfp_xmin = -0.06
+eypfp_xmax = 0.06
 
 #-----------------------------------
 #----Electron Arm Reconstructed-----
 #-----------------------------------
 eytar_nbins = 80
-eytar_xmin = -2.
-eytar_xmax = 2.
+eytar_xmin = -2.5
+eytar_xmax = 2.5
 
 eyptar_nbins = 80
-eyptar_xmin = -0.05
-eyptar_xmax = 0.05
+eyptar_xmin = -0.06
+eyptar_xmax = 0.06
   
 exptar_nbins = 80
-exptar_xmin  = -0.05
-exptar_xmax = 0.05
+exptar_xmin  = -0.06
+exptar_xmax = 0.06
   
 edelta_nbins = 100
-edelta_xmin = -15.  
-edelta_xmax = 25.  
+edelta_xmin = -10.  
+edelta_xmax = 22.  
 
 #-------------------------------  
 #----Hadron Arm Focal Plane-----
@@ -347,8 +347,8 @@ hxpfp_xmin = -0.1
 hxpfp_xmax = 0.1
   
 hyfp_nbins = 80
-hyfp_xmin = -35.
-hyfp_xmax = 35.
+hyfp_xmin = -20.
+hyfp_xmax = 25.
 
 hypfp_nbins = 80
 hypfp_xmin = -0.05

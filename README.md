@@ -58,12 +58,39 @@ $ scons -jN
 # Clone and properly setup the Hall C data analysis replay 
 # Alternatively, you can fork a copy of the repository remotely and the clone it directly 
 # from your github account.
-$ git clone https://github.com/Yero1990/cafe_online_replay 
+$ git clone https://github.com/Yero1990/deut_online_replay 
 $ cd cafe_online_replay 
 
 # execute this script to create the necessary sybmolic links required by the replay script 
 $ ./cafe_setup.sh 
 ```
+
+```sh
+# You will need to set-up the following direcotries, either via symbolic link or normal "mkdir" command
+# for example, if on ifarm, I've create the following directories, and made a symbolic link to this repo.
+
+mkdir /volatile/hallc/c-deuteron/cyero
+mkdir /volatile/hallc/c-deuteron/cyero/worksim   # this is to put my output simulation files
+mkdir /volatile/hallc/c-deuteron/cyero/ROOTfiles
+mkdir /volatile/hallc/c-deuteron/cyero/REPORT_OUTPUT
+mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT
+mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT/ROOT
+mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT/REPORT
+mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT/PDF
+
+# then for symbolic links, we only need to symbolic link the following:
+ln -sf /volatile/hallc/c-deuteron/cyero/worksim
+ln -sf /volatile/hallc/c-deuteron/cyero/ROOTfiles
+ln -sf /volatile/hallc/c-deuteron/cyero/REPORT_OUTPUT 
+ln -sf /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT
+
+# in volatile for testing my analysis/initial offline analysis,         
+# but keep in mind files are not backed up in this directory if the limit is exceeded. 
+# you can make these directories anywhere you like, provided there is space / permissions
+# also make sure to point to the directory where the .raw data files are located for replay
+# I usually put a symbolic link to the .raw data files under the CACHE_LINKS/ directory
+```
+
 
 `step 4:` Try to run your first replay on a sample data file (you might get errors. This is a learning process with a majority of the time spent on de-bugging code. Don't feel bad about it.)
 
@@ -71,13 +98,15 @@ $ ./cafe_setup.sh
 # Execute a replay script (reads a raw data file and generates an output ROOTfile and REPORT_FILE)
 # Follow the command-line requests to enter run number, number of events as well as 
 # an additional option, depending on the analysis you want to carry out. The last option, 
-# I added specially for CaFe, to faciliate our analysis. To test it, put the following info when 
-# asked:  RunNumber: 3288,  EvtNum: 50000, analysis type: test,  and this will use the specific parameters 
-# at the time that run was taken to generate a ROOTfile, which will be placed under ROOTfiles/test directory.
-$ ./hcana SCRIPTS/COIN/PRODUCTION/replay_cafe.C  
+# I added specially for deuteron, to faciliate our analysis. To test it, execute:
+$ ./hcana SCRIPTS/COIN/PRODUCTION/replay_deut.C  
 
-# the script will ask you to enter a specific run number, event number and analysis type to use (please choose 'prod' for production)
-# as this will replay data with all the encessary tree leaf variables you need for lower (i.e., calibration, etc.) and upper-level analysis.
+# the script will ask you to enter a specific run number, event number and analysis type to use. Based on the
+# analysis type you choose, it will read the corresponding definition file located in: DEF-files/ . Each definition
+# file specifies which leaf variables to add. For specific detector calibrations / studies, I've added specific definition
+# files which will only use the required leaf variables in order to keep the TTree ntuple small as possible so that it may
+# run faster. 
+# 
 ```
  
 # How-To Guide for Active Contributors

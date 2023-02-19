@@ -21,8 +21,8 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     replay_type="prod";
   }
   else if(evtNum!=-1){
-    //replay_type="sample"; // C.Y. TAG: remember to change back
-    replay_type="prod"; 
+    replay_type="sample"; // C.Y. TAG: remember to change back
+    //replay_type="prod"; 
   }
   
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)
@@ -1689,9 +1689,13 @@ void baseAnalyzer::ReadInputFile()
     // =============
     //  SIMC input
     // =============
+
+    // generif SIMC filenames for deuteron exp
+    //d2_heep_scan_rad_-8.root   d2_pm120_jmlfsi_rad.root     
     
     temp = trim(split(FindString("input_file_simc", input_FileNamePattern.Data())[0], '=')[1]);
     simc_ifile = temp.Data();
+
     
     temp = trim(split(FindString("input_ROOTfilePattern_simc_rad", input_FileNamePattern.Data())[0], '=')[1]);
     simc_InputFileName_rad = temp.Data();
@@ -9517,7 +9521,10 @@ void baseAnalyzer::run_online_data_analysis()
   WriteHist();
   WriteReport();
   MakePlots();
-  TrackOnlineStats();
+  
+  // this will be called separately (for online)
+  // for offline, we can use it.
+  //TrackOnlineStats(); 
   
 }
 
