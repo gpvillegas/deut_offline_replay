@@ -46,7 +46,7 @@ TString phodo_param_fname;
 TString hhodo_param_fname;
 
 TString pdc_param_fname;
-  TString hdc_param_fname;
+TString hdc_param_fname;
 
 TString phgcer_param_fname;
 TString pngcer_param_fname;

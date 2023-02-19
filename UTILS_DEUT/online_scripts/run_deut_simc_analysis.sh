@@ -7,41 +7,40 @@
 #         cyero002@gmail.com
 #----------------------------
 
-# shell script to automatically run CaFe SIMC analysis
+# shell script to automatically run deuteron SIMC analysis
 
 # NOTE: During the online analysis, the user can do SIMC analysis of
-# CaFe heep, MF or SRC kinematics, with assumed targets:
-# hydrogen (heep) , carbon-12 (MF), deuterium (SRC), respectively.
+# deuteron exp. heep, deep kinematics, with assumed targets:
+# hydrogen (heep) , deuteron (deep).
 # The SIMC raw data file is assumed to exist, and this script will
 # ONLY analyze the file (i.e, weight it, apply exact cuts as data, and
-# (in the near future), will be able to scale to other targets using target density ratio
 
 
 #user input
-kin_type=$1   # CaFe kinematics type, set by user: "heep_coin",  "MF" or "SRC", depending on the production type
+kin_type=$1   # deuteron kinematics type, set by user: "heep_coin",  "deep"
 
 
 if [ -z "$1" ]; then
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage:  ./run_cafe_simc_analysis.sh <kin_type>"
+    echo "Usage:  ./run_deut_simc_analysis.sh <kin_type>"
     echo ""
-    echo "<kin_type> = \"heep_coin\", \"MF\" or \"SRC\" "
+    echo "<kin_type> = \"heep_coin\" or \"deep\" "
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
 
     exit 0    
 # fool-proof, make sure only options: bcm_calib, lumi, optics, heep_singles, heep_coin, MF, SRC                                                                                         
-elif [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "MF" ] || [ "$kin_type" == "SRC" ]; then                                                                                
+elif [ "$kin_type" == "heep_coin" ] || [ "$kin_type" == "deep" ]; then                                                                                
     echo ""                                                                                                                                                       
 else               
     echo ""                                                                                                                                                       
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"                                                                                                         
     echo ""                                                                                                                                                                                
-    echo "Usage:  ./run_cafe_simc_analysis.sh <kin_type>"                                                                                                                             
+    echo "Usage:  ./run_deut_simc_analysis.sh <kin_type>"                                                                                                                             
     echo ""                                                                                                                                                                         
-    echo "<kin_type> = \"heep_coin\", \"MF\" or \"SRC\" "                                                                                                                  
+    echo "<kin_type> = \"heep_coin\" or \"deep\" "                                                                                                                  
     echo ""                                                                                                                                                                      
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"  
     exit 0
@@ -51,13 +50,13 @@ e_arm="SHMS"
 analyze_data=0   # 1: true (analyze data), 0: false (analyze simc)
 
 
-# cafe SIMC serious analysis script
-prod_script="UTILS_CAFE/main_simc_analysis.cpp"
+# deuteron SIMC serious analysis script
+prod_script="UTILS_DEUT/main_analysis.cpp"
 
 
 # run scripts commands
 
-runCafe="root -l -q -b \"${prod_script}( \\\"${e_arm}\\\", ${analyze_data}, \\\"${kin_type}\\\" )\""
+runDeut="root -l -q -b \"${prod_script}( \\\"${e_arm}\\\", ${analyze_data}, \\\"${kin_type}\\\" )\""
 
 # Start SIMC analysis
 {
@@ -68,13 +67,13 @@ runCafe="root -l -q -b \"${prod_script}( \\\"${e_arm}\\\", ${analyze_data}, \\\"
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
     echo ""
-    echo "Running CaFe SIMC Analysis for ${kin_type}:"
+    echo "Running Deuteron SIMC Analysis for ${kin_type}:"
     echo " -> SCRIPT:  ${prod_script}"
     echo " -> COMMAND: ${runCafe}"
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
     
     sleep 2
-    eval ${runCafe} 
+    eval ${runDeut} 
 
 }

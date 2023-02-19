@@ -1,7 +1,0 @@
-; HMS Cer  Parameter File Containing TimeWindow Min/Max Cuts 
- 
- 
- 
-
-hcer_adcTimeWindowMin = -1.9e+02, -190.00, 
-hcer_adcTimeWindowMax = 190.00, 190.00, 

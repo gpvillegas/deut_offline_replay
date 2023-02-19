@@ -28,21 +28,21 @@ void set_param_files(){
   // the new limits (for hodoscopes and calorimeter will be determined automatically,
   // given the high channel density
 
-  pref_param_fname = "../../PARAM/SHMS/GEN/p_reftime_cut.param";
-  href_param_fname = "../../PARAM/HMS/GEN/h_reftime_cut.param";
+  pref_param_fname = "../../PARAM/SHMS/GEN/fall22/p_reftime_cut_cafe.param";
+  href_param_fname = "../../PARAM/HMS/GEN/fall22/h_reftime_cut_cafe.param";
 
-  phodo_param_fname = "../../PARAM/SHMS/HODO/phodo_cuts.param";
-  hhodo_param_fname = "../../PARAM/HMS/HODO/hhodo_cuts.param";
+  phodo_param_fname = "../../PARAM/SHMS/HODO/fall22/cuts/phodo_cuts_cafe.param";
+  hhodo_param_fname = "../../PARAM/HMS/HODO/fall22/cuts/hhodo_cuts_cafe.param";
   
-  pdc_param_fname = "../../PARAM/SHMS/DC/pdc_cuts.param";
-  hdc_param_fname = "../../PARAM/HMS/DC/hdc_cuts.param";
+  pdc_param_fname = "../../PARAM/SHMS/DC/fall22/cuts/pdc_cuts_cafe.param"; //"../../PARAM/SHMS/DC/pdc_cuts.param";
+  hdc_param_fname ="../../PARAM/HMS/DC/fall22/cuts/hdc_cuts_cafe.param";  //"../../PARAM/HMS/DC/hdc_cuts.param";
 
-  phgcer_param_fname = "../../PARAM/SHMS/HGCER/phgcer_cuts.param";
-  pngcer_param_fname = "../../PARAM/SHMS/NGCER/pngcer_cuts.param";
-  hcer_param_fname = "../../PARAM/HMS/CER/hcer_cuts.param";
+  phgcer_param_fname = "../../PARAM/SHMS/HGCER/fall22/cuts/phgcer_cuts_init.param";
+  pngcer_param_fname = "../../PARAM/SHMS/NGCER/fall22/cuts/pngcer_cuts_cafe.param";
+  hcer_param_fname = "../../PARAM/HMS/CER/fall22/cuts/hcer_cuts_cafe.param";
 
-  pcal_param_fname = "../../PARAM/SHMS/CAL/pcal_cuts.param";
-  hcal_param_fname = "../../PARAM/HMS/CAL/hcal_cuts.param";
+  pcal_param_fname = "../../PARAM/SHMS/CAL/fall22/cuts/pcal_cuts_cafe.param";
+  hcal_param_fname = "../../PARAM/HMS/CAL/fall22/cuts/hcal_cuts_cafe.param";
 
 }
 
@@ -88,7 +88,7 @@ Double_t read_ref_times(TString spec="", TString det_reftime_name=""){
   
   return det_reftime;
 
-    }
+}
 
 
 void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_t set_refTimes=true, Bool_t debug=false)
@@ -114,12 +114,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   gROOT->SetBatch(kTRUE);
   
   //prevent overcrouded axes
-  TGaxis::SetMaxDigits(3);
+  TGaxis::SetMaxDigits(2);
 
 
   // call function that defines param file paths
   set_param_files();
 
+  
   
   //=========================
   //====OPEN ROOT FILE=======
@@ -203,21 +204,23 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //-----------------
     
     //HMS                           SHMS
-    hhod_tref_nbins = 80,          phod_tref_nbins = 80;
-    hhod_tref_xmin =-1000,          phod_tref_xmin = -2000;
-    hhod_tref_xmax = 5000,          phod_tref_xmax = 14000;
+    hhod_tref_nbins = 200,          phod_tref_nbins = 200;
+    hhod_tref_xmin = -10000,          phod_tref_xmin = -16000;
+    hhod_tref_xmax = 8000,          phod_tref_xmax = 14000;
     
-    hdc_tref_nbins = 80,           pdc_tref_nbins = 80;
-    hdc_tref_xmin = 500,            pdc_tref_xmin = -2000;
+    hdc_tref_nbins = 100,           pdc_tref_nbins = 100;
+    hdc_tref_xmin = -1000,            pdc_tref_xmin = -2000;
     hdc_tref_xmax = 20000,          pdc_tref_xmax = 25000;
     
-    hadc_tref_nbins = 80,          padc_tref_nbins = 80;
+    hadc_tref_nbins = 100,          padc_tref_nbins = 100;
     hadc_tref_xmin = -1000,         padc_tref_xmin = -2000;
     hadc_tref_xmax = 7000,          padc_tref_xmax = 14000;
 
   }
 
   else{
+
+    cout << "Init Histos Binning" << endl;
     //TRG (ptrig1,2,3,4), ONLY singles triggers (user may only be interested in triggers that form a coin. for example, pTRIG2, pTRIG3 (SHMS EL-REAL x HMS 3/4)
     ptrg1_roc1_nbins=200, ptrg1_roc1_xmin=0, ptrg1_roc1_xmax=8000;
     ptrg1_roc2_nbins=200, ptrg1_roc2_xmin=0, ptrg1_roc2_xmax=8000;
@@ -353,6 +356,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     //=======Detector Time Window Leafs=====
     //======================================
     
+    cout << "Set Branch Address" << endl;
     //TRIGGER DETECTOR (ONLY WHEN LOOKING AT COINCIDENCES)
     n_ptrg1_r1 = "T.coin.pTRIG1_ROC1_tdcTimeRaw";
     n_ptrg1_r2 = "T.coin.pTRIG1_ROC2_tdcTimeRaw";
@@ -598,12 +602,12 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   //===================================
 
   Long64_t nentries = T->GetEntries();
-  
+ 
   //Define A Boolean for multiplicity CUTS
   Bool_t good_Mult;
   
     
-  
+  cout << "Loop over entries" << endl;
   //Loop over all entries
   for(Long64_t i=0; i<nentries; i++)
     {
@@ -786,8 +790,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		    //-------------HMS Hodoscopoes--------------
 		    
 		    if (debug) H_hod_TdcTimeUnCorr[ip][iside][ipmt]->Fill(hhod_TdcTimeUnCorr[ip][iside][ipmt]/tdc_nsperch);
-		    
-		    if(abs(hhod_TdcAdcTimeDiff[ip][iside][ipmt])<1000.)
+		    // cut out overflow bins
+		    if(abs(hhod_TdcAdcTimeDiff[ip][iside][ipmt])<1000. && abs(hhod_TdcTimeUnCorr[ip][iside][ipmt]/tdc_nsperch)<10000. )
 		      {
 			good_Mult = hhod_AdcMult[ip][iside][ipmt] == 1;   //HMS HODO Multiplicity CUT
 			H_hod_TdcAdcTimeDiff[ip][iside][ipmt]->Fill(hhod_TdcAdcTimeDiff[ip][iside][ipmt]);
@@ -826,8 +830,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		    
 		    //UnCorrected TdcTime
 		    if (debug) P_hod_TdcTimeUnCorr[ip][iside][ipmt]->Fill(phod_TdcTimeUnCorr[ip][iside][ipmt]/tdc_nsperch);
-		    
-		    if(abs(phod_TdcAdcTimeDiff[ip][iside][ipmt])<1000.)
+		    // cut out overflow
+		    if(abs(phod_TdcAdcTimeDiff[ip][iside][ipmt])<1000. && abs(phod_TdcTimeUnCorr[ip][iside][ipmt]/tdc_nsperch)<10000. )
 		      {
 			good_Mult = phod_AdcMult[ip][iside][ipmt] == 1;   //SHMS HODO Multiplicity CUT
 			P_hod_TdcAdcTimeDiff[ip][iside][ipmt]->Fill(phod_TdcAdcTimeDiff[ip][iside][ipmt]);
@@ -887,6 +891,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   //D R A W   H I S T O G R A M S    T O    C A N V A S
   //======================================================
   
+  // flag to draw new suggested cut line 
+  Bool_t new_line_flg = false;
+
   if(set_refTimes) {
     
     //-------Reference Time Histograms----------
@@ -907,7 +914,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hms_REF_Canv->cd(1);
     gPad->SetLogy();
     auto href_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
+    
     H_hodo_Tref_CUT->SetLineColor(kRed);
+    H_hodo_Tref->GetXaxis()->SetTitle("Hodo Ref. Time [Channel]");
     H_hodo_Tref->Draw();
     H_hodo_Tref_CUT->Draw("sames");
     hT1_Line->SetLineColor(kBlue);
@@ -922,6 +931,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hms_REF_Canv->cd(2);
     gPad->SetLogy();
     H_DC_Tref_CUT[0]->SetLineColor(kRed);
+    H_DC_Tref[0]->GetXaxis()->SetTitle("DC Ref. Time [Channel]");
+    H_DC_Tref[0]->GetXaxis()->SetNdivisions(6);
     H_DC_Tref[0]->Draw();
     H_DC_Tref_CUT[0]->Draw("sames");
     H_DC_Tref[1]->Draw("sames");
@@ -935,6 +946,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     hms_REF_Canv->cd(3);
     gPad->SetLogy();
     H_FADC_Tref_CUT->SetLineColor(kRed);
+    H_FADC_Tref->GetXaxis()->SetTitle("FADC Ref. Time [Channel]");
     H_FADC_Tref->Draw();
     H_FADC_Tref_CUT->Draw("sames");
     hFADC_Line->SetLineColor(kBlue);
@@ -963,6 +975,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     auto pref_legend = new TLegend(0.1, 0.7, 0.6, 0.9);
     P_hodo_Tref1_CUT->SetLineColor(kRed);
     P_hodo_Tref2_CUT->SetLineColor(kRed); 
+    P_hodo_Tref1->GetXaxis()->SetTitle("Hodo Ref. Time [Channel]"); 
     P_hodo_Tref1->Draw();
     P_hodo_Tref2->Draw("sames");
     P_hodo_Tref1_CUT->Draw("sames");
@@ -977,6 +990,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     
     shms_REF_Canv->cd(2);
     gPad->SetLogy();
+    P_DC_Tref[0]->GetXaxis()->SetTitle("DC Ref. Time [Channel]"); 
+    P_DC_Tref[0]->GetXaxis()->SetNdivisions(6); 
     for(Int_t iref=0; iref<10; iref++)
       {
 	P_DC_Tref_CUT[iref]->SetLineColor(kRed);
@@ -992,6 +1007,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     shms_REF_Canv->cd(3);
     gPad->SetLogy();
     P_FADC_Tref_CUT->SetLineColor(kRed);
+    P_FADC_Tref->GetXaxis()->SetTitle("FADC Ref. Time [Channel]"); 
     P_FADC_Tref->Draw();
     P_FADC_Tref_CUT->Draw("sames"); 
     pFADC_Line->SetLineColor(kBlue);
@@ -1010,11 +1026,14 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
   else{
     
+    cout << "Setting Up Canvases" << endl;
     //-----Setting up Detector Time WIndows----
     
-    
+    double cw, ch;
+    cw = 6000;
+    ch = 4000;
     //TRG Detector
-    pTRG_Canv = new TCanvas("pTRIG_RawTimes", "pTRIG Raw TDC Times", 1500, 1500);
+    pTRG_Canv = new TCanvas("pTRIG_RawTimes", "pTRIG Raw TDC Times", 1500, 500);
     pTRG_Canv->Divide(2,3);
     
     
@@ -1123,6 +1142,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   pngCer_Canv->Divide(2,2);
   
   
+  
   //Loop over Chernkovs PMTs
   for (Int_t ipmt = 0; ipmt < 4; ipmt++ )
     {
@@ -1130,13 +1150,16 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       //HMS Cherenkov
       if(ipmt < 2)
 	{
+	  
+	  
 	  hCer_tWinMin[ipmt] = GetParam(hcer_param_fname.Data(), "hcer_adcTimeWindowMin", ipmt, 0, 2);
 	  hCer_tWinMax[ipmt] = GetParam(hcer_param_fname.Data(), "hcer_adcTimeWindowMax", ipmt, 0, 2);
-	   
+	  
+
 	  //Set Min/Max Line Limits
 	  hCER_LineMin[ipmt] = new TLine(hCer_tWinMin[ipmt], 0, hCer_tWinMin[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	  hCER_LineMax[ipmt] = new TLine(hCer_tWinMax[ipmt], 0, hCer_tWinMax[ipmt], H_cer_TdcAdcTimeDiff[ipmt]->GetMaximum());
-	  
+
 	  hCER_LineMin[ipmt]->SetLineColor(kBlue);
 	  hCER_LineMax[ipmt]->SetLineColor(kBlue);
 	  	  
@@ -1151,22 +1174,30 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  H_cer_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
 	  hCER_LineMin[ipmt]->Draw();
 	  hCER_LineMax[ipmt]->Draw();
-
+	 
+	  
 	  if(ipmt==0){
+	    
 	    auto hcer_legend = new TLegend(0.1, 0.8, 0.6, 0.9);
 	    hcer_legend->AddEntry(hCER_LineMin[ipmt], "existing cut", "l");	 
 	    hcer_legend->SetTextSize(0.05);
 	    hcer_legend->Draw();
+	  
 	  }
 	  
+       
 	}
      
+      
       //======================
       // HEAVY GAS CHERENKOV
       //======================
-
-      phgcer_tWinMin[ipmt] = GetParam(phgcer_param_fname.Data() , "phgcer_adcTimeWindowMin", ipmt, 0, 4);
+      
+      
+      phgcer_tWinMin[ipmt] = GetParam(phgcer_param_fname.Data(), "phgcer_adcTimeWindowMin", ipmt, 0, 4);
       phgcer_tWinMax[ipmt] = GetParam(phgcer_param_fname.Data(), "phgcer_adcTimeWindowMax", ipmt, 0, 4);
+      
+    
       //Set Min/Max Line Limits
       phgcer_LineMin[ipmt] = new TLine(phgcer_tWinMin[ipmt], 0, phgcer_tWinMin[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
       phgcer_LineMax[ipmt] = new TLine(phgcer_tWinMax[ipmt], 0, phgcer_tWinMax[ipmt], P_hgcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1194,13 +1225,15 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	phgcer_legend->SetTextSize(0.05);
 	phgcer_legend->Draw();
       }
-	  
+      
+      
+    
       //===========================
       //====NOBLE GAS CHERENKOV====
       //===========================
       
-      pngcer_tWinMin[ipmt] = GetParam("../../PARAM/SHMS/NGCER/pngcer_cuts.param", "pngcer_adcTimeWindowMin", ipmt, 0, 4);
-      pngcer_tWinMax[ipmt] = GetParam("../../PARAM/SHMS/NGCER/pngcer_cuts.param", "pngcer_adcTimeWindowMax", ipmt, 0, 4);
+      pngcer_tWinMin[ipmt] = GetParam(pngcer_param_fname.Data(), "pngcer_adcTimeWindowMin", ipmt, 0, 4);
+      pngcer_tWinMax[ipmt] = GetParam(pngcer_param_fname.Data(), "pngcer_adcTimeWindowMax", ipmt, 0, 4);
       
       //Set Min/Max Line Limits
       pngcer_LineMin[ipmt] = new TLine(pngcer_tWinMin[ipmt], 0, pngcer_tWinMin[ipmt], P_ngcer_TdcAdcTimeDiff[ipmt]->GetMaximum());
@@ -1230,9 +1263,11 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	pngcer_legend->Draw();
       }
 	    
+      
+   
+
     } //end loop over cer pmts
   
-
   //Save CHerenkovs to Canvas
   hCer_Canv->SaveAs(Form("Time_cuts_tWinSet%d/HMS/CER/hCER_timeWindow.pdf",run));
   phgCer_Canv->SaveAs(Form("Time_cuts_tWinSet%d/SHMS/CER/pHGCER_timeWindow.pdf",run));
@@ -1258,13 +1293,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       // read dc time window parameters
       if(npl<=5){
-	hDC_tWinMin[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_min_win", npl, 0, 5);
-	hDC_tWinMax[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_max_win", npl, 0, 5);
+	hDC_tWinMin[npl] = GetParam(hdc_param_fname.Data(), "hdc_tdc_min_win", npl, 0, 5);
+	hDC_tWinMax[npl] = GetParam(hdc_param_fname.Data(), "hdc_tdc_max_win", npl, 0, 5);
 
       }
       else{
-	hDC_tWinMin[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_min_win", npl-6, 1, 5);
-	hDC_tWinMax[npl] = GetParam("../../PARAM/HMS/DC/hdc_cuts.param", "hdc_tdc_max_win", npl-6, 1, 5);
+	hDC_tWinMin[npl] = GetParam(hdc_param_fname.Data(), "hdc_tdc_min_win", npl-6, 1, 5);
+	hDC_tWinMax[npl] = GetParam(hdc_param_fname.Data(), "hdc_tdc_max_win", npl-6, 1, 5);
       }
       
       hdc_LineMin[npl] = new TLine(hDC_tWinMin[npl], 0, hDC_tWinMin[npl], H_dc_rawTDC[npl]->GetMaximum());
@@ -1277,11 +1312,23 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       hdc_LineMax[npl]->SetLineStyle(2);
 
       hdcCanv->cd(npl+1);
+      hdcCanv->SetWindowSize(3000, 1000);    
+      
       gPad->SetLogy();
       H_dc_rawTDC_CUT[npl]->SetLineColor(kRed);
       H_dc_rawTDC[npl]->SetNdivisions(5);
+      
+      H_dc_rawTDC[npl]->GetXaxis()->SetLabelSize(0.05);                                                                                                                          
+      H_dc_rawTDC[npl]->GetXaxis()->SetTickSize(0.05);                                                                                                                           
+      H_dc_rawTDC[npl]->GetXaxis()->SetTitle("Raw TDC Time [Channel]");                                                                                                          
+      H_dc_rawTDC[npl]->GetXaxis()->SetTitleSize(0.05);                                                                                                                          
+      H_dc_rawTDC[npl]->GetXaxis()->CenterTitle();                                                                                                                               
+      H_dc_rawTDC[npl]->GetYaxis()->SetLabelSize(0.05);                                                                                                                          
+      H_dc_rawTDC[npl]->GetYaxis()->SetTitleSize(0.05);                                                                                                                          
+      H_dc_rawTDC[npl]->GetYaxis()->SetTickSize(0.05);  
+
       H_dc_rawTDC[npl]->Draw();
-      H_dc_rawTDC_CUT[npl]->SetNdivisions(5); 
+      //H_dc_rawTDC_CUT[npl]->SetNdivisions(5); 
       H_dc_rawTDC_CUT[npl]->Draw("sames");
       hdc_LineMin[npl]->Draw();
       hdc_LineMax[npl]->Draw();
@@ -1297,13 +1344,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
       // read dc time window parameters
       if(npl<=5){
-	pDC_tWinMin[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_min_win", npl, 0, 5);
-	pDC_tWinMax[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_max_win", npl, 0, 5);
+	pDC_tWinMin[npl] = GetParam(pdc_param_fname.Data(), "pdc_tdc_min_win", npl, 0, 5);
+	pDC_tWinMax[npl] = GetParam(pdc_param_fname.Data(), "pdc_tdc_max_win", npl, 0, 5);
 
       }
       else{
-	pDC_tWinMin[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_min_win", npl-6, 1, 5);
-	pDC_tWinMax[npl] = GetParam("../../PARAM/SHMS/DC/pdc_cuts.param", "pdc_tdc_max_win", npl-6, 1, 5);
+	pDC_tWinMin[npl] = GetParam(pdc_param_fname.Data(), "pdc_tdc_min_win", npl-6, 1, 5);
+	pDC_tWinMax[npl] = GetParam(pdc_param_fname.Data(), "pdc_tdc_max_win", npl-6, 1, 5);
       }
       
       pdc_LineMin[npl] = new TLine(pDC_tWinMin[npl], 0, pDC_tWinMin[npl], P_dc_rawTDC[npl]->GetMaximum());
@@ -1316,11 +1363,22 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
       pdc_LineMax[npl]->SetLineStyle(2);
       
       pdcCanv->cd(npl+1);
+      pdcCanv->SetWindowSize(3000, 1000); 
+      
       gPad->SetLogy();
       P_dc_rawTDC_CUT[npl]->SetLineColor(kRed);
       P_dc_rawTDC[npl]->GetXaxis()->SetNdivisions(5);
+      P_dc_rawTDC[npl]->GetXaxis()->SetLabelSize(0.05);                                                                                                                                             
+      P_dc_rawTDC[npl]->GetXaxis()->SetTickSize(0.05);                                                                                                                                                 
+      P_dc_rawTDC[npl]->GetXaxis()->SetTitle("Raw TDC Time [Channel]");                                                                                                                                
+      P_dc_rawTDC[npl]->GetXaxis()->SetTitleSize(0.05);                                                                                                                                                
+      P_dc_rawTDC[npl]->GetXaxis()->CenterTitle();                                                                                                                                                      
+      P_dc_rawTDC[npl]->GetYaxis()->SetLabelSize(0.05);                                                                                                                                                
+      P_dc_rawTDC[npl]->GetYaxis()->SetTitleSize(0.05);                                                                                                                                               
+      P_dc_rawTDC[npl]->GetYaxis()->SetTickSize(0.05); 
+      
       P_dc_rawTDC[npl]->Draw();
-      P_dc_rawTDC_CUT[npl]->GetXaxis()->SetNdivisions(5); 
+      //P_dc_rawTDC_CUT[npl]->GetXaxis()->SetNdivisions(25); 
       P_dc_rawTDC_CUT[npl]->Draw("sames");
       pdc_LineMin[npl]->Draw();
       pdc_LineMax[npl]->Draw();
@@ -1352,18 +1410,18 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	{  
 	  
 	  //Define HMS Hodo Canv
-	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
-	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
+	  hhodoCanv[npl][iside] = new TCanvas(Form("hhodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  cw, ch);
+	  if (debug) hhodo_tdcCanv[npl][iside] = new TCanvas(Form("hhodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("HMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), cw, ch);
 
 	  
 	  //Define SHMS Hodo Canv
-	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 1200);
-	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  2500, 500);
+	  phodoCanv[npl][iside] = new TCanvas(Form("phodo_TDC:ADC Time Diff. Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC-ADC Time Diff, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  cw, ch);
+	  if (debug) phodo_tdcCanv[npl][iside] = new TCanvas(Form("phodo_TDC UnCorr Time Hod Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()), Form("SHMS Hodo TDC Time UnCorr, Plane %s%s", hod_pl_names[npl].Data(), side_names[iside].Data()),  cw, ch);
 
 	  
 	  //Define HMS Calorimeter Canvas for all planes
 	  if (!(npl==2&&iside==1) && !(npl==3&&iside==1)){
-	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  2000, 500);
+	    hcaloCanv[npl][iside] = new TCanvas(Form("hcalo_TDC:ADC Time Diff. Cal Plane %s%s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()), Form("Calo TDC:ADC Time Diff, Plane %s %s", cal_pl_names[npl].Data(), cal_side_names[iside].Data()),  cw, ch);
 	    hcaloCanv[npl][iside]->Divide(5,3);	     
 	  }
 	  
@@ -1371,8 +1429,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	  //Define SHMS PreShower and Calorimeter Canvas
 	  if(npl==0)
 	    {
-	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  2000, 500);
-	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  2000, 500);
+	      pPrshCanv[iside] =  new TCanvas(Form("pPrSh_TDC:ADC Time Diff %s", cal_side_names[iside].Data()), Form("SHMS PreShower TDC:ADC Time Diff %s",  cal_side_names[iside].Data()),  cw, ch);
+	      if(debug) pPrshAdcCanv[iside] =  new TCanvas(Form("pPrSh_ADC Time %s", cal_side_names[iside].Data()), Form("SHMS PreShower ADC Time %s",  cal_side_names[iside].Data()),  cw, ch);
 
 	    }
 	  
@@ -1425,8 +1483,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // -------- Read the existing min/max parameters HMS Hodo TdcAdcDiffTime (read from existinf hhodo_cuts.param file)	      
 
-	      hhodo_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMin", npl, ipmt, 16);
-	      hhodo_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMax", npl, ipmt, 16);
+	      hhodo_tWinMin_old[npl][iside][ipmt] = GetParam(hhodo_param_fname.Data(), "hhodo_PosAdcTimeWindowMin", npl, ipmt, 16);
+	      hhodo_tWinMax_old[npl][iside][ipmt] = GetParam(hhodo_param_fname.Data(), "hhodo_PosAdcTimeWindowMax", npl, ipmt, 16);
 	      
 	      hhod_LineMin_old[npl][iside][ipmt] = new TLine(hhodo_tWinMin_old[npl][iside][ipmt], 0, hhodo_tWinMin_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hhod_LineMax_old[npl][iside][ipmt] = new TLine(hhodo_tWinMax_old[npl][iside][ipmt], 0, hhodo_tWinMax_old[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
@@ -1449,7 +1507,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hhodo_tWinMin[npl][iside][ipmt] = mean - hhod_nSig;
 	      hhodo_tWinMax[npl][iside][ipmt] = mean + hhod_nSig;
 	            
+	      
 	      //Set Min/Max Line Limits
+	      if( new_line_flg ) {
 	      hhod_LineMin[npl][iside][ipmt] = new TLine(hhodo_tWinMin[npl][iside][ipmt], 0, hhodo_tWinMin[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hhod_LineMax[npl][iside][ipmt] = new TLine(hhodo_tWinMax[npl][iside][ipmt], 0, hhodo_tWinMax[npl][iside][ipmt], H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
@@ -1458,19 +1518,34 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      hhod_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      hhod_LineMax[npl][iside][ipmt]->SetLineStyle(2);
-	      
+	      }
+	      cout << "pass1" << endl;
 	      hhodoCanv[npl][iside]->cd(ipmt+1);
+	      hhodoCanv[npl][iside]->SetWindowSize(4500, 3500);
+	      
 	      gPad->SetLogy();
-
-
     
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
+	      // set label/title font size
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetNdivisions(10);
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetLabelSize(0.05);
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTickSize(0.05);
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitle("Good Tdc-Adc Time [ns]");
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitleSize(0.05); 
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->CenterTitle();
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetLabelSize(0.05);
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTitleSize(0.05);
+	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTickSize(0.05);  
+	    
+
+
 	      H_hod_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      H_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
 	      
-	      hhod_LineMin[npl][iside][ipmt]->Draw();
-	      hhod_LineMax[npl][iside][ipmt]->Draw();
-
+	      if(new_line_flg){ 
+		hhod_LineMin[npl][iside][ipmt]->Draw();
+		hhod_LineMax[npl][iside][ipmt]->Draw();
+	      }
 	      // draw existing min/max cuts
 	      hhod_LineMin_old[npl][iside][ipmt]->Draw();
 	      hhod_LineMax_old[npl][iside][ipmt]->Draw();
@@ -1479,14 +1554,32 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto hhodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		hhodo_legend->AddEntry(hhod_LineMin_old[npl][iside][ipmt], "existing cut", "l");
-		hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new cut", "l");
+		if(new_line_flg) hhodo_legend->AddEntry(hhod_LineMin[npl][iside][ipmt], "new cut", "l");
 		hhodo_legend->Draw();
 	      }
 	      
-	      if(debug) hhodo_tdcCanv[npl][iside]->cd(ipmt+1);
+	      if(debug) {
+		
+		hhodo_tdcCanv[npl][iside]->cd(ipmt+1);
+		hhodo_tdcCanv[npl][iside]->SetWindowSize(4500,3500);
+	      }
 	      gPad->SetLogy();
-	      if(debug) H_hod_TdcTimeUnCorr[npl][iside][ipmt]->Draw();
-
+	      if(debug) {
+		
+		// set label/title font size
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetNdivisions(10);                                                                                                  
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetLabelSize(0.05);                                                                                                   
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTickSize(0.05);                                                                                                             
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTitle("Good Tdc Time UnCorr [Channel]");                                                                                   
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTitleSize(0.05);                                                                               
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetNdivisions(10);                                                                                                             
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->CenterTitle();                                                                                                            
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetLabelSize(0.05);                                                                                                  
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetTitleSize(0.05);                                                                 
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetTickSize(0.05);  
+		
+		H_hod_TdcTimeUnCorr[npl][iside][ipmt]->Draw();
+	      }
 	      
 
 	    } //end hms hodo pmt loop
@@ -1498,8 +1591,8 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
 	      // -------- Read the existing min/max parameters HMS Hodo TdcAdcDiffTime (read from existinf hhodo_cuts.param file)	      
 
-	      phodo_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/SHMS/HODO/phodo_cuts.param", "phodo_PosAdcTimeWindowMin", npl, ipmt, 21);
-	      phodo_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/SHMS/HODO/phodo_cuts.param", "phodo_PosAdcTimeWindowMax", npl, ipmt, 21);
+	      phodo_tWinMin_old[npl][iside][ipmt] = GetParam(phodo_param_fname.Data(), "phodo_PosAdcTimeWindowMin", npl, ipmt, 21);
+	      phodo_tWinMax_old[npl][iside][ipmt] = GetParam(phodo_param_fname.Data(), "phodo_PosAdcTimeWindowMax", npl, ipmt, 21);
 	      
 	      phod_LineMin_old[npl][iside][ipmt] = new TLine(phodo_tWinMin_old[npl][iside][ipmt], 0, phodo_tWinMin_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      phod_LineMax_old[npl][iside][ipmt] = new TLine(phodo_tWinMax_old[npl][iside][ipmt], 0, phodo_tWinMax_old[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
@@ -1523,6 +1616,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	            
 	      //Set Min/Max Line Limits
+	      if(new_line_flg){ 
 	      phod_LineMin[npl][iside][ipmt] = new TLine(phodo_tWinMin[npl][iside][ipmt], 0, phodo_tWinMin[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      phod_LineMax[npl][iside][ipmt] = new TLine(phodo_tWinMax[npl][iside][ipmt], 0, phodo_tWinMax[npl][iside][ipmt], P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
@@ -1531,17 +1625,34 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      phod_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      phod_LineMax[npl][iside][ipmt]->SetLineStyle(2);
-
+	      }
+	      cout << "pass2" << endl;  
 	      phodoCanv[npl][iside]->cd(ipmt+1);
+	      phodoCanv[npl][iside]->SetWindowSize(3000, 1000);
 	      gPad->SetLogy();
 
 	      
 	      P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
+
+	      // set label/title font size
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetNdivisions(10);  
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetLabelSize(0.05); 
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTickSize(0.05); 
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitle("Good Tdc-Adc Time [ns]");  
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitleSize(0.05);
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetNdivisions(10); 
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->CenterTitle();
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetLabelSize(0.05);
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTitleSize(0.05);
+	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTickSize(0.05); 
+
+
 	      P_hod_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      P_hod_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
+	      if(new_line_flg){ 
 	      phod_LineMin[npl][iside][ipmt]->Draw();
 	      phod_LineMax[npl][iside][ipmt]->Draw();
-
+	      }
 	      // draw existing min/max cuts
 	      phod_LineMin_old[npl][iside][ipmt]->Draw();
 	      phod_LineMax_old[npl][iside][ipmt]->Draw();
@@ -1550,17 +1661,36 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto phodo_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		phodo_legend->AddEntry(phod_LineMin_old[npl][iside][ipmt], "existing cut", "l");
-		phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new cut", "l");	       
+		if(new_line_flg) phodo_legend->AddEntry(phod_LineMin[npl][iside][ipmt],     "new cut", "l");	       
 		phodo_legend->SetTextSize(0.08);
 		phodo_legend->Draw();
 	      }
 	      
-	      if(debug) phodo_tdcCanv[npl][iside]->cd(ipmt+1);
+	      if(debug) {
+		
+		phodo_tdcCanv[npl][iside]->cd(ipmt+1);
+		phodo_tdcCanv[npl][iside]->SetWindowSize(3000, 1000); 
+	      }
 	      gPad->SetLogy();
-	      if(debug) P_hod_TdcTimeUnCorr[npl][iside][ipmt]->Draw();
+	      if(debug) {
+		
+		// set label/title font size                                                                                   
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetNdivisions(10);                                                                                                       
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetLabelSize(0.05);                                                                                                                
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTickSize(0.05);                                                                                                           
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTitle("Good Tdc Time [Channel]");                                                                                                
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->SetTitleSize(0.05);                                                                                                          
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetNdivisions(10);                                                                                                           
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetXaxis()->CenterTitle();                                                                                                                  
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetLabelSize(0.05);                                                                                                           
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetTitleSize(0.05);                                                                                                              
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->GetYaxis()->SetTickSize(0.05); 
 
+		P_hod_TdcTimeUnCorr[npl][iside][ipmt]->Draw();
+	      
+	      }
 
-	      } //end shms hodo pmt loop
+	    } //end shms hodo pmt loop
 	  
 	  
 	  //Loop over HMS Calorimeter pmts
@@ -1570,12 +1700,12 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      // -------- Read the existing min/max parameters HMS Cal TdcAdcDiffTime (read from existinf hcal_cuts.param file)
 	      
 	      if(iside==0){
-		hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMin", ipmt, npl, 4);
-		hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_pos_AdcTimeWindowMax", ipmt, npl, 4);
+		hCal_tWinMin_old[npl][iside][ipmt] = GetParam(hcal_param_fname.Data(), "hcal_pos_AdcTimeWindowMin", ipmt, npl, 4);
+		hCal_tWinMax_old[npl][iside][ipmt] = GetParam(hcal_param_fname.Data(), "hcal_pos_AdcTimeWindowMax", ipmt, npl, 4);
 	      }
 	      else if(iside==1){
-		hCal_tWinMin_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_neg_AdcTimeWindowMin", ipmt, npl, 4);
-		hCal_tWinMax_old[npl][iside][ipmt] = GetParam("../../PARAM/HMS/CAL/hcal_cuts.param", "hcal_neg_AdcTimeWindowMax", ipmt, npl, 4);
+		hCal_tWinMin_old[npl][iside][ipmt] = GetParam(hcal_param_fname.Data(), "hcal_neg_AdcTimeWindowMin", ipmt, npl, 4);
+		hCal_tWinMax_old[npl][iside][ipmt] = GetParam(hcal_param_fname.Data(), "hcal_neg_AdcTimeWindowMax", ipmt, npl, 4);
 	      }
 	      //Set Min/Max Line Limits
 	      hcal_LineMin_old[npl][iside][ipmt] = new TLine(hCal_tWinMin_old[npl][iside][ipmt], 0, hCal_tWinMin_old[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
@@ -1600,6 +1730,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      hCal_tWinMax[npl][iside][ipmt] = mean + hcal_nSig;                                                                                                          
 		
 	      //Set Min/Max Line Limits
+	      if( new_line_flg ){
 	      hcal_LineMin[npl][iside][ipmt] = new TLine(hCal_tWinMin[npl][iside][ipmt], 0, hCal_tWinMin[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 	      hcal_LineMax[npl][iside][ipmt] = new TLine(hCal_tWinMax[npl][iside][ipmt], 0, hCal_tWinMax[npl][iside][ipmt], H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetMaximum());
 
@@ -1608,16 +1739,31 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 	      hcal_LineMin[npl][iside][ipmt]->SetLineStyle(2);
 	      hcal_LineMax[npl][iside][ipmt]->SetLineStyle(2);
+	      }
+	      cout << "pass3" << endl;  
+	      // set label/title font size 
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetNdivisions(10);
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetLabelSize(0.05);
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTickSize(0.05); 
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitle("Good Tdc-Adc Time [ns]");  
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->SetTitleSize(0.04);
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetXaxis()->CenterTitle();   
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetLabelSize(0.05);
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTitleSize(0.04);
+	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->GetYaxis()->SetTickSize(0.05);     
 
 	      if (!(npl==2&&iside==1) && !(npl==3&&iside==1)){
 	      hcaloCanv[npl][iside]->cd(ipmt+1);
+	      hcaloCanv[npl][iside]->SetWindowSize(4500, 3500);
+
 	      gPad->SetLogy();
 	      H_cal_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->SetLineColor(kRed);
 	      H_cal_TdcAdcTimeDiff[npl][iside][ipmt]->Draw();
 	      H_cal_TdcAdcTimeDiff_CUT[npl][iside][ipmt]->Draw("sames");
+	      if( new_line_flg ){ 
 	      hcal_LineMin[npl][iside][ipmt]->Draw();
 	      hcal_LineMax[npl][iside][ipmt]->Draw();
-
+	      }
 	      // draw existing time win. cuts
 	      hcal_LineMin_old[npl][iside][ipmt]->Draw();
 	      hcal_LineMax_old[npl][iside][ipmt]->Draw();
@@ -1626,7 +1772,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      if((iside==0 || iside==1) && ipmt==0){
 		auto hcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 		hcal_legend->AddEntry(hcal_LineMin_old[npl][iside][ipmt], "existing cut", "l");
-		hcal_legend->AddEntry(hcal_LineMin[npl][iside][ipmt], "new cut", "l");
+		if(new_line_flg) hcal_legend->AddEntry(hcal_LineMin[npl][iside][ipmt], "new cut", "l");
 		hcal_legend->Draw();
 	      }
 	      
@@ -1643,13 +1789,13 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      
 
 	      if(iside==0){
-		pPrsh_tWinMin[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_pos_AdcTimeWindowMin", ipmt, npl, 14);
-		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_pos_AdcTimeWindowMax", ipmt, npl, 14);
+		pPrsh_tWinMin[iside][ipmt] = GetParam(pcal_param_fname.Data(), "pcal_pos_AdcTimeWindowMin", ipmt, npl, 14);
+		pPrsh_tWinMax[iside][ipmt] = GetParam(pcal_param_fname.Data(), "pcal_pos_AdcTimeWindowMax", ipmt, npl, 14);
 	      }
 	      
 	      else if(iside==1){	      
-		pPrsh_tWinMin[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
-		pPrsh_tWinMax[iside][ipmt] = GetParam("../../PARAM/SHMS/CAL/pcal_cuts.param", "pcal_neg_AdcTimeWindowMax", ipmt, npl, 14);
+		pPrsh_tWinMin[iside][ipmt] = GetParam(pcal_param_fname.Data(), "pcal_neg_AdcTimeWindowMin", ipmt, npl, 14);
+		pPrsh_tWinMax[iside][ipmt] = GetParam(pcal_param_fname.Data(), "pcal_neg_AdcTimeWindowMax", ipmt, npl, 14);
 	      }
 
 	      
@@ -1664,8 +1810,21 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	      pPrsh_LineMax[iside][ipmt]->SetLineStyle(2);
 	      
 	      pPrshCanv[iside]->cd(ipmt+1);
-	      
+	      pPrshCanv[iside]->SetWindowSize(4500, 1500);    
+
 	      gPad->SetLogy();
+	      
+	      // set label/title font size
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->SetNdivisions(10); 
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->SetLabelSize(0.05); 
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->SetTickSize(0.05); 
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->SetTitle("Good Tdc-Adc Time [ns]");
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->SetTitleSize(0.05);
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetXaxis()->CenterTitle(); 
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetYaxis()->SetLabelSize(0.05); 
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetYaxis()->SetTitleSize(0.05);
+	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->GetYaxis()->SetTickSize(0.05); 
+
 	      P_prSh_TdcAdcTimeDiff_CUT[iside][ipmt]->SetLineColor(kRed);
 	      P_prSh_TdcAdcTimeDiff[iside][ipmt]->Draw();
 	      P_prSh_TdcAdcTimeDiff_CUT[iside][ipmt]->Draw("sames");
@@ -1681,14 +1840,35 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 		prsh_legend->Draw();
 	      }
 	      
-	      if(debug) pPrshAdcCanv[iside]->cd(ipmt+1);
+	      if(debug) {pPrshAdcCanv[iside]->cd(ipmt+1);
+	      pPrshAdcCanv[iside]->SetWindowSize(4500, 1500);  
+	      }
 	      gPad->SetLogy();
-	      if(debug) P_prSh_AdcTime[iside][ipmt]->Draw();
-
-
-
+	      if(debug) {
+		// set label/title font size                                                                                                                                                   
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->SetNdivisions(10);                                                                                                 
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->SetLabelSize(0.05);                                                                                
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->SetTickSize(0.05);                                                                      
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->SetTitle("Good Adc Time [ns]");                                                                                              	
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->SetTitleSize(0.05);                                                                
+		P_prSh_AdcTime[iside][ipmt]->GetXaxis()->CenterTitle();                                                                                                                    
+		P_prSh_AdcTime[iside][ipmt]->GetYaxis()->SetLabelSize(0.05);                                                                                                        
+		P_prSh_AdcTime[iside][ipmt]->GetYaxis()->SetTitleSize(0.05);                                                                                                         
+		P_prSh_AdcTime[iside][ipmt]->GetYaxis()->SetTickSize(0.05); 
+		
+		P_prSh_AdcTime[iside][ipmt]->Draw();
+	      }
 	    } //end pmt loop
-	  /*	  
+	  
+
+
+ 
+
+
+
+
+	  
+	    /*-----------------------------------------------------------	  
 	  if(iside==0)
 	    {
 
@@ -1777,7 +1957,17 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	     
 
 	    } //ennd single side requirement
-	  */
+	    */ //---------------------------------------------------------/
+	  
+
+
+     
+
+
+
+
+
+
 	  
 	  
 	  hhodoCanv[npl][iside]->SaveAs(Form("Time_cuts_tWinSet%d/HMS/HODO/hHodo_%s%s.pdf",run, hod_pl_names[npl].Data(), side_names[iside].Data()));
@@ -1802,7 +1992,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 
     } //end plane loop
 
-  //------------------------x
+  //------------------------
   
   
   int row_cnt = 0; //redundant counter 
@@ -1814,10 +2004,10 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
  for(int row=0; row < 16; row++)
    {
    
-     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  2000, 500);
+     pcalCanv[row] =  new TCanvas(Form("pCal_row_%d", row+1), Form("SHMS Calo TDC:ADC Time Diff, Row %d", row+1),  cw, ch);
      pcalCanv[row]->Divide(7,2);
 
-     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  2000, 500);
+     pcalAdcCanv[row] =  new TCanvas(Form("pCalAdc_row_%d", row+1), Form("SHMS Calo ADC Time, Row %d", row+1),  cw, ch);
      pcalAdcCanv[row]->Divide(7,2);
 
      for(int col=0; col<14; col++)
@@ -1863,6 +2053,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 pCal_tWinMax[ipmt] = mean + pcal_nSig;                                                                                                          
 	 
 	 //Set Min/Max Line Limits
+	 if(new_line_flg){ 
 	 pcal_LineMin[ipmt] = new TLine(pCal_tWinMin[ipmt], 0, pCal_tWinMin[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	 pcal_LineMax[ipmt] = new TLine(pCal_tWinMax[ipmt], 0, pCal_tWinMax[ipmt], P_cal_TdcAdcTimeDiff[ipmt]->GetMaximum());
 	 
@@ -1871,16 +2062,33 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 
 	 pcal_LineMin[ipmt]->SetLineStyle(2);
 	 pcal_LineMax[ipmt]->SetLineStyle(2);
-	 
+	 }
 	 
 	 //cd to row pads / column
 	 pcalCanv[row]->cd(col+1);
+	 
+	 pcalCanv[row]->SetWindowSize(4500, 1500);
 	 gPad->SetLogy();
+
 	 P_cal_TdcAdcTimeDiff_CUT[ipmt]->SetLineColor(kRed);
+	 // set label/title font size                                                                                                                                                                     
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->SetNdivisions(10);                                                                                                                           
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->SetLabelSize(0.05);                                                                                                                          
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->SetTickSize(0.05);                                                                                                                           
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->SetTitle("Good Tdc-Adc Time [ns]");                                                                                                          
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->SetTitleSize(0.05);                                                                                                                          
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetXaxis()->CenterTitle();                                                                                                                               
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetYaxis()->SetLabelSize(0.05);                                                                                                                          
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetYaxis()->SetTitleSize(0.05);                                                                                                                          
+	 P_cal_TdcAdcTimeDiff[ipmt]->GetYaxis()->SetTickSize(0.05); 
+
 	 P_cal_TdcAdcTimeDiff[ipmt]->Draw();
 	 P_cal_TdcAdcTimeDiff_CUT[ipmt]->Draw("sames");
+	 
+	 if( new_line_flg ){
 	 pcal_LineMin[ipmt]->Draw();
 	 pcal_LineMax[ipmt]->Draw();
+	 }
 	 pcal_LineMin_old[ipmt]->Draw();  
 	 pcal_LineMax_old[ipmt]->Draw(); 
 
@@ -1889,15 +2097,29 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
 	 if(ipmt==ipmt_min){
 	   auto pcal_legend = new TLegend(0.1, 0.7, 0.8, 0.9);
 	   pcal_legend->AddEntry(pcal_LineMin_old[ipmt], "existing cut", "l");
-	   pcal_legend->AddEntry(pcal_LineMin[ipmt], "new cut", "l");
+	   if(new_line_flg) pcal_legend->AddEntry(pcal_LineMin[ipmt], "new cut", "l");
 	   pcal_legend->SetTextSize(0.08);
 	   pcal_legend->Draw();
 	 }
 	   
 	 pcalAdcCanv[row]->cd(col+1);
+	 pcalAdcCanv[row]->SetWindowSize(4500, 1500);     
 	 gPad->SetLogy();
-	 if(debug) P_cal_AdcTime[ipmt]->Draw();
+	 
+	 if(debug){ 
+	   // set label/title font size    
+	   P_cal_AdcTime[ipmt]->GetXaxis()->SetNdivisions(10);                                                                                                                           
+	   P_cal_AdcTime[ipmt]->GetXaxis()->SetLabelSize(0.05);                                                                                                                          
+	   P_cal_AdcTime[ipmt]->GetXaxis()->SetTickSize(0.05);                                                                                                                           
+	   P_cal_AdcTime[ipmt]->GetXaxis()->SetTitle("Good Adc Pulse Time [ns]");                                                                                                          
+	   P_cal_AdcTime[ipmt]->GetXaxis()->SetTitleSize(0.05);                                                                                                                          
+	   P_cal_AdcTime[ipmt]->GetXaxis()->CenterTitle();                                                                                                                               
+	   P_cal_AdcTime[ipmt]->GetYaxis()->SetLabelSize(0.05);                                                                                                                          
+	   P_cal_AdcTime[ipmt]->GetYaxis()->SetTitleSize(0.05);                                                                                                                          
+	   P_cal_AdcTime[ipmt]->GetYaxis()->SetTickSize(0.05);
 
+	   P_cal_AdcTime[ipmt]->Draw();
+	 }
 
 	 //increment pmt counter
 	 ipmt++;
@@ -1915,18 +2137,12 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
  //Write Histograms to ROOT file
  outROOT->Write();
  outROOT->Close();
- 
+     
   }// end else (i.e.,  set_refTimes==false)
+   
  
 
-
- 
- //Write Histograms to ROOT file
- //outROOT->Write();
- //outROOT->Close();
-  
- 
- //ONLY if set_refTimes is FALSE, will the code assume doing det. time window cuts, and will write the time window cut param file
+  //ONLY if set_refTimes is FALSE, will the code assume doing det. time window cuts, and will write the time window cut param file
 
  if(set_refTimes==false) {
    
@@ -2364,6 +2580,6 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
     } // end loop over sides
 
  }
-
+ 
       
 } //end program

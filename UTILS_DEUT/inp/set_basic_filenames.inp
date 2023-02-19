@@ -13,11 +13,11 @@ input_REPORTPattern          = REPORT_OUTPUT/%s/deut_%s_%d_%d.report
 # Set Ouput Data File Pattern
 #------------------------------
 output_skimSinglesROOTfilePattern = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_skimmed_singles.root
-output_skimROOTfilePattern    = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_skimmed.root
-output_ROOTfilePattern        = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_histos.root
-output_ROOTfilePattern_comb   = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_combined.root
-output_SummaryPattern         = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_summary.csv
-output_REPORTPattern          = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_%d_%d.txt
+output_skimROOTfilePattern        = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_skimmed.root
+output_ROOTfilePattern            = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_%d_%d_histos.root
+output_ROOTfilePattern_comb       = DEUT_OUTPUT/ROOT/deut_%s_%s_%s_combined.root
+output_SummaryPattern             = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_summary.csv
+output_REPORTPattern              = DEUT_OUTPUT/REPORT/deut_%s_%s_%s_report_%d_%d.txt
 
 #----------------------------------
 # Set Input SIMC File Name Path
