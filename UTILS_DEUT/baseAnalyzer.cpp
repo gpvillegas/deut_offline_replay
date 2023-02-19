@@ -2041,7 +2041,7 @@ void baseAnalyzer::ReadReport()
     else{
 
       Int_t exit_macro=-1;
-      cout << "-------------------------------------------------------------------------------------------"
+      cout << "-------------------------------------------------------------------------------------------" << endl;
       cout << "SHMS Delta Scan Kinematics Mis-atch : |sHMS Angle - theta_e| > 0.5 deg  mis-match " << endl;
       cout << "between this script and standard.kinematics . . ." << endl;
       cout << "Check SHMS Angle is set CORRECTLY in standard.kinematics file !" << endl;

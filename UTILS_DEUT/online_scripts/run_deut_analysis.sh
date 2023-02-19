@@ -71,6 +71,7 @@ fi
 #fi
 
 
+# only necessary for passing this to fill runlist
 if [ "${ana_cut}" == "heep_singles" ] || [ "${ana_cut}" == "heep_coin" ]; then
     tgt_type="LH2"
 elif [ "${ana_cut}" == "deep" ]; then
