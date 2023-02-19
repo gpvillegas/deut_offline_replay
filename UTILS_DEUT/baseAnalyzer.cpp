@@ -1683,39 +1683,119 @@ void baseAnalyzer::ReadInputFile()
     c_ztarDiff_min = stod(split(FindString("c_ztarDiff_min", input_CutFileName.Data())[0], '=')[1]);
     c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
 
-
     
-    
-    // =============
-    //  SIMC input
-    // =============
-
-    // generif SIMC filenames for deuteron exp
-    //d2_heep_scan_rad_-8.root   d2_pm120_jmlfsi_rad.root     
-    
-    temp = trim(split(FindString("input_file_simc", input_FileNamePattern.Data())[0], '=')[1]);
-    simc_ifile = temp.Data();
-
-    
-    temp = trim(split(FindString("input_ROOTfilePattern_simc_rad", input_FileNamePattern.Data())[0], '=')[1]);
-    simc_InputFileName_rad = temp.Data();
-    
-    temp = trim(split(FindString("input_ROOTfilePattern_simc_norad", input_FileNamePattern.Data())[0], '=')[1]);
-    simc_InputFileName_norad = temp.Data();
-
-  }
-
-  if(analysis_type=="data"){
-
     // ====== READ REPORT ========= 
     // NOTE* : necessary to read in order to define tgt_type,
     // to be used in the output file name
-  
+    
     ReadReport();
     
     //=============================
     
+    
+    
+    // ======================
+    //  SIMC input / output
+    // ======================
+
+    // generif SIMC filenames for deuteron exp
+    //d2_heep_scan_rad_-8.root   d2_pm120_jmlfsi_rad.root     
+
+    
+    //temp = trim(split(FindString("input_file_simc", input_FileNamePattern.Data())[0], '=')[1]);
+    //simc_ifile = temp.Data();
+
+       
+    
+    //temp = trim(split(FindString("input_ROOTfilePattern_simc_rad", input_FileNamePattern.Data())[0], '=')[1]);
+    //simc_InputFileName_rad = temp.Data();
+    
+    //temp = trim(split(FindString("input_ROOTfilePattern_simc_norad", input_FileNamePattern.Data())[0], '=')[1]);
+    //simc_InputFileName_norad = temp.Data();
+
+    //----------------------------------------
+    // Define  SIMC analyzed output filename
+    //----------------------------------------
+    //temp = trim(split(FindString("output_ROOTfilePattern_simc_rad", input_FileNamePattern.Data())[0], '=')[1]);
+    //simc_OutputFileName_rad = temp.Data();
+    
+    //temp = trim(split(FindString("output_ROOTfilePattern_simc_norad", input_FileNamePattern.Data())[0], '=')[1]);
+    //simc_OutputFileName_norad = temp.Data();
+
+    
+
+    // Set simc filenames by hand for deuteron experimet
+    if(setting=="delta_scan_-8") {
+      simc_ifile             =  "../hallc_simulations/infiles/d2_heep_scan_rad_-8.data";
+      simc_InputFileName_rad =  "../hallc_simulations/worksim/d2_heep_scan_rad_-8.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-8_analyzed.root";
+    }
+    
+    else if(setting=="delta_scan_-4") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_-4.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_-4.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-4_analyzed.root";
+
+    }
+
+    else if(setting=="delta_scan_0") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_0.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_0.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_0_analyzed.root";
+    }
+
+    else if(setting=="delta_scan_+4") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+4.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+4.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+4_analyzed.root";
+
+    }
+
+    else if(setting=="delta_scan_+8") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+8.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+8.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+8_analyzed.root";
+    }
+    
+    else if(setting=="delta_scan_+12") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+12.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+12.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+12_analyzed.root";
+    }
+
+    else if(setting=="pm_120") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_pm120_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm120_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm120_jmlfsi_rad_analyzed.root";
+    }
+
+    else if(setting=="pm_580") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_pm580_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm580_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm580_jmlfsi_rad_analyzed.root";
+    }
+
+    else if(setting=="pm_800") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_pm800_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm800_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm800_jmlfsi_rad_analyzed.root";
+    }
+    
+    else if(setting=="pm_900") {
+      simc_ifile             = "../hallc_simulations/infiles/d2_pm900_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm900_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm900_jmlfsi_rad_analyzed.root";
+    }
+
+    else {
+      cout << Form("ROOTfile: %s NOT FOUND ! ", setting.Data()) << endl;
+    }
+
+
+    
   }
+
+
 
   if(analysis_type=="data" || analysis_type=="simc" ){
 
@@ -1748,14 +1828,7 @@ void baseAnalyzer::ReadInputFile()
     output_ReportFileName = Form(temp.Data(), replay_type.Data(), tgt_type.Data(), analysis_cut.Data(), run, evtNum);
     
     
-    //----------------------------------------
-    // Define  SIMC analyzed output filename
-    //----------------------------------------
-    temp = trim(split(FindString("output_ROOTfilePattern_simc_rad", input_FileNamePattern.Data())[0], '=')[1]);
-    simc_OutputFileName_rad = temp.Data();
-    
-    temp = trim(split(FindString("output_ROOTfilePattern_simc_norad", input_FileNamePattern.Data())[0], '=')[1]);
-    simc_OutputFileName_norad = temp.Data();
+
       
   }
   

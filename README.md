@@ -70,7 +70,6 @@ $ ./cafe_setup.sh
 # for example, if on ifarm, I've create the following directories, and made a symbolic link to this repo.
 
 mkdir /volatile/hallc/c-deuteron/cyero
-mkdir /volatile/hallc/c-deuteron/cyero/worksim   # this is to put my output simulation files
 mkdir /volatile/hallc/c-deuteron/cyero/ROOTfiles
 mkdir /volatile/hallc/c-deuteron/cyero/REPORT_OUTPUT
 mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT
