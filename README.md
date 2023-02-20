@@ -2,7 +2,7 @@
 This repository, `deut_online_replay`, is a version of the official `hallc_replay` repository with additions specific to the Deuteron experiment. This online version has replay scripts for data online monitoring of the data, as well as specialized shell scripts for analysis of special runs such as target_boiling, H(e,e'p) elastics, production, detector calibrations, etc. 
 
 Please refer to the following useful link:
-[deuteron break-up_experiment](https://hallcweb.jlab.org/wiki/index.php/D(e,e%27p)_break-up_experiment)
+[Hall C Wiki: deuteron break-up experiment](https://hallcweb.jlab.org/wiki/index.php/D(e,e%27p)_break-up_experiment)
 
 where you can find helpful information related to the experiment. 
 # How-To Guide for Starters
