@@ -435,12 +435,11 @@ for line in deut_report:
         
 #  run list was separated into sub-categories for ease of use and more flexibility if things need to be changed
 
-header_0="""
-# E12-10-003: Deuteron Electro-Disintegration Experiment Runlist (Online)
-# Feb 24 - March 20, 2023
+header_0="""# E12-10-003: Deuteron Electro-Disintegration Experiment Runlist (Online)
+# Feb 24 - March 20 | 2023
 #
 # (Not-so-obvious) Header Definitions:
-# BCM4A_thrs,current [uA] : threshold, avg. beam current
+# BCM4A_thrs | current [uA] : current threshold | avg. beam current
 # BCM4A_charge [mC]       : total accumulated charge
 # real_counts             : integrated counts (W or Pmiss) after all cuts
 # real_rate [Hz]          : real_counts / beam_on_target [sec] 
@@ -483,14 +482,13 @@ simc_stats_goal_info = "%.3f                        %.3f                " % \
 # combine headers
 total_header = header_1 + header_2 + header_3 + header_4 
 
-
 # read user comment (raw_input is required for python 2.7, else use input())
 #comment = input("Please enter any relevant comments this run: \n")
 comment=""
 if( int(sys.version[0]) < 3 ):
-    comment = raw_input("Please enter comments for run %s (press Enter to skip): " %(RUNNUM))
+    comment = raw_input("Please enter comments for run %s (press Return to skip): " %(RUNNUM))
 else:
-    comment = input("Please enter comments for run %s (press Enter to skip) " %(RUNNUM))   
+    comment = input("Please enter comments for run %s (press Return to skip) " %(RUNNUM))   
 
 # clean user comment out of weird characters or spaces and replace them with '_'
 specialChars = "!@#$%^&*()+={[]}|\:;,<>?/\" "
@@ -547,7 +545,7 @@ else:
     
     with open(fname_path, "a") as f:
         writer = csv.writer(f,delimiter=",")
-        f.write(header)
+        f.write(header_0)
         writer.writerow(total_header)
         writer.writerow(total_list)
         

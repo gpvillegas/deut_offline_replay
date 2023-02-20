@@ -8225,9 +8225,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "" << endl;
 	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
-	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
-	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
-	out_file << Form("# simc_rate [Hz]         : %.3f ", total_simc_rate) << endl;	
+	out_file << Form("simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("simc_rate [Hz]         : %.4f ", total_simc_rate) << endl;	
 	out_file << "" << endl;
 	out_file << "# --> Yield = Counts * pre-scale_factor / (Q * e-_track_eff * total_live_time)" << endl;
 	out_file << Form("# --> Counts are Inegrated over Invariant Mass (W peak) : %.3f -> %.3f [GeV]", c_heep_W_min, c_heep_W_max) << endl;
@@ -8236,10 +8236,10 @@ void baseAnalyzer::WriteReport()
         out_file << Form("# e-_track_eff  : %.3f", pTrkEff) << endl;
 	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
 	out_file << "#-----------------------------" << endl;
-	out_file << Form("# real_counts  : %.3f ", W_total) << endl;
-	out_file << Form("# real_rate [Hz]  : %.3f ", W_total_rate) << endl;
+	out_file << Form("real_counts  : %.3f ", W_total) << endl;
+	out_file << Form("real_rate [Hz]  : %.4f ", W_total_rate) << endl;
 	float real_yield = W_total * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single);  
-	out_file << Form("# real_yield   : %.3f ", real_yield) << endl;
+	out_file << Form("real_yield   : %.3f ", real_yield) << endl;
 																			      
       }
      if(analysis_cut=="heep_coin")
@@ -8249,9 +8249,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "" << endl;
 	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
-	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
-	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
-	out_file << Form("# simc_rate [Hz]         : %.3f ", total_simc_rate) << endl;	
+	out_file << Form("simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("simc_rate [Hz]         : %.4f ", total_simc_rate) << endl;	
 	out_file << "" << endl;
 	out_file << "# --> Yield = Counts * pre-scale_factor / (Q * h_track_eff * e-_track_eff * total_live_time)" << endl;
 	out_file << Form("# --> Counts are Inegrated Invariant Mass (W peak) : %.3f -> %.3f [GeV]", c_heep_W_min, c_heep_W_max) << endl;
@@ -8264,7 +8264,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", W_total) << endl;
 	out_file << Form("random_counts   : %.3f", W_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", W_real)  << endl;
-	out_file << Form("real_rate [Hz]  : %.3f", W_real_rate)  << endl;
+	out_file << Form("real_rate [Hz]  : %.4f", W_real_rate)  << endl;
 	float real_yield = W_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);  
 	out_file << Form("real_yield      : %.3f", real_yield) << endl;	
 	out_file << "                                     " << endl;
@@ -8316,9 +8316,9 @@ void baseAnalyzer::WriteReport()
 	out_file << "# =:=:=:=:=:=:=:=:=:=:" << endl;
 	out_file << "" << endl;
 	out_file << Form("# simulation @ Ib = %.1f [uA] ", simc_Ib) << endl;	
-	out_file << Form("# simc_counts_goal       : %.3f ", total_simc_counts) << endl;
-	out_file << Form("# simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
-	out_file << Form("# simc_rate [Hz]         : %.3E ", total_simc_rate) << endl;	
+	out_file << Form("simc_counts_goal       : %.3f ", total_simc_counts) << endl;
+	out_file << Form("simc_charge_goal [mC]  : %.3f ", total_simc_charge) << endl;
+	out_file << Form("simc_rate [Hz]         : %.4f ", total_simc_rate) << endl;	
 	out_file << "" << endl;
 	out_file << "# Yield = Counts * pre-scale_factor / (Q * h_track_eff * e-_track_eff * total_live_time)" << endl;
 	out_file << "# Counts are Inegrated over all Missing Momenta (Pm) + Recoil Angles (th_rq) " << endl;  
@@ -8331,7 +8331,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("total_counts    : %.3f", Pm_total) << endl;
 	out_file << Form("random_counts   : %.3f", Pm_rand)  << endl;
 	out_file << Form("real_counts     : %.3f", Pm_real)  << endl;
-	out_file << Form("real_rate [Hz]  : %.3f", Pm_real_rate)  << endl;
+	out_file << Form("real_rate [Hz]  : %.4f", Pm_real_rate)  << endl;
 	float real_yield = Pm_real * Ps_factor_coin / (total_charge_bcm_cut*hTrkEff*pTrkEff*tLT_trig_coin);
 	out_file << Form("real_yield      : %.3f", real_yield )  << endl;
 	out_file << "                                     " << endl;

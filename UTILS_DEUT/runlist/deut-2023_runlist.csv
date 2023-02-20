@@ -1,0 +1,28 @@
+# E12-10-003: Deuteron Electro-Disintegration Experiment Runlist (Online)
+# Feb 24 - March 20 | 2023
+#
+# (Not-so-obvious) Header Definitions:
+# BCM4A_thrs | current [uA] : current threshold | avg. beam current
+# BCM4A_charge [mC]       : total accumulated charge
+# real_counts             : integrated counts (W or Pmiss) after all cuts
+# real_rate [Hz]          : real_counts / beam_on_target [sec] 
+# beam_energy [GeV]       : measured Hall C beam energy
+# target_mass [amu]       : mass in atomic mass units [a.m.u.]
+# (S)HMS_P [GeV/c]        : spectrometer central momentum
+# (S)HMS_Angle [deg]      : spectrometer central angle
+# PS1-PS6                 : pre-scale factor for triggers T1-T6
+# T1-T6_scl_rates [kHz]   : scaler trigger rates
+# T1-T6_accp_rates [kHz]  : accepted trigger rates
+# T1-T6_tLT               : total EDTM live time
+# (S)HMS_TrkEff           : tracking efficiencies
+# simc_counts_goal        : SIMC-based statistical goal
+# simc_charge_goal [mC]   : SIMC-based charge goal 
+#
+run,start_run,end_run,kin_study,setting,BCM4A_thrs,BCM4A_current,BCM4A_charge,real_counts,real_rate,beam_on_target,evts_replayed,beam_energy,target,target_mass,HMS_P,HMS_Angle,SHMS_P,SHMS_Angle,PS1,PS2,PS3,PS5,PS6,T1_scl_rates,T2_scl_rates,T3_scl_rates,T5_scl_rates,T6_scl_rates,T1_ccp_rates,T2_accp_rates,T3_accp_rates,T5_accp_rates,T6_accp_rates,T1_tLT,T2_tLT,T3_tLT,T5_tLT,T6_tLT,HMS_TrkEff,SHMS_TrkEff,simc_counts_goal,simc_charge_goal,Comments
+16975,            2022-09-18 22:54:33,           2022-09-18 23:43:59,         deep,          pm_120,        >5.00,                  27.111,                    61.219,                   2649.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16976,            2022-09-18 23:57:33,           2022-09-19 00:20:59,         deep,          pm_120,        >5.00,                  27.111,                    60.219,                   2549.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16977,            2022-09-19 00:34:33,           2022-09-19 00:59:59,         deep,          pm_120,        >5.00,                  27.111,                    49.219,                   2449.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16978,            2022-09-19 01:03:33,           2022-09-19 01:55:59,         deep,          pm_580,        >5.00,                  27.111,                    61.219,                   2649.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16978,            2022-09-19 01:56:33,           2022-09-19 02:55:59,         deep,          pm_580,        >5.00,                  27.111,                    61.219,                   2649.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16978,            2022-09-19 02:56:33,           2022-09-19 03:55:59,         deep,          pm_580,        >5.00,                  27.111,                    61.219,                   2649.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,nan,nan,
+16975,            2022-09-18 22:54:33,           2022-09-18 23:43:59,         deep,          pm_120,        >5.00,                  27.111,                    61.219,                   2649.667,          1.175,         2254.971,                     1564224,         10.5494,    LD2,         2.014102,       3.0523,   -38.630,       8.5500,    12.200,-1,2049,33,1,-1,200.849,148.945,2.824,0.535,0.595,0.624,0.620,0.605,0.536,0.536,nan,1894.097,30.505,0.924,nan,0.995,0.924,21600.000,144.000,duplicated_corrected
