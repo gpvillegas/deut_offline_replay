@@ -51,7 +51,8 @@ $ source setup.csh
 $ scons -jN 
 ```
 
-`step 3:` Go up one directory (cd .. ),  and clone and setup the Hall C replay repository <br>
+`step 3:` Go up one directory (cd .. ),  and clone and setup the Hall C replay repository 
+
 ```sh
 # Clone and properly setup the Hall C data analysis replay 
 # Alternatively, you can fork a copy of the repository remotely and the clone it directly 
