@@ -78,7 +78,6 @@ mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT/REPORT
 mkdir /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT/PDF
 
 # then for symbolic links, we only need to symbolic link the following:
-ln -sf /volatile/hallc/c-deuteron/cyero/worksim
 ln -sf /volatile/hallc/c-deuteron/cyero/ROOTfiles
 ln -sf /volatile/hallc/c-deuteron/cyero/REPORT_OUTPUT 
 ln -sf /volatile/hallc/c-deuteron/cyero/DEUT_OUTPUT
