@@ -21,13 +21,12 @@ $ ssh -Y ifarm
 ```
 
 `step 2:` Go to the relevant work directory and setup the relevant Hall C Analyzer repository. 
-##### (ignore the `git clone` command if using this repo as a submodule of `CaFe-Online`)
 
 ```sh
-# Create symbolic link to the CaFe work directory. 
-# For more info see [https://hallcweb.jlab.org/wiki/index.php/CaFe_Disk_Space]
-$ ln -s /work/hallc/c-cafe-2022/ cafe_work 
-$ cd cafe_work 
+# Create symbolic link to the deuteron work directory. 
+# For more info see [https://hallcweb.jlab.org/wiki/index.php/Deuteron_Disk_Space]
+$ ln -s /work/hallc/c-deuteron/ deut_work 
+$ cd deut_work 
 
 # If you don't have a user directory, make one and cd to it !
 $ mkdir <user> 
@@ -53,16 +52,15 @@ $ scons -jN
 ```
 
 `step 3:` Go up one directory (cd .. ),  and clone and setup the Hall C replay repository <br>
-##### (ignore the `git clone` command if using this repo as a submodule of `CaFe-Online`)
 ```sh
 # Clone and properly setup the Hall C data analysis replay 
 # Alternatively, you can fork a copy of the repository remotely and the clone it directly 
 # from your github account.
 $ git clone https://github.com/Yero1990/deut_online_replay 
-$ cd cafe_online_replay 
+$ cd deut_online_replay 
 
-# execute this script to create the necessary sybmolic links required by the replay script 
-$ ./cafe_setup.sh 
+# crease symbolic link to analyzer, hcana ( and the relevant library that was created during compilation)
+$ ln -sf ../hcana/hcana
 ```
 
 ```sh
