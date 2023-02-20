@@ -6,7 +6,7 @@ Please refer to the following useful link:
 
 where you can find helpful information related to the experiment. 
 # How-To Guide for Starters
-This guide is intended for *novice level* on hall c analysis, using the CaFe experiment as an example. NOTE: In the exercises below, the pound sign, `# `, denotes comments, and the `$`
+This guide is intended for *novice level* on hall c analysis, using the deuteron experiment as an example. NOTE: In the exercises below, the pound sign, `# `, denotes comments, and the `$`
 denotes the user terminal command-line input
 
 ### Exercise #1:
