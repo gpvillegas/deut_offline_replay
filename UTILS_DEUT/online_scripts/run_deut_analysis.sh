@@ -58,7 +58,7 @@ if [ "${replay_type}" == "prod" ]; then
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 
     if [ -z "$3" ]; then 
-	evtNum=-1
+	evtNum=5000
     fi
 fi
 
