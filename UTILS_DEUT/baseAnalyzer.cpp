@@ -21,9 +21,8 @@ baseAnalyzer::baseAnalyzer( int irun=-1, int ievt=-1, string mode="", string ear
     replay_type="prod";
   }
   else if(evtNum!=-1){
-    //replay_type="sample";
-    replay_type="prod"; // TAG: remember to change back to sample
-    evtNum=-1; // TAG: remember to remove this line
+    replay_type="sample";
+    
   }
   
   //Set prefix depending on DAQ mode and electron arm (used for naming leaf variables)
@@ -2166,8 +2165,7 @@ void baseAnalyzer::ReadReport()
 
       setting="pm_120";
 
-      cout << Form("Analyzing setting %s", setting.Data()) << endl;
-      cout << Form(" |std.kin %.4f - 3.0523| < 0.05 GeV/c && |std.kin %.4f - 38.63| < 0.5 deg ", hms_p, hms_angle) << endl;
+      cout << Form("Analyzing setting %s", setting.Data()) << endl;      
       // ----- simulation expectations (for use in stats monitoring later on) ----
 
       simc_Ib=40.; // [uA]
@@ -2225,7 +2223,7 @@ void baseAnalyzer::ReadReport()
 
       Int_t exit_macro=-1;
       cout << Form("deuteron exp. setting %s ", setting.Data()) << endl;
-      cout << Form(" |%.4f - P| >=0.05 GeV/c or |%.4f - theta_p| > 0.5 deg  mis-match ", hms_p, hms_angle) << endl;
+      cout << Form(" |%.4f - P| >0.05 GeV/c or |%.4f - theta_p| > 0.5 deg  mis-match ", hms_p, hms_angle) << endl;
       cout << "between this script and standard.kinematics . . . Check HMS Momentum/Angle is set CORRECTLY in standard.kinematics file !" << endl;
       cout << "" << endl;
       cout << "Continue replay anyways . . .? ( 0: continue, 1: abort )" << endl;      
@@ -4827,6 +4825,10 @@ void baseAnalyzer::GetPeak()
   
   // keep event sample at a minimum for checks
   if(nentries>150000){ sample_entries = 150000;}
+  else if(nentries <50000) {
+    cout << "not enough events to make quality check fits ! ";
+    return;
+  };
   else {sample_entries = nentries;}
   
   

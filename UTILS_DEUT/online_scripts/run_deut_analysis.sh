@@ -58,17 +58,29 @@ if [ "${replay_type}" == "prod" ]; then
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 
     if [ -z "$3" ]; then 
-	evtNum=5000
+	evtNum=-1
     fi
 fi
 
+if [ "${replay_type}" == "sample" ] && [ -z "$3" ] ; then
+    echo ""
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
+    echo "" 
+    echo "Usage: ./run_deut_${replay_type}.sh <run_number> <ana_cut> <evt_number> " 
+    echo "" 
+    echo "Please enter sample <evt_number> to be replayed      " 
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"  
+    exit 0
+fi
+
+
 
 # check if full replay or sample events
-#if [[ "$evtNum" -eq -1 ]]; then
-#    replay_type="prod"
-#else
-#    replay_type="sample"
-#fi
+if [[ "$evtNum" -eq -1 ]]; then
+    replay_type="prod"
+else
+    replay_type="sample"
+fi
 
 
 # only necessary for passing this to fill runlist

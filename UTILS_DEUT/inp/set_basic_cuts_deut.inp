@@ -179,7 +179,7 @@ c_ztarDiff_max = 2.
 
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 #
-#  DEUTERON EXP. - SPECIFIC KINEMATIC CUTS d(e,e'p): SHMS, p: HMS
+#  DEUTERON EXP. - SPECIFIC KINEMATIC CUTS e: SHMS, p: HMS
 #
 # =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
 
@@ -225,7 +225,7 @@ c_heep_MM_max = 0.15
 
 # 4-Momentum Transfers [GeV^2]
 Q2_deep_cut_flag = 1
-c_deep_Q2_min = 1.8
+c_deep_Q2_min = 4.0
 c_deep_Q2_max = 5.0
 
 
