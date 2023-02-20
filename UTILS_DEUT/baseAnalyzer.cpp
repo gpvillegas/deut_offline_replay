@@ -8147,7 +8147,7 @@ void baseAnalyzer::WriteReport()
     }
     if(analysis_cut=="deep"){ // only for deuteron experiment (e12-10-003)
       out_file << Form("(e,e'p) counts     : %.3f", Pm_real)  << endl;
-      out_file << Form("(e,e'p) rate [Hz]  : %.3E", Pm_real_rate)  << endl;
+      out_file << Form("(e,e'p) rate [Hz]  : %.4f", Pm_real_rate)  << endl;
 
     }
     
