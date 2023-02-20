@@ -14,15 +14,15 @@ replay_type=${replay_type%%.sh}
 
 
 #user input
-runNum=$1     # run number
-ana_cut=$2   # Deut kinematics type, set by user:  "heep_singles", "heep_coin",  "MF", "SRC", "deep_pm",  depending on the production type
+ana_cut=$1   # Deut kinematics type, set by user:  "heep_singles", "heep_coin",  "MF", "SRC", "deep_pm",  depending on the production type
+runNum=$2     # run number
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
-if [ -z "$1" ] || [ -z "$2" ]; then
+if [ -z "$1" ] || [ -z "$2" ] ; then
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage:  ./run_deut_${replay_type}.sh <run_number> <ana_cut> <evt_number>"
+    echo "Usage:  ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number>"
     echo ""
     echo "<ana_cut> = \"heep_singles\", \"heep_coin\", \"deep"\"
     echo ""
@@ -33,12 +33,12 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 0    
     # fool-proof, make sure only options:  heep_singles, heep_coin, deep      
 elif [ "$ana_cut" == "heep_singles" ] || [ "$ana_cut" == "heep_coin" ] || [ "$ana_cut" == "deep" ]; then 
-    echo ""                                                                                                                                                                           
+    echo ""                                                                           
 else
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage: ./run_deut_${replay_type}.sh <run_number> <ana_cut> <evt_number>"
+    echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number>"
     echo ""     
     echo "<ana_cut> = \"heep_singles\", \"heep_coin\", or \"deep\" "
     echo ""
@@ -52,21 +52,19 @@ if [ "${replay_type}" == "prod" ]; then
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo ""
-    echo "Usage: ./run_deut_${replay_type}.sh <run_number> <ana_cut> "
+    echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> "
     echo ""
     echo "defaults to full event (-1) replay, unless event number is explicitly specified"
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
-
-    if [ -z "$3" ]; then 
-	evtNum=-1
-    fi
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
+    evtNum=-1
+    
 fi
 
 if [ "${replay_type}" == "sample" ] && [ -z "$3" ] ; then
     echo ""
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
     echo "" 
-    echo "Usage: ./run_deut_${replay_type}.sh <run_number> <ana_cut> <evt_number> " 
+    echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number> " 
     echo "" 
     echo "Please enter sample <evt_number> to be replayed      " 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"  

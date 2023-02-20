@@ -4829,7 +4829,7 @@ void baseAnalyzer::GetPeak()
     cout << "not enough events to make quality check fits ! ";
     return;
   };
-  else {sample_entries = nentries;}
+ 
   
   
   for(int ientry=0; ientry<sample_entries; ientry++)
