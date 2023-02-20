@@ -47,16 +47,16 @@ else
 fi
 
 e_arm="SHMS"
-analyze_data=0   # 1: true (analyze data), 0: false (analyze simc)
+analysis_type="simc"
 
 
 # deuteron SIMC serious analysis script
-prod_script="UTILS_DEUT/main_analysis.cpp"
+prod_script="UTILS_DEUT/main_simc_analysis.cpp"
 
 
 # run scripts commands
 
-runDeut="root -l -q -b \"${prod_script}( \\\"${e_arm}\\\", ${analyze_data}, \\\"${kin_type}\\\" )\""
+runDeut="root -l -q -b \"${prod_script}( \\\"${e_arm}\\\", \\\"${analysis_type}\\\", \\\"${kin_type}\\\" )\""
 
 # Start SIMC analysis
 {

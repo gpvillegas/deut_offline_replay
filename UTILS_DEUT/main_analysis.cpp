@@ -34,7 +34,7 @@ void main_analysis(int     run           = 3243,   int evtNum           = -1,
 
   // simc analysis
   if(analysis_type=="simc"){
-
+    
     //only relevant arguments for SIMC: e_arm, analysis_type, analysis_cut
     ba.run_simc_analysis();
   }

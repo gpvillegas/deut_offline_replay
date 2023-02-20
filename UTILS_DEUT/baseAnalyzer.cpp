@@ -1684,6 +1684,7 @@ void baseAnalyzer::ReadInputFile()
     c_ztarDiff_max = stod(split(FindString("c_ztarDiff_max", input_CutFileName.Data())[0], '=')[1]);
 
     
+    if(analysis_type=="data") {
     // ====== READ REPORT ========= 
     // NOTE* : necessary to read in order to define tgt_type,
     // to be used in the output file name
@@ -1691,7 +1692,7 @@ void baseAnalyzer::ReadInputFile()
     ReadReport();
     
     //=============================
-    
+    }
     
     
     // ======================
@@ -1725,73 +1726,93 @@ void baseAnalyzer::ReadInputFile()
     
 
     // Set simc filenames by hand for deuteron experimet
+    
+    
     if(setting=="delta_scan_-8") {
       simc_ifile             =  "../hallc_simulations/infiles/d2_heep_scan_rad_-8.data";
       simc_InputFileName_rad =  "../hallc_simulations/worksim/d2_heep_scan_rad_-8.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-8_analyzed.root";
     }
     
+    
+    
     else if(setting=="delta_scan_-4") {
       simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_-4.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_-4.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-4_analyzed.root";
-
     }
-
+    
+    
+    
     else if(setting=="delta_scan_0") {
       simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_0.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_0.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_0_analyzed.root";
     }
+    
 
+    
     else if(setting=="delta_scan_+4") {
       simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+4.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+4.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+4_analyzed.root";
-
     }
+    
 
+    
     else if(setting=="delta_scan_+8") {
       simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+8.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+8.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+8_analyzed.root";
     }
     
+
+    
     else if(setting=="delta_scan_+12") {
       simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+12.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+12.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+12_analyzed.root";
     }
-
+    
+    
+    
+    
     else if(setting=="pm_120") {
       simc_ifile             = "../hallc_simulations/infiles/d2_pm120_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm120_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm120_jmlfsi_rad_analyzed.root";
     }
+    
 
+    
     else if(setting=="pm_580") {
       simc_ifile             = "../hallc_simulations/infiles/d2_pm580_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm580_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm580_jmlfsi_rad_analyzed.root";
     }
-
+    
+    
+    
     else if(setting=="pm_800") {
       simc_ifile             = "../hallc_simulations/infiles/d2_pm800_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm800_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm800_jmlfsi_rad_analyzed.root";
     }
-    
+   
+
+     
     else if(setting=="pm_900") {
       simc_ifile             = "../hallc_simulations/infiles/d2_pm900_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm900_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm900_jmlfsi_rad_analyzed.root";
     }
 
+    
     else {
       cout << Form("ROOTfile: %s NOT FOUND ! ", setting.Data()) << endl;
     }
 
-
+    
     
   }
 
@@ -6193,7 +6214,7 @@ void baseAnalyzer::EventLoop()
 	  
 	  else if(analysis_cut=="deep"){
 	    
-	    cout << "analysis_cut is deep " << endl;
+	    //cout << "analysis_cut is deep " << endl;
 	    //MF for deuteron
 	    Er = nu + MD - Ex;                                                                                                                                               
             Tr = Er - MN;       //  single proton knockout of d2 gives neutron recoil system                                                   
