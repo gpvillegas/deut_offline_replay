@@ -110,7 +110,7 @@ $ ./hcana SCRIPTS/COIN/PRODUCTION/replay_deut.C
 This guide is intended for users who would like to actively contribute to the development of this repository. <br>
 See [https://docs.github.com/en/get-started/quickstart/github-flow](https://docs.github.com/en/get-started/quickstart/github-flow) for helpful GitHub documentaion 
 
-`step 1:` Go to [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/deut_online_replay) and fork a copy to your own repo.<br>
+`step 1:` Go to [https://github.com/Yero1990/deut\_online\_replay](https://github.com/Yero1990/deut_online_replay) and fork a copy to your own repo.<br>
 
 `step 2:` Clone the forked repository from your own repo and set up upstream track to keep track of any updates made to the official  repository. <br> 
 
