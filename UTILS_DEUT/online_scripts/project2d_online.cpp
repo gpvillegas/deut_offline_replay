@@ -345,7 +345,7 @@ void project2d_online() {
 
   int run_min=0;
   int run_max=999999;
-  TString pm_setting="pm120";
+  TString pm_setting="pm_120";
   cout << "" << endl;
   cout << "----------------------------------------------------------------------------" << endl;
   cout << "" << endl;
