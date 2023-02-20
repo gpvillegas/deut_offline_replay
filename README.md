@@ -110,23 +110,23 @@ $ ./hcana SCRIPTS/COIN/PRODUCTION/replay_deut.C
 This guide is intended for users who would like to actively contribute to the development of this repository. <br>
 See [https://docs.github.com/en/get-started/quickstart/github-flow](https://docs.github.com/en/get-started/quickstart/github-flow) for helpful GitHub documentaion 
 
-`step 1:` Go to [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/cafe_online_replay) and fork a copy to your own repo.<br>
+`step 1:` Go to [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/deut_online_replay) and fork a copy to your own repo.<br>
 
 `step 2:` Clone the forked repository from your own repo and set up upstream track to keep track of any updates made to the official  repository. <br> 
 
 ```sh
 # clone the repository either locally or remotely (wherever you plan to work)
-$ git clone https://github.com/your_github_username/cafe_online_replay 
-$ cd cafe_online_replay 
+$ git clone https://github.com/your_github_username/deut_online_replay 
+$ cd deut_online_replay 
 
 # track the upstram branch is needed to keep your forked copy and local machine copy up-to-date 
-$ git remote add --track master upstream https://github.com/Yero1990/cafe_online_replay 
+$ git remote add --track master upstream https://github.com/Yero1990/deut_online_replay 
 
 # check that the track to the remote branches origin and upstream are specified
 $ git remote -v  
 ```
 
-`step 3:` To make any contributions locally and save it to the official [https://github.com/Yero1990/cafe\_online\_replay](https://github.com/Yero1990/cafe_online_replay) repository, do:
+`step 3:` To make any contributions locally and save it to the official [https://github.com/Yero1990/deut\_online\_replay](https://github.com/Yero1990/deut_online_replay) repository, do:
 
 ```sh
 # change to a new working branch on your local copy of the repo, for example:
@@ -140,12 +140,12 @@ $ git add file1.ext file2.ext . . .  # where fileN.ext represnets the files adde
 # is for adding a commit message (obligatory) 
 $ git commit -m "message stating a summary of your commits. "
 
-# save the changes to your remote forked copy of the cafe_online_replay repo 
+# save the changes to your remote forked copy of the deut_online_replay repo 
 $ git push origin work_branch
 
-# make a pull request to incorporate the changes into the official cafe_online_replay
+# make a pull request to incorporate the changes into the official deut_online_replay
 
-   a) Go to:  https://github.com/your_github_username/cafe_online_replay and select the work_branch
+   a) Go to:  https://github.com/your_github_username/deut_online_replay and select the work_branch
 
    b) Click on 'Contribute' and select 'Open pull request'. Alternatively, click on 'Compare & pull request'
 
