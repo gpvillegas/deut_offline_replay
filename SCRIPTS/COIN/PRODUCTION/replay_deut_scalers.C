@@ -190,9 +190,9 @@ void replay_deut_scalers(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype=
 
   analyzer->SetEvent(event);
 
-  // Set EPICS event type
-  analyzer->SetEpicsEvtType(180);
-
+  // Set EPICS event type (Feb 24, 2023 added these, suggested by M. Jones)
+  analyzer->SetEpicsEvtType(181);
+  analyzer->AddEpicsEvtType(182);
   // Define crate map
   analyzer->SetCrateMapFileName("MAPS/db_cratemap.dat");
 

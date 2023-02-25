@@ -14,7 +14,7 @@ replay_type=${replay_type%%.sh}
 
 
 #user input
-ana_cut=$1   # Deut kinematics type, set by user:  "heep_singles", "heep_coin",  "MF", "SRC", "deep_pm",  depending on the production type
+ana_cut=$1   # Deut kinematics type, set by user:  "heep_singles", "heep_coin", "deep",  depending on the production type
 runNum=$2     # run number
 evtNum=$3     # number of events to replay (optional, but will default to all events if none specified)
 
@@ -32,8 +32,8 @@ if [ -z "$1" ] || [ -z "$2" ] ; then
 
     exit 0    
     # fool-proof, make sure only options:  heep_singles, heep_coin, deep      
-elif [ "$ana_cut" == "heep_singles" ] || [ "$ana_cut" == "heep_coin" ] || [ "$ana_cut" == "deep" ]; then 
-    echo ""                                                                           
+elif [ "$ana_cut" == "heep_singles" ] || [ "$ana_cut" == "heep_coin" ] || [ "$ana_cut" == "deep" ] ; then 
+    echo "" 
 else
     echo "" 
     echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
@@ -95,8 +95,8 @@ ana_type="data"   # "data" or "simc"
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5             # beam current threhsold cut > bcm_thrs [uA]
-trig_single="T2"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
-trig_coin="T5"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
+trig_single="T1"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
+trig_coin="T6"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
 skim_flag=0            # create skimmed tree ? (mostly to reduce file size)
 
 # hcana script

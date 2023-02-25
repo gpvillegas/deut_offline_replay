@@ -42,14 +42,16 @@ gbpmc_zpos = 129.38 ; cm
 ; Various fast raster quantities: gUse* are flags
 
 ; Raster constants for CaFe June 2 2022 (https://logbooks.jlab.org/entry/3998936#comment-38008)
+; 
 gfr_cal_mom = 7.950
 gfrxa_adc_zero_offset = 54300
 gfrxb_adc_zero_offset = 54300
 gfrya_adc_zero_offset = 54630
 gfryb_adc_zero_offset = 54800
 ;
-gfrxa_adcpercm = (63427-44954)/.2
-gfrxb_adcpercm = (63841-44824)/.2
+; Raster sign ( https://logbooks.jlab.org/entry/4138317 )
+gfrxa_adcpercm = -(63427-44954)/.2
+gfrxb_adcpercm = -(63841-44824)/.2
 gfrya_adcpercm = (65450-44885)/.2
 gfryb_adcpercm = (64417-45240)/.2
 

@@ -684,7 +684,7 @@ hpartmass = 0.93827231
 ppartmass = 0.000511
 
 # Fe54 SRC Kinematics                                                              
-17135 - 999999                                                                         
+17135 - 20000
 gpbeam = 10.549355                                      
 gtargmass_amu = 53.9396147
 htheta_lab = -66.40                                                                                        
@@ -695,3 +695,29 @@ hpartmass = 0.93827231
 ppartmass = 0.000511
 
 
+#/////////////////////////////////
+#                               //
+# START DEUTERON EXPERIMENT     //
+# (E12-10-003)                  //
+# February 24 - March 20, 2023  //
+#                               //
+#/////////////////////////////////
+
+#-----------------------
+# comsmics 
+#-----------------------
+
+20836 - 999999 
+gpbeam = 10.539                       
+gtargmass_amu = 1.00794                  
+htheta_lab = -50.47                    
+ptheta_lab = 7.704                      
+hpcentral = 1.664                        
+ppcentral = 8.55                        
+hpartmass = 0.93827231                 
+ppartmass = 0.000511  
+
+# Aluminum Hole Check / Trigger Checkout
+
+
+# Trigger Checkout H(e,e'p) KIN-6
