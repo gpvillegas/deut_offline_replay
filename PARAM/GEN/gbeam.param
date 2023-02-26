@@ -13,19 +13,21 @@
 ; Updated  by Mark Jones , Fit to Dec 8 2019 harp versus bpm scan
 ;
 ;
-  gbpmxa_slope = -0.957023
-  gbpmxa_off   = 0.141521
-  gbpmxb_slope = -1.08737
-  gbpmxb_off   = 0.216443
-  gbpmxc_slope = -0.963681
-  gbpmxc_off   = -1.12796
-  gbpmya_slope = 0.948114
-  gbpmya_off   = -0.0623243
-  gbpmyb_slope = 1.15675
-  gbpmyb_off   = -0.292128
-  gbpmyc_slope = 0.854674
-  gbpmyc_off   = -0.77972
-;
+
+; M. Jones updated on Feb 25 (used Feb 21, 2023 Harp Scans)
+gbpmxa_slope = -0.957023
+gbpmxa_off   = -1.0*(-0.17+0.01)
+gbpmxb_slope = -1.08737
+gbpmxb_off   = -1.0*(0.21+0.01)
+gbpmxc_slope = -0.963681
+gbpmxc_off   = -1.0*(0.37+0.17)
+gbpmya_slope = 0.948114
+gbpmya_off   = 0.09-0.27
+gbpmyb_slope = 1.15675
+gbpmyb_off   = 0.24-0.22
+gbpmyc_slope = 0.854674
+gbpmyc_off   = 0.23+.16
+
 
 ;positions of BPMs relative to target (from Fall 2018 survey)
 gbpma_zpos = 320.17 ; cm

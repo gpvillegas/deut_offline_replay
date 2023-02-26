@@ -604,33 +604,47 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
   //change to data_file
   data_file->cd();
-  
+
+
   //Get Histogram objects from data rootfile
   data_file->GetObject("pid_plots/H_ep_ctime_total", data_ep_ctime_total);
+  if(ana_cut!="heep_singles"){ 
   data_file->GetObject("pid_plots/H_ep_ctime_real", data_ep_ctime_real);
   data_file->GetObject("rand_plots/H_ep_ctime_rand", data_ep_ctime_rand);
+  }
 
   data_file->GetObject("kin_plots/H_W", data_W_total);
+   if(ana_cut!="heep_singles"){ 
   data_file->GetObject("randSub_plots/H_W_rand_sub", data_W_real);
   data_file->GetObject("rand_plots/H_W_rand", data_W_rand);
+   }
 
   data_file->GetObject("kin_plots/H_MM", data_MM_total);
-  data_file->GetObject("randSub_plots/H_MM_rand_sub", data_MM_real);
-  data_file->GetObject("rand_plots/H_MM_rand", data_MM_rand);
+   if(ana_cut!="heep_singles"){ 
+     data_file->GetObject("randSub_plots/H_MM_rand_sub", data_MM_real);
+     data_file->GetObject("rand_plots/H_MM_rand", data_MM_rand);
+   }
 
   data_file->GetObject("kin_plots/H_Pm", data_Pm_total);
+   if(ana_cut!="heep_singles"){ 
   data_file->GetObject("randSub_plots/H_Pm_rand_sub", data_Pm_real);
   data_file->GetObject("rand_plots/H_Pm_rand", data_Pm_rand);
+   }
 
   if(tgt_type=="LH2"){
     data_file->GetObject("kin_plots/H_Em", data_Em_total);
-    data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
-    data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
+    if(ana_cut!="heep_singles"){ 
+      data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
+      data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
+    }
   }
+
   else if(tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em_total);
-    data_file->GetObject("randSub_plots/H_Em_nuc_rand_sub", data_Em_real);
-    data_file->GetObject("rand_plots/H_Em_nuc_rand", data_Em_rand);
+    if(ana_cut!="heep_singles"){ 
+      data_file->GetObject("randSub_plots/H_Em_nuc_rand_sub", data_Em_real);
+      data_file->GetObject("rand_plots/H_Em_nuc_rand", data_Em_rand);
+    }
   }
     
   //Set data Histo Aesthetics
@@ -655,6 +669,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_W_total->SetFillStyle(3004);
   data_W_total->SetLineColor(kBlue+2);
 
+  if(ana_cut!="heep_singles"){
   data_W_rand->SetFillColorAlpha(kGreen, 0.35);
   data_W_rand->SetFillStyle(3005);
   data_W_rand->SetLineColor(kGreen);
@@ -662,12 +677,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_W_real->SetFillColorAlpha(kMagenta, 0.35);
   data_W_real->SetFillStyle(3006);
   data_W_real->SetLineColor(kMagenta);
-
+  }
   // missing mass, MM
   data_MM_total->SetFillColorAlpha(kBlue, 0.35);
   data_MM_total->SetFillStyle(3004);
   data_MM_total->SetLineColor(kBlue+2);
 
+  if(ana_cut!="heep_singles"){
   data_MM_rand->SetFillColorAlpha(kGreen, 0.35);
   data_MM_rand->SetFillStyle(3005);
   data_MM_rand->SetLineColor(kGreen);
@@ -675,12 +691,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_MM_real->SetFillColorAlpha(kMagenta, 0.35);
   data_MM_real->SetFillStyle(3006);
   data_MM_real->SetLineColor(kMagenta);
-  
+  }
+
   // missing momentum
   data_Pm_total->SetFillColorAlpha(kBlue, 0.35);
   data_Pm_total->SetFillStyle(3004);
   data_Pm_total->SetLineColor(kBlue+2);
-
+if(ana_cut!="heep_singles"){
   data_Pm_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Pm_rand->SetFillStyle(3005);
   data_Pm_rand->SetLineColor(kGreen);
@@ -688,12 +705,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_Pm_real->SetFillColorAlpha(kMagenta, 0.35);
   data_Pm_real->SetFillStyle(3006);
   data_Pm_real->SetLineColor(kMagenta);
+ }
 
   // missing energy
   data_Em_total->SetFillColorAlpha(kBlue, 0.35);
   data_Em_total->SetFillStyle(3004);
   data_Em_total->SetLineColor(kBlue+2);
-
+if(ana_cut!="heep_singles"){
   data_Em_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Em_rand->SetFillStyle(3005);
   data_Em_rand->SetLineColor(kGreen);
@@ -701,7 +719,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_Em_real->SetFillColorAlpha(kMagenta, 0.35);
   data_Em_real->SetFillStyle(3006);
   data_Em_real->SetLineColor(kMagenta);
-
+ }
   //-----------------------------------------------------------------------------------
 
   gStyle->SetOptStat(0);
@@ -731,6 +749,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
     // ------ INVARIANT MASS ------
     c1->cd();
+    gPad->SetLogy();
     nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
@@ -778,6 +797,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ INVARIANT MASS ------
     c1->cd(2);
+    gPad->SetLogy();
     nbins = data_W_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_W_total->GetYaxis()->SetRangeUser(0.5, data_W_total->GetMaximum()+1.e5);
@@ -834,7 +854,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ MISSING MOMENTUM ------
     c1->cd(2);
-    //gPad->SetLogy();
+    gPad->SetLogy();
     nbins = data_Pm_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_Pm_total->GetYaxis()->SetRangeUser(0.5, data_Pm_total->GetMaximum()+100);
@@ -857,7 +877,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ MISSING ENERGY ------
     c1->cd(3);
-    //gPad->SetLogy();
+    gPad->SetLogy();
     nbins = data_Em_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
     
     data_Em_total->GetYaxis()->SetRangeUser(0.5, data_Em_total->GetMaximum()+100);
@@ -879,7 +899,7 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
     // ------ MISSING MASS ------
     c1->cd(4);
-    
+    gPad->SetLogy();
     nbins = data_MM_total->GetNbinsX();  //Get total number of bins (excluding overflow) (same for total, reals randoms of same histo)
 
     data_MM_total->GetYaxis()->SetRangeUser(0.5, data_MM_total->GetMaximum()+500);
@@ -1180,21 +1200,21 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
 
    //Draw Normalized?
    if(draw_norm){
-     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+     if((tgt_type=!"LD2")){
        if(simc_exist) simc_Em->DrawNormalized("hist");
      }
      data_Em->DrawNormalized("sameshistE0");
      
    }
    else{
-     if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+     if((tgt_type=!"LD2")){
        if(simc_exist) simc_Em->Draw("hist");
      }
      data_Em->Draw("sameshistE0");
    }
    data_Em->GetYaxis()->SetRangeUser(0., data_Em->GetBinContent(data_Em->GetMaximumBin())+300.);
    leg_Em->AddEntry(data_Em,"Data","f");
-   if((tgt_type=!"LD2") && (ana_cut=="SRC")){
+   if((tgt_type=!"LD2")){
      if(simc_exist) leg_Em->AddEntry(simc_Em,"SIMC");
    }
    leg_Em->Draw();

@@ -1728,50 +1728,51 @@ void baseAnalyzer::ReadInputFile()
     // Set simc filenames by hand for deuteron experimet
     
     
+    
     if(setting=="delta_scan_-8") {
-      simc_ifile             =  "../hallc_simulations/infiles/d2_heep_scan_rad_-8.data";
-      simc_InputFileName_rad =  "../hallc_simulations/worksim/d2_heep_scan_rad_-8.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-8_analyzed.root";
+      simc_ifile             =  "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_-8.data";
+      simc_InputFileName_rad =  "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_-8.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_-8_analyzed.root";
     }
     
     
     
     else if(setting=="delta_scan_-4") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_-4.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_-4.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_-4_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_-4.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_-4.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_-4_analyzed.root";
     }
     
     
     
     else if(setting=="delta_scan_0") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_0.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_0.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_0_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_0.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_0.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_0_analyzed.root";
     }
     
-
+     
     
     else if(setting=="delta_scan_+4") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+4.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+4.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+4_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+4.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+4.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+4_analyzed.root";
     }
     
-
+   
     
     else if(setting=="delta_scan_+8") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+8.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+8.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+8_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+8.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+8.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+8_analyzed.root";
     }
     
 
-    
+     
     else if(setting=="delta_scan_+12") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_heep_scan_rad_+12.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_heep_scan_rad_+12.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_heep_scan_rad_+12_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+12.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+12.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+12_analyzed.root";
     }
     
     
@@ -1811,7 +1812,7 @@ void baseAnalyzer::ReadInputFile()
     else {
       cout << Form("ROOTfile: %s NOT FOUND ! ", setting.Data()) << endl;
     }
-
+    
     
     
   }
@@ -5936,7 +5937,7 @@ void baseAnalyzer::EventLoop()
 			//--------------------------------------------------------
 			//---------HISTOGRAM CATEGORY: Kinematics  (KIN)----------
 			//--------------------------------------------------------
-			
+			//cout << "H_W = " << W << endl;
 			//Fill Primary Kin Histos
 			H_the    ->Fill(th_e/dtr);
 			H_kf     ->Fill(kf);

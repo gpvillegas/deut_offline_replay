@@ -345,7 +345,11 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   analyzer->SetEvent(event);
 
+  // original (epics180), does not exits, so beam positions force to (0,0)
+  //analyzer->SetEpicsEvtType(180);
+
   // Set EPICS event type (Feb 24, 2023 added these, suggested by M. Jones)
+  // TO get non-zero beam position
   analyzer->SetEpicsEvtType(181);
   analyzer->AddEpicsEvtType(182);  
 
