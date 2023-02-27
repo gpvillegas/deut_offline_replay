@@ -149,7 +149,7 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 
   // plot 2d histogra
   TCanvas *c0 = new TCanvas("c0", "", 1200,800);
   c0->cd();
-  hist2d->Draw("colz");
+  hist2d->Draw("contz");
   hist2d->Write();
   
   // --- define variables for calculative/plotting of relative stats. error on Pmiss (need to reset vector per projection bin) ---
@@ -231,7 +231,7 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 
     relative_err = 0;
     
     // set statistical lower (inner) limit for guidance during online data-taking
-    int inner_stats = 15;  // +/- 15 %
+    int inner_stats = 10;  // +/- 15 %
   
     // loop over all bins of Pmiss (h1 histogram) 
     for(int i =1; i<=h1->GetNbinsX(); i++){
@@ -304,7 +304,7 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 
     // add legend
     if(i==1){
       auto legend = new TLegend(0.5,0.6,0.9,0.8);
-      legend->AddEntry("gr","#pm 15 %","%d");
+      legend->AddEntry("gr","#pm 10 %","%d");
       legend->SetBorderSize(0);
       legend->SetTextSize(0.15);
       legend->SetTextColor(kRed);
@@ -332,9 +332,9 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0 
     
     //open plots with evince or any other viewer
     //gSystem->Exec(Form("evince %s", fout_projHistErr.Data() )); 
-    gSystem->Exec(Form("open %s", fout_2dHist.Data() ));
-    gSystem->Exec(Form("open %s", fout_projHist.Data() ));
-    gSystem->Exec(Form("open %s", fout_projHistErr.Data() )); 
+    gSystem->Exec(Form("evince %s", fout_2dHist.Data() ));
+    gSystem->Exec(Form("evince %s", fout_projHist.Data() ));
+    gSystem->Exec(Form("evince %s", fout_projHistErr.Data() )); 
 
   }
   
