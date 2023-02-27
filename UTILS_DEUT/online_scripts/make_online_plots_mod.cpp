@@ -243,13 +243,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
     //----------Get Target Histograms------------------
     //Get Histogram objects from SIMC rootfile
-    simc_file->GetObject("accp_plots/H_htar_x", simc_xtarH);
-    simc_file->GetObject("accp_plots/H_htar_y", simc_ytarH);
-    simc_file->GetObject("accp_plots/H_htar_z", simc_ztarH);
+    simc_file->GetObject("quality_plots/H_htar_x_ACCP_CUTS", simc_xtarH);
+    simc_file->GetObject("quality_plots/H_htar_y_ACCP_CUTS", simc_ytarH);
+    simc_file->GetObject("quality_plots/H_htar_z_ACCP_CUTS", simc_ztarH);
     
-    simc_file->GetObject("accp_plots/H_etar_x", simc_xtarP);
-    simc_file->GetObject("accp_plots/H_etar_y", simc_ytarP);  
-    simc_file->GetObject("accp_plots/H_etar_z", simc_ztarP); 
+    simc_file->GetObject("quality_plots/H_etar_x_ACCP_CUTS", simc_xtarP);
+    simc_file->GetObject("quality_plots/H_etar_y_ACCP_CUTS", simc_ytarP);  
+    simc_file->GetObject("quality_plots/H_etar_z_ACCP_CUTS", simc_ztarP); 
     
     //Set SIMC Histo Aesthetics
     simc_xtarH->SetLineColor(kRed);
@@ -274,13 +274,13 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->cd();
 
   //Get Histogram objects from data rootfile
-  data_file->GetObject("accp_plots/H_htar_x", data_xtarH);
-  data_file->GetObject("accp_plots/H_htar_y", data_ytarH);
-  data_file->GetObject("accp_plots/H_htar_z", data_ztarH);
+  data_file->GetObject("quality_plots/H_htar_x_ACCP_CUTS", data_xtarH);
+  data_file->GetObject("quality_plots/H_htar_y_ACCP_CUTS", data_ytarH);
+  data_file->GetObject("quality_plots/H_htar_z_ACCP_CUTS", data_ztarH);
 
-  data_file->GetObject("accp_plots/H_etar_x", data_xtarP); 
-  data_file->GetObject("accp_plots/H_etar_y", data_ytarP);                        
-  data_file->GetObject("accp_plots/H_etar_z", data_ztarP); 
+  data_file->GetObject("quality_plots/H_etar_x_ACCP_CUTS", data_xtarP); 
+  data_file->GetObject("quality_plots/H_etar_y_ACCP_CUTS", data_ytarP);                        
+  data_file->GetObject("quality_plots/H_etar_z_ACCP_CUTS", data_ztarP); 
   
   //Set data Histo Aesthetics
   data_xtarH->SetFillColorAlpha(kBlue, 0.35);
@@ -308,15 +308,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
     
     //----------Get Target Reconstructed Histograms------------------
     //Get Histogram objects from SIMC rootfile
-    simc_file->GetObject("accp_plots/H_eytar", simc_eytar);
-    simc_file->GetObject("accp_plots/H_exptar", simc_exptar);
-    simc_file->GetObject("accp_plots/H_eyptar", simc_eyptar);
-    simc_file->GetObject("accp_plots/H_edelta", simc_edelta);
+    simc_file->GetObject("quality_plots/H_eytar_ACCP_CUTS", simc_eytar);
+    simc_file->GetObject("quality_plots/H_exptar_ACCP_CUTS", simc_exptar);
+    simc_file->GetObject("quality_plots/H_eyptar_ACCP_CUTS", simc_eyptar);
+    simc_file->GetObject("quality_plots/H_edelta_ACCP_CUTS", simc_edelta);
     
-    simc_file->GetObject("accp_plots/H_hytar", simc_hytar);
-    simc_file->GetObject("accp_plots/H_hxptar", simc_hxptar);
-    simc_file->GetObject("accp_plots/H_hyptar", simc_hyptar);
-    simc_file->GetObject("accp_plots/H_hdelta", simc_hdelta);
+    simc_file->GetObject("quality_plots/H_hytar_ACCP_CUTS", simc_hytar);
+    simc_file->GetObject("quality_plots/H_hxptar_ACCP_CUTS", simc_hxptar);
+    simc_file->GetObject("quality_plots/H_hyptar_ACCP_CUTS", simc_hyptar);
+    simc_file->GetObject("quality_plots/H_hdelta_ACCP_CUTS", simc_hdelta);
 
     
     //Set SIMC Histo Aesthetics
@@ -344,15 +344,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->cd();
 
   //Get Histogram objects from data rootfile
-  data_file->GetObject("accp_plots/H_eytar", data_eytar);
-  data_file->GetObject("accp_plots/H_exptar", data_exptar);
-  data_file->GetObject("accp_plots/H_eyptar", data_eyptar);
-  data_file->GetObject("accp_plots/H_edelta", data_edelta);
+  data_file->GetObject("quality_plots/H_eytar_ACCP_CUTS", data_eytar);
+  data_file->GetObject("quality_plots/H_exptar_ACCP_CUTS", data_exptar);
+  data_file->GetObject("quality_plots/H_eyptar_ACCP_CUTS", data_eyptar);
+  data_file->GetObject("quality_plots/H_edelta_ACCP_CUTS", data_edelta);
   
-  data_file->GetObject("accp_plots/H_hytar", data_hytar);
-  data_file->GetObject("accp_plots/H_hxptar", data_hxptar);
-  data_file->GetObject("accp_plots/H_hyptar", data_hyptar);
-  data_file->GetObject("accp_plots/H_hdelta", data_hdelta);
+  data_file->GetObject("quality_plots/H_hytar_ACCP_CUTS", data_hytar);
+  data_file->GetObject("quality_plots/H_hxptar_ACCP_CUTS", data_hxptar);
+  data_file->GetObject("quality_plots/H_hyptar_ACCP_CUTS", data_hyptar);
+  data_file->GetObject("quality_plots/H_hdelta_ACCP_CUTS", data_hdelta);
 
   //Set data Histo Aesthetics
   data_eytar->SetFillColorAlpha(kBlue, 0.35);
@@ -383,15 +383,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   simc_file->cd();
 
   //Get Histogram objects from SIMC rootfile
-  simc_file->GetObject("accp_plots/H_exfp", simc_exfp);
-  simc_file->GetObject("accp_plots/H_eyfp", simc_eyfp);
-  simc_file->GetObject("accp_plots/H_expfp", simc_expfp);
-  simc_file->GetObject("accp_plots/H_eypfp", simc_eypfp);
+  simc_file->GetObject("quality_plots/H_exfp_ACCP_CUTS", simc_exfp);
+  simc_file->GetObject("quality_plots/H_eyfp_ACCP_CUTS", simc_eyfp);
+  simc_file->GetObject("quality_plots/H_expfp_ACCP_CUTS", simc_expfp);
+  simc_file->GetObject("quality_plots/H_eypfp_ACCP_CUTS", simc_eypfp);
 
-  simc_file->GetObject("accp_plots/H_hxfp", simc_hxfp);
-  simc_file->GetObject("accp_plots/H_hyfp", simc_hyfp);
-  simc_file->GetObject("accp_plots/H_hxpfp", simc_hxpfp);
-  simc_file->GetObject("accp_plots/H_hypfp", simc_hypfp);
+  simc_file->GetObject("quality_plots/H_hxfp_ACCP_CUTS", simc_hxfp);
+  simc_file->GetObject("quality_plots/H_hyfp_ACCP_CUTS", simc_hyfp);
+  simc_file->GetObject("quality_plots/H_hxpfp_ACCP_CUTS", simc_hxpfp);
+  simc_file->GetObject("quality_plots/H_hypfp_ACCP_CUTS", simc_hypfp);
   //Set SIMC Histo Aesthetics
   simc_exfp->SetLineColor(kRed);
   simc_exfp->SetLineWidth(2);
@@ -416,15 +416,15 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->cd();
 
   //Get Histogram objects from data rootfile
-  data_file->GetObject("accp_plots/H_exfp", data_exfp);
-  data_file->GetObject("accp_plots/H_eyfp", data_eyfp);
-  data_file->GetObject("accp_plots/H_expfp", data_expfp);
-  data_file->GetObject("accp_plots/H_eypfp", data_eypfp);
+  data_file->GetObject("quality_plots/H_exfp_ACCP_CUTS", data_exfp);
+  data_file->GetObject("quality_plots/H_eyfp_ACCP_CUTS", data_eyfp);
+  data_file->GetObject("quality_plots/H_expfp_ACCP_CUTS", data_expfp);
+  data_file->GetObject("quality_plots/H_eypfp_ACCP_CUTS", data_eypfp);
 
-  data_file->GetObject("accp_plots/H_hxfp", data_hxfp);
-  data_file->GetObject("accp_plots/H_hyfp", data_hyfp);
-  data_file->GetObject("accp_plots/H_hxpfp", data_hxpfp);
-  data_file->GetObject("accp_plots/H_hypfp", data_hypfp);
+  data_file->GetObject("quality_plots/H_hxfp_ACCP_CUTS", data_hxfp);
+  data_file->GetObject("quality_plots/H_hyfp_ACCP_CUTS", data_hyfp);
+  data_file->GetObject("quality_plots/H_hxpfp_ACCP_CUTS", data_hxpfp);
+  data_file->GetObject("quality_plots/H_hypfp_ACCP_CUTS", data_hypfp);
   //Set data Histo Aesthetics
   data_exfp->SetFillColorAlpha(kBlue, 0.35);
   data_exfp->SetFillStyle(3004);
@@ -453,27 +453,27 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   simc_file->cd();
 
   //Get Histogram objects from SIMC rootfile
-  simc_file->GetObject("kin_plots/H_Q2", simc_Q2);
-  simc_file->GetObject("kin_plots/H_nu", simc_nu);
-  simc_file->GetObject("kin_plots/H_W", simc_W);
-  simc_file->GetObject("kin_plots/H_thq", simc_thq);
+  simc_file->GetObject("quality_plots/H_Q2_ACCP_CUTS", simc_Q2);
+  simc_file->GetObject("quality_plots/H_nu_ACCP_CUTS", simc_nu);
+  simc_file->GetObject("quality_plots/H_W_ACCP_CUTS", simc_W);
+  simc_file->GetObject("quality_plots/H_thq_ACCP_CUTS", simc_thq);
 
-  simc_file->GetObject("kin_plots/H_xbj", simc_xbj);
-  simc_file->GetObject("kin_plots/H_the", simc_the);
-  simc_file->GetObject("kin_plots/H_kf", simc_kf);
-  simc_file->GetObject("kin_plots/H_Em", simc_Em);
-  simc_file->GetObject("kin_plots/H_MM", simc_MM);
+  simc_file->GetObject("quality_plots/H_xbj_ACCP_CUTS", simc_xbj);
+  simc_file->GetObject("quality_plots/H_the_ACCP_CUTS", simc_the);
+  simc_file->GetObject("quality_plots/H_kf_ACCP_CUTS", simc_kf);
+  simc_file->GetObject("quality_plots/H_Em_ACCP_CUTS", simc_Em);
+  simc_file->GetObject("quality_plots/H_MM_ACCP_CUTS", simc_MM);
 
-  simc_file->GetObject("kin_plots/H_Pm", simc_Pm);
-  simc_file->GetObject("kin_plots/H_Pf", simc_Pf);
-  simc_file->GetObject("kin_plots/H_thx", simc_thx);
-  simc_file->GetObject("kin_plots/H_q", simc_q);
-  simc_file->GetObject("kin_plots/H_thxq", simc_thxq);
-  simc_file->GetObject("kin_plots/H_thrq", simc_thrq);
+  simc_file->GetObject("quality_plots/H_Pm_ACCP_CUTS", simc_Pm);
+  simc_file->GetObject("quality_plots/H_Pf_ACCP_CUTS", simc_Pf);
+  simc_file->GetObject("quality_plots/H_thx_ACCP_CUTS", simc_thx);
+  simc_file->GetObject("quality_plots/H_q_ACCP_CUTS", simc_q);
+  simc_file->GetObject("quality_plots/H_thxq_ACCP_CUTS", simc_thxq);
+  simc_file->GetObject("quality_plots/H_thrq_ACCP_CUTS", simc_thrq);
 
-  simc_file->GetObject("kin_plots/H_Pmx_Lab", simc_Pmx);
-  simc_file->GetObject("kin_plots/H_Pmy_Lab", simc_Pmy);
-  simc_file->GetObject("kin_plots/H_Pmz_Lab", simc_Pmz);
+  simc_file->GetObject("quality_plots/H_Pmx_ACCP_CUTS", simc_Pmx);
+  simc_file->GetObject("quality_plots/H_Pmy_ACCP_CUTS", simc_Pmy);
+  simc_file->GetObject("quality_plots/H_Pmz_ACCP_CUTS", simc_Pmz);
   
   //Set SIMC Histo Aesthetics
   simc_Q2->SetLineColor(kRed);
@@ -522,19 +522,19 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->cd();
   
   //Get Histogram objects from data rootfile
-  data_file->GetObject("kin_plots/H_Q2", data_Q2);
-  data_file->GetObject("kin_plots/H_nu", data_nu);
-  data_file->GetObject("kin_plots/H_W", data_W);
-  data_file->GetObject("kin_plots/H_thq", data_thq);
+  data_file->GetObject("quality_plots/H_Q2_ACCP_CUTS", data_Q2);
+  data_file->GetObject("quality_plots/H_nu_ACCP_CUTS", data_nu);
+  data_file->GetObject("quality_plots/H_W_ACCP_CUTS", data_W);
+  data_file->GetObject("quality_plots/H_thq_ACCP_CUTS", data_thq);
 
   
-  data_file->GetObject("kin_plots/H_xbj", data_xbj);
-  data_file->GetObject("kin_plots/H_the", data_the);
-  data_file->GetObject("kin_plots/H_kf", data_kf);
+  data_file->GetObject("quality_plots/H_xbj_ACCP_CUTS", data_xbj);
+  data_file->GetObject("quality_plots/H_the_ACCP_CUTS", data_the);
+  data_file->GetObject("quality_plots/H_kf_ACCP_CUTS", data_kf);
 
   // read  kinematics for missing energy (different definitions)
-  if(tgt_type=="LH2")       {  data_file->GetObject("kin_plots/H_Em", data_Em);     }
-  else if (tgt_type!="LH2") {  data_file->GetObject("kin_plots/H_Em_nuc", data_Em); }
+  if(tgt_type=="LH2")       {  data_file->GetObject("quality_plots/H_Em_ACCP_CUTS", data_Em);     }
+  else if (tgt_type!="LH2") {  data_file->GetObject("quality_plots/H_Em_nuc_ACCP_CUTS", data_Em); }
    
   // --- data quality 2d histos ---
   // NOTE: only have acceptance, PID and coin. time cuts (except coin time cut itself)
@@ -544,19 +544,22 @@ void make_online_plots(int run=0, int evt=0, Bool_t simc_exist=0, TString tgt_ty
   data_file->GetObject("quality_plots/ACCP+PID_CUTS/H_ebeta_vs_ctime_ACCP_PID_CUTS",             data_ebeta_vs_ctime_qual);
   data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Q2_vs_xbj_ACCP_PID_CTIME_CUTS",      data_Q2_vs_xbj_qual);
   data_file->GetObject("quality_plots/ACCP+PID+CTIME_CUTS/H_Pm_vs_thrq_ACCP_PID_CTIME_CUTS",     data_Pm_vs_thrq_qual);
+
+  
+
   // -----------------------------
   
-  data_file->GetObject("kin_plots/H_MM", data_MM);
-  data_file->GetObject("kin_plots/H_Pm", data_Pm);
-  data_file->GetObject("kin_plots/H_Pf", data_Pf);
-  data_file->GetObject("kin_plots/H_thx", data_thx);
-  data_file->GetObject("kin_plots/H_q", data_q);
-  data_file->GetObject("kin_plots/H_thxq", data_thxq);
-  data_file->GetObject("kin_plots/H_thrq", data_thrq);
+  data_file->GetObject("quality_plots/H_MM_ACCP_CUTS", data_MM);
+  data_file->GetObject("quality_plots/H_Pm_ACCP_CUTS", data_Pm);
+  data_file->GetObject("quality_plots/H_Pf_ACCP_CUTS", data_Pf);
+  data_file->GetObject("quality_plots/H_thx_ACCP_CUTS", data_thx);
+  data_file->GetObject("quality_plots/H_q_ACCP_CUTS", data_q);
+  data_file->GetObject("quality_plots/H_thxq_ACCP_CUTS", data_thxq);
+  data_file->GetObject("quality_plots/H_thrq_ACCP_CUTS", data_thrq);
 
-  data_file->GetObject("kin_plots/H_Pmx_Lab", data_Pmx);
-  data_file->GetObject("kin_plots/H_Pmy_Lab", data_Pmy);
-  data_file->GetObject("kin_plots/H_Pmz_Lab", data_Pmz);
+  data_file->GetObject("quality_plots/H_Pmx_ACCP_CUTS", data_Pmx);
+  data_file->GetObject("quality_plots/H_Pmy_ACCP_CUTS", data_Pmy);
+  data_file->GetObject("quality_plots/H_Pmz_ACCP_CUTS", data_Pmz);
 
   //Set data Histo Aesthetics
   data_Q2->SetFillColorAlpha(kBlue, 0.35);

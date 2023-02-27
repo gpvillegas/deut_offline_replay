@@ -1794,6 +1794,8 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             =  "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_-8.data";
       simc_InputFileName_rad =  "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_-8.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_-8_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
     }
     
     
@@ -1802,6 +1804,8 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_-4.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_-4.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_-4_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
     }
     
     
@@ -1810,6 +1814,8 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_0.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_0.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_0_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+	    
     }
     
      
@@ -1818,7 +1824,9 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+4.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+4.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+4_analyzed.root";
-    }
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
+       }
     
    
     
@@ -1826,14 +1834,17 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+8.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+8.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+8_analyzed.root";
-    }
-    
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+      }
+   
 
      
     else if(setting=="delta_scan_+12") {
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_heep_scan_rad_+12.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_heep_scan_rad_+12.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_heep_scan_rad_+12_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+    
     }
     
     
@@ -1843,22 +1854,27 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm120_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm120_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm120_jmlfsi_rad_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
     }
     
 
     
-    //else if(setting=="pm_580") {
+    else if(setting=="pm_580") {
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm580_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm580_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm580_jmlfsi_rad_analyzed.root";
-      //}
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
+    }
     
     
-      /*
+    
     else if(setting=="pm_800") {
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm800_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm800_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm800_jmlfsi_rad_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
     }
    
 
@@ -1867,13 +1883,15 @@ void baseAnalyzer::ReadInputFile()
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm900_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm900_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm900_jmlfsi_rad_analyzed.root";
+      cout << "Reading SIMC file: " << simc_InputFileName_rad.Data() << endl;
+
     }
 
     
     else {
       cout << Form("ROOTfile: %s NOT FOUND ! ", setting.Data()) << endl;
     }
-      */
+     
     
     
   }
@@ -5445,6 +5463,18 @@ void baseAnalyzer::EventLoop()
 	  // combined hms/shms acceptance cuts 
 	  c_accpCuts = c_accpCuts_hms && c_accpCuts_shms && c_ztarDiff;
 	  
+
+	  // online general missing energy cut (for heep and deep) to get rid of rad. tail
+	  Bool_t c_onl_Em = 0;
+	  if(analysis_cut=="heep_coin"){
+	    c_onl_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;
+	  }
+	  else if (analysis_cut=="deep"){
+	    c_onl_Em = Em>=c_deep_Em_min && Em<=c_deep_Em_max;
+	   
+	  }
+	  
+
 	  //----Specialized Kinematics Cuts----
 
 	  // H(e,e'p) Kinematics
@@ -5758,8 +5788,9 @@ void baseAnalyzer::EventLoop()
 		  H_cthrq_vs_Pm_noCUT      ->Fill( Pm, cos(th_rq) );
 		  
        
-		  // -- CUTS: ACCEPTANCE CUTS + Emiss (for deuteron exp) ONLY --
-		  if(c_accpCuts && c_deep_Em) {
+		  // -- CUTS: ACCEPTANCE CUTS (added missing energy cut to for better comparison during online)
+		  
+		  if(c_accpCuts && c_onl_Em ) {
 		    
 		    H_ep_ctime_ACCP          ->Fill( epCoinTime-ctime_offset_peak_val );
 		    H_the_ACCP               ->Fill( th_e/dtr );
@@ -6500,6 +6531,17 @@ void baseAnalyzer::EventLoop()
 	  // combined hms/shms acceptance cuts 
 	  c_accpCuts = c_accpCuts_hms && c_accpCuts_shms && c_ztarDiff;
 	  
+	  // online general missing energy cut (for heep and deep) to get rid of rad. tail
+	  Bool_t c_onl_Em = 0;
+	  if(analysis_cut=="heep_coin"){
+	    c_onl_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;
+	  }
+	  else if (analysis_cut=="deep"){
+	    c_onl_Em = Em>=c_deep_Em_min && Em<=c_deep_Em_max;
+	    
+		    
+	  }
+
 	  //----Specialized Kinematics Cuts----
 
 	  // H(e,e'p) Kinematics
@@ -6629,7 +6671,7 @@ void baseAnalyzer::EventLoop()
 	  //-------------------------------Fill SIMC Histograms--------------------------
 	  
 	  // -- CUTS: ACCEPTANCE CUTS ONLY (we need also missing energy cut for deuteron)--
-	  if(c_accpCuts && c_deep_Em){
+	  if(c_accpCuts && c_onl_Em ){
 	     
 	    H_the_ACCP               ->Fill( th_e/dtr , FullWeight);
 	    H_W_ACCP                 ->Fill( W , FullWeight);
