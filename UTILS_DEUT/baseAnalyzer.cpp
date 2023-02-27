@@ -114,7 +114,8 @@ void baseAnalyzer::Init(){
   rand_HList = NULL;
   randSub_HList = NULL;
   quality_HList = NULL;
-  
+  quality_SIMC_HList = NULL;
+    
   //-----Initialize Histogram Pointers-----
 
   // Dummy histograms to store the ith and cumulative histograms (See CombineHistos() Method)
@@ -431,17 +432,31 @@ void baseAnalyzer::Init(){
   H_nu_ACCP = NULL;
   H_q_ACCP = NULL;
   H_thq_ACCP = NULL;
+  H_Em_ACCP = NULL;
   H_Em_nuc_ACCP = NULL;
   H_Em_src_ACCP = NULL;
   H_MM_ACCP = NULL;
   H_Pm_ACCP = NULL;
+  H_PmX_ACCP = NULL;
+  H_PmY_ACCP = NULL;
+  H_PmZ_ACCP = NULL;
   H_thxq_ACCP = NULL;
   H_thrq_ACCP = NULL;
   H_cthrq_ACCP = NULL;
   H_kf_ACCP = NULL;
   H_Pf_ACCP = NULL;
   H_thx_ACCP = NULL;
-
+  
+  // focal plane added on (Feb 27, 2023)
+  H_exfp_ACCP  = NULL;   
+  H_expfp_ACCP = NULL;  
+  H_eyfp_ACCP  = NULL;   
+  H_eypfp_ACCP = NULL;  
+  H_hxfp_ACCP  = NULL;   
+  H_hxpfp_ACCP = NULL;  
+  H_hyfp_ACCP  = NULL;   
+  H_hypfp_ACCP = NULL;
+ 
   // recon.
   H_eytar_ACCP = NULL;  
   H_eyptar_ACCP = NULL; 
@@ -451,6 +466,14 @@ void baseAnalyzer::Init(){
   H_hyptar_ACCP = NULL; 
   H_hxptar_ACCP = NULL; 
   H_hdelta_ACCP = NULL;
+  
+  //Target Quantities (tarx, tary, tarz) in Hall Coord. System added on (Feb 27, 2023)
+  H_htar_x_ACCP = NULL;  
+  H_htar_y_ACCP = NULL;  
+  H_htar_z_ACCP = NULL;  
+  H_etar_x_ACCP = NULL;  
+  H_etar_y_ACCP = NULL;  
+  H_etar_z_ACCP = NULL;  
 
   // detector
   H_pCalEtotTrkNorm_ACCP = NULL;
@@ -465,11 +488,17 @@ void baseAnalyzer::Init(){
   H_exfp_vs_eyfp_ACCP = NULL;  
   H_hXColl_vs_hYColl_ACCP = NULL;
   H_eXColl_vs_eYColl_ACCP = NULL;
+  H_Em_vs_Pm_ACCP = NULL;
   H_Em_nuc_vs_Pm_ACCP = NULL;
   H_Em_src_vs_Pm_ACCP = NULL;
   H_Q2_vs_xbj_ACCP = NULL;
   H_cthrq_vs_Pm_ACCP = NULL;
-  
+
+  //2D HMS v. SHMS Acceptance Correlations
+  H_hxptar_vs_exptar_ACCP = NULL;
+  H_hyptar_vs_eyptar_ACCP = NULL;
+  H_hdelta_vs_edelta_ACCP = NULL;
+
     // -- CUTS: ACCEPTANCE + PID CUTS ONLY --
   // kin
   H_ep_ctime_ACCP_PID = NULL;
@@ -737,6 +766,8 @@ baseAnalyzer::~baseAnalyzer()
   delete rand_HList;    rand_HList = NULL;
   delete randSub_HList; randSub_HList = NULL;
   delete quality_HList; quality_HList = NULL;
+  delete quality_SIMC_HList; quality_SIMC_HList = NULL;
+
   //-----------------------------
   // Detector Histogram Pointers
   //-----------------------------
@@ -1041,28 +1072,51 @@ baseAnalyzer::~baseAnalyzer()
   delete H_xbj_ACCP;				     		   H_xbj_ACCP = NULL;				     			     
   delete H_nu_ACCP;				     		   H_nu_ACCP = NULL;				     			     
   delete H_q_ACCP;				     		   H_q_ACCP = NULL;				     			     
-  delete H_thq_ACCP;				     		   H_thq_ACCP = NULL;				     			     
+  delete H_thq_ACCP;				     		   H_thq_ACCP = NULL;	
+  delete H_Em_ACCP;				     		   H_Em_ACCP = NULL;				     			     
   delete H_Em_nuc_ACCP;				     		   H_Em_nuc_ACCP = NULL;				     			     
   delete H_Em_src_ACCP;				     		   H_Em_src_ACCP = NULL;				     			     
   delete H_MM_ACCP;				     		   H_MM_ACCP = NULL;				     			     
   delete H_Pm_ACCP;				     		   H_Pm_ACCP = NULL;				     			     
+  delete H_PmX_ACCP;                                               H_PmX_ACCP = NULL;
+  delete H_PmY_ACCP;						   H_PmY_ACCP = NULL;
+  delete H_PmZ_ACCP;						   H_PmZ_ACCP = NULL;
   delete H_thxq_ACCP;				     		   H_thxq_ACCP = NULL;				     			     
   delete H_thrq_ACCP;				     		   H_thrq_ACCP = NULL;
   delete H_cthrq_ACCP;                                             H_cthrq_ACCP = NULL; 				     			     
   delete H_kf_ACCP;				     		   H_kf_ACCP = NULL;				     			     
   delete H_Pf_ACCP;				     		   H_Pf_ACCP = NULL;				     			     
   delete H_thx_ACCP;				     		   H_thx_ACCP = NULL;				     			     
-                                                                                                                                                
+  
+  // focal plane added on (Feb 27, 2023)
+  delete H_exfp_ACCP;                                              H_exfp_ACCP = NULL;   
+  delete H_expfp_ACCP;  					   H_expfp_ACCP = NULL;
+  delete H_eyfp_ACCP;   					   H_eyfp_ACCP = NULL; 
+  delete H_eypfp_ACCP;  					   H_eypfp_ACCP = NULL;
+  delete H_hxfp_ACCP;   					   H_hxfp_ACCP = NULL; 
+  delete H_hxpfp_ACCP;  					   H_hxpfp_ACCP = NULL;
+  delete H_hyfp_ACCP;   					   H_hyfp_ACCP = NULL; 
+  delete H_hypfp_ACCP;						   H_hypfp_ACCP = NULL;
+                                                                                                                                             
   // recon.						     		   					     		     
   delete H_eytar_ACCP;  				     		   H_eytar_ACCP = NULL;  				     		     
   delete H_eyptar_ACCP; 				     		   H_eyptar_ACCP = NULL; 				     		     
   delete H_exptar_ACCP; 				     		   H_exptar_ACCP = NULL; 				     		     
-  delete H_edelta_ACCP;				     		   H_edelta_ACCP = NULL;				     			     
+  delete H_edelta_ACCP;				     		           H_edelta_ACCP = NULL;				     			     
   delete H_hytar_ACCP;  				     		   H_hytar_ACCP = NULL;  				     		     
   delete H_hyptar_ACCP; 				     		   H_hyptar_ACCP = NULL; 				     		     
   delete H_hxptar_ACCP; 				     		   H_hxptar_ACCP = NULL; 				     		     
   delete H_hdelta_ACCP;				     		   H_hdelta_ACCP = NULL;				     			     
-                                                                                                                                                 
+              
+
+  //Target Quantities (tarx, tary, tarz) in Hall Coord. System added on (Feb 27, 2023)
+  delete H_htar_x_ACCP;                                  H_htar_x_ACCP = NULL;  
+  delete H_htar_y_ACCP;  				 H_htar_y_ACCP = NULL;
+  delete H_htar_z_ACCP;  				 H_htar_z_ACCP = NULL;
+  delete H_etar_x_ACCP;  				 H_etar_x_ACCP = NULL;
+  delete H_etar_y_ACCP;  				 H_etar_y_ACCP = NULL;
+  delete H_etar_z_ACCP;					 H_etar_z_ACCP = NULL;
+  
   // detector						     		  					     		     
   delete H_pCalEtotTrkNorm_ACCP;			     		   H_pCalEtotTrkNorm_ACCP = NULL;			     		     
   delete H_pHodBetaTrk_ACCP;			     		   H_pHodBetaTrk_ACCP = NULL;			     			     
@@ -1075,12 +1129,19 @@ baseAnalyzer::~baseAnalyzer()
   delete H_hxfp_vs_hyfp_ACCP;			     		   H_hxfp_vs_hyfp_ACCP = NULL;			     			     
   delete H_exfp_vs_eyfp_ACCP;  			     		   H_exfp_vs_eyfp_ACCP = NULL;  			     			     
   delete H_hXColl_vs_hYColl_ACCP;		     		   H_hXColl_vs_hYColl_ACCP = NULL;		     			     
-  delete H_eXColl_vs_eYColl_ACCP;		     		   H_eXColl_vs_eYColl_ACCP = NULL;		     			     
+  delete H_eXColl_vs_eYColl_ACCP;		     		   H_eXColl_vs_eYColl_ACCP = NULL;
+  delete H_Em_vs_Pm_ACCP;			     		   H_Em_vs_Pm_ACCP = NULL;			     			     
   delete H_Em_nuc_vs_Pm_ACCP;			     		   H_Em_nuc_vs_Pm_ACCP = NULL;			     			     
   delete H_Em_src_vs_Pm_ACCP;			     		   H_Em_src_vs_Pm_ACCP = NULL;			     			     
   delete H_Q2_vs_xbj_ACCP;			     		   H_Q2_vs_xbj_ACCP = NULL;
   delete H_cthrq_vs_Pm_ACCP;			     		   H_cthrq_vs_Pm_ACCP = NULL;
-                                                                                                                                                 
+  
+  //2D HMS v. SHMS Acceptance Correlations
+  delete H_hxptar_vs_exptar_ACCP;                                  H_hxptar_vs_exptar_ACCP = NULL;
+  delete H_hyptar_vs_eyptar_ACCP;				   H_hyptar_vs_eyptar_ACCP = NULL;
+  delete H_hdelta_vs_edelta_ACCP;				   H_hdelta_vs_edelta_ACCP = NULL;
+
+                                                                                                                                        
     // -- CUTS: ACCEPTANCE + PID CUTS ONLY --		     		    CUTS: ACCEPTANCE + PID CUTS ONLY --		     		     
   // kin 						     		   						     		     
   delete H_ep_ctime_ACCP_PID;			     		   H_ep_ctime_ACCP_PID = NULL;			     			     
@@ -1786,33 +1847,33 @@ void baseAnalyzer::ReadInputFile()
     
 
     
-    else if(setting=="pm_580") {
+    //else if(setting=="pm_580") {
       simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm580_jmlfsi_rad.data";
       simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm580_jmlfsi_rad.root";
       simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm580_jmlfsi_rad_analyzed.root";
-    }
+      //}
     
     
-    
+      /*
     else if(setting=="pm_800") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_pm800_jmlfsi_rad.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm800_jmlfsi_rad.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm800_jmlfsi_rad_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm800_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm800_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm800_jmlfsi_rad_analyzed.root";
     }
    
 
      
     else if(setting=="pm_900") {
-      simc_ifile             = "../hallc_simulations/infiles/d2_pm900_jmlfsi_rad.data";
-      simc_InputFileName_rad = "../hallc_simulations/worksim/d2_pm900_jmlfsi_rad.root";
-      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/d2_pm900_jmlfsi_rad_analyzed.root";
+      simc_ifile             = "../hallc_simulations/infiles/deuteron/spring23/pass1/d2_pm900_jmlfsi_rad.data";
+      simc_InputFileName_rad = "../hallc_simulations/worksim/pass1/d2_pm900_jmlfsi_rad.root";
+      simc_OutputFileName_rad = "../hallc_simulations/worksim/analyzed/pass1/d2_pm900_jmlfsi_rad_analyzed.root";
     }
 
     
     else {
       cout << Form("ROOTfile: %s NOT FOUND ! ", setting.Data()) << endl;
     }
-    
+      */
     
     
   }
@@ -2606,6 +2667,7 @@ void baseAnalyzer::CreateHist()
   randSub_HList = new TList();
 
   quality_HList = new TList();
+  quality_SIMC_HList = new TList();
 
   // Dummy histograms to store the ith and cumulative histograms (See CombineHistos() Method)
   //1D
@@ -3156,16 +3218,31 @@ void baseAnalyzer::CreateHist()
   H_nu_ACCP       = new TH1F("H_nu_ACCP_CUTS","Energy Transfer, #nu", nu_nbins, nu_xmin, nu_xmax); 
   H_q_ACCP        = new TH1F("H_q_ACCP_CUTS", "3-Momentum Transfer, |#vec{q}|", q_nbins, q_xmin, q_xmax);
   H_thq_ACCP      = new TH1F("H_thq_ACCP_CUTS", "#theta_{q}", thq_nbins, thq_xmin, thq_xmax);
+  H_Em_ACCP       = new TH1F("H_Em_ACCP_CUTS","Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   H_Em_nuc_ACCP   = new TH1F("H_Em_nuc_ACCP_CUTS","Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   H_Em_src_ACCP   = new TH1F("H_Em_src_ACCP_CUTS","SRC Nuclear Missing Energy", Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax); 
   H_MM_ACCP       = new TH1F("H_MM_ACCP_CUTS","Missing Mass, M_{miss}", MM_nbins, MM_xmin, MM_xmax);        
   H_Pm_ACCP       = new TH1F("H_Pm_ACCP_CUTS","Missing Momentum, P_{miss}", Pm_nbins, Pm_xmin, Pm_xmax); 
+  H_PmX_ACCP      = new TH1F("H_Pmx_ACCP_CUTS","P_{miss, x} (Lab)", Pmx_lab_nbins, Pmx_lab_xmin, Pmx_lab_xmax);         
+  H_PmY_ACCP      = new TH1F("H_Pmy_ACCP_CUTS","P_{miss, y} (Lab)", Pmy_lab_nbins, Pmy_lab_xmin, Pmy_lab_xmax);    
+  H_PmZ_ACCP      = new TH1F("H_Pmz_ACCP_CUTS","P_{miss, z} (Lab)", Pmz_lab_nbins, Pmz_lab_xmin, Pmz_lab_xmax);  
   H_thxq_ACCP     = new TH1F("H_thxq_ACCP_CUTS", "In-Plane (detected) Angle, #theta_{pq}", thxq_nbins, thxq_xmin, thxq_xmax);
   H_thrq_ACCP     = new TH1F("H_thrq_ACCP_CUTS", "In-Plane (recoil) Angle, #theta_{rq}", thrq_nbins, thrq_xmin, thrq_xmax);
   H_cthrq_ACCP    = new TH1F("H_cthrq_ACCP_CUTS", "In-Plane (recoil) Angle, cos(#theta_{rq})", thrq_nbins, -1.5, 1.5);   
   H_kf_ACCP       = new TH1F("H_kf_ACCP_CUTS", "Final e^{-} Momentum", kf_nbins, kf_xmin, kf_xmax);
   H_Pf_ACCP       = new TH1F("H_Pf_ACCP_CUTS", "Final Hadron Momentum (detected), p_{f}", Pf_nbins, Pf_xmin, Pf_xmax);
   H_thx_ACCP      = new TH1F("H_thx_ACCP_CUTS", "Hadron Scattering Angle (detected), #theta_{p}", thx_nbins, thx_xmin, thx_xmax);
+
+  // focal plane
+  H_exfp_ACCP  = new TH1F("H_exfp_ACCP_CUTS", Form("%s X_{fp}; X_{fp} [cm]; Counts ", e_arm_name.Data()), exfp_nbins, exfp_xmin, exfp_xmax);
+  H_eyfp_ACCP  = new TH1F("H_eyfp_ACCP_CUTS", Form("%s Y_{fp}; Y_{fp} [cm]; Counts ", e_arm_name.Data()), eyfp_nbins, eyfp_xmin, eyfp_xmax);
+  H_expfp_ACCP = new TH1F("H_expfp_ACCP_CUTS", Form("%s X'_{fp}; X'_{fp} [rad]; Counts ", e_arm_name.Data()), expfp_nbins, expfp_xmin, expfp_xmax);
+  H_eypfp_ACCP = new TH1F("H_eypfp_ACCP_CUTS", Form("%s Y'_{fp}; Y'_{fp} [rad]; Counts ", e_arm_name.Data()), eypfp_nbins, eypfp_xmin, eypfp_xmax);
+  H_hxfp_ACCP  = new TH1F("H_hxfp_ACCP_CUTS", Form("%s  X_{fp}; X_{fp} [cm]; Counts ", h_arm_name.Data()), hxfp_nbins, hxfp_xmin, hxfp_xmax);
+  H_hyfp_ACCP  = new TH1F("H_hyfp_ACCP_CUTS", Form("%s  Y_{fp}; Y_{fp} [cm]; Counts ", h_arm_name.Data()), hyfp_nbins, hyfp_xmin, hyfp_xmax);
+  H_hxpfp_ACCP = new TH1F("H_hxpfp_ACCP_CUTS", Form("%s  X'_{fp}; X'_{fp} [rad]; Counts ", h_arm_name.Data()), hxpfp_nbins, hxpfp_xmin, hxpfp_xmax );
+  H_hypfp_ACCP = new TH1F("H_hypfp_ACCP_CUTS", Form("%s  Y'_{fp}; Y'_{fp} [rad]; Counts ", h_arm_name.Data()), hypfp_nbins, hypfp_xmin, hypfp_xmax);
+
 
   // recon.
   H_eytar_ACCP  = new TH1F("H_eytar_ACCP_CUTS", Form("%s Y_{tar}; Y_{tar} [cm]; Counts ", e_arm_name.Data()), eytar_nbins, eytar_xmin, eytar_xmax);
@@ -3176,6 +3253,14 @@ void baseAnalyzer::CreateHist()
   H_hyptar_ACCP = new TH1F("H_hxptar_ACCP_CUTS", Form("%s  X'_{tar}; X'_{tar} [rad]; Counts ", h_arm_name.Data()), hxptar_nbins, hxptar_xmin, hxptar_xmax);
   H_hxptar_ACCP = new TH1F("H_hyptar_ACCP_CUTS", Form("%s  Y'_{tar}; Y'_{tar} [rad]; Counts ", h_arm_name.Data()), hyptar_nbins, hyptar_xmin, hyptar_xmax );
   H_hdelta_ACCP = new TH1F("H_hdelta_ACCP_CUTS", Form("%s  Momentum Acceptance, #delta; #delta [%%]; Counts ", h_arm_name.Data()), hdelta_nbins, hdelta_xmin, hdelta_xmax);
+  
+  // target vertex (hall coord.)
+  H_htar_x_ACCP = new TH1F("H_htar_x_ACCP_CUTS", Form("Fast Raster (%s) x-Vertex (Lab) ; x-Vertex [cm]; Counts ", h_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_htar_y_ACCP = new TH1F("H_htar_y_ACCP_CUTS", Form("Fast Raster (%s) y_Vertex (Lab) ; y-Vertex [cm]; Counts ", h_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_htar_z_ACCP = new TH1F("H_htar_z_ACCP_CUTS", Form("%s z-Vertex (Lab)               ; z-Vertex [cm]; Counts ", h_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
+  H_etar_x_ACCP = new TH1F("H_etar_x_ACCP_CUTS", Form("Fast Raster (%s) x-Vertex (Lab) ; x-Target [cm]; Counts ", e_arm_name.Data()), tarx_nbins, tarx_xmin, tarx_xmax);
+  H_etar_y_ACCP = new TH1F("H_etar_y_ACCP_CUTS", Form("Fast Raster (%s) y-Vertex (Lab) ; y-Target [cm]; Counts ", e_arm_name.Data()), tary_nbins, tary_xmin, tary_xmax);
+  H_etar_z_ACCP = new TH1F("H_etar_z_ACCP_CUTS", Form("%s z-Vertex (Lab)               ; z-Vertex [cm]; Counts ", e_arm_name.Data()), tarz_nbins, tarz_xmin, tarz_xmax);
 
   // detector
   H_pCalEtotTrkNorm_ACCP = new TH1F("H_pCalEtotTrkNorm_ACCP_CUTS", "SHMS Calorimeter Total Normalized Track Energy; E_{tot} / P_{trk}; Counts ", pcal_nbins, pcal_xmin, pcal_xmax);
@@ -3190,12 +3275,17 @@ void baseAnalyzer::CreateHist()
   H_exfp_vs_eyfp_ACCP     = new TH2F("H_exfp_vs_eyfp_ACCP_CUTS", Form("%s  X_{fp} vs. Y_{fp}; Y_{fp} [cm]; X_{fp} [cm]", e_arm_name.Data()),  eyfp_nbins, eyfp_xmin, eyfp_xmax, exfp_nbins, exfp_xmin, exfp_xmax);  
   H_hXColl_vs_hYColl_ACCP = new TH2F("H_hXColl_vs_hYColl_ACCP_CUTS", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", h_arm_name.Data(), h_arm_name.Data(), h_arm_name.Data()), hYColl_nbins, hYColl_xmin, hYColl_xmax,  hXColl_nbins, hXColl_xmin, hXColl_xmax);
   H_eXColl_vs_eYColl_ACCP = new TH2F("H_eXColl_vs_eYColl_ACCP_CUTS", Form("%s Collimator; %s Y-Collimator [cm]; %s X-Collimator [cm]", e_arm_name.Data(), e_arm_name.Data(), e_arm_name.Data()), eYColl_nbins, eYColl_xmin, eYColl_xmax, eXColl_nbins, eXColl_xmin, eXColl_xmax); 
+  H_Em_vs_Pm_ACCP         = new TH2F("H_Em_vs_Pm_ACCP_CUTS", "Em vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nbins, Em_xmin, Em_xmax);
   H_Em_nuc_vs_Pm_ACCP     = new TH2F("H_Em_nuc_vs_Pm_ACCP_CUTS", "Em_nuc vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   H_Em_src_vs_Pm_ACCP     = new TH2F("H_Em_src_vs_Pm_ACCP_CUTS", "Em_src vs. Pm", Pm_nbins, Pm_xmin, Pm_xmax, Em_nuc_nbins, Em_nuc_xmin, Em_nuc_xmax);
   H_Q2_vs_xbj_ACCP        = new TH2F("H_Q2_vs_xbj_ACCP_CUTS",    "Q2 vs. xbj",    X_nbins,  X_xmin,  X_xmax,  Q2_nbins,     Q2_xmin,     Q2_xmax ); 
   H_cthrq_vs_Pm_ACCP      = new TH2F("H_cthrq_vs_Pm_ACCP_CUTS",  "cos(#theta_{rq}) vs. P_{m}",  Pm_nbins,  Pm_xmin,  Pm_xmax,  100,  -1.5,  1.5 ); 
   
-
+  H_hxptar_vs_exptar_ACCP      = new TH2F("H_hxptar_vs_exptar_ACCP_CUTS", "HMS vs. SHMS, X'_{tar}", exptar_nbins, exptar_xmin, exptar_xmax, hxptar_nbins, hxptar_xmin, hxptar_xmax);
+  H_hyptar_vs_eyptar_ACCP      = new TH2F("H_hyptar_vs_eyptar_ACCP_CUTS", "HMS vs. SHMS, Y'_{tar}", eyptar_nbins, eyptar_xmin, eyptar_xmax, hyptar_nbins, hyptar_xmin, hyptar_xmax);
+  H_hdelta_vs_edelta_ACCP      = new TH2F("H_hdelta_vs_edelta_ACCP_CUTS", "HMS vs. SHMS, #delta",   edelta_nbins, edelta_xmin, edelta_xmax, hdelta_nbins, hdelta_xmin, hdelta_xmax);
+  
+  // DATA
   quality_HList->Add( H_ep_ctime_ACCP  );
   quality_HList->Add( H_the_ACCP       );
   quality_HList->Add( H_W_ACCP         );
@@ -3204,16 +3294,29 @@ void baseAnalyzer::CreateHist()
   quality_HList->Add( H_nu_ACCP        );
   quality_HList->Add( H_q_ACCP         );
   quality_HList->Add( H_thq_ACCP       );
+  quality_HList->Add( H_Em_ACCP        );
   quality_HList->Add( H_Em_nuc_ACCP    );
   quality_HList->Add( H_Em_src_ACCP    );
   quality_HList->Add( H_MM_ACCP        );
   quality_HList->Add( H_Pm_ACCP        );
+  quality_HList->Add( H_PmX_ACCP        );
+  quality_HList->Add( H_PmY_ACCP        );
+  quality_HList->Add( H_PmZ_ACCP        );
   quality_HList->Add( H_thxq_ACCP      );
   quality_HList->Add( H_thrq_ACCP      );
   quality_HList->Add( H_cthrq_ACCP     );
   quality_HList->Add( H_kf_ACCP        );
   quality_HList->Add( H_Pf_ACCP        );
   quality_HList->Add( H_thx_ACCP       );
+  
+  quality_HList->Add( H_exfp_ACCP  );
+  quality_HList->Add( H_expfp_ACCP );
+  quality_HList->Add( H_eyfp_ACCP  );
+  quality_HList->Add( H_eypfp_ACCP );
+  quality_HList->Add( H_hxfp_ACCP  );
+  quality_HList->Add( H_hxpfp_ACCP );
+  quality_HList->Add( H_hyfp_ACCP  );
+  quality_HList->Add( H_hypfp_ACCP );
 
   quality_HList->Add( H_eytar_ACCP   );
   quality_HList->Add( H_eyptar_ACCP  );
@@ -3223,6 +3326,13 @@ void baseAnalyzer::CreateHist()
   quality_HList->Add( H_hyptar_ACCP  );
   quality_HList->Add( H_hxptar_ACCP  );
   quality_HList->Add( H_hdelta_ACCP  );
+  
+  quality_HList->Add( H_htar_x_ACCP );
+  quality_HList->Add( H_htar_y_ACCP );
+  quality_HList->Add( H_htar_z_ACCP );
+  quality_HList->Add( H_etar_x_ACCP );
+  quality_HList->Add( H_etar_y_ACCP );
+  quality_HList->Add( H_etar_z_ACCP );
 
   quality_HList->Add( H_pCalEtotTrkNorm_ACCP );
   quality_HList->Add( H_pHodBetaTrk_ACCP     );
@@ -3235,11 +3345,80 @@ void baseAnalyzer::CreateHist()
   quality_HList->Add( H_exfp_vs_eyfp_ACCP     );
   quality_HList->Add( H_hXColl_vs_hYColl_ACCP );
   quality_HList->Add( H_eXColl_vs_eYColl_ACCP );
+  quality_HList->Add( H_Em_vs_Pm_ACCP         );
   quality_HList->Add( H_Em_nuc_vs_Pm_ACCP     );
   quality_HList->Add( H_Em_src_vs_Pm_ACCP     );
   quality_HList->Add( H_Q2_vs_xbj_ACCP        );
-  quality_HList->Add( H_cthrq_vs_Pm_ACCP        );
+  quality_HList->Add( H_cthrq_vs_Pm_ACCP      );
+  
+  quality_HList->Add( H_hxptar_vs_exptar_ACCP );
+  quality_HList->Add( H_hyptar_vs_eyptar_ACCP );
+  quality_HList->Add( H_hdelta_vs_edelta_ACCP );
 
+  if(analysis_type=="simc"){
+  
+    // SIMC
+    quality_SIMC_HList->Add( H_the_ACCP       );
+    quality_SIMC_HList->Add( H_W_ACCP         );
+    quality_SIMC_HList->Add( H_Q2_ACCP        );
+    quality_SIMC_HList->Add( H_xbj_ACCP       );
+    quality_SIMC_HList->Add( H_nu_ACCP        );
+    quality_SIMC_HList->Add( H_q_ACCP         );
+    quality_SIMC_HList->Add( H_thq_ACCP       );
+    quality_SIMC_HList->Add( H_Em_ACCP        );
+    quality_SIMC_HList->Add( H_Em_nuc_ACCP    );
+    quality_SIMC_HList->Add( H_Em_src_ACCP    );
+    quality_SIMC_HList->Add( H_MM_ACCP        );
+    quality_SIMC_HList->Add( H_Pm_ACCP        );
+    quality_SIMC_HList->Add( H_PmX_ACCP        );
+    quality_SIMC_HList->Add( H_PmY_ACCP        );
+    quality_SIMC_HList->Add( H_PmZ_ACCP        );
+    quality_SIMC_HList->Add( H_thxq_ACCP      );
+    quality_SIMC_HList->Add( H_thrq_ACCP      );
+    quality_SIMC_HList->Add( H_cthrq_ACCP     );
+    quality_SIMC_HList->Add( H_kf_ACCP        );
+    quality_SIMC_HList->Add( H_Pf_ACCP        );
+    quality_SIMC_HList->Add( H_thx_ACCP       );
+    
+    quality_SIMC_HList->Add( H_exfp_ACCP  );
+    quality_SIMC_HList->Add( H_expfp_ACCP );
+    quality_SIMC_HList->Add( H_eyfp_ACCP  );
+    quality_SIMC_HList->Add( H_eypfp_ACCP );
+    quality_SIMC_HList->Add( H_hxfp_ACCP  );
+    quality_SIMC_HList->Add( H_hxpfp_ACCP );
+    quality_SIMC_HList->Add( H_hyfp_ACCP  );
+    quality_SIMC_HList->Add( H_hypfp_ACCP );
+    
+    quality_SIMC_HList->Add( H_eytar_ACCP   );
+    quality_SIMC_HList->Add( H_eyptar_ACCP  );
+    quality_SIMC_HList->Add( H_exptar_ACCP  );
+    quality_SIMC_HList->Add( H_edelta_ACCP  );
+    quality_SIMC_HList->Add( H_hytar_ACCP   );
+    quality_SIMC_HList->Add( H_hyptar_ACCP  );
+    quality_SIMC_HList->Add( H_hxptar_ACCP  );
+    quality_SIMC_HList->Add( H_hdelta_ACCP  );
+    
+    quality_SIMC_HList->Add( H_htar_x_ACCP );
+    quality_SIMC_HList->Add( H_htar_y_ACCP );
+    quality_SIMC_HList->Add( H_htar_z_ACCP );
+    quality_SIMC_HList->Add( H_etar_x_ACCP );
+    quality_SIMC_HList->Add( H_etar_y_ACCP );
+    quality_SIMC_HList->Add( H_etar_z_ACCP );
+    
+    quality_SIMC_HList->Add( H_hxfp_vs_hyfp_ACCP     );
+    quality_SIMC_HList->Add( H_exfp_vs_eyfp_ACCP     );
+    quality_SIMC_HList->Add( H_hXColl_vs_hYColl_ACCP );
+    quality_SIMC_HList->Add( H_eXColl_vs_eYColl_ACCP );
+    quality_SIMC_HList->Add( H_Em_vs_Pm_ACCP         );
+    quality_SIMC_HList->Add( H_Em_nuc_vs_Pm_ACCP     );
+    quality_SIMC_HList->Add( H_Em_src_vs_Pm_ACCP     );
+    quality_SIMC_HList->Add( H_Q2_vs_xbj_ACCP        );
+    quality_SIMC_HList->Add( H_cthrq_vs_Pm_ACCP      );
+    
+    quality_SIMC_HList->Add( H_hxptar_vs_exptar_ACCP );
+    quality_SIMC_HList->Add( H_hyptar_vs_eyptar_ACCP );
+    quality_SIMC_HList->Add( H_hdelta_vs_edelta_ACCP );
+  }
 
   // -- CUTS: ACCEPTANCE + PID CUTS ONLY --
   
@@ -5579,8 +5758,8 @@ void baseAnalyzer::EventLoop()
 		  H_cthrq_vs_Pm_noCUT      ->Fill( Pm, cos(th_rq) );
 		  
        
-		  // -- CUTS: ACCEPTANCE CUTS ONLY --
-		  if(c_accpCuts) {
+		  // -- CUTS: ACCEPTANCE CUTS + Emiss (for deuteron exp) ONLY --
+		  if(c_accpCuts && c_deep_Em) {
 		    
 		    H_ep_ctime_ACCP          ->Fill( epCoinTime-ctime_offset_peak_val );
 		    H_the_ACCP               ->Fill( th_e/dtr );
@@ -5590,26 +5769,48 @@ void baseAnalyzer::EventLoop()
 		    H_nu_ACCP                ->Fill( nu );
 		    H_q_ACCP                 ->Fill( q );
 		    H_thq_ACCP               ->Fill( th_q/dtr );
+		    H_Em_ACCP                ->Fill( Em );
 		    H_Em_nuc_ACCP            ->Fill( Em_nuc );
 		    H_Em_src_ACCP            ->Fill( Em_src );
 		    H_MM_ACCP                ->Fill( MM );
 		    H_Pm_ACCP                ->Fill( Pm );
+		    H_PmX_ACCP               ->Fill( Pmx_lab );
+		    H_PmY_ACCP               ->Fill( Pmy_lab );
+		    H_PmZ_ACCP               ->Fill( Pmz_lab );
 		    H_thxq_ACCP              ->Fill( th_xq/dtr );
 		    H_thrq_ACCP              ->Fill( th_rq/dtr );
-		    H_cthrq_ACCP              ->Fill( cos(th_rq) );   		    
+		    H_cthrq_ACCP             ->Fill( cos(th_rq) );   		    
 		    H_kf_ACCP                ->Fill( kf );
 		    H_Pf_ACCP                ->Fill( Pf );
 		    H_thx_ACCP               ->Fill( th_x/dtr);
 		    
-		    H_eytar_ACCP         ->Fill( e_ytar  );
-		    H_eyptar_ACCP        ->Fill( e_yptar );
-		    H_exptar_ACCP        ->Fill( e_xptar );
-		    H_edelta_ACCP        ->Fill( e_delta );
+		    H_exfp_ACCP              ->Fill( e_xfp  );
+		    H_eyfp_ACCP              ->Fill( e_yfp  );
+		    H_expfp_ACCP             ->Fill( e_xpfp );
+		    H_eypfp_ACCP             ->Fill( e_ypfp );	
+
+		    H_eytar_ACCP             ->Fill( e_ytar  );
+		    H_eyptar_ACCP            ->Fill( e_yptar );
+		    H_exptar_ACCP            ->Fill( e_xptar );
+		    H_edelta_ACCP            ->Fill( e_delta );
+		    
+		    H_hxfp_ACCP              ->Fill( h_xfp  );
+		    H_hyfp_ACCP              ->Fill( h_yfp  );
+		    H_hxpfp_ACCP             ->Fill( h_xpfp );
+		    H_hypfp_ACCP             ->Fill( h_ypfp );
+
 		    H_hytar_ACCP         ->Fill( h_ytar  );
 		    H_hyptar_ACCP        ->Fill( h_yptar );
 		    H_hxptar_ACCP        ->Fill( h_xptar );
 		    H_hdelta_ACCP        ->Fill( h_delta );
 		    
+		    H_htar_x_ACCP       ->Fill( htar_x );
+		    H_htar_y_ACCP       ->Fill( htar_y );
+		    H_htar_z_ACCP       ->Fill( htar_z );
+		    H_etar_x_ACCP       ->Fill( etar_x );
+		    H_etar_y_ACCP       ->Fill( etar_y );
+		    H_etar_z_ACCP       ->Fill( etar_z );
+
 		    H_pCalEtotTrkNorm_ACCP  ->Fill( pcal_etottracknorm );
 		    H_pHodBetaTrk_ACCP      ->Fill( phod_beta          );
 		    H_pNGCerNpeSum_ACCP     ->Fill( pngcer_npesum      );
@@ -5621,11 +5822,15 @@ void baseAnalyzer::EventLoop()
 		    H_exfp_vs_eyfp_ACCP     ->Fill( e_yfp, e_xfp );
 		    H_hXColl_vs_hYColl_ACCP ->Fill( hYColl, hXColl );
 		    H_eXColl_vs_eYColl_ACCP ->Fill( eYColl, eXColl );
+		    H_Em_vs_Pm_ACCP         ->Fill( Pm, Em );
 		    H_Em_nuc_vs_Pm_ACCP     ->Fill( Pm, Em_nuc );
 		    H_Em_src_vs_Pm_ACCP     ->Fill( Pm, Em_src );
 		    H_Q2_vs_xbj_ACCP        ->Fill( X, Q2 );
 		    H_cthrq_vs_Pm_ACCP      ->Fill( Pm, cos(th_rq) );
 		    
+		    H_hxptar_vs_exptar_ACCP  ->Fill(e_xptar, h_xptar);
+		    H_hyptar_vs_eyptar_ACCP  ->Fill(e_yptar, h_yptar);
+		    H_hdelta_vs_edelta_ACCP  ->Fill(e_delta, h_delta);
 		  }
 		  
 		  // -- CUTS: ACCEPTANCE + PID CUTS ONLY --
@@ -6422,6 +6627,73 @@ void baseAnalyzer::EventLoop()
 
 
 	  //-------------------------------Fill SIMC Histograms--------------------------
+	  
+	  // -- CUTS: ACCEPTANCE CUTS ONLY (we need also missing energy cut for deuteron)--
+	  if(c_accpCuts && c_deep_Em){
+	     
+	    H_the_ACCP               ->Fill( th_e/dtr , FullWeight);
+	    H_W_ACCP                 ->Fill( W , FullWeight);
+	    H_Q2_ACCP                ->Fill( Q2 , FullWeight);
+	    H_xbj_ACCP               ->Fill( X , FullWeight);
+	    H_nu_ACCP                ->Fill( nu , FullWeight);
+	    H_q_ACCP                 ->Fill( q , FullWeight);
+	    H_thq_ACCP               ->Fill( th_q/dtr , FullWeight);
+	    H_Em_ACCP                ->Fill( Em , FullWeight);
+	    H_Em_src_ACCP            ->Fill( Em_src , FullWeight);
+	    H_MM_ACCP                ->Fill( MM , FullWeight);
+	    H_Pm_ACCP                ->Fill( Pm , FullWeight);
+	    H_PmX_ACCP               ->Fill( Pmx_lab , FullWeight);
+	    H_PmY_ACCP               ->Fill( Pmy_lab , FullWeight);
+	    H_PmZ_ACCP               ->Fill( Pmz_lab , FullWeight);
+	    H_thxq_ACCP              ->Fill( th_xq/dtr , FullWeight);
+	    H_thrq_ACCP              ->Fill( th_rq/dtr , FullWeight);
+	    H_cthrq_ACCP             ->Fill( cos(th_rq) , FullWeight);   		    
+	    H_kf_ACCP                ->Fill( kf , FullWeight);
+	    H_Pf_ACCP                ->Fill( Pf , FullWeight);
+	    H_thx_ACCP               ->Fill( th_x/dtr, FullWeight);
+	    
+	    H_exfp_ACCP       ->Fill(e_xfp, FullWeight);
+	    H_eyfp_ACCP       ->Fill(e_yfp, FullWeight);
+	    H_expfp_ACCP      ->Fill(e_xpfp, FullWeight);
+	    H_eypfp_ACCP      ->Fill(e_ypfp, FullWeight);		    
+	    
+	    H_eytar_ACCP      ->Fill(e_ytar, FullWeight);
+	    H_exptar_ACCP     ->Fill(e_xptar, FullWeight);
+	    H_eyptar_ACCP     ->Fill(e_yptar, FullWeight);
+	    H_edelta_ACCP     ->Fill(e_delta, FullWeight);
+	    
+	    H_hxfp_ACCP       ->Fill(h_xfp, FullWeight);
+	    H_hyfp_ACCP       ->Fill(h_yfp, FullWeight);
+	    H_hxpfp_ACCP      ->Fill(h_xpfp, FullWeight);
+	    H_hypfp_ACCP      ->Fill(h_ypfp, FullWeight);
+
+	    H_hytar_ACCP         ->Fill( h_ytar, FullWeight);
+	    H_hxptar_ACCP        ->Fill( h_xptar, FullWeight);
+	    H_hyptar_ACCP        ->Fill( h_yptar, FullWeight);
+	    H_hdelta_ACCP        ->Fill( h_delta, FullWeight);
+	    
+	    H_htar_x_ACCP       ->Fill(htarx_corr, FullWeight);
+	    H_htar_y_ACCP       ->Fill(htar_y, FullWeight);
+	    H_htar_z_ACCP       ->Fill(htar_z, FullWeight);
+	    
+	    H_etar_x_ACCP       ->Fill(etarx_corr, FullWeight);
+	    H_etar_y_ACCP       ->Fill(etar_y, FullWeight);
+	    H_etar_z_ACCP       ->Fill(etar_z, FullWeight);
+	    
+	    H_hxfp_vs_hyfp_ACCP     ->Fill( h_yfp, h_xfp , FullWeight);
+	    H_exfp_vs_eyfp_ACCP     ->Fill( e_yfp, e_xfp , FullWeight);
+	    H_hXColl_vs_hYColl_ACCP ->Fill( hYColl, hXColl , FullWeight);
+	    H_eXColl_vs_eYColl_ACCP ->Fill( eYColl, eXColl , FullWeight);
+	    H_Em_vs_Pm_ACCP         ->Fill( Pm, Em , FullWeight);
+	    H_Q2_vs_xbj_ACCP        ->Fill( X, Q2 , FullWeight);
+	    H_cthrq_vs_Pm_ACCP      ->Fill( Pm, cos(th_rq) , FullWeight);
+	    
+	    H_hxptar_vs_exptar_ACCP  ->Fill(e_xptar, h_xptar, FullWeight);
+	    H_hyptar_vs_eyptar_ACCP  ->Fill(e_yptar, h_yptar, FullWeight);
+	    H_hdelta_vs_edelta_ACCP  ->Fill(e_delta, h_delta, FullWeight);
+
+	  }
+
 
 	  if(c_baseCuts){
 	    
@@ -6482,9 +6754,11 @@ void baseAnalyzer::EventLoop()
 	    H_htar_x       ->Fill(htarx_corr, FullWeight);
 	    H_htar_y       ->Fill(htar_y, FullWeight);
 	    H_htar_z       ->Fill(htar_z, FullWeight);
+	    
 	    H_etar_x       ->Fill(etarx_corr, FullWeight);
 	    H_etar_y       ->Fill(etar_y, FullWeight);
 	    H_etar_z       ->Fill(etar_z, FullWeight);
+	   
 	    H_ztar_diff    ->Fill(ztar_diff, FullWeight);
 	    
 	    H_hXColl      ->Fill(hXColl, FullWeight);
@@ -7625,9 +7899,13 @@ void baseAnalyzer::WriteHist()
     outROOT = new TFile(simc_OutputFileName_rad.Data(), "RECREATE");
 
     //Make directories to store histograms based on category
+    outROOT->mkdir("quality_plots");
     outROOT->mkdir("kin_plots");
     outROOT->mkdir("accp_plots");
 
+    //Write quality check histos to quality_plots directory
+    outROOT->cd("quality_plots");
+    quality_SIMC_HList->Write();
 
     //Write Kinematics histos to kin_plots directory
     outROOT->cd("kin_plots");

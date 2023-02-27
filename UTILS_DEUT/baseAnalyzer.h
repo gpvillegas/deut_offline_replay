@@ -854,16 +854,30 @@ protected:
   TH1F *H_nu_ACCP;
   TH1F *H_q_ACCP;
   TH1F *H_thq_ACCP;
+  TH1F *H_Em_ACCP;
   TH1F *H_Em_nuc_ACCP;
   TH1F *H_Em_src_ACCP;
   TH1F *H_MM_ACCP;
   TH1F *H_Pm_ACCP;
+  TH1F *H_PmX_ACCP;  // added Pmx,y,z components (Feb 27, 2023)
+  TH1F *H_PmY_ACCP;  // added Pmx,y,z components (Feb 27, 2023)
+  TH1F *H_PmZ_ACCP;  // added Pmx,y,z components (Feb 27, 2023)
   TH1F *H_thxq_ACCP;
   TH1F *H_thrq_ACCP;
   TH1F *H_cthrq_ACCP; 
   TH1F *H_kf_ACCP;
   TH1F *H_Pf_ACCP;
   TH1F *H_thx_ACCP;
+
+  // focal plane added on (Feb 27, 2023)
+  TH1F *H_exfp_ACCP;   
+  TH1F *H_expfp_ACCP;  
+  TH1F *H_eyfp_ACCP;   
+  TH1F *H_eypfp_ACCP;  
+  TH1F *H_hxfp_ACCP;   
+  TH1F *H_hxpfp_ACCP;  
+  TH1F *H_hyfp_ACCP;   
+  TH1F *H_hypfp_ACCP;  
 
   // recon.
   TH1F *H_eytar_ACCP;  
@@ -874,6 +888,14 @@ protected:
   TH1F *H_hyptar_ACCP; 
   TH1F *H_hxptar_ACCP; 
   TH1F *H_hdelta_ACCP;
+  
+  //Target Quantities (tarx, tary, tarz) in Hall Coord. System added on (Feb 27, 2023)
+  TH1F *H_htar_x_ACCP;  
+  TH1F *H_htar_y_ACCP;  
+  TH1F *H_htar_z_ACCP;  
+  TH1F *H_etar_x_ACCP;  
+  TH1F *H_etar_y_ACCP;  
+  TH1F *H_etar_z_ACCP;  
 
   // detector
   TH1F *H_pCalEtotTrkNorm_ACCP;
@@ -888,11 +910,17 @@ protected:
   TH2F *H_exfp_vs_eyfp_ACCP;  
   TH2F *H_hXColl_vs_hYColl_ACCP;
   TH2F *H_eXColl_vs_eYColl_ACCP;
+  TH2F *H_Em_vs_Pm_ACCP;
   TH2F *H_Em_nuc_vs_Pm_ACCP;
   TH2F *H_Em_src_vs_Pm_ACCP;
   TH2F *H_Q2_vs_xbj_ACCP;
   TH2F *H_cthrq_vs_Pm_ACCP;
- 
+
+  //2D HMS v. SHMS Acceptance Correlations
+  TH2F *H_hxptar_vs_exptar_ACCP;
+  TH2F *H_hyptar_vs_eyptar_ACCP;
+  TH2F *H_hdelta_vs_edelta_ACCP;
+
     // -- CUTS: ACCEPTANCE + PID CUTS ONLY --
   // kin
   TH1F *H_ep_ctime_ACCP_PID;
@@ -2274,6 +2302,8 @@ protected:
   TList * randSub_HList;  // store random-subtracted variables of selected histograms
 
   TList * quality_HList; // store quality-check histos (will NOT be weighted or summed over all runs)
+  TList * quality_SIMC_HList; // store quality-check histos (for simc only, for purposes of online monitoring)
+
   TList * charge_HList;
   //---------------------------------------------
 
