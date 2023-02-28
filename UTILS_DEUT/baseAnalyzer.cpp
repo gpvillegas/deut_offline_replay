@@ -5470,7 +5470,7 @@ void baseAnalyzer::EventLoop()
 	    c_onl_Em = Em>=c_heep_Em_min && Em<=c_heep_Em_max;
 	  }
 	  else if (analysis_cut=="deep"){
-	    c_onl_Em = Em>=c_deep_Em_min && Em<=c_deep_Em_max;
+	    c_onl_Em = Em_nuc>=c_deep_Em_min && Em_nuc<=c_deep_Em_max;
 	   
 	  }
 	  
@@ -5790,7 +5790,7 @@ void baseAnalyzer::EventLoop()
        
 		  // -- CUTS: ACCEPTANCE CUTS (added missing energy cut to for better comparison during online)
 		  
-		  if(c_accpCuts && c_onl_Em ) {
+		  if(c_accpCuts && c_onl_Em) {
 		    
 		    H_ep_ctime_ACCP          ->Fill( epCoinTime-ctime_offset_peak_val );
 		    H_the_ACCP               ->Fill( th_e/dtr );
@@ -6350,7 +6350,7 @@ void baseAnalyzer::EventLoop()
 	  if(gevnum==scal_evt_num[scal_read]){ scal_read++; }
 	  
 
-	  cout << "DataEventLoop: " << std::setprecision(2) << double(ientry) / nentries * 100. << "  % " << std::flush << "\r";
+	  //cout << "DataEventLoop: " << std::setprecision(2) << double(ientry) / nentries * 100. << "  % " << std::flush << "\r";
 
 	}//END DATA EVENT LOOP
 
@@ -9833,8 +9833,12 @@ void baseAnalyzer::MakePlots()
   
   Bool_t simc_exist = !gSystem->AccessPathName(  simc_OutputFileName_rad );
  
-    
-  string cmd=Form("root -l -q -b \"UTILS_DEUT/online_scripts/make_online_plots.cpp(%d, %d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, evtNum, simc_exist, tgt_type.Data(), replay_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+  //original code to make online plots ( plots extracted from kin_plots/ or accp_plots/ ) 
+  //string cmd=Form("root -l -q -b \"UTILS_DEUT/online_scripts/make_online_plots.cpp(%d, %d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, evtNum, simc_exist, tgt_type.Data(), replay_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+  
+  //C.Y Feb 27, 2023: UPDATED code to make online plots ( DATA/SIMC COMPARISON plots extracted from quality_plots/ ) 
+  string cmd=Form("root -l -q -b \"UTILS_DEUT/online_scripts/make_online_plots_mod.cpp(%d, %d, %i, \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", \\\"%s\\\", 1)\" ", run, evtNum, simc_exist, tgt_type.Data(), replay_type.Data(), analysis_cut.Data(), data_OutputFileName.Data(), simc_OutputFileName_rad.Data());
+
   cout << cmd.c_str() << endl;
 
   if(analysis_cut!="optics"){
