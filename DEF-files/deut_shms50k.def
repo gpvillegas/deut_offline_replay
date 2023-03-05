@@ -507,9 +507,9 @@ TH1F pdc2u1_wirenum_should 'SHMS DC 2U1 Wiremap; Wire Number; Number of Entries'
 #------------------
 # Coincidence Time
 #------------------
-TH1F ep_ctime_roc1 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC1 400, 65, 105
-TH1F ep_ctime_roc2 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC2 400, 65, 105
-TH2F phod_beta_vs_ctime  'SHMS Hodo Beta vs. ep Coin. Time; ep Coin Time (ns); Beta'  CTime.epCoinTime_ROC2 P.hod.beta 400 65. 105. 300 -0.5 1.5
+TH1F ep_ctime_roc1 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC1 800, 25, 105
+TH1F ep_ctime_roc2 'ep Coin. Time; Coincidence Time (ns); Number of Entries' CTime.epCoinTime_ROC2 800, 25, 105
+TH2F phod_beta_vs_ctime  'SHMS Hodo Beta vs. ep Coin. Time; ep Coin Time (ns); Beta'  CTime.epCoinTime_ROC2 P.hod.beta 800 25. 105. 300 -0.5 1.5
 
 #-----------------
 # SHMS KINEMATICS
