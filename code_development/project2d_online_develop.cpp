@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "../UTILS/parse_utils.h" //useful C++ string parsing utilities
 
 using namespace std;
 
@@ -33,7 +34,7 @@ int is_digits(string& str)
 
 // helper function : combined 2d histos for a given run range based on a .csv file,
 // and looks for the histos in a pre-defined path
-TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="randSub_plots/H_Pm_vs_thrq_rand_sub")
+TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="randSub_plots/H_Pm_vs_thrq_rand_sub", bool apply_corrections=false)
 {
 
   // cout << Form("Will skip "" runs", skip_len) << endl;
@@ -54,6 +55,15 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
   TH2F *myhist2d = 0;
   TH2F *myhist2d_total = 0;
 
+  TH2F *myhist2d_corr = 0;
+  TH2F *myhist2d_corr_total = 0;
+
+  //define total charge and track inefficiencies for correction later on
+  // (charge should be summed separately and scaled by total counts after combinin histos)
+  // inefficiencies should be applied on a run by run basis
+  double Q, hms_trk_eff, hms_trk_eff_err, shms_trk_eff, shms_trk_eff_err, total_live_time, total_live_time_err;
+  double Q_tot = 0; // charge counter
+  
   int cnt=0; // good run counter
   
     // read line by line
@@ -71,7 +81,7 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
 
       
       // define generic rootfile name to path
-      root_file_path =Form("DEUT_OUTPUT/ROOT/deut_prod_LD2_deep_%d_-1_histos.root", run_num);
+      root_file_path =Form("./DEUT_OUTPUT/ROOT/deut_prod_LD2_deep_%d_-1_histos.root", run_num);
 
       // if file does not exist continue
       if(gSystem->AccessPathName(root_file_path.c_str())) continue;
@@ -82,19 +92,56 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
       
       cout << "---> reading ROOTfile: " << root_file_path.c_str() << endl;
 
+      TString report_output_path = Form("./DEUT_OUTPUT/REPORT/deut_prod_LD2_deep_report_%d_-1.txt", run_num);
+      // read the relevant inefficiencies and charge (FOR ONLINE BCM4A column was reading valued from BCM4C, which are no much different ~2-3 mC)
+      Q = stod(split(FindString("BCM4C_Charge [mC]", report_output_path.Data())[0])[1]);
+      Q_tot = Q_tot + Q;
+      
+      hms_trk_eff = stod(split(split(FindString("hms_had_track_eff", report_output_path.Data())[0], ':')[1], '+')[0]);
+      hms_trk_eff_err = stod(split(split(split(FindString("hms_had_track_eff", report_output_path.Data())[0], ':')[1], '+')[1], '-')[1]);
+
+      shms_trk_eff = stod(split(split(FindString("shms_elec_track_eff", report_output_path.Data())[0], ':')[1], '+')[0]);
+      shms_trk_eff_err = stod(split(split(split(FindString("shms_elec_track_eff", report_output_path.Data())[0], ':')[1], '+')[1], '-')[1]);
+      
+      total_live_time = stod(split(split(FindString("T6_tLT", report_output_path.Data())[0], ':')[1], '+')[0]);
+      total_live_time_err = stod(split(split(split(FindString("T6_tLT", report_output_path.Data())[0], ':')[1], '+')[1], '-')[1]);
+
+      cout << "------------------" << endl;
+      cout << Form("run number: %d", run_num) << endl;
+      cout << "------------------" << endl;
+      cout << Form("Q [mC] = %.3f, Q_tot = %.3f", Q, Q_tot) << endl;
+      cout << Form("htrack_eff = %.3f +/- %.3f ",  hms_trk_eff,  hms_trk_eff_err) << endl;
+      cout << Form("ptrack_eff = %.3f +/- %.3f ",  shms_trk_eff,  shms_trk_eff_err) << endl;
+      cout << Form("tLT = %.3f +/- %.3f ",  total_live_time,  total_live_time_err) << endl;
+
+
 
       // for each root file, get the desired histogram to be combined
       data_file =  new TFile(root_file_path.c_str(), "READ");
 
       data_file->GetObject(Form("%s", hist2d_name.Data()), myhist2d);
+      
+      // clone histo to be corrected (so we may have before/after corrections)
+      myhist2d_corr = (TH2F*)myhist2d->Clone();
 
-      cout << "data_file read properly" << endl;
+
+      // apply inefficiency corrections (run-by-run)
+      double eff_tot = 1./(hms_trk_eff*shms_trk_eff*total_live_time);
+      myhist2d_corr->Scale(eff_tot);
+      
       // only for 1st run, clone histogram to the total
-      if(cnt==0) { myhist2d_total = (TH2F*)myhist2d->Clone(hist2d_name.Data()); }
+      if(cnt==0) { 
+	myhist2d_total = (TH2F*)myhist2d->Clone(hist2d_name.Data()); 
+	myhist2d_corr_total = (TH2F*)myhist2d_corr->Clone(hist2d_name.Data()); 
+	
+      }
 
       cout << "passed L1" << endl;
       // add subseqquent histos
-      if(cnt>0) { myhist2d_total->Add(myhist2d); }
+      if(cnt>0) { 
+	myhist2d_total->Add(myhist2d); 
+	myhist2d_corr_total->Add(myhist2d_corr); 
+      }
       
       // increment counter
       cnt++;
@@ -105,7 +152,16 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
 
   cout << "passed L2" << endl;
 
-  return myhist2d_total;
+  // apply charge normalization to total histogram
+  myhist2d_corr_total->Scale(1./Q_tot);
+  // myhist2d_corr_total->Scale(1.);
+
+  if(apply_corrections){
+    return myhist2d_corr_total;  // efficiency-corrected, charge-normalized yield
+  }
+  else{
+    return myhist2d_total; 
+  }
 
 }
 
@@ -126,9 +182,9 @@ TH2F* get_simc_2d_histos(TString setting="pm120", TString hist_type="rad_corr_ra
   TH2F *H2_Pm_vs_thrq_simc_ps = 0; //phase space
   TH2F *H2_Pm_vs_thrq_simc_ratio = 0; // for nonrad/rad ratio
   
-  // define generic rootfile name to path
-  TString root_file_path_rad = Form("DEUT_OUTPUT/ROOT/d2_%s_jmlfsi_rad_analyzed.root", setting.Data());
-  TString root_file_path_norad = Form("DEUT_OUTPUT/ROOT/d2_%s_jmlfsi_norad_analyzed.root", setting.Data());
+  // define generic rootfile name to path (ln -sf ../../hallc_simulations/worksim/analyzed/pass1 SIMC)
+  TString root_file_path_rad = Form("SIMC/d2_%s_jmlfsi_rad_analyzed.root", setting.Data());
+  TString root_file_path_norad = Form("SIMC/d2_%s_jmlfsi_norad_analyzed.root", setting.Data());
 
   
   // if file does not exist, EXIT
@@ -160,11 +216,24 @@ TH2F* get_simc_2d_histos(TString setting="pm120", TString hist_type="rad_corr_ra
   float ymin = H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmin();
   float ymax = H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmax();
   
+  
+
+  cout << "H2_Pm_vs_thrq_simc_rad binning: " << endl;
+  cout << H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetXmax() << endl;
+  cout << H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetXmax() << endl;
+  
+  cout << "H2_Pm_vs_thrq_simc_norad binning: " << endl;
+  cout << H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmax() << endl;
+  cout << H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmax() << endl;
 
   H2_Pm_vs_thrq_simc_ratio = new TH2F("H2_Pm_vs_thrq_simc_ratio", "SIMC Y_{norad}/Y_{rad}; Y_{norad}/Y_{rad}; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
   H2_Pm_vs_thrq_simc_ratio->Divide(H2_Pm_vs_thrq_simc_norad, H2_Pm_vs_thrq_simc_rad);
+  
+  cout << "H2_Pm_vs_thrq_simc_ratio binning: " << endl;
+  cout << H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetXmax() << endl;
+  cout << H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetXmax() << endl;
+  cout << "same binning " << endl;
 
-      
   if(hist_type=="norad"){
     return H2_Pm_vs_thrq_simc_norad;
   }
@@ -189,7 +258,7 @@ TH2F* get_simc_2d_histos(TString setting="pm120", TString hist_type="rad_corr_ra
 
 }
 
-void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0, Bool_t apply_radiative_corr=0 ){
+void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bool_t display_plots=0, Bool_t apply_radiative_corr=0 ){
 
   cout << "calling project2d_deut" << endl;
   //avoid display
@@ -217,7 +286,8 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   TString fout_projHist    = "DEUT_OUTPUT/PDF/" + basename + "projY.pdf";
   TString fout_projHistErr = "DEUT_OUTPUT/PDF/" + basename + "projY_relError.pdf";
   TString fout_projsimcRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_simcRadCorr.pdf";
-  
+  TString fout_projdataRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_dataRadCorr.pdf";
+
   // set global title/label sizes
   gStyle->SetTitleFontSize(0.1);
   gStyle->SetLabelSize(.1, "XY");
@@ -235,11 +305,14 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   hist2d_Pm_vs_thrq_simc_ps    = get_simc_2d_histos(setting.Data(), "phase_space");
 
 
-  //Apply radiative corrections
-  hist2d_Pm_vs_thrq_data_radcorr = (TH2F*)hist2d->Clone();
+  //------------------------------
+  //Apply radiative corrections to charge-norm histo
+  //------------------------------
+  hist2d_Pm_vs_thrq_data_radcorr = (TH2F*)hist2d_corr->Clone();
   hist2d_Pm_vs_thrq_data_radcorr->Multiply(hist2d_Pm_vs_thrq_simc_ratio);
 
-  //scale by total charge and track inefficiencies
+
+  //divide by phase space
   
   cout << "Retrieved 2d histos . . . " << endl;
   
@@ -263,23 +336,24 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   c0->Divide(2,2);
 
   c0->cd(1);
+  //gPad->Modified(); gPad->Update();
   hist2d->Draw("contz");
  
   
   c0->cd(2);
-  gPad->Modified(); gPad->Update();
+  //gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_simc_ratio->Draw("colz");
 
   c0->cd(3);
-  gPad->Modified(); gPad->Update();
+  //gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_simc_ps->Draw("colz");
 
   c0->cd(4);
-  gPad->Modified(); gPad->Update();
-  hist2d_Pm_vs_thrq_data_radcorr->Draw("colz");
+  //gPad->Modified(); gPad->Update();
+  hist2d_Pm_vs_thrq_data_radcorr->Draw("contz");
   
-  hist2d->Write();
-  hist2d_Pm_vs_thrq_simc_ratio->Write();
+  //hist2d->Write();
+  //hist2d_Pm_vs_thrq_simc_ratio->Write();
 
 
   // --- define variables for calculative/plotting of relative stats. error on Pmiss (need to reset vector per projection bin) ---
@@ -315,10 +389,12 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   TCanvas *c1 = new TCanvas("c1", "Data Missing Momenta ProjY", 1400,1100);
   TCanvas *c2 = new TCanvas("c2", "Data Missing Momenta Relative Error", 1400,1100);
   TCanvas *c3 = new TCanvas("c3", "SIMC Radiative Corrections", 1400,1100);
+  TCanvas *c4 = new TCanvas("c3", "DATA Radiative Corrected", 1400,1100);
 
   c1->Divide(yc, xc);
   c2->Divide(yc, xc);
   c3->Divide(yc, xc);
+  c4->Divide(yc, xc);
 
   
   //----------------------------
@@ -327,7 +403,8 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   // define 1d projection histos 
   TH1D *H_dataPm_projY = 0;
   TH1D *H_simcPm_projY_ratio = 0; // ratio of norad/rad projected
-  
+  TH1D *H_dataPm_projY_radCorr = 0; // radiative corrected data
+
   cout << "About to loop over xbins of hist2d . . . " << endl;
 
   //loop over xbins of hist2d 
@@ -340,8 +417,11 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
     //cout << "bin: " << i << ", x-val: " << thrq_center << endl;
 
     // project hist2d along y-axis (different bins in x)
-    H_dataPm_projY       = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
-    H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
+    H_dataPm_projY         = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
+    
+    
+    //H_dataPm_projY_radCorr = hist2d_Pm_vs_thrq_data_radcorr->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
+    //H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
     
     // define integrated counts on projected bin
     float counts = H_dataPm_projY->Integral();
@@ -350,17 +430,28 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
     H_dataPm_projY->GetYaxis()->SetNdivisions(5);
     H_dataPm_projY->GetXaxis()->SetNdivisions(10);
     H_dataPm_projY->GetXaxis()->SetLabelSize(0.1);
+    
+    /*
+    H_dataPm_projY_radCorr->GetYaxis()->SetNdivisions(5);
+    H_dataPm_projY_radCorr->GetXaxis()->SetNdivisions(10);
+    H_dataPm_projY_radCorr->GetXaxis()->SetLabelSize(0.1);
 
     H_simcPm_projY_ratio->GetYaxis()->SetNdivisions(5);
     H_simcPm_projY_ratio->GetXaxis()->SetNdivisions(10);
     H_simcPm_projY_ratio->GetXaxis()->SetLabelSize(0.1);
+    */
 
     //cout << "thrq_center, counts (v1) = " << thrq_center << ", " << counts << endl;
     H_dataPm_projY->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY->SetTitleSize(10);
 
+    /*
+    H_dataPm_projY_radCorr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
+    H_dataPm_projY_radCorr->SetTitleSize(10);
+
     H_simcPm_projY_ratio->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_simcPm_projY_ratio->SetTitleSize(10);
+    */
 
     //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, thrq_center, counts) << endl;
 
@@ -439,19 +530,13 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
 
     gPad->Modified(); gPad->Update();
 
-      c3->cd(i);
-      H_simcPm_projY_ratio->DrawClone("E0");
-      H_simcPm_projY_ratio->Write();
-
     c1->cd(i);
-    //gPad->Modified(); gPad->Update();
-    H_dataPm_projY->DrawClone("histE0");
-    H_dataPm_projY->Write();
+    H_dataPm_projY->Draw("histE0");
+    //H_dataPm_projY->Write();
         
   
     
     c2->cd(i);                                                                                                                                           
-    //gPad->Modified(); gPad->Update();
     // draw to graph
     gr->Draw("AP");
     lo_limit->Draw();
@@ -466,18 +551,28 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
       legend->SetTextColor(kRed);
       legend->Draw();
     }
-    
-    gr->Write();
-
     /*
-  c3->cd(i);
-  gPad->Modified(); gPad->Update();
-    hist2d_Pm_vs_thrq_simc_ratio->DrawClone("hist");
-    hist2d_Pm_vs_thrq_simc_ratio->Write();
+    //gr->Write();
+    
+    c3->cd(i);
+    H_simcPm_projY_ratio->DrawClone("E0");
+    H_simcPm_projY_ratio->Write();
+    
+    c4->cd(i);
+    H_dataPm_projY_radCorr->DrawClone("histE0");
+    H_dataPm_projY_radCorr->Write();
+       
     */
     
-    
   } // end loop over 2D xbins [th_rq]
+  
+  // draw canvas
+  //gStyle->SetOptStat(0);
+  //c0->Draw();
+  //c1->Draw();
+  //c2->SaveAs( fout_projHistErr.Data() );
+  //c3->SaveAs( fout_projsimcRadCorr.Data() );
+  //c4->SaveAs( fout_projdataRadCorr.Data() );
 
   
   // save canvas
@@ -485,23 +580,25 @@ void project2d_deut( TH2F *hist2d=0, TString setting="", Bool_t display_plots=0,
   c0->SaveAs( fout_2dHist.Data()      );
   c1->SaveAs( fout_projHist.Data()    );
   c2->SaveAs( fout_projHistErr.Data() );
-  c3->SaveAs( fout_projsimcRadCorr.Data() );
+  //c3->SaveAs( fout_projsimcRadCorr.Data() );
+  //c4->SaveAs( fout_projdataRadCorr.Data() );
 
   if(display_plots){
     
     //open plots with evince or any other viewer
-    /*
+    
     gSystem->Exec(Form("evince %s", fout_2dHist.Data() ));
     gSystem->Exec(Form("evince %s", fout_projHist.Data() ));
     gSystem->Exec(Form("evince %s", fout_projHistErr.Data() )); 
-    gSystem->Exec(Form("evince %s",  fout_projsimcRadCorr.Data() ));
-    */
-
+    //gSystem->Exec(Form("evince %s",  fout_projsimcRadCorr.Data() ));
+    //gSystem->Exec(Form("evince %s",  fout_projdataRadCorr.Data() ));
+    
+    /*
     gSystem->Exec(Form("open %s", fout_2dHist.Data() ));
     gSystem->Exec(Form("open %s", fout_projHist.Data() ));
     gSystem->Exec(Form("open %s", fout_projHistErr.Data() )); 
     gSystem->Exec(Form("open %s",  fout_projsimcRadCorr.Data() ));
-    
+    */
   }
   
 }
@@ -543,11 +640,19 @@ void project2d_online_develop() {
   
   // funct1: retrieve the combined 2d histos on a given run range. The root file is predefined in the function,
   // so  all the user needs is to input the path where the histogram is on the .root file
-  TH2F * myhist2d = combine_2dhistos(run_min, run_max, "randSub_plots/H_Pm_vs_thrq_rand_sub");
+  TH2F * myhist2d_corr = combine_2dhistos(run_min, run_max, "randSub_plots/H_Pm_vs_thrq_rand_sub", true); //corrected for ineff. and charge
+  TH2F * myhist2d = combine_2dhistos(run_min, run_max, "randSub_plots/H_Pm_vs_thrq_rand_sub", false); // raw counts
+
+  //TCanvas *c1 = new TCanvas("c1");
+  //c1->Divide(1,2);
+  //c1->cd(1);
+  //myhist2d->Draw("colz");
+  //c1->cd(2);
+  //myhist2d_corr->Draw("colz");
 
   // func2: projectes the 2d histo (slices of x-bins along y-axis) onto 1d bins, the pm_setting is just for histogram naming purposes
   // and should be consistent with the histogram range chosen
-  project2d_deut( myhist2d, pm_setting, true, true ); // the bool flag is to display the plots (otherwise, they will be saved)
+  project2d_deut( myhist2d, myhist2d_corr, pm_setting, true, true ); // the bool flag is to display the plots (otherwise, they will be saved)
 
 }
 
