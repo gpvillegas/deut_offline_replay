@@ -154,7 +154,6 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
 
   // apply charge normalization to total histogram
   myhist2d_corr_total->Scale(1./Q_tot);
-  // myhist2d_corr_total->Scale(1.);
 
   if(apply_corrections){
     return myhist2d_corr_total;  // efficiency-corrected, charge-normalized yield
@@ -261,9 +260,12 @@ TH2F* get_simc_2d_histos(TString setting="pm120", TString hist_type="rad_corr_ra
 void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bool_t display_plots=0, Bool_t apply_radiative_corr=0 ){
 
   cout << "calling project2d_deut" << endl;
-  //avoid display
-  gROOT->SetBatch(kTRUE);
   
+  if(display_plots) {
+    //avoid interactive display{
+    gROOT->SetBatch(kTRUE);
+  }
+
   /*
     Brief: Projects 2d histograms onto 1d slices in X or Y
     and plots it on a canvas subplot, and also plots relative
@@ -287,6 +289,8 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   TString fout_projHistErr = "DEUT_OUTPUT/PDF/" + basename + "projY_relError.pdf";
   TString fout_projsimcRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_simcRadCorr.pdf";
   TString fout_projdataRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_dataRadCorr.pdf";
+  TString fout_projsimcPS = "DEUT_OUTPUT/PDF/" + basename + "projY_simcPS.pdf";
+  TString fout_projdataXsec = "DEUT_OUTPUT/PDF/" + basename + "projY_dataXsec.pdf";
 
   // set global title/label sizes
   gStyle->SetTitleFontSize(0.1);
@@ -294,13 +298,17 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   gStyle->SetTitleY(1.01); // offset title vertically
 
   // define external 2d histogrmas
+  TH2F *hist2d_Pm_vs_thrq_simc_fsi_norad = 0; //non-radiative fsi simc
+
   TH2F *hist2d_Pm_vs_thrq_simc_ratio = 0; //non-radiative / radiative ratio
   TH2F *hist2d_Pm_vs_thrq_simc_ps = 0;  //phase space
   TH2F *hist2d_Pm_vs_thrq_data_radcorr = 0;  //radiative corr. data
   TH2F *hist2d_Pm_vs_thrq_data_Xsec = 0;  // data cross sections
- 
+  TH2F *hist2d_Pm_vs_thrq_simc_fsi_Xsec = 0;  // simc fsi cross sections
+
   cout << "Retrieve histograms get_simc_2d_histos() func. . . " << endl;
 
+  hist2d_Pm_vs_thrq_simc_fsi_norad = get_simc_2d_histos(setting.Data(), "norad");
   hist2d_Pm_vs_thrq_simc_ratio = get_simc_2d_histos(setting.Data(), "rad_corr_ratio");
   hist2d_Pm_vs_thrq_simc_ps    = get_simc_2d_histos(setting.Data(), "phase_space");
 
@@ -310,30 +318,60 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   //------------------------------
   hist2d_Pm_vs_thrq_data_radcorr = (TH2F*)hist2d_corr->Clone();
   hist2d_Pm_vs_thrq_data_radcorr->Multiply(hist2d_Pm_vs_thrq_simc_ratio);
+  hist2d_Pm_vs_thrq_data_radcorr->SetLabelSize(.05, "XY");
 
+  //----------------------------
+  // divide  radiative-corrected data by phase space to get cross sections
+  //----------------------------
 
-  //divide by phase space
+  int xnbins = hist2d->GetXaxis()->GetNbins();
+  float xmin = hist2d->GetXaxis()->GetXmin();
+  float xmax = hist2d->GetXaxis()->GetXmax();
+
+  int ynbins = hist2d->GetYaxis()->GetNbins();
+  float ymin = hist2d->GetYaxis()->GetXmin();
+  float ymax = hist2d->GetYaxis()->GetXmax();
   
+  hist2d_Pm_vs_thrq_data_Xsec= new TH2F("hist2d_Pm_vs_thrq_data_Xsec", "Data Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
+  hist2d_Pm_vs_thrq_data_Xsec->Divide(hist2d_Pm_vs_thrq_data_radcorr, hist2d_Pm_vs_thrq_simc_ps);
+  hist2d_Pm_vs_thrq_data_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_data_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
+  hist2d_Pm_vs_thrq_data_Xsec->SetTitle("Data Cross Sections (Online)");
+  hist2d_Pm_vs_thrq_data_Xsec->SetLabelSize(.03, "XY");
+
+
+  //----------------------------
+  // divide  non-radiative SIMC by phase space to get cross sections
+  //----------------------------
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec= new TH2F("hist2d_Pm_vs_thrq_simc_fsi_Xsec", "SIMC JML FSI (Paris) Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->Divide(hist2d_Pm_vs_thrq_simc_fsi_norad, hist2d_Pm_vs_thrq_simc_ps);
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetTitle("SIMC JML FSI (Paris) Cross Sections (Online)");
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetLabelSize(.03, "XY");
+
+
+
   cout << "Retrieved 2d histos . . . " << endl;
   
-  // get total number of x,y bins of hist2d
-  int nxbins = hist2d->GetXaxis()->GetNbins();
-  int nybins = hist2d->GetYaxis()->GetNbins();
-
+ 
 
   hist2d->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
   hist2d->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
-
+  hist2d->SetTitle("data (raw counts)");
   cout << "Set title for hist2d . . . " << endl;
 
   hist2d_Pm_vs_thrq_simc_ratio->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
   hist2d_Pm_vs_thrq_simc_ratio->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_simc_ratio->SetTitle("SIMC Y_{norad}/Y_{rad}");
+  hist2d_Pm_vs_thrq_simc_ratio->SetLabelSize(.05, "XY");
+
+
 
 
   // plot 2d histogra
   TCanvas *c0 = new TCanvas("c0", "", 1500,1500);
-  c0->Divide(2,2);
+  c0->Divide(3,2);
 
   c0->cd(1);
   //gPad->Modified(); gPad->Update();
@@ -352,6 +390,9 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   //gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_data_radcorr->Draw("contz");
   
+  c0->cd(5);
+  hist2d_Pm_vs_thrq_data_Xsec->Draw("colz");
+
   //hist2d->Write();
   //hist2d_Pm_vs_thrq_simc_ratio->Write();
 
@@ -373,42 +414,59 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   
   // --- define canvas subplots (x,y) based on number of bins in hist2d ---
   int yc, xc;
-  // if projection is along y, should make a canvas square out of nxbins
-  float remainder = sqrt(nxbins) - int(sqrt(nxbins));
+  // if projection is along y, should make a canvas square out of xnbins
+  float remainder = sqrt(xnbins) - int(sqrt(xnbins));
 
   if(remainder>0 && remainder<0.5){
-    yc = round(sqrt(nxbins));
-    xc = round(sqrt(nxbins))+1;
+    yc = round(sqrt(xnbins));
+    xc = round(sqrt(xnbins))+1;
   }
   else{
-    yc = round(sqrt(nxbins));
-    xc = round(sqrt(nxbins));
+    yc = round(sqrt(xnbins));
+    xc = round(sqrt(xnbins));
   }
   
   // define canvas for projecting 2d histograms
-  TCanvas *c1 = new TCanvas("c1", "Data Missing Momenta ProjY", 1400,1100);
-  TCanvas *c2 = new TCanvas("c2", "Data Missing Momenta Relative Error", 1400,1100);
-  TCanvas *c3 = new TCanvas("c3", "SIMC Radiative Corrections", 1400,1100);
-  TCanvas *c4 = new TCanvas("c3", "DATA Radiative Corrected", 1400,1100);
+  TCanvas *c1 = new TCanvas("c1", "Data Missing Momenta ProjY (raw counts)", 1400,1400);
+  TCanvas *c2 = new TCanvas("c2", "Data Missing Momenta Relative Error (raw counts)", 1400,1400);
+  TCanvas *c3 = new TCanvas("c3", "SIMC Radiative Corrections", 1400,1400);
+  TCanvas *c4 = new TCanvas("c4", "DATA Radiative Corrected", 1400,1400);
+  TCanvas *c5 = new TCanvas("c5", "SIMC Phase Space", 1400,1400);
+  TCanvas *c6 = new TCanvas("c6", "DATA Xsec", 1400,1400);
 
+  c1->cd();
   c1->Divide(yc, xc);
+  
+  c2->cd();
   c2->Divide(yc, xc);
+  
+  c3->cd();
   c3->Divide(yc, xc);
+  
+  c4->cd();
   c4->Divide(yc, xc);
 
-  
+  c5->cd();
+  c5->Divide(yc, xc);
+
+  c6->cd();
+  c6->Divide(yc, xc);
   //----------------------------
 
 
   // define 1d projection histos 
   TH1D *H_dataPm_projY = 0;
   TH1D *H_simcPm_projY_ratio = 0; // ratio of norad/rad projected
+  TH1D *H_dataPm_projY_radUnCorr = 0; // charge-normalized data before radiative corrections
   TH1D *H_dataPm_projY_radCorr = 0; // radiative corrected data
+  TH1D *H_simcPm_projY_PS = 0; // SIMC phase space projection
+  TH1D *H_dataPm_projY_Xsec = 0; // data cross sections (online)
+  TH1D *H_simcPm_projY_jmlfsi_Xsec = 0; // simc cross sections (online)
 
   cout << "About to loop over xbins of hist2d . . . " << endl;
 
   //loop over xbins of hist2d 
-  for(int i=1; i<=nxbins; i++){
+  for(int i=1; i<=xnbins; i++){
 
     // get xbin center value and width
     float thrq_center  = hist2d->GetXaxis()->GetBinCenter(i);
@@ -417,12 +475,23 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     //cout << "bin: " << i << ", x-val: " << thrq_center << endl;
 
     // project hist2d along y-axis (different bins in x)
-    H_dataPm_projY         = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
+    H_dataPm_projY         = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f_raw", thrq_center), i, i); // raw data counts (no charge normalized or inefficiency corrected)
     
+    H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
+
+
+    H_dataPm_projY_radUnCorr = hist2d_corr->ProjectionY(Form("proj_Pm_thrq%.1f_radUnCorr", thrq_center), i, i);
+    H_dataPm_projY_radCorr = hist2d_Pm_vs_thrq_data_radcorr->ProjectionY(Form("proj_Pm_thrq%.1f_radCorr", thrq_center), i, i);
+
     
-    //H_dataPm_projY_radCorr = hist2d_Pm_vs_thrq_data_radcorr->ProjectionY(Form("proj_Pm_thrq%.1f", thrq_center), i, i);
-    //H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
-    
+    H_simcPm_projY_PS = hist2d_Pm_vs_thrq_simc_ps->ProjectionY(Form("proj_simcPm_thrq%.1f_PS", thrq_center), i, i);
+
+    // data cross sections (#ub sr^{-2} MeV^{-1} (based on SIMC phase space units)
+    H_dataPm_projY_Xsec = hist2d_Pm_vs_thrq_data_Xsec->ProjectionY(Form("proj_dataPm_thrq%.1f_Xsec", thrq_center), i, i);
+
+    // SIMC cross sections
+    H_simcPm_projY_jmlfsi_Xsec = hist2d_Pm_vs_thrq_simc_fsi_Xsec->ProjectionY(Form("proj_simcPm_jmlfsi_thrq%.1f_Xsec", thrq_center), i, i);
+
     // define integrated counts on projected bin
     float counts = H_dataPm_projY->Integral();
 
@@ -431,27 +500,53 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_dataPm_projY->GetXaxis()->SetNdivisions(10);
     H_dataPm_projY->GetXaxis()->SetLabelSize(0.1);
     
-    /*
-    H_dataPm_projY_radCorr->GetYaxis()->SetNdivisions(5);
-    H_dataPm_projY_radCorr->GetXaxis()->SetNdivisions(10);
-    H_dataPm_projY_radCorr->GetXaxis()->SetLabelSize(0.1);
-
     H_simcPm_projY_ratio->GetYaxis()->SetNdivisions(5);
     H_simcPm_projY_ratio->GetXaxis()->SetNdivisions(10);
     H_simcPm_projY_ratio->GetXaxis()->SetLabelSize(0.1);
-    */
+    
+    H_dataPm_projY_radUnCorr->GetYaxis()->SetNdivisions(5);
+    H_dataPm_projY_radUnCorr->GetXaxis()->SetNdivisions(10);
+    H_dataPm_projY_radUnCorr->GetXaxis()->SetLabelSize(0.1);
+    
+    H_dataPm_projY_radCorr->GetYaxis()->SetNdivisions(5);
+    H_dataPm_projY_radCorr->GetXaxis()->SetNdivisions(10);
+    H_dataPm_projY_radCorr->GetXaxis()->SetLabelSize(0.1);
+    
+    H_simcPm_projY_PS->GetYaxis()->SetNdivisions(5);
+    H_simcPm_projY_PS->GetXaxis()->SetNdivisions(10);
+    H_simcPm_projY_PS->GetXaxis()->SetLabelSize(0.1);
+
+    H_dataPm_projY_Xsec->GetYaxis()->SetNdivisions(5);
+    H_dataPm_projY_Xsec->GetXaxis()->SetNdivisions(10);
+    H_dataPm_projY_Xsec->GetXaxis()->SetLabelSize(0.1);
+  
+    H_simcPm_projY_jmlfsi_Xsec->GetYaxis()->SetNdivisions(5);
+    H_simcPm_projY_jmlfsi_Xsec->GetXaxis()->SetNdivisions(10);
+    H_simcPm_projY_jmlfsi_Xsec->GetXaxis()->SetLabelSize(0.1);
+
 
     //cout << "thrq_center, counts (v1) = " << thrq_center << ", " << counts << endl;
     H_dataPm_projY->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY->SetTitleSize(10);
-
-    /*
+    
+    H_simcPm_projY_ratio->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f", thrq_center, thrq_width/2.));
+    H_simcPm_projY_ratio->SetTitleSize(10);
+    
+    H_dataPm_projY_radUnCorr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
+    H_dataPm_projY_radUnCorr->SetTitleSize(10);
+    
+    
     H_dataPm_projY_radCorr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY_radCorr->SetTitleSize(10);
-
-    H_simcPm_projY_ratio->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
-    H_simcPm_projY_ratio->SetTitleSize(10);
-    */
+    
+    H_simcPm_projY_PS->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (phase space)", thrq_center, thrq_width/2.));
+    H_simcPm_projY_PS->SetTitleSize(10);
+    
+    H_dataPm_projY_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
+    H_dataPm_projY_Xsec->SetTitleSize(10);
+    
+    H_simcPm_projY_jmlfsi_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
+    H_simcPm_projY_jmlfsi_Xsec->SetTitleSize(10);
 
     //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, thrq_center, counts) << endl;
 
@@ -527,16 +622,79 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 
     //---------------------------------------------------
-
-    gPad->Modified(); gPad->Update();
-
+    
+ 
+    //gr->Write();
+   
     c1->cd(i);
     H_dataPm_projY->Draw("histE0");
     //H_dataPm_projY->Write();
-        
-  
+   
     
-    c2->cd(i);                                                                                                                                           
+    c3->cd(i);
+    H_simcPm_projY_ratio->Draw("E0");
+    //H_simcPm_projY_ratio->Write();
+    
+    
+    c4->cd(i);
+    H_dataPm_projY_radUnCorr->SetLineColor(kBlue);
+    H_dataPm_projY_radCorr->SetLineColor(kRed);
+    
+    H_dataPm_projY_radCorr->Draw("histE0");
+    H_dataPm_projY_radUnCorr->Draw("histE0same");
+
+
+
+    // add legend
+    if(i==1){
+      auto legend2 = new TLegend(0.5,0.2,0.9,0.85);
+      legend2->AddEntry("H_dataPm_projY_radUnCorr","no_rad_corr","%s");
+      legend2->SetBorderSize(0);
+      legend2->SetTextSize(0.08);
+      legend2->SetTextColor(kBlue);
+      legend2->Draw();
+
+      auto legend3 = new TLegend(0.5,0.6,0.9,0.85);
+      legend3->AddEntry("H_dataPm_projY_radCorr","rad_corr","%s");
+      legend3->SetBorderSize(0);
+      legend3->SetTextSize(0.08);
+      legend3->SetTextColor(kRed);
+      legend3->Draw("same");
+    }
+
+    //H_dataPm_projY_radCorr->Write();
+       
+    c5->cd(i);
+    H_simcPm_projY_PS->Draw("histE0");
+
+    c6->cd(i);
+    gPad->SetLogy();
+    gPad->Modified();
+    gPad->Update();
+
+    H_dataPm_projY_Xsec->SetMarkerStyle(20);
+    H_dataPm_projY_Xsec->Draw("PE0");
+
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(4);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
+
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
+	
+    H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
+
+    // add legend
+    if(i==1){
+      auto legend3 = new TLegend(0.3,0.4, 0.5,0.8);
+      legend3->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
+      legend3->SetBorderSize(0);
+      legend3->SetTextSize(0.06);
+      legend3->Draw();
+    }
+
+
+   
+    c2->cd(i); 
+   
     // draw to graph
     gr->Draw("AP");
     lo_limit->Draw();
@@ -551,37 +709,20 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       legend->SetTextColor(kRed);
       legend->Draw();
     }
-    /*
-    //gr->Write();
     
-    c3->cd(i);
-    H_simcPm_projY_ratio->DrawClone("E0");
-    H_simcPm_projY_ratio->Write();
-    
-    c4->cd(i);
-    H_dataPm_projY_radCorr->DrawClone("histE0");
-    H_dataPm_projY_radCorr->Write();
-       
-    */
-    
+
   } // end loop over 2D xbins [th_rq]
   
-  // draw canvas
-  //gStyle->SetOptStat(0);
-  //c0->Draw();
-  //c1->Draw();
-  //c2->SaveAs( fout_projHistErr.Data() );
-  //c3->SaveAs( fout_projsimcRadCorr.Data() );
-  //c4->SaveAs( fout_projdataRadCorr.Data() );
 
-  
   // save canvas
   gStyle->SetOptStat(0);
   c0->SaveAs( fout_2dHist.Data()      );
   c1->SaveAs( fout_projHist.Data()    );
   c2->SaveAs( fout_projHistErr.Data() );
-  //c3->SaveAs( fout_projsimcRadCorr.Data() );
-  //c4->SaveAs( fout_projdataRadCorr.Data() );
+  c3->SaveAs( fout_projsimcRadCorr.Data() );
+  c4->SaveAs( fout_projdataRadCorr.Data() );
+  c5->SaveAs( fout_projsimcPS.Data() );
+  c6->SaveAs( fout_projdataXsec.Data() );
 
   if(display_plots){
     
@@ -590,9 +731,12 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gSystem->Exec(Form("evince %s", fout_2dHist.Data() ));
     gSystem->Exec(Form("evince %s", fout_projHist.Data() ));
     gSystem->Exec(Form("evince %s", fout_projHistErr.Data() )); 
-    //gSystem->Exec(Form("evince %s",  fout_projsimcRadCorr.Data() ));
-    //gSystem->Exec(Form("evince %s",  fout_projdataRadCorr.Data() ));
-    
+    gSystem->Exec(Form("evince %s",  fout_projsimcRadCorr.Data() ));
+    gSystem->Exec(Form("evince %s",  fout_projdataRadCorr.Data() ));
+    gSystem->Exec(Form("evince %s",  fout_projsimcPS.Data() ));
+    gSystem->Exec(Form("evince %s",  fout_projdataXsec.Data() ));
+
+
     /*
     gSystem->Exec(Form("open %s", fout_2dHist.Data() ));
     gSystem->Exec(Form("open %s", fout_projHist.Data() ));
@@ -607,7 +751,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 void project2d_online_develop() {
 
   int run_min=20871;
-  int run_max=20871;
+  int run_max=20872;
   TString pm_setting="pm120";
   /*
   cout << "" << endl;
@@ -652,7 +796,7 @@ void project2d_online_develop() {
 
   // func2: projectes the 2d histo (slices of x-bins along y-axis) onto 1d bins, the pm_setting is just for histogram naming purposes
   // and should be consistent with the histogram range chosen
-  project2d_deut( myhist2d, myhist2d_corr, pm_setting, true, true ); // the bool flag is to display the plots (otherwise, they will be saved)
+  project2d_deut( myhist2d, myhist2d_corr, pm_setting, false, true ); // the bool flag is to display the plots (otherwise, they will be saved)
 
 }
 
