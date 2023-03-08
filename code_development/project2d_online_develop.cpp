@@ -714,27 +714,38 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gPad->Update();
 
     H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
+    H_dataPm_projY_Xsec->SetMarkerSize(1);
+    H_dataPm_projY_Xsec->SetMarkerColor(kBlack);
+    H_dataPm_projY_Xsec->SetLineColor(kBlack);
     H_dataPm_projY_Xsec->Draw("PE0");
 
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kCircle);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
+    H_simcPm_projY_jmlfsi_Xsec->SetLineColor(kGreen+2);
     H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
 
     H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kOpenTriangleDown);
     H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1);
     H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);
+    H_simcPm_projY_jmlpwia_Xsec->SetLineColor(kBlue+2);   
     H_simcPm_projY_jmlpwia_Xsec->Draw("PLCsame");
     
     // add legend
     if(i==1){
-      auto legend3 = new TLegend(0.3,0.7, 0.5,0.9);
-      legend3->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
-      legend3->SetBorderSize(0);
-      legend3->SetTextSize(0.06);
-      legend3->Draw();
+      auto legend4 = new TLegend(0.3,0.7, 0.5,0.9);
+      legend4->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
+      legend4->SetBorderSize(0);
+      legend4->SetTextSize(0.06);
+      legend4->Draw();
 
-      auto leg_fsi = new TLegend(0.3,0.3,0.5,0.4);
+      auto leg_data = new TLegend(0.3,0.6,0.5,0.7);   
+      leg_data->AddEntry("H_dataPm_projY_Xsec","data","%s");    
+      leg_data->SetBorderSize(0);   
+      leg_data->SetTextSize(0.04); 
+      leg_data->Draw("same");
+   
+      auto leg_fsi = new TLegend(0.3,0.4,0.5,0.5);
       leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
       leg_fsi->SetBorderSize(0);
       leg_fsi->SetTextSize(0.08);
@@ -809,9 +820,9 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 void project2d_online_develop() {
 
-  int run_min=20871;
-  int run_max=20872;
-  TString pm_setting="pm120";
+  int run_min=20886;
+  int run_max=20945;
+  TString pm_setting="pm800";
   /*
   cout << "" << endl;
   cout << "----------------------------------------------------------------------------" << endl;
