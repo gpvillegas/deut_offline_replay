@@ -846,12 +846,23 @@ hpartmass = 0.93827231
 ppartmass = 0.000511 
 
 # d(e,e'p) Pm=800 MeV/c (edtm @ 10 Hz)
-20884 - 99999
+20884 - 20956
 gpbeam = 10.549                       
 gtargmass_amu = 2.014101               
 htheta_lab = -59.39                   
 ptheta_lab = 12.197
 hpcentral = 2.1210                    
+ppcentral = 8.55                     
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# d(e,e'p) Pm=000 MeV/c (edtm @ 10 Hz)
+20957 - 99999
+gpbeam = 10.549                       
+gtargmass_amu = 2.014101               
+htheta_lab = -61.33                   
+ptheta_lab = 12.197
+hpcentral = 2.0474                    
 ppcentral = 8.55                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 

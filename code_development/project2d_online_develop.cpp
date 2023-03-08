@@ -820,9 +820,9 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 void project2d_online_develop() {
 
-  int run_min=20886;
-  int run_max=20945;
-  TString pm_setting="pm800";
+  int run_min=20871;
+  int run_max=20872;
+  TString pm_setting="pm120";
   /*
   cout << "" << endl;
   cout << "----------------------------------------------------------------------------" << endl;
