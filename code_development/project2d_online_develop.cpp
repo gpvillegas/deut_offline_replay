@@ -165,90 +165,103 @@ TH2F* combine_2dhistos(int run_min=0, int run_max=99999, TString hist2d_name="ra
 }
 
 
-TH2F* get_simc_2d_histos(TString setting="pm120", TString hist_type="rad_corr_ratio"){
+TH2F* get_simc_2d_histos(TString setting="pm120", TString model="fsi", TString hist_type="rad_corr_ratio"){
 
   // Brief: this function gets specific histogram from SIMC for
   // radiative corrections and phase space, for a given deuteron kin
-  // the arguments are:  setting="pm120", "pm580", "pm800", "pm900"
+  // the arguments are:
+  // setting="pm120", "pm580", "pm800", "pm900"
+  // model="fsi" or "pwia"
   // hist_type="norad", "rad", "rad_corr_ratio" , "phase_space", 
 
   cout << "calling get_simc_2d_histos()" << endl;
   
-  // simc no_rad / rad 2D histo
+  // simc no_rad / rad 2D histo (FSI)
   TH2F *dummy = 0;
-  TH2F *H2_Pm_vs_thrq_simc_rad = 0;
-  TH2F *H2_Pm_vs_thrq_simc_norad = 0;
-  TH2F *H2_Pm_vs_thrq_simc_ps = 0; //phase space
-  TH2F *H2_Pm_vs_thrq_simc_ratio = 0; // for nonrad/rad ratio
+  TH2F *H2_Pm_vs_thrq_simc_fsi_rad = 0;
+  TH2F *H2_Pm_vs_thrq_simc_fsi_norad = 0;
+  TH2F *H2_Pm_vs_thrq_simc_fsi_ps = 0; //phase space
+  TH2F *H2_Pm_vs_thrq_simc_fsi_ratio = 0; // for nonrad/rad ratio 
+
+  // simc PWIA 
+  TH2F *H2_Pm_vs_thrq_simc_pwia_norad = 0;
+  TH2F *H2_Pm_vs_thrq_simc_pwia_ps = 0; //phase space
+
   
   // define generic rootfile name to path (ln -sf ../../hallc_simulations/worksim/analyzed/pass1 SIMC)
-  TString root_file_path_rad = Form("SIMC/d2_%s_jmlfsi_rad_analyzed.root", setting.Data());
-  TString root_file_path_norad = Form("SIMC/d2_%s_jmlfsi_norad_analyzed.root", setting.Data());
+  TString root_file_path_fsi_rad = Form("SIMC/d2_%s_jmlfsi_rad_analyzed.root", setting.Data());
+  TString root_file_path_fsi_norad = Form("SIMC/d2_%s_jmlfsi_norad_analyzed.root", setting.Data());
+
+  // SIMC PWIA
+  TString root_file_path_pwia_norad = Form("SIMC/d2_%s_jmlpwia_norad_analyzed.root", setting.Data());
 
   
   // if file does not exist, EXIT
-  if(gSystem->AccessPathName(root_file_path_rad.Data()) || gSystem->AccessPathName(root_file_path_norad.Data())) { gSystem->Exit(kTRUE);}
+  if(gSystem->AccessPathName(root_file_path_fsi_rad.Data()) || gSystem->AccessPathName(root_file_path_fsi_norad.Data()) || gSystem->AccessPathName(root_file_path_pwia_norad.Data()) ) { gSystem->Exit(kTRUE);}
 
 
   // for each root file, get the desired histogram to be combined
-  TFile *data_file_rad =  new TFile(root_file_path_rad.Data(), "READ");
-  TFile *data_file_norad =  new TFile(root_file_path_norad.Data(), "READ");
+  TFile *simc_file_fsi_rad =  new TFile(root_file_path_fsi_rad.Data(), "READ");
+  TFile *simc_file_fsi_norad =  new TFile(root_file_path_fsi_norad.Data(), "READ");
+
+  TFile *simc_file_pwia_norad =  new TFile(root_file_path_pwia_norad.Data(), "READ");
 
  
-  cout << Form("Read data file . . . %s",root_file_path_rad.Data()) << endl;
+  cout << Form("Read data file . . . %s",root_file_path_fsi_rad.Data()) << endl;
   
-    // Retrieve histograms
-  data_file_rad->cd();
-  data_file_rad->GetObject("kin_plots/H_Pm_vs_thrq", H2_Pm_vs_thrq_simc_rad);  //radiative
+    // Retrieve FSI histograms
+  simc_file_fsi_rad->cd();
+  simc_file_fsi_rad->GetObject("kin_plots/H_Pm_vs_thrq", H2_Pm_vs_thrq_simc_fsi_rad);  //radiative
 
-  cout << Form("Read data file . . . %s",root_file_path_norad.Data()) << endl;
-  data_file_norad->cd();
-  data_file_norad->GetObject("kin_plots/H_Pm_vs_thrq", H2_Pm_vs_thrq_simc_norad); //non-radiative
-  data_file_norad->GetObject("kin_plots/H_Pm_vs_thrq_ps", H2_Pm_vs_thrq_simc_ps); //non-radiative phase-space
+  cout << Form("Read data file . . . %s",root_file_path_fsi_norad.Data()) << endl;
+  simc_file_fsi_norad->cd();
+  simc_file_fsi_norad->GetObject("kin_plots/H_Pm_vs_thrq", H2_Pm_vs_thrq_simc_fsi_norad); //non-radiative
+  simc_file_fsi_norad->GetObject("kin_plots/H_Pm_vs_thrq_ps", H2_Pm_vs_thrq_simc_fsi_ps); //non-radiative phase-space
+
+
+  // Retrieve PWIA histograms
+  simc_file_pwia_norad->cd();
+
+  simc_file_pwia_norad->GetObject("kin_plots/H_Pm_vs_thrq", H2_Pm_vs_thrq_simc_pwia_norad); //non-radiative
+  simc_file_pwia_norad->GetObject("kin_plots/H_Pm_vs_thrq_ps", H2_Pm_vs_thrq_simc_pwia_ps); //non-radiative phase-space
 
   
-  int xnbins = H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetNbins();
-  float xmin = H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmin();
-  float xmax = H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmax();
+  int xnbins = H2_Pm_vs_thrq_simc_fsi_norad->GetXaxis()->GetNbins();
+  float xmin = H2_Pm_vs_thrq_simc_fsi_norad->GetXaxis()->GetXmin();
+  float xmax = H2_Pm_vs_thrq_simc_fsi_norad->GetXaxis()->GetXmax();
 
-  int ynbins = H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetNbins();
-  float ymin = H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmin();
-  float ymax = H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmax();
+  int ynbins = H2_Pm_vs_thrq_simc_fsi_norad->GetYaxis()->GetNbins();
+  float ymin = H2_Pm_vs_thrq_simc_fsi_norad->GetYaxis()->GetXmin();
+  float ymax = H2_Pm_vs_thrq_simc_fsi_norad->GetYaxis()->GetXmax();
+
+  H2_Pm_vs_thrq_simc_fsi_ratio = new TH2F("H2_Pm_vs_thrq_simc_fsi_ratio", "SIMC Y_{norad}/Y_{rad}; Y_{norad}/Y_{rad}; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
+  H2_Pm_vs_thrq_simc_fsi_ratio->Divide(H2_Pm_vs_thrq_simc_fsi_norad, H2_Pm_vs_thrq_simc_fsi_rad);
+
   
-  
-
-  cout << "H2_Pm_vs_thrq_simc_rad binning: " << endl;
-  cout << H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_rad->GetXaxis()->GetXmax() << endl;
-  cout << H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_rad->GetYaxis()->GetXmax() << endl;
-  
-  cout << "H2_Pm_vs_thrq_simc_norad binning: " << endl;
-  cout << H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_norad->GetXaxis()->GetXmax() << endl;
-  cout << H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_norad->GetYaxis()->GetXmax() << endl;
-
-  H2_Pm_vs_thrq_simc_ratio = new TH2F("H2_Pm_vs_thrq_simc_ratio", "SIMC Y_{norad}/Y_{rad}; Y_{norad}/Y_{rad}; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
-  H2_Pm_vs_thrq_simc_ratio->Divide(H2_Pm_vs_thrq_simc_norad, H2_Pm_vs_thrq_simc_rad);
-  
-  cout << "H2_Pm_vs_thrq_simc_ratio binning: " << endl;
-  cout << H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_ratio->GetXaxis()->GetXmax() << endl;
-  cout << H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetNbins() << ", " << H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetXmin() << ","<< H2_Pm_vs_thrq_simc_ratio->GetYaxis()->GetXmax() << endl;
-  cout << "same binning " << endl;
-
-  if(hist_type=="norad"){
-    return H2_Pm_vs_thrq_simc_norad;
-  }
-
-  else if(hist_type=="rad"){
-    return H2_Pm_vs_thrq_simc_rad;
+  if(hist_type=="norad" && model=="fsi"){
+    return H2_Pm_vs_thrq_simc_fsi_norad;
   }
     
-  else if(hist_type=="rad_corr_ratio"){
-    return H2_Pm_vs_thrq_simc_ratio;
+  else if(hist_type=="norad" && model=="pwia"){
+    return H2_Pm_vs_thrq_simc_pwia_norad;
   }
 
-  else if(hist_type=="phase_space"){
-    return  H2_Pm_vs_thrq_simc_ps;
+  else if(hist_type=="rad" && model=="fsi"){
+    return H2_Pm_vs_thrq_simc_fsi_rad;
+  }
+    
+  else if(hist_type=="rad_corr_ratio" && model=="fsi"){
+    return H2_Pm_vs_thrq_simc_fsi_ratio;
   }
 
+  else if(hist_type=="phase_space" && model=="fsi"){
+    return  H2_Pm_vs_thrq_simc_fsi_ps;
+  }
+
+  else if(hist_type=="phase_space" && model=="pwia"){
+    return  H2_Pm_vs_thrq_simc_pwia_ps;
+  }
+  
   else{
     return dummy;
   }
@@ -284,13 +297,13 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 
   //set output names of projections to be saved to divided canvas
-  TString fout_2dHist      = "DEUT_OUTPUT/PDF/" + basename + "2Dhisto.pdf";
-  TString fout_projHist    = "DEUT_OUTPUT/PDF/" + basename + "projY.pdf";
-  TString fout_projHistErr = "DEUT_OUTPUT/PDF/" + basename + "projY_relError.pdf";
+  TString fout_2dHist          = "DEUT_OUTPUT/PDF/" + basename + "2Dhisto.pdf";
+  TString fout_projHist        = "DEUT_OUTPUT/PDF/" + basename + "projY.pdf";
+  TString fout_projHistErr     = "DEUT_OUTPUT/PDF/" + basename + "projY_relError.pdf";
   TString fout_projsimcRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_simcRadCorr.pdf";
   TString fout_projdataRadCorr = "DEUT_OUTPUT/PDF/" + basename + "projY_dataRadCorr.pdf";
-  TString fout_projsimcPS = "DEUT_OUTPUT/PDF/" + basename + "projY_simcPS.pdf";
-  TString fout_projdataXsec = "DEUT_OUTPUT/PDF/" + basename + "projY_dataXsec.pdf";
+  TString fout_projsimcPS      = "DEUT_OUTPUT/PDF/" + basename + "projY_simcPS.pdf";
+  TString fout_projdataXsec    = "DEUT_OUTPUT/PDF/" + basename + "projY_dataXsec.pdf";
 
   // set global title/label sizes
   gStyle->SetTitleFontSize(0.1);
@@ -300,28 +313,35 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   // define external 2d histogrmas
   TH2F *hist2d_Pm_vs_thrq_simc_fsi_norad = 0; //non-radiative fsi simc
 
-  TH2F *hist2d_Pm_vs_thrq_simc_ratio = 0; //non-radiative / radiative ratio
-  TH2F *hist2d_Pm_vs_thrq_simc_ps = 0;  //phase space
+  TH2F *hist2d_Pm_vs_thrq_simc_fsi_ratio = 0; //non-radiative / radiative ratio
+  TH2F *hist2d_Pm_vs_thrq_simc_fsi_ps = 0;  //phase space
   TH2F *hist2d_Pm_vs_thrq_data_radcorr = 0;  //radiative corr. data
   TH2F *hist2d_Pm_vs_thrq_data_Xsec = 0;  // data cross sections
-  TH2F *hist2d_Pm_vs_thrq_simc_fsi_Xsec = 0;  // simc fsi cross sections
+  TH2F *hist2d_Pm_vs_thrq_simc_fsi_Xsec = 0;  // simc jml fsi cross sections
+
+  TH2F *hist2d_Pm_vs_thrq_simc_pwia_norad = 0; //non-radiative pwia simc
+  TH2F *hist2d_Pm_vs_thrq_simc_pwia_ps = 0;  // pwia phase space (should be the same as fsi, since its model independent)
+  TH2F *hist2d_Pm_vs_thrq_simc_pwia_Xsec = 0;  // simc jml pwia cross sections
 
   cout << "Retrieve histograms get_simc_2d_histos() func. . . " << endl;
 
-  hist2d_Pm_vs_thrq_simc_fsi_norad = get_simc_2d_histos(setting.Data(), "norad");
-  hist2d_Pm_vs_thrq_simc_ratio = get_simc_2d_histos(setting.Data(), "rad_corr_ratio");
-  hist2d_Pm_vs_thrq_simc_ps    = get_simc_2d_histos(setting.Data(), "phase_space");
+  hist2d_Pm_vs_thrq_simc_fsi_norad     = get_simc_2d_histos(setting.Data(), "fsi", "norad");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio     = get_simc_2d_histos(setting.Data(), "fsi", "rad_corr_ratio");
+  hist2d_Pm_vs_thrq_simc_fsi_ps        = get_simc_2d_histos(setting.Data(), "fsi", "phase_space");
 
+  hist2d_Pm_vs_thrq_simc_pwia_norad     = get_simc_2d_histos(setting.Data(), "pwia", "norad");
+  hist2d_Pm_vs_thrq_simc_pwia_ps        = get_simc_2d_histos(setting.Data(), "pwia", "phase_space");
 
+  
   //------------------------------
   //Apply radiative corrections to charge-norm histo
   //------------------------------
   hist2d_Pm_vs_thrq_data_radcorr = (TH2F*)hist2d_corr->Clone();
-  hist2d_Pm_vs_thrq_data_radcorr->Multiply(hist2d_Pm_vs_thrq_simc_ratio);
+  hist2d_Pm_vs_thrq_data_radcorr->Multiply(hist2d_Pm_vs_thrq_simc_fsi_ratio);
   hist2d_Pm_vs_thrq_data_radcorr->SetLabelSize(.05, "XY");
 
   //----------------------------
-  // divide  radiative-corrected data by phase space to get cross sections
+  // divide  radiative-corrected data by phase space to get cross data sections
   //----------------------------
 
   int xnbins = hist2d->GetXaxis()->GetNbins();
@@ -333,7 +353,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   float ymax = hist2d->GetYaxis()->GetXmax();
   
   hist2d_Pm_vs_thrq_data_Xsec= new TH2F("hist2d_Pm_vs_thrq_data_Xsec", "Data Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
-  hist2d_Pm_vs_thrq_data_Xsec->Divide(hist2d_Pm_vs_thrq_data_radcorr, hist2d_Pm_vs_thrq_simc_ps);
+  hist2d_Pm_vs_thrq_data_Xsec->Divide(hist2d_Pm_vs_thrq_data_radcorr, hist2d_Pm_vs_thrq_simc_fsi_ps);
   hist2d_Pm_vs_thrq_data_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
   hist2d_Pm_vs_thrq_data_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_data_Xsec->SetTitle("Data Cross Sections (Online)");
@@ -344,13 +364,21 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   // divide  non-radiative SIMC by phase space to get cross sections
   //----------------------------
   hist2d_Pm_vs_thrq_simc_fsi_Xsec= new TH2F("hist2d_Pm_vs_thrq_simc_fsi_Xsec", "SIMC JML FSI (Paris) Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
-  hist2d_Pm_vs_thrq_simc_fsi_Xsec->Divide(hist2d_Pm_vs_thrq_simc_fsi_norad, hist2d_Pm_vs_thrq_simc_ps);
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->Divide(hist2d_Pm_vs_thrq_simc_fsi_norad, hist2d_Pm_vs_thrq_simc_fsi_ps);
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetTitle("SIMC JML FSI (Paris) Cross Sections (Online)");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetLabelSize(.03, "XY");
 
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec= new TH2F("hist2d_Pm_vs_thrq_simc_pwia_Xsec", "SIMC JML PWIA (Paris) Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->Divide(hist2d_Pm_vs_thrq_simc_pwia_norad, hist2d_Pm_vs_thrq_simc_pwia_ps);
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->SetTitle("SIMC JML PWIA (Paris) Cross Sections (Online)");
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->SetLabelSize(.03, "XY");
 
+
+  
 
   cout << "Retrieved 2d histos . . . " << endl;
   
@@ -361,10 +389,10 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   hist2d->SetTitle("data (raw counts)");
   cout << "Set title for hist2d . . . " << endl;
 
-  hist2d_Pm_vs_thrq_simc_ratio->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
-  hist2d_Pm_vs_thrq_simc_ratio->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
-  hist2d_Pm_vs_thrq_simc_ratio->SetTitle("SIMC Y_{norad}/Y_{rad}");
-  hist2d_Pm_vs_thrq_simc_ratio->SetLabelSize(.05, "XY");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->SetTitle("SIMC Y_{norad}/Y_{rad}");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->SetLabelSize(.05, "XY");
 
 
 
@@ -380,21 +408,24 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   
   c0->cd(2);
   //gPad->Modified(); gPad->Update();
-  hist2d_Pm_vs_thrq_simc_ratio->Draw("colz");
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->Draw("contz");
 
   c0->cd(3);
   //gPad->Modified(); gPad->Update();
-  hist2d_Pm_vs_thrq_simc_ps->Draw("colz");
+  hist2d_Pm_vs_thrq_simc_fsi_ps->Draw("contz");
 
   c0->cd(4);
   //gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_data_radcorr->Draw("contz");
   
   c0->cd(5);
-  hist2d_Pm_vs_thrq_data_Xsec->Draw("colz");
+  hist2d_Pm_vs_thrq_data_Xsec->Draw("contz");
 
+  c0->cd(6);
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->Draw("contz");
+  
   //hist2d->Write();
-  //hist2d_Pm_vs_thrq_simc_ratio->Write();
+  //hist2d_Pm_vs_thrq_simc_fsi_ratio->Write();
 
 
   // --- define variables for calculative/plotting of relative stats. error on Pmiss (need to reset vector per projection bin) ---
@@ -461,7 +492,8 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   TH1D *H_dataPm_projY_radCorr = 0; // radiative corrected data
   TH1D *H_simcPm_projY_PS = 0; // SIMC phase space projection
   TH1D *H_dataPm_projY_Xsec = 0; // data cross sections (online)
-  TH1D *H_simcPm_projY_jmlfsi_Xsec = 0; // simc cross sections (online)
+  TH1D *H_simcPm_projY_jmlfsi_Xsec = 0; // simc jmlfsi cross sections (online)
+  TH1D *H_simcPm_projY_jmlpwia_Xsec = 0; // simc jmlpwia cross sections (online)
 
   cout << "About to loop over xbins of hist2d . . . " << endl;
 
@@ -477,21 +509,23 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     // project hist2d along y-axis (different bins in x)
     H_dataPm_projY         = hist2d->ProjectionY(Form("proj_Pm_thrq%.1f_raw", thrq_center), i, i); // raw data counts (no charge normalized or inefficiency corrected)
     
-    H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
+    H_simcPm_projY_ratio = hist2d_Pm_vs_thrq_simc_fsi_ratio->ProjectionY(Form("proj_ratio_simcPm_thrq%.1f", thrq_center), i, i);
 
 
     H_dataPm_projY_radUnCorr = hist2d_corr->ProjectionY(Form("proj_Pm_thrq%.1f_radUnCorr", thrq_center), i, i);
     H_dataPm_projY_radCorr = hist2d_Pm_vs_thrq_data_radcorr->ProjectionY(Form("proj_Pm_thrq%.1f_radCorr", thrq_center), i, i);
 
     
-    H_simcPm_projY_PS = hist2d_Pm_vs_thrq_simc_ps->ProjectionY(Form("proj_simcPm_thrq%.1f_PS", thrq_center), i, i);
+    H_simcPm_projY_PS = hist2d_Pm_vs_thrq_simc_fsi_ps->ProjectionY(Form("proj_simcPm_thrq%.1f_PS", thrq_center), i, i);
 
     // data cross sections (#ub sr^{-2} MeV^{-1} (based on SIMC phase space units)
     H_dataPm_projY_Xsec = hist2d_Pm_vs_thrq_data_Xsec->ProjectionY(Form("proj_dataPm_thrq%.1f_Xsec", thrq_center), i, i);
 
     // SIMC cross sections
     H_simcPm_projY_jmlfsi_Xsec = hist2d_Pm_vs_thrq_simc_fsi_Xsec->ProjectionY(Form("proj_simcPm_jmlfsi_thrq%.1f_Xsec", thrq_center), i, i);
+    H_simcPm_projY_jmlpwia_Xsec = hist2d_Pm_vs_thrq_simc_pwia_Xsec->ProjectionY(Form("proj_simcPm_jmlpwia_thrq%.1f_Xsec", thrq_center), i, i);
 
+    
     // define integrated counts on projected bin
     float counts = H_dataPm_projY->Integral();
 
@@ -524,6 +558,10 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_simcPm_projY_jmlfsi_Xsec->GetXaxis()->SetNdivisions(10);
     H_simcPm_projY_jmlfsi_Xsec->GetXaxis()->SetLabelSize(0.1);
 
+    H_simcPm_projY_jmlpwia_Xsec->GetYaxis()->SetNdivisions(5);
+    H_simcPm_projY_jmlpwia_Xsec->GetXaxis()->SetNdivisions(10);
+    H_simcPm_projY_jmlpwia_Xsec->GetXaxis()->SetLabelSize(0.1);
+
 
     //cout << "thrq_center, counts (v1) = " << thrq_center << ", " << counts << endl;
     H_dataPm_projY->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
@@ -548,6 +586,9 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_simcPm_projY_jmlfsi_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_simcPm_projY_jmlfsi_Xsec->SetTitleSize(10);
 
+    H_simcPm_projY_jmlpwia_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
+    H_simcPm_projY_jmlpwia_Xsec->SetTitleSize(10);
+    
     //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, thrq_center, counts) << endl;
 
     
@@ -672,23 +713,41 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gPad->Modified();
     gPad->Update();
 
-    H_dataPm_projY_Xsec->SetMarkerStyle(20);
+    H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
     H_dataPm_projY_Xsec->Draw("PE0");
 
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(4);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kCircle);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
-
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
-	
     H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
 
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kOpenTriangleDown);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);
+    H_simcPm_projY_jmlpwia_Xsec->Draw("PLCsame");
+    
     // add legend
     if(i==1){
-      auto legend3 = new TLegend(0.3,0.4, 0.5,0.8);
+      auto legend3 = new TLegend(0.3,0.7, 0.5,0.9);
       legend3->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
       legend3->SetBorderSize(0);
       legend3->SetTextSize(0.06);
       legend3->Draw();
+
+      auto leg_fsi = new TLegend(0.3,0.3,0.5,0.4);
+      leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
+      leg_fsi->SetBorderSize(0);
+      leg_fsi->SetTextSize(0.08);
+      leg_fsi->SetTextColor(kGreen+2);
+      leg_fsi->Draw("same");
+      
+      auto leg_pwia = new TLegend(0.3,0.5,0.5,0.6);
+      leg_pwia->AddEntry("H_simcPm_projY_jmlpwia_Xsec","JML PWIA","%s");
+      leg_pwia->SetBorderSize(0);
+      leg_pwia->SetTextSize(0.08);
+      leg_pwia->SetTextColor(kBlue+2);
+      leg_pwia->Draw();
+      
     }
 
 
