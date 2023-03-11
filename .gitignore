@@ -12,6 +12,7 @@
 *.root
 
 !runplan/*.pdf
+!code_development/commissioning_data/*.root
 
 # Directories
 RAID

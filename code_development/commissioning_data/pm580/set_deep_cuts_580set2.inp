@@ -1,0 +1,96 @@
+#-------Single Run Analysis---------                                                                          
+;Use this option if you only want to look at a single file in data/simc                                       
+single_run_flag: 0                                                                                            
+                                                                                                              
+;Specify filenames                                                                                            
+data_fname: ROOTfiles/pm580_set1.root                                                                         
+data_report_fname: REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_deep_check_3291_-1.report                        
+simc_fname: worksim_voli/d2_pm580_lagetfsi_rad_set1.root                                                      
+                                                                                                              
+#--------Analyze DATA or SIMC-------                                                                          
+# True (ON) =  1,  False (OFF) = 0                                                                            
+                                                                                                              
+RUN_SIMC: 1                                                                                                   
+RUN_DATA: 1                                                                                                   
+                                                                                                              
+;Analyze Radiative(1) or NonRadiative(0) SIMC?                                                                
+;IMPORTANT: If doing radiative corrections, set to -1                                                         
+radiate: -1                                                                                                   
+                                                                                                              
+;Do Radiative Corrections (1) (Will analyze both rad/no-rad simc. Also, assumes data file exists)             
+;IMPORTANT: If doing radiative corrections, set radiate: -1 (see above)                                       
+rad_corr_flag: 1                                                                                              
+                                                                                                              
+#------ D(e,ep)n Missing Momentum Settings -------                                                          
+#Units: Enegy/Momentum/W [GeV], spec_delta [%]                                                                
+                                                                                                              
+;80 MeV, 580 MeV, 750 MeV                                                                                     
+pm_setting : 580                                                                                               
+                                                                                                              
+;Theoretical Calculation: laget,  misak, . . .                                                                
+theory     : laget                                                                                            
+                                                                                                              
+;Theoretical Model: pwia, fsi                                                                                 
+model      : fsi                                                                                               
+                                                                                                              
+;DataSet 1, 2, 3                                                                                              
+data_set   : 2                                                                                               
+                                                                                                              
+#------TURN CUTS ON/OFF------                                                                                 
+# True (ON) =  1,  False (OFF) = 0                                                                            
+                                                                                                              
+;Basic Kinematics Cuts                                                                                        
+bool Em      = 1                                                                                              
+bool W       = 0                                                                                              
+bool h_delta = 1                                                                                              
+bool e_delta = 1                                                                                              
+bool ztar_diff = 1                                                                                            
+bool Q2 = 1                                                                                                   
+bool th_nq = 1                                                                                                
+bool MM = 0                                                                                                   
+                                                                                                              
+;PID Cuts                                                                                                     
+bool shmsCal_EtotTrackNorm  = 1                                                                               
+bool coin_time              = 1                                                                               
+                                                                                                              
+;Collimator Cuts                                                                                              
+bool hmsCollCut   =  1                                                                                        
+bool shmsCollCut  =  0                                                                                        
+                                                                                                              
+;Collimator Cuts Scale                                                                                        
+hms_scale         =  1                                                                                        
+shms_scale        =  1                                                                                        
+                                                                                                              
+                                                                                                              
+#------Set DATA/SIMC CUTS LIMITS ------                                                                       
+Em_min : -0.02                                                                                                
+Em_max : 0.060000                                                                                                   
+                                                                                                              
+h_delta_min: -8.                                                                                              
+h_delta_max:  8.                                                                                              
+                                                                                                              
+e_delta_min: -10                                                                                              
+e_delta_max: 22                                                                                               
+                                                                                                              
+W_min: 0.85                                                                                                   
+W_max: 1.05                                                                                                   
+                                                                                                              
+ztarDiff_min: -2.                                                                                             
+ztarDiff_max: 2.                                                                                              
+                                                                                                              
+Q2_min: 4.                                                                                                    
+Q2_max: 5.                                                                                                    
+                                                                                                              
+thnq_min: 35.                                                                                                 
+thnq_max: 45.                                                                                                 
+                                                                                                              
+MM_min: 0.9                                                                                                   
+MM_max: 0.985                                                                                                 
+                                                                                                              
+;SHMS Cal EtotTrackNorm Cut                                                                                   
+shms_cal_min: 0.7                                                                                             
+shms_cal_max: 5.                                                                                              
+                                                                                                              
+coin_time_min: 10.5                                                                                           
+coin_time_max: 14.5                                                                                           
+                                                                                                              
