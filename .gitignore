@@ -12,7 +12,9 @@
 *.root
 
 !runplan/*.pdf
-!code_development/commissioning_data/*.root
+!code_development/commissioning_data/pm80/*.root
+!code_development/commissioning_data/pm580/*.root
+!code_development/commissioning_data/pm750/*.root
 
 # Directories
 RAID
