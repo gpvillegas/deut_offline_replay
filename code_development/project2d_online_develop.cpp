@@ -806,92 +806,94 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gPad->Update();
 
     H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
-    H_dataPm_projY_Xsec->SetMarkerSize(0.8);
+    H_dataPm_projY_Xsec->SetMarkerSize(1);
     H_dataPm_projY_Xsec->SetMarkerColor(kBlack);
     H_dataPm_projY_Xsec->SetLineColor(kBlack);
     H_dataPm_projY_Xsec->Draw("PE0");
 
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kCircle);
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(0.8);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kStar);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
-    H_simcPm_projY_jmlfsi_Xsec->SetLineColor(kGreen+2);
     H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
 
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kCircle);
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(0.8);
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);
-    H_simcPm_projY_jmlpwia_Xsec->SetLineColor(kBlue+2);   
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kStar);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);   
     H_simcPm_projY_jmlpwia_Xsec->Draw("PLCsame");
 
     // check if plotting online pm120 MeV setting, then compare it to the pm80 from commissioning
     if(setting=="pm120"){
       H_comm_dataPm_projY_Xsec_pm80->SetMarkerStyle(kFullTriangleUp);
-      H_comm_dataPm_projY_Xsec_pm80->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm80->SetMarkerSize(1);
       H_comm_dataPm_projY_Xsec_pm80->SetMarkerColor(kAzure-3);
+      H_comm_dataPm_projY_Xsec_pm80->SetLineColor(kAzure-3);
       H_comm_dataPm_projY_Xsec_pm80->Draw("PE0same");
     }
 
     if(setting=="pm580"){
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerStyle(kFullTriangleUp);
-      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(1);
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
+      H_comm_dataPm_projY_Xsec_pm580->SetLineColor(kOrange-3);   
       H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
     }
 
     if(setting=="pm800" || setting=="pm900"){
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerStyle(kFullTriangleUp);
-      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(1);
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
+      H_comm_dataPm_projY_Xsec_pm580->SetLineColor(kOrange-3);
       H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
       
       H_comm_dataPm_projY_Xsec_pm750->SetMarkerStyle(kFullTriangleUp);
-      H_comm_dataPm_projY_Xsec_pm750->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm750->SetMarkerSize(1);
       H_comm_dataPm_projY_Xsec_pm750->SetMarkerColor(kMagenta-7);
+      H_comm_dataPm_projY_Xsec_pm750->SetLineColor(kMagenta-7);
       H_comm_dataPm_projY_Xsec_pm750->Draw("PE0same");
     }
     
     // add legend
     if(i==1){
-      auto legend4 = new TLegend(0.3,0.7, 0.5,0.9);
-      legend4->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
+      auto legend4 = new TLegend(0.2,0.7, 0.4,0.9);
+      legend4->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega [#mub sr^{-2} MeV^{-1}]","%s");
       legend4->SetBorderSize(0);
-      legend4->SetTextSize(0.08);
+      legend4->SetTextSize(0.05);
       legend4->Draw();
 
       auto leg_data = new TLegend(0.3,0.6,0.5,0.7);   
-      leg_data->AddEntry("H_dataPm_projY_Xsec","data","%s");    
+      leg_data->AddEntry("H_dataPm_projY_Xsec","data (online)","%s");    
       leg_data->SetBorderSize(0);   
-      leg_data->SetTextSize(0.04); 
+      leg_data->SetTextSize(0.06); 
       leg_data->Draw("same");
 
       auto leg_pwia = new TLegend(0.3,0.5,0.5,0.6);
       leg_pwia->AddEntry("H_simcPm_projY_jmlpwia_Xsec","JML PWIA","%s");
       leg_pwia->SetBorderSize(0);
-      leg_pwia->SetTextSize(0.08);
+      leg_pwia->SetTextSize(0.06);
       leg_pwia->SetTextColor(kBlue+2);
       leg_pwia->Draw();
       
       auto leg_fsi = new TLegend(0.3,0.4,0.5,0.5);
       leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
       leg_fsi->SetBorderSize(0);
-      leg_fsi->SetTextSize(0.08);
+      leg_fsi->SetTextSize(0.06);
       leg_fsi->SetTextColor(kGreen+2);
       leg_fsi->Draw("same");
 
       if(setting=="pm120"){
 	auto leg_pm80 = new TLegend(0.3,0.3,0.5,0.4);
-	leg_pm80->AddEntry("H_comm_dataPm_projY_Xsec_pm80","data pm=80 MeV/c (2018)","%s");
+	leg_pm80->AddEntry("H_comm_dataPm_projY_Xsec_pm80","data 80 MeV/c (2018)","%s");
 	leg_pm80->SetBorderSize(0);
-	leg_pm80->SetTextSize(0.08);
+	leg_pm80->SetTextSize(0.06);
 	leg_pm80->SetTextColor(kAzure-3);
 	leg_pm80->Draw("same");
       }
 
       if(setting=="pm580"){
 	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
-	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data pm=580 MeV/c (2018)","%s");
+	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data 580 MeV/c (2018)","%s");
 	leg_pm580->SetBorderSize(0);
-	leg_pm580->SetTextSize(0.08);
+	leg_pm580->SetTextSize(0.06);
 	leg_pm580->SetTextColor(kOrange-3);
 	leg_pm580->Draw("same");
       }
@@ -899,16 +901,16 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       if(setting=="pm800" || setting=="pm900"){
 
 	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
-	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data pm=580 MeV/c (2018)","%s");
+	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data 580 MeV/c (2018)","%s");
 	leg_pm580->SetBorderSize(0);
-	leg_pm580->SetTextSize(0.08);
+	leg_pm580->SetTextSize(0.06);
 	leg_pm580->SetTextColor(kOrange-3);
 	leg_pm580->Draw("same");
 	
 	auto leg_pm750 = new TLegend(0.3,0.2,0.5,0.3);
-	leg_pm750->AddEntry("H_comm_dataPm_projY_Xsec_pm750","data pm=750 MeV/c (2018)","%s");
+	leg_pm750->AddEntry("H_comm_dataPm_projY_Xsec_pm750","data 750 MeV/c (2018)","%s");
 	leg_pm750->SetBorderSize(0);
-	leg_pm750->SetTextSize(0.08);
+	leg_pm750->SetTextSize(0.06);
 	leg_pm750->SetTextColor(kMagenta-7);
 	leg_pm750->Draw("same");
 
@@ -975,9 +977,33 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 void project2d_online_develop() {
 
-  int run_min=20871;
-  int run_max=20872;
-  TString pm_setting="pm120";
+  int run_min;
+  int run_max;
+  TString pm_setting;
+
+  cout << "\n Please enter Pmiss setting (e.g. pm120, pm580, pm800, pm900): ";
+  cin >> pm_setting;    
+
+  
+  if(pm_setting=="pm120"){
+    run_min=20871;  
+    run_max=20872;  
+  }    
+  
+  if(pm_setting=="pm580"){   
+    run_min=20873;
+    run_max=20883;   
+  }
+
+  if(pm_setting=="pm800"){
+    run_min=20886; 
+    run_min=20956;
+  }
+  
+  if(pm_setting=="pm900"){
+    run_min=20958; 
+    run_min=20992;    
+  }
   /*
   cout << "" << endl;
   cout << "----------------------------------------------------------------------------" << endl;
