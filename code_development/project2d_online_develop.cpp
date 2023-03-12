@@ -270,6 +270,47 @@ TH2F* get_simc_2d_histos(TString setting="pm120", TString model="fsi", TString h
 
 }
 
+
+TH2F* get_comm18_data_2d_histos(TString setting="pm80", TString dataset="dataset1"){
+
+  // Brief: this function gets specific histogram from DATA for
+  // from comissioning deuteron experiment on 2018
+  // the arguments are:
+  // setting="pm80", "pm580", "pm750"
+  // dataset="dataset1", "dataset2", "dataset3"
+  
+
+  cout << "calling get_comm18_data_2d_histos()" << endl;
+  
+  // simc no_rad / rad 2D histo (FSI)
+  TH2F *dummy = 0;
+  TH2F *H_Pm_vs_thrq_data = 0;
+
+  
+  // define generic rootfile name to path 
+  TString root_file_path= Form("./commissioning_data/%s/Xsec_%s_lagetfsi_%s.root", setting.Data(), setting.Data(), dataset.Data());
+
+  // if file does not exist, EXIT
+  if(gSystem->AccessPathName(root_file_path.Data()) ) { gSystem->Exit(kTRUE);}
+
+
+  // for each root file, get the desired histogram to be combined
+  TFile *data_file =  new TFile(root_file_path.Data(), "READ");
+
+
+ 
+  cout << Form("Read data file . . . %s",root_file_path.Data()) << endl;
+  
+  // Retrieve data histograms
+  data_file->cd();
+  data_file->GetObject("H_data2DXsec", H_Pm_vs_thrq_data);  
+
+
+  return H_Pm_vs_thrq_data;
+
+}
+
+
 void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bool_t display_plots=0, Bool_t apply_radiative_corr=0 ){
 
   cout << "calling project2d_deut" << endl;
@@ -323,6 +364,12 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   TH2F *hist2d_Pm_vs_thrq_simc_pwia_ps = 0;  // pwia phase space (should be the same as fsi, since its model independent)
   TH2F *hist2d_Pm_vs_thrq_simc_pwia_Xsec = 0;  // simc jml pwia cross sections
 
+  // define external 2d histograms (from commissioning 2018 deuteron data)
+  TH2F *hist2d_Pm_vs_thrq_data_Xsec_pm80;
+  TH2F *hist2d_Pm_vs_thrq_data_Xsec_pm580;
+  TH2F *hist2d_Pm_vs_thrq_data_Xsec_pm750;
+  
+  
   cout << "Retrieve histograms get_simc_2d_histos() func. . . " << endl;
 
   hist2d_Pm_vs_thrq_simc_fsi_norad     = get_simc_2d_histos(setting.Data(), "fsi", "norad");
@@ -332,6 +379,11 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   hist2d_Pm_vs_thrq_simc_pwia_norad     = get_simc_2d_histos(setting.Data(), "pwia", "norad");
   hist2d_Pm_vs_thrq_simc_pwia_ps        = get_simc_2d_histos(setting.Data(), "pwia", "phase_space");
 
+  cout << "Retrieve histograms get_comm18_data_2d_histos() func. . . " << endl;
+
+  hist2d_Pm_vs_thrq_data_Xsec_pm80 = get_comm18_data_2d_histos("pm80","dataset1");
+  hist2d_Pm_vs_thrq_data_Xsec_pm580 = get_comm18_data_2d_histos("pm580","dataset2");  // dataset with highest stats is chosen
+  hist2d_Pm_vs_thrq_data_Xsec_pm750 = get_comm18_data_2d_histos("pm750","dataset1"); // dataset with highest stats is chosen
   
   //------------------------------
   //Apply radiative corrections to charge-norm histo
@@ -495,6 +547,12 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   TH1D *H_simcPm_projY_jmlfsi_Xsec = 0; // simc jmlfsi cross sections (online)
   TH1D *H_simcPm_projY_jmlpwia_Xsec = 0; // simc jmlpwia cross sections (online)
 
+  // 1d projections for commissioning 2018 data cross sections
+  TH1D *H_comm_dataPm_projY_Xsec_pm80 = 0; 
+  TH1D *H_comm_dataPm_projY_Xsec_pm580 = 0;
+  TH1D *H_comm_dataPm_projY_Xsec_pm750 = 0; 
+
+  
   cout << "About to loop over xbins of hist2d . . . " << endl;
 
   //loop over xbins of hist2d 
@@ -521,6 +579,12 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     // data cross sections (#ub sr^{-2} MeV^{-1} (based on SIMC phase space units)
     H_dataPm_projY_Xsec = hist2d_Pm_vs_thrq_data_Xsec->ProjectionY(Form("proj_dataPm_thrq%.1f_Xsec", thrq_center), i, i);
 
+    // commissioning data cross sections
+    H_comm_dataPm_projY_Xsec_pm80  = hist2d_Pm_vs_thrq_data_Xsec_pm80->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm80", thrq_center), i, i);
+    H_comm_dataPm_projY_Xsec_pm580 = hist2d_Pm_vs_thrq_data_Xsec_pm580->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm580", thrq_center), i, i);
+    H_comm_dataPm_projY_Xsec_pm750 = hist2d_Pm_vs_thrq_data_Xsec_pm750->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm750", thrq_center), i, i);
+
+    
     // SIMC cross sections
     H_simcPm_projY_jmlfsi_Xsec = hist2d_Pm_vs_thrq_simc_fsi_Xsec->ProjectionY(Form("proj_simcPm_jmlfsi_thrq%.1f_Xsec", thrq_center), i, i);
     H_simcPm_projY_jmlpwia_Xsec = hist2d_Pm_vs_thrq_simc_pwia_Xsec->ProjectionY(Form("proj_simcPm_jmlpwia_thrq%.1f_Xsec", thrq_center), i, i);
@@ -563,6 +627,20 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_simcPm_projY_jmlpwia_Xsec->GetXaxis()->SetLabelSize(0.1);
 
 
+    H_comm_dataPm_projY_Xsec_pm80->GetYaxis()->SetNdivisions(5);
+    H_comm_dataPm_projY_Xsec_pm80->GetXaxis()->SetNdivisions(10);
+    H_comm_dataPm_projY_Xsec_pm80->GetXaxis()->SetLabelSize(0.1);
+
+    H_comm_dataPm_projY_Xsec_pm580->GetYaxis()->SetNdivisions(5);
+    H_comm_dataPm_projY_Xsec_pm580->GetXaxis()->SetNdivisions(10);
+    H_comm_dataPm_projY_Xsec_pm580->GetXaxis()->SetLabelSize(0.1);
+
+    H_comm_dataPm_projY_Xsec_pm750->GetYaxis()->SetNdivisions(5);
+    H_comm_dataPm_projY_Xsec_pm750->GetXaxis()->SetNdivisions(10);
+    H_comm_dataPm_projY_Xsec_pm750->GetXaxis()->SetLabelSize(0.1);
+
+    
+    
     //cout << "thrq_center, counts (v1) = " << thrq_center << ", " << counts << endl;
     H_dataPm_projY->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY->SetTitleSize(10);
@@ -588,6 +666,18 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
     H_simcPm_projY_jmlpwia_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_simcPm_projY_jmlpwia_Xsec->SetTitleSize(10);
+
+
+        
+    H_comm_dataPm_projY_Xsec_pm80->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f", thrq_center, thrq_width/2.));
+    H_comm_dataPm_projY_Xsec_pm80->SetTitleSize(10);
+
+    H_comm_dataPm_projY_Xsec_pm580->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f", thrq_center, thrq_width/2.));
+    H_comm_dataPm_projY_Xsec_pm580->SetTitleSize(10);
+
+    H_comm_dataPm_projY_Xsec_pm750->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f", thrq_center, thrq_width/2.));
+    H_comm_dataPm_projY_Xsec_pm750->SetTitleSize(10);
+    
     
     //cout << Form("bin#: %d,  x-center: %.1f, counts: %.3f", i, thrq_center, counts) << endl;
 
@@ -708,35 +798,64 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     c5->cd(i);
     H_simcPm_projY_PS->Draw("histE0");
 
+
+    //----------- online data cross sections -----------
     c6->cd(i);
     gPad->SetLogy();
     gPad->Modified();
     gPad->Update();
 
     H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
-    H_dataPm_projY_Xsec->SetMarkerSize(1);
+    H_dataPm_projY_Xsec->SetMarkerSize(0.8);
     H_dataPm_projY_Xsec->SetMarkerColor(kBlack);
     H_dataPm_projY_Xsec->SetLineColor(kBlack);
     H_dataPm_projY_Xsec->Draw("PE0");
 
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kCircle);
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(0.8);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
     H_simcPm_projY_jmlfsi_Xsec->SetLineColor(kGreen+2);
     H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
 
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kOpenTriangleDown);
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kCircle);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(0.8);
     H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);
     H_simcPm_projY_jmlpwia_Xsec->SetLineColor(kBlue+2);   
     H_simcPm_projY_jmlpwia_Xsec->Draw("PLCsame");
+
+    // check if plotting online pm120 MeV setting, then compare it to the pm80 from commissioning
+    if(setting=="pm120"){
+      H_comm_dataPm_projY_Xsec_pm80->SetMarkerStyle(kFullTriangleUp);
+      H_comm_dataPm_projY_Xsec_pm80->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm80->SetMarkerColor(kAzure-3);
+      H_comm_dataPm_projY_Xsec_pm80->Draw("PE0same");
+    }
+
+    if(setting=="pm580"){
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerStyle(kFullTriangleUp);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
+      H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
+    }
+
+    if(setting=="pm800" || setting=="pm900"){
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerStyle(kFullTriangleUp);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
+      H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
+      
+      H_comm_dataPm_projY_Xsec_pm750->SetMarkerStyle(kFullTriangleUp);
+      H_comm_dataPm_projY_Xsec_pm750->SetMarkerSize(0.8);
+      H_comm_dataPm_projY_Xsec_pm750->SetMarkerColor(kMagenta-7);
+      H_comm_dataPm_projY_Xsec_pm750->Draw("PE0same");
+    }
     
     // add legend
     if(i==1){
       auto legend4 = new TLegend(0.3,0.7, 0.5,0.9);
       legend4->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega  [#mub sr^{-2} MeV^{-1}]","%s");
       legend4->SetBorderSize(0);
-      legend4->SetTextSize(0.06);
+      legend4->SetTextSize(0.08);
       legend4->Draw();
 
       auto leg_data = new TLegend(0.3,0.6,0.5,0.7);   
@@ -744,20 +863,56 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       leg_data->SetBorderSize(0);   
       leg_data->SetTextSize(0.04); 
       leg_data->Draw("same");
-   
-      auto leg_fsi = new TLegend(0.3,0.4,0.5,0.5);
-      leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
-      leg_fsi->SetBorderSize(0);
-      leg_fsi->SetTextSize(0.08);
-      leg_fsi->SetTextColor(kGreen+2);
-      leg_fsi->Draw("same");
-      
+
       auto leg_pwia = new TLegend(0.3,0.5,0.5,0.6);
       leg_pwia->AddEntry("H_simcPm_projY_jmlpwia_Xsec","JML PWIA","%s");
       leg_pwia->SetBorderSize(0);
       leg_pwia->SetTextSize(0.08);
       leg_pwia->SetTextColor(kBlue+2);
       leg_pwia->Draw();
+      
+      auto leg_fsi = new TLegend(0.3,0.4,0.5,0.5);
+      leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
+      leg_fsi->SetBorderSize(0);
+      leg_fsi->SetTextSize(0.08);
+      leg_fsi->SetTextColor(kGreen+2);
+      leg_fsi->Draw("same");
+
+      if(setting=="pm120"){
+	auto leg_pm80 = new TLegend(0.3,0.3,0.5,0.4);
+	leg_pm80->AddEntry("H_comm_dataPm_projY_Xsec_pm80","data pm=80 MeV/c (2018)","%s");
+	leg_pm80->SetBorderSize(0);
+	leg_pm80->SetTextSize(0.08);
+	leg_pm80->SetTextColor(kAzure-3);
+	leg_pm80->Draw("same");
+      }
+
+      if(setting=="pm580"){
+	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
+	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data pm=580 MeV/c (2018)","%s");
+	leg_pm580->SetBorderSize(0);
+	leg_pm580->SetTextSize(0.08);
+	leg_pm580->SetTextColor(kOrange-3);
+	leg_pm580->Draw("same");
+      }
+
+      if(setting=="pm800" || setting=="pm900"){
+
+	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
+	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data pm=580 MeV/c (2018)","%s");
+	leg_pm580->SetBorderSize(0);
+	leg_pm580->SetTextSize(0.08);
+	leg_pm580->SetTextColor(kOrange-3);
+	leg_pm580->Draw("same");
+	
+	auto leg_pm750 = new TLegend(0.3,0.2,0.5,0.3);
+	leg_pm750->AddEntry("H_comm_dataPm_projY_Xsec_pm750","data pm=750 MeV/c (2018)","%s");
+	leg_pm750->SetBorderSize(0);
+	leg_pm750->SetTextSize(0.08);
+	leg_pm750->SetTextColor(kMagenta-7);
+	leg_pm750->Draw("same");
+
+      }
       
     }
 
