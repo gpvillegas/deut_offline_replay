@@ -16,6 +16,11 @@
 !code_development/commissioning_data/pm580/*.root
 !code_development/commissioning_data/pm750/*.root
 
+!code_development/pm120_plots/*
+!code_development/pm580_plots/*
+!code_development/pm800_plots/*
+!code_development/pm900_plots/*
+
 # Directories
 RAID
 DEUT_OUTPUT

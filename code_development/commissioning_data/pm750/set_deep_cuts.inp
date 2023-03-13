@@ -12,7 +12,7 @@ simc_fname: worksim_voli/d2_pm580_lagetfsi_rad_set1.root
                                                                                                               
 RUN_SIMC: 1                                                                                                   
 RUN_DATA: 1                                                                                                   
-                                                                                                              
+RUN_PSEUDO: 0                                                                                                 
 ;Analyze Radiative(1) or NonRadiative(0) SIMC?                                                                
 ;IMPORTANT: If doing radiative corrections, set to -1                                                         
 radiate: -1                                                                                                   
@@ -64,7 +64,7 @@ shms_scale        =  1
                                                                                                               
 #------Set DATA/SIMC CUTS LIMITS ------                                                                       
 Em_min : -0.02                                                                                                
-Em_max : 0.060000                                                                                                   
+Em_max : 0.040000                                                                                                   
                                                                                                               
 h_delta_min: -8.                                                                                              
 h_delta_max:  8.                                                                                              
@@ -81,8 +81,8 @@ ztarDiff_max: 2.
 Q2_min: 4.                                                                                                    
 Q2_max: 5.                                                                                                    
                                                                                                               
-thnq_min: 35.                                                                                                 
-thnq_max: 45.                                                                                                 
+thnq_min: 30.                                                                                                 
+thnq_max: 40.                                                                                                 
                                                                                                               
 MM_min: 0.9                                                                                                   
 MM_max: 0.985                                                                                                 

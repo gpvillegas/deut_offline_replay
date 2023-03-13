@@ -406,7 +406,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   
   hist2d_Pm_vs_thrq_data_Xsec= new TH2F("hist2d_Pm_vs_thrq_data_Xsec", "Data Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
   hist2d_Pm_vs_thrq_data_Xsec->Divide(hist2d_Pm_vs_thrq_data_radcorr, hist2d_Pm_vs_thrq_simc_fsi_ps);
-  hist2d_Pm_vs_thrq_data_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_data_Xsec->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
   hist2d_Pm_vs_thrq_data_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_data_Xsec->SetTitle("Data Cross Sections (Online)");
   hist2d_Pm_vs_thrq_data_Xsec->SetLabelSize(.03, "XY");
@@ -417,14 +417,14 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
   //----------------------------
   hist2d_Pm_vs_thrq_simc_fsi_Xsec= new TH2F("hist2d_Pm_vs_thrq_simc_fsi_Xsec", "SIMC JML FSI (Paris) Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->Divide(hist2d_Pm_vs_thrq_simc_fsi_norad, hist2d_Pm_vs_thrq_simc_fsi_ps);
-  hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetTitle("SIMC JML FSI (Paris) Cross Sections (Online)");
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->SetLabelSize(.03, "XY");
 
   hist2d_Pm_vs_thrq_simc_pwia_Xsec= new TH2F("hist2d_Pm_vs_thrq_simc_pwia_Xsec", "SIMC JML PWIA (Paris) Cross Sections (Online); d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]; #theta_{rq} [deg] ", xnbins, xmin, xmax, ynbins, ymin, ymax);
   hist2d_Pm_vs_thrq_simc_pwia_Xsec->Divide(hist2d_Pm_vs_thrq_simc_pwia_norad, hist2d_Pm_vs_thrq_simc_pwia_ps);
-  hist2d_Pm_vs_thrq_simc_pwia_Xsec->GetYaxis()->SetTitle("d^{5}#sigma/d#Omega_{e,p}d#omega [#ub sr^{-2} MeV^{-1}]");
+  hist2d_Pm_vs_thrq_simc_pwia_Xsec->GetYaxis()->SetTitle("P_{m}, Missing Momentum [GeV/c]");
   hist2d_Pm_vs_thrq_simc_pwia_Xsec->GetXaxis()->SetTitle("Recoil Angle, #theta_{rq} [deg]");
   hist2d_Pm_vs_thrq_simc_pwia_Xsec->SetTitle("SIMC JML PWIA (Paris) Cross Sections (Online)");
   hist2d_Pm_vs_thrq_simc_pwia_Xsec->SetLabelSize(.03, "XY");
@@ -449,36 +449,41 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
 
 
-  // plot 2d histogra
+  // plot 2d histograms
   TCanvas *c0 = new TCanvas("c0", "", 1500,1500);
   c0->Divide(3,2);
 
   c0->cd(1);
-  //gPad->Modified(); gPad->Update();
+  gPad->Modified(); gPad->Update();
   hist2d->Draw("contz");
  
-  
   c0->cd(2);
-  //gPad->Modified(); gPad->Update();
+  gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_simc_fsi_ratio->Draw("contz");
 
   c0->cd(3);
-  //gPad->Modified(); gPad->Update();
+  gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_simc_fsi_ps->Draw("contz");
 
   c0->cd(4);
-  //gPad->Modified(); gPad->Update();
+  gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_data_radcorr->Draw("contz");
   
   c0->cd(5);
+  gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_data_Xsec->Draw("contz");
 
   c0->cd(6);
+  gPad->Modified(); gPad->Update();
   hist2d_Pm_vs_thrq_simc_fsi_Xsec->Draw("contz");
   
-  //hist2d->Write();
-  //hist2d_Pm_vs_thrq_simc_fsi_ratio->Write();
-
+  fout->cd();
+  hist2d->Write();
+  hist2d_Pm_vs_thrq_simc_fsi_ratio->Write();
+  hist2d_Pm_vs_thrq_simc_fsi_ps->Write();
+  hist2d_Pm_vs_thrq_data_radcorr->Write();
+  hist2d_Pm_vs_thrq_data_Xsec->Write();
+  hist2d_Pm_vs_thrq_simc_fsi_Xsec->Write();
 
   // --- define variables for calculative/plotting of relative stats. error on Pmiss (need to reset vector per projection bin) ---
   vector<double> y_val;       // this will be set to 0 (as reference)
@@ -578,16 +583,15 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
     // data cross sections (#ub sr^{-2} MeV^{-1} (based on SIMC phase space units)
     H_dataPm_projY_Xsec = hist2d_Pm_vs_thrq_data_Xsec->ProjectionY(Form("proj_dataPm_thrq%.1f_Xsec", thrq_center), i, i);
+    
+    // SIMC cross sections
+    H_simcPm_projY_jmlfsi_Xsec = hist2d_Pm_vs_thrq_simc_fsi_Xsec->ProjectionY(Form("proj_simcPm_jmlfsi_thrq%.1f_Xsec", thrq_center), i, i);
+    H_simcPm_projY_jmlpwia_Xsec = hist2d_Pm_vs_thrq_simc_pwia_Xsec->ProjectionY(Form("proj_simcPm_jmlpwia_thrq%.1f_Xsec", thrq_center), i, i);
 
     // commissioning data cross sections
     H_comm_dataPm_projY_Xsec_pm80  = hist2d_Pm_vs_thrq_data_Xsec_pm80->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm80", thrq_center), i, i);
     H_comm_dataPm_projY_Xsec_pm580 = hist2d_Pm_vs_thrq_data_Xsec_pm580->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm580", thrq_center), i, i);
     H_comm_dataPm_projY_Xsec_pm750 = hist2d_Pm_vs_thrq_data_Xsec_pm750->ProjectionY(Form("proj_comm_dataPm_thrq%.1f_Xsec_pm750", thrq_center), i, i);
-
-    
-    // SIMC cross sections
-    H_simcPm_projY_jmlfsi_Xsec = hist2d_Pm_vs_thrq_simc_fsi_Xsec->ProjectionY(Form("proj_simcPm_jmlfsi_thrq%.1f_Xsec", thrq_center), i, i);
-    H_simcPm_projY_jmlpwia_Xsec = hist2d_Pm_vs_thrq_simc_pwia_Xsec->ProjectionY(Form("proj_simcPm_jmlpwia_thrq%.1f_Xsec", thrq_center), i, i);
 
     
     // define integrated counts on projected bin
@@ -626,7 +630,6 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_simcPm_projY_jmlpwia_Xsec->GetXaxis()->SetNdivisions(10);
     H_simcPm_projY_jmlpwia_Xsec->GetXaxis()->SetLabelSize(0.1);
 
-
     H_comm_dataPm_projY_Xsec_pm80->GetYaxis()->SetNdivisions(5);
     H_comm_dataPm_projY_Xsec_pm80->GetXaxis()->SetNdivisions(10);
     H_comm_dataPm_projY_Xsec_pm80->GetXaxis()->SetLabelSize(0.1);
@@ -651,7 +654,6 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_dataPm_projY_radUnCorr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY_radUnCorr->SetTitleSize(10);
     
-    
     H_dataPm_projY_radCorr->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_dataPm_projY_radCorr->SetTitleSize(10);
     
@@ -666,8 +668,6 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
     H_simcPm_projY_jmlpwia_Xsec->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f (N=%.1f)", thrq_center, thrq_width/2., counts));
     H_simcPm_projY_jmlpwia_Xsec->SetTitleSize(10);
-
-
         
     H_comm_dataPm_projY_Xsec_pm80->SetTitle(Form("#theta_{rq} = %.1f#pm%.1f", thrq_center, thrq_width/2.));
     H_comm_dataPm_projY_Xsec_pm80->SetTitleSize(10);
@@ -719,7 +719,9 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       
     }
 
-    
+    // change to TFile for writing to root
+    fout->cd();
+
     // at the end, should have vector of length N for plotting
     int n=H_dataPm_projY->GetNbinsX();
     
@@ -728,8 +730,6 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gr->SetMarkerColor(kBlack);
     gr->SetMarkerSize(0.);
     gr->SetMarkerStyle(21);
-
-    
 
     TLine *lo_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), -inner_stats, *(max_element(x_val.begin(), x_val.end())) , -inner_stats);
     TLine *up_limit = new TLine( *(min_element(x_val.begin(), x_val.end())), inner_stats, *(max_element(x_val.begin(), x_val.end())) , inner_stats);
@@ -751,30 +751,53 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     gr->GetYaxis()->SetNdivisions(5);
     gr->GetXaxis()->SetNdivisions(10);
 
+    gr->Write();
 
     //---------------------------------------------------
-    
- 
-    //gr->Write();
-   
+        
     c1->cd(i);
+    gPad->Modified();
+    gPad->Update();
+
+    H_dataPm_projY->SetMarkerStyle(kFullCircle);
+    H_dataPm_projY->SetMarkerSize(1);
+    H_dataPm_projY->SetMarkerColor(kBlack);
+    H_dataPm_projY->SetLineColor(kBlack);
     H_dataPm_projY->Draw("histE0");
-    //H_dataPm_projY->Write();
+    H_dataPm_projY->Write();
    
     
     c3->cd(i);
-    H_simcPm_projY_ratio->Draw("E0");
-    //H_simcPm_projY_ratio->Write();
+    gPad->Modified();
+    gPad->Update();    
+
+    H_simcPm_projY_ratio->SetMarkerStyle(kFullCircle);
+    H_simcPm_projY_ratio->SetMarkerSize(1);
+    H_simcPm_projY_ratio->SetMarkerColor(kBlack);
+    H_simcPm_projY_ratio->SetLineColor(kBlack);
+
+    H_simcPm_projY_ratio->Draw("PE0");
+    H_simcPm_projY_ratio->Write();
     
     
     c4->cd(i);
+    gPad->Modified();
+    gPad->Update();
+
+    H_dataPm_projY_radUnCorr->SetMarkerStyle(kFullCircle);
+    H_dataPm_projY_radCorr->SetMarkerStyle(kFullCircle);
+    
+    H_dataPm_projY_radUnCorr->SetMarkerSize(1);
+    H_dataPm_projY_radCorr->SetMarkerSize(1);
+    H_dataPm_projY_radUnCorr->SetMarkerColor(kBlue);
+    H_dataPm_projY_radCorr->SetMarkerColor(kRed);
     H_dataPm_projY_radUnCorr->SetLineColor(kBlue);
     H_dataPm_projY_radCorr->SetLineColor(kRed);
     
     H_dataPm_projY_radCorr->Draw("histE0");
     H_dataPm_projY_radUnCorr->Draw("histE0same");
-
-
+    
+ 
 
     // add legend
     if(i==1){
@@ -793,41 +816,49 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       legend3->Draw("same");
     }
 
-    //H_dataPm_projY_radCorr->Write();
+    H_dataPm_projY_radUnCorr->Write();
+    H_dataPm_projY_radCorr->Write();
+
        
     c5->cd(i);
+    H_simcPm_projY_PS->SetMarkerStyle(kFullCircle);
+    H_simcPm_projY_PS->SetMarkerSize(1);
+    H_simcPm_projY_PS->SetMarkerColor(kBlack);
+    H_simcPm_projY_PS->SetLineColor(kBlack);
+
     H_simcPm_projY_PS->Draw("histE0");
-
-
+    H_simcPm_projY_PS->Write();
+    
     //----------- online data cross sections -----------
     c6->cd(i);
     gPad->SetLogy();
     gPad->Modified();
     gPad->Update();
 
-    H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
-    H_dataPm_projY_Xsec->SetMarkerSize(1);
-    H_dataPm_projY_Xsec->SetMarkerColor(kBlack);
-    H_dataPm_projY_Xsec->SetLineColor(kBlack);
-    H_dataPm_projY_Xsec->Draw("PE0");
 
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kStar);
-    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1);
+    // ---------- PLOT THEORY---------
+    
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerStyle(kFullStar);
+    H_simcPm_projY_jmlfsi_Xsec->SetMarkerSize(1.3);
     H_simcPm_projY_jmlfsi_Xsec->SetMarkerColor(kGreen+2);
-    H_simcPm_projY_jmlfsi_Xsec->Draw("PLCsame");
-
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kStar);
-    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1);
+    H_simcPm_projY_jmlfsi_Xsec->Draw("PLC");
+  
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerStyle(kFullStar);
+    H_simcPm_projY_jmlpwia_Xsec->SetMarkerSize(1.3);
     H_simcPm_projY_jmlpwia_Xsec->SetMarkerColor(kBlue+2);   
     H_simcPm_projY_jmlpwia_Xsec->Draw("PLCsame");
+   
+    H_simcPm_projY_jmlfsi_Xsec->Write();
+    H_simcPm_projY_jmlpwia_Xsec->Write();
 
     // check if plotting online pm120 MeV setting, then compare it to the pm80 from commissioning
     if(setting=="pm120"){
       H_comm_dataPm_projY_Xsec_pm80->SetMarkerStyle(kFullTriangleUp);
       H_comm_dataPm_projY_Xsec_pm80->SetMarkerSize(1);
-      H_comm_dataPm_projY_Xsec_pm80->SetMarkerColor(kAzure-3);
-      H_comm_dataPm_projY_Xsec_pm80->SetLineColor(kAzure-3);
+      H_comm_dataPm_projY_Xsec_pm80->SetMarkerColor(kRed);
+      H_comm_dataPm_projY_Xsec_pm80->SetLineColor(kRed);
       H_comm_dataPm_projY_Xsec_pm80->Draw("PE0same");
+      H_comm_dataPm_projY_Xsec_pm80->Write();
     }
 
     if(setting=="pm580"){
@@ -836,6 +867,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
       H_comm_dataPm_projY_Xsec_pm580->SetLineColor(kOrange-3);   
       H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
+      H_comm_dataPm_projY_Xsec_pm580->Write();
     }
 
     if(setting=="pm800" || setting=="pm900"){
@@ -844,12 +876,14 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       H_comm_dataPm_projY_Xsec_pm580->SetMarkerColor(kOrange-3);
       H_comm_dataPm_projY_Xsec_pm580->SetLineColor(kOrange-3);
       H_comm_dataPm_projY_Xsec_pm580->Draw("PE0same");
-      
+      H_comm_dataPm_projY_Xsec_pm580->Write();
+
       H_comm_dataPm_projY_Xsec_pm750->SetMarkerStyle(kFullTriangleUp);
       H_comm_dataPm_projY_Xsec_pm750->SetMarkerSize(1);
       H_comm_dataPm_projY_Xsec_pm750->SetMarkerColor(kMagenta-7);
       H_comm_dataPm_projY_Xsec_pm750->SetLineColor(kMagenta-7);
       H_comm_dataPm_projY_Xsec_pm750->Draw("PE0same");
+      H_comm_dataPm_projY_Xsec_pm750->Write();
     }
     
     // add legend
@@ -857,26 +891,26 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       auto legend4 = new TLegend(0.2,0.7, 0.4,0.9);
       legend4->AddEntry("H_dataPm_projY_Xsec","d^{5}#sigma/d#Omega_{e,p}d#omega [#mub sr^{-2} MeV^{-1}]","%s");
       legend4->SetBorderSize(0);
-      legend4->SetTextSize(0.05);
+      legend4->SetTextSize(0.09);
       legend4->Draw();
 
       auto leg_data = new TLegend(0.3,0.6,0.5,0.7);   
       leg_data->AddEntry("H_dataPm_projY_Xsec","data (online)","%s");    
       leg_data->SetBorderSize(0);   
-      leg_data->SetTextSize(0.06); 
+      leg_data->SetTextSize(0.09); 
       leg_data->Draw("same");
 
       auto leg_pwia = new TLegend(0.3,0.5,0.5,0.6);
       leg_pwia->AddEntry("H_simcPm_projY_jmlpwia_Xsec","JML PWIA","%s");
       leg_pwia->SetBorderSize(0);
-      leg_pwia->SetTextSize(0.06);
+      leg_pwia->SetTextSize(0.08);
       leg_pwia->SetTextColor(kBlue+2);
       leg_pwia->Draw();
       
       auto leg_fsi = new TLegend(0.3,0.4,0.5,0.5);
       leg_fsi->AddEntry("H_simcPm_projY_jmlfsi_Xsec","JML FSI","%s");
       leg_fsi->SetBorderSize(0);
-      leg_fsi->SetTextSize(0.06);
+      leg_fsi->SetTextSize(0.08);
       leg_fsi->SetTextColor(kGreen+2);
       leg_fsi->Draw("same");
 
@@ -884,8 +918,8 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 	auto leg_pm80 = new TLegend(0.3,0.3,0.5,0.4);
 	leg_pm80->AddEntry("H_comm_dataPm_projY_Xsec_pm80","data 80 MeV/c (2018)","%s");
 	leg_pm80->SetBorderSize(0);
-	leg_pm80->SetTextSize(0.06);
-	leg_pm80->SetTextColor(kAzure-3);
+	leg_pm80->SetTextSize(0.08);
+	leg_pm80->SetTextColor(kRed);
 	leg_pm80->Draw("same");
       }
 
@@ -893,7 +927,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
 	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data 580 MeV/c (2018)","%s");
 	leg_pm580->SetBorderSize(0);
-	leg_pm580->SetTextSize(0.06);
+	leg_pm580->SetTextSize(0.08);
 	leg_pm580->SetTextColor(kOrange-3);
 	leg_pm580->Draw("same");
       }
@@ -903,14 +937,14 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 	auto leg_pm580 = new TLegend(0.3,0.3,0.5,0.4);
 	leg_pm580->AddEntry("H_comm_dataPm_projY_Xsec_pm580","data 580 MeV/c (2018)","%s");
 	leg_pm580->SetBorderSize(0);
-	leg_pm580->SetTextSize(0.06);
+	leg_pm580->SetTextSize(0.08);
 	leg_pm580->SetTextColor(kOrange-3);
 	leg_pm580->Draw("same");
 	
 	auto leg_pm750 = new TLegend(0.3,0.2,0.5,0.3);
 	leg_pm750->AddEntry("H_comm_dataPm_projY_Xsec_pm750","data 750 MeV/c (2018)","%s");
 	leg_pm750->SetBorderSize(0);
-	leg_pm750->SetTextSize(0.06);
+	leg_pm750->SetTextSize(0.08);
 	leg_pm750->SetTextColor(kMagenta-7);
 	leg_pm750->Draw("same");
 
@@ -918,7 +952,15 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       
     }
 
+    H_dataPm_projY_Xsec->SetMarkerStyle(kFullCircle);
+    H_dataPm_projY_Xsec->SetMarkerSize(1);
+    H_dataPm_projY_Xsec->SetMarkerColor(kBlack);
+    H_dataPm_projY_Xsec->SetLineColor(kBlack);
+    H_dataPm_projY_Xsec->Draw("PE0same");
+    H_dataPm_projY_Xsec->Write();
 
+
+    //------------------------------------------------------------------
    
     c2->cd(i); 
    
@@ -997,12 +1039,12 @@ void project2d_online_develop() {
 
   if(pm_setting=="pm800"){
     run_min=20886; 
-    run_min=20956;
+    run_max=20956;
   }
   
   if(pm_setting=="pm900"){
     run_min=20958; 
-    run_min=20992;    
+    run_max=21009;    
   }
   /*
   cout << "" << endl;
