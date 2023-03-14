@@ -755,6 +755,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
     //---------------------------------------------------
         
+    /*
     c1->cd(i);
     gPad->Modified();
     gPad->Update();
@@ -819,7 +820,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
     H_dataPm_projY_radUnCorr->Write();
     H_dataPm_projY_radCorr->Write();
 
-       
+    */ 
     c5->cd(i);
     H_simcPm_projY_PS->SetMarkerStyle(kFullCircle);
     H_simcPm_projY_PS->SetMarkerSize(1);
@@ -828,7 +829,7 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
 
     H_simcPm_projY_PS->Draw("histE0");
     H_simcPm_projY_PS->Write();
-    
+    /*
     //----------- online data cross sections -----------
     c6->cd(i);
     gPad->SetLogy();
@@ -979,10 +980,10 @@ void project2d_deut( TH2F *hist2d=0, TH2F *hist2d_corr=0, TString setting="", Bo
       legend->Draw();
     }
     
-
+    */
   } // end loop over 2D xbins [th_rq]
   
-
+  
   // save canvas
   gStyle->SetOptStat(0);
   c0->SaveAs( fout_2dHist.Data()      );
