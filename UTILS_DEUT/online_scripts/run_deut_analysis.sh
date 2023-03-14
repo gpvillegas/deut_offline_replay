@@ -24,7 +24,7 @@ if [ -z "$1" ] || [ -z "$2" ] ; then
     echo ""
     echo "Usage:  ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number>"
     echo ""
-    echo "<ana_cut> = \"heep_singles\", \"heep_coin\", \"deep"\"
+    echo "<ana_cut> = \"heep_singles\", \"heep_coin\", \"deep\", \"lumi\" "
     echo ""
     echo "If you don't know which <ana_cut> to choose, please ask the run coordinator ! ! ! " 
     echo ""
@@ -32,7 +32,7 @@ if [ -z "$1" ] || [ -z "$2" ] ; then
 
     exit 0    
     # fool-proof, make sure only options:  heep_singles, heep_coin, deep      
-elif [ "$ana_cut" == "heep_singles" ] || [ "$ana_cut" == "heep_coin" ] || [ "$ana_cut" == "deep" ] ; then 
+elif [ "$ana_cut" == "heep_singles" ] || [ "$ana_cut" == "heep_coin" ] || [ "$ana_cut" == "deep" ] || [ "$ana_cut" == "lumi" ]; then 
     echo "" 
 else
     echo "" 
@@ -40,7 +40,7 @@ else
     echo ""
     echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number>"
     echo ""     
-    echo "<ana_cut> = \"heep_singles\", \"heep_coin\", or \"deep\" "
+    echo "<ana_cut> = \"heep_singles\", \"heep_coin\", or \"deep\", \"lumi\" "
     echo ""
     echo "If you don't know which <ana_cut> to choose, please ask the run coordinator ! ! ! "   
     echo ""
@@ -86,7 +86,11 @@ if [ "${ana_cut}" == "heep_singles" ] || [ "${ana_cut}" == "heep_coin" ]; then
     tgt_type="LH2"
 elif [ "${ana_cut}" == "deep" ]; then
     tgt_type="LD2"
-     
+elif [ "${ana_cut}" == "lumi" ]; then
+    echo "Select target for lumi scan (C12, LD2): "
+    read tgt_type
+    echo ""
+    echo "target selected: ${tgt_type}"
 fi
 
 daq_mode="coin"
@@ -95,7 +99,7 @@ ana_type="data"   # "data" or "simc"
 hel_flag=0
 bcm_type="BCM4A"
 bcm_thrs=5             # beam current threhsold cut > bcm_thrs [uA]
-trig_single="T1"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
+trig_single="T2"    # singles trigger type to apply pre-scale factor in FullWeight, i.e. hist->Scale(Ps2_factor) 
 trig_coin="T6"      # coin. trigger type to apply pre-scale factor in FullWeight, i.e., hist->Scale(Ps5_factor)
 skim_flag=0            # create skimmed tree ? (mostly to reduce file size)
 

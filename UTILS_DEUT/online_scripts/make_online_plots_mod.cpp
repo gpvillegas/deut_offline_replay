@@ -611,32 +611,32 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
 
   //Get Histogram objects from data rootfile
   data_file->GetObject("pid_plots/H_ep_ctime_total", data_ep_ctime_total);
-  if(ana_cut!="heep_singles"){ 
+  if(ana_cut!="heep_singles" || ana_cut!="lumi" ){ 
   data_file->GetObject("pid_plots/H_ep_ctime_real", data_ep_ctime_real);
   data_file->GetObject("rand_plots/H_ep_ctime_rand", data_ep_ctime_rand);
   }
 
   data_file->GetObject("kin_plots/H_W", data_W_total);
-   if(ana_cut!="heep_singles"){ 
+   if(ana_cut!="heep_singles"|| ana_cut!="lumi" ){ 
   data_file->GetObject("randSub_plots/H_W_rand_sub", data_W_real);
   data_file->GetObject("rand_plots/H_W_rand", data_W_rand);
    }
 
   data_file->GetObject("kin_plots/H_MM", data_MM_total);
-   if(ana_cut!="heep_singles"){ 
+   if(ana_cut!="heep_singles" || ana_cut!="lumi" ){ 
      data_file->GetObject("randSub_plots/H_MM_rand_sub", data_MM_real);
      data_file->GetObject("rand_plots/H_MM_rand", data_MM_rand);
    }
 
   data_file->GetObject("kin_plots/H_Pm", data_Pm_total);
-   if(ana_cut!="heep_singles"){ 
+   if(ana_cut!="heep_singles" || ana_cut!="lumi" ){ 
   data_file->GetObject("randSub_plots/H_Pm_rand_sub", data_Pm_real);
   data_file->GetObject("rand_plots/H_Pm_rand", data_Pm_rand);
    }
 
   if(tgt_type=="LH2"){
     data_file->GetObject("kin_plots/H_Em", data_Em_total);
-    if(ana_cut!="heep_singles"){ 
+    if(ana_cut!="heep_singles" || ana_cut!="lumi" ){ 
       data_file->GetObject("randSub_plots/H_Em_rand_sub", data_Em_real);
       data_file->GetObject("rand_plots/H_Em_rand", data_Em_rand);
     }
@@ -644,7 +644,7 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
 
   else if(tgt_type!="LH2"){
     data_file->GetObject("kin_plots/H_Em_nuc", data_Em_total);
-    if(ana_cut!="heep_singles"){ 
+    if(ana_cut!="heep_singles" || ana_cut!="lumi" ){ 
       data_file->GetObject("randSub_plots/H_Em_nuc_rand_sub", data_Em_real);
       data_file->GetObject("rand_plots/H_Em_nuc_rand", data_Em_rand);
     }
@@ -652,7 +652,7 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
     
   //Set data Histo Aesthetics
 
-  if(ana_cut!="heep_singles"){ 
+  if(ana_cut!="heep_singles" && ana_cut!="lumi" ){ 
     // coincidence time
     data_ep_ctime_total->SetFillColorAlpha(kBlue, 0.35);
     data_ep_ctime_total->SetFillStyle(3004);
@@ -672,7 +672,7 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
   data_W_total->SetFillStyle(3004);
   data_W_total->SetLineColor(kBlue+2);
 
-  if(ana_cut!="heep_singles"){
+  if(ana_cut!="heep_singles" && ana_cut!="lumi" ){
   data_W_rand->SetFillColorAlpha(kGreen, 0.35);
   data_W_rand->SetFillStyle(3005);
   data_W_rand->SetLineColor(kGreen);
@@ -686,7 +686,7 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
   data_MM_total->SetFillStyle(3004);
   data_MM_total->SetLineColor(kBlue+2);
 
-  if(ana_cut!="heep_singles"){
+  if(ana_cut!="heep_singles" && ana_cut!="lumi" ){
   data_MM_rand->SetFillColorAlpha(kGreen, 0.35);
   data_MM_rand->SetFillStyle(3005);
   data_MM_rand->SetLineColor(kGreen);
@@ -700,7 +700,7 @@ void make_online_plots_mod(int run=0, int evt=0, Bool_t simc_exist=0, TString tg
   data_Pm_total->SetFillColorAlpha(kBlue, 0.35);
   data_Pm_total->SetFillStyle(3004);
   data_Pm_total->SetLineColor(kBlue+2);
-if(ana_cut!="heep_singles"){
+if(ana_cut!="heep_singles" && ana_cut!="lumi" ){
   data_Pm_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Pm_rand->SetFillStyle(3005);
   data_Pm_rand->SetLineColor(kGreen);
@@ -714,7 +714,7 @@ if(ana_cut!="heep_singles"){
   data_Em_total->SetFillColorAlpha(kBlue, 0.35);
   data_Em_total->SetFillStyle(3004);
   data_Em_total->SetLineColor(kBlue+2);
-if(ana_cut!="heep_singles"){
+if(ana_cut!="heep_singles" && ana_cut!="lumi" ){
   data_Em_rand->SetFillColorAlpha(kGreen, 0.35);
   data_Em_rand->SetFillStyle(3005);
   data_Em_rand->SetLineColor(kGreen);
@@ -770,6 +770,21 @@ if(ana_cut!="heep_singles"){
     c1->Clear();
     
   }
+
+  if(ana_cut=="lumi"){
+    c1->cd(); 
+
+    nbins = data_edelta->GetNbinsX();
+    data_edelta->Draw("histE0");
+
+    total = data_edelta->IntegralAndError(data_edelta->FindBin(-10), data_edelta->FindBin(22), total_err);
+    hW_leg->AddEntry(data_edelta, Form("Total   : %.3f", total),"f"); 
+    hW_leg->SetBorderSize(0);  
+    hW_leg->SetTextSize(0.05);
+    hW_leg->Draw();    
+    c1->Print(Form("deut_output_%s_%d.pdf", ana_type.Data(), run)); 
+    c1->Clear();  
+  } 
 
   //  heep coin 
   if(ana_cut=="heep_coin"){

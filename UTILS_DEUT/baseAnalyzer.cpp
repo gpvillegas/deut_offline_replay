@@ -1431,7 +1431,7 @@ void baseAnalyzer::ReadInputFile()
 
   }
 
-  else if(analysis_cut=="deep"){ // d(e,e'p) e12-10-003 experiment 
+  else if(analysis_cut=="deep" || analysis_cut=="lumi"){ // d(e,e'p) e12-10-003 experiment 
     input_HBinFileName    = "UTILS_DEUT/inp/set_basic_histos_deep.inp";
     input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut.inp"; // deut -> deuteron exp. ( e12-10-003 )
 
@@ -2134,8 +2134,12 @@ void baseAnalyzer::ReadReport()
 
   // this is only valid for exp. e12-10-003 running on Feb 20 - Mar 20, 2023  -- C.Y.
 
+  
   setting = "NA";// default is undefined
 
+  if(analysis_cut=="lumi"){
+    setting = "lumi";
+  }
 
   // Based on SHMS kinematics, set setting (delta scan)
   if( (analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ){
@@ -2317,6 +2321,8 @@ void baseAnalyzer::ReadReport()
     }
     
   } // end "deep"
+
+  
 }
 
 //_______________________________________________________________________________
@@ -5581,7 +5587,7 @@ void baseAnalyzer::EventLoop()
 	  // user pre-determined analysis kinematics cuts
 
 	  if(analysis_cut=="lumi"){ 
-	    c_baseCuts =  e_delta>=-10. && e_delta<=22. && c_pidCuts_shms;
+	    c_baseCuts = c_accpCuts_shms && c_pidCuts_shms && (eP_ctime_cut=1);
 	  }
 	  else if(analysis_cut=="optics"){  // will need to call Holly's script that generates optics plots (from raw ROOTfile)
 	    c_baseCuts =  c_pidCuts_shms;
@@ -6926,8 +6932,8 @@ void baseAnalyzer::RandSub()
   MM_real  = H_MM_rand_sub ->IntegralAndError(1, total_bins, MM_real_err);
   MM_rand  = H_MM_rand     ->IntegralAndError(1, total_bins, MM_rand_err);
   
-  
-  
+  total_bins = H_edelta->GetNbinsX(); 
+  Ntrk_lumi_counts = H_edelta ->IntegralAndError( H_edelta->FindBin(-10.),  H_edelta->FindBin(22.), Ntrk_lumi_counts_err);
 }
 
 //_________________________________________________________
@@ -8365,7 +8371,7 @@ void baseAnalyzer::WriteOnlineReport()
 	if(hetot_trkNorm_pidCut_flag) {out_file << Form("# HMS calorimeter total energy / track momentum (H.cal.etottracknorm): (%.1f, %.1f)", cpid_hetot_trkNorm_min, cpid_hetot_trkNorm_max) << endl;}
 	if(hcer_pidCut_flag)          {out_file << Form("# HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.1f, %.1f)", cpid_hcer_npeSum_min, cpid_hcer_npeSum_max) << endl;}
       }
-      if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC"))
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="lumi"))
       {
 	if(petot_trkNorm_pidCut_flag)  {out_file << Form("# SHMS calorimeter total energy / track momentum (P.cal.etottracknorm): (%.1f, %.1f)",cpid_petot_trkNorm_min, cpid_petot_trkNorm_max) << endl;}
 	if(pngcer_pidCut_flag)        {out_file << Form("# SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.1f, %.1f)",cpid_pngcer_npeSum_min,cpid_pngcer_npeSum_max) << endl;}
@@ -8474,6 +8480,9 @@ void baseAnalyzer::WriteReport()
       out_file << Form("(e,e'p) counts     : %.3f", Pm_real)  << endl;
       out_file << Form("(e,e'p) rate [Hz]  : %.4f", Pm_real_rate)  << endl;
 
+    }
+    if(analysis_cut=="lumi"){
+      out_file << Form("(e,e') counts  : %.3f +/- %.3f", Ntrk_lumi_counts, Ntrk_lumi_counts_err ) << endl;
     }
     
     out_file << "#                                        //" << endl;
@@ -8665,6 +8674,26 @@ void baseAnalyzer::WriteReport()
 	out_file << "" << endl;
       }
 
+    if(analysis_cut=="lumi")
+      {
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=" << endl;
+	out_file << "#  Lumi Scan (e,e') Counts   " << endl;
+	out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:=:=" << endl;
+	out_file << "" << endl;
+	out_file << "# Yield = Counts * pre-scale_factor / (Q * e-_track_eff * total_live_time)" << endl;
+	out_file << "# Counts are Inegrated e- momentum acceptance (delta)  " << endl;  
+	out_file << Form("# pre-scale_factor: %f", Ps_factor_single)   << endl;
+	out_file << Form("# %s Q [mC]     : %.3f", bcm_type.Data(), total_charge_bcm_cut) << endl;
+        out_file << Form("# e-_track_eff  : %.3f", pTrkEff) << endl;
+	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
+	out_file << "#-----------------------------" << endl;
+	out_file << Form("total_counts    : %.3f", Ntrk_lumi_counts) << endl;
+	float real_yield = Pm_real * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single);
+	out_file << Form("real_yield      : %.3f", real_yield )  << endl;
+	out_file << "                                     " << endl;
+	out_file << "" << endl;
+      }
+    
     if(analysis_cut!="bcm_calib"){
     out_file << "                                     " << endl;
     out_file << "# =:=:=:=:=:=:=:=:=:=:=:=:" << endl;
@@ -8767,7 +8796,7 @@ void baseAnalyzer::WriteReport()
 	out_file << Form("# HMS should: %.1f",  h_should) << endl;
 	
       }
-    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") )
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") || (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") || (analysis_cut=="lumi") )
       {
 	out_file << "                                   " << endl;
 	if(pdc_ntrk_cut_flag)    {out_file << Form("# (did) SHMS min. number of tracks (P.dc.ntrack): >= %.1f", c_pdc_ntrk_min) << endl;}
@@ -8792,7 +8821,7 @@ void baseAnalyzer::WriteReport()
 	out_file << "                                   " << endl;
 	out_file << "#--- SHMS T2 Singles / Track Efficiency Definition --- " << endl;
 	out_file << "                                   " << endl;    
-	out_file << "# T2 Singles Definition: Require T2tdcTime>0 && (T3,T4,T5,T6 tdcTime==0) && noedtm && g.evtyp==1(only SHMS event)  " << endl;
+	out_file << "# T2 Singles Definition: Require T2tdcTime>0  && noedtm && g.evtyp==1 (only SHMS event)  " << endl;
 	out_file << "# T2 (SHMS EL-REAL) is a subset of T1 (SHMS 3/4), so each T2 must have a T1.                           " << endl;    
 	out_file << "# T2 Singles Track Eff. Definition: same as above (should), (did) for SHMS     " << endl;
 	out_file << Form("# SHMS did singles: %.1f",  p_did_singles) << endl;
@@ -8841,7 +8870,7 @@ void baseAnalyzer::WriteReport()
 	if(hetot_trkNorm_pidCut_flag) {out_file << Form("# HMS calorimeter total energy / track momentum (H.cal.etottracknorm): (%.3f, %.3f)", cpid_hetot_trkNorm_min, cpid_hetot_trkNorm_max) << endl;}
 	if(hcer_pidCut_flag)          {out_file << Form("# HMS gas Cherenkov number of photoelectrons (H.cer.npeSum): (%.3f, %.3f)", cpid_hcer_npeSum_min, cpid_hcer_npeSum_max) << endl;}
       }
-    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep"))
+    if((analysis_cut=="heep_singles") || (analysis_cut=="heep_coin") ||  (analysis_cut=="MF") || (analysis_cut=="SRC") || (analysis_cut=="deep") || (analysis_cut=="lumi"))
       {
 	if(petot_trkNorm_pidCut_flag)  {out_file << Form("# SHMS calorimeter total energy / track momentum (P.cal.etottracknorm): (%.3f, %.3f)",cpid_petot_trkNorm_min, cpid_petot_trkNorm_max) << endl;}
 	if(pngcer_pidCut_flag)        {out_file << Form("# SHMS noble gas Chrenkov number of photoelectrons (P.ngcer.npeSum): (%.3f, %.3f)",cpid_pngcer_npeSum_min,cpid_pngcer_npeSum_max) << endl;}
