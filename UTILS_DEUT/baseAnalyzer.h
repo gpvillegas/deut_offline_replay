@@ -411,6 +411,9 @@ protected:
   Double_t MM_total, MM_rand, MM_real;
   Double_t MM_total_err, MM_rand_err, MM_real_err;
 
+  Double_t Ntrk_lumi_counts; // counts (using tracking variables) for luminosity scan
+  Double_t Ntrk_lumi_counts_err;
+  
   // counting the events underneath the SHMS Cal E/p (for multi-track eff. correction)
   Double_t single_peak_counts, single_peak_counts_err;
   Double_t multi_peak_counts,  multi_peak_counts_err;
