@@ -8692,11 +8692,11 @@ void baseAnalyzer::WriteReport()
 	out_file << "# Counts are Inegrated e- momentum acceptance (delta)  " << endl;  
 	out_file << Form("# pre-scale_factor: %f", Ps_factor_single)   << endl;
 	out_file << Form("# %s Q [mC]     : %.3f", bcm_type.Data(), total_charge_bcm_cut) << endl;
-        out_file << Form("# e-_track_eff  : %.3f", pTrkEff) << endl;
+        out_file << Form("# e-_track_eff  : %.3f", pTrkEff_singles) << endl;
 	out_file << Form("# total_live_time     : %.3f", tLT_trig_single) << endl;
 	out_file << "#-----------------------------" << endl;
 	out_file << Form("total_counts    : %.3f", Ntrk_lumi_counts) << endl;
-	float real_yield = Pm_real * Ps_factor_single / (total_charge_bcm_cut*pTrkEff*tLT_trig_single);
+	float real_yield = Ntrk_lumi_counts * Ps_factor_single / (total_charge_bcm_cut*pTrkEff_singles*tLT_trig_single);
 	out_file << Form("real_yield      : %.3f", real_yield )  << endl;
 	out_file << "                                     " << endl;
 	out_file << "" << endl;
