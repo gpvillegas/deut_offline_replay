@@ -1,0 +1,75 @@
+The very preliminary online d(e,e'p) absolute cross sections have been calculated.
+
+2D online histograms were binned in missing momentum (Pm) vs. recoil angle (thrq)
+1D missing momentum histograms were projected along thrq (Y-projections) 
+
+The plots are as follows:
+
+Plot1: 2D online histograms
+-------------------------
+(a) raw (e,e'p) data counts without any corrections
+
+(b) ratio of non-radiative to radiative SIMC yield
+    to be used as radiative correction factor
+
+(c) SIMC phase space (un-weighted) to be used in cross-section calculations
+units: dE' * dOmega_e * dOmega_p * (luminosity/Ntried),
+dE'     : e- energy (MeV)
+dOmega_e: e- solid angle (sr)
+dOmega_p: proton solid angle (sr)
+luminosity: charge/targetfac,
+Ntried: events thrown into detector volume
+
+(d) data yield normalized to total charge and corrected for
+total live time, hms/shms track inefficinecy, radiative effects
+
+(e) data online cross sections determined by dividing (d) by (c)
+(data yield / SIMC phase space),
+units: ub sr^{-2} MeV^{-1}
+
+(f) SIMC online cross sections determined by dividing non-radiative
+SIMC yield by phase space
+
+
+Plot2: Raw Missing Momentum Counts
+------------------------------------
+uncorrected missing momentum counts used to
+calculate / monitor the statistical error during online
+data taking (simply take 1/sqrt(N) for each bin content to
+determine the relative error per missing momentum bin)
+
+
+Plot3: Relative Statistical Error
+----------------------------------
+relative error per missing momentum bin
+used to monitor statistics collected online
+a +/- 15 % line is used as reference
+
+
+Plot4: SIMC Non-Radiative to Radiative
+----------------------------------------
+ratio of non-radiative to radiative SIMC yields
+using Jean-Marc Laget (JML) FSI model (NN Paris potential)
+
+
+Plot5: DATA Rdiative Corrections
+----------------------------------
+data charge-normalized yields before and after applying the
+non-radiative to radiative correction factor shown in Plot4.
+
+Plot6: SIMC Phase Space
+-------------------------
+SIMC phase space (un-weighted) binned in recoil angles, thrq,
+to be used in denominator of cross-sections calculations
+
+
+Plot7: DATA Online Cross Sections
+----------------------------------
+Data online cross sections compared to JML PWIA, FSI models
+and our previous Hall C d(e,e'p) cross-section measurements in 2018
+
+Legend:
+black: data d(e,e'p) 120 MeV/c central setting (online, 2023) 
+blue: JML Plane Wave Impulse Approximation (PWIA)
+green: JML Final-State Interactions (FSI)
+red: d(e,e'p) 80 MeV/c central setting (2018)

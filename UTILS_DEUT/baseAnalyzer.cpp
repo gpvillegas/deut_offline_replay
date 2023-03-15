@@ -5656,8 +5656,8 @@ void baseAnalyzer::EventLoop()
 		total_edtm_accp_bcm_cut_single++;
 	      }
 	      
-	      //strictly select trig2 > 0 (which is does require trig1>0, since trig2 is a subset of trig1)
-	      if(c_trig1 && c_trig2 && (c_notrig3 && c_notrig4 && c_notrig5 && c_notrig6) && c_noedtm && gevtyp==1){
+	      //strictly select shms singles event
+	      if(c_noedtm && gevtyp==1){
 
 		// try some minimal cuts when counting singles (to make sure in is within spectrometer) -- check with Larry
 		if(c_accpCuts_shms){
@@ -7070,7 +7070,8 @@ void baseAnalyzer::CalcEff()
   tLT_trig3 = total_edtm_accp_bcm_cut / (total_edtm_scaler_bcm_cut / Ps3_factor);  
   tLT_trig4 = total_edtm_accp_bcm_cut / (total_edtm_scaler_bcm_cut / Ps4_factor);  
   tLT_trig5 = total_edtm_accp_bcm_cut / (total_edtm_scaler_bcm_cut / Ps5_factor);  
-  tLT_trig6 = total_edtm_accp_bcm_cut / (total_edtm_scaler_bcm_cut / Ps6_factor);  
+  tLT_trig6 = total_edtm_accp_bcm_cut / (total_edtm_scaler_bcm_cut / Ps6_factor);
+
 
   //Calculate EDTM Live Time Error (Use Binomial Error)
   tLT_trig1_err_Bi = sqrt( total_edtm_accp_bcm_cut * (1. - (total_edtm_accp_bcm_cut )/total_edtm_scaler_bcm_cut ) ) * Ps1_factor / total_edtm_scaler_bcm_cut;
@@ -8482,7 +8483,14 @@ void baseAnalyzer::WriteReport()
 
     }
     if(analysis_cut=="lumi"){
+      
       out_file << Form("(e,e') counts  : %.3f +/- %.3f", Ntrk_lumi_counts, Ntrk_lumi_counts_err ) << endl;
+      out_file << Form("prescale_factor: %.1f", Ps_factor_single) << endl;
+      out_file << Form("shms_track_eff: %.3f +/- %.3f ", pTrkEff_singles, pTrkEff_singles_err) << endl;
+      out_file << Form("edtm_live_time: %.3f +/- %.3f ", tLT_trig_single, tLT_trig_err_Bi_single) << endl;
+      float yield =  Ntrk_lumi_counts * Ps_factor_single / (total_charge_bcm_cut*pTrkEff_singles*tLT_trig_single);
+      out_file << Form("yield: %.3f", yield) << endl;
+
     }
     
     out_file << "#                                        //" << endl;
