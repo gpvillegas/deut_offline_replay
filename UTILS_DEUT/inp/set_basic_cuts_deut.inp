@@ -224,7 +224,7 @@ c_heep_MM_max = 0.15
 # not all of these cuts may necessarily be turned ON. Leave to the user discretion.
 
 # 4-Momentum Transfers [GeV^2]
-Q2_deep_cut_flag = 1
+Q2_deep_cut_flag = 0
 c_deep_Q2_min = 4.0
 c_deep_Q2_max = 5.0
 
