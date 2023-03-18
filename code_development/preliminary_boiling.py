@@ -26,12 +26,12 @@ LD2_rel_yield_err = LD2_Y_err/LD2_Y[0]
 #LD2_yield = unumpy.uarray(LD2_counts, LD2_counts_err)
 
 # runs 21059, 21060, 21061
-I_avg_C12 = np.array([14.858, 29.442, 39.796])
-C12_counts = np.array([162756.0, 266221., 286626.])
-C12_Q = np.array([9.835, 16.009, 17.258 ])
-C12_etrk_eff = np.array([0.987, 0.988, 0.987])
-C12_tLT = np.array([1.000, 1.001, 1.000])
-PS_factor_c12 = np.array([1,1,1,])
+I_avg_C12 = np.array([14.858, 29.442, 39.796, 55.328, 64.626])
+C12_counts = np.array([162756.0, 266221., 286626., 613042.0, 600152.0])
+C12_Q = np.array([9.835, 16.009, 17.258, 37.007, 36.588   ])
+C12_etrk_eff = np.array([0.987, 0.988, 0.987, 0.986, 0.986])
+C12_tLT = np.array([1.000, 1.001, 1.000, 1.0, 0.996])
+PS_factor_c12 = np.array([1,1,1,1,1])
 
 C12_Y = (C12_counts*PS_factor_c12) / (C12_Q*C12_etrk_eff*C12_tLT)
 C12_Y_err = np.sqrt(C12_counts) *PS_factor_c12 / (C12_Q*C12_etrk_eff*C12_tLT)
