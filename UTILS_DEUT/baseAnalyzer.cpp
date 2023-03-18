@@ -1430,13 +1430,22 @@ void baseAnalyzer::ReadInputFile()
     input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut.inp"; // deut -> deuteron exp. ( e12-10-003 )
 
   }
-
-  else if(analysis_cut=="deep" || analysis_cut=="lumi"){ // d(e,e'p) e12-10-003 experiment 
+                                                                                                                                                                
+  else if((analysis_cut=="deep" || analysis_cut=="lumi") && run!=21075){ // d(e,e'p) e12-10-003 experiment 
     input_HBinFileName    = "UTILS_DEUT/inp/set_basic_histos_deep.inp";
     input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut.inp"; // deut -> deuteron exp. ( e12-10-003 )
 
   }  
-  
+  // just for when LD2 pm=120 MeV 70 uA starts replaying it will read cut file without Q2 cut 
+  else if((analysis_cut=="deep" || analysis_cut=="lumi") && run==21075){ // d(e,e'p) e12-10-003 experiment                                                         
+                                                                                                                                                                                     
+    input_HBinFileName    = "UTILS_DEUT/inp/set_basic_histos_deep.inp";                                                                                                           
+                                                                                                                                                                                   
+    input_CutFileName     = "UTILS_DEUT/inp/set_basic_cuts_deut_21075.inp"; // deut -> deuteron exp. ( e12-10-003 )                                                
+                                                                                                                                                                                    
+                                                                                                                                                                               
+                                                                                                                                                                                            
+  } 
   cout << " input_HBinFileName"<<  input_HBinFileName << endl;
 
   //==========================================

@@ -856,7 +856,7 @@ ppcentral = 8.55
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
-# d(e,e'p) Pm=000 MeV/c (edtm @ 10 Hz)
+# d(e,e'p) Pm=100 MeV/c (edtm @ 10 Hz)
 20957 - 21048
 gpbeam = 10.549                       
 gtargmass_amu = 2.014101               
@@ -901,7 +901,7 @@ hpartmass = 0.93827231
 ppartmass = 0.000511 
 
 # d(e,e'p) Pm=120 MeV/c (edtm @ 10 Hz) luminosity scan
-21065 - 9999999
+21065 - 21075
 gpbeam = 10.549                       
 gtargmass_amu = 2.014101               
 htheta_lab = -38.63                   
@@ -910,3 +910,14 @@ hpcentral = 3.0523
 ppcentral = 8.55                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
+
+# d(e,e'p) Pm=580 MeV/c (edtm @ 10 Hz)  -- round2 to finish it off
+21076 - 9999999
+gpbeam = 10.549 
+gtargmass_amu = 2.014101 
+htheta_lab = -54.96      
+ptheta_lab = 12.197                                              
+hpcentral = 2.2622                                                
+ppcentral = 8.55                                          
+hpartmass = 0.93827231                                              
+ppartmass = 0.000511  
