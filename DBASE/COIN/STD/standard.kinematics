@@ -857,12 +857,56 @@ hpartmass = 0.93827231
 ppartmass = 0.000511 
 
 # d(e,e'p) Pm=000 MeV/c (edtm @ 10 Hz)
-20957 - 99999
+20957 - 21048
 gpbeam = 10.549                       
 gtargmass_amu = 2.014101               
 htheta_lab = -61.33                   
 ptheta_lab = 12.197
 hpcentral = 2.0474                    
+ppcentral = 8.55                     
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# SHMS single arm luminosity scan (LD2)
+21049 - 21058
+gpbeam = 10.549                       
+gtargmass_amu = 2.014101               
+htheta_lab = -61.33                   
+ptheta_lab = 20.00
+hpcentral = 2.0474                    
+ppcentral = 4.00                     
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# SHMS single arm luminosity scan (C12)
+21059 - 21063 
+gpbeam = 10.549                       
+gtargmass_amu = 12.0107               
+htheta_lab = -61.33                   
+ptheta_lab = 20.00
+hpcentral = 2.0474                    
+ppcentral = 4.00                     
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# SHMS single arm luminosity scan (Al Dummy)
+21064 - 21064
+gpbeam = 10.549                       
+gtargmass_amu = 2.014101               
+htheta_lab = -61.33                   
+ptheta_lab = 20.00
+hpcentral = 2.0474                    
+ppcentral = 4.00                     
+hpartmass = 0.93827231                 
+ppartmass = 0.000511 
+
+# d(e,e'p) Pm=120 MeV/c (edtm @ 10 Hz) luminosity scan
+21065 - 9999999
+gpbeam = 10.549                       
+gtargmass_amu = 2.014101               
+htheta_lab = -38.63                   
+ptheta_lab = 12.197
+hpcentral = 3.0523                    
 ppcentral = 8.55                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
