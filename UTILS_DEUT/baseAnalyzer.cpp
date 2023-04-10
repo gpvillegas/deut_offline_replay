@@ -10034,7 +10034,8 @@ void baseAnalyzer::run_offline_data_analysis()
   WriteHist();
   WriteReport();
   WriteReportSummary();   
-  CombineHistos();
+
+  //CombineHistos();
   
 
   // --- online methods ---

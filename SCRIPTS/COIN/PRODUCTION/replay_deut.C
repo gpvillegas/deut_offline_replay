@@ -46,12 +46,26 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   pathList.push_back("./raw.copiedtotape");
   pathList.push_back("./CACHE_LINKS/cache_pionlt");
   pathList.push_back("./CACHE_LINKS/cache_cafe"); 
-  pathList.push_back("./CACHE_LINKS/cache_deut"); // need to add
+  pathList.push_back("./CACHE_LINKS/cache_deut");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
   // Create dir. to store monitoring histos
-  TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  TString cmd = ""; // Form("mkdir -p ROOTfiles/%s", ftype.Data());
+
+  if((ftype=="prod") && (MaxEvent==-1)){
+    ftype="prod";
+    cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  }
+  else if( (ftype=="prod") && (MaxEvent!=-1) ){
+    ftype="sample";
+    cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  }
+  else{
+    cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  }
+
+
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
 
   if((ftype=="shms50k") || (ftype=="hms50k")){
@@ -65,6 +79,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     cmd = Form("mkdir -p HISTOGRAMS/%s/ROOT", ftype.Data());
     gSystem->Exec(cmd); // create study type dir. if it doesn't exist
   }
+
   
   const char* ROOTFileNamePattern = "ROOTfiles/%s/deut_replay_%s_%d_%d.root";
 
@@ -316,28 +331,6 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Define the analysis parameters
   TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
 
-  
-  
-  TString user_answer = "";
-  
-  /*
-  if((ftype!="shms50k") || (ftype!="hms50k")){
-
-  if(gSystem->AccessPathName(ROOTFileName.Data())){
-    std::cout << Form("%s does NOT exist !",ROOTFileName.Data()) << std::endl;
-  } else {
-    std::cout << Form("%s already exists !  Are you sure you want to overwrite it ? [y / n)] \n (please use contrl+z instead of entering no, if you used ./run_deut_prod.sh as gSystem->Exit(0)): ",ROOTFileName.Data());
-    cin >> user_answer;
-  }
-  if(user_answer=="y" || user_answer=="yes" || user_answer=="Y" || user_answer=="YES"){
-    cout << Form("Will overwrite % !", ROOTFileName.Data()) << endl;
-  }
-  else if(user_answer=="n" || user_answer=="no" || user_answer=="N" || user_answer=="NO"){
-    cout << Form("OK, ! Will NOT overwrite % s.", ROOTFileName.Data()) << endl;
-  
-    }
-  }
-  */
 
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
