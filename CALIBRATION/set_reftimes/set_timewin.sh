@@ -23,10 +23,10 @@ debug=1
 # Which analysis file type are we doing? 
 ana_type="timewin"
 
-# this rootfile name pattern assumes pattern defined in replay_cafe.C script (please do NOT modify replay script) 
-filename="../../ROOTfiles/${ana_type}/cafe_replay_${ana_type}_${runNum}_${evtNum}.root"
+# this rootfile name pattern assumes pattern defined in replay_deut.C script (please do NOT modify replay script) 
+filename="../../ROOTfiles/${ana_type}/deut_replay_${ana_type}_${runNum}_${evtNum}.root"
 
-replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C"
+replay_script="SCRIPTS/COIN/PRODUCTION/replay_deut.C"
 analysis_script="scripts/set_reftimes.C"
 
 runHcana="./hcana -q \"${replay_script}(${runNum}, ${evtNum}, \\\"${ana_type}\\\")\""
