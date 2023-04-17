@@ -3,7 +3,7 @@
 #user input
 runNum=$1    # run number
 evtNum=$2    # event number
-replat=$3
+replay=$3
 
 if [ -z "$1" ] || [ -z "$2" ]; then 
     echo "" 
