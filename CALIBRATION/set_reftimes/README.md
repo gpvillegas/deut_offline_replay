@@ -1,6 +1,6 @@
 # Overview
 Useful Docuentation: [https://hallcweb.jlab.org/DocDB/0010/001032/001/analysis_notes.pdf]()
-
+Analysis E-LOG: [https://hallcweb.jlab.org/elogs/Deuteron+Analysis/]()
 ### directory structure: <br>
 
 `scripts/set_reftimes.C` main script to check/set reference times or detector time window cuts
