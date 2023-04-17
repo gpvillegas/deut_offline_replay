@@ -31,10 +31,10 @@ $ .L scripts/set_reftimes.C
 # 'false' (detector time windows)
 
 # Example: checking/setting reference times for run 16036
-$ set_reftimes("../../ROOTfiles/reftime/cafe_replay_reftime_16036_20000.root", 16036, "coin", true, false)    
+$ set_reftimes("../../ROOTfiles/reftime/deut_replay_reftime_16036_20000.root", 16036, "coin", true, false)    
 
 # Example: checking/setting detector time window for run 16036
-$ set_reftimes("../../ROOTfiles/timewin/cafe_replay_timewin_16036_20000.root", 16036, "coin", false, false)      
+$ set_reftimes("../../ROOTfiles/timewin/deut_replay_timewin_16036_20000.root", 16036, "coin", false, false)      
                                                                                                                                 
 ```
 Continuing the example on run 16036: <br> 

@@ -14,8 +14,8 @@
 
 // load dedicated header files for this task
 #include "set_reftimes.h"
-#include "../../../UTILS_CAFE/UTILS/parse_utils.h"
-#include "../../../UTILS_CAFE/UTILS/hallc_parse_utils.h"
+#include "../../../UTILS/parse_utils.h"
+#include "../../../UTILS/hallc_parse_utils.h"
 
 using namespace std;
 
@@ -26,23 +26,25 @@ void set_param_files(){
   // by their replay script so that the existing cuts may be overlayed with
   // the replayed data, and determine whether to change the limits or not
   // the new limits (for hodoscopes and calorimeter will be determined automatically,
-  // given the high channel density
+  // given the high channel density. Refer to: DBASE/COIN/standard.database, and
+  // look for the '_cuts_filename' corresponding to the run in the specified run-range
 
-  pref_param_fname = "../../PARAM/SHMS/GEN/fall22/p_reftime_cut_cafe.param";
-  href_param_fname = "../../PARAM/HMS/GEN/fall22/h_reftime_cut_cafe.param";
 
-  phodo_param_fname = "../../PARAM/SHMS/HODO/fall22/cuts/phodo_cuts_cafe.param";
-  hhodo_param_fname = "../../PARAM/HMS/HODO/fall22/cuts/hhodo_cuts_cafe.param";
+  pref_param_fname = "../../PARAM/SHMS/GEN/spring23/p_reftime_cut_init.param";
+  href_param_fname = "../../PARAM/HMS/GEN/spring23/h_reftime_cut_init.param";
+
+  phodo_param_fname = "../../PARAM/SHMS/HODO/spring23/cuts/phodo_cuts_init.param";
+  hhodo_param_fname = "../../PARAM/HMS/HODO/spring23/cuts/hhodo_cuts_init.param";
   
-  pdc_param_fname = "../../PARAM/SHMS/DC/fall22/cuts/pdc_cuts_cafe.param"; //"../../PARAM/SHMS/DC/pdc_cuts.param";
-  hdc_param_fname ="../../PARAM/HMS/DC/fall22/cuts/hdc_cuts_cafe.param";  //"../../PARAM/HMS/DC/hdc_cuts.param";
+  pdc_param_fname = "../../PARAM/SHMS/DC/spring23/cuts/pdc_cuts_init.param";
+  hdc_param_fname ="../../PARAM/HMS/DC/spring23/cuts/hdc_cuts_init.param";  
 
-  phgcer_param_fname = "../../PARAM/SHMS/HGCER/fall22/cuts/phgcer_cuts_init.param";
-  pngcer_param_fname = "../../PARAM/SHMS/NGCER/fall22/cuts/pngcer_cuts_cafe.param";
-  hcer_param_fname = "../../PARAM/HMS/CER/fall22/cuts/hcer_cuts_cafe.param";
+  phgcer_param_fname = "../../PARAM/SHMS/HGCER/spring23/cuts/phgcer_cuts_init.param";
+  pngcer_param_fname = "../../PARAM/SHMS/NGCER/spring23/cuts/pngcer_cuts_init.param";
+  hcer_param_fname = "../../PARAM/HMS/CER/spring23/cuts/hcer_cuts_init.param";
 
-  pcal_param_fname = "../../PARAM/SHMS/CAL/fall22/cuts/pcal_cuts_cafe.param";
-  hcal_param_fname = "../../PARAM/HMS/CAL/fall22/cuts/hcal_cuts_cafe.param";
+  pcal_param_fname = "../../PARAM/SHMS/CAL/spring23/cuts/pcal_cuts_init.param";
+  hcal_param_fname = "../../PARAM/HMS/CAL/spring23/cuts/hcal_cuts_init.param";
 
 }
 
