@@ -7,11 +7,11 @@ replay=$3
 
 if [ -z "$1" ] || [ -z "$2" ]; then 
     echo "" 
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     echo "" 
     echo "Usage:  ./set_reftime.sh <run_number> <evt_number> <replay(optional)>"  
     echo "" 
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
     
     exit 0
 fi
@@ -23,6 +23,7 @@ debug=0
 # Which analysis file type are we doing? "reftime" or "timewin"? 
 ana_type="reftime"
 
+# Set analysis directory to local directory
 analysis_home="/home/gvill/deuteron/deut_offline_replay"
 
 # this rootfile name pattern assumes pattern defined in replay_deut.C script (please do NOT modify replay script) 
