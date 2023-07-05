@@ -14,3 +14,10 @@ hhodo_tdcrefcut=-1000.
 hhodo_adcrefcut=-1000.
 hcer_adcrefcut=-1000.
 hcal_adcrefcut=-1000.
+
+; Gema: changed cuts
+;hdc_tdcrefcut=-15000.
+;hhodo_tdcrefcut=-3000.
+;hhodo_adcrefcut=-4500.
+;hcer_adcrefcut=-1000.
+;hcal_adcrefcut=-1000.
