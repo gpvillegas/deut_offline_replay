@@ -10,10 +10,29 @@
 
 
 ; init spring 2023
-pdc_tdcrefcut    =-15500.
-phodo_tdcrefcut  =-4600.
-phodo_adcrefcut  =-5600.
-pngcer_adcrefcut =-5600.
-phgcer_adcrefcut =-5600.
-paero_adcrefcut  =-5600.
-pcal_adcrefcut   =-5600.
+;pdc_tdcrefcut    =-15500.
+;phodo_tdcrefcut  =-4600.
+;phodo_adcrefcut  =-5600.
+;pngcer_adcrefcut =-5600.
+;phgcer_adcrefcut =-5600.
+;paero_adcrefcut  =-5600.
+;pcal_adcrefcut   =-5600.
+
+; Gema:  test cuts
+;pdc_tdcrefcut    =-500.
+;phodo_tdcrefcut  =-500.
+;phodo_adcrefcut  =-500.
+;pngcer_adcrefcut =-500.
+;phgcer_adcrefcut =-500.
+;paero_adcrefcut  =-500.
+;pcal_adcrefcut   =-500.
+
+; Gema:  NEW cuts 11-03-23
+; singles_params
+pdc_tdcrefcut    =-15000.
+phodo_tdcrefcut  =-4000.
+phodo_adcrefcut  =-5000.
+pngcer_adcrefcut =-5000.
+phgcer_adcrefcut =-5000.
+paero_adcrefcut  =-5000.
+pcal_adcrefcut   =-5000.

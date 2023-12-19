@@ -20,7 +20,7 @@ daq_mode="coin"
 set_refTimes=1
 debug=0
   
-# Which analysis file type are we doing? "reftime" or "timewin"? 
+# Which analysis file type are we doing? "reftime" or "timewin"?
 ana_type="reftime"
 
 # Set analysis directory to local directory

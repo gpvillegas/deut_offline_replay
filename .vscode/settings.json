@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "replay_deut.C": "cpp"
+        "replay_deut.C": "cpp",
+        "set_reftimes.C": "cpp"
     }
 }
