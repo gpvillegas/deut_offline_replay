@@ -5,6 +5,7 @@
         "replay_cafe_mkj.C": "cpp",
         "replay_deut_scalers.C": "cpp",
         "replay_gem_shms.C": "cpp",
-        "replay_production_all_shms.C": "cpp"
+        "replay_production_all_shms.C": "cpp",
+        "set_tcoin.C": "cpp"
     }
 }

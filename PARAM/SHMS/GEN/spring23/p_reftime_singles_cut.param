@@ -8,17 +8,13 @@
 ;     reference time is used and warning message is produced.
 ; Cut is on reference time per detector.
 
-; Srping 2023 Init Ref. Times 
-;hdc_tdcrefcut=-10000.
-;hhodo_tdcrefcut=-1000.
-;hhodo_adcrefcut=-1000.
-;hcer_adcrefcut=-1000.
-;hcal_adcrefcut=-1000.
+;For deuteron 2023: single-arm mode was ran taking only SHMS data
+; Single Arm mode reference time parameters 01-10-2024
 
-; Gema: NEW cuts 11-03-23
-; lumi_params
-hdc_tdcrefcut=-16000.
-hhodo_tdcrefcut=-3000.
-hhodo_adcrefcut=-4500.
-hcer_adcrefcut=-4500.
-hcal_adcrefcut=-4500.
+pdc_tdcrefcut    =-500.
+phodo_tdcrefcut  =-500.
+phodo_adcrefcut  =-500.
+pngcer_adcrefcut =-500.
+phgcer_adcrefcut =-500.
+paero_adcrefcut  =-500.
+pcal_adcrefcut   =-500.

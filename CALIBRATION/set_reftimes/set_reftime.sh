@@ -3,20 +3,21 @@
 #user input
 runNum=$1    # run number
 evtNum=$2    # event number
-replay=$3
+daq_mode=$3  # shms(singles) or coin (default coin)   
+replay=$4    # replay data (default no replay)   
 
 if [ -z "$1" ] || [ -z "$2" ]; then 
     echo "" 
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=::=:=:=:=:=:"
     echo "" 
-    echo "Usage:  ./set_reftime.sh <run_number> <evt_number> <replay(optional)>"  
+    echo "Usage:  ./set_reftime.sh <run_number> <evt_number> <daq_mode(opt)> <replay(opt)>"  
     echo "" 
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=::=:=:=:=:=:"
     
     exit 0
 fi
 
-daq_mode="coin"
+#daq_mode="coin"
 set_refTimes=1
 debug=0
   
