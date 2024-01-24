@@ -11,10 +11,10 @@
 ;For deuteron 2023: single-arm mode was ran taking only SHMS data
 ; Single Arm mode reference time parameters 01-10-2024
 
-pdc_tdcrefcut    =-500.
-phodo_tdcrefcut  =-500.
-phodo_adcrefcut  =-500.
-pngcer_adcrefcut =-500.
-phgcer_adcrefcut =-500.
-paero_adcrefcut  =-500.
-pcal_adcrefcut   =-500.
+pdc_tdcrefcut    =-14500
+phodo_tdcrefcut  =-3700
+phodo_adcrefcut  =-4600
+pngcer_adcrefcut =-4600
+phgcer_adcrefcut =-4600
+paero_adcrefcut  =-4600
+pcal_adcrefcut   =-4600

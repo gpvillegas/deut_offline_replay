@@ -15,10 +15,9 @@
 ;hcer_adcrefcut=-1000.
 ;hcal_adcrefcut=-1000.
 
-; Gema: NEW cuts 11-03-23
-; lumi_params
+;GV final cuts (separate from singles) 01/16/24
 hdc_tdcrefcut=-16000
-hhodo_tdcrefcut=-3000
-hhodo_adcrefcut=-4500
-hcer_adcrefcut=-4500
-hcal_adcrefcut=-4500
+hhodo_tdcrefcut=-3500
+hhodo_adcrefcut=-5000
+hcer_adcrefcut=-5000
+hcal_adcrefcut=-5000

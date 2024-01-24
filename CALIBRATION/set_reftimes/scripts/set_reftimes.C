@@ -98,14 +98,14 @@ Double_t read_ref_times(TString spec="", TString det_reftime_name=""){
 }
 
 
-void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_t set_refTimes=true, Bool_t debug=false)
+void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_t set_refTimes=true, Bool_t debug=false, Bool_t singles=false)
 {
   
   /* user input: 
      
      1. run      --> run number
      
-     2. daq_mode --> "hms", "shms", "coin" (DAQ Mode)
+     2. daq_mode --> "hms", "shms", "coin" (DAQ Mode) //For deut2023 we want to leave this at "coin"
      
      3. set_refTimes --> true or false (determine whether to set reference time cuts) 
      NOTE: If true, will  plot reference time histos in the corresponding directories (USER must determine which cut to set based on the histos)
@@ -113,6 +113,9 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
      
      4. debug  --> true or false | if true, will attempt to plot the hodo and cal ADC/TDC Times separately for debugging purposes, to check individual histos
      that are responsible for making up the ADC-TDC Time differences histos
+
+	 5. singles --> true if the run to analyze is a (shms) singles run, otherwise false. During the deuteron 2023 experiment the DAQ sys was always run in coincidence
+	 mode, even for hydrogen elastic singles or luminosity scans always on the shms. I added this option to allow the use for different calibration files for singles runs -gvill
      
    */
 
@@ -901,7 +904,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
   // flag to draw new suggested cut line 
   Bool_t new_line_flg = false;
 
-  if(set_refTimes && daq_mode=="coin") {
+  if(set_refTimes && !singles) {
     
     //-------Reference Time Histograms----------
     
@@ -1031,7 +1034,7 @@ void set_reftimes(TString filename="", int run=0, TString daq_mode="coin", Bool_
  
   }
 
-  else if(set_refTimes && daq_mode=="shms") {
+  else if(set_refTimes && singles) {
     
     //-------Reference Time Histograms----------
     

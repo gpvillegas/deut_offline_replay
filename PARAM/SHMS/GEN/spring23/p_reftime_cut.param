@@ -37,12 +37,11 @@
 ;paero_adcrefcut  =-5000.
 ;pcal_adcrefcut   =-5000.
 
-; Gema:  NEW cuts 11-03-23
-; singles_params
-pdc_tdcrefcut    =-15000
-phodo_tdcrefcut  =-4000
-phodo_adcrefcut  =-5000
-pngcer_adcrefcut =-5000
-phgcer_adcrefcut =-5000
-paero_adcrefcut  =-5000
-pcal_adcrefcut   =-5000
+; final cuts (separate from singles) 01/16/24
+pdc_tdcrefcut    =-15500
+phodo_tdcrefcut  =-4500
+phodo_adcrefcut  =-5500
+pngcer_adcrefcut =-5500
+phgcer_adcrefcut =-5500
+paero_adcrefcut  =-5500
+pcal_adcrefcut   =-5500
