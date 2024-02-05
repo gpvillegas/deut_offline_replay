@@ -13,7 +13,7 @@
 #        DEF-files/deut_{replay_type}.def and may be modified.
 #        Where {replay_type} can be either production where only
 #        necessary leaf variables are written for doing physics analysis,
-#        or calibration (i.e., "optics", "hod_calib", "dc_calib", "cal_calib", "scalers",
+#        or calibration (i.e., "optics", "hodcalib", "dccalib", "calcalib", "scalers",
 #        "reftime", "timewin")
 
 # What type of input is {replay_type} ?
@@ -26,7 +26,7 @@
 # ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_prod.sh
 
 # example 2:  create calibration replay script (replay raw data file with only leaf variabled relevant to calibration)
-# ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_hodocalib.sh
+# ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_hodcalib.sh
 
 # Which replay type are we doing? physics analysis ("prod"), or calibration ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
 replay_type=${0##*_}
