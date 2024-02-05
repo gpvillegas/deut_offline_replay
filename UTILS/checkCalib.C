@@ -4,7 +4,8 @@
 
 void checkCalib(TString filename="", int run=0, TString hms_pid="", TString shms_pid="")
 {
-  
+
+  // filename ---> full .root file path to check calibration
   // run ---> run number
   // hms_pid --> "p" (for protons) or "e" (for electrons)
   // shms_pid ---> "p" or "e"

@@ -10,7 +10,7 @@
 # Brief: This shell script replays the raw (.dat) files 
 #        and outputs the raw (.root) files. The leaf
 #        variables to be written are specified under 
-#        DEF-files/deut_{replay_type}.def and may be modified.
+#        DEF-files/cafe_{replay_type}.def and may be modified.
 #        Where {replay_type} can be either production where only
 #        necessary leaf variables are written for doing physics analysis,
 #        or calibration (i.e., "optics", "hod_calib", "dc_calib", "cal_calib", "scalers",
@@ -18,21 +18,16 @@
 
 # What type of input is {replay_type} ?
 # Answer: {replay_type} is an input based on the suffix of a symbolic link made to this shell script.
-# For examlpe, if a symbolic link is made:  ln -sf UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_suffix.sh
+# For examlpe, if a symbolic link is made:  ln -sf UTILS_CAFE/offline_scripts/replay_cafe.sh replay_cafe_suffix.sh
 # then the {replay_type} becomes "suffix".  This way, there exists ONLY this shell script, from which different
 # shell scripts can be linked to, and based on the "suffix", then a different part of this shell script would be executed
 
-# example 1: create a production replay script (replay raw data file with all leaf variables)
-# ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_prod.sh
-
-# example 2:  create calibration replay script (replay raw data file with only leaf variabled relevant to calibration)
-# ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_hodocalib.sh
 
 # Which replay type are we doing? physics analysis ("prod"), or calibration ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
 replay_type=${0##*_}
 replay_type=${replay_type%%.sh}     
 
-HCREPLAY="/work/hallc/c-deuteron/$USER/deut_offline_replay"
+HCREPLAY="/work/hallc/c-cafe-2022/$USER/cafe_offline_replay"
 echo "HCREPLAY=${HCREPLAY}"
 
 # change to top-level directory
@@ -47,7 +42,7 @@ echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 echo ""
 
 # replay script
-replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C" 
+replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_cafe.C" 
 
 
 # ==========================
@@ -63,10 +58,10 @@ if [ "${replay_type}" = "prod" ]; then
 	echo "Brief: This shell script replays the raw (.dat) files "
 	echo "       and outputs the raw (.root) files. The leaf "
 	echo "       variables to be written are specified under "
-	echo "       DEF-files/deut_${replay_type}.def and may be modified. "
+	echo "       DEF-files/cafe_${replay_type}.def and may be modified. "
 	echo ""
 	echo "-----------------------------------------"
-	echo "Usage 1):  ./replay_deut_${replay_type}.sh run evt "
+	echo "Usage 1):  ./replay_cafe_${replay_type}.sh run evt "
 	echo "-----------------------------------------"
 	echo ""
 	echo "run: run number"
@@ -74,21 +69,21 @@ if [ "${replay_type}" = "prod" ]; then
 	echo "evt: event number; defaults to -1 (all events)"
 	echo "      if no argument is given"
 	echo ""
-	echo "example 1: ./replay_deut_${replay_type}.sh 3288 100000"
+	echo "example 1: ./replay_cafe_${replay_type}.sh 3288 100000"
 	echo ""
 	echo "------------------------------------------------"
-	echo "Usage 2):  ./replay_deut_${replay_type}.sh target kin evt "
+	echo "Usage 2):  ./replay_cafe_${replay_type}.sh target kin evt "
 	echo "------------------------------------------------"
 	echo ""
-	echo "target:  dummy, h2, d2, c12 "
-	echo "target runlist is read from: UTILS_DEUT/runlist/<target>_<kin>.txt"
+	echo "target:  dummy, h2, d2, be9, b10, b11, c12, ca40, ca48, fe54 "
+	echo "target runlist is read from: UTILS_CAFE/runlist/<target>_<kin>.txt"
 	echo ""
-	echo "kin: singles, coin "
+	echo "kin: singles, coin, MF or SRC "
 	echo ""
 	echo "evt: event number defaults to -1 (all events), "
 	echo "unless explicitly specified as 3rd argument"
 	echo ""
-	echo "example 2: ./replay_deut_${replay_type}.sh d2 deep"
+	echo "example 2: ./replay_cafe_${replay_type}.sh ca48 MF 350000"
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
 	echo "" 
@@ -119,7 +114,7 @@ if [ "${replay_type}" = "prod" ]; then
 	date
 	echo ""
 	echo ""
-	echo "Running HCANA Deut Replay on the run ${run}:"
+	echo "Running HCANA CaFe Replay on the run ${run}:"
 	echo " -> SCRIPT:  ${replay_script}"
 	echo " -> RUN:     ${run}"
 	echo " -> NEVENTS: ${evt}"
@@ -146,7 +141,7 @@ if [ "${replay_type}" = "prod" ]; then
 	fi
 	
 	# runlist
-	filename="UTILS_DEUT/runlist/${target}_${kin}.txt"
+	filename="UTILS_CAFE/runlist/${target}_${kin}.txt"
 	
 	for run in $(cat $filename) ; do    
 	    
@@ -160,7 +155,7 @@ if [ "${replay_type}" = "prod" ]; then
 		date
 		echo ""
 		echo ""
-		echo "Running HCANA Deut Replay on the run ${runNum}:"
+		echo "Running HCANA CaFe Replay on the run ${runNum}:"
 		echo " -> RUNLIST: ${filename}"
 		echo " -> SCRIPT:  ${replay_script}"
 		echo " -> RUN:     ${run}"
@@ -180,7 +175,7 @@ if [ "${replay_type}" = "prod" ]; then
 
 else
     
-    # {replay_type} for calibration may be one of these:  ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin" or "checkCalib")
+    # {replay_type} for calibration may be one of these:  ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
     # Display help output if no argumenr specified
     if [  $# -eq 0 ]; then
 	echo "" 
@@ -189,11 +184,11 @@ else
 	echo "Brief: This shell script replays the raw (.dat) files "
 	echo "       and outputs the raw (.root) files for calibration"
 	echo "       purposes. The leaf variables to be written are "
-	echo "       specified under: DEF-files/deut_${replay_type}.def "
+	echo "       specified under: DEF-files/cafe_${replay_type}.def "
 	echo "       and may be modified. "
 	echo ""
 	echo "-----------------------------------------"
-	echo "Usage 1):  ./replay_deut_${replay_type}.sh run evt "
+	echo "Usage 1):  ./replay_cafe_${replay_type}.sh run evt "
 	echo "-----------------------------------------"
 	echo ""
 	echo "run: run number"
@@ -201,7 +196,7 @@ else
 	echo "evt: event number defaults to -1 (all events), "
 	echo "unless explicitly specified as 3rd argument"
 	echo ""
-	echo "example 1: ./replay_deut_${replay_type}.sh 3288 100000"
+	echo "example 1: ./replay_cafe_${replay_type}.sh 3288 100000"
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
 	echo "" 
@@ -230,7 +225,7 @@ else
 	date
 	echo ""
 	echo ""
-	echo "Running HCANA Deut Replay on the run ${run}:"
+	echo "Running HCANA CaFe Replay on the run ${run}:"
 	echo " -> SCRIPT:  ${replay_script}"
 	echo " -> RUN:     ${run}"
 	echo " -> NEVENTS: ${evt}"

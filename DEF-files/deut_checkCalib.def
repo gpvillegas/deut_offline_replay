@@ -1,0 +1,29 @@
+block P.hod.beta*
+block P.hod.*.Track*
+block P.dc.*.time
+block P.dc.*.wirenum
+block P.dc.*.dist
+block P.dc.*.nhit
+block P.dc.residual*
+block P.dc.x_fp
+block P.dc.y_fp  
+block P.gtr.dp  
+block P.cal.etot*
+block P.cal.*track*
+block P.ngcer.npe*
+block P.hgcer.npe*  
+
+
+block H.hod.beta*                                                                                                                  
+block H.hod.*.Track*                                                                                                
+block H.dc.*.time                                                                                                 
+block H.dc.*.wirenum                                                                                                     
+block H.dc.*.dist                                                                                                                                                                                     
+block H.dc.*.nhit
+block H.dc.residual*
+block H.dc.x_fp
+block H.dc.y_fp
+block H.gtr.dp                                                                                                                                                                                                         
+block H.cal.etot*
+block H.cal.*track*                                                                                                                                                                                                  
+block H.cer.npe*                                                                                                                                                                                                    
