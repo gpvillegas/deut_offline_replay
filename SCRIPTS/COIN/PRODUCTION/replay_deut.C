@@ -81,7 +81,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   }
 
   
-  const char* ROOTFileNamePattern = "/home/gvill/deuteron/ROOTfiles/%s/deut_replay_%s_%d_%d.root";
+  const char* ROOTFileNamePattern = "ROOTfiles/%s/deut_replay_%s_%d_%d.root";
 
   
   // Load global parameters
