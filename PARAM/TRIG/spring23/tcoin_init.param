@@ -12,8 +12,11 @@ eHadCoinTime_Offset = 0.
 ;t_coin_trig_tdcrefcut = -4600.
 ;t_coin_trig_adcrefcut = -5600.
 
-t_coin_trig_tdcrefcut = -6000
-t_coin_trig_adcrefcut = -7000
+;t_coin_trig_tdcrefcut = -6000
+;t_coin_trig_adcrefcut = -7000
+
+t_coin_trig_tdcrefcut = -5000
+t_coin_trig_adcrefcut = -3500
 
 
 ;NOTE: pTRIG1_ROC1, pTRIG4_ROC1, pTRIG1_ROC2, pTRIG4_ROC2 (tdcTimeRaw),  are hard-coded in THcTrigDet.cxx class
