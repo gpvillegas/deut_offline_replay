@@ -33,9 +33,7 @@ raw
 raw.copiedtotape
 cache
 scratch
-.vscode
 
 # Symbolic links
 hcana
 libHallC.so*
-.vscode/settings.json
