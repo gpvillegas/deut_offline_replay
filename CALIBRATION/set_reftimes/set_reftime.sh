@@ -56,7 +56,7 @@ if [ "${replay}" == "replay" ]; then
     echo running:$runHcana
     eval $runHcana
     # change back to original directory and execute analysis script
-    cd CALIBRATION/set_reftimes
+    cd CALIBRATION/set_reftimes/output
     eval $runAna
 else
     eval $runAna
