@@ -36,6 +36,7 @@ cache
 scratch
 .vscode
 CALIBRATION/set_reftimes/output
+CALIBRATION/check_calib/output
 
 # Symbolic links
 hcana
