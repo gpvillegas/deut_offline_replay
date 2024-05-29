@@ -55,22 +55,12 @@ if [ "${replay_type}" == "prod" ]; then
     echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> "
     echo ""
     echo "defaults to full event (-1) replay, unless event number is explicitly specified"
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
-    evtNum=-1
-    
-fi
+    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 
-if [ "${replay_type}" == "sample" ] && [ -z "$3" ] ; then
-    echo ""
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:" 
-    echo "" 
-    echo "Usage: ./run_deut_${replay_type}.sh <ana_cut> <run_number> <evt_number> " 
-    echo "" 
-    echo "Please enter sample <evt_number> to be replayed      " 
-    echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"  
-    exit 0
+    if [ -z "$3" ]; then 
+	evtNum=-1
+    fi
 fi
-
 
 
 # check if full replay or sample events
