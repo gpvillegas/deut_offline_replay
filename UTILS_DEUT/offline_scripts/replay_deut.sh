@@ -32,7 +32,7 @@
 replay_type=${0##*_}
 replay_type=${replay_type%%.sh}     
 
-HCREPLAY="/work/hallc/c-deuteron/$USER/deut_offline_replay"
+HCREPLAY="../../"
 echo "HCREPLAY=${HCREPLAY}"
 
 # change to top-level directory
@@ -47,7 +47,7 @@ echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 echo ""
 
 # replay script
-replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C" 
+replay_script="SCRIPTS/COIN/PRODUCTION/replay_deut.C" 
 
 
 # ==========================
