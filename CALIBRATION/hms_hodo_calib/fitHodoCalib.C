@@ -87,8 +87,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   TString nhod_nhits = "nhits";
   TString nbeta = "H.hod.betanotrack";
 
-  Double_t etrknrm_low_cut = 0.7;
-  Double_t npcer_npeSum_low_cut = 0.7;
+  Double_t etrknrm_low_cut = -1;
+  Double_t npcer_npeSum_low_cut = -1;
   Double_t betanotrack_low_cut = 0.5;
   Double_t betanotrack_hi_cut = 1.5;
  
@@ -344,7 +344,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
       hCer = hcer_npeSum>npcer_npeSum_low_cut;
       hDCtrk = hdc_ntrack>0.0;
       betaCut = beta>betanotrack_low_cut&& beta<betanotrack_hi_cut;
-        pid_helec = hCal&&hCer&&hDCtrk;
+      pid_helec = hCal&&hCer&&hDCtrk;
       if (cosmic_flag)  pid_helec = betaCut&&hDCtrk; 
        //Apply PID ELECTRON CUT
        
