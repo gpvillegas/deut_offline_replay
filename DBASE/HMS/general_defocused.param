@@ -13,9 +13,9 @@ cminch=2.54
 ; General HMS parameter files
 ; Note: hmsflags.param includes spectrometer offsets and options.
 #include "PARAM/HMS/GEN/spring23/hcana_defocused.param"
-#include "PARAM/HMS/GEN/hdebug.param"
+#include "PARAM/HMS/GEN/spring23/hdebug.param"
 #include "PARAM/HMS/GEN/spring23/hmsflags_defocused.param"
-#include "PARAM/HMS/GEN/htracking.param"
+#include "PARAM/HMS/GEN/spring23/htracking_init.param"
 #include "PARAM/HMS/GEN/spring23/h_reftime_cut_defocused.param"
 
 ; HMS default geometry parameter files 

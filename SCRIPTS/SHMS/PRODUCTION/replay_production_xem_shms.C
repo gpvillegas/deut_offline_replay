@@ -191,7 +191,7 @@ void replay_production_xem_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0, TStrin
   analyzer->SetOdefFile(DefTreeFile);
 
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/CUTS/archive/spring18/pstackana_production_cuts.def");    // optional
+  analyzer->SetCutFile("DEF-files/CUTS/xem_cuts_shms.def");    // optional
   // File to record accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/PRODUCTION/summary_all_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.

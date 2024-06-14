@@ -191,7 +191,8 @@ void replay_production_xem_hms(Int_t RunNumber=0, Int_t MaxEvent=0, TString ftyp
  
 
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/CUTS/archive/spring18/hstackana_production_cuts.def");    // optional
+  //analyzer->SetCutFile("DEF-files/CUTS/archive/spring18/hstackana_production_cuts.def");    // optional
+  analyzer->SetCutFile("DEF-files/CUTS/xem_cuts_hms.def");
   // File to record cuts accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_all_production_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.
