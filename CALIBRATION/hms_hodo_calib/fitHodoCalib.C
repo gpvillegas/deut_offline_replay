@@ -87,8 +87,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   TString nhod_nhits = "nhits";
   TString nbeta = "H.hod.betanotrack";
 
-  Double_t etrknrm_low_cut = -1;
-  Double_t npcer_npeSum_low_cut = -1;
+  Double_t etrknrm_low_cut = 0.7;
+  Double_t npcer_npeSum_low_cut = 0.7;
   Double_t betanotrack_low_cut = 0.5;
   Double_t betanotrack_hi_cut = 1.5;
  
@@ -360,7 +360,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 	      for (Int_t ipmt = 0; ipmt < maxPMT[npl]; ipmt++)
 		{	        
 		  
-		  if(TdcTimeTWCorr[npl][0][ipmt] < 100. && TdcTimeTWCorr[npl][1][ipmt] < 100. && hcal_etrkNorm>0.7)
+		  if(TdcTimeTWCorr[npl][0][ipmt] < 100. && TdcTimeTWCorr[npl][1][ipmt] < 100. && hCal)
 		    {
 		      //Fill Average TW Corr TDC Time
 		      h1Hist_TWAvg[npl][ipmt]->Fill((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.);
