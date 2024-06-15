@@ -1,5 +1,5 @@
-block T.coin.*hFADC_TREF_ROC1*
-block T.coin.*hT*
+block T.hms.*hFADC_TREF_ROC1*
+block T.hms.*hT*
 
 block H.hod.*
 block H.dc.ntrack

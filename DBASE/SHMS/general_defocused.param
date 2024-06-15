@@ -13,9 +13,9 @@ cminch=2.54
 ; General SHMS parameter files
 ; Note: shmsflags.param includes spectrometer offsets and options.
 #include "PARAM/SHMS/GEN/spring23/pcana_defocused.param"
-#include "PARAM/SHMS/GEN/pdebug.param"
+#include "PARAM/SHMS/GEN/spring23/pdebug.param"
 #include "PARAM/SHMS/GEN/spring23/shmsflags_defocused.param"
-#include "PARAM/SHMS/GEN/ptracking.param"
+#include "PARAM/SHMS/GEN/spring23/ptracking_init.param"
 #include "PARAM/SHMS/GEN/spring23/p_reftime_cut_defocused.param"
 
 ; SHMS default geometry parameter files
