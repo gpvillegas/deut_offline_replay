@@ -865,7 +865,7 @@ ppcentral = 8.55
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
-# d(e,e'p) Pm=100 MeV/c (edtm @ 10 Hz)
+# d(e,e'p) Pm=900 MeV/c (edtm @ 10 Hz)
 20957 - 21048
 gpbeam = 10.549                       
 gtargmass_amu = 2.014101               

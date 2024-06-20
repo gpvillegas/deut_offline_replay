@@ -26,16 +26,16 @@ debug=0
 # Which analysis file type are we doing? "hod_calib"
 ana_type="hod_calib"
 
-# this rootfile name pattern assumes pattern defined in replay_cafe.C script (please do NOT modify replay script) 
-filename="ROOTfiles/${ana_type}/cafe_replay_${ana_type}_${runNum}_${evtNum}.root"
+# this rootfile name pattern assumes pattern defined in replay_deut.C script (please do NOT modify replay script) 
+filename="ROOTfiles/${ana_type}/deut_replay_${ana_type}_${runNum}_${evtNum}.root"
 
 # re-define other file names for later use (in re-naming)
-filename_uncalib="ROOTfiles/${ana_type}/cafe_replay_hodoUnCalib_${runNum}_${evtNum}.root"  # uncalibrated file (initially replayed)
-filename_twcalib="ROOTfiles/${ana_type}/cafe_replay_hodoTWCalib_${runNum}_${evtNum}.root"  # intermediate calibrated (time-walk calibrated)
-filename_calib="ROOTfiles/${ana_type}/cafe_replay_hodoCalib_${runNum}_${evtNum}.root"      # fully calibrated (fit hodo matrix)
+filename_uncalib="ROOTfiles/${ana_type}/deut_replay_hodoUnCalib_${runNum}_${evtNum}.root"  # uncalibrated file (initially replayed)
+filename_twcalib="ROOTfiles/${ana_type}/deut_replay_hodoTWCalib_${runNum}_${evtNum}.root"  # intermediate calibrated (time-walk calibrated)
+filename_calib="ROOTfiles/${ana_type}/deut_replay_hodoCalib_${runNum}_${evtNum}.root"      # fully calibrated (fit hodo matrix)
 
 
-replay_script="SCRIPTS/COIN/PRODUCTION/replay_cafe.C"
+replay_script="SCRIPTS/COIN/PRODUCTION/replay_deut.C"
 
 analysis_script_1="timeWalkHistos.C"
 analysis_script_2="timeWalkCalib.C"
@@ -64,9 +64,9 @@ runAna="root -l -q -b \"${analysis_script_2}(${runNum})\""
 eval $runAna
 
 # move param file to appropiate location and make symbolic link
-mv "phodo_TWcalib_${runNum}.param" "../../PARAM/SHMS/HODO/cafe2022/calib/"
+mv "phodo_TWcalib_${runNum}.param" "../../PARAM/SHMS/HODO/deut2023/calib/"
 cd ../../PARAM/SHMS/HODO/
-ln -sf "cafe2022/calib/phodo_TWcalib_${runNUM}.param phodo_TWcalib.param" 
+ln -sf "deut2023/calib/phodo_TWcalib_${runNUM}.param phodo_TWcalib.param" 
 
 # replay data a 2nd time (with updated phodo_TWcalib)
 cd ../../../
@@ -88,9 +88,9 @@ runAna="root -l -q -b \"${analysis_script_3}(\\\"${filename_twcalib}\\\", ${runN
 eval $runAna
 
 # move param file to appropiate location and make symbolic link
-mv "phodo_Vpcalib_${runNum}.param" "../../PARAM/SHMS/HODO/cafe2022/calib/"
+mv "phodo_Vpcalib_${runNum}.param" "../../PARAM/SHMS/HODO/deut2022/calib/"
 cd ../../PARAM/SHMS/HODO/
-ln -sf "cafe2022/calib/phodo_Vpcalib_${runNUM}.param phodo_Vpcalib.param" 
+ln -sf "deut2023/calib/phodo_Vpcalib_${runNUM}.param phodo_Vpcalib.param" 
 
 # replay data a 3rd time (with updated phodo_TWcalib and phodo_Vpcalib)
 # but this time, reset evtNum to only 100k, since we just want to check calibration was done

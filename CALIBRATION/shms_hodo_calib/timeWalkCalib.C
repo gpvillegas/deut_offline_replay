@@ -539,8 +539,10 @@ void timeWalkCalib(int run) {
   gStyle->SetOptStat(0);
 
   // Read the ROOT file containing the time-walk histos
-  TString histoFileName = Form("timeWalkHistos_%d.root", run); // SK 13/5/19 - new .root output for each run tested
-  histoFile = new TFile(histoFileName, "READ");
+  //TString histoFileName = Form("timeWalkHistos_%d.root", run); // SK 13/5/19 - new .root output for each run tested
+  //histoFile = new TFile(histoFileName, "READ");
+
+  histoFile = new TFile("timeWalkHistos.root", "READ");
 
   // Obtain the top level directory
   dataDir = dynamic_cast <TDirectory*> (histoFile->FindObjectAny("hodoUncalib"));
