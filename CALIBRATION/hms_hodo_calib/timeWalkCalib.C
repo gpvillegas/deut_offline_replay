@@ -28,6 +28,7 @@
 
 // Declare ROOT files
 TFile *histoFile, *outFile;
+TFile *histOutFile;
 
 // Declare Output  Parameter File
 ofstream outParam;
@@ -259,6 +260,56 @@ void drawParams(UInt_t iplane) {
   return;
 } // drawParams
 
+//Add method for writing summary plots to ROOT File
+void writePlots(int runNUM)
+{
+
+  const char* dir_log = "mkdir -p Calibration_Plots/";
+  const char* dir_log2 = "mkdir -p Calibration_Plots/TWpng";
+  //Check if directory exists
+  if (system(dir_log) != 0)
+    {
+      cout << "Creating Directory to store SHMS Hodo TW Calibration Plots . . ." << endl;
+      system(dir_log);  //create directory to log calibration results
+    }
+
+  if (system(dir_log2) != 0)
+    {
+      system(dir_log2);
+    }
+
+
+  TDirectory *PSUM = histOutFile->mkdir("Param_Summary");
+  TDirectory *FSUM = histOutFile->mkdir("Fit_Summary");
+  TDirectory *FSUBSUM = FSUM->mkdir("Histos");
+  TString outputpng= Form("Calibration_Plots/TWpng/twFit_run_%d_",runNUM);
+
+
+  for (UInt_t ipar = 0; ipar < nTwFitPars; ipar++) {
+    //Parameter Summary Canvases
+    PSUM->WriteObject(twFitParCan[ipar], Form("twFitParCan%d", ipar));
+    }
+
+    for (UInt_t iplane = 0; iplane < nPlanes; iplane++)
+    {
+    for(UInt_t iside = 0; iside < nSides; iside++)
+    {
+    TString outputpng= Form("Calibration_Plots/TWpng/twFit_run_%d",runNUM);
+    //TW Fit summary Canvases
+    FSUM->WriteObject(twFitCan[iplane][iside], "twFitCan_"+planeNames[iplane]+"_"+sideNames[iside]);
+    outputpng += "_"+planeNames[iplane]+"_"+sideNames[iside]+".png";
+    twFitCan[iplane][iside]->Print(outputpng);
+    //TW Fit Individual Canvases
+    for (int ibar = 0; ibar < nBarsMax; ibar++)
+    {
+    FSUBSUM->WriteObject(twFitCan[iplane][iside]->cd(ibar+1)->GetPadPointer(), "twFitCan_"+planeNames[iplane]+"_"+Form("Bar%d", ibar)+"_"+sideNames[iside]);
+    }
+    }
+    }
+
+  return;
+}
+
 
 //Add a method to Get Fit Parameters
 void WriteFitParam(int runNUM)
@@ -356,7 +407,6 @@ void WriteFitParam(int runNUM)
   outParam.close();
 } //end method
 
-
 //=:=:=:=:=
 //=: Main
 //=:=:=:=:=
@@ -425,9 +475,21 @@ using namespace std;
     // Draw the time-walk parameter graphs
     drawParams(iplane);
   } // Plane loop 
+    
+  //AS 10/06/2024 - Create Root Files for output plots
+  //based on edit by NH in shms version of file
+  TString histOutFileName = Form("timeWalkCalib_%d.root", run);
+  histOutFile = new TFile(histOutFileName, "RECREATE");
+  //make sure current file is output file
+  gFile = histOutFile;
+  //write to ROOT file
+  writePlots(run);
+
+  histOutFile->Close();
   //Write to a param file
   WriteFitParam(run);
-
+  
+  return;
 }
 
 
