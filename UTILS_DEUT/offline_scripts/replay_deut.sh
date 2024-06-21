@@ -49,6 +49,8 @@ echo ""
 # replay script
 replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C" 
 
+# what farm are you on?
+farm="`uname -r`"
 
 # ==========================
 # replay production
@@ -109,9 +111,28 @@ if [ "${replay_type}" = "prod" ]; then
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command
-	run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	
+	# hcana command 
+	case $farm in
+
+		'5.14.0-362.24.2.el9_3.x86_64')
+			echo ""
+			echo "RUNNING ON ALMA9"
+			echo ""
+			run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+
+		'3.10.0-1160.108.1.el7.x86_64')
+			echo ""
+			echo "RUNNING ON CENTOS"
+			echo ""
+			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+
+		*)
+			echo "Could not identify farm, running ./hcana command"
+			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+	esac	
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -149,10 +170,30 @@ if [ "${replay_type}" = "prod" ]; then
 	filename="UTILS_DEUT/runlist/${target}_${kin}.txt"
 	
 	for run in $(cat $filename) ; do    
-	    
-	    # hcana command
-	    run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	    
+		
+		# hcana command 
+		case $farm in
+
+			'5.14.0-362.24.2.el9_3.x86_64')
+				echo ""
+				echo "RUNNING ON ALMA9"
+				echo ""
+				run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+			;;
+
+			'3.10.0-1160.108.1.el7.x86_64')
+				echo ""
+				echo "RUNNING ON CENTOS"
+				echo ""
+				run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+			;;
+
+			*)
+				echo "Could not identify farm, running ./hcana command"
+				run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+			;;
+		esac
+
 	    {
 		echo ""
 		echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -221,8 +262,28 @@ else
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command                                                                       
-        run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""   
+	# hcana command 
+	case $farm in
+
+		'5.14.0-362.24.2.el9_3.x86_64')
+			echo ""
+			echo "RUNNING ON ALMA9"
+			echo ""
+			run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+
+		'3.10.0-1160.108.1.el7.x86_64')
+			echo ""
+			echo "RUNNING ON CENTOS"
+			echo ""
+			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+
+		*)
+			echo "Could not identify farm, running ./hcana command"
+			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		;;
+	esac
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -243,4 +304,4 @@ else
 	
     fi
     
-fi
+fi #end calib replay else
