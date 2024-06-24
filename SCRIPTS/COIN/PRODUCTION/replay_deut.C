@@ -38,6 +38,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     
   // Create file name patterns.
   //const char* RunFileNamePattern = "coin_all_%05d.dat";
+  //const char* RunFileNamePattern = "hms_all_%05d.dat";
   const char* RunFileNamePattern = "shms_all_%05d.dat";
 
   vector<TString> pathList;
@@ -47,9 +48,9 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   pathList.push_back("./CACHE_LINKS/cache_pionlt");
   pathList.push_back("./CACHE_LINKS/cache_cafe"); 
   pathList.push_back("./CACHE_LINKS/cache_deut");
-  // pathList.push_back("./CACHE_LINKS/cache_xem");
+  pathList.push_back("./CACHE_LINKS/cache_xem");
 
-  //const char* RunFileNamePattern = "raw/coin_all_%05cd.dat";
+  //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
   // Create dir. to store monitoring histos
   TString cmd = ""; // Form("mkdir -p ROOTfiles/%s", ftype.Data());
