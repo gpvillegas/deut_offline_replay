@@ -1,5 +1,7 @@
 ;SHMS Hodoscopes Time Walk Output Parameter File: Run 0
- 
+; P.Pokhrel calibrated using Heep coin from delta scan of 2023 deep exp.
+; runs: 20840,20841,20846,20858,20861,20851
+
 pTDC_threshold =1200 ;units of mV
  
 ;Param c1-Pos

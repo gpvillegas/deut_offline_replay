@@ -1,7 +1,8 @@
 ; SHMS Hodoscope Parameter File Containing propagation velocities per paddle 
 ; and signal cable time diff. offsets per paddle 
 ; Run 0 
- 
+; P.Pokhrel calibrated using Heep coin from delta scan of 2023 deep exp.
+; runs: 20840,20841,20846,20858,20861,20851
  
 ;Propagation Velocity Per Paddle
 ;                  1x                 1y              2x              2y 
