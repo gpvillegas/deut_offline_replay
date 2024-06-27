@@ -24,3 +24,6 @@ SHMS_CentralPathLen = 18.1*100   ; 18.1 m (or 1810 cm)
 
 ; check: Holly's optimized matrix for CaFe (Aug 14, 2023) - refitted with additional heep singles (from deuteron)
 p_recon_coeff_filename = "DATFILES/cafe_optics_optimized_fall22_aug14.dat"
+
+; check: Holly's optimized matrix for CaFe (Aug 27, 2023)
+p_recon_coeff_filename = "DATFILES/newfit_cafe4_wdelta_p9979.dat"
