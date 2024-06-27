@@ -17,20 +17,32 @@ The shell script takes as input a list of runs the user would like to check
 '''
 
 
+# debugging 
+#run=20873
+#evt=100
+
+#replay_script="replay_deut_checkCalib.sh"
+#replay_cmd="./${replay_script} ${run} ${evt}"
+#eval ${replay_cmd}
+
+
+
 # USER SET RUN LIST (here are some examples)
 #--------------------
-#filename='calib_test_runs.txt' 
+filename='calib_test_runs.txt' 
 #filename='h_singles_aug08.txt'
-filename='optics_aug08.txt'
+#filename='optics_aug08.txt'
 #filename='hms_xem.txt'
 
 for run in $(cat $filename) ; do  
-    
+
+    echo ${run}
+     evt=-1
+   
     #run=16036
-    evt=200000
     
     # generic filename to be read by analzye_script
-    root_file="ROOTfiles/deut_replay_checkCalib_${run}_${evt}.root"
+    root_file="../../ROOTfiles/checkCalib/deut_replay_checkCalib_${run}_${evt}.root"
     
     # analys_script arguments 
     hms_pid="p"
