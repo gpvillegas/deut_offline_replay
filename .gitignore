@@ -21,6 +21,8 @@
 !code_development/pm800_plots/*
 !code_development/pm900_plots/*
 
+replay.out
+
 # Directories
 RAID
 DEUT_OUTPUT

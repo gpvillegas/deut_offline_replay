@@ -10,8 +10,8 @@
 
 ; xem (fall22) defocused run 4407
 ; hms singles daq
-hdc_tdcrefcut=-20000.
-hhodo_tdcrefcut=-1200.
-hhodo_adcrefcut=-2800.
-hcer_adcrefcut=-2800.
-hcal_adcrefcut=-2800.
+hdc_tdcrefcut=-20000
+hhodo_tdcrefcut=-1200
+hhodo_adcrefcut=-280
+hcer_adcrefcut=-2800
+hcal_adcrefcut=-2800

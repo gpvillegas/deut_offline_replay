@@ -29,8 +29,18 @@
 # ln -sf  UTILS_DEUT/offline_scripts/replay_deut.sh replay_deut_hodcalib.sh
 
 # Which replay type are we doing? physics analysis ("prod"), or calibration ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
-replay_type=${0##*_}
-replay_type=${replay_type%%.sh}     
+#replay_type=${0##*_}
+#replay_type=${replay_type%%.sh}
+
+filename=${0##*/}
+
+# Which replay type are we doing? physics analysis ("prod"), or calibration ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
+replay_type=${filename%_*.sh}
+replay_type=${replay_type##*_}
+
+# Which replay script should we use? modes are "coin", "shms", or "hms", defaults to "coin" if none provided.
+replay_mode=${filename##*_}
+replay_mode=${replay_mode%.sh}
 
 HCREPLAY="/work/hallc/c-deuteron/$USER/deut_offline_replay"
 echo "HCREPLAY=${HCREPLAY}"
@@ -47,7 +57,13 @@ echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 echo ""
 
 # replay script
-replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C" 
+if [ "${replay_mode}" = "shms" ]; then
+	replay_script="${HCREPLAY}/SCRIPTS/SHMS/PRODUCTION/replay_production_shms.C"
+elif [ "${replay_mode}" = "hms" ]; then 
+	replay_script="${HCREPLAY}/SCRIPTS/HMS/PRODUCTION/replay_production_hms.C"
+else	
+	replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C"
+fi 
 
 # what farm are you on?
 farm="`uname -r`"

@@ -10,7 +10,9 @@ block T.coin.*hT*
 #block P.cal.etot*
 #block P.cal.etracknorm
 #block P.hgcer.npe*
-#block P.ngcer.npe* 
+#block P.ngcer.npe*
+#block P.gtr.p
+#block P.gtr.dp 
 
 block H.hod.*
 block H.dc.ntrack
@@ -18,3 +20,5 @@ block H.dc.*_fp
 block H.cal.etot*
 block H.cal.etracknorm
 block H.cer.npe*
+block H.gtr.p
+block H.gtr.dp
