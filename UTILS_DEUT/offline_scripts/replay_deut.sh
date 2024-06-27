@@ -32,7 +32,10 @@
 replay_type=${0##*_}
 replay_type=${replay_type%%.sh}     
 
-HCREPLAY="../../"
+
+# finds the full path of the directory
+HCREPLAY=$(find ~/ -type d -name 'deut_offline_replay' | head -n 1)
+
 echo "HCREPLAY=${HCREPLAY}"
 
 # change to top-level directory
@@ -42,6 +45,7 @@ echo ""
 echo "changing to the top-level directory . . ."
 echo "cd ${HCREPLAY}"
 cd ${HCREPLAY}
+source setup.sh
 echo ""
 echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:"
 echo ""
@@ -112,7 +116,7 @@ if [ "${replay_type}" = "prod" ]; then
 	fi
 	
 	# hcana command 
-	case $farm in
+     	case $farm in
 
 		'5.14.0-362.24.2.el9_3.x86_64')
 			echo ""
@@ -132,7 +136,15 @@ if [ "${replay_type}" = "prod" ]; then
 			echo "Could not identify farm, running ./hcana command"
 			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
 		;;
-	esac	
+	esac
+
+	    
+	echo ""
+	echo "RUNNING LOCALLY"
+	echo ""
+	run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+
+
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -170,8 +182,8 @@ if [ "${replay_type}" = "prod" ]; then
 	filename="UTILS_DEUT/runlist/${target}_${kin}.txt"
 	
 	for run in $(cat $filename) ; do    
-		
-		# hcana command 
+       	
+	  	# hcana command 
 		case $farm in
 
 			'5.14.0-362.24.2.el9_3.x86_64')
@@ -192,7 +204,8 @@ if [ "${replay_type}" = "prod" ]; then
 				echo "Could not identify farm, running ./hcana command"
 				run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
 			;;
-		esac
+		esac 
+		
 
 	    {
 		echo ""
@@ -263,7 +276,7 @@ else
 	fi
 	
 	# hcana command 
-	case $farm in
+      	case $farm in
 
 		'5.14.0-362.24.2.el9_3.x86_64')
 			echo ""
@@ -283,7 +296,7 @@ else
 			echo "Could not identify farm, running ./hcana command"
 			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
 		;;
-	esac
+	esac 
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
