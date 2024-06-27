@@ -83,18 +83,7 @@ void checkCalib(TString filename="", int run=0, TString hms_pid="", TString shms
   //=========================
   //====OPEN ROOT FILE=======
   //=========================
-  //TString filename = "../../../ROOTfiles/coin_replay_coin_all_3288_20000.root";
-  //TString filename = "../../../ROOTfiles/coin_replay_hod_calib_3288_50000.root"; 
-  //TString filename = "../../../ROOTfiles/coin_replay_hdc_calib_3288_-1_hdcCalib.root";
-  //TString filename = Form("../../../ROOTfiles/coin_replay_deep_check_%d_-1.root", run);
-  //TString filename = Form("../../../ROOTfiles/D2_heep_updated/Emiss_alignment/coin_replay_heep_check_%d_-1.root", run);
-  
-  //TString filename = Form("../../../ROOTfiles/good_Heep_hmsElec/coin_replay_heep_check_%d_-1.root", run);
-  //TString filename = Form("../../../ROOTfiles/good_Heep_hmsElec/g%d_coin.root", run);
-  //TString filename = Form("../../../ROOTfiles/good_Heep_hmsProt/hprot_kg%d.root", run);
-  //TString filename = Form("../../../ROOTfiles/coin_replay_trkStudy_%d_-1.root", run);
 
- 
 
 
   TFile *data_file = new TFile(filename.Data(), "READ");
@@ -443,7 +432,7 @@ void checkCalib(TString filename="", int run=0, TString hms_pid="", TString shms
 
 
   //Loop over 50k sample entries (to get beta peak)
-  for(Long64_t i=0; i<50000; i++)
+  for(Long64_t i=0; i<nentries; i++)
     {
       T->GetEntry(i);  
       
@@ -704,7 +693,7 @@ void checkCalib(TString filename="", int run=0, TString hms_pid="", TString shms
       
       hdcDistCanv->cd(npl+1);
       binmax = H_hdcDist[npl]->GetMaximumBin();
-      upperlim =  H_hdcDist[npl]->GetBinContent(binmax) + 200.;
+      upperlim =  H_hdcDist[npl]->GetBinContent(binmax) + 50.;
       H_hdcDist[npl]->GetYaxis()->SetRangeUser(0., upperlim);
       H_hdcDist[npl]->Draw();
       
@@ -932,7 +921,7 @@ void checkCalib(TString filename="", int run=0, TString hms_pid="", TString shms
       
       pdcDistCanv->cd(npl+1);
       binmax = H_pdcDist[npl]->GetMaximumBin();
-      upperlim =  H_pdcDist[npl]->GetBinContent(binmax) + 200.;
+      upperlim =  H_pdcDist[npl]->GetBinContent(binmax) + 50.;
       H_pdcDist[npl]->GetYaxis()->SetRangeUser(0., upperlim);
       H_pdcDist[npl]->Draw();
       
