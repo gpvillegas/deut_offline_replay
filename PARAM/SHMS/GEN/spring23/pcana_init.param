@@ -8,19 +8,19 @@ SHMS_CentralPathLen = 18.1*100   ; 18.1 m (or 1810 cm)
 ;p_recon_coeff_filename = "DATFILES/shms_dipole_2plow.dat"
 ;p_recon_coeff_filename = "DATFILES/shms-2017-optimized.dat"
 ;p_recon_coeff_filename = "DATFILES/shms-2017-optimized_delta_newfit3.dat"
-p_recon_coeff_filename = "DATFILES/shms_OptimizedFINAL_post3288.dat
+
 
 ; Starting shms matrix file (CaFe 2022) (suggested by M. Jones for PION-LT 2021)
 ;p_recon_coeff_filename = "DATFILES/shms_newfit_xptar_april2020.dat"
 
 ; testing (with C. Yero SHMS optics from deuteron 2018 exp)
-;p_recon_coeff_filename = "DATFILES/shms_OptimizedFINAL_post3288.dat"
+p_recon_coeff_filename = "DATFILES/shms_OptimizedFINAL_post3288.dat"
 
 ; testing (with Holly's optimized matrix for A1n/d2n)
 ;p_recon_coeff_filename = "DATFILES/hsv_fit_global.dat"
 
 ; Holly's y'tar/x'tar/ytar optimized matrix for CaFe (Dec 12, 2022)
-p_recon_coeff_filename = "DATFILES/shms-fall22-yptar_optimized.dat"
+;p_recon_coeff_filename = "DATFILES/shms-fall22-yptar_optimized.dat"
 
 ; check: Holly's optimized matrix for CaFe (Aug 14, 2023) - refitted with additional heep singles (from deuteron)
 ;p_recon_coeff_filename = "DATFILES/cafe_optics_optimized_fall22_aug14.dat"
