@@ -383,7 +383,7 @@ void writePlots(int runNUM)
   TDirectory *PSUM = histOutFile->mkdir("Param_Summary");
   TDirectory *FSUM = histOutFile->mkdir("Fit_Summary");
   TDirectory *FSUBSUM = FSUM->mkdir("Histos");
-  TString outputpng= Form("Calibration_Plots/TWpng/twFit_run_%d_",runNUM);
+  TString outputpng= Form("CALIBRATION/hms_hodo_calib/Calibration_Plots/TWpng/twFit_run_%d_",runNUM);
   
 
   for (UInt_t ipar = 0; ipar < nTwFitPars; ipar++) {
@@ -395,7 +395,7 @@ void writePlots(int runNUM)
     {
     for(UInt_t iside = 0; iside < nSides; iside++)
     {
-    TString outputpng= Form("Calibration_Plots/TWpng/twFit_run_%d",runNUM);
+    TString outputpng= Form("CALIBRATION/hms_hodo_calib/Calibration_Plots/TWpng/twFit_run_%d",runNUM);
     //TW Fit summary Canvases
     FSUM->WriteObject(twFitCan[iplane][iside], "twFitCan_"+planeNames[iplane]+"_"+sideNames[iside]);
     outputpng += "_"+planeNames[iplane]+"_"+sideNames[iside]+".png";
