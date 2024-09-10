@@ -40,6 +40,8 @@ CALIBRATION/hms_hodo_calib/output
 CALIBRATION/hms_hodo_calib/Calibration_Plots
 CALIBRATION/shms_hodo_calib/output
 CALIBRATION/shms_hodo_calib/Calibration_Plots
+PARAM/HMS/DC/spring23/calib/old
+PARAM/SHMS/DC/spring23/calib/old
 
 # Symbolic links
 hcana
