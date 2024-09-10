@@ -38,8 +38,8 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     
   // Create file name patterns.
   //const char* RunFileNamePattern = "coin_all_%05d.dat";
-  const char* RunFileNamePattern = "hms_all_%05d.dat";
-  //const char* RunFileNamePattern = "shms_all_%05d.dat";
+  //const char* RunFileNamePattern = "hms_all_%05d.dat";
+  const char* RunFileNamePattern = "shms_all_%05d.dat";
 
   vector<TString> pathList;
   pathList.push_back(".");
@@ -48,7 +48,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   pathList.push_back("./CACHE_LINKS/cache_pionlt");
   pathList.push_back("./CACHE_LINKS/cache_cafe"); 
   pathList.push_back("./CACHE_LINKS/cache_deut");
-  pathList.push_back("./CACHE_LINKS/cache_xem");
+  //pathList.push_back("./CACHE_LINKS/cache_xem");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
 
@@ -293,7 +293,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   //Add RF physics module THcRFTime::THcRFTime (const char *name, const char* description, const char* hadArmName, 
   // const char* elecArmName, const char* RFname) :
-  THcRFTime* RFTime = new THcRFTime("RFTime", "RF Time Determination", "P", "H", "T.coin");
+  THcRFTime* RFTime = new THcRFTime("RFTime", "RF Time Determination", "H", "P", "T.coin");
   gHaPhysics->Add(RFTime);
 
   
@@ -319,7 +319,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   // Define the run(s) that we want to analyze.
   // We just set up one, but this could be many.
   THcRun* run = new THcRun( pathList, Form(RunFileNamePattern, RunNumber) );
-  run->Init();  // initialize run (necessary to get start_of_run) NOTE: run is a TDatime ROOT cern class reference, so TDatime methods can be invoked
+  //run->Init();  // initialize run (necessary to get start_of_run) NOTE: run is a TDatime ROOT cern class reference, so TDatime methods can be invoked
   
   // Set to read in Hall C run database parameters
   run->SetRunParamClass("THcRunParameters");
