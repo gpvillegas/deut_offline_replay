@@ -38,6 +38,8 @@ scratch
 .vscode
 CALIBRATION/hms_hodo_calib/output
 CALIBRATION/hms_hodo_calib/Calibration_Plots
+CALIBRATION/shms_hodo_calib/output
+CALIBRATION/shms_hodo_calib/Calibration_Plots
 
 # Symbolic links
 hcana
