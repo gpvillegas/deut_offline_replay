@@ -38,8 +38,8 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
     
   // Create file name patterns.
   //const char* RunFileNamePattern = "coin_all_%05d.dat";
-  const char* RunFileNamePattern = "hms_all_%05d.dat";
-  //const char* RunFileNamePattern = "shms_all_%05d.dat";
+  //const char* RunFileNamePattern = "hms_all_%05d.dat";
+  const char* RunFileNamePattern = "shms_all_%05d.dat";
 
   vector<TString> pathList;
   pathList.push_back(".");
