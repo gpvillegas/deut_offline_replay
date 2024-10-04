@@ -64,6 +64,8 @@ if [ "${replay_mode}" = "shms" ]; then
 	replay_script="${HCREPLAY}/SCRIPTS/SHMS/PRODUCTION/replay_production_shms.C"
 elif [ "${replay_mode}" = "hms" ]; then 
 	replay_script="${HCREPLAY}/SCRIPTS/HMS/PRODUCTION/replay_production_hms.C"
+elif [ "${replay_mode}" = "legacy" ]; then 
+	replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut_legacy.C"	
 else	
 	replay_script="${HCREPLAY}/SCRIPTS/COIN/PRODUCTION/replay_deut.C"
 fi 

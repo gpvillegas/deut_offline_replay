@@ -1,14 +1,14 @@
 t_coin_numAdc = 19
 t_coin_numTdc = 113
 
-t_coin_tdcoffset = 300.
-t_coin_adc_tdc_offset = 200.
+t_coin_tdcoffset = 300
+t_coin_adc_tdc_offset = 200
 
 t_coin_trig_tdcchanperns = 0.09766
 
 ;Deuteron
-t_coin_trig_tdcrefcut=-2800.   
-t_coin_trig_adcrefcut=-2850.   
+t_coin_trig_tdcrefcut=-2800   
+t_coin_trig_adcrefcut=-2850  
 
 ;SHMS Heep Singles
 ;t_coin_trig_tdcrefcut=-4000.   
