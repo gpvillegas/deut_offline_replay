@@ -32,6 +32,10 @@
 #replay_type=${0##*_}
 #replay_type=${replay_type%%.sh}
 
+# --- GV CHANGES ---
+# replay script naming convention: replay_deut_{replay_type}-{replay_mode}.sh
+# I added replay_mode in order to easily be able to pick a replay script for single arm, coin, or other types of runs that might need different datafiles.
+
 filename=${0##*/}
 
 # Which replay type are we doing? physics analysis ("prod"), or calibration ("hodcalib", "dccalib", "calcalib", "scalers", "reftime", "timewin")
@@ -40,7 +44,12 @@ replay_type=${replay_type%*.sh}
 replay_type=${replay_type%*-*} #lines 38-40 have to be uncommented together
 #replay_type="prod"
 
-# Which replay script should we use? modes are "coin", "shms", or "hms", defaults to "coin" if none provided.
+# Which replay script should we use? modes are "coin", "shms", "hms", or "legacy" defaults to "coin" if none provided.
+#	coin: for most deuteron runs, uses --> SCRIPTS/COIN/PRODUCTION/replay_deut.C
+#	shms, hms: for specific studies in single arm mode where data files might be specific for SHMS or HMS,
+#				uses --> /SCRIPTS/HMS/PRODUCTION/replay_production_{shms/hms}.C respectively
+# 	legacy: allows for older deuteron runs to be replayed (spring'17 run), uses --> /SCRIPTS/COIN/PRODUCTION/replay_deut_legacy.C
+
 replay_mode=${filename##*deut_}
 replay_mode=${replay_mode%*.sh}
 replay_mode=${replay_mode#*-*}
@@ -132,31 +141,18 @@ if [ "${replay_type}" = "prod" ]; then
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command
-	run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-
 	# hcana command 
-	# case $farm in
-
-	# 	'5.14.0-362.24.2.el9_3.x86_64')
-	# 		echo ""
-	# 		echo "RUNNING ON ALMA9"
-	# 		echo ""
-	# 		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-
-	# 	'3.10.0-1160.108.1.el7.x86_64')
-	# 		echo ""
-	# 		echo "RUNNING ON CENTOS"
-	# 		echo ""
-	# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-
-	# 	*)
-	# 		echo "Could not identify farm, running ./hcana command"
-	# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-	# esac	
+	if [ "${farm}" =~ "ifarm*" ]; then
+		echo ""
+		echo "RUNNING ON ALMA9"
+		echo ""
+		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+	else
+		echo ""
+		echo "RUNNING LOCALLY"
+		echo ""
+		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+	fi
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -194,33 +190,19 @@ if [ "${replay_type}" = "prod" ]; then
 	filename="UTILS_DEUT/runlist/${target}_${kin}.txt"
 	
 	for run in $(cat $filename) ; do    
-		
-		# hcana command
-		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
 
-
-		# # hcana command 
-		# case $farm in
-
-		# 	'5.14.0-362.24.2.el9_3.x86_64')
-		# 		echo ""
-		# 		echo "RUNNING ON ALMA9"
-		# 		echo ""
-		# 		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-		# 	;;
-
-		# 	'3.10.0-1160.108.1.el7.x86_64')
-		# 		echo ""
-		# 		echo "RUNNING ON CENTOS"
-		# 		echo ""
-		# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-		# 	;;
-
-		# 	*)
-		# 		echo "Could not identify farm, running ./hcana command"
-		# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-		# 	;;
-		# esac
+		# hcana command 
+		if [ "${farm}" =~ "ifarm*" ]; then
+			echo ""
+			echo "RUNNING ON ALMA9"
+			echo ""
+			run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		else
+			echo ""
+			echo "RUNNING LOCALLY"
+			echo ""
+			run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+		fi
 
 	    {
 		echo ""
@@ -233,7 +215,7 @@ if [ "${replay_type}" = "prod" ]; then
 		echo " -> RUNLIST: ${filename}"
 		echo " -> SCRIPT:  ${replay_script}"
 		echo " -> RUN:     ${run}"
-		echo " -> NEVENTS: ${evt}"
+		echo " -> NEVENTS: ${evt}"#
 		echo " -> COMMAND: ${run_hcana}"
 		echo ""
 		echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
@@ -290,32 +272,18 @@ else
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command
-	run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-
-
-	# # hcana command 
-	# case $farm in
-
-	# 	'5.14.0-362.24.2.el9_3.x86_64')
-	# 		echo ""
-	# 		echo "RUNNING ON ALMA9"
-	# 		echo ""
-	# 		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-
-	# 	'3.10.0-1160.108.1.el7.x86_64')
-	# 		echo ""
-	# 		echo "RUNNING ON CENTOS"
-	# 		echo ""
-	# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-
-	# 	*)
-	# 		echo "Could not identify farm, running ./hcana command"
-	# 		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
-	# 	;;
-	# esac
+	# hcana command 
+	if [ "${farm}" =~ "ifarm*" ]; then
+		echo ""
+		echo "RUNNING ON ALMA9"
+		echo ""
+		run_hcana="hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+	else
+		echo ""
+		echo "RUNNING LOCALLY"
+		echo ""
+		run_hcana="./hcana -q \"${replay_script}(${run}, ${evt}, \\\"${replay_type}\\\")\""
+	fi
 
 	echo ""
 	echo ":=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:="
