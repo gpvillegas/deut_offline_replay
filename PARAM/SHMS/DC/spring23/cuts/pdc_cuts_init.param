@@ -2,10 +2,10 @@
 p_using_tzero_per_wire = 1
 
 ; spring 2023 TDC window limits for each plane. 
-pdc_tdc_min_win = -16000.0, -16000.0, -16000.0, -16000.0, -16000.0, -16000.0
-                  -16000.0, -16000.0, -16000.0, -16000.0, -16000.0, -16000.0
-pdc_tdc_max_win =  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0
-                   -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0,  -8000.0
+pdc_tdc_min_win = -16000, -16000, -16000, -16000, -16000, -16000,
+                  -16000, -16000, -16000, -16000, -16000, -16000
+pdc_tdc_max_win =  -8000,  -8000,  -8000,  -8000,  -8000,  -8000,
+                   -8000,  -8000,  -8000,  -8000,  -8000,  -8000
 
 ; this is something to add (only add after DCs have been calibrated) -- make a reasonable cut (we dont want to risk too tight) C.Y. Jan 16, 2023
 ; MKJ tighten windows to -10,140

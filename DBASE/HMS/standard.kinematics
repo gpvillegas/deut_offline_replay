@@ -1665,16 +1665,19 @@ hpcentral = 4.75
 
 #NEGATIVE POLARITY INELASTIC
 
-2369-99999
+2369
 gpbeam = 10.6
 gtargmass_amu =  1.00794
 hpartmass = 0.00051099
 htheta_lab = -21.0
 hpcentral = 4.1
 
+###################################
+#
+#XEM defocused runs for HODO calib
+#
+###################################
 
-
-#xem defocused run                                               
 4402
 gpbeam = 10.549                                                                                                              
 gtargmass_amu = 1.00794                                                                                                             

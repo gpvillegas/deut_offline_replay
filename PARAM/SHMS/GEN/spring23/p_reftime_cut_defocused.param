@@ -11,10 +11,10 @@
 
 ; xem (fall22) defocused run 17243 
 ; shms single daq
-pdc_tdcrefcut    =-14000.
-phodo_tdcrefcut  =-3200.
-phodo_adcrefcut  =-3600.
-pngcer_adcrefcut =-3600.
-phgcer_adcrefcut =-3600.
-paero_adcrefcut  =-3600.
-pcal_adcrefcut   =-3600.
+pdc_tdcrefcut    =-14000
+phodo_tdcrefcut  =-3200
+phodo_adcrefcut  =-3600
+pngcer_adcrefcut =-3600
+phgcer_adcrefcut =-3600
+paero_adcrefcut  =-3600
+pcal_adcrefcut   =-3600

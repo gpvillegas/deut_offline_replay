@@ -9,13 +9,13 @@
 ; Cut is on reference time per detector.
 
 ;Ref times from run 3288, 3371, 3374, 3377, (and Deuteron 80 MeV: 3289, and 580/750 MeV)
-pdc_tdcrefcut=-13550.
-phodo_tdcrefcut=-2800.
-phodo_adcrefcut=-2850.
-pngcer_adcrefcut=-2850.
-phgcer_adcrefcut=-2850.
-paero_adcrefcut=-2850.
-pcal_adcrefcut=-2850.
+pdc_tdcrefcut=-13550
+phodo_tdcrefcut=-2800
+phodo_adcrefcut=-2850
+pngcer_adcrefcut=-2850
+phgcer_adcrefcut=-2850
+paero_adcrefcut=-2850
+pcal_adcrefcut=-2850
 
 ;SHMS Heep Singles 6621-7970 (Fall 2018 - Spring 2019) --for Heep Minimization
 ;pdc_tdcrefcut=-14800.
