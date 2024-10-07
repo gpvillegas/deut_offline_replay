@@ -142,7 +142,7 @@ if [ "${replay_type}" = "prod" ]; then
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command 
+	# hcana command
 	echo $farm
 	if [[ $farm == farm* ]]; then
 		echo ""
@@ -274,7 +274,7 @@ else
 	    echo "No event number spedified, defaulting to evt=${evt} (all events)"
 	fi
 	
-	# hcana command 
+	# hcana command
 	if [[ $farm == farm* ]]; then
 		echo ""
 		echo "RUNNING ON ALMA9"
