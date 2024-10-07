@@ -1858,15 +1858,19 @@ ppartmass = 0.00051099
 ptheta_lab = 17
 ppcentral = 4.835
 
-7153-7153
+7153
 gpbeam = 10.36
 gtargmass_amu = 1.00794 
 ppartmass = 0.00051099
 ptheta_lab = 19.9
 ppcentral = 4.6
 
+###################################
+#
+#XEM defocused runs for HODO calib
+#
+###################################
 
-# xem defocused
 17232                                                                                     
 gpbeam = 10.549                                                                   
 gtargmass_amu = 1.00794                                                                           
@@ -1886,4 +1890,4 @@ gpbeam = 10.549
 gtargmass_amu = 1.00794                                                                           
 ppartmass = 0.000511                                                                              
 ptheta_lab = 34.995                                                                               
-ppcentral = 2.5                                                                                   
+ppcentral = 2.5   

@@ -21,6 +21,8 @@
 !code_development/pm800_plots/*
 !code_development/pm900_plots/*
 
+replay.out
+
 # Directories
 RAID
 DEUT_OUTPUT
@@ -34,6 +36,14 @@ raw.copiedtotape
 cache
 scratch
 .vscode
+CALIBRATION/hms_hodo_calib/output/*
+CALIBRATION/hms_hodo_calib/Calibration_Plots/*
+CALIBRATION/shms_hodo_calib/output/*
+CALIBRATION/shms_hodo_calib/Calibration_Plots/*
+PARAM/HMS/DC/spring23/calib/old/*
+PARAM/SHMS/DC/spring23/calib/old/*
+PARAM/HMS/HODO/spring23/calib/old/*
+PARAM/SHMS/HODO/spring23/calib/old/*
 
 # Symbolic links
 hcana

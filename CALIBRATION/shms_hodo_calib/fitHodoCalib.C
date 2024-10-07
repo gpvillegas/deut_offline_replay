@@ -66,7 +66,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 
 
   //Create output root file where histograms will be stored
-  TFile *outROOT = new TFile(Form("HodoCalibPlots_%d.root", runNUM), "recreate");
+  TFile *outROOT = new TFile(Form("CALIBRATION/shms_hodo_calib/output/HodoCalibPlots_%d.root", runNUM), "recreate");
   
   /******Define Fixed Quantities********/
   static const Int_t PLANES = 4;
@@ -121,8 +121,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   TString nDiffTWCorr;
   
   TString npcal_etrkNorm = "P.cal.etracknorm";
-  //TString npngcer_npeSum = "P.hgcer.npeSum";
-  TString npngcer_npeSum = "P.ngcer.npeSum";                                                                          
+  TString npngcer_npeSum = "P.hgcer.npeSum";
+  //TString npngcer_npeSum = "P.ngcer.npeSum";                                                                          
   TString npdc_ntrack = "P.dc.ntrack";
   TString nhod_nhits = "nhits";
   TString nbeta = "P.hod.betanotrack";
@@ -1220,7 +1220,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
  /************WRITE FIT RESULTS TO PARAMETER FILE***************/
  
  ofstream outPARAM;
- outPARAM.open(Form("./phodo_Vpcalib_%d.param", runNUM));
+ outPARAM.open(Form("CALIBRATION/shms_hodo_calib/output/phodo_Vpcalib_%d.param", runNUM));
  
  outPARAM << "; SHMS Hodoscope Parameter File Containing propagation velocities per paddle " << endl;
  outPARAM << "; and signal cable time diff. offsets per paddle " << endl;
@@ -1669,10 +1669,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 		scinTrnsCoord = TrackYPos[npl];
 		scinLongCoord = TrackXPos[npl];
 	      }
-	    else { //return -1;
-	      cout << "--------------------> Please tell  this not true " << endl;
-	      
-	    }
+	    else { return; }
 	    
 	    // --------------------------------------------------------------
 	    

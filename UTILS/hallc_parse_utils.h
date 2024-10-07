@@ -53,13 +53,13 @@ GetParam("../../PARAM/HMS/HODO/hhodo_cuts.param", "hhodo_PosAdcTimeWindowMin", 0
   Double_t param_val=-1;
   
   if(row_idx==0){
-    cout << parse_line(split(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], '=')[1], ',')[col_idx] << endl ;
+    //cout << parse_line(split(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], '=')[1], ',')[col_idx] << endl ;
     param_val = stod(parse_line(split(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], '=')[1], ',')[col_idx]);
     return param_val;
   }
   
   else if(row_idx>0){
-    cout << parse_line(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], ',')[col_idx] << endl ;
+    //cout << parse_line(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], ',')[col_idx] << endl ;
     param_val = stod(parse_line(FindString(param_name.c_str(), fname.c_str(), true, row_idx_max)[row_idx], ',')[col_idx]);
     return param_val;
   }

@@ -1,4 +1,4 @@
-void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
+void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
 
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
@@ -11,7 +11,15 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
     cin >> MaxEvent;
     if(MaxEvent == 0) {
       cerr << "...Invalid entry\n";
-      exit;
+      return;
+    }
+  }
+    if(ftype==""){
+    cout  << "\nEnter analysis type to use (e.g., shms50k, hms50k, sample, prod, hodcalib, dccalib, calcalib): \n " << endl;
+    cin >> ftype;
+    if(ftype==""){
+      cerr << "...Invalid file type\n";
+      return;
     }
   }
 
@@ -22,27 +30,35 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./raw");
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
+  //add path to .dat files here as needed
+  pathList.push_back("./CACHE_LINKS/cache_xem");
 
-  const char* ROOTFileNamePattern = "ROOTfiles/shms_replay_production_%d_%d.root";
+  // Create dir. to store monitoring histos
+  TString cmd = Form("mkdir -p ROOTfiles/%s", ftype.Data());
+  gSystem->Exec(cmd); // create study type dir. if it doesn't exist
+ 
+  const char* ROOTFileNamePattern = "ROOTfiles/%s/deut_shms_replay_%s_%d_%d.root";
   
-  // Load global parameters
+  // Load Global parameters
+  // Add variables to global list.
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
   gHcParms->AddString("g_ctp_database_filename", "DBASE/SHMS/standard.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
   // Load parameters for SHMS trigger configuration
-  gHcParms->Load("PARAM/TRIG/tshms.param");
+  gHcParms->Load("PARAM/TRIG/archive/spring18/tshms.param");
   // Load fadc debug parameters
-  gHcParms->Load("PARAM/SHMS/GEN/p_fadc_debug.param");
-
-  // const char* CurrentFileNamePattern = "low_curr_bcm/bcmcurrent_%d.param";
-  // gHcParms->Load(Form(CurrentFileNamePattern, RunNumber));
+  gHcParms->Load("PARAM/SHMS/GEN/spring23/p_fadc_debug.param");
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/SHMS/DETEC/STACK/shms_stack.map");
-
+  
+    // Add the dec data class for debugging
+  Podd::DecData *decData = new Podd::DecData("D", "Decoder Raw Data");
+  gHaApps->Add(decData);
+  
   // Add trigger apparatus
   THaApparatus* TRG = new THcTrigApp("T", "TRG");
   gHaApps->Add(TRG);
@@ -148,10 +164,11 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   run->Print();
 
   // Define the analysis parameters
-  TString ROOTFileName = Form(ROOTFileNamePattern, RunNumber, MaxEvent);
+  TString ROOTFileName = Form(ROOTFileNamePattern, ftype.Data(), ftype.Data(), RunNumber, MaxEvent);
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number
+
   analyzer->SetEvent(event);
   // Set EPICS event type
   analyzer->SetEpicsEvtType(181);
@@ -159,16 +176,18 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   analyzer->SetCrateMapFileName("MAPS/db_cratemap.dat");
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
-  // Define DEF-file
-  analyzer->SetOdefFile("DEF-files/SHMS/PRODUCTION/pstackana_production.def");
+  // Define output DEF-file
+  TString DefTreeFile=Form("DEF-files/deut_%s_shms.def",ftype.Data());
+  analyzer->SetOdefFile(DefTreeFile);
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/CUTS/pstackana_production_cuts.def");  // optional
-  // File to record accounting information for cuts
-  analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  analyzer->SetCutFile("DEF-files/CUTS/xem_cuts_shms.def");
+  //analyzer->SetCutFile("DEF-files/CUTS/archive/spring18/hstackana_production_cuts.def");    // optional
+  // File to record cuts accounting information for cuts
+  //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.
   analyzer->Process(run);
-  // Create report file from template
-  analyzer->PrintReport("TEMPLATES/SHMS/PRODUCTION/pstackana_production.template",
-  			Form("REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  // Create report file from template.
+  //analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_production.template",
+	//		Form("REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_production_%d_%d.report", RunNumber, MaxEvent));
 
 }
