@@ -81,7 +81,7 @@ else
 fi 
 
 # what farm are you on?
-farm="`uname -r`"
+farm=`uname -n`
 
 # ==========================
 # replay production
@@ -143,7 +143,8 @@ if [ "${replay_type}" = "prod" ]; then
 	fi
 	
 	# hcana command 
-	if [ "${farm}" =~ "ifarm*" ]; then
+	echo $farm
+	if [[ $farm == farm* ]]; then
 		echo ""
 		echo "RUNNING ON ALMA9"
 		echo ""
@@ -193,7 +194,7 @@ if [ "${replay_type}" = "prod" ]; then
 	for run in $(cat $filename) ; do    
 
 		# hcana command 
-		if [ "${farm}" =~ "ifarm*" ]; then
+		if [[ $farm == farm* ]]; then
 			echo ""
 			echo "RUNNING ON ALMA9"
 			echo ""
@@ -274,7 +275,7 @@ else
 	fi
 	
 	# hcana command 
-	if [ "${farm}" =~ "ifarm*" ]; then
+	if [[ $farm == farm* ]]; then
 		echo ""
 		echo "RUNNING ON ALMA9"
 		echo ""
