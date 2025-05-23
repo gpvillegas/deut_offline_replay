@@ -14,3 +14,6 @@ p_recon_coeff_filename  = "DATFILES/shms_OptimizedFINAL_post3288.dat";
 
 ; fall 2019 defocused tune -> Q2 current set to 120% of nominal tune
 ; p_recon_coeff_filename = "DATFILES/shms-2017-26cm-monte_quads_p18_q2_120_rec.dat"
+
+; Holly's angle optimized matrix for cafe
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4.dat"

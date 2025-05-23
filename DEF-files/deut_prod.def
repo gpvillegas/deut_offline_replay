@@ -3,7 +3,7 @@
 block g.*
 block T.coin.*
 block CTime*
-#block RFTime.* 
+block RFTime.* 
 
 block H.cer.*
 block H.dc.*

@@ -48,3 +48,7 @@ PARAM/SHMS/HODO/spring23/calib/old/*
 # Symbolic links
 hcana
 libHallC.so*
+
+# Files in main directory
+replay_cmd.txt
+runs_to_replay.txt
