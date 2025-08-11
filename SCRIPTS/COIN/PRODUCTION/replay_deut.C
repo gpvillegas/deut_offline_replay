@@ -356,7 +356,7 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   analyzer->SetOutFile(ROOTFileName.Data());
 
   // Define DEF-file+
-  TString DefTreeFile=Form("DEF-files/deut_%s.def",ftype.Data());
+  TString DefTreeFile=Form("DEF-files/deut_%s_short.def",ftype.Data());
   analyzer->SetOdefFile(DefTreeFile);
 
   // Define cuts file

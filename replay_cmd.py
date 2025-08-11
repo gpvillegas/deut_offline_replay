@@ -1,6 +1,6 @@
 
 replay_DIR = './deut_offline_replay/'
-replay_script = 'replay_deut_prod.sh'
+replay_script = 'replay_deut_scalers.sh'
 nevents = '-1'
 
 with open('runs_to_replay.txt','r') as readf:

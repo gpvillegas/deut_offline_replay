@@ -3,8 +3,10 @@ block H.gtr.*
 block H.kin.*
 block H.react.*
 block H.dc.*fp
+block H.extcor.*sieve
 block P.cal.etottracknorm
 block P.gtr.*
 block P.kin.*
 block P.react.*
 block P.dc.*fp
+block P.extcor.*sieve

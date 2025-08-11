@@ -520,6 +520,18 @@ NOTE: Beam Current Cut Applied
 =:=:=:=:=
 = SHMS  =
 =:=:=:=:=
+SHMS_S1X : {(P.S1X.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz
+
+Plane   Counts      Rate
+P1X    : {P.S1X.scalerCut} [ {(P.S1X.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of P1X 
+P1Y    : {P.S1Y.scalerCut} [ {(P.S1Y.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of P1Y
+P2X    : {P.S2X.scalerCut} [ {(P.S2X.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of P2X
+P2Y    : {P.S2Y.scalerCut} [ {(P.S2Y.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of P2Y
+
+XY-Planes   Counts      Rate
+P1XP1Y : {P.S1XS1Y.scalerCut} [ {(P.S1XS1Y.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between P1X and P1Y planes 
+P2XP2Y : {P.S2XS2Y.scalerCut} [ {(P.S2XS2Y.scalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between P2X and P2Y planes                                           
+
 Scint   Counts      Rate
 P1X1+:  {P.hod.1x1.posScalerCut} [ {(P.hod.1x1.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
 P1X2+:  {P.hod.1x2.posScalerCut} [ {(P.hod.1x2.posScalerCut/P.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
@@ -655,6 +667,16 @@ P2Y21-: {P.hod.2y21.negScalerCut} [ {(P.hod.2y21.negScalerCut/P.1MHz.scalerTimeC
 =:=:=:=:=
 =  HMS  =
 =:=:=:=:=
+Plane   Counts      Rate
+H1X    : {H.S1X.scalerCut} [ {(H.S1X.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of H1X 
+H1Y    : {H.S1Y.scalerCut} [ {(H.S1Y.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of H1Y
+H2X    : {H.S2X.scalerCut} [ {(H.S2X.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of H2X
+H2Y    : {H.S2Y.scalerCut} [ {(H.S2Y.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ] AND between + and - sides of H2Y
+
+XY-Planes   Counts      Rate
+H1XH1Y : {H.S1XS1Y.scalerCut} [ {(H.S1XS1Y.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f}  kHz ] AND between H1X and H1Y planes 
+H2XH2Y : {H.S2XS2Y.scalerCut} [ {(H.S2XS2Y.scalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f}  kHz ] AND between H2X and H2Y planes
+
 Scint   Counts      Rate
 H1X1+:  {H.hod.1x1.posScalerCut} [ {(H.hod.1x1.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
 H1X2+:  {H.hod.1x2.posScalerCut} [ {(H.hod.1x2.posScalerCut/H.1MHz.scalerTimeCut)/1000.:%.3f} kHz ]
