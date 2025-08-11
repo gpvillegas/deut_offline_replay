@@ -52,3 +52,7 @@ libHallC.so*
 # Files in main directory
 replay_cmd.txt
 runs_to_replay.txt
+DATFILES/newfit_cafe4_deltaoptim2_1.dat
+DATFILES/newfit_cafe4_deltaoptim3.dat
+DATFILES/newfit_cafe4_deltaoptim4.dat
+DATFILES/newfit_cafe4_deltaoptim5.dat
