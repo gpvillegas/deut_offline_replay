@@ -31,4 +31,8 @@ SHMS_CentralPathLen = 18.1*100   ; 18.1 m (or 1810 cm)
 ; Holly's angle optimized matrix
 ;p_recon_coeff_filename = "DATFILES/newfit_cafe4.dat"
 ;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim1.dat"
-p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim2.dat"
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim2.dat"
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim3.dat"
+p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim3_allfp.dat"
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim4.dat"
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim5.dat"

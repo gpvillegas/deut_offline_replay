@@ -746,10 +746,10 @@ ppartmass = 0.000511
 20840
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -50.470                    
+htheta_lab = -50.500                   
 ptheta_lab = 7.705                      
-hpcentral = 1.664                        
-ppcentral = 8.55*0.9966                  
+hpcentral = 1.664                      
+ppcentral = 8.55*0.9965                  
 hpartmass = 0.93827231                 
 ppartmass = 0.000511  
 
@@ -757,10 +757,10 @@ ppartmass = 0.000511
 20841 - 20845
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -33.340                    
+htheta_lab = -33.340                   
 ptheta_lab = 14.145                      
-hpcentral = 3.499                       
-ppcentral = 8.55*0.9966                
+hpcentral = 3.499                     
+ppcentral = 8.55*0.9965                
 hpartmass = 0.93827231                 
 ppartmass = 0.000511  
 
@@ -770,8 +770,8 @@ gpbeam = 10.542
 gtargmass_amu =  1.00794                
 htheta_lab = -35.750                    
 ptheta_lab = 12.94                      
-hpcentral = 3.145                      
-ppcentral = 8.55*0.9966                   
+hpcentral = 3.145                    
+ppcentral = 8.55*0.9965                   
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -779,10 +779,10 @@ ppartmass = 0.000511
 20851 - 20857
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -38.540                    
+htheta_lab = -38.540                   
 ptheta_lab = 11.700
-hpcentral = 2.783                    
-ppcentral = 8.55*0.9966                  
+hpcentral = 2.783                  
+ppcentral = 8.55*0.9965                   
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -790,10 +790,10 @@ ppartmass = 0.000511
 20858 - 20860
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -41.795                    
+htheta_lab = -41.795                   
 ptheta_lab = 10.430
 hpcentral = 2.417                  
-ppcentral = 8.55*0.9966                     
+ppcentral = 8.55*0.9965                      
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -802,10 +802,10 @@ ppartmass = 0.000511
 20861 - 20863
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -45.645                   
+htheta_lab = -45.645                  
 ptheta_lab = 9.120
 hpcentral = 2.048                    
-ppcentral = 8.55*0.9966                  
+ppcentral = 8.55*0.9965                   
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -814,10 +814,10 @@ ppartmass = 0.000511
 20864 - 20870
 gpbeam = 10.542                       
 gtargmass_amu =  1.00794                
-htheta_lab = -50.500                   
+htheta_lab = -50.500                  
 ptheta_lab = 7.700
 hpcentral = 1.664                    
-ppcentral = 8.55*0.9966                   
+ppcentral = 8.55*0.9965                    
 hpartmass = 0.93827231                 
 ppartmass = 0.000511
 
@@ -835,7 +835,11 @@ ppartmass = 0.000511
 # ---------------------------------------
 # DELTA OPTIM
 # from Holly's code 00000 element
-# kf correction factor -> 0.9966
+# kf correction factor -> 0.9966 --> 0.9967 --> 0.9965 --> 0.9964 --> 0.9966
+# pf corr fac/per delta ->
+# [0.9980,0.9977,0.9973,0.9968,0.9962,0.9952]
+# Trying calculated kf off per setting:
+# [0.9974,0.9970,0.9967,0.9964,0.9960,0.9957]
 # =====================================
 
 # d(e,e'p) Pm=120 MeV/c (edtm @ 10 Hz)
@@ -845,7 +849,7 @@ gtargmass_amu = 2.014101
 htheta_lab = -38.63                   
 ptheta_lab = 12.197
 hpcentral = 3.0523                    
-ppcentral = 8.55                     
+ppcentral = 8.55*0.9966                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -857,7 +861,7 @@ gtargmass_amu = 2.014101
 htheta_lab = -54.96                   
 ptheta_lab = 12.197
 hpcentral = 2.2622                    
-ppcentral = 8.55                     
+ppcentral = 8.55*0.9966                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
@@ -868,18 +872,18 @@ gtargmass_amu = 2.014101
 htheta_lab = -59.39                   
 ptheta_lab = 12.197
 hpcentral = 2.1210                    
-ppcentral = 8.55                     
+ppcentral = 8.55*0.9966                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
-# d(e,e'p) Pm=100 MeV/c (edtm @ 10 Hz)
+# d(e,e'p) Pm=900 MeV/c (edtm @ 10 Hz)
 20957 - 21048
 gpbeam = 10.542                       
 gtargmass_amu = 2.014101               
 htheta_lab = -61.33                   
 ptheta_lab = 12.197
 hpcentral = 2.0474                    
-ppcentral = 8.55                     
+ppcentral = 8.55*0.9966                     
 hpartmass = 0.93827231                 
 ppartmass = 0.000511 
 
