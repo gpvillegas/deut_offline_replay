@@ -40,6 +40,10 @@ CALIBRATION/hms_hodo_calib/output/*
 CALIBRATION/hms_hodo_calib/Calibration_Plots/*
 CALIBRATION/shms_hodo_calib/output/*
 CALIBRATION/shms_hodo_calib/Calibration_Plots/*
+CALIBRATION/shms_cal_calib/output/*
+CALIBRATION/shms_cal_calib/PDFs/*
+CALIBRATION/shms_hgcer_calib/Calibration_plots/*
+CALIBRATION/shms_ngcer_calib/Calib/*
 PARAM/HMS/DC/spring23/calib/old/*
 PARAM/SHMS/DC/spring23/calib/old/*
 PARAM/HMS/HODO/spring23/calib/old/*
@@ -56,3 +60,5 @@ DATFILES/newfit_cafe4_deltaoptim2_1.dat
 DATFILES/newfit_cafe4_deltaoptim3.dat
 DATFILES/newfit_cafe4_deltaoptim4.dat
 DATFILES/newfit_cafe4_deltaoptim5.dat
+jcacheGet.py
+DATFILES/newfit_cafe4_deltaoptim3_nodeltam8.dat
