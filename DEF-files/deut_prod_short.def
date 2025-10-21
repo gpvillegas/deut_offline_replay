@@ -1,12 +1,26 @@
 block CTime.epCoinTime*
+block T.coin.pTRIG*
+block T.coin.pEDTM*
+
 block H.gtr.*
 block H.kin.*
 block H.react.*
 block H.dc.*fp
+block H.dc.ntrack
+block H.hod.beta*
+block H.hod.good*
+block H.cal.etot*
+block H.cer.npeSum
 block H.extcor.*sieve
-block P.cal.etottracknorm
+
+block P.cal.etot*
 block P.gtr.*
 block P.kin.*
 block P.react.*
 block P.dc.*fp
+block P.dc.ntrack
 block P.extcor.*sieve
+block P.hod.beta*
+block P.hod.good*
+block P.ngcer.npeSum
+block P.hgcer.npeSum

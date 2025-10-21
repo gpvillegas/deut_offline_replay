@@ -61,4 +61,4 @@ pphi_offset   = 0.
 
 ppcentral_offset = 0.
 pthetacentral_offset = 0.
-p_oopcentral_offset = 0.
+p_oopcentral_offset = 0.00085

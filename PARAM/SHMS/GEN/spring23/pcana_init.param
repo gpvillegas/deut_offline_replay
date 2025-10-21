@@ -36,3 +36,4 @@ SHMS_CentralPathLen = 18.1*100   ; 18.1 m (or 1810 cm)
 p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim3_allfp.dat"
 ;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim4.dat"
 ;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim5.dat"
+;p_recon_coeff_filename = "DATFILES/newfit_cafe4_deltaoptim3_nodeltam8.dat"
