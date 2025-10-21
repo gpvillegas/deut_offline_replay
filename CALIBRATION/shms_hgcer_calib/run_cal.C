@@ -7,7 +7,7 @@
 #include <string>
 #include <stdio.h>
 
-// Expected input is, rootfile prefix, number of events per run, number of runs to chain (1 to 3) and run number(s) 
+// Expected input is, rootfile prefix, number of events per run, number of runs to chain (1 to 10) and run number(s) 
 void run_cal(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, Int_t RunNumber1 = 0, Int_t RunNumber2 = 0, Int_t RunNumber3 = 0, Int_t RunNumber4 = 0, Int_t RunNumber5 = 0, Int_t RunNumber6 = 0, Int_t RunNumber7 = 0, Int_t RunNumber8 = 0, Int_t RunNumber9 = 0, Int_t RunNumber10 = 0)
 {
   TString Hostname = gSystem->HostName();
@@ -25,7 +25,7 @@ void run_cal(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, Int_t 
   TString rootFileNameString10;
   TString RunPref;
   
-  cout << "Processing HGC calibration, expected input is, rootfile prefix, number of runs to chain (1 to 10), run number(s) and number of events per run" << endl;
+  cout << "Processing HGC calibration, expected input is, rootfile prefix, number of events per run, number of runs to chain (1 to 10) and their run number(s)" << endl;
 
   RunPref = RunPrefix;
   if(RunPref == "") 
@@ -140,20 +140,23 @@ void run_cal(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, Int_t 
 	 if (RunNumber10 <= 0) return;
        }
    }
- 
-  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+ // The line below is what is causing the script to hang until the user enters a carriage return, what is the purpose of this line?
+ //cin.ignore(numeric_limits<streamsize>::max(), '\n');
   
   // Change or add your own paths as needed!
   // This is where the script will look for the rootfiles to analyse
   if(Hostname.Contains("farm"))
     { 
-      Rootpath = "/group/c-kaonlt/USERS/"+User+"/hallc_replay_lt/ROOTfiles/";
+      Rootpath = "../../ROOTfiles/prod/";
     }
   else if(Hostname.Contains("qcd"))
     {
-    Rootpath = "/group/c-kaonlt/USERS/"+User+"/hallc_replay_lt/ROOTfiles/";
+      Rootpath = "/group/c-pionlt/USERS/"+User+"/hallc_replay_lt/ROOTfiles/Calib/HGC/";
+    }  
+  else if(Hostname.Contains("cdaq"))
+    {
+      Rootpath = "/home/cdaq/pionLT-2021/hallc_replay_lt/ROOTfiles/Calib/HGC/";
     }
-  
   rootFileNameString1 = Rootpath + Form("%s_%i_%i.root", RunPrefix.c_str(), RunNumber1, NumEvents);
   // Check files exist
   if (gSystem->AccessPathName(rootFileNameString1) == kTRUE)
