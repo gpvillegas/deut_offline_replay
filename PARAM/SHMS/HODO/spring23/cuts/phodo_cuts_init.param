@@ -35,12 +35,11 @@ pscin_tdc_max = 2000.
 pscin_tdc_to_time = 0.09766
 
 ; tof and you figured out good values
-; Changed back by GV to try to fix odd epCoinTime on delta_+12 runs
-;ptof_tolerance = 10.0
-
-; tof suggested by MKJ Nov 06, 2022
-; back to a smaller value after epCoinTime issue was resolved with a new phodocalib
-ptof_tolerance = 2.0
+; Changed back to 10. by GV to try to fix odd epCoinTime on delta_+12 runs
+; tof suggested by MKJ Nov 06, 2022 = 2.0
+; back to a smaller value = 2.0 after epCoinTime issue was resolved with a new phodocalib
+; trying to fix starttime issue with higher pm settings = 10.0
+ptof_tolerance = 10.0
                                                                                
 ; shms_tof_params                                                              
 ; pnum_scin_counters, phodo_zpos, phodo_center_coord, phodo_width               

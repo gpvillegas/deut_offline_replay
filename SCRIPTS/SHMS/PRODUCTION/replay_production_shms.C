@@ -38,7 +38,7 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ft
   gSystem->Exec(cmd); // create study type dir. if it doesn't exist
  
   const char* ROOTFileNamePattern = "ROOTfiles/%s/deut_shms_replay_%s_%d_%d.root";
-  
+
   // Load Global parameters
   // Add variables to global list.
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -46,8 +46,11 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ft
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
+  gHcParms->Load(gHcParms->GetString("g_ctp_calib_filename"));                // load the detector calib param
+  gHcParms->Load(gHcParms->GetString("g_ctp_cuts_filename"));                 // load the detector cuts param 
+
   // Load parameters for SHMS trigger configuration
-  gHcParms->Load("PARAM/TRIG/archive/spring18/tshms.param");
+  //gHcParms->Load("PARAM/TRIG/archive/spring18/tshms.param");
   // Load fadc debug parameters
   gHcParms->Load("PARAM/SHMS/GEN/spring23/p_fadc_debug.param");
 
@@ -60,11 +63,11 @@ void replay_production_shms (Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ft
   gHaApps->Add(decData);
   
   // Add trigger apparatus
-  THaApparatus* TRG = new THcTrigApp("T", "TRG");
-  gHaApps->Add(TRG);
+  //THaApparatus* TRG = new THcTrigApp("T", "TRG");
+  //gHaApps->Add(TRG);
   // Add trigger detector to trigger apparatus
-  THcTrigDet* shms = new THcTrigDet("shms", "SHMS Trigger Information");
-  TRG->AddDetector(shms);
+  //THcTrigDet* shms = new THcTrigDet("shms", "SHMS Trigger Information");
+  //TRG->AddDetector(shms);
 
   // Set up the equipment to be analyzed.
   THcHallCSpectrometer* SHMS = new THcHallCSpectrometer("P", "SHMS");

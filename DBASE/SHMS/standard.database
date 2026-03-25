@@ -6,3 +6,17 @@ g_ctp_kinematics_filename = "DBASE/SHMS/standard.kinematics"
 
 17232-17383
 g_ctp_parm_filename       = "DBASE/SHMS/general_defocused.param"
+
+#XEM2 BCM calib runs
+;;;;;
+; -9.2 GeV
+; ELCLEAN Trigger
+;
+; PreShower Blocks OFF
+;;;;;
+
+20277-20277
+g_ctp_trig_config_filename = "PARAM/TRIG/tshms_CLEAN_XEM.param"
+g_ctp_reftimecut_filename  = "PARAM/SHMS/GEN/p_reftime_cut_CLEAN_XEM.param"
+g_ctp_calib_filename      = "DBASE/COIN/GEN/det_calib_deut_spring23.param"
+g_ctp_cuts_filename       = "DBASE/COIN/GEN/det_cuts_deut_spring23.param"

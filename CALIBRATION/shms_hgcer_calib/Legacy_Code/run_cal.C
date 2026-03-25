@@ -56,12 +56,12 @@ void run_cal(Int_t RunNumber1 = 0, Int_t NumEvents = 0, Int_t coin = 0)
       cout << "\n\n"; */
   
   TChain ch("T");
-  if (coin == 1){ch.Add(Form("../../ROOTfiles/shms_coin_replay_production_all_%d_%d.root",RunNumber1, NumEvents));}
+  if (coin == 1){ch.Add(Form("../../ROOTfiles/prod/deut_replay_prod_%d_%d.root",RunNumber1, NumEvents));}
     //ch.Add(Form("../../ROOTfiles/shms_coin_replay_production_all_%d_%d.root", RunNumber2, NumEvents)); 
     // ch.Add(Form("../../ROOTfiles/shms_coin_replay_production_all_%d_%d.root",RunNumber3, NumEvents));}  
   //ch.Add(Form("../../ROOTfiles/shms_coin_replay_production_all_%d_%d.root",RunNumber4, NumEvents));}  
 
-  else ch.Add(Form("ROOTfiles/shms_replay_production_all_%d_%d.root", RunNumber1, NumEvents));
+  else ch.Add(Form("../../ROOTfiles/prod/deut_replay_prod_%d_%d.root", RunNumber1, NumEvents));
   TProof *proof = TProof::Open("workers=4");
   proof->SetProgressDialog(0);  
   ch.SetProof();

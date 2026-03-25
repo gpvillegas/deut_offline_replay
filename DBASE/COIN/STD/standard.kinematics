@@ -229,6 +229,45 @@ ppcentral = 7.913
 hpartmass =  0.000511                                   
 ppartmass =  0.000511
 
+#--------------------
+# XEM2 BCM CALIB RUNS
+#--------------------
+
+17756 - 17756
+gpbeam = 10.551
+gtargmass_amu = 0.0
+ptheta_lab = 8.00
+ppcentral = 9.2
+ppartmass = 0.000511
+
+18531 - 18531
+gpbeam = 10.551
+gtargmass_amu = 0.0
+ptheta_lab = 9.99
+ppcentral = 9.2
+ppartmass = 0.000511
+
+18723 - 18723
+gpbeam = 10.551
+gtargmass_amu = 0.0
+ptheta_lab = 9.99
+ppcentral = 9.2
+ppartmass = 0.000511
+
+19783 - 19783
+gpbeam = 10.551
+gtargmass_amu = 0.0
+ptheta_lab = 8.5
+ppcentral = 9.2
+ppartmass = 0.000511
+
+20277 - 20277
+gpbeam = 10.551
+gtargmass_amu = 12.0107
+ptheta_lab = 10.00
+ppcentral = 9.2
+ppartmass = 0.000511
+
 #-------------------
 # CAFE Experiment
 #-------------------

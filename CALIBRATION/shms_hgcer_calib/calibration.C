@@ -58,7 +58,7 @@ void calibration::SlaveBegin(TTree * /*tree*/)
     {  // Separate ADC channel for each quadrant histogram
       if(ipmt == 0)
 	{
-	  ADC_min = 4;
+	  ADC_min = 1;
 	  bins = 2*(abs(ADC_min) + abs(ADC_max));
 	  fPulseInt[ipmt] = new TH1F(Form("PulseInt_PMT%d",ipmt+1),Form("Pulse Integral PMT%d; ADC Channel (pC); Counts",ipmt+1), bins, ADC_min, ADC_max);
 	  GetOutputList()->Add(fPulseInt[ipmt]); 
@@ -72,7 +72,7 @@ void calibration::SlaveBegin(TTree * /*tree*/)
 	}
       if(ipmt == 1)
 	{
-	  ADC_min = 4;
+	  ADC_min = 1;
 	  bins = 2*(abs(ADC_min) + abs(ADC_max));	  
 	  fPulseInt[ipmt] = new TH1F(Form("PulseInt_PMT%d",ipmt+1),Form("Pulse Integral PMT%d; ADC Channel (pC); Counts",ipmt+1), bins, ADC_min, ADC_max);
 	  GetOutputList()->Add(fPulseInt[ipmt]);
@@ -86,7 +86,7 @@ void calibration::SlaveBegin(TTree * /*tree*/)
 	} 
       if(ipmt == 2)
 	{
-	  ADC_min = 4;
+	  ADC_min = 1;
 	  bins = 2*(abs(ADC_min) + abs(ADC_max));
 	  fPulseInt[ipmt] = new TH1F(Form("PulseInt_PMT%d",ipmt+1),Form("Pulse Integral PMT%d; ADC Channel (pC); Counts",ipmt+1), bins, ADC_min, ADC_max);
 	  GetOutputList()->Add(fPulseInt[ipmt]);
@@ -100,7 +100,7 @@ void calibration::SlaveBegin(TTree * /*tree*/)
 	} 
       if(ipmt == 3)
 	{
-	  ADC_min = 4;
+	  ADC_min = 1;
 	  bins = 2*(abs(ADC_min) + abs(ADC_max));
 	  fPulseInt[ipmt] = new TH1F(Form("PulseInt_PMT%d",ipmt+1),Form("Pulse Integral PMT%d; ADC Channel (pC); Counts",ipmt+1), bins, ADC_min, ADC_max);
 	  GetOutputList()->Add(fPulseInt[ipmt]);
@@ -124,15 +124,15 @@ void calibration::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(fTim1_full);
   fTim2 = new TH1F("Timing_PMT2", "ADC TDC Diff PMT2 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim2);
-  fTim2_full = new TH1F("Timing_full_PMT2", "ADC TDC Diff PMT1 ; Time (ns) ;Counts", 200, -40.0, 50.0);
+  fTim2_full = new TH1F("Timing_full_PMT2", "ADC TDC Diff PMT2 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim2_full);
   fTim3 = new TH1F("Timing_PMT3", "ADC TDC Diff PMT3 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim3);
-  fTim3_full = new TH1F("Timing_full_PMT3", "ADC TDC Diff PMT1 ; Time (ns) ;Counts", 200, -40.0, 50.0);
+  fTim3_full = new TH1F("Timing_full_PMT3", "ADC TDC Diff PMT3 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim3_full);
   fTim4 = new TH1F("Timing_PMT4", "ADC TDC Diff PMT4 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim4);
-  fTim4_full = new TH1F("Timing_full_PMT4", "ADC TDC Diff PMT1 ; Time (ns) ;Counts", 200, -40.0, 50.0);
+  fTim4_full = new TH1F("Timing_full_PMT4", "ADC TDC Diff PMT4 ; Time (ns) ;Counts", 200, -40.0, 50.0);
   GetOutputList()->Add(fTim4_full);
   //Histograms for Beta visualization
   fBeta_Cut = new TH1F("Beta_Cut", "Beta cut used for 'good' hits ; Beta ; Counts", 100, -0.1, 1.5);
@@ -164,9 +164,23 @@ Bool_t calibration::Process(Long64_t entry)
   //{
   //Require loose cut on particle velocity                                     
   // SJDK 28/04/22 - This cut got screwed up in a merge somewhere, I've changed it to > 0.4 (> 2 made no sense)
-  fBeta_Full->Fill(P_gtr_beta);
-  if (TMath::Abs(P_gtr_beta - 1.0) > 0.4) return kTRUE;
-  fBeta_Cut->Fill(P_gtr_beta);    
+  //fBeta_Full->Fill(P_gtr_beta);
+  //if (TMath::Abs(P_gtr_beta - 1.0) > 0.4) return kTRUE;
+  //fBeta_Cut->Fill(P_gtr_beta);
+  
+  // Extract the first beta value from the TTreeReaderArray safely
+  auto it_beta = P_gtr_beta.begin();
+ // if ( it_beta == P_gtr_beta.end() ) {
+    // no beta entries for this event — skip / bail out as appropriate
+  //  return kTRUE;
+ // }
+  double beta_val = *it_beta;
+
+  fBeta_Full->Fill(beta_val);
+  if (TMath::Abs(beta_val - 1.0) > 0.4) return kTRUE;
+  fBeta_Cut->Fill(beta_val);
+
+  
   //Filling the histograms
   for (Int_t ipmt = 0; ipmt < fpmts; ipmt++)
     {
@@ -176,25 +190,25 @@ Bool_t calibration::Process(Long64_t entry)
       if(ipmt ==0)
 	{
 	  fTim1_full->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
-	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] >40 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 30) continue;                      
+	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] > 12 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 2) continue;                      
 	  fTim1->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
 	}
       if(ipmt ==1)
 	{
 	  fTim2_full->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
-	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] >40 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 30) continue;                          
+	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] > 9 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 2) continue;                          
 	  fTim2->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
 	}
       if(ipmt ==2)
 	{
 	  fTim3_full->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
-	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] >40 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 30) continue;                           
+	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] > 8 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 2) continue;                           
 	  fTim3->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
 	}
       if(ipmt ==3)
 	{
 	  fTim4_full->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
-	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] >40 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 30) continue;                                  
+	  if(P_hgcer_goodAdcTdcDiffTime[ipmt] > 9 || P_hgcer_goodAdcTdcDiffTime[ipmt] < 2) continue;                                  
 	  fTim4->Fill(P_hgcer_goodAdcTdcDiffTime[ipmt]);
 	}
       //Cuts to remove entries corresponding to a PMT not registering a hit    

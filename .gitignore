@@ -48,6 +48,7 @@ PARAM/HMS/DC/spring23/calib/old/*
 PARAM/SHMS/DC/spring23/calib/old/*
 PARAM/HMS/HODO/spring23/calib/old/*
 PARAM/SHMS/HODO/spring23/calib/old/*
+CALIBRATION/bcm_calib/ranges_20277.txt
 
 # Symbolic links
 hcana

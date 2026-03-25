@@ -46,10 +46,10 @@ void replay_deut(Int_t RunNumber = 0, Int_t MaxEvent = 0, TString ftype="") {
   pathList.push_back("./raw");
   pathList.push_back("./raw.copiedtotape");
   pathList.push_back("./CACHE_LINKS/cache_pionlt");
-  pathList.push_back("./CACHE_LINKS/cache_cafe"); 
+  pathList.push_back("./CACHE_LINKS/cache_cafe");
+  pathList.push_back("./CACHE_LINKS/cache_spring17");
+  pathList.push_back("./CACHE_LINKS/cache_xem"); 
   pathList.push_back("./CACHE_LINKS/cache_deut");
-  //pathList.push_back("./CACHE_LINKS/cache_spring17");
-  //pathList.push_back("./CACHE_LINKS/cache_xem");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05cd.dat";
 
