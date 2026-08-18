@@ -46,6 +46,8 @@ bcm_calib(){
   //  gStyle->SetOptFit(1);
   //djm adding the fit probability
   gStyle->SetOptFit(1111);
+  //display more sig figs on figure
+  gStyle->SetFitFormat(".6g");
   
 
   // BEGIN USER INPUTS FROM KEYBOARD
